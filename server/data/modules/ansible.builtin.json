@@ -1,0 +1,611 @@
+{
+  "ansible.builtin.add_host": {
+    "short_description": "Add a host (and alternatively a group) to the ansible-playbook in-memory inventory",
+    "description": "Use variables to create new hosts and groups in inventory for use in later plays of the same playbook. Takes variables so you can define the new hosts more fully. This module is also supported for Windows targets.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.apt": {
+    "short_description": "Manages apt-packages",
+    "description": "Manages I(apt) packages (such as for Debian/Ubuntu).",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.assemble": {
+    "short_description": "Assemble configuration files from fragments",
+    "description": "Assembles a configuration file from fragments. Often a particular program will take a single configuration file and does not support a C(conf.d) style structure where it is easy to build up the configuration from multiple sources. M(ansible.builtin.assemble) will take a directory of files that can be local or have already been transferred to the system, and concatenate them together to produce a destination file. Files are assembled in string sorting order. Puppet calls this idea I(fragments).",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.assert": {
+    "short_description": "Asserts given expressions are true",
+    "description": "This module asserts that given expressions are true with an optional custom message. This module is also supported for Windows targets.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.async_status": {
+    "short_description": "Obtain status of asynchronous task",
+    "description": "This module gets the status of an asynchronous task. This module is also supported for Windows targets.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.blockinfile": {
+    "short_description": "Insert/update/remove a text block surrounded by marker lines",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.command": {
+    "short_description": "Execute commands on targets",
+    "description": "The M(ansible.builtin.command) module takes the command name followed by a list of space-delimited arguments. The given command will be executed on all selected nodes. The command(s) will not be processed through the shell, so operations like C(",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.copy": {
+    "short_description": "Copy files to remote locations",
+    "description": "The M(ansible.builtin.copy) module copies a file or a directory structure from the local or remote machine to a location on the remote machine. File system meta-information (permissions, ownership, etc.) may be set, even when the file or directory already exists on the target system. Some meta-information may be copied on request. Get meta-information with the M(ansible.builtin.stat) module. Set meta-information with the M(ansible.builtin.file) module. Use the M(ansible.builtin.fetch) module to copy files from remote locations to the local box. If you need variable interpolation in copied files, use the M(ansible.builtin.template) module. Using a variable with the O(content) parameter produces unpredictable results. For Windows targets, use the M(ansible.windows.win_copy) module instead.",
+    "options": {
+      "src": {
+        "description": "Local path to a file to copy to the remote server. This can be absolute or relative. If path is a directory, it is copied recursively. In this case, if path ends with C(/), only inside contents of that directory are copied to destination. Otherwise, if it does not end with C(/), the directory itself with all contents is copied. This behavior is similar to the C(rsync) command line tool.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content": {
+        "description": "When used instead of O(src), sets the contents of a file directly to the specified value. Works only when O(dest) is a file. Creates the file if it does not exist. For advanced formatting or if O(content) contains a variable, use the M(ansible.builtin.template) module.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.builtin.cron": {
+    "short_description": "Manage cron.d and crontab entries",
+    "description": "Use this module to manage crontab and environment variables entries. This module allows you to create environment variables and named crontab entries, update, or delete them. ",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.deb822_repository": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.debconf": {
+    "short_description": "Configure a .deb package",
+    "description": "Configure a .deb package using debconf-set-selections. Or just query existing selections.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.debug": {
+    "short_description": "Print statements during execution",
+    "description": "This module prints statements during execution and can be useful for debugging variables or expressions without necessarily halting the playbook. Useful for debugging together with the C(when:) directive. This module is also supported for Windows targets.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.dnf": {
+    "short_description": "Manages packages with the I(dnf) package manager",
+    "description": "Installs, upgrade, removes, and lists packages and groups with the I(dnf) package manager.",
+    "options": {
+      "use_backend": {
+        "description": "Backend module to use.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.builtin.dnf5": {
+    "short_description": "",
+    "description": "Installs, upgrade, removes, and lists packages and groups with the I(dnf5) package manager. ",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.dpkg_selections": {
+    "short_description": "Dpkg package selection selections",
+    "description": "Change dpkg package selection state via C(--get-selections) and C(--set-selections).",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.expect": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.fail": {
+    "short_description": "Fail with custom message",
+    "description": "This module fails the progress with a custom message. It can be useful for bailing out when a certain condition is met using C(when). This module is also supported for Windows targets.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.fetch": {
+    "short_description": "Fetch files from remote nodes",
+    "description": "This module works like M(ansible.builtin.copy), but in reverse. It is used for fetching files from remote machines and storing them locally in a file tree, organized by hostname. Files that already exist at O(dest) will be overwritten if they are different than the O(src). This module is also supported for Windows targets.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.file": {
+    "short_description": "Manage files and file properties",
+    "description": "Set attributes of files, directories, or symlinks and their targets. Alternatively, remove files, symlinks or directories. Many other modules support the same options as the M(ansible.builtin.file) module - including M(ansible.builtin.copy), M(ansible.builtin.template), and M(ansible.builtin.assemble). For Windows targets, use the M(ansible.windows.win_file) module instead.",
+    "options": {
+      "path": {
+        "description": "Path to the file being managed.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "dest",
+          "name"
+        ]
+      },
+      "state": {
+        "description": "If V(absent), directories will be recursively deleted, and files or symlinks will be unlinked. In the case of a directory, if C(diff) is declared, you will see the files and folders deleted listed under C(path_contents). Note that V(absent) will not cause M(ansible.builtin.file) to fail if the O(path) does not exist as the state did not change. If V(directory), all intermediate subdirectories will be created if they do not exist. Since Ansible 1.7 they will be created with the supplied permissions. If V(file), with no other options, returns the current state of C(path). If V(file), even with other options (such as O(mode)), the file will be modified if it exists but will NOT be created if it does not exist. Set to V(touch) or use the M(ansible.builtin.copy) or M(ansible.builtin.template) module if you want to create the file if it does not exist. If V(hard), the hard link will be created or changed. If V(link), the symbolic link will be created or changed. If V(touch) (new in 1.4), an empty file will be created if the file does not exist, while an existing file or directory will receive updated file access and modification times (similar to the way V(touch) works from the command line). Default is the current state of the file if it exists, V(directory) if O(recurse=yes), or V(file) otherwise.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "directory",
+          "file",
+          "hard",
+          "link",
+          "touch"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "src": {
+        "description": "Path of the file to link to. This applies only to O(state=link) and O(state=hard). For O(state=link), this will also accept a non-existing path. Relative paths are relative to the file being created (O(path)) which is how the Unix command C(ln -s SRC DEST) treats relative paths.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "recurse": {
+        "description": "Recursively set the specified file attributes on directory contents. This applies only when O(state) is set to V(directory).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.builtin.find": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.gather_facts": {
+    "short_description": "Gathers facts about remote hosts",
+    "description": "This module takes care of executing the R(configured facts modules,FACTS_MODULES), the default is to use the M(ansible.builtin.setup) module. This module is automatically called by playbooks to gather useful variables about remote hosts that can be used in playbooks. It can also be executed directly by C(/usr/bin/ansible) to check what variables are available to a host. Ansible provides many I(facts) about the system, automatically.",
+    "options": {
+      "parallel": {
+        "description": "A toggle that controls if the fact modules are executed in parallel or serially and in order. This can guarantee the merge order of module facts at the expense of performance. By default it will be true if more than one fact module is used. For low cost/delay fact modules parallelism overhead might end up meaning the whole process takes longer. Test your specific case to see if it is a speed improvement or not. The C(ansible_facts_parallel) variable can be used to set this option, overriding the default, but not the direct assignment of the option in the task.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.builtin.get_url": {
+    "short_description": "Downloads files from HTTP, HTTPS, or FTP to node",
+    "description": "Downloads files from HTTP, HTTPS, or FTP to the remote server. The remote server I(must) have direct access to the remote resource. By default, if an environment variable E(<protocol>_proxy) is set on the target host, requests will be sent through that proxy. This behaviour can be overridden by setting a variable for this task (see R(setting the environment,playbooks_environment)), or by using the use_proxy option. HTTP redirects can redirect from HTTP to HTTPS so you should be sure that your proxy environment for both protocols is correct. From Ansible 2.4 when run with C(--check), it will do a HEAD request to validate the URL but will not download the entire file or verify it against hashes and will report incorrect changed status. For Windows targets, use the M(ansible.windows.win_get_url) module instead.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.getent": {
+    "short_description": "A wrapper to the unix getent utility",
+    "description": "Runs getent against one of its various databases and returns information into the host",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.git": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.group": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.group_by": {
+    "short_description": "Create Ansible groups based on facts",
+    "description": "Use facts to create ad-hoc groups that can be used later in a playbook. This module is also supported for Windows targets.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.hostname": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.import_playbook": {
+    "short_description": "Import a playbook",
+    "description": "Includes a file with a list of plays to be executed. Files with a list of plays can only be included at the top level. You cannot use this action inside a play.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.import_role": {
+    "short_description": "Import a role into a play",
+    "description": "Much like the C(roles:) keyword, this task loads a role, but it allows you to control when the role tasks run in between other tasks of the play. Most keywords, loops and conditionals will only be applied to the imported tasks, not to this statement itself. If you want the opposite behavior, use M(ansible.builtin.include_role) instead. Does not work in handlers.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.import_tasks": {
+    "short_description": "Import a task list",
+    "description": "Imports a list of tasks to be added to the current playbook for subsequent execution.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.include_role": {
+    "short_description": "Load and execute a role",
+    "description": "Dynamically loads and executes a specified role as a task. May be used only where Ansible tasks are allowed - inside C(pre_tasks), C(tasks), or C(post_tasks) play objects, or as a task inside a role. Task-level keywords, loops, and conditionals apply only to the C(include_role) statement itself. To apply keywords to the tasks within the role, pass them using the O(apply) option or use M(ansible.builtin.import_role) instead. Ignores some keywords, like C(until) and C(retries). This module is also supported for Windows targets. Does not work in handlers.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.include_tasks": {
+    "short_description": "Dynamically include a task list",
+    "description": "Includes a file with a list of tasks to be executed in the current playbook.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.include_vars": {
+    "short_description": "Load variables from files, dynamically within a task",
+    "description": "Loads YAML/JSON variables dynamically from a file or directory, recursively, during task runtime. If loading a directory, the files are sorted alphabetically before being loaded. This module is also supported for Windows targets. To assign included variables to a different host than C(inventory_hostname), use C(delegate_to) and set C(delegate_facts=yes).",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.iptables": {
+    "short_description": "Modify iptables rules",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.known_hosts": {
+    "short_description": "Add or remove a host from the C(known_hosts) file",
+    "description": "The M(ansible.builtin.known_hosts) module lets you add or remove host keys from the C(known_hosts) file. Starting at Ansible 2.2, multiple entries per host are allowed, but only one for each key type supported by ssh. This is useful if you",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.lineinfile": {
+    "short_description": "Manage lines in text files",
+    "description": "This module ensures a particular line is in a file, or replace an existing line using a back-referenced regular expression. This is primarily useful when you want to change a single line in a file only. See the M(ansible.builtin.replace) module if you want to change multiple, similar lines or check M(ansible.builtin.blockinfile) if you want to insert/update/remove a block of lines in a file. For other cases, see the M(ansible.builtin.copy) or M(ansible.builtin.template) modules.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.meta": {
+    "short_description": "Execute Ansible",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.mount_facts": {
+    "short_description": "Retrieve mount information.",
+    "description": "Retrieve information about mounts from preferred sources and filter the results based on the filesystem type and device.",
+    "options": {
+      "devices": {
+        "description": "A list of fnmatch patterns to filter mounts by the special device or remote file system.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fstypes": {
+        "description": "A list of fnmatch patterns to filter mounts by the type of the file system.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sources": {
+        "description": "A list of sources used to determine the mounts. Missing file sources (or empty files) are skipped. Repeat sources, including symlinks, are skipped. The C(mount_points) return value contains the first definition found for a mount point. Additional mounts to the same mount point are available from C(aggregate_mounts) (if enabled). By default, mounts are retrieved from all of the standard locations, which have the predefined aliases V(all)/V(static)/V(dynamic). V(all) contains V(dynamic) and V(static). V(dynamic) contains V(/etc/mtab), V(/proc/mounts), V(/etc/mnttab), and the value of O(mount_binary) if it is not None. This allows platforms like BSD or AIX, which don",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.builtin.package": {
+    "short_description": "Generic OS package manager",
+    "description": "This modules manages packages on a target without specifying a package manager module (like M(ansible.builtin.dnf), M(ansible.builtin.apt), ...). It is convenient to use in an heterogeneous environment of machines without having to create a specific task for each package manager. M(ansible.builtin.package) calls behind the module for the package manager used by the operating system discovered by the module M(ansible.builtin.setup).  If M(ansible.builtin.setup) was not yet run, M(ansible.builtin.package) will run it. This module acts as a proxy to the underlying package manager module. While all arguments will be passed to the underlying module, not all modules support the same arguments. This documentation only covers the minimum intersection of module arguments that all packaging modules support. For Windows targets, use the M(ansible.windows.win_package) module instead.",
+    "options": {
+      "name": {
+        "description": "Package name, or package specifier with version. Syntax varies with package manager. For example V(name-1.0) or V(name=1.0). Package names also vary with package manager; this module will not",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.builtin.package_facts": {
+    "short_description": "Package information as facts",
+    "description": "Return information about installed packages as facts.",
+    "options": {
+      "manager": {
+        "description": "The package manager(s) used by the system so we can query the package information. This is a list and can support multiple package managers per system, since version 2.8. The V(portage) and V(pkg) options were added in version 2.8. The V(apk) option was added in version 2.11. The V(pkg_info) option was added in version 2.13. Aliases were added in 2.18, to support using C(manager={{ansible_facts[",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.builtin.pause": {
+    "short_description": "Pause playbook execution",
+    "description": "Pauses playbook execution for a set amount of time, or until a prompt is acknowledged. All parameters are optional. The default behavior is to pause with a prompt. To pause/wait/sleep per host, use the M(ansible.builtin.wait_for) module. You can use C(ctrl+c) if you wish to advance a pause earlier than it is set to expire or if you need to abort a playbook run entirely. To continue early press C(ctrl+c) and then C(c). To abort a playbook press C(ctrl+c) and then C(a). Prompting for a set amount of time is not supported. Pausing playbook execution is interruptible but does not return user input. The pause module integrates into async/parallelized playbooks without any special considerations (see Rolling Updates). When using pauses with the C(serial) playbook parameter (as in rolling updates) you are only prompted once for the current group of hosts. This module is also supported for Windows targets.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.ping": {
+    "short_description": "Try to connect to host, verify a usable python and return V(pong) on success",
+    "description": "A trivial test module, this module always returns V(pong) on successful contact. It does not make sense in playbooks, but it is useful from C(/usr/bin/ansible) to verify the ability to login and that a usable Python is configured. This is NOT ICMP ping, this is just a trivial test module that requires Python on the remote-node. For Windows targets, use the M(ansible.windows.win_ping) module instead. For Network targets, use the M(ansible.netcommon.net_ping) module instead.",
+    "options": {
+      "data": {
+        "description": "Data to return for the RV(ping) return value. If this parameter is set to V(crash), the module will cause an exception.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "pong",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.builtin.pip": {
+    "short_description": "Manages Python library dependencies",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.raw": {
+    "short_description": "Executes a low-down and dirty command",
+    "description": "",
+    "options": {
+      "free_form": {
+        "description": "The raw module takes a free form command to run. There is no parameter actually named",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.builtin.reboot": {
+    "short_description": "Reboot a machine",
+    "description": "Reboot a machine, wait for it to go down, come back up, and respond to commands. For Windows targets, use the M(ansible.windows.win_reboot) module instead.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.replace": {
+    "short_description": "Replace all instances of a particular string in a file using a back-referenced regular expression",
+    "description": "This module will replace all instances of a pattern within a file. It is up to the user to maintain idempotence by ensuring that the same pattern would never match any replacements made.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.rpm_key": {
+    "short_description": "Adds or removes a gpg key from the rpm db",
+    "description": "Adds or removes C(rpm --import) a gpg key to your rpm database.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.script": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.service": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.service_facts": {
+    "short_description": "Return service state information as fact data",
+    "description": "Return service state information as fact data for various service management utilities.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.set_fact": {
+    "short_description": "Set host variable(s) and fact(s).",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.set_stats": {
+    "short_description": "Define and display stats for the current ansible run",
+    "description": "This module allows setting/accumulating stats on the current ansible run, either per host or for all hosts in the run. This module is also supported for Windows targets.",
+    "options": {
+      "data": {
+        "description": "A dictionary of which each key represents a stat (or variable) you want to keep track of.",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "per_host": {
+        "description": "Whether the stats are per host or for all hosts in the run.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "aggregate": {
+        "description": "Whether the provided value is aggregated to the existing stat V(true) or will replace it V(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.builtin.setup": {
+    "short_description": "Gathers facts about remote hosts",
+    "description": "",
+    "options": {
+      "gather_subset": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.builtin.shell": {
+    "short_description": "Execute shell commands on targets",
+    "description": "The M(ansible.builtin.shell) module takes the command name followed by a list of space-delimited arguments. Either a free form command or O(cmd) parameter is required, see the examples. It is almost exactly like the M(ansible.builtin.command) module but runs the command through a shell (C(/bin/sh)) on the remote node. For Windows targets, use the M(ansible.windows.win_shell) module instead.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.slurp": {
+    "short_description": "Slurps a file from remote nodes",
+    "description": "This module works like M(ansible.builtin.fetch). It is used for fetching a base64- encoded blob containing the data in a remote file. This module is also supported for Windows targets.",
+    "options": {
+      "src": {
+        "description": "The file on the remote system to fetch. This I(must) be a file, not a directory.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "path"
+        ]
+      },
+      "armor": {
+        "description": "To safely deliver the data requested, armor it by base64 encoding it. This is mainly done to avoid issues with binary data or to preserve non-UTF-8 encodings, as the content will be converted to UTF-8 due to the JSON transport used. For windows support, check the ansible.windows collection.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.builtin.stat": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.subversion": {
+    "short_description": "Deploys a subversion repository",
+    "description": "Deploy given repository URL / revision to dest. If dest exists, update to the specified revision, otherwise perform a checkout.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.systemd_service": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.sysvinit": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.tempfile": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.template": {
+    "short_description": "Template a file out to a target host",
+    "description": "",
+    "options": {
+      "follow": {
+        "description": "Determine whether symbolic links should be followed. When set to V(true) symbolic links will be followed, if they exist. When set to V(false) symbolic links will not be followed. Previous to Ansible 2.4, this was hardcoded as V(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.builtin.unarchive": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.uri": {
+    "short_description": "Interacts with webservices",
+    "description": "Interacts with HTTP and HTTPS web services and supports Digest, Basic and WSSE HTTP authentication mechanisms. For Windows targets, use the M(ansible.windows.win_uri) module instead.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.user": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.validate_argument_spec": {
+    "short_description": "Validate role argument specs.",
+    "description": "This module validates role arguments with a defined argument specification.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.wait_for": {
+    "short_description": "Waits for a condition before continuing",
+    "description": "You can wait for a set amount of time O(timeout), this is the default if nothing is specified or just O(timeout) is specified. This does not produce an error. Waiting for a port to become available is useful for when services are not immediately available after their init scripts return which is true of certain Java application servers. It is also useful when starting guests with the M(community.libvirt.virt) module and needing to pause until they are ready. This module can also be used to wait for a regex match a string to be present in a file. In Ansible 1.6 and later, this module can also be used to wait for a file to be available or absent on the filesystem. In Ansible 1.8 and later, this module can also be used to wait for active connections to be closed before continuing, useful if a node is being rotated out of a load balancer pool. For Windows targets, use the M(ansible.windows.win_wait_for) module instead.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.wait_for_connection": {
+    "short_description": "Waits until remote system is reachable/usable",
+    "description": "Waits for a total of O(timeout) seconds. Retries the transport connection after a timeout of O(connect_timeout). Tests the transport connection every O(sleep) seconds. This module makes use of internal ansible transport (and configuration) and the M(ansible.builtin.ping)/M(ansible.windows.win_ping) modules to guarantee correct end-to-end functioning. This module is also supported for Windows targets.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.builtin.yum_repository": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  }
+}

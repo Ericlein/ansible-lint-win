@@ -1,0 +1,231 @@
+{
+  "community.mysql.mysql_info": {
+    "short_description": "Gather information about MySQL or MariaDB servers",
+    "description": "Gathers information about MySQL or MariaDB servers.",
+    "options": {
+      "filter": {
+        "description": "Limit the collected information by comma separated string or YAML list. Allowable values are C(version), C(databases), C(settings), C(global_status), C(users), C(users_info), C(engines), C(master_status), C(slave_status), C(slave_hosts). By default, collects all subsets. You can use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.mysql.mysql_query": {
+    "short_description": "Run MySQL or MariaDB queries",
+    "description": "Runs arbitrary MySQL or MariaDB queries. Pay attention, the module does not support check mode! All queries will be executed in autocommit mode. To run SQL queries from a file, use M(community.mysql.mysql_db) module.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.mysql.mysql_replication": {
+    "short_description": "Manage MySQL or MariaDB replication",
+    "description": "Manages MySQL or MariaDB server replication, replica, primary status, get and change primary host.",
+    "options": {
+      "mode": {
+        "description": "Module operating mode. Could be C(changeprimary) (CHANGE MASTER TO) - also works for MySQL 8.0.23 and later since community.mysql 3.10.0, C(changereplication) (CHANGE REPLICATION SOURCE TO) - only supported in MySQL 8.0.23 and later, C(getprimary) (SHOW MASTER STATUS), C(getreplica) (SHOW REPLICA STATUS), C(startreplica) (START REPLICA), C(stopreplica) (STOP REPLICA), C(resetprimary) (RESET MASTER) - supported since community.mysql 0.1.0, C(resetreplica) (RESET REPLICA), C(resetreplicaall) (RESET REPLICA ALL).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "changeprimary",
+          "changereplication",
+          "getprimary",
+          "getreplica",
+          "startreplica",
+          "stopreplica",
+          "resetprimary",
+          "resetreplica",
+          "resetreplicaall"
+        ],
+        "default": "getreplica",
+        "aliases": null
+      },
+      "primary_host": {
+        "description": "Same as the C(MASTER_HOST) mysql variable.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "master_host"
+        ]
+      },
+      "primary_user": {
+        "description": "Same as the C(MASTER_USER) mysql variable.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "master_user"
+        ]
+      },
+      "primary_password": {
+        "description": "Same as the C(MASTER_PASSWORD) mysql variable.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "master_password"
+        ]
+      },
+      "primary_port": {
+        "description": "Same as the C(MASTER_PORT) mysql variable.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "master_port"
+        ]
+      },
+      "primary_connect_retry": {
+        "description": "Same as the C(MASTER_CONNECT_RETRY) mysql variable.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "master_connect_retry"
+        ]
+      },
+      "primary_log_file": {
+        "description": "Same as the C(MASTER_LOG_FILE) mysql variable.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "master_log_file"
+        ]
+      },
+      "primary_log_pos": {
+        "description": "Same as the C(MASTER_LOG_POS) mysql variable.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "master_log_pos"
+        ]
+      },
+      "relay_log_file": {
+        "description": "Same as mysql variable.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "relay_log_pos": {
+        "description": "Same as mysql variable.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "primary_ssl": {
+        "description": "Same as the C(MASTER_SSL) mysql variable. When setting it to C(yes), the connection attempt only succeeds if an encrypted connection can be established. For details, refer to L(MySQL encrypted replication documentation,https://dev.mysql.com/doc/refman/8.0/en/replication-solutions-encrypted-connections.html). The default is C(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "master_ssl"
+        ]
+      },
+      "primary_ssl_ca": {
+        "description": "Same as the C(MASTER_SSL_CA) mysql variable. For details, refer to L(MySQL encrypted replication documentation,https://dev.mysql.com/doc/refman/8.0/en/replication-solutions-encrypted-connections.html).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "master_ssl_ca"
+        ]
+      },
+      "primary_ssl_capath": {
+        "description": "Same as the C(MASTER_SSL_CAPATH) mysql variable. For details, refer to L(MySQL encrypted replication documentation,https://dev.mysql.com/doc/refman/8.0/en/replication-solutions-encrypted-connections.html).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "master_ssl_capath"
+        ]
+      },
+      "primary_ssl_cert": {
+        "description": "Same as the C(MASTER_SSL_CERT) mysql variable. For details, refer to L(MySQL encrypted replication documentation,https://dev.mysql.com/doc/refman/8.0/en/replication-solutions-encrypted-connections.html).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "master_ssl_cert"
+        ]
+      },
+      "primary_ssl_key": {
+        "description": "Same as the C(MASTER_SSL_KEY) mysql variable. For details, refer to L(MySQL encrypted replication documentation,https://dev.mysql.com/doc/refman/8.0/en/replication-solutions-encrypted-connections.html).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "master_ssl_key"
+        ]
+      },
+      "primary_ssl_cipher": {
+        "description": "Same as the C(MASTER_SSL_CIPHER) mysql variable. Specifies a colon-separated list of one or more ciphers permitted by the replica for the replication connection. For details, refer to L(MySQL encrypted replication documentation,https://dev.mysql.com/doc/refman/8.0/en/replication-solutions-encrypted-connections.html).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "master_ssl_cipher"
+        ]
+      },
+      "primary_ssl_verify_server_cert": {
+        "description": "Same as C(MASTER_SSL_VERIFY_SERVER_CERT) MySQL/MariaDB variable. The module switch automatically to C(SOURCE_SSL_VERIFY_SERVER_CERT) for MySQL 8.0.23 and later. Prior to community.mysql 3.14.0 C(false) had no effect.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.mysql.mysql_role": {
+    "short_description": "Adds, removes, or updates a MySQL or MariaDB role",
+    "description": "Adds, removes, or updates a MySQL or MariaDB role. Roles are supported since MySQL 8.0.0 and MariaDB 10.0.5.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.mysql.mysql_variables": {
+    "short_description": "Manage MySQL or MariaDB global variables",
+    "description": "Query / Set MySQL or MariaDB variables.",
+    "options": {
+      "variable": {
+        "description": "Variable name to operate.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "value": {
+        "description": "If set, then sets variable value to this. With boolean values, use C(0)|C(1) or quoted C(",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

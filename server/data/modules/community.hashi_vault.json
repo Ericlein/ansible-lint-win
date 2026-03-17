@@ -1,0 +1,480 @@
+{
+  "community.hashi_vault.vault_database_connection_configure": {
+    "short_description": "Configures the database engine",
+    "description": "Creates a L(new database connection for a database secrets engine,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#configuration), identified by its O(engine_mount_point) in HashiCorp Vault.",
+    "options": {
+      "connection_name": {
+        "description": "Name of the database connection.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "plugin_name": {
+        "description": "Plugin name used to connect to the database",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allowed_roles": {
+        "description": "Allowed roles",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "connection_url": {
+        "description": "Connection URL to the database",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "connection_username": {
+        "description": "Username to connect to the database",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "connection_password": {
+        "description": "Password to connect to the database",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_database_connection_delete": {
+    "short_description": "Delete a Database Connection",
+    "description": "Deletes a L(Database Connection,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#delete-connection), identified by its O(connection_name) from HashiCorp Vault.",
+    "options": {
+      "connection_name": {
+        "description": "The connection name to be deleted.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_database_connection_read": {
+    "short_description": "Returns the configuration settings for a O(connection_name)",
+    "description": "L(Reads a Database Connection,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#read-configuration), identified by its O(connection_name) from Hashcorp Vault.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_database_connection_reset": {
+    "short_description": "Closes a O(connection_name) and its underlying plugin and restarts it with the configuration stored",
+    "description": "L(Resets a Database Connection,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#reset-connection).",
+    "options": {
+      "connection_name": {
+        "description": "The connection name to be resetted.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_database_connections_list": {
+    "short_description": "Returns a list of available connections",
+    "description": "L(List Database Connections,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#list-connections).",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_database_role_create": {
+    "short_description": "Creates or updates a (dynamic) role definition",
+    "description": "L(Creates or updates a dynamic role definition,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#create-static-role).",
+    "options": {
+      "connection_name": {
+        "description": "The connection name under which the role should be created.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role_name": {
+        "description": "The name of the role that should be created.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "creation_statements": {
+        "description": "Specifies the database statements executed to create and configure a user.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "revocation_statements": {
+        "description": "Specifies the database statements to be executed to revoke a user.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rollback_statements": {
+        "description": "Specifies the database statements to be executed to rollback a create operation in the event of an error.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "renew_statements": {
+        "description": "Specifies the database statements to be executed to renew a user",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_ttl": {
+        "description": "Default TTL for the role.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3600,
+        "aliases": null
+      },
+      "max_ttl": {
+        "description": "Max TTL for the role.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 86400,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_database_role_delete": {
+    "short_description": "Delete a role definition",
+    "description": "L(Delete a role definition,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#delete-a-role).",
+    "options": {
+      "role_name": {
+        "description": "The name of the role to rotate credentials for.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_database_role_read": {
+    "short_description": "Queries a dynamic role definition",
+    "description": "L(Queries a role definition,L(reads a static role,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#read-a-role), identified by its O(role_name).",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_database_roles_list": {
+    "short_description": "Returns a list of available (dynamic) roles",
+    "description": "Returns a list of available (dynamic) roles.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_database_rotate_root_credentials": {
+    "short_description": "Rotates the root credentials stored for the database connection. This user must have permissions to update its own password.",
+    "description": "Trigger L(root credential rotation,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#rotate-root-credentials) of a Database Connection identified by its O(connection_name).",
+    "options": {
+      "connection_name": {
+        "description": "The connection name where the root credential rotation should be triggered.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_database_static_role_create": {
+    "short_description": "Create or update a static role",
+    "description": "L(Creates a new or updates an existing static role,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#create-static-role).",
+    "options": {
+      "connection_name": {
+        "description": "The connection name under which the role should be created.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role_name": {
+        "description": "The name of the role that should be created.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "db_username": {
+        "description": "The database username - Note that the user must exist in the target database!",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rotation_statements": {
+        "description": "SQL statements to rotate the password for the given O(db_username)",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rotation_period": {
+        "description": "Password rotation period in seconds (defaults to 24hs)",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 86400,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_database_static_role_get_credentials": {
+    "short_description": "Returns the current credentials based on the named static role",
+    "description": "Returns the L(current credentials based of the named static role,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#get-static-credentials), identified by its O(role_name).",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_database_static_role_read": {
+    "short_description": "Queries a static role definition",
+    "description": "L(Queries a static role definition,L(reads a static role,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#read-static-role), identified by its O(role_name)",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_database_static_role_rotate_credentials": {
+    "short_description": "Trigger the credential rotation for a static role",
+    "description": "This endpoint is used to L(rotate the Static Role credentials,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#rotate-static-role-credentials) stored for a given role name. While Static Roles are rotated automatically by Vault at configured rotation periods, users can use this endpoint to manually trigger a rotation to change the stored password and reset the TTL of the Static Role",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_database_static_roles_list": {
+    "short_description": "Returns a list of available static roles",
+    "description": "L(Returns a list of available static roles,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#list-static-roles).",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_kv1_get": {
+    "short_description": "Get a secret from HashiCorp Vault",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_kv2_delete": {
+    "short_description": "Delete one or more versions of a secret from HashiCorp Vault",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_kv2_get": {
+    "short_description": "Get a secret from HashiCorp Vault",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_kv2_write": {
+    "short_description": "Perform a write operation against a KVv2 secret in HashiCorp Vault",
+    "description": "Perform a write operation against a KVv2 secret in HashiCorp Vault.",
+    "options": {
+      "engine_mount_point": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "secret",
+        "aliases": null
+      },
+      "path": {
+        "description": "Vault KVv2 path to be written to. This is relative to the I(engine_mount_point), so the mount path should not be included.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "data": {
+        "description": "KVv2 secret data to write.",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cas": {
+        "description": "Perform a check-and-set operation.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "read_before_write": {
+        "description": "Read the secret first and write only when I(data) differs from the read data. Requires C(read) permission on the secret if C(true). If C(false), this module will always write to I(path) when not in check mode.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_list": {
+    "short_description": "Perform a list operation against HashiCorp Vault",
+    "description": "Performs a generic list operation against a given path in HashiCorp Vault.",
+    "options": {
+      "path": {
+        "description": "Vault path to be listed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_login": {
+    "short_description": "Perform a login operation against HashiCorp Vault",
+    "description": "Performs a login operation against a given path in HashiCorp Vault, returning the login response, including the token.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_pki_generate_certificate": {
+    "short_description": "Generates a new set of credentials (private key and certificate) using HashiCorp Vault PKI",
+    "description": "Generates a new set of credentials (private key and certificate) based on a Vault PKI role.",
+    "options": {
+      "alt_names": {
+        "description": "Specifies requested Subject Alternative Names. These can be host names or email addresses; they will be parsed into their respective fields. If any requested names do not match role policy, the entire request will be denied.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "common_name": {
+        "description": "Specifies the requested CN for the certificate. If the CN is allowed by role policy, it will be issued.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "exclude_cn_from_sans": {
+        "description": "If true, the given I(common_name) will not be included in DNS or Email Subject Alternate Names (as appropriate). Useful if the CN is not a hostname or email address, but is instead some human-readable identifier.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "format": {
+        "description": "Specifies the format for returned data. Can be C(pem), C(der), or C(pem_bundle). If C(der), the output is base64 encoded. If C(pem_bundle), the C(certificate) field will contain the private key and certificate, concatenated. If the issuing CA is not a Vault-derived self-signed root, this will be included as well.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "pem",
+          "der",
+          "pem_bundle"
+        ],
+        "default": "pem",
+        "aliases": null
+      },
+      "ip_sans": {
+        "description": "Specifies requested IP Subject Alternative Names. Only valid if the role allows IP SANs (which is the default).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "role_name": {
+        "description": "Specifies the name of the role to create the certificate against.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "other_sans": {
+        "description": "Specifies custom OID/UTF8-string SANs. These must match values specified on the role in C(allowed_other_sans). ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_read": {
+    "short_description": "Perform a read operation against HashiCorp Vault",
+    "description": "Performs a generic read operation against a given path in HashiCorp Vault.",
+    "options": {
+      "path": {
+        "description": "Vault path to be read.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_token_create": {
+    "short_description": "Create a HashiCorp Vault token",
+    "description": "Creates a token in HashiCorp Vault, returning the response, including the token.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hashi_vault.vault_write": {
+    "short_description": "Perform a write operation against HashiCorp Vault",
+    "description": "Performs a generic write operation against a given path in HashiCorp Vault, returning any output.",
+    "options": {
+      "path": {
+        "description": "Vault path to be written to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "data": {
+        "description": "A dictionary to be serialized to JSON and then sent as the request body. If the dictionary contains keys named C(path) or C(wrap_ttl), the call will fail with C(hvac<1.2).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

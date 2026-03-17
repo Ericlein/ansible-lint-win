@@ -1,0 +1,2528 @@
+{
+  "ansible.windows.dsc3": {
+    "short_description": "Sets or checks DSC v3 configuration state",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.windows.win_acl": {
+    "short_description": "Set file/directory/registry/certificate permissions for a system user or group",
+    "description": "Add or remove rights/permissions for a given user or group for the specified file, folder, registry key or AppPool identifies.",
+    "options": {
+      "path": {
+        "description": "The path to the file or directory.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user": {
+        "description": "User or Group to add specified rights to act on src file/folder or registry key.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specify whether to add C(present) or remove C(absent) the specified access rule.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "type": {
+        "description": "Specify whether to allow or deny the rights specified.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "allow",
+          "deny"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "rights": {
+        "description": "The rights/permissions that are to be allowed/denied for the specified user or group for the item at C(path). If C(path) is a file or directory, rights can be any right under MSDN FileSystemRights U(https://msdn.microsoft.com/en-us/library/system.security.accesscontrol.filesystemrights.aspx). If C(path) is a registry key, rights can be any right under MSDN RegistryRights U(https://msdn.microsoft.com/en-us/library/system.security.accesscontrol.registryrights.aspx). If I(path) is a certificate key, rights can be C(Read) and/or C(FullControl). (Added in 2.2.0)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inherit": {
+        "description": "Inherit flags on the ACL rules. Can be specified as a comma separated list, e.g. C(ContainerInherit), C(ObjectInherit). For more information on the choices see MSDN InheritanceFlags enumeration at U(https://msdn.microsoft.com/en-us/library/system.security.accesscontrol.inheritanceflags.aspx). Defaults to C(ContainerInherit, ObjectInherit) for Directories.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ContainerInherit",
+          "ObjectInherit"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "propagation": {
+        "description": "Propagation flag on the ACL rules. For more information on the choices see MSDN PropagationFlags enumeration at U(https://msdn.microsoft.com/en-us/library/system.security.accesscontrol.propagationflags.aspx).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "InheritOnly",
+          "None",
+          "NoPropagateInherit"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_acl_inheritance": {
+    "short_description": "Change ACL inheritance",
+    "description": "Change ACL (Access Control List) inheritance and optionally copy inherited ACE",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.windows.win_audit_policy_system": {
+    "short_description": "Used to make changes to the system wide Audit Policy",
+    "description": "Used to make changes to the system wide Audit Policy.",
+    "options": {
+      "category": {
+        "description": "Single string value for the category you would like to adjust the policy on. Cannot be used with I(subcategory). You must define one or the other. Changing this setting causes all subcategories to be adjusted to the defined I(audit_type).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subcategory": {
+        "description": "Single string value for the subcategory you would like to adjust the policy on. Cannot be used with I(category). You must define one or the other.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "audit_type": {
+        "description": "The type of event you would like to audit for. Accepts a list. See examples.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "failure",
+          "none",
+          "success"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_audit_rule": {
+    "short_description": "Adds an audit rule to files, folders, or registry keys",
+    "description": "Used to apply audit rules to files, folders or registry keys. Once applied, it will begin recording the user who performed the operation defined into the Security Log in the Event viewer. The behavior is designed to ignore inherited rules since those cannot be adjusted without first disabling the inheritance behavior. It will still print inherited rules in the output though for debugging purposes.",
+    "options": {
+      "path": {
+        "description": "Path to the file, folder, or registry key. Registry paths should be in Powershell format, beginning with an abbreviation for the root such as, C(HKLM:\\Software).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "dest",
+          "destination"
+        ]
+      },
+      "user": {
+        "description": "The user or group to adjust rules for.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rights": {
+        "description": "Comma separated list of the rights desired. Only required for adding a rule. If I(path) is a file or directory, rights can be any right under MSDN FileSystemRights U(https://msdn.microsoft.com/en-us/library/system.security.accesscontrol.filesystemrights.aspx). If I(path) is a registry key, rights can be any right under MSDN RegistryRights U(https://msdn.microsoft.com/en-us/library/system.security.accesscontrol.registryrights.aspx).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inheritance_flags": {
+        "description": "Defines what objects inside of a folder or registry key will inherit the settings. If you are setting a rule on a file, this value has to be changed to C(none). For more information on the choices see MSDN PropagationFlags enumeration at U(https://msdn.microsoft.com/en-us/library/system.security.accesscontrol.inheritanceflags.aspx).",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "None",
+          "ContainerInherit",
+          "ObjectInherit"
+        ],
+        "default": "ContainerInherit,ObjectInherit",
+        "aliases": null
+      },
+      "propagation_flags": {
+        "description": "Propagation flag on the audit rules. This value is ignored when the path type is a file. For more information on the choices see MSDN PropagationFlags enumeration at U(https://msdn.microsoft.com/en-us/library/system.security.accesscontrol.propagationflags.aspx).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "None",
+          "InheritOnly",
+          "NoPropagateInherit"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_auto_logon": {
+    "short_description": "Adds or Sets auto logon registry keys.",
+    "description": "Used to apply auto logon registry setting.",
+    "options": {
+      "logon_count": {
+        "description": "The number of times to do an automatic logon. This count is deremented by Windows everytime an automatic logon is performed. Once the count reaches C(0) then the automatic logon process is disabled.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Username to login automatically. Must be set when C(state=present). This can be the Netlogon or UPN of a domain account and is automatically parsed to the C(DefaultUserName) and C(DefaultDomainName) registry properties.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password to be used for automatic login. Must be set when C(state=present). Value of this input will be used as password for I(username). While this value is encrypted by LSA it is decryptable to any user who is an Administrator on the remote host.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the registry key should be C(present) or C(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_certificate_info": {
+    "short_description": "Get information on certificates from a Windows Certificate Store",
+    "description": "Returns information about certificates in a Windows Certificate Store.",
+    "options": {
+      "thumbprint": {
+        "description": "The thumbprint as a hex string of a certificate to find. When specified, filters the I(certificates) return value to a single certificate See the examples for how to format the thumbprint.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "store_name": {
+        "description": "The name of the store to search. See U(https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.x509certificates.storename) for a list of built-in store names.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "My",
+        "aliases": null
+      },
+      "store_location": {
+        "description": "The location of the store to search.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "CurrentUser",
+          "LocalMachine"
+        ],
+        "default": "LocalMachine",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_certificate_store": {
+    "short_description": "Manages the certificate store",
+    "description": "Used to import/export and remove certificates and keys from the local certificate store. This module is not used to create certificates and will only manage existing certs as a file or in the store. It can be used to import PEM, DER, P7B, PKCS12 (PFX) certificates and export PEM, DER and PKCS12 certificates.",
+    "options": {
+      "state": {
+        "description": "If C(present), will ensure that the certificate at I(path) is imported into the certificate store specified. If C(absent), will ensure that the certificate specified by I(thumbprint) or the thumbprint of the cert at I(path) is removed from the store specified. If C(exported), will ensure the file at I(path) is a certificate specified by I(thumbprint). When exporting a certificate, if I(path) is a directory then the module will fail, otherwise the file will be replaced if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "exported",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "path": {
+        "description": "The path to a certificate file. This is required when I(state) is C(present) or C(exported). When I(state) is C(absent) and I(thumbprint) is not specified, the thumbprint is derived from the certificate at this path.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "thumbprint": {
+        "description": "The thumbprint as a hex string to either export or remove. See the examples for how to specify the thumbprint.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "store_name": {
+        "description": "The store name to use when importing a certificate or searching for a certificate. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_command": {
+    "short_description": "Executes a command on a remote Windows node",
+    "description": "The C(win_command) module takes the command name followed by a list of space-delimited arguments. The given command will be executed on all selected nodes. It will not be processed through the shell, so variables like C($env:HOME) and operations like C(",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.windows.win_computer_description": {
+    "short_description": "Set windows description, owner and organization",
+    "description": "This module sets Windows description that is shown under My Computer properties. Module also sets Windows license owner and organization. License information can be viewed by running winver commad.",
+    "options": {
+      "description": {
+        "description": "String value to apply to Windows descripton. Specify value of",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_copy": {
+    "short_description": "Copies files to remote locations on windows hosts",
+    "description": "The C(win_copy) module copies a file on the local box to remote windows locations. For non-Windows targets, use the M(ansible.builtin.copy) module instead.",
+    "options": {
+      "content": {
+        "description": "When used instead of C(src), sets the contents of a file directly to the specified value. This is for simple values, for anything complex or with formatting please switch to the M(ansible.windows.win_template) module.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "decrypt": {
+        "description": "This option controls the autodecryption of source files using vault.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "dest": {
+        "description": "Remote absolute path where the file should be copied to. If C(src) is a directory, this must be a directory too. Use \\ for path separators or \\\\ when in",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_credential": {
+    "short_description": "Manages Windows Credentials in the Credential Manager",
+    "description": "Used to create and remove Windows Credentials in the Credential Manager. This module can manage both standard username/password credentials as well as certificate credentials.",
+    "options": {
+      "alias": {
+        "description": "Adds an alias for the credential. Typically this is the NetBIOS name of a host if I(name) is set to the DNS name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "attributes": {
+        "description": "A list of dicts that set application specific attributes for a credential. When set, existing attributes will be compared to the list as a whole, any differences means all attributes will be replaced.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "A user defined comment for the credential.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The target that identifies the server or servers that the credential is to be used for. If the value can be a NetBIOS name, DNS server name, DNS host name suffix with a wildcard character (C(*)), a NetBIOS of DNS domain name that contains a wildcard character sequence, or an asterisk. See C(TargetName) in U(https://docs.microsoft.com/en-us/windows/win32/api/wincred/ns-wincred-credentiala) for more details on what this value can be. This is used with I(type) to produce a unique credential.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "persistence": {
+        "description": "Defines the persistence of the credential. If C(local), the credential will persist for all logons of the same user on the same host. C(enterprise) is the same as C(local) but the credential is visible to the same domain user when running on other hosts and not just localhost.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enterprise",
+          "local"
+        ],
+        "default": "local",
+        "aliases": null
+      },
+      "secret": {
+        "description": "The secret for the credential. When omitted, then no secret is used for the credential if a new credentials is created. When I(type) is a password type, this is the password for I(username). When I(type) is a certificate type, this is the pin for the certificate.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "secret_format": {
+        "description": "Controls the input type for I(secret). If C(text), I(secret) is a text string that is UTF-16LE encoded to bytes. If C(base64), I(secret) is a base64 string that is base64 decoded to bytes.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "base64",
+          "text"
+        ],
+        "default": "text",
+        "aliases": null
+      },
+      "state": {
+        "description": "When C(absent), the credential specified by I(name) and I(type) is removed. When C(present), the credential specified by I(name) and I(type) is added.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "type": {
+        "description": "The type of credential to store. This is used with I(name) to produce a unique credential. When the type is a C(domain) type, the credential is used by Microsoft authentication packages like Negotiate. When the type is a C(generic) type, the credential is not used by any particular authentication package. It is recommended to use a C(domain) type as only authentication providers can access the secret.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "domain_certificate",
+          "domain_password",
+          "generic_certificate",
+          "generic_password"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "update_secret": {
+        "description": "When C(always), the secret will always be updated if they differ. When C(on_create), the secret will only be checked/updated when it is first created. If the secret cannot be retrieved and this is set to C(always), the module will always result in a change.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "always",
+          "on_create"
+        ],
+        "default": "always",
+        "aliases": null
+      },
+      "username": {
+        "description": "When I(type) is a password type, then this is the username to store for the credential. When I(type) is a credential type, then this is the thumbprint as a hex string of the certificate to use. When C(type=domain_password), this should be in the form of a Netlogon (DOMAIN\\Username) or a UPN (username@DOMAIN). If using a certificate thumbprint, the certificate must exist in the C(CurrentUser\\My) certificate store for the executing user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_dhcp_lease": {
+    "short_description": "Manage Windows Server DHCP Leases",
+    "description": "Manage Windows Server DHCP Leases (IPv4 Only) Adds, Removes and Modifies DHCP Leases and Reservations Task should be delegated to a Windows DHCP Server",
+    "options": {
+      "type": {
+        "description": "The type of DHCP address. Leases expire as defined by l(duration). When l(duration) is not specified, the server default is used. Reservations are permanent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "reservation",
+          "lease"
+        ],
+        "default": "reservation",
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the desired state of the DHCP lease or reservation.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "ip": {
+        "description": "The IPv4 address of the client server/computer. This is a required parameter, if l(mac) is not set. Can be used to identify an existing lease/reservation, instead of l(mac).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scope_id": {
+        "description": "Specifies the scope identifier as defined by the DHCP server. This is a required parameter, if l(state=present) and the reservation or lease doesn",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_dns_client": {
+    "short_description": "Configures DNS lookup on Windows hosts",
+    "description": "The M(ansible.windows.win_dns_client) module configures the DNS client on Windows network adapters.",
+    "options": {
+      "adapter_names": {
+        "description": "Adapter name or list of adapter names for which to manage DNS settings (",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_dns_record": {
+    "short_description": "Manage Windows Server DNS records",
+    "description": "Manage DNS records within an existing Windows Server DNS zone.",
+    "options": {
+      "name": {
+        "description": "The name of the record.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "The port number of the record. Required when C(type=SRV). Supported only for C(type=SRV).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "priority": {
+        "description": "The priority number for each service in SRV record. Required when C(type=SRV). Supported only for C(type=SRV).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the record should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "ttl": {
+        "description": "The",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_dns_zone": {
+    "short_description": "Manage Windows Server DNS Zones",
+    "description": "Manage Windows Server DNS Zones Adds, Removes and Modifies DNS Zones - Primary, Secondary, Forwarder & Stub Task should be delegated to a Windows DNS Server",
+    "options": {
+      "name": {
+        "description": "Fully qualified name of the DNS zone.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Specifies the type of DNS zone. When l(type=secondary), the DNS server will immediately attempt to perform a zone transfer from the servers in this list. If this initial transfer fails, then the zone will be left in an unworkable state. This module does not verify the initial transfer.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "primary",
+          "secondary",
+          "stub",
+          "forwarder"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "dynamic_update": {
+        "description": "Specifies how a zone handles dynamic updates. Secure DNS updates are available only for Active Directory-integrated zones. When not specified during new zone creation, Windows will default this to l(none).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "secure",
+          "none",
+          "nonsecureandsecure"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the desired state of the DNS zone. When l(state=present) the module will attempt to create the specified DNS zone if it does not already exist. When l(state=absent), the module will remove the specified DNS zone and all subsequent DNS records.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "forwarder_timeout": {
+        "description": "Specifies a length of time, in seconds, that a DNS server waits for a remote DNS server to resolve a query. Accepts integer values between 0 and 15. If the provided value is not valid, it will be omitted and a warning will be issued.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "replication": {
+        "description": "Specifies the replication scope for the DNS zone. l(replication=forest) will replicate the DNS zone to all domain controllers in the Active Directory forest. l(replication=domain) will replicate the DNS zone to all domain controllers in the Active Directory domain. l(replication=none) disables Active Directory integration and creates a local file with the name of the zone. This is the equivalent of selecting l(store the zone in Active Directory) in the GUI.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "forest",
+          "domain",
+          "legacy",
+          "none"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "dns_servers": {
+        "description": "Specifies an list of IP addresses of the primary servers of the zone. DNS queries for a forwarded zone are sent to primary servers. Required if l(type=secondary), l(type=forwarder) or l(type=stub), otherwise ignored. At least one server is required.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_dsc": {
+    "short_description": "Invokes a PowerShell DSC configuration",
+    "description": "Configures a resource using PowerShell DSC. Requires PowerShell version 5.0 or newer. Most of the options for this module are dynamic and will vary depending on the DSC Resource specified in I(resource_name). This module does not support running on PowerShell 7.x, use the M(ansible.windows.dsc3) module instead.",
+    "options": {
+      "resource_name": {
+        "description": "The name of the DSC Resource to use. Must be accessible to PowerShell using any of the default paths.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "module_version": {
+        "description": "Can be used to configure the exact version of the DSC resource to be invoked. Useful if the target node has multiple versions installed of the module containing the DSC resource. If not specified, the module will follow standard PowerShell convention and use the highest version available.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "latest",
+        "aliases": null
+      },
+      "free_form": {
+        "description": "The M(ansible.windows.win_dsc) module takes in multiple free form options based on the DSC resource being invoked by I(resource_name). There is no option actually named C(free_form) so see the examples. This module will try and convert the option to the correct type required by the DSC resource and throw a warning if it fails. If the type of the DSC resource option is a C(CimInstance) or C(CimInstance[]), this means the value should be a dictionary or list of dictionaries based on the values required by that option. If the type of the DSC resource option is a C(PSCredential) then there needs to be 2 options set in the Ansible task definition suffixed with C(_username) and C(_password). If the type of the DSC resource option is an array, then a list should be provided but a comma separated string also work. Use a list where possible as no escaping is required and it works with more complex types list C(CimInstance[]). If the type of the DSC resource option is a C(DateTime), you should use a string in the form of an ISO 8901 string to ensure the exact date is used.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_environment": {
+    "short_description": "Modify environment variables on windows hosts",
+    "description": "Uses .net Environment to set or remove environment variables and can set at User, Machine or Process level. User level environment variables will be set, but not available until the user has logged off and on again.",
+    "options": {
+      "state": {
+        "description": "Set to C(present) to ensure environment variable is set. Set to C(absent) to ensure it is removed. When using I(variables), do not set this option.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the environment variable. Required when I(state=absent).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "value": {
+        "description": "The value to store in the environment variable. Must be set when I(state=present) and cannot be an empty string. Should be omitted for I(state=absent) and I(variables).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "variables": {
+        "description": "A dictionary where multiple environment variables can be defined at once. Not valid when I(state) is set. Variables with a value will be set (C(present)) and variables with an empty value will be unset (C(absent)). I(level) applies to all vars defined this way.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_eventlog": {
+    "short_description": "Manage Windows event logs",
+    "description": "Allows the addition, clearing and removal of local Windows event logs, and the creation and removal of sources from a given event log.  Also allows the specification of settings per log and source.",
+    "options": {
+      "name": {
+        "description": "Name of the event log to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the log and/or sources. When C(sources) is populated, state is checked for sources. When C(sources) is not populated, state is checked for the specified log itself. If C(state) is C(clear), event log entries are cleared for the target log.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "clear",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "sources": {
+        "description": "A list of one or more sources to ensure are present/absent in the log. When C(category_file), C(message_file) and/or C(parameter_file) are specified, these values are applied across all sources.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "category_file": {
+        "description": "For one or more sources specified, the path to a custom category resource file.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "message_file": {
+        "description": "For one or more sources specified, the path to a custom event message resource file.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parameter_file": {
+        "description": "For one or more sources specified, the path to a custom parameter resource file.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "maximum_size": {
+        "description": "The maximum size of the event log. Value must be between 64KB and 4GB, and divisible by 64KB. Size can be specified in KB, MB or GB (e.g. 128KB, 16MB, 2.5GB).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "overflow_action": {
+        "description": "The action for the log to take once it reaches its maximum size. For C(DoNotOverwrite), all existing entries are kept and new entries are not retained. For C(OverwriteAsNeeded), each new entry overwrites the oldest entry. For C(OverwriteOlder), new log entries overwrite those older than the C(retention_days) value.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "DoNotOverwrite",
+          "OverwriteAsNeeded",
+          "OverwriteOlder"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "retention_days": {
+        "description": "The minimum number of days event entries must remain in the log. This option is only used when C(overflow_action) is C(OverwriteOlder).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_feature": {
+    "short_description": "Installs and uninstalls Windows Features on Windows Server",
+    "description": "Installs or uninstalls Windows Roles or Features on Windows Server. This module uses the Add/Remove-WindowsFeature Cmdlets on Windows 2008 R2 and Install/Uninstall-WindowsFeature Cmdlets on Windows 2012, which are not available on client os machines.",
+    "options": {
+      "name": {
+        "description": "Names of roles or features to install as a single feature or a comma-separated list of features. To list all available features use the PowerShell command C(Get-WindowsFeature).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the features or roles on the system.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "include_sub_features": {
+        "description": "Adds all subfeatures of the specified feature.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "include_management_tools": {
+        "description": "Adds the corresponding management tools to the specified feature. Not supported in Windows 2008 R2 and will be ignored.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "source": {
+        "description": "Specify a source to install the feature from. Not supported in Windows 2008 R2 and will be ignored. Can either be C({driveletter}:\\sources\\sxs) or C(\\\\{IP}\\share\\sources\\sxs).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_feature_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.windows.win_file": {
+    "short_description": "Creates, touches or removes files or directories",
+    "description": "Creates (empty) files, updates file modification stamps of existing files, and can create or remove directories. Timestamp values are interpreted as local time on the target Windows system if no time zone offset is specified. Unlike M(ansible.builtin.file), does not modify ownership, permissions or manipulate links. For non-Windows targets, use the M(ansible.builtin.file) module instead.",
+    "options": {
+      "path": {
+        "description": "Path to the file being managed.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "dest",
+          "name"
+        ]
+      },
+      "state": {
+        "description": "If C(directory), all immediate subdirectories will be created if they do not exist. If C(file), the file will NOT be created if it does not exist, see the M(ansible.windows.win_copy) or M(ansible.windows.win_template) module if you want that behavior. If C(absent), directories will be recursively deleted, and files will be removed. If C(touch), an empty file will be created if the C(path) does not exist, while an existing file or directory will receive updated file access and modification times (similar to the way C(touch) works from the command line).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "directory",
+          "file",
+          "touch"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "modification_time": {
+        "description": "The desired modification time for the file or directory. A DateTime string in the format specified by O(modification_time_format). The timestamp is interpreted as local time on the target system. Timezone offsets are supported when included in the timestamp format. (for example, using C(z), C(zz) or C(zzz) format specifiers). When unset, the default is V(preserve) when O(state=[file, directory]) and V(now) when O(state=touch).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "modification_time_format": {
+        "description": "The format to use when parsing C(modification_time). Defaults to C(yyyy-MM-dd HH:mm:ss). See L(.NET DateTime format strings,https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "yyyy-MM-dd HH:mm:ss",
+        "aliases": null
+      },
+      "access_time": {
+        "description": "The desired access time for the file or directory. A DateTime string in the format specified by O(access_time_format). The timestamp is interpreted as local time on the target system. Timezone offsets are supported when included in the timestamp format. (for example, using C(z), C(zz) or C(zzz) format specifiers). When unset, the default is V(preserve) when O(state=[file, directory]) and V(now) when O(state=touch).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "access_time_format": {
+        "description": "The format to use when parsing C(access_time). Defaults to C(yyyy-MM-dd HH:mm:ss). See L(.NET DateTime format strings,https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "yyyy-MM-dd HH:mm:ss",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_file_compression": {
+    "short_description": "Alters the compression of files and directories on NTFS partitions.",
+    "description": "This module sets the compressed attribute for files and directories on a filesystem that supports it like NTFS. NTFS compression can be used to save disk space.",
+    "options": {
+      "path": {
+        "description": "The full path of the file or directory to modify. The path must exist on file system that supports compression like NTFS.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Set to C(present) to ensure the I(path) is compressed. Set to C(absent) to ensure the I(path) is not compressed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "recurse": {
+        "description": "Whether to recursively apply changes to all subdirectories and files. This option only has an effect when I(path) is a directory. When set to C(false), only applies changes to I(path). When set to C(true), applies changes to I(path) and all subdirectories and files.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "force": {
+        "description": "This option only has an effect when I(recurse) is C(true) If C(true), will check the compressed state of all subdirectories and files and make a change if any are different from I(compressed). If C(false), will only make a change if the compressed state of I(path) is different from I(compressed). If the folder structure is complex or contains a lot of files, it is recommended to set this option to C(false) so that not every file has to be checked.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_find": {
+    "short_description": "Return a list of files based on specific criteria",
+    "description": "Return a list of files based on specified criteria. Multiple criteria are AND",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.windows.win_firewall": {
+    "short_description": "Enable or disable the Windows Firewall",
+    "description": "Enable or Disable Windows Firewall profiles.",
+    "options": {
+      "profiles": {
+        "description": "Specify one or more profiles to change.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "Domain",
+          "Private",
+          "Public"
+        ],
+        "default": [
+          "Domain",
+          "Private",
+          "Public"
+        ],
+        "aliases": null
+      },
+      "state": {
+        "description": "Set state of firewall for given profile.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "disabled",
+          "enabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "inbound_action": {
+        "description": "Set to C(allow) or C(block) inbound network traffic in the profile. C(not_configured) is valid when configuring a GPO.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "allow",
+          "block",
+          "not_configured"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "outbound_action": {
+        "description": "Set to C(allow) or C(block) inbound network traffic in the profile. C(not_configured) is valid when configuring a GPO.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "allow",
+          "block",
+          "not_configured"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_get_url": {
+    "short_description": "Downloads file from HTTP, HTTPS, or FTP to node",
+    "description": "Downloads files from HTTP, HTTPS, or FTP to the remote server. The remote server I(must) have direct access to the remote resource. For non-Windows targets, use the M(ansible.builtin.get_url) module instead.",
+    "options": {
+      "url": {
+        "description": "The full URL of a file to download.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dest": {
+        "description": "The location to save the file at the URL. Be sure to include a filename and extension as appropriate.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "If C(true), will download the file every time and replace the file if the contents change. If C(false), will only download the file if it does not exist or the remote file has been modified more recently than the local file. This works by sending an http HEAD request to retrieve last modified time of the requested resource, so for this to work, the remote web server must support HEAD requests.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "checksum": {
+        "description": "If a I(checksum) is passed to this parameter, the digest of the destination file will be calculated after it is downloaded to ensure its integrity and verify that the transfer completed successfully. If a checksum is passed in this parameter or via C(checksum_url) and the file in C(dest) exists then C(checksum_dest) is calculated. If C(checksum_dest) equals the checksum no download is done unless C(force) is C(true). If the checksum does not match the file is always downloaded, as if C(force) was set. This behaviour was added in the C(2.7.0) release of this collection. This option cannot be set with I(checksum_url).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "checksum_algorithm": {
+        "description": "Specifies the hashing algorithm used when calculating the checksum of the remote and destination file.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "md5",
+          "sha1",
+          "sha256",
+          "sha384",
+          "sha512"
+        ],
+        "default": "sha1",
+        "aliases": null
+      },
+      "checksum_url": {
+        "description": "Specifies a URL that contains the checksum values for the resource at I(url). Like C(checksum), this is used to verify the integrity of the remote transfer. This option cannot be set with I(checksum).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "url_method": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "method"
+        ]
+      },
+      "url_timeout": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "timeout"
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_group": {
+    "short_description": "Add and remove local groups",
+    "description": "Add and remove local groups. Adds and removes members of local groups. For non-Windows targets, please use the M(ansible.builtin.group) module instead.",
+    "options": {
+      "name": {
+        "description": "Name of the group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the group. Set to an empty string C(",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_group_membership": {
+    "short_description": "Manage Windows local group membership",
+    "description": "Allows the addition and removal of local, service and domain users, and domain groups from a local group.",
+    "options": {
+      "name": {
+        "description": "Name of the local group to manage membership on.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "members": {
+        "description": "A list of members to ensure are present/absent from the group. Accepts local users as .\\username, and SERVERNAME\\username. Accepts domain users and groups as DOMAIN\\username and username@DOMAIN. Accepts service users as NT AUTHORITY\\username. Accepts all local, domain and service user types as username, favoring domain lookups when in a domain.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the members in the group. When C(state) is C(pure), only the members specified will exist, and all other existing members not specified are removed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "pure"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_hostname": {
+    "short_description": "Manages local Windows computer name",
+    "description": "Manages local Windows computer name. A reboot is required for the computer name to take effect.",
+    "options": {
+      "name": {
+        "description": "The hostname to set for the computer.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_hosts": {
+    "short_description": "Manages hosts file entries on Windows.",
+    "description": "Manages hosts file entries on Windows. Maps IPv4 or IPv6 addresses to canonical names. Adds, removes, or sets cname records for ip and hostname pairs. Modifies %windir%\\\\system32\\\\drivers\\\\etc\\\\hosts.",
+    "options": {
+      "state": {
+        "description": "Whether the entry should be present or absent. If only I(canonical_name) is provided when C(state=absent), then all hosts entries with the canonical name of I(canonical_name) will be removed. If only I(ip_address) is provided when C(state=absent), then all hosts entries with the ip address of I(ip_address) will be removed. If I(ip_address) and I(canonical_name) are both omitted when C(state=absent), then all hosts entries will be removed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "canonical_name": {
+        "description": "A canonical name for the host entry. required for C(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip_address": {
+        "description": "The ip address for the host entry. Can be either IPv4 (A record) or IPv6 (AAAA record). Required for C(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "aliases": {
+        "description": "A list of additional names (cname records) for the host entry. Only applicable when C(state=present).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "action": {
+        "description": "Controls the behavior of I(aliases). Only applicable when C(state=present). If C(add), each alias in I(aliases) will be added to the host entry. If C(set), each alias in I(aliases) will be added to the host entry, and other aliases will be removed from the entry.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "add",
+          "remove",
+          "set"
+        ],
+        "default": "set",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_hotfix": {
+    "short_description": "Install and uninstalls Windows hotfixes",
+    "description": "Install, uninstall a Windows hotfix.",
+    "options": {
+      "hotfix_identifier": {
+        "description": "The name of the hotfix as shown in DISM, see examples for details. This or C(hotfix_kb) MUST be set when C(state=absent). If C(state=present) then the hotfix at C(source) will be validated against this value, if it does not match an error will occur. You can get the identifier by running",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_http_proxy": {
+    "short_description": "Manages proxy settings for WinHTTP",
+    "description": "Used to set, remove, or import proxy settings for Windows HTTP Services C(WinHTTP). WinHTTP is a framework used by applications or services, typically .NET applications or non-interactive services, to make web requests.",
+    "options": {
+      "bypass": {
+        "description": "A list of hosts that will bypass the set proxy when being accessed. Use C(<local>) to match hostnames that are not fully qualified domain names. This is useful when needing to connect to intranet sites using just the hostname. Omit, set to null or an empty string/list to remove the bypass list. If this is set then I(proxy) must also be set.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "proxy": {
+        "description": "A string or dict that specifies the proxy to be set. If setting a string, should be in the form C(hostname), C(hostname:port), or C(protocol=hostname:port). If the port is undefined, the default port for the protocol in use is used. If setting a dict, the keys should be the protocol and the values should be the hostname and/or port for that protocol. Valid protocols are C(http), C(https), C(ftp), and C(socks). Omit, set to null or an empty string to remove the proxy settings.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source": {
+        "description": "Instead of manually specifying the I(proxy) and/or I(bypass), set this to import the proxy from a set source like Internet Explorer. Using C(ie) will import the Internet Explorer proxy settings for the current active network connection of the current user. Only IE",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_inet_proxy": {
+    "short_description": "Manages proxy settings for WinINet and Internet Explorer",
+    "description": "Used to set or remove proxy settings for Windows INet which includes Internet Explorer. WinINet is a framework used by interactive applications to submit web requests through. The proxy settings can also be used by other applications like Firefox, Chrome, and others but there is no definitive list.",
+    "options": {
+      "auto_detect": {
+        "description": "Whether to configure WinINet to automatically detect proxy settings through Web Proxy Auto-Detection C(WPAD). This corresponds to the checkbox I(Automatically detect settings) in the connection settings window.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "auto_config_url": {
+        "description": "The URL of a proxy configuration script. Proxy configuration scripts are typically JavaScript files with the C(.pac) extension that implement the C(FindProxyForURL(url, host) function. Omit, set to null or an empty string to remove the auto config URL. This corresponds to the checkbox I(Use automatic configuration script) in the connection settings window.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bypass": {
+        "description": "A list of hosts that will bypass the set proxy when being accessed. Use C(<local>) to match hostnames that are not fully qualified domain names. This is useful when needing to connect to intranet sites using just the hostname. If defined, this should be the last entry in the bypass list. Use C(<-loopback>) to stop automatically bypassing the proxy when connecting through any loopback address like C(127.0.0.1), C(localhost), or the local hostname. Omit, set to null or an empty string/list to remove the bypass list. If this is set then I(proxy) must also be set.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "connection": {
+        "description": "The name of the IE connection to set the proxy settings for. These are the connections under the I(Dial-up and Virtual Private Network) header in the IE settings. When omitted, the default LAN connection is used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "proxy": {
+        "description": "A string or dict that specifies the proxy to be set. If setting a string, should be in the form C(hostname), C(hostname:port), or C(protocol=hostname:port). If the port is undefined, the default port for the protocol in use is used. If setting a dict, the keys should be the protocol and the values should be the hostname and/or port for that protocol. Valid protocols are C(http), C(https), C(ftp), and C(socks). Omit, set to null or an empty string to remove the proxy settings.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_listen_ports_facts": {
+    "short_description": "Recopilates the facts of the listening ports of the machine",
+    "description": "Recopilates the information of the TCP and UDP ports of the machine and the related processes. State of the TCP ports could be filtered, as well as the format of the date when the parent process was launched. The module",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.windows.win_mapped_drive": {
+    "short_description": "Map network drives for users",
+    "description": "Allows you to modify mapped network drives for individual users. Also support WebDAV endpoints in the UNC form. While this module can manage mapped drives, you will not be able to use those mapped drives in any subsequent Ansible task. Mapped drives are only visible on interactive logons like through RDP and not network logons like WinRM or SSH that Ansible uses to invoke tasks.",
+    "options": {
+      "letter": {
+        "description": "The letter of the network path to map to. This letter must not already be in use with Windows.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "The password for C(username) that is used when testing the initial connection. This is never saved with a mapped drive, use the M(ansible.windows.win_credential) module to persist a username and password for a host.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "The UNC path to map the drive to. If pointing to a WebDAV location this must still be in a UNC path in the format C(\\\\hostname\\path) and not a URL, see examples for more details. To specify a C(https) WebDAV path, add C(@SSL) after the hostname. To specify a custom WebDAV port add C(@<port num>) after the C(@SSL) or hostname portion of the UNC path, e.g. C(\\\\server@SSL@1234) or C(\\\\server@1234). This is required if C(state=present). If C(state=absent) and I(path) is not set, the module will delete the mapped drive regardless of the target. If C(state=absent) and the I(path) is set, the module will throw an error if path does not match the target of the mapped drive.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "If C(present) will ensure the mapped drive exists. If C(absent) will ensure the mapped drive does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "username": {
+        "description": "The username that is used when testing the initial connection. This is never saved with a mapped drive, the M(ansible.windows.win_credential) module to persist a username and password for a host. This is required if the mapped drive requires authentication with custom credentials and become, or CredSSP cannot be used. If become or CredSSP is used, any credentials saved with M(ansible.windows.win_credential) will automatically be used instead.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_optional_feature": {
+    "short_description": "Manage optional Windows features",
+    "description": "Install or uninstall optional Windows features on non-Server Windows. This module uses the C(Enable-WindowsOptionalFeature) and C(Disable-WindowsOptionalFeature) cmdlets.",
+    "options": {
+      "name": {
+        "description": "The name(s) of the feature to install. This relates to C(FeatureName) in the Powershell cmdlet. To list all available features use the PowerShell command C(Get-WindowsOptionalFeature).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether to ensure the feature is absent or present on the system.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "include_parent": {
+        "description": "Whether to enable the parent feature and the parent",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_package": {
+    "short_description": "Installs/uninstalls an installable package",
+    "description": "Installs or uninstalls software packages for Windows. Supports C(.exe), C(.msi), C(.msp), C(.appx), C(.appxbundle), C(.msix), and C(.msixbundle). These packages can be sourced from the local file system, network file share or a url. See I(provider) for more info on each package type that is supported.",
+    "options": {
+      "arguments": {
+        "description": "Any arguments the installer needs to either install or uninstall the package. If the package is an MSI do not supply the C(/qn), C(/log) or C(/norestart) arguments. This is only used for the C(msi), C(msp), and C(registry) providers. Can be a list of arguments and the module will escape the arguments as necessary, it is recommended to use a string when dealing with MSI packages due to the unique escaping issues with msiexec. When using a list of arguments each item in the list is considered to be a single argument. As such, if an argument in the list contains a space then Ansible will quote this to ensure that this is seen by Windows as a single argument. Should this behaviour not be what is required, the argument should be split into two separate list items. See the examples section for more detail.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chdir": {
+        "description": "Set the specified path as the current working directory before installing or uninstalling a package. This is only used for the C(msi), C(msp), and C(registry) providers.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "checksum": {
+        "description": "If a I(checksum) is passed to this parameter, the digest of the package will be calculated before executing it to verify that the path or downloaded file has the expected contents.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "checksum_algorithm": {
+        "description": "Specifies the hashing algorithm used when calculating the checksum of the path provided.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "md5",
+          "sha1",
+          "sha256",
+          "sha384",
+          "sha512"
+        ],
+        "default": "sha1",
+        "aliases": null
+      },
+      "verify_signature": {
+        "description": "When set to V(True), validates the Authenticode signature of the installer file before executing it. The task will fail if the signature status returned by Get-AuthenticodeSignature is not Valid. When set to V(False), no Authenticode validation is performed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_path": {
+    "short_description": "Manage Windows path environment variables",
+    "description": "Allows element-based ordering, addition, and removal of Windows path environment variables.",
+    "options": {
+      "name": {
+        "description": "Target path environment variable name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "PATH",
+        "aliases": null
+      },
+      "elements": {
+        "description": "A single path element, or a list of path elements (ie, directories) to add or remove. When multiple elements are included in the list (and C(state) is C(present)), the elements are guaranteed to appear in the same relative order in the resultant path value. Variable expansions (eg, C(%VARNAME%)) are allowed, and are stored unexpanded in the target path element. Any existing path elements not mentioned in C(elements) are always preserved in their current order. New path elements are appended to the path, and existing path elements may be moved closer to the end to satisfy the requested ordering. Paths are compared in a case-insensitive fashion, and trailing backslashes are ignored for comparison purposes. However, note that trailing backslashes in YAML require quotes.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the path elements specified in C(elements) should be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "scope": {
+        "description": "The level at which the environment variable specified by C(name) should be managed (either for the current user or global machine scope).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "machine",
+          "user"
+        ],
+        "default": "machine",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_ping": {
+    "short_description": "A windows version of the classic ping module",
+    "description": "Checks management connectivity of a windows host. This is NOT ICMP ping, this is just a trivial test module. For non-Windows targets, use the M(ansible.builtin.ping) module instead.",
+    "options": {
+      "data": {
+        "description": "Alternate data to return instead of",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_powershell": {
+    "short_description": "Run PowerShell scripts",
+    "description": "Runs a PowerShell script and outputs the data in a structured format. Use M(ansible.windows.win_command) or M(ansible.windows.win_shell) to run a traditional PowerShell process with stdout, stderr, and rc results.",
+    "options": {
+      "arguments": {
+        "description": "A list of arguments to pass to I(executable) when running a script in another PowerShell process. These are not arguments to pass to I(script), use I(parameters) for that purpose.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chdir": {
+        "description": "The PowerShell location to set when starting the script. This can be a location in any of the PowerShell providers. The default location is dependent on many factors, if relative paths are used then set this option.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "creates": {
+        "description": "A path or path filter pattern; when the referenced path exists on the target host, the task will be skipped.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "depth": {
+        "description": "How deep the return values are serialized for C(result), C(output), and C(information[x].message_data). This also controls the depth of the diff output set by C($Ansible.Diff). Setting this to a higher value can dramatically increase the amount of data that needs to be returned.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 2,
+        "aliases": null
+      },
+      "error_action": {
+        "description": "The C($ErrorActionPreference) to set before executing I(script). C(silently_continue) will ignore any errors and exceptions raised. C(continue) is the default behaviour in PowerShell, errors are present in the I(error) return value but only terminating exceptions will stop the script from continuing and set it as failed. C(stop) will treat errors like exceptions, will stop the script and set it as failed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "silently_continue",
+          "continue",
+          "stop"
+        ],
+        "default": "continue",
+        "aliases": null
+      },
+      "executable": {
+        "description": "A custom PowerShell executable to run the script in. When not defined the script will run in the current module PowerShell interpreter. Both the remote PowerShell and the one specified by I(executable) must be running on PowerShell v5.1 or newer. Setting this value may change the values returned in the C(output) return value depending on the underlying .NET type.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parameters": {
+        "description": "Parameters to pass into the script as key value pairs. The key corresponds to the parameter name and the value is the value for that parameter.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "The path to a PowerShell script to run. When O(remote_src=False), or unset, this path is searched on the Ansible host. When O(remote_src=True), or set, this path is searched on the target host. This option is mutually exclusive with O(script). Scripts are expected to be saved with UTF-8 encoding, using a different encoding will result in non-ASCII characters being read as invalid characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remote_src": {
+        "description": "When V(false), the O(path) specified will be searched on the Ansible host. When V(true), the O(path) specified will be searched on the target host.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "removes": {
+        "description": "A path or path filter pattern; when the referenced path B(does not) exist on the target host, the task will be skipped.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "script": {
+        "description": "The PowerShell script to run. This option is mutually exclusive with O(path).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sensitive_parameters": {
+        "description": "Parameters to pass into the script as a SecureString or PSCredential. Each sensitive value will be marked with C(no_log) to ensure they are not exposed in the module invocation args logs. The I(value) suboption can be used to create a SecureString value while I(username) and I(password) can be used to create a PSCredential value.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_product_facts": {
+    "short_description": "Provides Windows product and license information",
+    "description": "Provides Windows product and license information.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.windows.win_reboot": {
+    "short_description": "Reboot a windows machine",
+    "description": "Unconditionally reboot a Windows machine, wait for it to go down, come back up, and respond to commands. For non-Windows targets, use the M(ansible.builtin.reboot) module instead.",
+    "options": {
+      "pre_reboot_delay": {
+        "description": "Seconds to wait before reboot. Passed as a parameter to the reboot command. The minimum version is C(2) seconds and cannot be set lower.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 2,
+        "aliases": [
+          "pre_reboot_delay_sec"
+        ]
+      },
+      "post_reboot_delay": {
+        "description": "Seconds to wait after the reboot command was successful before attempting to validate the system rebooted successfully. This is useful if you want wait for something to settle despite your connection already working.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": [
+          "post_reboot_delay_sec"
+        ]
+      },
+      "reboot_timeout": {
+        "description": "Maximum seconds to wait for machine to re-appear on the network and respond to a test command. This timeout is evaluated separately for both reboot verification and test command success so maximum clock time is actually twice this value.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 600,
+        "aliases": [
+          "reboot_timeout_sec"
+        ]
+      },
+      "connect_timeout": {
+        "description": "Maximum seconds to wait for a single successful TCP connection to the WinRM endpoint before trying again.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": [
+          "connect_timeout_sec"
+        ]
+      },
+      "test_command": {
+        "description": "Command to expect success for to determine the machine is ready for management. By default this test command is a custom one to detect when the Windows Logon screen is up and ready to accept credentials. Using a custom command will replace this behaviour and just run the command specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "msg": {
+        "description": "Message to display to users.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "Reboot initiated by Ansible",
+        "aliases": null
+      },
+      "boot_time_command": {
+        "description": "Command to run that returns a unique string indicating the last time the system was booted. Setting this to a command that has different output each time it is run will cause the task to fail.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_reg_stat": {
+    "short_description": "Get information about Windows registry keys",
+    "description": "Like M(ansible.windows.win_file), M(ansible.windows.win_reg_stat) will return whether the key/property exists. It also returns the sub keys and properties of the key specified. If specifying a property name through I(property), it will return the information specific for that property.",
+    "options": {
+      "path": {
+        "description": "The full registry key path including the hive to search for.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "key"
+        ]
+      },
+      "name": {
+        "description": "The registry property name to get information for, the return json will not include the sub_keys and properties entries for the I(key) specified. Set to an empty string to target the registry key",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_regedit": {
+    "short_description": "Add, change, or remove registry keys and values",
+    "description": "Add, modify or remove registry keys and values. More information about the windows registry from Wikipedia U(https://en.wikipedia.org/wiki/Windows_Registry).",
+    "options": {
+      "path": {
+        "description": "Name of the registry path. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_region": {
+    "short_description": "Set the region and format settings",
+    "description": "Set the location settings of a Windows Server. Set the format settings of a Windows Server. Set the unicode language settings of a Windows Server. Copy across these settings to the default profile.",
+    "options": {
+      "location": {
+        "description": "The location to set for the current user, see U(https://msdn.microsoft.com/en-us/library/dd374073.aspx) for a list of GeoIDs you can use and what location it relates to. This needs to be set if C(format) or C(unicode_language) is not set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "format": {
+        "description": "The language format to set for the current user, see U(https://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo.aspx) for a list of culture names to use. This needs to be set if C(location) or C(unicode_language) is not set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "unicode_language": {
+        "description": "The unicode language format to set for all users, see U(https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-input-locales-for-windows-language-packs) for a list of culture names to use. This needs to be set if C(location) or C(format) is not set. After setting this value a reboot is required for it to take effect.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "copy_settings": {
+        "description": "This will copy the current format and location values to new user profiles and the welcome screen. This will only run if C(location), C(format) or C(unicode_language) has resulted in a change. If this process runs then it will always result in a change.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_route": {
+    "short_description": "Add or remove a static route",
+    "description": "Add or remove a static route.",
+    "options": {
+      "destination": {
+        "description": "Destination IP address in CIDR format (ip address/prefix length).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gateway": {
+        "description": "The gateway used by the static route. If C(gateway) is not provided it will be set to C(0.0.0.0).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "0.0.0.0",
+        "aliases": null
+      },
+      "metric": {
+        "description": "Metric used by the static route.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "state": {
+        "description": "If C(absent), it removes a network static route. If C(present), it adds a network static route.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_service": {
+    "short_description": "Manage Windows services",
+    "description": "Manage Windows services. For non-Windows targets, use the M(ansible.builtin.service) module instead.",
+    "options": {
+      "dependencies": {
+        "description": "A list of service dependencies to set for this particular service. This should be a list of service names and not the display name of the service. This works by C(dependency_action) to either add/remove or set the services in this list.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dependency_action": {
+        "description": "Used in conjunction with C(dependency) to either add the dependencies to the existing service dependencies. Remove the dependencies to the existing dependencies. Set the dependencies to only the values in the list replacing the existing dependencies.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "add",
+          "remove",
+          "set"
+        ],
+        "default": "set",
+        "aliases": null
+      },
+      "desktop_interact": {
+        "description": "Whether to allow the service user to interact with the desktop. This can only be set to C(true) when using the C(LocalSystem) username. This can only be set to C(true) when the I(service_type) is C(win32_own_process) or C(win32_share_process).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "description": {
+        "description": "The description to set for the service.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "display_name": {
+        "description": "The display name to set for the service.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "error_control": {
+        "description": "The severity of the error and action token if the service fails to start. A new service defaults to C(normal). C(critical) will log the error and restart the system with the last-known good configuration. If the startup fails on reboot then the system will fail to operate. C(ignore) ignores the error. C(normal) logs the error in the event log but continues. C(severe) is like C(critical) but a failure on the last-known good configuration reboot startup will be ignored.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "critical",
+          "ignore",
+          "normal",
+          "severe"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "failure_actions": {
+        "description": "A list of failure actions the service controller should take on each failure of a service. The service manager will run the actions from first to last defined until the service starts. If I(failure_reset_period_sec) has been exceeded then the failure actions will restart from the beginning. If all actions have been performed the the service manager will repeat the last service defined. The existing actions will be replaced with the list defined in the task if there is a mismatch with any of them. Set to an empty list to delete all failure actions on a service otherwise an omitted or null value preserves the existing actions on the service.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "failure_actions_on_non_crash_failure": {
+        "description": "Controls whether failure actions will be performed on non crash failures or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "failure_command": {
+        "description": "The command to run for a C(run_command) failure action. Set to an empty string to remove the command.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "failure_reboot_msg": {
+        "description": "The message to be broadcast to users logged on the host for a C(reboot) failure action. Set to an empty string to remove the message.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "failure_reset_period_sec": {
+        "description": "The time in seconds after which the failure action list resets back to the start of the list if there are no failures. To set this value, I(failure_actions) must have at least 1 action present. Specify C(",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_service_info": {
+    "short_description": "Gather information about Windows services",
+    "description": "Gather information about all or a specific installed Windows service(s).",
+    "options": {
+      "name": {
+        "description": "If specified, this is used to match the C(name) or C(display_name) of the Windows service to get the info for. Can be a wildcard to match multiple services but the wildcard will only be matched on the C(name) of the service and not C(display_name). If omitted then all services will returned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_share": {
+    "short_description": "Manage Windows shares",
+    "description": "Add, modify or remove Windows share and set share permissions.",
+    "options": {
+      "name": {
+        "description": "Share name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "Share directory.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specify whether to add C(present) or remove C(absent) the specified share.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "description": {
+        "description": "Share description.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "list": {
+        "description": "Specify whether to allow or deny file listing, in case user has no permission on share. Also known as Access-Based Enumeration.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "read": {
+        "description": "Specify user list that should get read access on share, separated by comma.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "change": {
+        "description": "Specify user list that should get read and write access on share, separated by comma.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "full": {
+        "description": "Specify user list that should get full access on share, separated by comma.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "deny": {
+        "description": "Specify user list that should get no access, regardless of implied access on share, separated by comma.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "caching_mode": {
+        "description": "Set the CachingMode for this share.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "BranchCache",
+          "Documents",
+          "Manual",
+          "None",
+          "Programs",
+          "Unknown"
+        ],
+        "default": "Manual",
+        "aliases": null
+      },
+      "scope_name": {
+        "description": "Specifies the scope name of the share. For use with Windows Server failover cluster file server resources. When defined, I(path) must be located on a cluster shared volume/disk.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_shell": {
+    "short_description": "Execute shell commands on target hosts",
+    "description": "The M(ansible.windows.win_shell) module takes the command name followed by a list of space-delimited arguments. It is similar to the M(ansible.windows.win_command) module, but runs the command via a shell (defaults to PowerShell) on the target host. For non-Windows targets, use the M(ansible.builtin.shell) module instead. Defaults to running with C(powershell.exe) as the shell and not the C(ansible_pwsh_interpreter) shell. Use M(ansible.windows.win_powershell) or set O(executable=pwsh.exe) to use PowerShell 7.x.",
+    "options": {
+      "cmd": {
+        "description": "The shell command to run followed by optional arguments or additional statements. The O(cmd) option name was added in version V(3.4.0), previous versions of this collection required the command to be passed as a free form parameter without a parameter name. See the examples for details.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "_raw_params"
+        ]
+      },
+      "creates": {
+        "description": "A path or path filter pattern; when the referenced path exists on the target host, the task will be skipped.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "removes": {
+        "description": "A path or path filter pattern; when the referenced path B(does not) exist on the target host, the task will be skipped.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chdir": {
+        "description": "Set the specified path as the current working directory before executing a command",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "executable": {
+        "description": "Change the shell used to execute the command (eg, C(cmd)). Defaults to V(powershell.exe) if not specified. The target shell must accept a C(/c) parameter followed by the raw command line to be executed. This can also be set to a path for V(pwsh.exe) to use PowerShell 7.x in the location specified. The path used here should be the absolute path to the executable on the target host. If using a path that is not absolute, it will be found in the V(PATH) environment variable which could be suceptible to path hijacking.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stdin": {
+        "description": "Set the stdin of the command directly to the specified value.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "no_profile": {
+        "description": "Do not load the user profile before running a command. This is only valid when using PowerShell as the executable.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "output_encoding_override": {
+        "description": "This option overrides the encoding of stdout/stderr output. You can use this option when you need to run a command which ignore the console",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_stat": {
+    "short_description": "Get information about Windows files",
+    "description": "Returns information about a Windows file. For non-Windows targets, use the M(ansible.builtin.stat) module instead.",
+    "options": {
+      "path": {
+        "description": "The full path of the file/object to get the facts of; both forward and back slashes are accepted.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "dest",
+          "name"
+        ]
+      },
+      "get_checksum": {
+        "description": "Whether to return a checksum of the file (default sha1)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "get_size": {
+        "description": "Whether to return the size of a file or directory.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_tempfile": {
+    "short_description": "Creates temporary files and directories",
+    "description": "Creates temporary files and directories. For non-Windows targets, please use the M(ansible.builtin.tempfile) module instead.",
+    "options": {
+      "state": {
+        "description": "Whether to create file or directory.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "directory",
+          "file"
+        ],
+        "default": "file",
+        "aliases": null
+      },
+      "path": {
+        "description": "Location where temporary file or directory should be created. If path is not specified default system temporary directory (%TEMP%) will be used.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_template": {
+    "short_description": "Template a file out to a remote server",
+    "description": "Templates are processed by the L(Jinja2 templating language,http://jinja.pocoo.org/docs/). Documentation on the template formatting can be found in the L(Template Designer Documentation,http://jinja.pocoo.org/docs/templates/). Additional variables listed below can be used in templates. C(ansible_managed) (configurable via the C(defaults) section of C(ansible.cfg)) contains a string which can be used to describe the template name, host, modification time of the template file and the owner uid. C(template_host) contains the node name of the template",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.windows.win_timezone": {
+    "short_description": "Sets Windows machine timezone",
+    "description": "Sets machine time to the specified timezone.",
+    "options": {
+      "timezone": {
+        "description": "Timezone to set to. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_updates": {
+    "short_description": "Download and install Windows updates",
+    "description": "Searches, downloads, and installs Windows updates synchronously by automating the Windows Update client.",
+    "options": {
+      "accept_list": {
+        "description": "A list of update titles or KB numbers that can be used to specify which updates are to be searched or installed. If an available update does not match one of the entries, then it is skipped and not installed. Each entry can either be the KB article or Update title as a regex according to the PowerShell regex rules. The accept list is only validated on updates that were found based on I(category_names). It will not force the module to install an update if it was not in the category specified.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "category_names": {
+        "description": "A scalar or list of categories to install updates from. To get the list of categories, run the module with C(state=searched). The category must be the full category string, but is case insensitive. Some possible categories are Application, Connectors, Critical Updates, Definition Updates, Developer Kits, Feature Packs, Guidance, Security Updates, Service Packs, Tools, Update Rollups, Updates, and Upgrades. Since C(v1.7.0) the value C(*) will match all categories.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [
+          "CriticalUpdates",
+          "SecurityUpdates",
+          "UpdateRollups"
+        ],
+        "aliases": null
+      },
+      "skip_optional": {
+        "description": "Skip optional updates where the update has BrowseOnly set by Microsoft. Microsoft documents show that BrowseOnly means that the update should not be installed automatically and appear as optional updates.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "reboot": {
+        "description": "Ansible will automatically reboot the remote host if it is required and continue to install updates after the reboot. This can be used instead of using a M(ansible.windows.win_reboot) task after this one and ensures all updates for that category is installed in one go. Async does not work when C(reboot=true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "reboot_timeout": {
+        "description": "The time in seconds to wait until the host is back online from a reboot. This is only used if C(reboot=true) and a reboot is required.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1200,
+        "aliases": null
+      },
+      "server_selection": {
+        "description": "Defines the Windows Update source catalog. C(default) Use the default search source. For many systems default is set to the Microsoft Windows Update catalog. Systems participating in Windows Server Update Services (WSUS) or similar corporate update server environments may default to those managed update sources instead of the Windows Update catalog. C(managed_server) Use a managed server catalog. For environments utilizing Windows Server Update Services (WSUS) or similar corporate update servers, this option selects the defined corporate update source. C(windows_update) Use the Microsoft Windows Update catalog.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "default",
+          "managed_server",
+          "windows_update"
+        ],
+        "default": "default",
+        "aliases": null
+      },
+      "state": {
+        "description": "Controls whether found updates are downloaded or installed or listed This module also supports Ansible check mode, which has the same effect as setting state=searched",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "installed",
+          "searched",
+          "downloaded"
+        ],
+        "default": "installed",
+        "aliases": null
+      },
+      "log_path": {
+        "description": "If set, C(win_updates) will append update progress to the specified file. The directory must already exist.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "reject_list": {
+        "description": "A list of update titles or KB numbers that can be used to specify which updates are to be excluded from installation. If an available update does match one of the entries, then it is skipped and not installed. Each entry can either be the KB article or Update title as a regex according to the PowerShell regex rules.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "_operation": {
+        "description": "Internal use only.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "start",
+          "cancel",
+          "poll"
+        ],
+        "default": "start",
+        "aliases": null
+      },
+      "_operation_options": {
+        "description": "Internal use only.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_uri": {
+    "short_description": "Interacts with webservices",
+    "description": "Interacts with FTP, HTTP and HTTPS web services. Supports Digest, Basic and WSSE HTTP authentication mechanisms. For non-Windows targets, use the M(ansible.builtin.uri) module instead.",
+    "options": {
+      "url": {
+        "description": "Supports FTP, HTTP or HTTPS URLs in the form of (ftp|http|https)://host.domain:port/path.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_type": {
+        "description": "Sets the",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_user": {
+    "short_description": "Manages local Windows user accounts",
+    "description": "Manages local Windows user accounts. For non-Windows targets, use the M(ansible.builtin.user) module instead.",
+    "options": {
+      "account_disabled": {
+        "description": "C(true) will disable the user account. C(false) will clear the disabled flag.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "account_expires": {
+        "description": "Set the account expiration date for the user. This value should be in the format C(%Y-%m-%d) or C(%Y-%m-%dT%H:%M:%S%z). The timezone can be omitted in the long format and will default to UTC. The format of C(%z) is C(±HHMM), C(±HH:MM), or C(Z) for UTC. Set the value to C(never) to remove the account expiration date.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "account_locked": {
+        "description": "Only C(false) can be set and it will unlock the user account if locked.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fullname": {
+        "description": "Full name of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "groups": {
+        "description": "Adds or removes the user from this comma-separated list of groups, depending on the value of I(groups_action). When I(groups_action) is C(replace) and I(groups) is set to the empty string (",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_user_profile": {
+    "short_description": "Manages the Windows user profiles.",
+    "description": "Used to create or remove user profiles on a Windows host. This can be used to create a profile before a user logs on or delete a profile when removing a user account. A profile can be created for both a local or domain account.",
+    "options": {
+      "name": {
+        "description": "Specifies the base name for the profile path. When I(state) is C(present) this is used to create the profile for I(username) at a specific path within the profile directory. This cannot be used to specify a path outside of the profile directory but rather it specifies a folder(s) within this directory. If a profile for another user already exists at the same path, then a 3 digit incremental number is appended by Windows automatically. When I(state) is C(absent) and I(username) is not set, then the module will remove all profiles that point to the profile path derived by this value. This is useful if the account no longer exists but the profile still remains.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remove_multiple": {
+        "description": "When I(state) is C(absent) and the value for I(name) matches multiple profiles the module will fail. Set this value to C(yes) to force the module to delete all the profiles found.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "state": {
+        "description": "Will ensure the profile exists when set to C(present). When creating a profile the I(username) option must be set to a valid account. Will remove the profile(s) when set to C(absent). When removing a profile either I(username) must be set to a valid account, or I(name) is set to the profile",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_user_right": {
+    "short_description": "Manage Windows User Rights",
+    "description": "Add, remove or set User Rights for a group or users or groups. You can set user rights for both local and domain accounts.",
+    "options": {
+      "name": {
+        "description": "The name of the User Right as shown by the C(Constant Name) value from U(https://learn.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/user-rights-assignment). The module will return an error if the right is invalid.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "users": {
+        "description": "A list of users or groups to add/remove on the User Right. These can be in the form DOMAIN\\user-group, user-group@DOMAIN.COM for domain users/groups. For local users/groups it can be in the form user-group, .\\user-group, SERVERNAME\\user-group where SERVERNAME is the name of the remote server. It is highly recommended to use the C(.\\) or C(SERVERNAME\\) prefix to avoid any ambiguity with domain account names or errors trying to lookup an account on a domain controller. You can also add special local accounts like SYSTEM and others. Can be set to an empty list with I(action=set) to remove all accounts from the right.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "action": {
+        "description": "C(add) will add the users/groups to the existing right. C(remove) will remove the users/groups from the existing right. C(set) will replace the users/groups of the existing right.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "add",
+          "remove",
+          "set"
+        ],
+        "default": "set",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_wait_for": {
+    "short_description": "Waits for a condition before continuing",
+    "description": "You can wait for a set amount of time C(timeout), this is the default if nothing is specified. Waiting for a port to become available is useful for when services are not immediately available after their init scripts return which is true of certain Java application servers. You can wait for a file to exist or not exist on the filesystem. This module can also be used to wait for a regex match string to be present in a file. You can wait for active connections to be closed before continuing on a local port.",
+    "options": {
+      "connect_timeout": {
+        "description": "The maximum number of seconds to wait for a connection to happen before closing and retrying.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "delay": {
+        "description": "The number of seconds to wait before starting to poll.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "exclude_hosts": {
+        "description": "The list of hosts or IPs to ignore when looking for active TCP connections when C(state=drained).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "A resolvable hostname or IP address to wait for. If C(state=drained) then it will only check for connections on the IP specified, you can use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_whoami": {
+    "short_description": "Get information about the current user and process",
+    "description": "Designed to return the same information as the C(whoami /all) command. Also includes information missing from C(whoami) such as logon metadata like logon rights, id, type.",
+    "options": {},
+    "deprecated": null
+  }
+}
