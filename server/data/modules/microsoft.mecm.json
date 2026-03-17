@@ -1,0 +1,856 @@
+{
+  "microsoft.mecm.backups_status_info": {
+    "short_description": "Retrieve backup status information from SCCM primary site server",
+    "description": "Retrieves comprehensive backup status information for an SCCM primary site server to verify disaster recovery readiness. Returns backup task configuration, schedule information, last backup result, and execution history.",
+    "options": {
+      "computer_name": {
+        "description": "The FQDN of the SCCM primary site server computer name to query backup status from. Defaults to localhost if not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup_task_name": {
+        "description": "The name of the SCCM backup maintenance task to query. Allows customization for environments where the backup task has been renamed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "Backup SMS Site Server",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "microsoft.mecm.client_action": {
+    "short_description": "Start the execution of a client action on one or more devices.",
+    "description": "This module starts the execution of a client action on one or more devices. You can target a specific device or a collection of devices. The module pushes the action via the Configuration Manager client. It does not wait for the action to complete. This module does not support idempotence or check mode.",
+    "options": {
+      "device_name": {
+        "description": "The name of the device to target. The device must be online and have the Configuration Manager client installed. One and only one of O(device_name), O(device_id), O(collection_name), O(collection_id) must be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "device_id": {
+        "description": "The ID of the device to target. The device must be online and have the Configuration Manager client installed. One and only one of O(device_name), O(device_id), O(collection_name), O(collection_id) must be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "collection_name": {
+        "description": "The name of the collection of devices to target. The device must already exist in the site. One and only one of O(device_name), O(device_id), O(collection_name), O(collection_id) must be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "collection_id": {
+        "description": "The ID of the collection of devices to target. The collection must already exist in the site. One and only one of O(device_name), O(device_id), O(collection_name), O(collection_id) must be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "action": {
+        "description": "The action to start on the targeted devices.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "EndpointProtectionFullScan",
+          "EndpointProtectionQuickScan",
+          "EndpointProtectionDownloadDefinition",
+          "EndpointProtectionEvaluateSoftwareUpdate",
+          "EndpointProtectionExcludeScanPaths",
+          "EndpointProtectionAllowThreat",
+          "EndpointProtectionRestoreQuarantinedItems",
+          "ClientNotificationRequestMachinePolicyNow",
+          "ClientNotificationRequestUsersPolicyNow",
+          "ClientNotificationRequestDDRNow",
+          "ClientNotificationRequestSWInvNow",
+          "ClientNotificationRequestHWInvNow",
+          "ClientNotificationAppDeplEvalNow",
+          "ClientNotificationSUMDeplEvalNow",
+          "ClientRequestSUPChangeNow",
+          "ClientRequestDHAChangeNow",
+          "ClientNotificationRebootMachine",
+          "DiagnosticsEnableVerboseLogging",
+          "DiagnosticsDisableVerboseLogging",
+          "DiagnosticsCollectFiles",
+          "EndpointProtectionRestoreWithDeps",
+          "ClientNotificationCheckComplianceNow",
+          "RequestScriptExecution",
+          "RequestCMPivotExecution",
+          "ClientNotificationWakeUpClientNow",
+          "RequestMachinePolicyNow",
+          "RequestUsersPolicyNow"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "microsoft.mecm.dp_status_info": {
+    "short_description": "Retrieve distribution point status information from SCCM",
+    "description": "Retrieves distribution point status information for packages and content from SCCM using Get-CMDistributionStatus. Returns detailed package distribution data with authentic SCCM field names (PackageID, SoftwareName, etc.). Supports filtering by specific distribution points or package IDs for targeted monitoring. Read-only module that provides visibility into SCCM distribution infrastructure health.",
+    "options": {
+      "computer_name": {
+        "description": "The SCCM site server computer name to connect to. Defaults to localhost if not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "distribution_point": {
+        "description": "Specific distribution point name(s) to query. If not specified, all distribution points will be queried.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "package_id": {
+        "description": "Specific package ID to query distribution status for. If not specified, all packages will be queried for the target distribution points.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "microsoft.mecm.install_updates": {
+    "short_description": "Install deployed software updates on SCCM clients with intelligent progress monitoring",
+    "description": "Orchestrates the installation of deployed software updates on Windows SCCM clients. Handles timeouts, reboot requirements, and provides detailed installation results.",
+    "options": {
+      "wait_for_completion": {
+        "description": "Whether to wait for update installation to complete before returning. When true, module polls installation progress and returns detailed results. When false, triggers installation and returns immediately (fire-and-forget).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "timeout_minutes": {
+        "description": "Maximum time to wait for update installation completion in minutes. Only used when wait_for_completion is true. Recommended values are 30-120 minutes depending on update size and count.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 60,
+        "aliases": null
+      },
+      "allow_reboot": {
+        "description": "Whether to allow automatic system reboot if required by installed updates. When true, system will reboot automatically if updates require it. When false, reboot_required will be set but no reboot will occur.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "reboot_timeout_minutes": {
+        "description": "Timeout for system reboot process in minutes. Only used when allow_reboot is true and reboot is required.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 15,
+        "aliases": null
+      },
+      "update_ids": {
+        "description": "List of specific update IDs or Article IDs to install. If not specified, all available updates will be installed. Can contain UpdateID (GUID) or ArticleID (KB number) values.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "categories": {
+        "description": "List of update categories to filter installations. Basic string matching against update names. Examples include \"Security\", \"Critical\", and \"Definition Updates\".",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "microsoft.mecm.site_ps_drive": {
+    "short_description": "Manage the PS drive for a Configuration Manager site",
+    "description": "This module creates or removes the PS drive for a Configuration Manager site. A PS drive is required for many Configuration Manager cmdlets. This module can be used to ensure the PS drive is present before running other modules.",
+    "options": {
+      "site_code": {
+        "description": "The site code of the site for which you want to create or remove the PS drive.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether to create or remove the PS drive.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "microsoft.mecm.site_status_message_info": {
+    "short_description": "Gather status messages for a Configuration Manager site system components",
+    "description": "This module gets status messages for a Configuration Manager site system component. A status message is a message that a Configuration Manager component generates that contains information about the success, failure, or operation of site system components. Configuration Manager stores status messages in a Configuration Manager site database. You can view status messages directly in the Status Message Viewer.",
+    "options": {
+      "computer_name": {
+        "description": "Specify the fully qualified domain name (FQDN) of the server that hosts the site system role. If this is not specified, the host running the module is used. If this is specified, the host running the module must be able to resolve and access the server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "severity": {
+        "description": "The severity of the status messages you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "all",
+          "error",
+          "warning",
+          "information"
+        ],
+        "default": "all",
+        "aliases": null
+      },
+      "search_start_time": {
+        "description": "The start time of the search for status messages. If this is not specified, the search will start from 1 day ago. The format must be a valid powershell date string. It should be parsable by the Get-Date cmdlet. Some examples are \"2025-01-01\", \"2025-01-01 12:00:00 AM\", \"2025-01-01 12 PM\"",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "component": {
+        "description": "Specify a component by which to filter the status messages. Some examples are \"SMS_SITE_COMPONENT_MANAGER\", \"SMS_NOTIFICATION_SERVER\", \"SMS_NOTIFICATION_POINT\" Be aware specifying an invalid component name does not cause an error. Instead, no status messages are returned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "microsoft.mecm.software_update_deployment": {
+    "short_description": "Create, update, or delete a software update deployment.",
+    "description": "This module creates, updates, or deletes a software update deployment.",
+    "options": {
+      "state": {
+        "description": "The state of the software update deployment.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "id": {
+        "description": "The ID of the software update deployment to manage. This option can only be used for existing deployments. If creating a new deployment you should specify the name, one of O(software_update_group_id), O(software_update_group_name), O(software_update_id), O(software_update_name), and one of O(collection_name), O(collection_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the software update deployment. This option can be used to identify a deployment, but is used as a last resort due to performance implications. It should only be used in combination with other identifiers like collection name or ID, software update name or ID, etc.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "software_update_group_id": {
+        "description": "The ID of the software update group to deploy. If O(state) is present, one and only one of O(software_update_group_id), O(software_update_group_name), O(software_update_id), O(software_update_name) must be specified. Software updates cannot be modified once a deployment is created. For update operations, this option is ignored.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "software_update_group_name": {
+        "description": "The name of the software update group to deploy. If O(state) is present, one and only one of O(software_update_group_id), O(software_update_group_name), O(software_update_id), O(software_update_name) must be specified. Software updates cannot be modified once a deployment is created. For update operations, this option is ignored.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "software_update_id": {
+        "description": "The ID of the software update to deploy. If O(state) is present, one and only one of O(software_update_group_id), O(software_update_group_name), O(software_update_id), O(software_update_name) must be specified. Software updates cannot be modified once a deployment is created. For update operations, this option is only used to identify a deployment.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "software_update_name": {
+        "description": "The name of the software update to deploy. If O(state) is present, one and only one of O(software_update_group_id), O(software_update_group_name), O(software_update_id), O(software_update_name) must be specified. Software updates cannot be modified once a deployment is created. For update operations, this option is only used to identify a deployment.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "collection_name": {
+        "description": "The name of the collection of clients that should receive the deployment. Either O(id) or one and only one of O(collection_name), O(collection_id) must be specified. Collections cannot be modified once a deployment is created using this module. For update operations, this option is only used to identify a deployment.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "collection_id": {
+        "description": "The ID of the collection of clients that should receive the deployment. Either O(id) or one and only one of O(collection_name), O(collection_id) must be specified. Collections cannot be modified once a deployment is created using this module. For update operations, this option is only used to identify a deployment.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "only_use_verifiable_properties_for_change_detection": {
+        "description": "Powershell does not expose all properties of the deployment object. This means that the current state of some module arguments cannot be validated when updating a deployment. This option controls whether to force an update, or check the subset of exposed properties for changes. If true, the module will not check the current properties of the deployment and will always report a change, even if the deployment is in the desired state. If false, the module will check the current properties of the deployment and will report a change if needed. All properties specified in the module arguments will be used if the deployment is updated, regardless of this option.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "allow_restarts": {
+        "description": "Whether to restart clients after the software update is deployed. This property is not verifiable for update operations. See the O(only_use_verifiable_properties_for_change_detection) option for more details.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_metered_network_downloads": {
+        "description": "Whether to allow clients to download software updates over metered networks. This property is not verifiable for update operations. See the O(only_use_verifiable_properties_for_change_detection) option for more details.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_remote_distribution_point_downloads": {
+        "description": "Whether to allow clients to download software updates from neighboring boundary group distribution points, if the current boundary group does not have any distribution points. This property is not verifiable for update operations. See the O(only_use_verifiable_properties_for_change_detection) option for more details.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_default_distribution_point_downloads": {
+        "description": "Whether to allow clients to download software updates from the default boundary group distribution point, if no other distribution points are available. This property is not verifiable for update operations. See the O(only_use_verifiable_properties_for_change_detection) option for more details.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "available_time": {
+        "description": "The time the software update is available to be deployed to clients. The format must be a valid powershell date string. It should be parsable by the Get-Date cmdlet. Some examples are \"2025-01-01\", \"2025-01-01 12:00:00 AM\", \"2025-01-01 12 PM\"",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "deadline_time": {
+        "description": "The time the software update deployment expires. The format must be a valid powershell date string. It should be parsable by the Get-Date cmdlet. Some examples are \"2025-01-01\", \"2025-01-01 12:00:00 AM\", \"2025-01-01 12 PM\"",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "deployment_type": {
+        "description": "Specifies deployment type. C(required) means the software update must be installed on the client. C(available) means the software update is available to be installed on the client.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "required",
+          "available"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The description of the software update deployment.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disable_operations_manager_alerts": {
+        "description": "Whether to disable Operations Manager alerts during the software update deployment.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "generate_operations_manager_alert_on_failure": {
+        "description": "Whether to generate Operations Manager alerts if the software update deployment fails.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "generate_success_threshold_alert": {
+        "description": "Whether to generate Operations Manager alerts if the software update deployment success rate drops below a threshold. The threshold is a percentage of the total number of clients that have attempted the software update. Set the threshold with the O(success_threshold) option. This property is not verifiable for update operations. See the O(only_use_verifiable_properties_for_change_detection) option for more details.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "success_threshold": {
+        "description": "The threshold as a percentage for the success rate of the software update deployment. This value should be between 0 and 100. This property is not verifiable for update operations. See the O(only_use_verifiable_properties_for_change_detection) option for more details.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 95,
+        "aliases": null
+      },
+      "allow_microsoft_update_downloads": {
+        "description": "Whether clients are allowed to download the software update from Microsoft Update. This property is not verifiable for update operations. See the O(only_use_verifiable_properties_for_change_detection) option for more details.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_branch_cache_downloads": {
+        "description": "Whether clients are allowed to download the software update from Windows BranchCache.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Whether the software update deployment is enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "persist_on_write_filter_device": {
+        "description": "Whether to install a software update on the temporary overlay and commit changes later, or commit the changes at an installation deadline or a maintenance window. If true, the software update will be installed on the temporary overlay and committed later.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "require_post_reboot_full_scan": {
+        "description": "Whether to require a full scan after a reboot. This parameter controls the following console option: Software updates deployment re-evaluation behavior upon restart. If true, clients will run a full update deployment evaluation cycle after they restart from this deployment.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "restart_servers_if_needed": {
+        "description": "Whether to restart server clients if needed after the software update is deployed. This property is not verifiable for update operations. See the O(only_use_verifiable_properties_for_change_detection) option for more details.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "restart_workstations_if_needed": {
+        "description": "Whether to restart workstation clients if needed after the software update is deployed. This property is not verifiable for update operations. See the O(only_use_verifiable_properties_for_change_detection) option for more details.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "send_wake_up_packet": {
+        "description": "Whether to send a wake up packet to clients before the software update is deployed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_soft_deadline": {
+        "description": "Whether to enable a soft deadline for the software update deployment.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_installation_outside_maintenance_window": {
+        "description": "Whether to allow clients to install the software update outside of a maintenance window.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "deployment_timezone": {
+        "description": "Specify the timezone clients should use to determine the availability of the deployment. UTC could be used to ensure all clients can access the deployment at the same time.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "utc",
+          "local"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "user_notification_method": {
+        "description": "Specifies the method to notify users about the software update deployment. C(DisplayAll) means display in Software Center and show all notifications C(DisplaySoftwareCenterOnly) means display in Software Center and only show notifications for computer restarts",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "DisplayAll",
+          "DisplaySoftwareCenterOnly"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "deployment_verbosity": {
+        "description": "Specifies the verbosity of the software update deployment messages returned by the clients.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "AllMessages",
+          "OnlySuccessAndErrorMessages",
+          "OnlyErrorMessages"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "saved_package_id": {
+        "description": "The ID of the saved package to use for the software update deployment. This can only be set when creating a deployment. This is required if O(deploy_with_no_package) is true. This property is not verifiable for update operations. See the O(only_use_verifiable_properties_for_change_detection) option for more details.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "deploy_with_no_package": {
+        "description": "Whether to deploy the software update without a package. This can only be set when creating a deployment. This property is not verifiable for update operations. See the O(only_use_verifiable_properties_for_change_detection) option for more details.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "distribute_content": {
+        "description": "Whether to distribute the content to distribution points. This can only be set when creating a deployment. This property cannot be updated once a deployment is created.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "distribution_collection_name": {
+        "description": "The name of the collection to use for the distribution of the software update. This can only be set when creating a deployment. One of O(distribution_collection_name), O(distribution_point_name), or O(distribution_point_group_name) must be specified. This property cannot be updated once a deployment is created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "distribution_point_group_name": {
+        "description": "The name of the distribution point group to use for the distribution of the software update. This can only be set when creating a deployment. One of O(distribution_collection_name), O(distribution_point_name), or O(distribution_point_group_name) must be specified. This property cannot be updated once a deployment is created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "distribution_point_name": {
+        "description": "The name of the distribution point to use for the distribution of the software update. This can only be set when creating a deployment. One of O(distribution_collection_name), O(distribution_point_name), or O(distribution_point_group_name) must be specified. This property cannot be updated once a deployment is created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "microsoft.mecm.software_update_deployment_info": {
+    "short_description": "Gather information about one or more software update deployments.",
+    "description": "This module gathers information about one or more software update deployments.",
+    "options": {
+      "id": {
+        "description": "The ID of the software update deployment to query.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the software update deployment to query.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "software_update_id": {
+        "description": "The ID of the software update to use to query for deployments. Only one of O(software_update_id) or O(software_update_name) can be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "software_update_name": {
+        "description": "The name of the software update to use to query for deployments. Only one of O(software_update_id) or O(software_update_name) can be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "collection_name": {
+        "description": "The name of the collection of clients to use to query for deployments. Only one of O(collection_name), O(collection_id) can be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "collection_id": {
+        "description": "The ID of the collection of clients to use to query for deployments. Only one of O(collection_name), O(collection_id) can be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "microsoft.mecm.software_update_group": {
+    "short_description": "Create, update, or delete software update groups in a Configuration Manager site",
+    "description": "This module creates, updates, or deletes software update groups for a Configuration Manager site. You can ensure that specific software updates are present in a software update group. For more complex operations, like adding updates, removing updates, or specifying an abolsute list, use the M(microsoft.mecm.software_update_group_membership) module.",
+    "options": {
+      "name": {
+        "description": "Specify the name to use when searching for the software update group. The name option is required when creating a new software update group. If this option is supplied with ID for an existing software update group, then the group name will be updated to match this value if needed. At least one of the name or id options is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "Specify the ID of the software update group to get information about. If this option is supplied with name, it takes precedence for identifying the software update group. At least one of the name or id options is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Specify the description for the software update group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specify if the software update group should be present or absent. Removing a software update group will remove any deployments that are associated with the group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "software_update_ids": {
+        "description": "Specify the IDs of the software updates to ensure are present in the software update group. For more complex operaitons, use the M(microsoft.mecm.software_update_group_membership) module. Either this option or O(software_update_names) must be specified when O(state) is present.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "software_update_names": {
+        "description": "Specify the names of the software updates to ensure are present in the software update group. For more complex operaitons, use the M(microsoft.mecm.software_update_group_membership) module. Either this option or O(software_update_ids) must be specified when O(state) is present.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "clear_expired_updates": {
+        "description": "Specify if expired updates should be removed from the software update group. This option is only valid when O(state) is present and the group already exists.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "clear_superseded_updates": {
+        "description": "Specify if superseded updates should be removed from the software update group. This option is only valid when O(state) is present and the group already exists.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "microsoft.mecm.software_update_group_info": {
+    "short_description": "Gather information about software update groups in a Configuration Manager site",
+    "description": "This module gathers information about software update groups for a Configuration Manager site.",
+    "options": {
+      "name": {
+        "description": "Specify the name to use when searching for the software update group. This option is mutually exclusive with the id option.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "Specify the ID of the software update group to get information about. This option is mutually exclusive with the name option. If you are creating a new software update group, you must use the name option instead.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "microsoft.mecm.software_update_group_membership": {
+    "short_description": "Manage the software updates in a software update group",
+    "description": "This module ensures that specific software updates are present in a software update group for a Configuration Manager site. You can remove, add, or set the absolute list of software updates in the group.",
+    "options": {
+      "group_name": {
+        "description": "Specify the name of the software update group to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group_id": {
+        "description": "Specify the ID of the software update group to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specify if the software updates should be present, absent, or the absolute list should be set. C(set) will ensure that only the updates specified are present in the group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "set"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "software_update_ids": {
+        "description": "Specify the IDs of the software updates to ensure are present in the software update group. Either this option or O(software_update_names) must be specified when O(state) is present.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "software_update_names": {
+        "description": "Specify the names of the software updates to ensure are present in the software update group. Either this option or O(software_update_ids) must be specified when O(state) is present.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "microsoft.mecm.software_update_info": {
+    "short_description": "Gather information about software updates in a Configuration Manager site",
+    "description": "This module gathers information about software updates for a Configuration Manager site.",
+    "options": {
+      "name": {
+        "description": "Specify the name to use when searching for the software update. This option is mutually exclusive with the id and article_ids options.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "Specify the ID of the software update to get information about. This option is mutually exclusive with the name and article_ids options.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "article_ids": {
+        "description": "Specify the article IDs of the software updates to get information about. This option is mutually exclusive with the name and id options.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "microsoft.mecm.wsus_sync_status_info": {
+    "short_description": "Retrieve WSUS synchronization status information from SCCM software update point",
+    "description": "Retrieves Windows Server Update Services (WSUS) synchronization status from SCCM software update points. Returns last synchronization time, sync status, and relevant error information for monitoring WSUS health. Supports multiple fallback methods to retrieve sync status using WMI queries and PowerShell cmdlets. Read-only module that provides visibility into software update point synchronization health.",
+    "options": {
+      "computer_name": {
+        "description": "The FQDN of the primary site server that hosts the software update point. This must be a fully qualified domain name of the SCCM primary site server. The server must have a configured software update point role.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

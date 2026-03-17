@@ -1,8 +1,90 @@
 {
+  "ansible.windows.async_status": {
+    "short_description": "Obtain status of asynchronous task",
+    "description": "This module gets the status of an asynchronous task.",
+    "options": {
+      "jid": {
+        "description": "Job or task identifier",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mode": {
+        "description": "If C(status), obtain the status. If C(cleanup), clean up the async job cache (by default in C(~/.ansible_async/)) for the specified job I(jid).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "cleanup",
+          "status"
+        ],
+        "default": "status",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
   "ansible.windows.dsc3": {
     "short_description": "Sets or checks DSC v3 configuration state",
     "description": "",
     "options": {},
+    "deprecated": null
+  },
+  "ansible.windows.setup": {
+    "short_description": "Gathers facts about remote hosts",
+    "description": "This module is automatically called by playbooks to gather useful variables about remote hosts that can be used in playbooks. It can also be executed directly by C(/usr/bin/ansible) to check what variables are available to a host. Ansible provides many I(facts) about the system, automatically.",
+    "options": {
+      "gather_subset": {
+        "description": "If supplied, restrict the additional facts collected to the given subset. Can specify a list of values to specify a larger subset. Values can also be used with an initial C(!) to specify that that specific subset should not be collected. To avoid collecting even the min subset, specify C(!all,!min). To collect only specific facts, use C(!all,!min), and specify the particular fact subsets.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": "all",
+        "aliases": null
+      },
+      "gather_timeout": {
+        "description": "Set the default timeout in seconds for individual fact gathering.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "fact_path": {
+        "description": "Path used for local ansible facts (C(*.ps1) or C(*.json)) - files in this dir will be run (if a ps1) or read (if a json) and their results be added to the return facts. The returned fact will be named after the local file (without the extension suffix), e.g. C(ansible_my_fact).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "_measure_subset": {
+        "description": "For internal use",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.slurp": {
+    "short_description": "Slurps a file from remote nodes",
+    "description": "This module works like M(ansible.builtin.fetch). It is used for fetching a base64- encoded blob containing the data in a remote file.",
+    "options": {
+      "src": {
+        "description": "The file on the remote system to fetch. This I(must) be a file, not a directory.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "path"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ansible.windows.win_acl": {
@@ -1424,6 +1506,37 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_owner": {
+    "short_description": "Set owner",
+    "description": "Set owner of files or directories.",
+    "options": {
+      "path": {
+        "description": "Path to be used for changing owner.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user": {
+        "description": "Name to be used for changing owner. This value can be in the form of a SecurityIdentifier string, a user or group in the Netlogon C(DOMAIN\\User) or UPN format (user@DOMAIN.COM).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "recurse": {
+        "description": "Indicates if the owner should be changed recursively.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },

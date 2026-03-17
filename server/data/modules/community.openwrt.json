@@ -659,5 +659,20 @@
     "description": "The M(community.openwrt.uci) module is a Ansible wrapper for OpenWrt",
     "options": {},
     "deprecated": null
+  },
+  "community.openwrt.wrapper": {
+    "short_description": "Internal wrapper module for OpenWrt shell-based modules",
+    "description": "This is an internal module used by the OpenWrt collection's action plugins. It serves as a runtime wrapper that sources and executes shell-based module scripts. End users should not call this module directly. The action plugins transfer the appropriate module script and invoke this wrapper with the script path provided via the O(_openwrt_script) parameter.",
+    "options": {
+      "_openwrt_script": {
+        "description": "Internal parameter that specifies the path to the shell script to execute. This parameter is automatically set by the collection's action plugins. Should not be used directly by end users.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
   }
 }
