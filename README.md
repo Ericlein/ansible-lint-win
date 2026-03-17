@@ -10,7 +10,7 @@ Built as a Node.js LSP server with a Zed extension wrapper.
 - **Hover documentation** — module docs with options table, option details, keyword descriptions
 - **10 lint rules** — name-required, fqcn-required, yaml-truthy, no-changed-when, key-order, jinja-spacing, no-duplicate-keys, play-has-hosts, deprecated-modules, no-free-form
 - **Go-to-definition** — Ctrl+click on include_tasks, import_tasks, vars_files, roles, and template src paths
-- **1200+ modules** from 16+ collections out of the box, with support for auto-discovering all collections from the ansible-collections GitHub org
+- **2600+ modules** from 80+ collections out of the box, with support for auto-discovering all collections from the ansible-collections GitHub org
 
 ## Requirements
 
