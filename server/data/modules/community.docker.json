@@ -1,0 +1,1327 @@
+{
+  "community.docker.current_container_facts": {
+    "short_description": "Return facts about whether the module runs in a container",
+    "description": "Return facts about whether the module runs in a Docker or podman container. This module attempts a best-effort detection. There might be special cases where it does not work; if you encounter one, make sure that this is still a problem with the latest community.docker release, and if it is, L(please file an issue, https://github.com/ansible-collections/community.docker/issues/new?assignees=&labels=&template=bug_report.md).",
+    "options": {},
+    "deprecated": null
+  },
+  "community.docker.docker_compose_v2": {
+    "short_description": "Manage multi-container Docker applications with Docker Compose CLI plugin",
+    "description": "Uses Docker Compose to start or shutdown services.",
+    "options": {
+      "state": {
+        "description": "Desired state of the project. V(present) is equivalent to running C(docker compose up). V(stopped) is equivalent to running C(docker compose stop). V(absent) is equivalent to running C(docker compose down). V(restarted) is equivalent to running C(docker compose restart).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "stopped",
+          "restarted",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "pull": {
+        "description": "Whether to pull images before running. This is used when C(docker compose up) is run. V(always) ensures that the images are always pulled, even when already present on the Docker daemon. V(missing) only pulls them when they are not present on the Docker daemon. V(never) never pulls images. If they are not present, the module will fail when trying to create the containers that need them. V(policy) use the Compose file",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_compose_v2_exec": {
+    "short_description": "Run command in a container of a Compose service",
+    "description": "Uses Docker Compose to run a command in a service",
+    "options": {},
+    "deprecated": null
+  },
+  "community.docker.docker_compose_v2_pull": {
+    "short_description": "Pull a Docker compose project",
+    "description": "Uses Docker Compose to pull images for a project.",
+    "options": {
+      "policy": {
+        "description": "Whether to pull images before running. This is used when C(docker compose up) is ran. V(always) ensures that the images are always pulled, even when already present on the Docker daemon. V(missing) only pulls them when they are not present on the Docker daemon. This is only supported since Docker Compose 2.22.0.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "always",
+          "missing"
+        ],
+        "default": "always",
+        "aliases": null
+      },
+      "ignore_buildable": {
+        "description": "If set to V(true), will not pull images that can be built.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "ignore_pull_failures": {
+        "description": "If set to V(true), will pull what it can and ignores images with pull failures.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "include_deps": {
+        "description": "If set to V(true), also pull services that are declared as dependencies. This only makes sense if O(services) is used.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "services": {
+        "description": "Specifies a subset of services to be targeted.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_compose_v2_run": {
+    "short_description": "Run command in a new container of a Compose service",
+    "description": "Uses Docker Compose to run a command in a new container for a service. This encapsulates C(docker compose run).",
+    "options": {
+      "service": {
+        "description": "The service to run the command in.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "argv": {
+        "description": "The command to execute. Since this is a list of arguments, no quoting is needed. O(argv) or O(command) are mutually exclusive.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "command": {
+        "description": "The command to execute. O(argv) or O(command) are mutually exclusive.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "build": {
+        "description": "Build image before starting container. Note that building can insert information into RV(stdout) or RV(stderr).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "cap_add": {
+        "description": "Linux capabilities to add to the container.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cap_drop": {
+        "description": "Linux capabilities to drop from the container.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "entrypoint": {
+        "description": "Override the entrypoint of the container image.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interactive": {
+        "description": "Whether to keep STDIN open even if not attached.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "labels": {
+        "description": "Add or override labels to the container.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Assign a name to the container.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "no_deps": {
+        "description": "Do not start linked services.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "publish": {
+        "description": "Publish a container",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_config": {
+    "short_description": "Manage docker configs",
+    "description": "Create and remove Docker configs in a Swarm environment. Similar to C(docker config create) and C(docker config rm). Adds to the metadata of new configs C(ansible_key), an encrypted hash representation of the data, which is then used in future runs to test if a config has changed. If C(ansible_key) is not present, then a config will not be updated unless the O(force) option is set. Updates to configs are performed by removing the config and creating it again.",
+    "options": {
+      "data": {
+        "description": "The value of the config. Mutually exclusive with O(data_src). One of O(data) and O(data_src) is required if O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "data_is_b64": {
+        "description": "If set to V(true), the data is assumed to be Base64 encoded and will be decoded before being used. To use binary O(data), it is better to keep it Base64 encoded and let it be decoded by this option.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "data_src": {
+        "description": "The file on the target from which to read the config. Mutually exclusive with O(data). One of O(data) and O(data_src) is required if O(state=present).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "A map of key:value meta data, where both the C(key) and C(value) are expected to be a string. If new meta data is provided, or existing meta data is modified, the config will be updated by removing it and creating it again.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Use with O(state=present) to always remove and recreate an existing config. If V(true), an existing config will be replaced, even if it has not been changed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "rolling_versions": {
+        "description": "If set to V(true), configs are created with an increasing version number appended to their name. Adds a label containing the version number to the managed configs with the name C(ansible_version).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "versions_to_keep": {
+        "description": "When using O(rolling_versions), the number of old versions of the config to keep. Extraneous old configs are deleted after the new one is created. Set to V(-1) to keep everything or V(0) or V(1) to keep only the current one.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the config.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Set to V(present), if the config should exist, and V(absent), if it should not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "template_driver": {
+        "description": "Set to V(golang) to use a Go template in O(data) or a Go template file in O(data_src).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "golang"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_container": {
+    "short_description": "manage Docker containers",
+    "description": "Manage the life cycle of Docker containers. Supports check mode. Run with C(--check) and C(--diff) to view config difference and list of actions to be taken.",
+    "options": {
+      "auto_remove": {
+        "description": "Enable auto-removal of the container on daemon side when the container",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_container_copy_into": {
+    "short_description": "Copy a file into a Docker container",
+    "description": "Copy a file into a Docker container. Similar to C(docker cp). To copy files in a non-running container, you must provide the O(owner_id) and O(group_id) options. This is also necessary if the container does not contain a C(/bin/sh) shell with an C(id) tool.",
+    "options": {
+      "container": {
+        "description": "The name of the container to copy files to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "Path to a file on the managed node. Mutually exclusive with O(content). One of O(content) and O(path) is required.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content": {
+        "description": "The file",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_container_exec": {
+    "short_description": "Execute command in a docker container",
+    "description": "Executes a command in a Docker container.",
+    "options": {
+      "container": {
+        "description": "The name of the container to execute the command in.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "argv": {
+        "description": "The command to execute. Since this is a list of arguments, no quoting is needed. Exactly one of O(argv) or O(command) must be specified.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "command": {
+        "description": "The command to execute. Exactly one of O(argv) or O(command) must be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chdir": {
+        "description": "The directory to run the command in.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "detach": {
+        "description": "Whether to run the command synchronously (O(detach=false), default) or asynchronously (O(detach=true)). If set to V(true), O(stdin) cannot be provided, and the return values RV(stdout), RV(stderr), and RV(rc) are not returned.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "user": {
+        "description": "If specified, the user to execute this command with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stdin": {
+        "description": "Set the stdin of the command directly to the specified value. Can only be used if O(detach=false).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stdin_add_newline": {
+        "description": "If set to V(true), appends a newline to O(stdin).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "strip_empty_ends": {
+        "description": "Strip empty lines from the end of stdout/stderr in result.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "tty": {
+        "description": "Whether to allocate a TTY.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "env": {
+        "description": "Dictionary of environment variables with their respective values to be passed to the command ran inside the container. Values which might be parsed as numbers, booleans or other types by the YAML parser must be quoted (for example V(",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_container_info": {
+    "short_description": "Retrieves facts about docker container",
+    "description": "Retrieves facts about a docker container. Essentially returns the output of C(docker inspect <name>), similar to what M(community.docker.docker_container) returns for a non-absent container.",
+    "options": {
+      "name": {
+        "description": "The name of the container to inspect. When identifying an existing container name may be a name or a long or short container ID.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_context_info": {
+    "short_description": "Retrieve information on Docker contexts for the current user",
+    "description": "Return information on Docker contexts. This includes some generic information, as well as a RV(contexts[].config) dictionary that can be used for module defaults for all community.docker modules that use the C(community.docker.docker) module defaults group.",
+    "options": {
+      "only_current": {
+        "description": "If set to V(true), RV(contexts) will just contain the current context and none else. If set to V(false) (default), RV(contexts) will list all contexts, unless O(name) is specified. Mutually exclusive to O(name).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "name": {
+        "description": "A specific Docker CLI context to query. The module will fail if this context does not exist. If you simply want to query whether a context exists, do not specify this parameter and use Jinja2 to search the resulting list for a context of the given name instead. Mutually exclusive with O(only_current).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cli_context": {
+        "description": "Override for the default context",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_host_info": {
+    "short_description": "Retrieves facts about docker host and lists of objects of the services",
+    "description": "Retrieves facts about a docker host. Essentially returns the output of C(docker system info). The module also allows to list object names for containers, images, networks and volumes. It also allows to query information on disk usage. The output differs depending on API version of the docker daemon. If the docker daemon cannot be contacted or does not meet the API version requirements, the module will fail.",
+    "options": {
+      "containers": {
+        "description": "Whether to list containers.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "containers_all": {
+        "description": "By default, only running containers are returned. This corresponds to the C(--all) option to C(docker container list).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "containers_filters": {
+        "description": "A dictionary of filter values used for selecting containers to list. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_image": {
+    "short_description": "Manage docker images",
+    "description": "Build, load or pull an image, making the image available for creating containers. Also supports tagging an image, pushing an image, and archiving an image to a C(.tar) file. We recommend to use the individual modules M(community.docker.docker_image_build), M(community.docker.docker_image_export), M(community.docker.docker_image_load), M(community.docker.docker_image_pull), M(community.docker.docker_image_push), M(community.docker.docker_image_remove), and M(community.docker.docker_image_tag) instead of this module.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.docker.docker_image_build": {
+    "short_description": "Build Docker images using Docker buildx",
+    "description": "This module allows you to build Docker images using Docker",
+    "options": {},
+    "deprecated": null
+  },
+  "community.docker.docker_image_export": {
+    "short_description": "Export (archive) Docker images",
+    "description": "Creates an archive (tarball) from one or more Docker images. This can be copied to another machine and loaded with M(community.docker.docker_image_load).",
+    "options": {},
+    "deprecated": null
+  },
+  "community.docker.docker_image_info": {
+    "short_description": "Inspect docker images",
+    "description": "Provide one or more image names, and the module will inspect each, returning an array of inspection results. If an image does not exist locally, it will not appear in the results. If you want to check whether an image exists locally, you can call the module with the image name, then check whether the result list is empty (image does not exist) or has one element (the image exists locally). The module will not attempt to pull images from registries. Use M(community.docker.docker_image) with O(community.docker.docker_image#module:source=pull) to ensure an image is pulled.",
+    "options": {
+      "name": {
+        "description": "An image name or a list of image names. Name format will be C(name[:tag]) or C(repository/name[:tag]), where C(tag) is optional. If a tag is not provided, V(latest) will be used. Instead of image names, also image IDs can be used. If no name is provided, a list of all images will be returned.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_image_load": {
+    "short_description": "Load docker image(s) from archives",
+    "description": "Load one or multiple Docker images from a C(.tar) archive, and return information on the loaded image(s).",
+    "options": {
+      "path": {
+        "description": "The path to the C(.tar) archive to load Docker image(s) from.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_image_pull": {
+    "short_description": "Pull Docker images from registries",
+    "description": "Pulls a Docker image from a registry.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.docker.docker_image_push": {
+    "short_description": "Push Docker images to registries",
+    "description": "Pushes a Docker image to a registry.",
+    "options": {
+      "name": {
+        "description": "Image name. Name format must be one of V(name), V(repository/name), or V(registry_server:port/name). The name can optionally include the tag by appending V(:tag_name), or it can contain a digest by appending V(@hash:digest).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tag": {
+        "description": "Select which image to push. Defaults to V(latest). If O(name) parameter format is C(name:tag) or C(image@hash:digest), then O(tag) will be ignored.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "latest",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_image_remove": {
+    "short_description": "Remove Docker images",
+    "description": "Remove Docker images from the Docker daemon.",
+    "options": {
+      "name": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_image_tag": {
+    "short_description": "Tag Docker images with new names and/or tags",
+    "description": "This module allows to tag Docker images with new names and/or tags.",
+    "options": {
+      "name": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_login": {
+    "short_description": "Log into a Docker registry",
+    "description": "Provides functionality similar to the C(docker login) command. Authenticate with a docker registry and add the credentials to your local Docker config file respectively the credentials store associated to the registry. Adding the credentials to the config files resp. the credential store allows future connections to the registry using tools such as Ansible",
+    "options": {},
+    "deprecated": null
+  },
+  "community.docker.docker_network": {
+    "short_description": "Manage Docker networks",
+    "description": "Create/remove Docker networks and connect containers to them. Performs largely the same function as the C(docker network) CLI subcommand.",
+    "options": {
+      "name": {
+        "description": "Name of the network to operate on.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "network_name"
+        ]
+      },
+      "config_from": {
+        "description": "Specifies the config only network to use the config from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "config_only": {
+        "description": "Sets that this is a config only network.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "connected": {
+        "description": "List of container names or container IDs to connect to a network. Please note that the module only makes sure that these containers are connected to the network, but does not care about connection options. If you rely on specific IP addresses and so on, use the M(community.docker.docker_container) module to ensure your containers are correctly connected to this network.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "containers"
+        ]
+      },
+      "driver": {
+        "description": "Specify the type of network. Docker provides bridge and overlay drivers, but 3rd party drivers can also be used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "bridge",
+        "aliases": null
+      },
+      "driver_options": {
+        "description": "Dictionary of network settings. Consult docker docs for valid options and values.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "force": {
+        "description": "With state V(present) will disconnect all containers for existing networks, delete the network and re-create the network. This option is required if you have changed the IPAM or driver options and want an existing network to be updated to use the new options.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "appends": {
+        "description": "By default the connected list is canonical, meaning containers not on the list are removed from the network. Use O(appends) to leave existing containers connected.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "incremental"
+        ]
+      },
+      "enable_ipv4": {
+        "description": "Enable IPv4 networking. This is enabled by default, but can be explicitly disabled. Requires Docker API 1.47 or newer.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_ipv6": {
+        "description": "Enable IPv6 networking.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ingress": {
+        "description": "Enable Swarm routing-mesh.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipam_driver": {
+        "description": "Specify an IPAM driver.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipam_driver_options": {
+        "description": "Dictionary of IPAM driver options.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipam_config": {
+        "description": "List of IPAM config blocks. Consult L(Docker docs,https://docs.docker.com/compose/compose-file/compose-file-v2/#ipam) for valid options and values. Note that O(ipam_config[].iprange) is spelled differently here (we use the notation from the Docker SDK for Python).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "V(absent) deletes the network. If a network has connected containers, these will be detached from the network. V(present) creates the network, if it does not already exist with the specified parameters, and connects the list of containers provided by the O(connected) parameter. Containers not on the list will be disconnected. An empty list will leave no containers connected to the network. Use the O(appends) option to leave existing containers connected. Use the O(force) options to force re-creation of the network.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "internal": {
+        "description": "Restrict external access to the network.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "Dictionary of labels.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "scope": {
+        "description": "Specify the network",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_network_info": {
+    "short_description": "Retrieves facts about docker network",
+    "description": "Retrieves facts about a docker network. Essentially returns the output of C(docker network inspect <name>), similar to what M(community.docker.docker_network) returns for a non-absent network.",
+    "options": {
+      "name": {
+        "description": "The name of the network to inspect. When identifying an existing network name may be a name or a long or short network ID.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_node": {
+    "short_description": "Manage Docker Swarm node",
+    "description": "Manages the Docker nodes through a Swarm Manager. This module allows to change the node",
+    "options": {},
+    "deprecated": null
+  },
+  "community.docker.docker_node_info": {
+    "short_description": "Retrieves facts about docker swarm node from Swarm Manager",
+    "description": "Retrieves facts about a docker node. Essentially returns the output of C(docker node inspect <name>). Must be executed on a host running as Swarm Manager, otherwise the module will fail.",
+    "options": {
+      "name": {
+        "description": "The name of the node to inspect. The list of nodes names to inspect. If empty then return information of all nodes in Swarm cluster. When identifying the node use either the hostname of the node (as registered in Swarm) or node ID. If O(self=true) then this parameter is ignored.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "self": {
+        "description": "If V(true), queries the node (that is, the docker daemon) the module communicates with. If V(true) then O(name) is ignored. If V(false) then query depends on O(name) presence and value.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_plugin": {
+    "short_description": "Manage Docker plugins",
+    "description": "This module allows to install, delete, enable and disable Docker plugins. Performs largely the same function as the C(docker plugin) CLI subcommand.",
+    "options": {
+      "plugin_name": {
+        "description": "Name of the plugin to operate on.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "V(absent) remove the plugin. V(present) install the plugin, if it does not already exist. V(enable) enable the plugin. V(disable) disable the plugin.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "enable",
+          "disable"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "alias": {
+        "description": "Local name for plugin.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "plugin_options": {
+        "description": "Dictionary of plugin settings.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "force_remove": {
+        "description": "Remove even if the plugin is enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "enable_timeout": {
+        "description": "Timeout in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_prune": {
+    "short_description": "Allows to prune various docker objects",
+    "description": "Allows to run C(docker container prune), C(docker image prune), C(docker network prune) and C(docker volume prune) through the Docker API.",
+    "options": {
+      "containers": {
+        "description": "Whether to prune containers.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "containers_filters": {
+        "description": "A dictionary of filter values used for selecting containers to delete. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_secret": {
+    "short_description": "Manage docker secrets",
+    "description": "Create and remove Docker secrets in a Swarm environment. Similar to C(docker secret create) and C(docker secret rm). Adds to the metadata of new secrets C(ansible_key), an encrypted hash representation of the data, which is then used in future runs to test if a secret has changed. If C(ansible_key) is not present, then a secret will not be updated unless the O(force) option is set. Updates to secrets are performed by removing the secret and creating it again.",
+    "options": {
+      "data": {
+        "description": "The value of the secret. Mutually exclusive with O(data_src). One of O(data) and O(data_src) is required if O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "data_is_b64": {
+        "description": "If set to V(true), the data is assumed to be Base64 encoded and will be decoded before being used. To use binary O(data), it is better to keep it Base64 encoded and let it be decoded by this option.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "data_src": {
+        "description": "The file on the target from which to read the secret. Mutually exclusive with O(data). One of O(data) and O(data_src) is required if O(state=present).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "A map of key:value meta data, where both key and value are expected to be strings. If new meta data is provided, or existing meta data is modified, the secret will be updated by removing it and creating it again.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Use with O(state=present) to always remove and recreate an existing secret. If V(true), an existing secret will be replaced, even if it has not changed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "rolling_versions": {
+        "description": "If set to V(true), secrets are created with an increasing version number appended to their name. Adds a label containing the version number to the managed secrets with the name C(ansible_version).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "versions_to_keep": {
+        "description": "When using O(rolling_versions), the number of old versions of the secret to keep. Extraneous old secrets are deleted after the new one is created. Set to V(-1) to keep everything or to V(0) or V(1) to keep only the current one.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the secret.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Set to V(present), if the secret should exist, and V(absent), if it should not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_stack": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.docker.docker_stack_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.docker.docker_stack_task_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.docker.docker_swarm": {
+    "short_description": "Manage Swarm cluster",
+    "description": "Create a new Swarm cluster. Add/Remove nodes or managers to an existing cluster.",
+    "options": {
+      "advertise_addr": {
+        "description": "Externally reachable address advertised to other nodes. This can either be an address/port combination in the form V(192.168.1.1:4567), or an interface followed by a port number, like V(eth0:4567). If the port number is omitted, the port number from the listen address is used. If O(advertise_addr) is not specified, it will be automatically detected when possible. Only used when swarm is initialised or joined. Because of this it is not considered for idempotency checking.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_addr_pool": {
+        "description": "Default address pool in CIDR format. Only used when swarm is initialised. Because of this it is not considered for idempotency checking. Requires API version >= 1.39.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subnet_size": {
+        "description": "Default address pool subnet mask length. Only used when swarm is initialised. Because of this it is not considered for idempotency checking. Requires API version >= 1.39.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "listen_addr": {
+        "description": "Listen address used for inter-manager communication. This can either be an address/port combination in the form V(192.168.1.1:4567), or an interface followed by a port number, like V(eth0:4567). If the port number is omitted, the default swarm listening port is used. Only used when swarm is initialised or joined. Because of this it is not considered for idempotency checking.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "0.0.0.0:2377",
+        "aliases": null
+      },
+      "force": {
+        "description": "Use with state V(present) to force creating a new Swarm, even if already part of one. Use with state V(absent) to Leave the swarm even if this node is a manager.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Set to V(present), to create/update a new cluster. Set to V(join), to join an existing cluster. Set to V(absent), to leave an existing cluster. Set to V(remove), to remove an absent node from the cluster. Note that removing requires Docker SDK for Python >= 2.4.0. M(community.docker.docker_node) can be used to demote a manager before removal.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "join",
+          "absent",
+          "remove"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "node_id": {
+        "description": "Swarm id of the node to remove. Used with O(state=remove).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "join_token": {
+        "description": "Swarm token used to join a swarm cluster. Used with O(state=join). If this value is specified, the corresponding value in the return values will be censored by Ansible. This is a side-effect of this value not being logged.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remote_addrs": {
+        "description": "Remote address of one or more manager nodes of an existing Swarm to connect to. Used with O(state=join).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "task_history_retention_limit": {
+        "description": "Maximum number of tasks history stored. Docker default value is V(5).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_interval": {
+        "description": "Number of logs entries between snapshot. Docker default value is V(10000).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "keep_old_snapshots": {
+        "description": "Number of snapshots to keep beyond the current snapshot. Docker default value is V(0).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "log_entries_for_slow_followers": {
+        "description": "Number of log entries to keep around to sync up slow followers after a snapshot is created.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "heartbeat_tick": {
+        "description": "Amount of ticks (in seconds) between each heartbeat. Docker default value is V(1) seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "election_tick": {
+        "description": "Amount of ticks (in seconds) needed without a leader to trigger a new election. Docker default value is V(10) seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dispatcher_heartbeat_period": {
+        "description": "The delay (in nanoseconds) for an agent to send a heartbeat to the dispatcher. Docker default value is 5 seconds, which corresponds to a value of V(5000000000).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "node_cert_expiry": {
+        "description": "Automatic expiry for nodes certificates, given in nanoseconds. Docker default value is 90 days, which corresponds to a value of V(7776000000000000).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the swarm.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "User-defined key/value metadata. Label operations in this module apply to the docker swarm cluster. Use M(community.docker.docker_node) module to add/modify/remove swarm node labels. Requires API version >= 1.32.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "signing_ca_cert": {
+        "description": "The desired signing CA certificate for all swarm node TLS leaf certificates, in PEM format. This must not be a path to a certificate, but the contents of the certificate. Requires API version >= 1.30.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "signing_ca_key": {
+        "description": "The desired signing CA key for all swarm node TLS leaf certificates, in PEM format. This must not be a path to a key, but the contents of the key. Requires API version >= 1.30.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ca_force_rotate": {
+        "description": "An integer whose purpose is to force swarm to generate a new signing CA certificate and key, if none have been specified. Docker default value is V(0). Requires API version >= 1.30.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "autolock_managers": {
+        "description": "If set, generate a key and use it to lock data stored on the managers. Docker default value is V(false). M(community.docker.docker_swarm_info) can be used to retrieve the unlock key.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rotate_worker_token": {
+        "description": "Rotate the worker join token.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "rotate_manager_token": {
+        "description": "Rotate the manager join token.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "data_path_addr": {
+        "description": "Address or interface to use for data path traffic. This can either be an address in the form V(192.168.1.1), or an interface, like V(eth0). Only used when swarm is initialised or joined. Because of this it is not considered for idempotency checking. Requires API version >= 1.30.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "data_path_port": {
+        "description": "Port to use for data path traffic. This needs to be a port number like V(9789). Only used when swarm is initialised. Because of this it is not considered for idempotency checking. Requires API version >= 1.40.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_swarm_info": {
+    "short_description": "Retrieves facts about Docker Swarm cluster",
+    "description": "Retrieves facts about a Docker Swarm. Returns lists of swarm objects names for the services - nodes, services, tasks. The output differs depending on API version available on docker host. Must be run on Swarm Manager node; otherwise module fails with error message. It does return boolean flags in on both error and success which indicate whether the docker daemon can be communicated with, whether it is in Swarm mode, and whether it is a Swarm Manager node.",
+    "options": {
+      "nodes": {
+        "description": "Whether to list swarm nodes.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "nodes_filters": {
+        "description": "A dictionary of filter values used for selecting nodes to list. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_swarm_service": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.docker.docker_swarm_service_info": {
+    "short_description": "Retrieves information about docker services from a Swarm Manager",
+    "description": "Retrieves information about a docker service. Essentially returns the output of C(docker service inspect <name>). Must be executed on a host running as Swarm Manager, otherwise the module will fail.",
+    "options": {
+      "name": {
+        "description": "The name of the service to inspect.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_volume": {
+    "short_description": "Manage Docker volumes",
+    "description": "Create/remove Docker volumes. Performs largely the same function as the C(docker volume) CLI subcommand.",
+    "options": {
+      "volume_name": {
+        "description": "Name of the volume to operate on.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "driver": {
+        "description": "Specify the type of volume. Docker provides the V(local) driver, but 3rd party drivers can also be used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "local",
+        "aliases": null
+      },
+      "driver_options": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.docker.docker_volume_info": {
+    "short_description": "Retrieve facts about Docker volumes",
+    "description": "Performs largely the same function as the C(docker volume inspect) CLI subcommand.",
+    "options": {
+      "name": {
+        "description": "Name of the volume to inspect.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "volume_name"
+        ]
+      }
+    },
+    "deprecated": null
+  }
+}

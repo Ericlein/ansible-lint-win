@@ -1,0 +1,1159 @@
+{
+  "junipernetworks.junos.junos_acl_interfaces": {
+    "short_description": "ACL interfaces resource module",
+    "description": "This module manages adding and removing Access Control Lists (ACLs) from interfaces on devices running Juniper JUNOS.",
+    "options": {
+      "config": {
+        "description": "A dictionary of ACL options for interfaces.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show interfaces). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_acls": {
+    "short_description": "ACLs resource module",
+    "description": "This module provides declarative management of acls/filters on Juniper JUNOS devices",
+    "options": {
+      "config": {
+        "description": "A dictionary of acls options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show firewall). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_banner": {
+    "short_description": "Manage multiline banners on Juniper JUNOS devices",
+    "description": "This will configure both login and motd banners on network devices. It allows playbooks to add or remote banner text from the active running configuration.",
+    "options": {
+      "banner": {
+        "description": "Specifies which banner that should be configured on the remote device. Value C(login) indicates system login message prior to authenticating, C(motd) is login announcement after successful authentication.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "login",
+          "motd"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "text": {
+        "description": "The banner text that should be present in the remote device running configuration.  This argument accepts a multiline string, with no empty lines. Requires I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies whether or not the configuration is present in the current devices active running configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "active": {
+        "description": "Specifies whether or not the configuration is active or deactivated",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_bgp_address_family": {
+    "short_description": "Manage BGP Address Family attributes of interfaces on Junos devices.",
+    "description": "Manage BGP Address Family attributes of interfaces on Junos network devices.",
+    "options": {
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show protocols bgp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_bgp_global": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_command": {
+    "short_description": "Run arbitrary commands on an Juniper JUNOS device",
+    "description": "Sends an arbitrary set of commands to an JUNOS node and returns the results read from the device.  This module includes an argument that will cause the module to wait for a specific condition before returning or timing out if the condition is not met.",
+    "options": {
+      "commands": {
+        "description": "The commands to send to the remote junos device.  The resulting output from the command is returned.  If the I(wait_for) argument is provided, the module is not returned until the condition is satisfied or the number of I(retries) has been exceeded.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rpcs": {
+        "description": "The C(rpcs) argument accepts a list of RPCs to be executed over a netconf session and the results from the RPC execution is return to the playbook via the modules results dictionary.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait_for": {
+        "description": "Specifies what to evaluate from the output of the command and what conditionals to apply.  This argument will cause the task to wait for a particular conditional to be true before moving forward.   If the conditional is not true by the configured retries, the task fails.  See examples.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "waitfor"
+        ]
+      },
+      "match": {
+        "description": "The I(match) argument is used in conjunction with the I(wait_for) argument to specify the match policy.  Valid values are C(all) or C(any).  If the value is set to C(all) then all conditionals in the I(wait_for) must be satisfied.  If the value is set to C(any) then only one of the values must be satisfied.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "any",
+          "all"
+        ],
+        "default": "all",
+        "aliases": null
+      },
+      "retries": {
+        "description": "Specifies the number of retries a command should be tried before it is considered failed.  The command is run on the target device every retry and evaluated against the I(wait_for) conditionals.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "interval": {
+        "description": "Configures the interval in seconds to wait between retries of the command.  If the command does not pass the specified conditional, the interval indicates how to long to wait before trying the command again.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "display": {
+        "description": "Encoding scheme to use when serializing output from the device. This handles how to properly understand the output and apply the conditionals path to the result set. For I(rpcs) argument default display is C(xml) and for I(commands) argument default display is C(text). Value C(set) is applicable only for fetching configuration from device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "text",
+          "json",
+          "xml",
+          "set"
+        ],
+        "default": null,
+        "aliases": [
+          "format",
+          "output"
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_config": {
+    "short_description": "Manage configuration on devices running Juniper JUNOS",
+    "description": "This module provides an implementation for working with the active configuration running on Juniper JUNOS devices.  It provides a set of arguments for loading configuration, performing rollback operations and zeroing the active configuration on the device.",
+    "options": {
+      "lines": {
+        "description": "This argument takes a list of C(set) or C(delete) configuration lines to push into the remote device.  Each line must start with either C(set) or C(delete).  This argument is mutually exclusive with the I(src) argument.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "commands"
+        ]
+      },
+      "src": {
+        "description": "The I(src) argument provides a path to the configuration file to load into the remote system. The path can either be a full system path to the configuration file if the value starts with / or relative to the root of the implemented role or playbook. This argument is mutually exclusive with the I(lines) argument.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "src_format": {
+        "description": "The I(src_format) argument specifies the format of the configuration found int I(src).  If the I(src_format) argument is not provided, the module will attempt to determine the format of the configuration file specified in I(src).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "xml",
+          "set",
+          "text",
+          "json"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "rollback": {
+        "description": "The C(rollback) argument instructs the module to rollback the current configuration to the identifier specified in the argument.  If the specified rollback identifier does not exist on the remote device, the module will fail.  To rollback to the most recent commit, set the C(rollback) argument to 0.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "zeroize": {
+        "description": "The C(zeroize) argument is used to completely sanitize the remote device configuration back to initial defaults.  This argument will effectively remove all current configuration statements on the remote device.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "confirm": {
+        "description": "The C(confirm) argument will configure a time out value in minutes for the commit to be confirmed before it is automatically rolled back. If the value for this argument is set to 0, the commit is confirmed immediately which is also the default behaviour.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "comment": {
+        "description": "The C(comment) argument specifies a text string to be used when committing the configuration.  If the C(confirm) argument is set to False, this argument is silently ignored.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "configured by junos_config",
+        "aliases": null
+      },
+      "replace": {
+        "description": "The C(replace) argument will instruct the remote device to replace the current configuration hierarchy with the one specified in the corresponding hierarchy of the source configuration loaded from this module. Note this argument should be considered deprecated.  To achieve the equivalent, set the I(update) argument to C(replace). This argument will be removed in a future release. The C(replace) and C(update) argument is mutually exclusive.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup": {
+        "description": "This argument will cause the module to create a full backup of the current C(running-config) from the remote device before any changes are made. If the C(backup_options) value is not given, the backup file is written to the C(backup) folder in the playbook root directory or role root directory, if playbook is part of an ansible role. If the directory does not exist, it is created.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "update": {
+        "description": "This argument will decide how to load the configuration data particularly when the candidate configuration and loaded configuration contain conflicting statements. Following are accepted values. C(merge) combines the data in the loaded configuration with the candidate configuration. If statements in the loaded configuration conflict with statements in the candidate configuration, the loaded statements replace the candidate ones. C(override) discards the entire candidate configuration and replaces it with the loaded configuration. C(replace) substitutes each hierarchy level in the loaded configuration for the corresponding level. C(update) is similar to the override option. The new configuration completely replaces the existing configuration. The difference comes when the configuration is later committed. This option performs a",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_facts": {
+    "short_description": "Collect facts from remote devices running Juniper Junos",
+    "description": "Collects fact information from a remote device running the Junos operating system.  By default, the module will collect basic fact information from the device to be included with the hostvars. Additional fact information can be collected based on the configured set of arguments.",
+    "options": {
+      "gather_subset": {
+        "description": "When supplied, this argument will restrict the facts collected to a given subset.  Possible values for this argument include C(all), C(hardware), C(config), C(interfaces) and C(min). Can specify a list of values to include a larger subset.  Values can also be used with an initial C(!) to specify that a specific subset should not be collected. To maintain backward compatibility old style facts can be retrieved by explicitly adding C(ofacts)  to value, this requires junos-eznc to be installed as a prerequisite. Valid value of gather_subset are default, hardware, config, interfaces, ofacts. If C(ofacts) is present in the list it fetches the old style facts (fact keys without",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_hostname": {
+    "short_description": "Manage Hostname server configuration on Junos devices.",
+    "description": "This module manages hostname configuration on devices running Junos.",
+    "options": {
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show system hostname). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_interfaces": {
+    "short_description": "Junos Interfaces resource module",
+    "description": "This module manages the interfaces on Juniper Junos OS network devices.",
+    "options": {
+      "config": {
+        "description": "The provided configuration",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show interfaces). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_l2_interfaces": {
+    "short_description": "L2 interfaces resource module",
+    "description": "This module provides declarative management of a Layer-2 interface on Juniper JUNOS devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of Layer-2 interface options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_l3_interfaces": {
+    "short_description": "L3 interfaces resource module",
+    "description": "This module provides declarative management of a Layer 3 interface on Juniper JUNOS devices",
+    "options": {
+      "config": {
+        "description": "A dictionary of Layer 3 interface options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show interfaces). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_lacp": {
+    "short_description": "Global Link Aggregation Control Protocol (LACP) Junos resource module",
+    "description": "This module provides declarative management of global LACP on Juniper Junos network devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of LACP global options",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show chassis aggregated-devices ethernet lacp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_lacp_interfaces": {
+    "short_description": "LACP interfaces resource module",
+    "description": "This module manages Link Aggregation Control Protocol (LACP) attributes of interfaces on Juniper JUNOS devices.",
+    "options": {
+      "config": {
+        "description": "The list of dictionaries of LACP interfaces options.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_lag_interfaces": {
+    "short_description": "Link Aggregation Juniper JUNOS resource module",
+    "description": "This module manages properties of Link Aggregation Group on Juniper JUNOS devices.",
+    "options": {
+      "config": {
+        "description": "A list of link aggregation group configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show interfaces). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_lldp_global": {
+    "short_description": "LLDP resource module",
+    "description": "This module manages link layer discovery protocol (LLDP) attributes on Juniper JUNOS devices.",
+    "options": {
+      "config": {
+        "description": "The list of link layer discovery protocol attribute configurations",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show protocols lldp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_lldp_interfaces": {
+    "short_description": "LLDP interfaces resource module",
+    "description": "This module manages link layer discovery protocol (LLDP) attributes of interfaces on Juniper JUNOS devices.",
+    "options": {
+      "config": {
+        "description": "The list of link layer discovery protocol interface attribute configurations",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show protocols lldp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_logging_global": {
+    "short_description": "Manage logging configuration on Junos devices.",
+    "description": "This module manages logging configuration on devices running Junos.",
+    "options": {
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show system syslog). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_netconf": {
+    "short_description": "Configures the Junos Netconf system service",
+    "description": "This module provides an abstraction that enables and configures the netconf system service running on Junos devices.  This module can be used to easily enable the Netconf API. Netconf provides a programmatic interface for working with configuration and state resources as defined in RFC 6242. If the C(netconf_port) is not mentioned in the task by default netconf will be enabled on port 830 only.",
+    "options": {
+      "netconf_port": {
+        "description": "This argument specifies the port the netconf service should listen on for SSH connections.  The default port as defined in RFC 6242 is 830.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 830,
+        "aliases": [
+          "listens_on"
+        ]
+      },
+      "state": {
+        "description": "Specifies the state of the C(junos_netconf) resource on the remote device.  If the I(state) argument is set to I(present) the netconf service will be configured.  If the I(state) argument is set to I(absent) the netconf service will be removed from the configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_ntp_global": {
+    "short_description": "Manage NTP configuration on Junos devices.",
+    "description": "This module manages NTP configuration on devices running Junos.",
+    "options": {
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show system syslog). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_ospfv2": {
+    "short_description": "OSPFv2 resource module",
+    "description": "This module manages OSPFv2 configuration on devices running Juniper JUNOS.",
+    "options": {
+      "config": {
+        "description": "A list of OSPFv2 process configuration.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_ospfv3": {
+    "short_description": "OSPFv3 resource module",
+    "description": "This module manages global OSPFv3 configuration on devices running Juniper JUNOS.",
+    "options": {
+      "config": {
+        "description": "A list of OSPFv3 process configuration.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_package": {
+    "short_description": "Installs packages on remote devices running Junos",
+    "description": "This module can install new and updated packages on remote devices running Junos.  The module will compare the specified package with the one running on the remote device and install the specified version if there is a mismatch",
+    "options": {
+      "src": {
+        "description": "The I(src) argument specifies the path to the source package to be installed on the remote device in the advent of a version mismatch. The I(src) argument can be either a localized path or a full path to the package file to install.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "package"
+        ]
+      },
+      "version": {
+        "description": "The I(version) argument can be used to explicitly specify the version of the package that should be installed on the remote device.  If the I(version) argument is not specified, then the version is extracts from the I(src) filename.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "reboot": {
+        "description": "In order for a package to take effect, the remote device must be restarted.  When enabled, this argument will instruct the module to reboot the device once the updated package has been installed. If disabled or the remote package does not need to be changed, the device will not be started.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "no_copy": {
+        "description": "The I(no_copy) argument is responsible for instructing the remote device on where to install the package from.  When enabled, the package is transferred to the remote device prior to installing.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "unlink": {
+        "description": "The I(unlink) argument is responsible for instructing the remote device to remove the installation packages after installation.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "validate": {
+        "description": "The I(validate) argument is responsible for instructing the remote device to skip checking the current device configuration compatibility with the package being installed. When set to false validation is not performed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "force": {
+        "description": "The I(force) argument instructs the module to bypass the package version check and install the packaged identified in I(src) on the remote device.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "force_host": {
+        "description": "The I(force_host) argument controls the way software package or bundle is added on remote JUNOS host and is applicable for JUNOS QFX5100 device. If the value is set to C(True) it will ignore any warnings while adding the host software package or bundle.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "issu": {
+        "description": "The I(issu) argument is a boolean flag when set to C(True) allows unified in-service software upgrade (ISSU) feature which enables you to upgrade between two different Junos OS releases with no disruption on the control plane and with minimal disruption of traffic.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "ssh_private_key_file": {
+        "description": "The C(ssh_private_key_file) argument is path to the SSH private key file. This can be used if you need to provide a private key rather than loading the key into the ssh-key-ring/environment",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssh_config": {
+        "description": "The C(ssh_config) argument is path to the SSH configuration file. This can be used to load SSH information from a configuration file. If this option is not given by default ~/.ssh/config is queried.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "provider": {
+        "description": "B(Deprecated) ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_ping": {
+    "short_description": "Tests reachability using ping from devices running Juniper JUNOS",
+    "description": "Tests reachability using ping from devices running Juniper JUNOS to a remote destination. Tested against Junos (17.3R1.10) For a general purpose network module, see the M(ansible.netcommon.net_ping) module. For Windows targets, use the M(ansible.windows.win_ping) module instead. For targets running Python, use the M(ansible.builtin.ping) module instead.",
+    "options": {
+      "dest": {
+        "description": "The IP Address or hostname (resolvable by the device) of the remote node.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "df_bit": {
+        "description": "Determines whether to set the DF bit.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "rapid": {
+        "description": "Determines whether to send the packets rapidly.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "count": {
+        "description": "Number of packets to send to check reachability.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "source": {
+        "description": "The IP Address to use while sending the ping packet(s).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interface": {
+        "description": "The source interface to use while sending the ping packet(s).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ttl": {
+        "description": "The time-to-live value for the ICMP packet(s).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "size": {
+        "description": "Determines the size (in bytes) of the ping packet(s).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interval": {
+        "description": "Determines the interval (in seconds) between consecutive pings.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Determines if the expected result is success or fail.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_prefix_lists": {
+    "short_description": "Manage prefix-lists attributes of interfaces on Junos devices.",
+    "description": "Manage prefix-lists attributes of interfaces on Junos network devices.",
+    "options": {
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show policy-options). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_routing_instances": {
+    "short_description": "Manage routing instances on Junos devices.",
+    "description": "Manage routing instances on Junos network devices.",
+    "options": {
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show routing-instances). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_routing_options": {
+    "short_description": "Manage routing-options configuration on Junos devices.",
+    "description": "This module manages routing-options configuration on devices running Junos.",
+    "options": {
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show system routing-options). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_security_policies": {
+    "short_description": "Create and manage security policies on Juniper JUNOS devices",
+    "description": "This module provides declarative creation and management of security policies on Juniper JUNOS devices",
+    "options": {
+      "config": {
+        "description": "A dictionary of security policies",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_security_policies_global": {
+    "short_description": "Manage global security policy settings on Juniper JUNOS devices",
+    "description": "This module provides declarative management of global security policy settings on Juniper JUNOS devices",
+    "options": {
+      "config": {
+        "description": "A dictionary of security policies",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the JunOS device by executing the command B(show security policies). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_security_zones": {
+    "short_description": "Manage security zones on Juniper JUNOS devices",
+    "description": "This module provides declarative management of security zones on Juniper JUNOS devices",
+    "options": {
+      "config": {
+        "description": "Dictionary of security zone parameters",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the JunOS device by executing the command B(show security policies). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_snmp_server": {
+    "short_description": "Manage SNMP server configuration on Junos devices.",
+    "description": "This module manages SNMP server configuration on devices running Junos.",
+    "options": {
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show system snmp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_static_routes": {
+    "short_description": "Static routes resource module",
+    "description": "This module provides declarative management of static routes on Juniper JUNOS devices",
+    "options": {
+      "config": {
+        "description": "A dictionary of static routes options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show routing-options). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_system": {
+    "short_description": "Manage the system attributes on Juniper JUNOS devices",
+    "description": "This module provides declarative management of node system attributes on Juniper JUNOS devices.  It provides an option to configure host system parameters or remove those parameters from the device active configuration.",
+    "options": {
+      "hostname": {
+        "description": "Configure the device hostname parameter. This option takes an ASCII string value.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_name": {
+        "description": "Configure the IP domain name on the remote device to the provided value. Value should be in the dotted name form and will be appended to the C(hostname) to create a fully-qualified domain name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_search": {
+        "description": "Provides the list of domain suffixes to append to the hostname for the purpose of doing name resolution. This argument accepts a list of names and will be reconciled with the current active configuration on the running node.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name_servers": {
+        "description": "List of DNS name servers by IP address to use to perform name resolution lookups.  This argument accepts either a list of DNS servers See examples.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the configuration values in the device",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_user": {
+    "short_description": "Manage local user accounts on Juniper JUNOS devices",
+    "description": "This module manages locally configured user accounts on remote network devices running the JUNOS operating system.  It provides a set of arguments for creating, removing and updating locally defined accounts",
+    "options": {
+      "aggregate": {
+        "description": "The C(aggregate) argument defines a list of users to be configured on the remote device.  The list of users will be compared against the current users and only changes will be added or removed from the device configuration.  This argument is mutually exclusive with the name argument.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "users",
+          "collection"
+        ]
+      },
+      "name": {
+        "description": "The C(name) argument defines the username of the user to be created on the system.  This argument must follow appropriate usernaming conventions for the target device running JUNOS.  This argument is mutually exclusive with the C(aggregate) argument.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "full_name": {
+        "description": "The C(full_name) argument provides the full name of the user account to be created on the remote device.  This argument accepts any text string value.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role": {
+        "description": "The C(role) argument defines the role of the user account on the remote system.  User accounts can have more than one role configured.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "operator",
+          "read-only",
+          "super-user",
+          "unauthorized"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "sshkey": {
+        "description": "The C(sshkey) argument defines the public SSH key to be configured for the user account on the remote system.  This argument must be a valid SSH key",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "encrypted_password": {
+        "description": "The C(encrypted_password) argument set already hashed password for the user account on the remote system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge": {
+        "description": "The C(purge) argument instructs the module to consider the users definition absolute.  It will remove any previously configured users on the device with the exception of the current defined set of aggregate.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "The C(state) argument configures the state of the user definitions as it relates to the device operational configuration.  When set to I(present), the user should be configured in the device active configuration and when set to I(absent) the user should not be in the device active configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "active": {
+        "description": "Specifies whether or not the configuration is active or deactivated",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_vlans": {
+    "short_description": "VLANs resource module",
+    "description": "This module creates and manages VLAN configurations on Junos OS.",
+    "options": {
+      "config": {
+        "description": "A dictionary of Vlan options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Junos device by executing the command B(show vlans). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "junipernetworks.junos.junos_vrf": {
+    "short_description": "Manage the VRF definitions on Juniper JUNOS devices",
+    "description": "This module provides declarative management of VRF definitions on Juniper JUNOS devices.  It allows playbooks to manage individual or the entire VRF collection.",
+    "options": {
+      "name": {
+        "description": "The name of the VRF definition to be managed on the remote IOS device.  The VRF definition name is an ASCII string name used to uniquely identify the VRF.  This argument is mutually exclusive with the C(aggregate) argument",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Provides a short description of the VRF definition in the current active configuration.  The VRF definition value accepts alphanumeric characters used to provide additional information about the VRF.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rd": {
+        "description": "The router-distinguisher value uniquely identifies the VRF to routing processes on the remote IOS system.  The RD value takes the form of C(A:B) where C(A) and C(B) are both numeric values.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interfaces": {
+        "description": "Identifies the set of interfaces that should be configured in the VRF. Interfaces must be routed interfaces in order to be placed into a VRF.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target": {
+        "description": "It configures VRF target community configuration. The target value takes the form of C(target:A:B) where C(A) and C(B) are both numeric values.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "table_label": {
+        "description": "Causes JUNOS to allocate a VPN label per VRF rather than per VPN FEC. This allows for forwarding of traffic to directly connected subnets, COS Egress filtering etc.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "aggregate": {
+        "description": "The set of VRF definition objects to be configured on the remote JUNOS device.  Ths list entries can either be the VRF name or a hash of VRF definitions and attributes.  This argument is mutually exclusive with the C(name) argument.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the state of the VRF definition as it relates to the device operational configuration.  When set to I(present), the VRF should be configured in the device active configuration and when set to I(absent) the VRF should not be in the device active configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "active": {
+        "description": "Specifies whether or not the configuration is active or deactivated",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

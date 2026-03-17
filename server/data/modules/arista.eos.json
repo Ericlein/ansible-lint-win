@@ -1,0 +1,869 @@
+{
+  "arista.eos.eos_acl_interfaces": {
+    "short_description": "ACL interfaces resource module",
+    "description": "This module manages adding and removing Access Control Lists (ACLs) from interfaces on devices running EOS software.",
+    "options": {
+      "config": {
+        "description": "A dictionary of ACL options for interfaces.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "The module, by default, will connect to the remote device and retrieve the current running-config to use as a base for comparing against the contents of source. There are times when it is not desirable to have the task get the current running-config for every task in a playbook.  The I(running_config) argument allows the implementer to pass in the configuration to use as the base config for comparison. This value of this option should be the output received from device by executing command",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "parsed",
+          "rendered"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_acls": {
+    "short_description": "ACLs resource module",
+    "description": "This module manages the IP access-list attributes of Arista EOS interfaces.",
+    "options": {
+      "config": {
+        "description": "A dictionary of IP access-list options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_banner": {
+    "short_description": "Manage multiline banners on Arista EOS devices",
+    "description": "This will configure both login and motd banners on remote devices running Arista EOS.  It allows playbooks to add or remote banner text from the active running configuration.",
+    "options": {
+      "banner": {
+        "description": "Specifies which banner that should be configured on the remote device.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "login",
+          "motd"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "text": {
+        "description": "The banner text that should be present in the remote device running configuration.  This argument accepts a multiline string. Requires I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies whether or not the configuration is present in the current devices active running configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_config": {
+    "short_description": "Manage Arista EOS configuration sections",
+    "description": "Arista EOS configurations use a simple block indent file syntax for segmenting configuration into sections.  This module provides an implementation for working with EOS configuration sections in a deterministic way.  This module works with either CLI or eAPI transports.",
+    "options": {
+      "lines": {
+        "description": "The ordered set of commands that should be configured in the section. The commands must be the exact same commands as found in the device running-config as found in the device running-config to ensure idempotency and correct diff. Be sure to note the configuration command syntax as some commands are automatically modified by the device config parser.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "commands"
+        ]
+      },
+      "parents": {
+        "description": "The ordered set of parents that uniquely identify the section or hierarchy the commands should be checked against.  If the parents argument is omitted, the commands are checked against the set of top level or global commands.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "src": {
+        "description": "The I(src) argument provides a path to the configuration file to load into the remote system.  The path can either be a full system path to the configuration file if the value starts with / or relative to the root of the implemented role or playbook. This argument is mutually exclusive with the I(lines) and I(parents) arguments. It can be a Jinja2 template as well. The configuration lines in the source file should be similar to how it will appear if present in the running-configuration (live switch config) of the device i ncluding the indentation to ensure idempotency and correct diff. Arista EOS device config has 3 spaces indentation.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "before": {
+        "description": "The ordered set of commands to push on to the command stack if a change needs to be made.  This allows the playbook designer the opportunity to perform configuration commands prior to pushing any changes without affecting how the set of commands are matched against the system.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "after": {
+        "description": "The ordered set of commands to append to the end of the command stack if a change needs to be made.  Just like with I(before) this allows the playbook designer to append a set of commands to be executed after the command set.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "match": {
+        "description": "Instructs the module on the way to perform the matching of the set of commands against the current device config.  If match is set to I(line), commands are matched line by line.  If match is set to I(strict), command lines are matched with respect to position.  If match is set to I(exact), command lines must be an equal match.  Finally, if match is set to I(none), the module will not attempt to compare the source configuration with the running configuration on the remote device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "line",
+          "strict",
+          "exact",
+          "none"
+        ],
+        "default": "line",
+        "aliases": null
+      },
+      "replace": {
+        "description": "Instructs the module on the way to perform the configuration on the device.  If the replace argument is set to I(line) then the modified lines are pushed to the device in configuration mode.  If the replace argument is set to I(block) then the entire command block is pushed to the device in configuration mode if any line is not correct.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "line",
+          "block",
+          "config"
+        ],
+        "default": "line",
+        "aliases": null
+      },
+      "backup": {
+        "description": "This argument will cause the module to create a full backup of the current C(running-config) from the remote device before any changes are made. If the C(backup_options) value is not given, the backup file is written to the C(backup) folder in the playbook root directory or role root directory, if playbook is part of an ansible role. If the directory does not exist, it is created.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "The module, by default, will connect to the remote device and retrieve the current running-config to use as a base for comparing against the contents of source.  There are times when it is not desirable to have the task get the current running-config for every task in a playbook.  The I(running_config) argument allows the implementer to pass in the configuration to use as the base config for this module. The configuration lines for this option should be similar to how it will appear if present in the running-configuration of the device including the indentation to ensure idempotency and correct diff.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "config"
+        ]
+      },
+      "defaults": {
+        "description": "The I(defaults) argument will influence how the running-config is collected from the device.  When the value is set to true, the command used to collect the running-config is append with the all keyword.  When the value is set to false, the command is issued without the all keyword",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "save_when": {
+        "description": "When changes are made to the device running-configuration, the changes are not copied to non-volatile storage by default.  Using this argument will change that before.  If the argument is set to I(always), then the running-config will always be copied to the startup-config and the I(modified) flag will always be set to True.  If the argument is set to I(modified), then the running-config will only be copied to the startup-config if it has changed since the last save to startup-config.  If the argument is set to I(never), the running-config will never be copied to the startup-config. If the argument is set to I(changed), then the running-config will only be copied to the startup-config if the task has made a change. I(changed) was added in Ansible 2.5.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "always",
+          "never",
+          "modified",
+          "changed"
+        ],
+        "default": "never",
+        "aliases": null
+      },
+      "diff_against": {
+        "description": "When using the C(ansible-playbook --diff) command line argument the module can generate diffs against different sources. When this option is configure as I(startup), the module will return the diff of the running-config against the startup-config. When this option is configured as I(intended), the module will return the diff of the running-config against the configuration provided in the C(intended_config) argument. When this option is configured as I(running), the module will return the before and after diff of the running-config with respect to any changes made to the device configuration. When this option is configured as C(session), the diff returned will be based on the configuration session. When this option is configured as C(validate_config), the module will return before with the running-config before applying the intended config and after with the session config after applying the intended config to the session.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "startup",
+          "running",
+          "intended",
+          "session",
+          "validate_config"
+        ],
+        "default": "session",
+        "aliases": null
+      },
+      "diff_ignore_lines": {
+        "description": "Use this argument to specify one or more lines that should be ignored during the diff.  This is used for lines in the configuration that are automatically updated by the system.  This argument takes a list of regular expressions or exact line matches.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "intended_config": {
+        "description": "The C(intended_config) provides the master configuration that the node should conform to and is used to check the final running-config against.   This argument will not modify any settings on the remote device and is strictly used to check the compliance of the current device",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_eapi": {
+    "short_description": "Manage and configure Arista EOS eAPI.",
+    "description": "Use to enable or disable eAPI access, and set the port and state of http, https, local_http and unix-socket servers. When enabling eAPI access the default is to enable HTTP on port 80, enable HTTPS on port 443, disable local HTTP, and disable Unix socket server. Use the options listed below to override the default configuration. Requires EOS v4.12 or greater.",
+    "options": {
+      "http": {
+        "description": "The C(http) argument controls the operating state of the HTTP transport protocol when eAPI is present in the running-config. When the value is set to True, the HTTP protocol is enabled and when the value is set to False, the HTTP protocol is disabled. By default, when eAPI is first configured, the HTTP protocol is disabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "enable_http"
+        ]
+      },
+      "http_port": {
+        "description": "Configures the HTTP port that will listen for connections when the HTTP transport protocol is enabled.  This argument accepts integer values in the valid range of 1 to 65535.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "https": {
+        "description": "The C(https) argument controls the operating state of the HTTPS transport protocol when eAPI is present in the running-config. When the value is set to True, the HTTPS protocol is enabled and when the value is set to False, the HTTPS protocol is disabled. By default, when eAPI is first configured, the HTTPS protocol is enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "enable_https"
+        ]
+      },
+      "https_port": {
+        "description": "Configures the HTTP port that will listen for connections when the HTTP transport protocol is enabled.  This argument accepts integer values in the valid range of 1 to 65535.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "local_http": {
+        "description": "The C(local_http) argument controls the operating state of the local HTTP transport protocol when eAPI is present in the running-config.  When the value is set to True, the HTTP protocol is enabled and restricted to connections from localhost only.  When the value is set to False, the HTTP local protocol is disabled. Note is value is independent of the C(http) argument",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "enable_local_http"
+        ]
+      },
+      "local_http_port": {
+        "description": "Configures the HTTP port that will listen for connections when the HTTP transport protocol is enabled.  This argument accepts integer values in the valid range of 1 to 65535.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "socket": {
+        "description": "The C(socket) argument controls the operating state of the UNIX Domain Socket used to receive eAPI requests.  When the value of this argument is set to True, the UDS will listen for eAPI requests.  When the value is set to False, the UDS will not be available to handle requests.  By default when eAPI is first configured, the UDS is disabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "enable_socket"
+        ]
+      },
+      "timeout": {
+        "description": "The time (in seconds) to wait for the eAPI configuration to be reflected in the running-config.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 30,
+        "aliases": null
+      },
+      "vrf": {
+        "description": "The C(vrf) argument will configure eAPI to listen for connections in the specified VRF.  By default, eAPI transports will listen for connections in the global table.  This value requires the VRF to already be created otherwise the task will fail.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "config": {
+        "description": "The module, by default, will connect to the remote device and retrieve the current running-config to use as a base for comparing against the contents of source.  There are times when it is not desirable to have the task get the current running-config for every task in a playbook.  The I(config) argument allows the implementer to pass in the configuration to use as the base config for comparison.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The C(state) argument controls the operational state of eAPI on the remote device.  When this argument is set to C(started), eAPI is enabled to receive requests and when this argument is C(stopped), eAPI is disabled and will not receive requests.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "started",
+          "stopped"
+        ],
+        "default": "started",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_facts": {
+    "short_description": "Collect facts from remote devices running Arista EOS",
+    "description": "Collects facts from Arista devices running the EOS operating system. This module places the facts gathered in the fact tree keyed by the respective resource name.  The facts module will always collect a base set of facts from the device and can enable or disable collection of additional facts.",
+    "options": {
+      "gather_subset": {
+        "description": "When supplied, this argument will restrict the facts collected to a given subset.  Possible values for this argument include C(all), C(hardware), C(config), C(legacy), C(interfaces), and C(min). Can specify a list of values to include a larger subset.  Values can also be used with an initial C(!) to specify that a specific subset should not be collected.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_hostname": {
+    "short_description": "Manages hostname resource module",
+    "description": "This module configures and manages the attribute of  hostname on Arista EOS platforms.",
+    "options": {
+      "config": {
+        "description": "A dictionary of hostname options",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_interfaces": {
+    "short_description": "Interfaces resource module",
+    "description": "This module manages the interface attributes of Arista EOS interfaces.",
+    "options": {
+      "config": {
+        "description": "The provided configuration",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_l2_interfaces": {
+    "short_description": "L2 interfaces resource module",
+    "description": "This module provides declarative management of Layer-2 interface on Arista EOS devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of Layer-2 interface options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_l3_interfaces": {
+    "short_description": "L3 interfaces resource module",
+    "description": "This module provides declarative management of Layer 3 interfaces on Arista EOS devices.",
+    "options": {},
+    "deprecated": null
+  },
+  "arista.eos.eos_lacp": {
+    "short_description": "LACP resource module",
+    "description": "This module manages Global Link Aggregation Control Protocol (LACP) on Arista EOS devices.",
+    "options": {
+      "config": {
+        "description": "LACP global options.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ^lacp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_lacp_interfaces": {
+    "short_description": "LACP interfaces resource module",
+    "description": "This module manages Link Aggregation Control Protocol (LACP) attributes of interfaces on Arista EOS devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of LACP interfaces options.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ^interfaces). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_lag_interfaces": {
+    "short_description": "LAG interfaces resource module",
+    "description": "This module manages attributes of link aggregation groups on Arista EOS devices.",
+    "options": {
+      "config": {
+        "description": "A list of link aggregation group configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_lldp": {
+    "short_description": "Manage LLDP configuration on Arista EOS network devices",
+    "description": "This module provides declarative management of LLDP service on Arista EOS network devices.",
+    "options": {
+      "state": {
+        "description": "State of the LLDP configuration. If value is I(present) lldp will be enabled else if it is I(absent) it will be disabled.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "enabled",
+          "disabled"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_lldp_global": {
+    "short_description": "LLDP resource module",
+    "description": "This module manages Global Link Layer Discovery Protocol (LLDP) settings on Arista EOS devices.",
+    "options": {
+      "config": {
+        "description": "The provided global LLDP configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section lldp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_lldp_interfaces": {
+    "short_description": "LLDP interfaces resource module",
+    "description": "This module manages Link Layer Discovery Protocol (LLDP) attributes of interfaces on Arista EOS devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of LLDP interfaces options.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_ospfv2": {
+    "short_description": "OSPFv2 resource module",
+    "description": "This module configures and manages the attributes of ospfv2 on Arista EOS platforms.",
+    "options": {
+      "config": {
+        "description": "A list of configurations for ospfv2.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ospf). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_snmp_server": {
+    "short_description": "Manages snmp_server resource module",
+    "description": "This module configures and manages the attributes of snmp_server on Arista EOS platforms.",
+    "options": {
+      "config": {
+        "description": "SNMP server configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_static_routes": {
+    "short_description": "Static routes resource module",
+    "description": "This module configures and manages the attributes of static routes on Arista EOS platforms.",
+    "options": {
+      "config": {
+        "description": "A list of configurations for static routes.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_system": {
+    "short_description": "Manage the system attributes on Arista EOS devices",
+    "description": "This module provides declarative management of node system attributes on Arista EOS devices.  It provides an option to configure host system parameters or remove those parameters from the device active configuration.",
+    "options": {
+      "hostname": {
+        "description": "Configure the device hostname parameter. This option takes an ASCII string value.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_name": {
+        "description": "Configure the IP domain name on the remote device to the provided value. Value should be in the dotted name form and will be appended to the C(hostname) to create a fully-qualified domain name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_list": {
+        "description": "Provides the list of domain suffixes to append to the hostname for the purpose of doing name resolution. This argument accepts a list of names and will be reconciled with the current active configuration on the running node.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "domain_search"
+        ]
+      },
+      "lookup_source": {
+        "description": "Provides one or more source interfaces to use for performing DNS lookups.  The interface provided in C(lookup_source) can only exist in a single VRF.  This argument accepts either a list of interface names or a list of hashes that configure the interface name and VRF name.  See examples.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name_servers": {
+        "description": "List of DNS name servers by IP address to use to perform name resolution lookups.  This argument accepts either a list of DNS servers or a list of hashes that configure the name server and VRF name.  See examples.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the configuration values in the device",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_user": {
+    "short_description": "Manage the collection of local users on EOS devices",
+    "description": "This module provides declarative management of the local usernames configured on Arista EOS devices.  It allows playbooks to manage either individual usernames or the collection of usernames in the current running config.  It also supports purging usernames from the configuration that are not explicitly defined.",
+    "options": {
+      "aggregate": {
+        "description": "The set of username objects to be configured on the remote Arista EOS device.  The list entries can either be the username or a hash of username and properties.  This argument is mutually exclusive with the C(username) argument.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "users",
+          "collection"
+        ]
+      },
+      "name": {
+        "description": "The username to be configured on the remote Arista EOS device.  This argument accepts a stringv value and is mutually exclusive with the C(aggregate) argument.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "configured_password": {
+        "description": "The password to be configured on the remote Arista EOS device. The password needs to be provided in clear and it will be encrypted on the device.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_password": {
+        "description": "Since passwords are encrypted in the device running config, this argument will instruct the module when to change the password.  When set to C(always), the password will always be updated in the device and when set to C(on_create) the password will be updated only if the username is created.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "on_create",
+          "always"
+        ],
+        "default": "always",
+        "aliases": null
+      },
+      "privilege": {
+        "description": "The C(privilege) argument configures the privilege level of the user when logged into the system.  This argument accepts integer values in the range of 1 to 15.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role": {
+        "description": "Configures the role for the username in the device running configuration.  The argument accepts a string value defining the role name.  This argument does not check if the role has been configured on the device.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sshkey": {
+        "description": "Specifies the SSH public key to configure for the given username.  This argument accepts a valid SSH key value.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nopassword": {
+        "description": "Defines the username without assigning a password.  This will allow the user to login to the system without being authenticated by a password.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge": {
+        "description": "Instructs the module to consider the resource definition absolute.  It will remove any previously configured usernames on the device with the exception of the `admin` user which cannot be deleted per EOS constraints.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the state of the username definition as it relates to the device operational configuration.  When set to I(present), the username(s) should be configured in the device active configuration and when set to I(absent) the username(s) should not be in the device active configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_vlans": {
+    "short_description": "VLANs resource module",
+    "description": "This module provides declarative management of VLANs on Arista EOS network devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of VLANs options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section vlan). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_vrf": {
+    "short_description": "Manage VRFs on Arista EOS network devices",
+    "description": "This module provides declarative management of VRFs on Arista EOS network devices.",
+    "options": {
+      "name": {
+        "description": "Name of the VRF.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rd": {
+        "description": "Route distinguisher of the VRF",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interfaces": {
+        "description": "Identifies the set of interfaces that should be configured in the VRF. Interfaces must be routed interfaces in order to be placed into a VRF. The name of interface should be in expanded format and not abbreviated.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "associated_interfaces": {
+        "description": "This is a intent option and checks the operational state of the for given vrf C(name) for associated interfaces. If the value in the C(associated_interfaces) does not match with the operational state of vrf interfaces on device it will result in failure.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "aggregate": {
+        "description": "List of VRFs instances",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge": {
+        "description": "Purge VRFs not defined in the I(aggregate) parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "delay": {
+        "description": "Time in seconds to wait before checking for the operational state on remote device. This wait is applicable for operational state arguments.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the VRF configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_vrf_global": {
+    "short_description": "Resource module to configure VRF definitions.",
+    "description": "This module provides declarative management of VRF definitions on Arista EOS platforms.",
+    "options": {
+      "config": {
+        "description": "A list of dictionaries containing device configurations for VRF definitions.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config vrf). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

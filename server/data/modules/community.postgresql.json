@@ -1,0 +1,992 @@
+{
+  "community.postgresql.postgresql_alter_system": {
+    "short_description": "Change a PostgreSQL server configuration parameter",
+    "description": "Supports C(PostgreSQL 14) or later. Allows to change a PostgreSQL server configuration parameter. The module uses ALTER SYSTEM command and applies changes by reload server configuration. Some parameters require PostgreSQL to restart. See the RV(restart_required) return value.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_copy": {
+    "short_description": "Copy data between a file/program and a PostgreSQL table",
+    "description": "Copy data between a file/program and a PostgreSQL table.",
+    "options": {
+      "copy_to": {
+        "description": "Copy the contents of a table to a file. Can also copy the results of a SELECT query. Mutually exclusive with I(copy_from) and I(dst).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "to"
+        ]
+      },
+      "copy_from": {
+        "description": "Copy data from a file to a table (appending the data to whatever is in the table already). Mutually exclusive with I(copy_to) and I(src).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "from"
+        ]
+      },
+      "src": {
+        "description": "Copy data from I(copy_from) to I(src=tablename). Used with I(copy_to) only.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "source"
+        ]
+      },
+      "dst": {
+        "description": "Copy data to I(dst=tablename) from I(copy_from=/path/to/data.file). Used with I(copy_from) only.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "destination"
+        ]
+      },
+      "columns": {
+        "description": "List of column names for the src/dst table to COPY FROM/TO.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "column"
+        ]
+      },
+      "program": {
+        "description": "Mark I(src)/I(dst) as a program. Data will be copied to/from a program. See block Examples and PROGRAM arg description U(https://www.postgresql.org/docs/current/sql-copy.html).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "options": {
+        "description": "Options of COPY command. See the full list of available options U(https://www.postgresql.org/docs/current/sql-copy.html).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_db": {
+        "description": "Name of database to connect to. The V(db) alias is deprecated and will be removed in version 5.0.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "db"
+        ]
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session_role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trust_input": {
+        "description": "If C(false), check whether values of parameters are potentially dangerous. It makes sense to use C(false) only when SQL injections are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_db": {
+    "short_description": "Add or remove PostgreSQL databases from a remote host",
+    "description": "Add or remove PostgreSQL databases from a remote host.",
+    "options": {
+      "name": {
+        "description": "Name of the database to add or remove.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "db"
+        ]
+      },
+      "owner": {
+        "description": "Name of the role to set as owner of the database.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_ext": {
+    "short_description": "Add or remove PostgreSQL extensions from a database",
+    "description": "Add or remove PostgreSQL extensions from a database.",
+    "options": {
+      "name": {
+        "description": "Name of the extension to add or remove.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ext"
+        ]
+      },
+      "login_db": {
+        "description": "Name of the database to add or remove the extension to/from. The V(db) alias is deprecated and will be removed in version 5.0.0.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "db"
+        ]
+      },
+      "schema": {
+        "description": "Name of the schema to add the extension to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session_role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The database extension state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "cascade": {
+        "description": "Automatically install/remove any extensions that this extension depends on that are not already installed/removed (supported since PostgreSQL 9.6).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "login_unix_socket": {
+        "description": "Path to a Unix domain socket for local connections.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl_mode": {
+        "description": "Determines whether or with what priority a secure SSL TCP/IP connection will be negotiated with the server. See U(https://www.postgresql.org/docs/current/static/libpq-ssl.html) for more information on the modes. Default of C(prefer) matches libpq default.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "allow",
+          "disable",
+          "prefer",
+          "require",
+          "verify-ca",
+          "verify-full"
+        ],
+        "default": "prefer",
+        "aliases": null
+      },
+      "ca_cert": {
+        "description": "Specifies the name of a file containing SSL certificate authority (CA) certificate(s). If the file exists, the server",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_idx": {
+    "short_description": "Create or drop indexes from a PostgreSQL database",
+    "description": "Create or drop indexes from a PostgreSQL database.",
+    "options": {
+      "idxname": {
+        "description": "Name of the index to create or drop.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "login_db": {
+        "description": "Name of database to connect to and where the index will be created/dropped. The V(db) alias is deprecated and will be removed in version 5.0.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "db"
+        ]
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session_role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "schema": {
+        "description": "Name of a database schema where the index will be created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Index state. C(present) implies the index will be created if it does not exist. C(absent) implies the index will be dropped if it exists.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "table": {
+        "description": "Table to create index on it. Mutually exclusive with I(state=absent).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "columns": {
+        "description": "List of index columns that need to be covered by index. Mutually exclusive with I(state=absent).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "column"
+        ]
+      },
+      "cond": {
+        "description": "Index conditions. Mutually exclusive with I(state=absent).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "idxtype": {
+        "description": "Index type (like btree, gist, gin, etc.). Mutually exclusive with I(state=absent).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "type"
+        ]
+      },
+      "concurrent": {
+        "description": "Enable or disable concurrent mode (CREATE / DROP INDEX CONCURRENTLY). Pay attention, if I(concurrent=false), the table will be locked (ACCESS EXCLUSIVE) during the building process. For more information about the lock levels see U(https://www.postgresql.org/docs/current/explicit-locking.html). If the building process was interrupted for any reason when I(cuncurrent=true), the index becomes invalid. In this case it should be dropped and created again. Mutually exclusive with I(cascade=true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "unique": {
+        "description": "Enable unique index. Only btree currently supports unique indexes.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_info": {
+    "short_description": "Gather information about PostgreSQL servers",
+    "description": "Gathers information about PostgreSQL servers.",
+    "options": {
+      "filter": {
+        "description": "Limit the collected information by comma separated string or YAML list. Allowable values are C(version), C(databases), C(in_recovery), C(settings), C(tablespaces), C(roles), C(replications), C(repl_slots). By default, collects all subsets. You can use shell-style (fnmatch) wildcard to pass groups of values (see Examples). You can use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_membership": {
+    "short_description": "Add or remove PostgreSQL roles from groups",
+    "description": "Adds or removes PostgreSQL roles from groups (other roles). Users are roles with login privilege. Groups are PostgreSQL roles usually without LOGIN privilege. ",
+    "options": {},
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_owner": {
+    "short_description": "Change an owner of PostgreSQL database object",
+    "description": "Change an owner of PostgreSQL database object. Also allows to reassign the ownership of database objects owned by a database role to another role.",
+    "options": {
+      "new_owner": {
+        "description": "Role (user/group) to set as an I(obj_name) owner.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "obj_name": {
+        "description": "Name of a database object to change ownership. Mutually exclusive with I(reassign_owned_by).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "obj_type": {
+        "description": "Type of a database object. Mutually exclusive with I(reassign_owned_by). I(obj_type=matview) is available since PostgreSQL 9.3. I(obj_type=event_trigger), I(obj_type=procedure), I(obj_type=publication), I(obj_type=statistics), and I(obj_type=routine) are available since PostgreSQL 11.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "aggregate",
+          "collation",
+          "conversion",
+          "database",
+          "domain",
+          "event_trigger",
+          "foreign_data_wrapper",
+          "foreign_table",
+          "function",
+          "language",
+          "large_object",
+          "matview",
+          "procedure",
+          "publication",
+          "routine",
+          "schema",
+          "sequence",
+          "server",
+          "statistics",
+          "table",
+          "tablespace",
+          "text_search_configuration",
+          "text_search_dictionary",
+          "type",
+          "view"
+        ],
+        "default": null,
+        "aliases": [
+          "type"
+        ]
+      },
+      "reassign_owned_by": {
+        "description": "Caution - the ownership of all the objects within the specified I(db), owned by this role(s) will be reassigned to I(new_owner). REASSIGN OWNED is often used to prepare for the removal of one or more roles. REASSIGN OWNED does not affect objects within other databases. Execute this command in each database that contains objects owned by a role that is to be removed. If role(s) exists, always returns changed True. Cannot reassign ownership of objects that are required by the database system. Mutually exclusive with C(obj_type).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fail_on_role": {
+        "description": "If C(true), fail when I(reassign_owned_by) role does not exist. Otherwise just warn and continue. Mutually exclusive with I(obj_name) and I(obj_type).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "login_db": {
+        "description": "Name of database to connect to. The V(db) alias is deprecated and will be removed in version 5.0.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "db"
+        ]
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session_role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trust_input": {
+        "description": "If C(false), check whether values of parameters I(new_owner), I(obj_name), I(reassign_owned_by), I(session_role) are potentially dangerous. It makes sense to use C(false) only when SQL injections via the parameters are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_pg_hba": {
+    "short_description": "Add, remove or modify a rule in a pg_hba file",
+    "description": "The fundamental function of the module is to create, or delete lines in pg_hba files. The lines in the file should be in a typical pg_hba form and lines should be unique per key (type, databases, users, source). If they are not unique and the SID is",
+    "options": {},
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_ping": {
+    "short_description": "Check remote PostgreSQL server availability",
+    "description": "Simple module to check remote PostgreSQL server availability.",
+    "options": {
+      "login_db": {
+        "description": "Name of a database to connect to. The V(db) alias is deprecated and will be removed in version 5.0.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "db"
+        ]
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session_role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_privs": {
+    "short_description": "Grant or revoke privileges on PostgreSQL database objects",
+    "description": "Grant or revoke privileges on PostgreSQL database objects. This module is basically a wrapper around most of the functionality of PostgreSQL",
+    "options": {},
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_publication": {
+    "short_description": "Add, update, or remove PostgreSQL publication",
+    "description": "Add, update, or remove PostgreSQL publication.",
+    "options": {
+      "name": {
+        "description": "Name of the publication to add, update, or remove.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_db": {
+        "description": "Name of the database to connect to and where the publication state will be changed. The V(db) alias is deprecated and will be removed in version 5.0.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "db"
+        ]
+      },
+      "columns": {
+        "description": "List of tables and its columns to add to the publication. If no columns are passed for table, it will be published as a whole. Mutually exclusive with I(tables) and I(tables_in_schema).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_query": {
+    "short_description": "Run PostgreSQL queries",
+    "description": "Runs arbitrary PostgreSQL queries.",
+    "options": {
+      "query": {
+        "description": "SQL query string or list of queries to run. Variables can be escaped with psycopg syntax U(https://www.psycopg.org/psycopg3/docs/basic/params.html).",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "positional_args": {
+        "description": "List of values to be passed as positional arguments to the query. When the value is a list, it will be converted to PostgreSQL array. Mutually exclusive with I(named_args).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "named_args": {
+        "description": "Dictionary of key-value arguments to pass to the query. When the value is a list, it will be converted to PostgreSQL array. Mutually exclusive with I(positional_args).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session_role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_db": {
+        "description": "Name of database to connect to and run queries against. The V(db) alias is deprecated and will be removed in version 5.0.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "db"
+        ]
+      },
+      "autocommit": {
+        "description": "Execute in autocommit mode when the query can",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_schema": {
+    "short_description": "Add or remove PostgreSQL schema",
+    "description": "Add or remove PostgreSQL schema.",
+    "options": {
+      "name": {
+        "description": "Name of the schema to add or remove.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "schema"
+        ]
+      },
+      "login_db": {
+        "description": "Name of the database to connect to and add or remove the schema. The V(db) alias is deprecated and will be removed in version 5.0.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "postgres",
+        "aliases": [
+          "db",
+          "database"
+        ]
+      },
+      "owner": {
+        "description": "Name of the role to set as owner of the schema.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_script": {
+    "short_description": "Run PostgreSQL statements from a file",
+    "description": "Runs arbitrary PostgreSQL statements from a file. The module always reports that the state has changed. Do NOT run the module against files generated by C(pg_dump), C(pg_dumpall), C(pg_restore) and other PostgreSQL utilities. Use M(community.postgresql.postgresql_db) with I(state=restore) to run queries from files generated by C(pg_dump/pg_dumpall).",
+    "options": {},
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_sequence": {
+    "short_description": "Create, drop, or alter a PostgreSQL sequence",
+    "description": "Allows to create, drop or change the definition of a sequence generator.",
+    "options": {
+      "sequence": {
+        "description": "The name of the sequence.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "state": {
+        "description": "The sequence state. If I(state=absent) other options will be ignored except of I(name) and I(schema).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "data_type": {
+        "description": "Specifies the data type of the sequence. Valid types are bigint, integer, and smallint. bigint is the default. The data type determines the default minimum and maximum values of the sequence. For more info see the documentation U(https://www.postgresql.org/docs/current/sql-createsequence.html). Supported from PostgreSQL 10.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "bigint",
+          "integer",
+          "smallint"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "increment": {
+        "description": "Increment specifies which value is added to the current sequence value to create a new value. A positive value will make an ascending sequence, a negative one a descending sequence. The default value is 1.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "minvalue": {
+        "description": "Minvalue determines the minimum value a sequence can generate. The default for an ascending sequence is 1. The default for a descending sequence is the minimum value of the data type.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "min"
+        ]
+      },
+      "maxvalue": {
+        "description": "Maxvalue determines the maximum value for the sequence. The default for an ascending sequence is the maximum value of the data type. The default for a descending sequence is -1.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "max"
+        ]
+      },
+      "start": {
+        "description": "Start allows the sequence to begin anywhere. The default starting value is I(minvalue) for ascending sequences and I(maxvalue) for descending ones.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cache": {
+        "description": "Cache specifies how many sequence numbers are to be preallocated and stored in memory for faster access. The minimum value is 1 (only one value can be generated at a time, i.e., no cache), and this is also the default.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cycle": {
+        "description": "The cycle option allows the sequence to wrap around when the I(maxvalue) or I(minvalue) has been reached by an ascending or descending sequence respectively. If the limit is reached, the next number generated will be the minvalue or maxvalue, respectively. If C(false) (NO CYCLE) is specified, any calls to nextval after the sequence has reached its maximum value will return an error. False (NO CYCLE) is the default.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "cascade": {
+        "description": "Automatically drop objects that depend on the sequence, and in turn all objects that depend on those objects. Ignored if I(state=present). Only used with I(state=absent).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "rename_to": {
+        "description": "DEPRECATED (see the L(discussion,https://github.com/ansible-collections/community.postgresql/issues/820)). This option will be removed in version 5.0.0. To rename a sequence, use the M(community.postgresql.postgresql_query) module. The new name for the I(sequence). Works only for existing sequences.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "owner": {
+        "description": "Set the owner for the I(sequence).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "schema": {
+        "description": "The schema of the I(sequence). This is be used to create and relocate a I(sequence) in the given schema.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "public",
+        "aliases": null
+      },
+      "newschema": {
+        "description": "The new schema for the I(sequence). Will be used for moving a I(sequence) to another I(schema). Works only for existing sequences.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified I(session_role) must be a role that the current I(login_user) is a member of. Permissions checking for SQL commands is carried out as though the I(session_role) were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_db": {
+        "description": "Name of database to connect to and run queries against. The V(db) and V(database) aliases are deprecated and will be removed in version 5.0.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_set": {
+    "short_description": "Change a PostgreSQL server configuration parameter",
+    "description": "",
+    "options": {},
+    "deprecated": "deprecated"
+  },
+  "community.postgresql.postgresql_slot": {
+    "short_description": "Add or remove replication slots from a PostgreSQL database",
+    "description": "Add or remove physical or logical replication slots from a PostgreSQL database.",
+    "options": {
+      "name": {
+        "description": "Name of the replication slot to add or remove.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "slot_name"
+        ]
+      },
+      "slot_type": {
+        "description": "Slot type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "logical",
+          "physical"
+        ],
+        "default": "physical",
+        "aliases": null
+      },
+      "state": {
+        "description": "The slot state. I(state=present) implies the slot must be present in the system. I(state=absent) implies the I(groups) must be revoked from I(target_roles).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "immediately_reserve": {
+        "description": "Optional parameter that when C(true) specifies that the LSN for this replication slot be reserved immediately, otherwise the default, C(false), specifies that the LSN is reserved on the first connection from a streaming replication client. Is available from PostgreSQL version 9.6. Uses only with I(slot_type=physical). Mutually exclusive with I(slot_type=logical).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "output_plugin": {
+        "description": "All logical slots must indicate which output plugin decoder they",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_subscription": {
+    "short_description": "Add, update, or remove PostgreSQL subscription",
+    "description": "Add, update, or remove PostgreSQL subscription.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_table": {
+    "short_description": "Create, drop, or modify a PostgreSQL table",
+    "description": "Allows to create, drop, truncate a table, or change some table attributes.",
+    "options": {
+      "table": {
+        "description": "Table name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "state": {
+        "description": "The table state. I(state=absent) is mutually exclusive with I(tablespace), I(owner), I(unlogged), I(like), I(including), I(columns), I(truncate), I(storage_params) and, I(rename).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tablespace": {
+        "description": "Set a tablespace for the table.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "owner": {
+        "description": "Set a table owner.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "unlogged": {
+        "description": "Create an unlogged table.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "like": {
+        "description": "Create a table like another table (with similar DDL). Mutually exclusive with I(columns), I(rename), and I(truncate).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "including": {
+        "description": "Keywords that are used with like parameter, may be DEFAULTS, CONSTRAINTS, INDEXES, STORAGE, COMMENTS or ALL. Needs I(like) specified. Mutually exclusive with I(columns), I(rename), and I(truncate).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "columns": {
+        "description": "Columns that are needed.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rename": {
+        "description": "DEPRECATED (see the L(discussion,https://github.com/ansible-collections/community.postgresql/issues/820)). This option will be removed in version 5.0.0. To rename a table, use the M(community.postgresql.postgresql_query) module. New table name. Mutually exclusive with I(tablespace), I(owner), I(unlogged), I(like), I(including), I(columns), I(truncate), and I(storage_params).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "truncate": {
+        "description": "Truncate a table. Mutually exclusive with I(tablespace), I(owner), I(unlogged), I(like), I(including), I(columns), I(rename), and I(storage_params).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "storage_params": {
+        "description": "Storage parameters like fillfactor, autovacuum_vacuum_treshold, etc. Mutually exclusive with I(rename) and I(truncate).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_db": {
+        "description": "Name of database to connect and where the table will be created. The V(db) alias is deprecated and will be removed in version 5.0.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_tablespace": {
+    "short_description": "Add or remove PostgreSQL tablespaces from remote hosts",
+    "description": "Adds or removes PostgreSQL tablespaces from remote hosts.",
+    "options": {
+      "tablespace": {
+        "description": "Name of the tablespace to add or remove.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "location": {
+        "description": "Path to the tablespace directory in the file system. Ensure that the location exists and has right privileges.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "path"
+        ]
+      },
+      "state": {
+        "description": "Tablespace state. I(state=present) implies the tablespace must be created if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_user": {
+    "short_description": "Create, alter, or remove a user (role) from a PostgreSQL server instance",
+    "description": "Creates, alters, or removes a user (role) from a PostgreSQL server instance (",
+    "options": {},
+    "deprecated": null
+  },
+  "community.postgresql.postgresql_user_obj_stat_info": {
+    "short_description": "Gather statistics about PostgreSQL user objects",
+    "description": "Gathers statistics about PostgreSQL user objects.",
+    "options": {},
+    "deprecated": null
+  }
+}

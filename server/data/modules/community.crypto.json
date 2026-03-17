@@ -1,0 +1,666 @@
+{
+  "community.crypto.acme_account": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.acme_account_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.acme_ari_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.acme_certificate": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.acme_certificate_deactivate_authz": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.acme_certificate_order_create": {
+    "short_description": "Create an ACME v2 order",
+    "description": "Creates an ACME v2 order. This is the first step of obtaining a new certificate with the L(ACME protocol,https://tools.ietf.org/html/rfc8555) from a Certificate Authority such as L(Let",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.acme_certificate_order_finalize": {
+    "short_description": "Finalize an ACME v2 order",
+    "description": "Finalizes an ACME v2 order and obtains the certificate and certificate chains. This is the final step of obtaining a new certificate with the L(ACME protocol,https://tools.ietf.org/html/rfc8555) from a Certificate Authority such as L(Let",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.acme_certificate_order_info": {
+    "short_description": "Obtain information for an ACME v2 order",
+    "description": "Obtain information for an ACME v2 order. This can be used during the process of obtaining a new certificate with the L(ACME protocol,https://tools.ietf.org/html/rfc8555) from a Certificate Authority such as L(Let",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.acme_certificate_order_validate": {
+    "short_description": "Validate authorizations of an ACME v2 order",
+    "description": "Validates pending authorizations of an ACME v2 order. This is the second to last step of obtaining a new certificate with the L(ACME protocol,https://tools.ietf.org/html/rfc8555) from a Certificate Authority such as L(Let",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.acme_certificate_renewal_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.acme_certificate_revoke": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.acme_challenge_cert_helper": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.acme_inspect": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.certificate_complete_chain": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.crypto_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.get_certificate": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.luks_device": {
+    "short_description": "Manage encrypted (LUKS) devices",
+    "description": "Module manages L(LUKS,https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup) on given device. Supports creating, destroying, opening and closing of LUKS container and adding or removing new keys and passphrases.",
+    "options": {
+      "device": {
+        "description": "Device to work with (for example V(/dev/sda1)). Needed in most cases. Can be omitted only when O(state=closed) together with O(name) is provided.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the LUKS container. Based on its value creates, destroys, opens or closes the LUKS container on a given device. V(present) will create LUKS container unless already present. Requires O(device) and either O(keyfile) or O(passphrase) options to be provided. V(absent) will remove existing LUKS container if it exists. Requires O(device) or O(name) to be specified. V(opened) will unlock the LUKS container. Requires O(device) and one of O(keyfile), O(passphrase), O(tpm2_device) to be specified. If the container does not exist it will be created first, however O(tpm2_device) can not be used for creation. Use the O(name) option to set the name of the opened container. Otherwise the name will be generated automatically and returned as a part of the result. V(closed) will lock the LUKS container. However if the container does not exist it will be created. Requires O(device) and either O(keyfile) or O(passphrase) options to be provided. If container does already exist O(device) or O(name) will suffice.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "opened",
+          "closed"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Sets container name when O(state=opened). Can be used instead of O(device) when closing the existing container (that is, when O(state=closed)).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "keyfile": {
+        "description": "Used to unlock the container. Either a O(keyfile) or a O(passphrase) is needed for most of the operations. Parameter value is the path to the keyfile with the passphrase. BEWARE that working with keyfiles in plaintext is dangerous. Make sure that they are protected.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "passphrase": {
+        "description": "Used to unlock the container. Either a O(passphrase) or a O(keyfile) is needed for most of the operations. Parameter value is a string with the passphrase. B(Note) that the passphrase must be UTF-8 encoded text. If you want to use arbitrary binary data, or text using another encoding, use the O(passphrase_encoding) option and provide the passphrase Base64 encoded.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.crypto.openssh_cert": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.openssh_keypair": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.openssl_csr": {
+    "short_description": "Generate OpenSSL Certificate Signing Request (CSR)",
+    "description": "Please note that the module regenerates an existing CSR if it does not match the module",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.openssl_csr_info": {
+    "short_description": "Provide information of OpenSSL Certificate Signing Requests (CSR)",
+    "description": "This module allows one to query information on OpenSSL Certificate Signing Requests (CSR). In case the CSR signature cannot be validated, the module will fail. In this case, all return variables are still returned. It uses the cryptography python library to interact with OpenSSL.",
+    "options": {
+      "path": {
+        "description": "Remote absolute path where the CSR file is loaded from. Either O(path) or O(content) must be specified, but not both.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content": {
+        "description": "Content of the CSR file. Either O(path) or O(content) must be specified, but not both.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.crypto.openssl_csr_pipe": {
+    "short_description": "Generate OpenSSL Certificate Signing Request (CSR)",
+    "description": "Please note that the module regenerates an existing CSR if it does not match the module",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.openssl_dhparam": {
+    "short_description": "Generate OpenSSL Diffie-Hellman Parameters",
+    "description": "This module allows one to (re)generate OpenSSL DH-params. This module uses file common arguments to specify generated file permissions. Please note that the module regenerates existing DH params if they do not match the module",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.openssl_pkcs12": {
+    "short_description": "Generate OpenSSL PKCS#12 archive",
+    "description": "This module allows one to (re-)generate PKCS#12. The module uses the cryptography Python library.",
+    "options": {
+      "action": {
+        "description": "V(export) or V(parse) a PKCS#12.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "export",
+          "parse"
+        ],
+        "default": "export",
+        "aliases": null
+      },
+      "other_certificates": {
+        "description": "List of other certificates to include. Pre Ansible 2.8 this parameter was called O(ca_certificates). Assumes there is one PEM-encoded certificate per file. If a file contains multiple PEM certificates, set O(other_certificates_parse_all) to V(true). Mutually exclusive with O(other_certificates_content).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ca_certificates"
+        ]
+      },
+      "other_certificates_content": {
+        "description": "List of other certificates to include. Assumes there is one PEM-encoded certificate per item. If an item contains multiple PEM certificates, set O(other_certificates_parse_all) Mutually exclusive with O(other_certificates).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.crypto.openssl_privatekey": {
+    "short_description": "Generate OpenSSL private keys",
+    "description": "This module allows one to (re)generate OpenSSL private keys. The default mode for the private key file will be V(0600) if O(mode) is not explicitly set. Please note that the module regenerates private keys if they do not match the module",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.openssl_privatekey_convert": {
+    "short_description": "Convert OpenSSL private keys",
+    "description": "This module allows one to convert OpenSSL private keys. The default mode for the private key file will be V(0600) if O(mode) is not explicitly set.",
+    "options": {
+      "dest_path": {
+        "description": "Name of the file in which the generated TLS/SSL private key will be written. It will have V(0600) mode if O(mode) is not explicitly set.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup": {
+        "description": "Create a backup file including a timestamp so you can get the original private key back if you overwrote it with a new one by accident.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.crypto.openssl_privatekey_info": {
+    "short_description": "Provide information for OpenSSL private keys",
+    "description": "This module allows one to query information on OpenSSL private keys. In case the key consistency checks fail, the module will fail as this indicates a faked private key. In this case, all return variables are still returned. Note that key consistency checks are not available all key types; if none is available, V(none) is returned for RV(key_is_consistent). It uses the cryptography python library to interact with OpenSSL.",
+    "options": {
+      "path": {
+        "description": "Remote absolute path where the private key file is loaded from.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content": {
+        "description": "Content of the private key file. Either O(path) or O(content) must be specified, but not both.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.crypto.openssl_privatekey_pipe": {
+    "short_description": "Generate OpenSSL private keys without disk access",
+    "description": "This module allows one to (re)generate OpenSSL private keys without disk access. This allows to read and write keys to vaults without having to write intermediate versions to disk. Make sure to not write the result of this module into logs or to the console, as it contains private key data! Use the C(no_log) task option to be sure. Note that this module is implemented as an L(action plugin,https://docs.ansible.com/ansible/latest/plugins/action.html) and will always be executed on the controller.",
+    "options": {
+      "content": {
+        "description": "The current private key data. Needed for idempotency. If not provided, the module will always return a change, and all idempotence-related options are ignored.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_base64": {
+        "description": "Set to V(true) if the content is base64 encoded.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "return_current_key": {
+        "description": "Set to V(true) to return the current private key when the module did not generate a new one. Note that in case of check mode, when this option is not set to V(true), the module always returns the current key (if it was provided) and Ansible will replace it by C(VALUE_SPECIFIED_IN_NO_LOG_PARAMETER).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "regenerate": {
+        "description": "Allows to configure in which situations the module is allowed to regenerate private keys. The module will always generate a new key if the destination file does not exist. By default, the key will be regenerated when it does not match the module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.crypto.openssl_publickey": {
+    "short_description": "Generate an OpenSSL public key from its private key",
+    "description": "This module allows one to (re)generate public keys from their private keys. Public keys are generated in PEM or OpenSSH format. Private keys must be OpenSSL PEM keys. B(OpenSSH private keys are not supported), use the M(community.crypto.openssh_keypair) module to manage these. The module uses the cryptography Python library.",
+    "options": {
+      "state": {
+        "description": "Whether the public key should exist or not, taking action if the state is different from what is stated.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "force": {
+        "description": "Should the key be regenerated even it it already exists.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "format": {
+        "description": "The format of the public key.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "OpenSSH",
+          "PEM"
+        ],
+        "default": "PEM",
+        "aliases": null
+      },
+      "path": {
+        "description": "Name of the file in which the generated TLS/SSL public key will be written.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privatekey_path": {
+        "description": "Path to the TLS/SSL private key from which to generate the public key. Either O(privatekey_path) or O(privatekey_content) must be specified, but not both. If O(state) is V(present), one of them is required.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privatekey_content": {
+        "description": "The content of the TLS/SSL private key from which to generate the public key. Either O(privatekey_path) or O(privatekey_content) must be specified, but not both. If O(state) is V(present), one of them is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.crypto.openssl_publickey_info": {
+    "short_description": "Provide information for OpenSSL public keys",
+    "description": "This module allows one to query information on OpenSSL public keys. It uses the cryptography python library to interact with OpenSSL.",
+    "options": {
+      "path": {
+        "description": "Remote absolute path where the public key file is loaded from.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content": {
+        "description": "Content of the public key file. Either O(path) or O(content) must be specified, but not both.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "select_crypto_backend": {
+        "description": "Determines which crypto backend to use. The default choice is V(auto), which tries to use C(cryptography) if available. If set to V(cryptography), will try to use the L(cryptography,https://cryptography.io/) library. Note that with community.crypto 3.0.0, all values behave the same. This option will be deprecated in a later version. We recommend to not set it explicitly.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "cryptography"
+        ],
+        "default": "auto",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.crypto.openssl_signature": {
+    "short_description": "Sign data with openssl",
+    "description": "This module allows one to sign data using a private key. The module uses the cryptography Python library.",
+    "options": {
+      "privatekey_path": {
+        "description": "The path to the private key to use when signing. Either O(privatekey_path) or O(privatekey_content) must be specified, but not both.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privatekey_content": {
+        "description": "The content of the private key to use when signing the certificate signing request. Either O(privatekey_path) or O(privatekey_content) must be specified, but not both.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privatekey_passphrase": {
+        "description": "The passphrase for the private key. This is required if the private key is password protected.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "The file to sign. This file will only be read and not modified.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "select_crypto_backend": {
+        "description": "Determines which crypto backend to use. The default choice is V(auto), which tries to use C(cryptography) if available. If set to V(cryptography), will try to use the L(cryptography,https://cryptography.io/) library. Note that with community.crypto 3.0.0, all values behave the same. This option will be deprecated in a later version. We recommend to not set it explicitly.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "cryptography"
+        ],
+        "default": "auto",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.crypto.openssl_signature_info": {
+    "short_description": "Verify signatures with openssl",
+    "description": "This module allows one to verify a signature for a file by a certificate. The module uses the cryptography Python library.",
+    "options": {
+      "path": {
+        "description": "The signed file to verify. This file will only be read and not modified.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "certificate_path": {
+        "description": "The path to the certificate used to verify the signature. Either O(certificate_path) or O(certificate_content) must be specified, but not both.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "certificate_content": {
+        "description": "The content of the certificate used to verify the signature. Either O(certificate_path) or O(certificate_content) must be specified, but not both.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "signature": {
+        "description": "Base64 encoded signature.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "select_crypto_backend": {
+        "description": "Determines which crypto backend to use. The default choice is V(auto), which tries to use C(cryptography) if available. If set to V(cryptography), will try to use the L(cryptography,https://cryptography.io/) library. Note that with community.crypto 3.0.0, all values behave the same. This option will be deprecated in a later version. We recommend to not set it explicitly.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "cryptography"
+        ],
+        "default": "auto",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.crypto.x509_certificate": {
+    "short_description": "Generate and/or check OpenSSL certificates",
+    "description": "It implements a notion of provider (one of V(selfsigned), V(ownca), and V(acme)) for your certificate. Please note that the module regenerates existing certificate if it does not match the module",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.x509_certificate_convert": {
+    "short_description": "Convert X.509 certificates",
+    "description": "This module allows to convert X.509 certificates between different formats.",
+    "options": {
+      "src_path": {
+        "description": "Name of the file containing the X.509 certificate to convert. Exactly one of O(src_path) or O(src_content) must be specified.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "src_content": {
+        "description": "The content of the file containing the X.509 certificate to convert. This must be text. If you are not sure that the input file is PEM, you must Base64 encode the value and set O(src_content_base64=true). You can use the P(ansible.builtin.b64encode#filter) filter plugin for this. Exactly one of O(src_path) or O(src_content) must be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "src_content_base64": {
+        "description": "If set to V(true) when O(src_content) is provided, the module assumes that the value of O(src_content) is Base64 encoded.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "format": {
+        "description": "Determines which format the destination X.509 certificate should be written in. Please note that not every key can be exported in any format, and that not every format supports encryption.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "pem",
+          "der"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "strict": {
+        "description": "If the input is a PEM file, ensure that it contains a single PEM object, that the header and footer match, and are of type C(CERTIFICATE) or C(X509 CERTIFICATE). See also the O(verify_cert_parsable) option, which checks whether the certificate is parsable.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "dest_path": {
+        "description": "Name of the file in which the generated TLS/SSL X.509 certificate will be written.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup": {
+        "description": "Create a backup file including a timestamp so you can get the original X.509 certificate back if you overwrote it with a new one by accident.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "verify_cert_parsable": {
+        "description": "If set to V(true), ensures that the certificate can be parsed. To ensure that a PEM file does not contain multiple certificates, use the O(strict) option.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.crypto.x509_certificate_info": {
+    "short_description": "Provide information of OpenSSL X.509 certificates",
+    "description": "This module allows one to query information on OpenSSL certificates. It uses the cryptography Python library to interact with OpenSSL. Note that this module was called C(openssl_certificate_info) when included directly in Ansible up to version 2.9. When moved to the collection C(community.crypto), it was renamed to M(community.crypto.x509_certificate_info). From Ansible 2.10 on, it can still be used by the old short name (or by C(ansible.builtin.openssl_certificate_info)), which redirects to M(community.crypto.x509_certificate_info). When using FQCNs or when using the L(collections,https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#using-collections-in-a-playbook) keyword, the new name M(community.crypto.x509_certificate_info) should be used to avoid a deprecation warning.",
+    "options": {
+      "path": {
+        "description": "Remote absolute path where the certificate file is loaded from. Either O(path) or O(content) must be specified, but not both. PEM and DER formats are supported.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content": {
+        "description": "Content of the X.509 certificate in PEM format. Either O(path) or O(content) must be specified, but not both.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.crypto.x509_certificate_pipe": {
+    "short_description": "Generate and/or check OpenSSL certificates",
+    "description": "It implements a notion of provider (one of V(selfsigned) and V(ownca)) for your certificate.",
+    "options": {
+      "provider": {
+        "description": "Name of the provider to use to generate/retrieve the OpenSSL certificate. The V(entrust) provider has been removed from community.crypto 3.0.0 due to sunsetting of the ECS API.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "ownca",
+          "selfsigned"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "content": {
+        "description": "The existing certificate.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.crypto.x509_crl": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.crypto.x509_crl_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  }
+}

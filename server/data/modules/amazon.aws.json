@@ -1,0 +1,1721 @@
+{
+  "amazon.aws.autoscaling_group": {
+    "short_description": "Create or delete AWS AutoScaling Groups (ASGs)",
+    "description": "Can create or delete AWS AutoScaling Groups. Can be used with the M(community.aws.autoscaling_launch_config) module to manage Launch Configurations. Prior to release 5.0.0 this module was called M(community.aws.ec2_asg). The usage did not change. This module was originally added to C(community.aws) in release 1.0.0.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.autoscaling_group_info": {
+    "short_description": "Gather information about EC2 Auto Scaling Groups (ASGs) in AWS",
+    "description": "Gather information about EC2 Auto Scaling Groups (ASGs) in AWS. Prior to release 5.0.0 this module was called M(community.aws.ec2_asg_info). The usage did not change. This module was originally added to C(community.aws) in release 1.0.0.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.autoscaling_instance": {
+    "short_description": "manage instances associated with AWS AutoScaling Groups (ASGs)",
+    "description": "Manage instances associated with AWS AutoScaling Groups (ASGs).",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.autoscaling_instance_info": {
+    "short_description": "describe instances associated with AWS AutoScaling Groups (ASGs)",
+    "description": "Describe instances associated with AWS AutoScaling Groups (ASGs).",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.autoscaling_instance_refresh": {
+    "short_description": "Start or cancel an EC2 Auto Scaling Group (ASG) instance refresh in AWS",
+    "description": "Start or cancel an EC2 Auto Scaling Group instance refresh in AWS. Can be used with M(amazon.aws.autoscaling_instance_refresh_info) to track the subsequent progress. Prior to release 5.0.0 this module was called M(community.aws.ec2_asg_instance_refresh). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.autoscaling_instance_refresh_info": {
+    "short_description": "Gather information about EC2 Auto Scaling Group (ASG) Instance Refreshes in AWS",
+    "description": "Describes one or more instance refreshes. You can determine the status of a request by looking at the RV(instance_refreshes.status) return value. Prior to release 5.0.0 this module was called M(community.aws.ec2_asg_instance_refresh_info). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.aws_az_info": {
+    "short_description": "Gather information about availability zones in AWS",
+    "description": "Gather information about availability zones in AWS.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.aws_caller_info": {
+    "short_description": "Get information about the user and account being used to make AWS calls",
+    "description": "This module returns information about the account and user / role from which the AWS access tokens originate. The primary use of this is to get the account id for templating into ARNs or similar to avoid needing to specify this information in inventory.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.aws_region_info": {
+    "short_description": "Gather information about AWS regions",
+    "description": "Gather information about AWS regions.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.backup_plan_info": {
+    "short_description": "Describe AWS Backup Plans",
+    "description": "Lists info about Backup Plan configuration.",
+    "options": {
+      "backup_plan_names": {
+        "description": "Specifies a list of plan names.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.backup_selection": {
+    "short_description": "Create, delete and modify AWS Backup selection",
+    "description": "Manages AWS Backup selections. For more information see the AWS documentation for backup selections U(https://docs.aws.amazon.com/aws-backup/latest/devguide/assigning-resources.html).",
+    "options": {
+      "backup_plan_name": {
+        "description": "Uniquely identifies the backup plan to be associated with the selection of resources.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "plan_name"
+        ]
+      },
+      "backup_selection_name": {
+        "description": "The display name of a resource selection document. Must contain 1 to 50 alphanumeric or",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.backup_selection_info": {
+    "short_description": "Describe AWS Backup Selections",
+    "description": "Lists info about Backup Selection configuration for a given Backup Plan.",
+    "options": {
+      "backup_plan_name": {
+        "description": "Uniquely identifies the backup plan to be associated with the selection of resources.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "plan_name"
+        ]
+      },
+      "backup_selection_names": {
+        "description": "Uniquely identifies the backup plan the selections should be listed for.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "selection_names"
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.backup_tag_info": {
+    "short_description": "List tags on AWS Backup resources",
+    "description": "List tags on AWS backup resources such as backup plan, backup vault, and recovery point. Resources are referenced using ARN.",
+    "options": {
+      "resource": {
+        "description": "The Amazon Resource Name (ARN) of the backup resource.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.backup_vault_info": {
+    "short_description": "Describe AWS Backup Vaults",
+    "description": "Lists info about Backup Vault configuration.",
+    "options": {
+      "backup_vault_names": {
+        "description": "Specifies a list of vault names. If an empty list is specified, information for the backup vaults in the current region is returned.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.cloudformation": {
+    "short_description": "Create or delete an AWS CloudFormation stack",
+    "description": "Launches or updates an AWS CloudFormation stack and waits for it complete.",
+    "options": {
+      "stack_name": {
+        "description": "Name of the CloudFormation stack.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disable_rollback": {
+        "description": "If a stacks fails to form, rollback will remove the stack.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "on_create_failure": {
+        "description": "Action to take upon failure of stack creation. Incompatible with the O(disable_rollback) option.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "DO_NOTHING",
+          "ROLLBACK",
+          "DELETE"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "create_timeout": {
+        "description": "The amount of time (in minutes) that can pass before the stack status becomes V(CREATE_FAILED).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_parameters": {
+        "description": "A list of hashes of all the template variables for the stack. The value can be a string or a dict. Dict can be used to set additional template parameter attributes like UsePreviousValue (see example).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "state": {
+        "description": "If O(state=present), stack will be created. If O(state=present) and if stack exists and template has changed, it will be updated. If O(state=absent), stack will be removed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "template": {
+        "description": "The local path of the CloudFormation template. This must be the full path to the file, relative to the working directory. If using roles this may look like V(roles/cloudformation/files/cloudformation-example.json). If O(state=present) and the stack does not exist yet, either O(template), O(template_body) or O(template_url) must be specified (but only one of them). If O(state=present), the stack does exist, and neither O(template), O(template_body) nor O(template_url) are specified, the previous template will be reused. The O(template) parameter has been deprecated and will be remove in a release after 2026-05-01. It is recommended to use O(template_body) with the P(ansible.builtin.template#lookup) lookup plugin.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_arns": {
+        "description": "A comma separated list of Simple Notification Service (SNS) topic ARNs to publish stack related events.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stack_policy": {
+        "description": "The path of the file containing the CloudFormation stack policy. A policy cannot be removed once placed, but it can be modified. for instance, allow all updates U(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html#d0e9051)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stack_policy_body": {
+        "description": "The CloudFormation stack policy in JSON. A policy cannot be removed once placed, but it can be modified. for instance, allow all updates U(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html#d0e9051)",
+        "type": "json",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stack_policy_on_update_body": {
+        "description": "The body of the cloudformation stack policy only applied during this update.",
+        "type": "json",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Dictionary of tags to associate with stack and its resources during stack creation. Can be updated later, updating tags removes previous entries.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_url": {
+        "description": "Location of file containing the template body. The URL must point to a template (max size 307,200 bytes) located in an S3 bucket in the same region as the stack. If O(state=present) and the stack does not exist yet, either O(template), O(template_body) or O(template_url) must be specified (but only one of them). If O(state=present), the stack does exist, and neither O(template), O(template_body) nor O(template_url) are specified, the previous template will be reused.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "create_changeset": {
+        "description": "If stack already exists create a changeset instead of directly applying changes.  See the AWS Change Sets docs U(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html). B(WARNING:) if the stack does not exist, it will be created without changeset. If O(state=absent), the stack will be deleted immediately with no changeset.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "changeset_name": {
+        "description": "Name given to the changeset when creating a changeset. Only used when O(create_changeset=true). By default a name prefixed with Ansible-STACKNAME is generated based on input parameters. See the AWS Change Sets docs for more information U(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role_arn": {
+        "description": "The role that AWS CloudFormation assumes to create the stack. See the AWS CloudFormation Service Role docs U(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-servicerole.html)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "termination_protection": {
+        "description": "Enable or disable termination protection on the stack.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_body": {
+        "description": "Template body. Use this to pass in the actual body of the CloudFormation template. If O(state=present) and the stack does not exist yet, either O(template), O(template_body) or O(template_url) must be specified (but only one of them). If O(state=present), the stack does exist, and neither O(template), O(template_body) nor O(template_url) are specified, the previous template will be reused.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "events_limit": {
+        "description": "Maximum number of CloudFormation events to fetch from a stack when creating or updating it.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 200,
+        "aliases": null
+      },
+      "backoff_delay": {
+        "description": "Number of seconds to wait for the next retry.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3,
+        "aliases": null
+      },
+      "backoff_max_delay": {
+        "description": "Maximum amount of time to wait between retries.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 30,
+        "aliases": null
+      },
+      "backoff_retries": {
+        "description": "Number of times to retry operation. AWS API throttling mechanism fails CloudFormation module so we have to retry a couple of times.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "capabilities": {
+        "description": "Specify capabilities that stack template contains. Valid values are V(CAPABILITY_IAM), V(CAPABILITY_NAMED_IAM) and V(CAPABILITY_AUTO_EXPAND).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [
+          "CAPABILITY_IAM",
+          "CAPABILITY_NAMED_IAM"
+        ],
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.cloudformation_info": {
+    "short_description": "Obtain information about an AWS CloudFormation stack",
+    "description": "Gets information about an AWS CloudFormation stack.",
+    "options": {
+      "stack_name": {
+        "description": "The name or id of the CloudFormation stack. Gathers information on all stacks by default.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "all_facts": {
+        "description": "Get all stack information for the stack.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "stack_events": {
+        "description": "Get stack events for the stack.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "stack_template": {
+        "description": "Get stack template body for the stack.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "stack_resources": {
+        "description": "Get stack resources for the stack.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "stack_policy": {
+        "description": "Get stack policy for the stack.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "stack_change_sets": {
+        "description": "Get stack change sets for the stack",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.cloudtrail": {
+    "short_description": "manage CloudTrail create, delete, update",
+    "description": "Creates, deletes, or updates CloudTrail configuration. Ensures logging is also enabled. This module was originally added to C(community.aws) in release 1.0.0.",
+    "options": {
+      "state": {
+        "description": "Add or remove CloudTrail configuration. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.cloudtrail_info": {
+    "short_description": "Gather information about trails in AWS Cloud Trail",
+    "description": "Gather information about trails in AWS CloudTrail.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.cloudwatch_metric_alarm": {
+    "short_description": "Create/update or delete AWS CloudWatch",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.cloudwatchevent_rule": {
+    "short_description": "Manage CloudWatch Event rules and targets",
+    "description": "This module creates and manages CloudWatch event rules and targets. This module was originally added to C(community.aws) in release 1.0.0.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.cloudwatchlogs_log_group_info": {
+    "short_description": "Get information about log_group in CloudWatchLogs",
+    "description": "Lists the specified log groups. You can list all your log groups or filter the results by prefix. This module was originally added to C(community.aws) in release 1.0.0.",
+    "options": {
+      "log_group_name": {
+        "description": "The name or prefix of the log group to filter by.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.cloudwatchlogs_log_group_metric_filter": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_ami": {
+    "short_description": "Create or destroy an image (AMI) in EC2",
+    "description": "Registers or deregisters EC2 images.",
+    "options": {
+      "instance_id": {
+        "description": "Instance ID to create the AMI from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the new AMI.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "architecture": {
+        "description": "The target architecture of the image to register.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_ami_info": {
+    "short_description": "Gather information about EC2 AMIs",
+    "description": "Gather information about EC2 AMIs.",
+    "options": {
+      "image_ids": {
+        "description": "One or more image IDs.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "image_id"
+        ]
+      },
+      "filters": {
+        "description": "A dict of filters to apply. Each dict item consists of a filter key and a filter value. See U(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeImages.html) for possible filters. Filter names and values are case sensitive.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "owners": {
+        "description": "Filter the images by the owner. Valid options are an AWS account ID, self, or an AWS owner alias ( amazon | aws-marketplace | microsoft ).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "owner"
+        ]
+      },
+      "executable_users": {
+        "description": "Filter images by users with explicit launch permissions. Valid options are an AWS account ID, self, or all (public AMIs).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "executable_user"
+        ]
+      },
+      "describe_image_attributes": {
+        "description": "Describe attributes (like launchPermission) of the images found.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_dedicated_host": {
+    "short_description": "Create, update or delete (release) EC2 dedicated host",
+    "description": "Create, update or delete (release) EC2 dedicated host.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_dedicated_host_info": {
+    "short_description": "Gather information about EC2 Dedicated Hosts in AWS",
+    "description": "Gather information about EC2 Dedicated Hosts in AWS. The module can also gather information about dedicated Mac hosts.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_eip_info": {
+    "short_description": "List EC2 EIP details",
+    "description": "List details of EC2 Elastic IP addresses. This module was originally added to C(community.aws) in release 1.0.0.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_eni": {
+    "short_description": "Create and optionally attach an Elastic Network Interface (ENI) to an instance",
+    "description": "Create and optionally attach an Elastic Network Interface (ENI) to an instance. If O(eni_id) or O(private_ip_address) is provided, the existing ENI (if any) will be modified. The O(attached) parameter controls the attachment status of the network interface.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_eni_info": {
+    "short_description": "Gather information about EC2 ENI interfaces in AWS",
+    "description": "Gather information about EC2 ENI interfaces in AWS.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_import_image": {
+    "short_description": "Manage AWS EC2 import image tasks",
+    "description": "Import single or multi-volume disk images or EBS snapshots into an Amazon Machine Image (AMI). Cancel an in-process import virtual machine task.",
+    "options": {
+      "state": {
+        "description": "Use O(state=present) to import single or multi-volume disk images or EBS snapshots into an Amazon Machine Image (AMI). Use O(state=absent) to cancel an in-process import virtual machine task.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_instance": {
+    "short_description": "Create & manage EC2 instances",
+    "description": "Create and manage AWS EC2 instances. This module does not support creating L(EC2 Spot instances,https://aws.amazon.com/ec2/spot/). The M(amazon.aws.ec2_spot_instance) module can create and manage spot instances.",
+    "options": {
+      "instance_ids": {
+        "description": "If you specify one or more instance IDs, only instances that have the specified IDs are returned. Mutually exclusive with O(exact_count).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for the instances. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_instance_type_info": {
+    "short_description": "Retrieve information about EC2 instance types",
+    "description": "Retrieves detailed information about EC2 instance types. By default, all instance types for the current region are described. Can filter results using instance type names or filters. Does not implement DryRun feature.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_key": {
+    "short_description": "Create or delete an EC2 key pair",
+    "description": "Create or delete an EC2 key pair.",
+    "options": {
+      "name": {
+        "description": "Name of the key pair.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "key_material": {
+        "description": "Public key material.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Force overwrite of already existing key pair if key has changed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Create or delete keypair.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_key_info": {
+    "short_description": "Gather information about EC2 key pairs in AWS",
+    "description": "Gather information about EC2 key pairs in AWS.",
+    "options": {
+      "filters": {
+        "description": "A dict of filters to apply. Each dict item consists of a filter key and a filter value. See U(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeKeyPairs.html) for possible filters. Filter names and values are case sensitive.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "names": {
+        "description": "The key pair names.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "ids": {
+        "description": "The IDs of the key pairs.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "include_public_key": {
+        "description": "Whether or not to include the public key material in the response.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_launch_template": {
+    "short_description": "Manage EC2 launch templates",
+    "description": "Create, modify, and delete EC2 Launch Templates, which can be used to create individual instances or with Autoscaling Groups. The M(amazon.aws.ec2_instance) and M(community.aws.autoscaling_group) modules can, instead of specifying all parameters on those tasks, be passed a Launch Template which contains settings like instance size, disk type, subnet, and more.",
+    "options": {
+      "template_id": {
+        "description": "The ID for the launch template, can be used for all cases except creating a new Launch Template. At least one of O(template_id) and O(template_name) must be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "id"
+        ]
+      },
+      "template_name": {
+        "description": "The template name. This must be unique in the region-account combination you are using. If no launch template exists with the specified name, a new launch template is created. If a launch template with the specified name already exists and the configuration has not changed, nothing happens. If a launch template with the specified name already exists and the configuration has changed, a new version of the launch template is created. At least one of O(template_id) and O(template_name) must be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "default_version": {
+        "description": "Which version should be the default when users spin up new instances based on this template? By default, the latest version will be made the default.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "latest",
+        "aliases": null
+      },
+      "version_description": {
+        "description": "The description of a launch template version.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_launch_template_info": {
+    "short_description": "Gather information about launch templates and versions",
+    "description": "Gather information about launch templates.",
+    "options": {
+      "launch_template_ids": {
+        "description": "The IDs of the launch templates.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filters": {
+        "description": "A dict of filters to apply. Each dict item consists of a filter key and a filter value. See U(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeLaunchTemplates.html) for possible filters. Filter names and values are case sensitive.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_metadata_facts": {
+    "short_description": "Gathers facts (instance metadata) about remote hosts within EC2",
+    "description": "This module fetches data from the instance metadata endpoint in EC2 as per U(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html). The module must be called from within the EC2 instance itself. The module is configured to utilize the session oriented Instance Metadata Service v2 (IMDSv2) U(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html). If the HttpEndpoint parameter U(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyInstanceMetadataOptions.html#API_ModifyInstanceMetadataOptions_RequestParameters) is set to disabled for the EC2 instance, the module will return an error while retrieving a session token.",
+    "options": {
+      "metadata_token_ttl_seconds": {
+        "description": "Specify a value for the C(X-aws-ec2-metadata-token-ttl-seconds) header. Value must be between V(1) and V(21600).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 60,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_placement_group": {
+    "short_description": "Create or delete an EC2 Placement Group",
+    "description": "Create an EC2 Placement Group; if the placement group already exists, nothing is done. Or, delete an existing placement group. If the placement group is absent, do nothing. See also U(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html).",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_placement_group_info": {
+    "short_description": "List EC2 Placement Group(s) details",
+    "description": "List details of EC2 Placement Group(s).",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_security_group": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_security_group_info": {
+    "short_description": "Gather information about EC2 security groups in AWS",
+    "description": "Gather information about EC2 security groups in AWS.",
+    "options": {
+      "filters": {
+        "description": "A dict of filters to apply. Each dict item consists of a filter key and a filter value. See U(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSecurityGroups.html) for possible filters. Filter names and values are case sensitive. You can also use underscores (_) instead of dashes (-) in the filter keys, which will take precedence in case of conflict.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_snapshot_info": {
+    "short_description": "Gathers information about EC2 volume snapshots in AWS",
+    "description": "Gathers information about EC2 volume snapshots in AWS.",
+    "options": {
+      "snapshot_ids": {
+        "description": "If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "owner_ids": {
+        "description": "If you specify one or more snapshot owners, only snapshots from the specified owners and for which you have access are returned.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "restorable_by_user_ids": {
+        "description": "If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "filters": {
+        "description": "A dict of filters to apply. Each dict item consists of a filter key and a filter value. See U(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSnapshots.html) for possible filters. Filter names and values are case sensitive.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "max_results": {
+        "description": "The maximum number of snapshot results returned in paginated output. When used only a single page along with a O(next_token_id) response element will be returned. The remaining results of the initial request can be seen by sending another request with the returned O(next_token_id) value. This value can be between 5 and 1000; if O(next_token_id) is given a value larger than 1000, only 1000 results are returned. If this parameter is not used, then DescribeSnapshots returns all results. This parameter is mutually exclusive with O(snapshot_ids).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "next_token_id": {
+        "description": "Contains the value returned from a previous paginated request where O(max_results) was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the O(next_token_id) value. This parameter is mutually exclusive with O(snapshot_ids)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_spot_instance_info": {
+    "short_description": "Gather information about ec2 spot instance requests",
+    "description": "Describes the specified Spot Instance requests.",
+    "options": {
+      "filters": {
+        "description": "A dict of filters to apply. Each dict item consists of a filter key and a filter value. Filter names and values are case sensitive. See U(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSpotInstanceRequests.html) for possible filters.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "spot_instance_request_ids": {
+        "description": "One or more Spot Instance request IDs.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_tag": {
+    "short_description": "Create and remove tags on ec2 resources",
+    "description": "Creates, modifies and removes tags for any EC2 resource. Resources are referenced by their resource id (for example, an instance being i-XXXXXXX, a VPC being vpc-XXXXXXX). This module is designed to be used with complex args (tags), see the examples.",
+    "options": {
+      "resource": {
+        "description": "The EC2 resource id.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the tags should be present or absent on the resource. The use of O(state=list) to interrogate the tags of an instance was deprecated in release 1.0.0 and is no longer available in release 4.0.0. The",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_tag_info": {
+    "short_description": "List tags on ec2 resources",
+    "description": "Lists tags for any EC2 resource. Resources are referenced by their resource id (e.g. an instance being i-XXXXXXX, a vpc being vpc-XXXXXX). Resource tags can be managed using the M(amazon.aws.ec2_tag) module.",
+    "options": {
+      "resource": {
+        "description": "The EC2 resource id (for example i-XXXXXX or vpc-XXXXXX).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_transit_gateway_info": {
+    "short_description": "Retrieve information about EC2 Transit Gateways in AWS",
+    "description": "Gather information about EC2 Transit Gateways in AWS.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vol_info": {
+    "short_description": "Gather information about EC2 volumes in AWS",
+    "description": "Gather information about EC2 volumes in AWS.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vpc_dhcp_option": {
+    "short_description": "Manages DHCP Options, and can ensure the DHCP options for the given VPC match what",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vpc_dhcp_option_info": {
+    "short_description": "Gather information about DHCP options sets in AWS",
+    "description": "Gather information about DHCP options sets in AWS.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vpc_egress_igw_info": {
+    "short_description": "Gather information about AWS VPC Egress Only Internet gateway",
+    "description": "Gather information about AWS VPC Egress Only Internet gateway.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vpc_endpoint_info": {
+    "short_description": "Retrieves AWS VPC endpoints details using AWS methods",
+    "description": "Gets various details related to AWS VPC endpoints.",
+    "options": {
+      "vpc_endpoint_ids": {
+        "description": "The IDs of specific endpoints to retrieve the details of.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filters": {
+        "description": "A dict of filters to apply. Each dict item consists of a filter key and a filter value. See U(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpcEndpoints.html) for possible filters.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vpc_endpoint_service_info": {
+    "short_description": "Retrieves AWS VPC endpoint service details",
+    "description": "Gets details related to AWS VPC Endpoint Services.",
+    "options": {
+      "filters": {
+        "description": "A dict of filters to apply. Each dict item consists of a filter key and a filter value. See U(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpcEndpointServices.html) for possible filters.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "service_names": {
+        "description": "A list of service names which can be used to narrow the search results.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vpc_igw_info": {
+    "short_description": "Gather information about internet gateways in AWS",
+    "description": "Gather information about internet gateways in AWS.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vpc_nacl": {
+    "short_description": "create and delete Network ACLs",
+    "description": "Read the AWS documentation for Network ACLS U(https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_ACLs.html).",
+    "options": {
+      "name": {
+        "description": "Tagged name identifying a network ACL. One and only one of the O(name) or O(nacl_id) is required. Mutually exclusive with O(nacl_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nacl_id": {
+        "description": "NACL id identifying a network ACL. One and only one of the O(name) or O(nacl_id) is required. Mutually exclusive with O(name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vpc_id": {
+        "description": "VPC id of the requesting VPC. Required when state present.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subnets": {
+        "description": "The list of subnets that should be associated with the network ACL. Must be specified as a list Each subnet can be specified as subnet ID, or its tagged name.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "egress": {
+        "description": "A list of rules for outgoing traffic. Each rule must be specified as a list. Each rule may contain the rule number (integer 1-32766), protocol (one of [",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vpc_nacl_info": {
+    "short_description": "Gather information about Network ACLs in an AWS VPC",
+    "description": "Gather information about Network ACLs in an AWS VPC.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vpc_nat_gateway": {
+    "short_description": "Manage AWS VPC NAT Gateways",
+    "description": "Ensure the state of AWS VPC NAT Gateways based on their id, allocation and subnet ids.",
+    "options": {
+      "state": {
+        "description": "Ensure NAT Gateway is present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vpc_nat_gateway_info": {
+    "short_description": "Retrieves AWS VPC Managed Nat Gateway details using AWS methods",
+    "description": "Gets various details related to AWS VPC Managed Nat Gateways.",
+    "options": {
+      "nat_gateway_ids": {
+        "description": "List of specific nat gateway IDs to fetch details for.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "filters": {
+        "description": "A dict of filters to apply. Each dict item consists of a filter key and a filter value. See U(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeNatGateways.html) for possible filters.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vpc_net_info": {
+    "short_description": "Gather information about EC2 VPCs in AWS",
+    "description": "Gather information about EC2 VPCs in AWS.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vpc_peering_info": {
+    "short_description": "Retrieves AWS VPC Peering details using AWS methods",
+    "description": "Gets various details related to AWS VPC Peers",
+    "options": {
+      "peer_connection_ids": {
+        "description": "List of specific VPC peer IDs to get details for.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filters": {
+        "description": "A dict of filters to apply. Each dict item consists of a filter key and a filter value. See U(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpcPeeringConnections.html) for possible filters.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vpc_route_table": {
+    "short_description": "Manage route tables for AWS Virtual Private Clouds",
+    "description": "Manage route tables for AWS Virtual Private Clouds (VPCs).",
+    "options": {
+      "gateway_id": {
+        "description": "The ID of the gateway to associate with the route table. If O(gateway_id) is V(",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vpc_route_table_info": {
+    "short_description": "Gather information about ec2 VPC route tables in AWS",
+    "description": "Gather information about EC2 VPC route tables in AWS.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vpc_subnet": {
+    "short_description": "Manage subnets in AWS virtual private clouds",
+    "description": "Manage subnets in AWS virtual private clouds.",
+    "options": {
+      "az": {
+        "description": "The availability zone for the subnet. Required if O(outpost_arn) is set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cidr": {
+        "description": "The CIDR block for the subnet. E.g. V(192.0.2.0/24).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipv6_cidr": {
+        "description": "The IPv6 CIDR block for the subnet. The VPC must have a /56 block assigned and this value must be a valid IPv6 /64 that falls in the VPC range. Required if O(assign_instances_ipv6=true)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vpc_subnet_info": {
+    "short_description": "Gather information about EC2 VPC subnets in AWS",
+    "description": "Gather information about EC2 VPC subnets in AWS.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vpc_vgw_info": {
+    "short_description": "Gather information about virtual gateways in AWS",
+    "description": "Gather information about virtual gateways (VGWs) in AWS.",
+    "options": {
+      "filters": {
+        "description": "A dict of filters to apply. Each dict item consists of a filter key and a filter value. See U(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpnGateways.html) for possible filters.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "vpn_gateway_ids": {
+        "description": "One or more virtual private gateway IDs.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.ec2_vpc_vpn_info": {
+    "short_description": "Gather information about EC2 VPN Connections in AWS",
+    "description": "Gather information about EC2 VPN Connections in AWS.",
+    "options": {
+      "filters": {
+        "description": "A dict of filters to apply. Each dict item consists of a filter key and a filter value. See U(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpnConnections.html) for possible filters.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "vpn_connection_ids": {
+        "description": "Get details of specific EC2 VPN Connection(s) using vpn connection ID/IDs. This value should be provided as a list.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.elb_application_lb": {
+    "short_description": "Manage an Application Load Balancer",
+    "description": "Manage an AWS Application Elastic Load Balancer. See U(https://aws.amazon.com/blogs/aws/new-aws-application-load-balancer/) for details. This module was originally added to C(community.aws) in release 1.0.0.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.elb_application_lb_info": {
+    "short_description": "Gather information about Application Load Balancers in AWS",
+    "description": "Gather information about Application Load Balancers in AWS. This module was originally added to C(community.aws) in release 1.0.0.",
+    "options": {
+      "load_balancer_arns": {
+        "description": "The Amazon Resource Names (ARN) of the load balancers. You can specify up to 20 load balancers in a single call.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "names": {
+        "description": "The names of the load balancers.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "include_attributes": {
+        "description": "Whether or not to include load balancer attributes in the response.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "include_listeners": {
+        "description": "Whether or not to include load balancer listeners in the response.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "include_listener_rules": {
+        "description": "Whether or not to include load balancer listener rules in the response. Implies O(include_listeners=true)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.elb_classic_lb": {
+    "short_description": "Creates, updates or destroys an Amazon ELB",
+    "description": "Creates, updates or destroys an Amazon Elastic Load Balancer (ELB). This module was renamed from M(amazon.aws.ec2_elb_lb) to M(amazon.aws.elb_classic_lb) in version 2.1.0 of the amazon.aws collection.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.elb_classic_lb_info": {
+    "short_description": "Gather information about EC2 Classic Elastic Load Balancers in AWS",
+    "description": "Gather information about EC2 Classic Elastic Load Balancers in AWS.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.iam_access_key_info": {
+    "short_description": "fetch information about AWS IAM User access keys",
+    "description": "Fetches information AWS IAM user access keys. ",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.iam_mfa_device_info": {
+    "short_description": "List the MFA (Multi-Factor Authentication) devices registered for a user",
+    "description": "List the MFA (Multi-Factor Authentication) devices registered for a user.",
+    "options": {
+      "user_name": {
+        "description": "The name of the user whose MFA devices will be listed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.iam_password_policy": {
+    "short_description": "Update an IAM Password Policy",
+    "description": "Module updates an IAM Password Policy on a given AWS account.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.iam_role": {
+    "short_description": "Manage AWS IAM roles",
+    "description": "Manage AWS IAM roles.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.iam_role_info": {
+    "short_description": "Gather information on IAM roles",
+    "description": "Gathers information about IAM roles.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.kms_key": {
+    "short_description": "Perform various KMS key management tasks",
+    "description": "Manage role/user access to a KMS key. Not designed for encrypting/decrypting. Prior to release 5.0.0 this module was called M(community.aws.aws_kms). The usage did not change. This module was originally added to C(community.aws) in release 1.0.0.",
+    "options": {
+      "alias": {
+        "description": "An alias for a key. For safety, even though KMS does not require keys to have an alias, this module expects all new keys to be given an alias to make them easier to manage. Existing keys without an alias may be referred to by O(key_id). Use M(amazon.aws.kms_key_info) to find key ids. Note that passing a O(key_id) and O(alias) will only cause a new alias to be added, an alias will never be renamed. The V(alias/) prefix is optional. Required if O(key_id) is not given.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "key_alias"
+        ]
+      },
+      "key_id": {
+        "description": "Key ID or ARN of the key. One of O(alias) or O(key_id) are required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "key_arn"
+        ]
+      },
+      "enable_key_rotation": {
+        "description": "Whether the key should be automatically rotated every year.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether a key should be present or absent. Note that making an existing key V(absent) only schedules a key for deletion. Passing a key that is scheduled for deletion with O(state=present) will cancel key deletion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Whether or not a key is enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "description": {
+        "description": "A description of the CMK. Use a description that helps you decide whether the CMK is appropriate for a task.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "multi_region": {
+        "description": "Whether to create a multi-Region primary key or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "pending_window": {
+        "description": "The number of days between requesting deletion of the CMK and when it will actually be deleted. Only used when O(state=absent) and the CMK has not yet been deleted. Valid values are between V(7) and V(30) (inclusive). ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.kms_key_info": {
+    "short_description": "Gather information about AWS KMS keys",
+    "description": "Gather information about AWS KMS keys including tags and grants. Prior to release 5.0.0 this module was called M(community.aws.aws_kms_info). The usage did not change. This module was originally added to C(community.aws) in release 1.0.0.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.lambda_alias": {
+    "short_description": "Creates, updates or deletes AWS Lambda function aliases",
+    "description": "This module allows the management of AWS Lambda functions aliases via the Ansible framework. It is idempotent and supports",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.lambda_event": {
+    "short_description": "Creates, updates or deletes AWS Lambda function event mappings",
+    "description": "This module allows the management of AWS Lambda function event source mappings such as DynamoDB and Kinesis stream events via the Ansible framework. These event source mappings are relevant only in the AWS Lambda pull model, where AWS Lambda invokes the function. It is idempotent and supports",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.lambda_execute": {
+    "short_description": "Execute an AWS Lambda function",
+    "description": "This module executes AWS Lambda functions, allowing synchronous and asynchronous invocation. Prior to release 5.0.0 this module was called M(community.aws.execute_lambda). The usage did not change. This module was originally added to C(community.aws) in release 1.0.0.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.lambda_layer": {
+    "short_description": "Creates an AWS Lambda layer or deletes an AWS Lambda layer version",
+    "description": "This module allows the management of AWS Lambda functions aliases via the Ansible Creates an Lambda layer from a ZIP archive. Each time you call this module with the same layer name, a new version is created. Deletes a version of an Lambda layer.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.lambda_layer_info": {
+    "short_description": "List lambda layer or lambda layer versions",
+    "description": "This module is used to list the versions of an Lambda layer or all available lambda layers. The lambda layer versions that have been deleted aren",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.lambda_policy": {
+    "short_description": "Creates, updates or deletes AWS Lambda policy statements.",
+    "description": "This module allows the management of AWS Lambda policy statements. It is idempotent and supports",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.rds_cluster_info": {
+    "short_description": "Obtain information about one or more RDS clusters",
+    "description": "Obtain information about one or more RDS clusters. This module was originally added to C(community.aws) in release 3.2.0.",
+    "options": {
+      "db_cluster_identifier": {
+        "description": "The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "cluster_id",
+          "id",
+          "cluster_name"
+        ]
+      },
+      "filters": {
+        "description": "A filter that specifies one or more DB clusters to describe. See U(https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBClusters.html).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.rds_cluster_param_group_info": {
+    "short_description": "Describes the properties of specific RDS cluster parameter group",
+    "description": "Obtain information about a list or one specific RDS cluster parameter group.",
+    "options": {
+      "name": {
+        "description": "The RDS cluster parameter group name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "include_parameters": {
+        "description": "Specifies whether to include the detailed parameters of the RDS cluster parameter group. V(all) include all parameters. V(engine-default) include engine-default parameters. V(system) include system parameters. V(user) include user parameters.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "all",
+          "engine-default",
+          "system",
+          "user"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.rds_engine_versions_info": {
+    "short_description": "Describes the properties of specific versions of DB engines",
+    "description": "Obtain information about a specific versions of DB engines.",
+    "options": {
+      "engine": {
+        "description": "The database engine to return version details for.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "aurora-mysql",
+          "aurora-postgresql",
+          "custom-oracle-ee",
+          "db2-ae",
+          "db2-se",
+          "mariadb",
+          "mysql",
+          "oracle-ee",
+          "oracle-ee-cdb",
+          "oracle-se2",
+          "oracle-se2-cdb",
+          "postgres",
+          "sqlserver-ee",
+          "sqlserver-se",
+          "sqlserver-ex",
+          "sqlserver-web"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "engine_version": {
+        "description": "A specific database engine version to return details for.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "db_parameter_group_family": {
+        "description": "The name of a specific RDS parameter group family to return details for.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_only": {
+        "description": "Specifies whether to return only the default version of the specified engine or the engine and major version combination.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "filters": {
+        "description": "A filter that specifies one or more DB engine versions to describe. See U(https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBEngineVersions.html).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.rds_global_cluster_info": {
+    "short_description": "Obtain information about Aurora global database clusters",
+    "description": "Obtain information about Aurora global database clusters.",
+    "options": {
+      "global_cluster_identifier": {
+        "description": "The user-supplied Global DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter is not case-sensitive. If supplied, must match an existing DBClusterIdentifier.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.rds_instance_info": {
+    "short_description": "obtain information about one or more RDS instances",
+    "description": "Obtain information about one or more RDS instances. This module was originally added to C(community.aws) in release 1.0.0.",
+    "options": {
+      "db_instance_identifier": {
+        "description": "The RDS instance",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.rds_instance_param_group_info": {
+    "short_description": "Describes the RDS parameter group.",
+    "description": "Describe a specific RDS parameter group, or all parameter groups available in the current region.",
+    "options": {
+      "db_parameter_group_name": {
+        "description": "The name of a specific DB parameter group to return details for.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.rds_option_group": {
+    "short_description": "Manages the creation, modification, deletion of RDS option groups",
+    "description": "Manages the creation, modification, deletion of RDS option groups. This module was originally added to C(community.aws) in release 2.1.0.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.rds_option_group_info": {
+    "short_description": "rds_option_group_info module",
+    "description": "Gather information about RDS option groups. This module was originally added to C(community.aws) in release 2.1.0.",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.route53_zone": {
+    "short_description": "add or delete Route 53 zones",
+    "description": "Creates and deletes Route 53 private and public zones. This module was originally added to C(community.aws) in release 1.0.0.",
+    "options": {
+      "zone": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.s3_bucket": {
+    "short_description": "Manage S3 buckets in AWS, DigitalOcean, Ceph, Walrus, FakeS3 and StorageGRID",
+    "description": "Manage S3 buckets. Compatible with AWS, DigitalOcean, Ceph, Walrus, FakeS3 and StorageGRID. When using non-AWS services, O(endpoint_url) should be specified.",
+    "options": {
+      "force": {
+        "description": "When trying to delete a bucket, delete all keys (including versions and delete markers) in the bucket first (an S3 bucket must be empty for a successful deletion).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the S3 bucket.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy": {
+        "description": "The JSON policy as a string. Set to the string V(",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.aws.s3_bucket_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.aws.sts_assume_role": {
+    "short_description": "Assume a role using AWS Security Token Service and obtain temporary credentials",
+    "description": "Assume a role using AWS Security Token Service and obtain temporary credentials.",
+    "options": {
+      "role_arn": {
+        "description": "The Amazon Resource Name (ARN) of the role that the caller is assuming U(https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html#Identifiers_ARNs).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role_session_name": {
+        "description": "Name of the role",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

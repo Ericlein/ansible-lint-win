@@ -1,0 +1,845 @@
+{
+  "cisco.ios.ios_acl_interfaces": {
+    "short_description": "Resource module to configure ACL interfaces.",
+    "description": "This module configures and manages the access-control (ACL) attributes of interfaces on IOS platforms.",
+    "options": {
+      "config": {
+        "description": "A dictionary of ACL interfaces options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "The module, by default, will connect to the remote device and retrieve the current running-config to use as a base for comparing against the contents of source. There are times when it is not desirable to have the task get the current running-config for every task in a playbook.  The I(running_config) argument allows the implementer to pass in the configuration to use as the base config for comparison. This value of this option should be the output received from device by executing command.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | include ^interface|ip access-group|ipv6 traffic-filter) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "parsed",
+          "rendered"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_acls": {
+    "short_description": "",
+    "description": "This module configures and manages the named or numbered ACLs on IOS platforms.",
+    "options": {},
+    "deprecated": null
+  },
+  "cisco.ios.ios_banner": {
+    "short_description": "Module to configure multiline banners.",
+    "description": "This will configure both login and motd banners on remote devices running Cisco IOS. It allows playbooks to add or remote banner text from the active running configuration.",
+    "options": {
+      "banner": {
+        "description": "Specifies which banner should be configured on the remote device. In Ansible 2.4 and earlier only I(login) and I(motd) were supported.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "login",
+          "motd",
+          "exec",
+          "incoming",
+          "slip-ppp"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "multiline_delimiter": {
+        "description": "Specify the delimiting character than will be used for configuration.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_bfd_interfaces": {
+    "short_description": "Resource module to configure bfd in interfaces.",
+    "description": "This module manages the bfd configuration in interface of Cisco IOS network devices.",
+    "options": {
+      "config": {
+        "description": "A list of interface options, to configure bfd.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_bfd_templates": {
+    "short_description": "Bidirectional Forwarding Detection (BFD) templates configurations",
+    "description": "Manages Bidirectional Forwarding Detection (BFD) templates configurations",
+    "options": {
+      "config": {
+        "description": "A dictionary of bfd template options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^bfd-template). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_bgp_global": {
+    "short_description": "Resource module to configure BGP.",
+    "description": "This module configures and manages the attributes of global bgp on Cisco IOS.",
+    "options": {
+      "config": {
+        "description": "A dictionary of options for bgp configurations.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_command": {
+    "short_description": "Module to run commands on remote devices.",
+    "description": "Sends arbitrary commands to an ios node and returns the results read from the device. This module includes an argument that will cause the module to wait for a specific condition before returning or timing out if the condition is not met. This module does not support running commands in configuration mode. Please use L(ios_config,https://docs.ansible.com/ansible/latest/collections/cisco/ios/ios_config_module.html#ansible-collections-cisco-ios-ios-config-module) to configure IOS devices.",
+    "options": {
+      "commands": {
+        "description": "List of commands to send to the remote ios device over the configured provider. The resulting output from the command is returned. If the I(wait_for) argument is provided, the module is not returned until the condition is satisfied or the number of retries has expired. If a command sent to the device requires answering a prompt, it is possible to pass a dict containing I(command), I(answer) and I(prompt). Common answers are",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_config": {
+    "short_description": "Module to manage configuration sections.",
+    "description": "Cisco IOS configurations use a simple block indent file syntax for segmenting configuration into sections.  This module provides an implementation for working with IOS configuration sections in a deterministic way.",
+    "options": {
+      "lines": {
+        "description": "The ordered set of commands that should be configured in the section. The commands must be the exact same commands as found in the device running-config to ensure idempotency and correct diff. Be sure to note the configuration command syntax as some commands are automatically modified by the device config parser.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "commands"
+        ]
+      },
+      "parents": {
+        "description": "The ordered set of parents that uniquely identify the section or hierarchy the commands should be checked against.  If the parents argument is omitted, the commands are checked against the set of top level or global commands.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "src": {
+        "description": "Specifies the source path to the file that contains the configuration or configuration template to load.  The path to the source file can either be the full path on the Ansible control host or a relative path from the playbook or role root directory. This argument is mutually exclusive with I(lines), I(parents). The configuration lines in the source file should be similar to how it will appear if present in the running-configuration of the device including the indentation to ensure idempotency and correct diff.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "before": {
+        "description": "The ordered set of commands to push on to the command stack if a change needs to be made.  This allows the playbook designer the opportunity to perform configuration commands prior to pushing any changes without affecting how the set of commands are matched against the system.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "after": {
+        "description": "The ordered set of commands to append to the end of the command stack if a change needs to be made.  Just like with I(before) this allows the playbook designer to append a set of commands to be executed after the command set.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "match": {
+        "description": "Instructs the module on the way to perform the matching of the set of commands against the current device config.  If match is set to I(line), commands are matched line by line.  If match is set to I(strict), command lines are matched with respect to position.  If match is set to I(exact), command lines must be an equal match.  Finally, if match is set to I(none), the module will not attempt to compare the source configuration with the running configuration on the remote device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "line",
+          "strict",
+          "exact",
+          "none"
+        ],
+        "default": "line",
+        "aliases": null
+      },
+      "replace": {
+        "description": "Instructs the module on the way to perform the configuration on the device. If the replace argument is set to I(line) then the modified lines are pushed to the device in configuration mode.  If the replace argument is set to I(block) then the entire command block is pushed to the device in configuration mode if any line is not correct.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "line",
+          "block"
+        ],
+        "default": "line",
+        "aliases": null
+      },
+      "multiline_delimiter": {
+        "description": "This argument is used when pushing a multiline configuration element to the IOS device.  It specifies the character to use as the delimiting character.  This only applies to the configuration action.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_evpn_ethernet": {
+    "short_description": "Resource module to configure L2VPN EVPN Ethernet Segment.",
+    "description": "This module manages the L2VPN EVPN Ethernet Segment attributes of Cisco IOS network devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of L2VPN EVPN Ethernet Segment options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_evpn_evi": {
+    "short_description": "Resource module to configure L2VPN EVPN EVI.",
+    "description": "This module provides declarative management of L2VPN EVPN EVI on Cisco IOS network devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of L2VPN Ethernet Virtual Private Network (EVPN) EVI configuration",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(sh running-config nve | section ^l2vpn evpn$). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_evpn_global": {
+    "short_description": "Resource module to configure L2VPN EVPN.",
+    "description": "This module provides declarative management of L2VPN EVPN on Cisco IOS network devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of L2VPN Ethernet Virtual Private Network (EVPN) configuration",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(sh running-config nve | section ^l2vpn evpn$). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_facts": {
+    "short_description": "Module to collect facts from remote devices.",
+    "description": "Collects a base set of device facts from a remote device that is running IOS.  This module prepends all of the base network fact keys with C(ansible_net_<fact>).  The facts module will always collect a base set of facts from the device and can enable or disable collection of additional facts.",
+    "options": {
+      "gather_subset": {
+        "description": "When supplied, this argument restricts the facts collected to a given subset. Possible values for this argument include C(all), C(min), C(default), C(hardware), C(config), and C(interfaces). Specify a list of values to include a larger subset. Use a value with an initial C(!) to collect all facts except that subset.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_hostname": {
+    "short_description": "Resource module to configure hostname.",
+    "description": "This module provides declarative management of hostname on Cisco IOS devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of hostname options",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^hostname). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_hsrp_interfaces": {
+    "short_description": "Resource module to configure HSRP on interfaces.",
+    "description": "This module provides declarative management of HSRP configuration on interface for Cisco IOS devices.",
+    "options": {
+      "config": {
+        "description": "A list of HSP configuration options to add to interface",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_interfaces": {
+    "short_description": "Resource module to configure interfaces.",
+    "description": "This module manages the interface attributes of Cisco IOS network devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of interface options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_l2_interfaces": {
+    "short_description": "Resource module to configure L2 interfaces.",
+    "description": "This module provides declarative management of Layer-2 interface on Cisco IOS devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of Layer-2 interface options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_l3_interfaces": {
+    "short_description": "Resource module to configure L3 interfaces.",
+    "description": "This module provides declarative management of Layer-3 interface on Cisco IOS devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of Layer-3 interface options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_lacp": {
+    "short_description": "Resource module to configure LACP.",
+    "description": "This module provides declarative management of Global LACP on Cisco IOS network devices.",
+    "options": {
+      "config": {
+        "description": "The provided configurations.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show lacp sys-id). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_lacp_interfaces": {
+    "short_description": "Resource module to configure LACP interfaces.",
+    "description": "This module provides declarative management of LACP on Cisco IOS network devices lacp_interfaces.",
+    "options": {
+      "config": {
+        "description": "A dictionary of LACP lacp_interfaces option",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_lag_interfaces": {
+    "short_description": "Resource module to configure LAG interfaces.",
+    "description": "This module manages properties of Link Aggregation Group on Cisco IOS devices.",
+    "options": {
+      "config": {
+        "description": "A list of link aggregation group configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_lldp_global": {
+    "short_description": "Resource module to configure LLDP.",
+    "description": "This module configures and manages the Link Layer Discovery Protocol(LLDP) attributes on IOS platforms.",
+    "options": {
+      "config": {
+        "description": "A dictionary of LLDP options",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_lldp_interfaces": {
+    "short_description": "Resource module to configure LLDP interfaces.",
+    "description": "This module manages link layer discovery protocol (LLDP) attributes of interfaces on Cisco IOS devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of LLDP options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_logging_global": {
+    "short_description": "Resource module to configure logging.",
+    "description": "This module manages the logging attributes of Cisco IOS network devices",
+    "options": {
+      "config": {
+        "description": "A dictionary of logging options",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_ntp_global": {
+    "short_description": "Resource module to configure NTP.",
+    "description": "This module provides declarative management of ntp on Cisco IOS devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of ntp options",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^ntp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_ospf_interfaces": {
+    "short_description": "Resource module to configure OSPF interfaces.",
+    "description": "This module configures and manages the Open Shortest Path First (OSPF) version 2 on IOS platforms.",
+    "options": {
+      "config": {
+        "description": "A dictionary of OSPF interfaces options.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_ospfv2": {
+    "short_description": "Resource module to configure OSPFv2.",
+    "description": "This module configures and manages the Open Shortest Path First (OSPF) version 2 on IOS platforms.",
+    "options": {
+      "config": {
+        "description": "A dictionary of OSPF options.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_ospfv3": {
+    "short_description": "Resource module to configure OSPFv3.",
+    "description": "This module configures and manages the Open Shortest Path First (OSPF) version 3 on IOS platforms.",
+    "options": {
+      "config": {
+        "description": "A list of configurations for ospfv3.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_ping": {
+    "short_description": "Tests reachability using ping from IOS switch.",
+    "description": "Tests reachability using ping from switch to a remote destination. For a general purpose network module, see the L(net_ping,https://docs.ansible.com/ansible/latest/collections/ansible/netcommon/net_ping_module.html) module. For Windows targets, use the L(win_ping,https://docs.ansible.com/ansible/latest/collections/ansible/windows/win_ping_module.html) module instead. For targets running Python, use the L(ping,https://docs.ansible.com/ansible/latest/collections/ansible/builtin/ping_module.html) module instead.",
+    "options": {
+      "count": {
+        "description": "Number of packets to send.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "afi": {
+        "description": "Define echo type ip or ipv6.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ip",
+          "ipv6"
+        ],
+        "default": "ip",
+        "aliases": null
+      },
+      "dest": {
+        "description": "The IP Address or hostname (resolvable by switch) of the remote node.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "df_bit": {
+        "description": "Set the DF bit.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "source": {
+        "description": "The source IP Address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "size": {
+        "description": "Size of the packet to send.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "egress": {
+        "description": "Force egress interface bypassing routing.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ingress": {
+        "description": "LAN source interface for Ingress.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "specify timeout interval.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Determines if the expected result is success or fail.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "vrf": {
+        "description": "The VRF to use for forwarding.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_service": {
+    "short_description": "Resource module to configure service.",
+    "description": "This module configures and manages service attributes on IOS platforms",
+    "options": {
+      "config": {
+        "description": "A dictionary of service configuration",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_snmp_server": {
+    "short_description": "",
+    "description": "This module provides declarative management of SNMP server on Cisco IOS devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of SNMP server configuration",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_static_routes": {
+    "short_description": "Resource module to configure static routes.",
+    "description": "This module configures and manages the static routes on IOS platforms.",
+    "options": {
+      "config": {
+        "description": "A dictionary of static route options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_system": {
+    "short_description": "Module to manage the system attributes.",
+    "description": "This module provides declarative management of node system attributes on Cisco IOS devices.  It provides an option to configure host system parameters or remove those parameters from the device active configuration.",
+    "options": {
+      "hostname": {
+        "description": "Configure the device hostname parameter. This option takes an ASCII string value.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_name": {
+        "description": "Configure the IP domain name on the remote device to the provided value. Value should be in the dotted name form and will be appended to the C(hostname) to create a fully-qualified domain name.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_search": {
+        "description": "Provides the list of domain suffixes to append to the hostname for the purpose of doing name resolution. This argument accepts a list of names and will be reconciled with the current active configuration on the running node.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lookup_source": {
+        "description": "Provides one or more source interfaces to use for performing DNS lookups.  The interface provided in C(lookup_source) must be a valid interface configured on the device.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lookup_enabled": {
+        "description": "Administrative control for enabling or disabling DNS lookups.  When this argument is set to True, lookups are performed and when it is set to False, lookups are not performed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name_servers": {
+        "description": "List of DNS name servers by IP address to use to perform name resolution lookups.  This argument accepts either a list of DNS servers See examples.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the configuration values in the device",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_user": {
+    "short_description": "Module to manage the aggregates of local users.",
+    "description": "This module provides declarative management of the local usernames configured on network devices. It allows playbooks to manage either individual usernames or the aggregate of usernames in the current running config. It also supports purging usernames from the configuration that are not explicitly defined.",
+    "options": {
+      "aggregate": {
+        "description": "The set of username objects to be configured on the remote Cisco IOS device. The list entries can either be the username or a hash of username and properties. This argument is mutually exclusive with the C(name) argument.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "users",
+          "collection"
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_vlans": {
+    "short_description": "Resource module to configure VLANs.",
+    "description": "This module provides declarative management of VLANs on Cisco IOS network devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of VLANs options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_vrf_global": {
+    "short_description": "Resource module to configure global VRF definitions.",
+    "description": "This module provides declarative management of VRF definitions on Cisco IOS.",
+    "options": {
+      "config": {
+        "description": "A dictionary containing device configurations for VRF, including a list of VRF definitions.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^vrf). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_vrf_interfaces": {
+    "short_description": "Manages VRF configuration on interfaces.",
+    "description": "Manages Virtual Routing and Forwarding (VRF) configuration on interfaces of Cisco IOS devices.",
+    "options": {},
+    "deprecated": null
+  }
+}

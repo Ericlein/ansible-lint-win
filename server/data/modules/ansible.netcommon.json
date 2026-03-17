@@ -1,0 +1,677 @@
+{
+  "ansible.netcommon.cli_backup": {
+    "short_description": "Back up device configuration from network devices over network_cli",
+    "description": "This module provides platform agnostic way of backing up text based configuration from network devices over network_cli connection plugin.",
+    "options": {
+      "defaults": {
+        "description": "The I(defaults) argument will influence how the running-config is collected from the device.  When the value is set to true, the command used to collect the running-config is append with the all keyword.  When the value is set to false, the command is issued without the all keyword.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "filename": {
+        "description": "The filename to be used to store the backup configuration. If the filename is not given it will be generated based on the hostname, current time and date in format defined by <hostname>_config.<current-date>@<current-time>",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dir_path": {
+        "description": "This option provides the path ending with directory name in which the backup configuration file will be stored. If the directory does not exist it will be first created and the filename is either the value of C(filename) or default filename as described in C(filename) options description. If the path value is not given in that case a I(backup) directory will be created in the current working directory and backup configuration will be copied in C(filename) within I(backup) directory.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.netcommon.cli_command": {
+    "short_description": "Run a cli command on cli-based network devices",
+    "description": "Sends a command to a network device and returns the result read from the device.",
+    "options": {
+      "command": {
+        "description": "The command to send to the remote network device.  The resulting output from the command is returned, unless I(sendonly) is set.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "prompt": {
+        "description": "A single regex pattern or a sequence of patterns to evaluate the expected prompt from I(command).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "answer": {
+        "description": "The answer to reply with if I(prompt) is matched. The value can be a single answer or a list of answer for multiple prompts. In case the command execution results in multiple prompts the sequence of the prompt and excepted answer should be in same order.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sendonly": {
+        "description": "The boolean value, that when set to true will send I(command) to the device but not wait for a result.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "newline": {
+        "description": "The boolean value, that when set to false will send I(answer) to the device without a trailing newline.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "check_all": {
+        "description": "By default if any one of the prompts mentioned in C(prompt) option is matched it won",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.netcommon.cli_config": {
+    "short_description": "Push text based configuration to network devices over network_cli",
+    "description": "This module provides platform agnostic way of pushing text based configuration to network devices over network_cli connection plugin.",
+    "options": {
+      "config": {
+        "description": "The config to be pushed to the network device. This argument is mutually exclusive with C(rollback) and either one of the option should be given as input. To ensure idempotency and correct diff the configuration lines should be similar to how they appear if present in the running configuration on device including the indentation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "commit": {
+        "description": "The C(commit) argument instructs the module to push the configuration to the device. This is mapped to module check mode.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "replace": {
+        "description": "If the C(replace) argument is set to C(yes), it will replace the entire running-config of the device with the C(config) argument value. For devices that support replacing running configuration from file on device like NXOS/JUNOS, the C(replace) argument takes path to the file on the device that will be used for replacing the entire running-config. The value of C(config) option should be I(None) for such devices. Nexus 9K devices only support replace. Use I(net_put) or I(nxos_file_copy) in case of NXOS module to copy the flat file to remote device and then use set the fullpath to this argument.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup": {
+        "description": "This argument will cause the module to create a full backup of the current running config from the remote device before any changes are made. If the C(backup_options) value is not given, the backup file is written to the C(backup) folder in the playbook root directory or role root directory, if playbook is part of an ansible role. If the directory does not exist, it is created.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "rollback": {
+        "description": "The C(rollback) argument instructs the module to rollback the current configuration to the identifier specified in the argument.  If the specified rollback identifier does not exist on the remote device, the module will fail. To rollback to the most recent commit, set the C(rollback) argument to 0. This option is mutually exclusive with C(config).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "commit_comment": {
+        "description": "The C(commit_comment) argument specifies a text string to be used when committing the configuration. If the C(commit) argument is set to False, this argument is silently ignored. This argument is only valid for the platforms that support commit operation with comment.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "defaults": {
+        "description": "The I(defaults) argument will influence how the running-config is collected from the device.  When the value is set to true, the command used to collect the running-config is append with the all keyword.  When the value is set to false, the command is issued without the all keyword.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "multiline_delimiter": {
+        "description": "This argument is used when pushing a multiline configuration element to the device. It specifies the character to use as the delimiting character. This only applies to the configuration action.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "diff_replace": {
+        "description": "Instructs the module on the way to perform the configuration on the device. If the C(diff_replace) argument is set to I(line) then the modified lines are pushed to the device in configuration mode. If the argument is set to I(block) then the entire command block is pushed to the device in configuration mode if any line is not correct. Note that this parameter will be ignored if the platform has onbox diff support.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "line",
+          "block",
+          "config"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "diff_match": {
+        "description": "Instructs the module on the way to perform the matching of the set of commands against the current device config. If C(diff_match) is set to I(line), commands are matched line by line. If C(diff_match) is set to I(strict), command lines are matched with respect to position. If C(diff_match) is set to I(exact), command lines must be an equal match. Finally, if C(diff_match) is set to I(none), the module will not attempt to compare the source configuration with the running configuration on the remote device. Note that this parameter will be ignored if the platform has onbox diff support.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "line",
+          "strict",
+          "exact",
+          "none"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "diff_ignore_lines": {
+        "description": "Use this argument to specify one or more lines that should be ignored during the diff. This is used for lines in the configuration that are automatically updated by the system. This argument takes a list of regular expressions or exact line matches. Note that this parameter will be ignored if the platform has onbox diff support.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup_options": {
+        "description": "This is a dict object containing configurable options related to backup file path. The value of this option is read only when C(backup) is set to I(yes), if C(backup) is set to I(no) this option will be silently ignored.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.netcommon.cli_restore": {
+    "short_description": "Restore device configuration to network devices over network_cli",
+    "description": "This module provides platform agnostic way of restore text based configuration to network devices over network_cli connection plugin. The module uses the platforms `config replace` commands to restore backup configuration that is already copied over to the appliance.",
+    "options": {
+      "filename": {
+        "description": "Filename of the backup file, present in the appliance where the restore operation is to be performed. Check appliance for the configuration backup file name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "The location in the target appliance where the file containing the backup exists. The path and the filename together create the input to the config replace command, For an IOSXE appliance the path pattern is flash://<filename>",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.netcommon.grpc_config": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.netcommon.grpc_get": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.netcommon.net_get": {
+    "short_description": "Copy a file from a network device to Ansible Controller",
+    "description": "This module provides functionality to copy file from network device to ansible controller.",
+    "options": {
+      "src": {
+        "description": "Specifies the source file. The path to the source file can either be the full path on the network device or a relative path as per path supported by destination network device.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol": {
+        "description": "Protocol used to transfer file.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "scp",
+          "sftp"
+        ],
+        "default": "scp",
+        "aliases": null
+      },
+      "dest": {
+        "description": "Specifies the destination file. The path to the destination file can either be the full path on the Ansible control host or a relative path from the playbook or role root directory.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": [
+          "Same filename as specified in I(src). The path will be playbook root or role root directory if playbook is part of a role."
+        ],
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.netcommon.net_ping": {
+    "short_description": "Tests reachability using ping from a network device",
+    "description": "Tests reachability using ping from network device to a remote destination.",
+    "options": {
+      "count": {
+        "description": "Number of packets to send.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "dest": {
+        "description": "The IP Address or hostname (resolvable by switch) of the remote node.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source": {
+        "description": "The source IP Address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Determines if the expected result is success or fail.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "vrf": {
+        "description": "The VRF to use for forwarding.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.netcommon.net_put": {
+    "short_description": "Copy a file from Ansible Controller to a network device",
+    "description": "This module provides functionality to copy file from Ansible controller to network devices.",
+    "options": {
+      "src": {
+        "description": "Specifies the source file. The path to the source file can either be the full path on the Ansible control host or a relative path from the playbook or role root directory.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol": {
+        "description": "Protocol used to transfer file.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "scp",
+          "sftp"
+        ],
+        "default": "scp",
+        "aliases": null
+      },
+      "dest": {
+        "description": "Specifies the destination file. The path to destination file can either be the full path or relative path as supported by network_os.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": [
+          "Filename from src and at default directory of user shell on network_os."
+        ],
+        "aliases": null
+      },
+      "mode": {
+        "description": "Set the file transfer mode. If mode is set to I(text) then I(src) file will go through Jinja2 template engine to replace any vars if present in the src file. If mode is set to I(binary) then file will be copied as it is to destination device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "binary",
+          "text"
+        ],
+        "default": "binary",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.netcommon.netconf_config": {
+    "short_description": "netconf device configuration",
+    "description": "Netconf is a network management protocol developed and standardized by the IETF. It is documented in RFC 6241. This module allows the user to send a configuration XML file to a netconf device, and detects if there was a configuration change.",
+    "options": {
+      "content": {
+        "description": "The configuration data as defined by the device",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.netcommon.netconf_get": {
+    "short_description": "Fetch configuration/state data from NETCONF enabled network devices.",
+    "description": "NETCONF is a network management protocol developed and standardized by the IETF. It is documented in RFC 6241. This module allows the user to fetch configuration and state data from NETCONF enabled network devices.",
+    "options": {
+      "source": {
+        "description": "This argument specifies the datastore from which configuration data should be fetched. Valid values are I(running), I(candidate) and I(startup). If the C(source) value is not set both configuration and state information are returned in response from running datastore.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "running",
+          "candidate",
+          "startup"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "filter": {
+        "description": "This argument specifies the string which acts as a filter to restrict the portions of the data to be are retrieved from the remote device. If this option is not specified entire configuration or state data is returned in result depending on the value of C(source) option. The C(filter) value can be either XML string or XPath or JSON string or native python dictionary, if the filter is in XPath format the NETCONF server running on remote host should support xpath capability else it will result in an error. If the filter is in JSON format the xmltodict library should be installed on the control node for JSON to XML conversion.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "display": {
+        "description": "Encoding scheme to use when serializing output from the device. The option I(json) will serialize the output as JSON data. If the option value is I(json) it requires jxmlease to be installed on control node. The option I(pretty) is similar to received XML response but is using human readable format (spaces, new lines). The option value I(xml) is similar to received XML response but removes all XML namespaces.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "json",
+          "pretty",
+          "xml",
+          "native"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "lock": {
+        "description": "Instructs the module to explicitly lock the datastore specified as C(source). If no I(source) is defined, the I(running) datastore will be locked. By setting the option value I(always) is will explicitly lock the datastore mentioned in C(source) option. By setting the option value I(never) it will not lock the C(source) datastore. The value I(if-supported) allows better interworking with NETCONF servers, which do not support the (un)lock operation for all supported datastores.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "never",
+          "always",
+          "if-supported"
+        ],
+        "default": "never",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.netcommon.netconf_rpc": {
+    "short_description": "Execute operations on NETCONF enabled network devices.",
+    "description": "NETCONF is a network management protocol developed and standardized by the IETF. It is documented in RFC 6241. This module allows the user to execute NETCONF RPC requests as defined by IETF RFC standards as well as proprietary requests.",
+    "options": {
+      "rpc": {
+        "description": "This argument specifies the request (name of the operation) to be executed on the remote NETCONF enabled device.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "xmlns": {
+        "description": "NETCONF operations not defined in rfc6241 typically require the appropriate XML namespace to be set. In the case the I(request) option is not already provided in XML format, the namespace can be defined by the I(xmlns) option.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content": {
+        "description": "This argument specifies the optional request content (all RPC attributes). The I(content) value can either be provided as XML formatted string or as dictionary.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "display": {
+        "description": "Encoding scheme to use when serializing output from the device. The option I(json) will serialize the output as JSON data. If the option value is I(json) it requires jxmlease to be installed on control node. The option I(pretty) is similar to received XML response but is using human readable format (spaces, new lines). The option value I(xml) is similar to received XML response but removes all XML namespaces.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "json",
+          "pretty",
+          "xml"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.netcommon.network_resource": {
+    "short_description": "Manage resource modules",
+    "description": "Get list of available resource modules for given os name Retrieve given resource module configuration facts Push given resource module configuration",
+    "options": {
+      "os_name": {
+        "description": "The name of the os to manage the resource modules. The name should be fully qualified collection name format, that is I(<namespace>.<collection-name>.<plugin-name>). If value of this option is not set the os value will be read from I(ansible_network_os) variable. If value of both I(os_name) and I(ansible_network_os) is not set it will result in error.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the resource module to manage. The resource module should be supported for given I(os_name), if not supported it will result in error.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "The resource module configuration. For details on the type and structure of this option refer the individual resource module platform documentation.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the host device by executing the cli command to get the resource configuration on host. The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.netcommon.restconf_config": {
+    "short_description": "Handles create, update, read and delete of configuration data on RESTCONF enabled devices.",
+    "description": "RESTCONF is a standard mechanisms to allow web applications to configure and manage data. RESTCONF is a IETF standard and documented on RFC 8040. This module allows the user to configure data on RESTCONF enabled devices.",
+    "options": {
+      "path": {
+        "description": "URI being used to execute API calls.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content": {
+        "description": "The configuration data in format as specififed in C(format) option. Required unless C(method) is I(delete).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "method": {
+        "description": "The RESTCONF method to manage the configuration change on device. The value I(post) is used to create a data resource or invoke an operation resource, I(put) is used to replace the target data resource, I(patch) is used to modify the target resource, and I(delete) is used to delete the target resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "post",
+          "put",
+          "patch",
+          "delete"
+        ],
+        "default": "post",
+        "aliases": null
+      },
+      "format": {
+        "description": "The format of the configuration provided as value of C(content). Accepted values are I(xml) and I(json) and the given configuration format should be supported by remote RESTCONF server.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "json",
+          "xml"
+        ],
+        "default": "json",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.netcommon.restconf_get": {
+    "short_description": "Fetch configuration/state data from RESTCONF enabled devices.",
+    "description": "RESTCONF is a standard mechanisms to allow web applications to access the configuration data and state data developed and standardized by the IETF. It is documented in RFC 8040. This module allows the user to fetch configuration and state data from RESTCONF enabled devices.",
+    "options": {
+      "path": {
+        "description": "URI being used to execute API calls.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content": {
+        "description": "The C(content) is a query parameter that controls how descendant nodes of the requested data nodes in C(path) will be processed in the reply. If value is I(config) return only configuration descendant data nodes of value in C(path). If value is I(nonconfig) return only non-configuration descendant data nodes of value in C(path). If value is I(all) return all descendant data nodes of value in C(path)",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "config",
+          "nonconfig",
+          "all"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "output": {
+        "description": "The output of response received.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "json",
+          "xml"
+        ],
+        "default": "json",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.netcommon.telnet": {
+    "short_description": "Executes a low-down and dirty telnet command",
+    "description": "Executes a low-down and dirty telnet command, not going through the module subsystem. This is mostly to be used for enabling ssh on devices that only have telnet enabled by default.",
+    "options": {
+      "command": {
+        "description": "List of commands to be executed in the telnet session.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "commands"
+        ]
+      },
+      "host": {
+        "description": "The host/target on which to execute the command",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "remote_addr",
+        "aliases": null
+      },
+      "user": {
+        "description": "The user for login",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "remote_user",
+        "aliases": null
+      },
+      "password": {
+        "description": "The password for login",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Remote port to use",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 23,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "timeout for remote operations",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 120,
+        "aliases": null
+      },
+      "prompts": {
+        "description": "List of prompts expected before sending next command",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [
+          "$"
+        ],
+        "aliases": null
+      },
+      "login_prompt": {
+        "description": "Login or username prompt to expect",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

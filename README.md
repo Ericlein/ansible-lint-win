@@ -10,7 +10,7 @@ Built as a Node.js LSP server with a Zed extension wrapper.
 - **Hover documentation** — module docs with options table, option details, keyword descriptions
 - **10 lint rules** — name-required, fqcn-required, yaml-truthy, no-changed-when, key-order, jinja-spacing, no-duplicate-keys, play-has-hosts, deprecated-modules, no-free-form
 - **Go-to-definition** — Ctrl+click on include_tasks, import_tasks, vars_files, roles, and template src paths
-- **634 modules** from 5 collections out of the box (ansible.builtin, community.general, ansible.windows, community.mysql, community.hashi_vault)
+- **1200+ modules** from 16+ collections out of the box, with support for auto-discovering all collections from the ansible-collections GitHub org
 
 ## Requirements
 
@@ -112,40 +112,20 @@ language-servers = ["ansible-lite"]
 
 ## Refreshing Module Data
 
-Module data is pre-generated from GitHub. To update it (e.g. after a new Ansible release):
+Module data is pre-generated from GitHub. To update or regenerate it:
 
 ```bash
 cd server
-npm run generate-data
-```
 
-This fetches documentation from the GitHub API for all configured collections. No auth token needed for public repos, but set `GITHUB_TOKEN` to avoid rate limits:
+# Fetch specific collections (no token needed for a few)
+npm run generate-data -- community.general ansible.windows amazon.aws
 
-```bash
+# Fetch ALL collections (auto-discovers from ansible-collections GitHub org)
+# Requires a GitHub token due to the number of API calls
 GITHUB_TOKEN=ghp_xxx npm run generate-data
 ```
 
-### Adding More Collections
-
-Edit the `COLLECTIONS` array in `scripts/generate-module-data.ts`:
-
-```typescript
-const COLLECTIONS: CollectionDef[] = [
-  {
-    namespace: 'ansible.builtin',
-    repo: 'ansible/ansible',
-    modulesPath: 'lib/ansible/modules',
-  },
-  // Add any collection — just need the GitHub repo and modules path:
-  {
-    namespace: 'amazon.aws',
-    repo: 'ansible-collections/amazon.aws',
-    modulesPath: 'plugins/modules',
-  },
-];
-```
-
-Then run `npm run generate-data` to fetch the new data.
+The script auto-discovers every collection in the `ansible-collections` GitHub org. Pass specific collection names as arguments to only fetch those.
 
 ---
 
