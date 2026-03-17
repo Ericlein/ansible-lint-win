@@ -90,28 +90,78 @@ async function ghRaw(repo: string, branch: string, filePath: string): Promise<st
 // ─── Auto-discover collections from GitHub ─────────────────────────────────
 
 /**
- * Repo naming convention in ansible-collections org:
- *   community.general  → ansible-collections/community.general
- *   ansible.windows    → ansible-collections/ansible.windows
- *   amazon.aws         → ansible-collections/amazon.aws
- *
- * The namespace is the repo name with '.' separators (e.g. "community.general").
- * We filter to repos that have a plugins/modules directory.
+ * Collections hosted outside the ansible-collections org.
+ * These are added alongside auto-discovered ones.
  */
+const EXTRA_COLLECTIONS: CollectionDef[] = [
+  // Cloud providers
+  { namespace: 'azure.azcollection', repo: 'ansible-collections/azure', modulesPath: 'plugins/modules' },
+  { namespace: 'openstack.cloud', repo: 'openstack/ansible-collections-openstack', modulesPath: 'plugins/modules' },
+  { namespace: 'vultr.cloud', repo: 'vultr/ansible-collection-vultr', modulesPath: 'plugins/modules' },
+  { namespace: 'cloudscale_ch.cloud', repo: 'cloudscale-ch/ansible-collection-cloudscale', modulesPath: 'plugins/modules' },
+
+  // Containers / Kubernetes
+  { namespace: 'containers.podman', repo: 'containers/ansible-podman-collections', modulesPath: 'plugins/modules' },
+  { namespace: 'community.okd', repo: 'openshift/community.okd', modulesPath: 'plugins/modules' },
+  { namespace: 'kubevirt.core', repo: 'kubevirt/kubevirt.core', modulesPath: 'plugins/modules' },
+
+  // Automation platforms
+  { namespace: 'awx.awx', repo: 'ansible/awx', modulesPath: 'awx_collection/plugins/modules' },
+  { namespace: 'theforeman.foreman', repo: 'theforeman/foreman-ansible-modules', modulesPath: 'plugins/modules' },
+  { namespace: 'grafana.grafana', repo: 'grafana/grafana-ansible-collection', modulesPath: 'plugins/modules' },
+
+  // Network / Security
+  { namespace: 'f5networks.f5_modules', repo: 'F5Networks/f5-ansible', modulesPath: 'ansible_collections/f5networks/f5_modules/plugins/modules' },
+  { namespace: 'fortinet.fortios', repo: 'fortinet-ansible-dev/ansible-galaxy-fortios-collection', modulesPath: 'plugins/modules' },
+  { namespace: 'fortinet.fortimanager', repo: 'fortinet-ansible-dev/ansible-galaxy-fortimanager-collection', modulesPath: 'plugins/modules' },
+  { namespace: 'check_point.mgmt', repo: 'CheckPointSW/CheckPointAnsibleMgmtCollection', modulesPath: 'plugins/modules' },
+  { namespace: 'infoblox.nios_modules', repo: 'infobloxopen/infoblox-ansible', modulesPath: 'plugins/modules' },
+  { namespace: 'netbox.netbox', repo: 'netbox-community/ansible_modules', modulesPath: 'plugins/modules' },
+  { namespace: 'vyos.vyos', repo: 'vyos/vyos.vyos', modulesPath: 'plugins/modules' },
+
+  // Cisco (outside ansible-collections org)
+  { namespace: 'cisco.aci', repo: 'CiscoDevNet/ansible-aci', modulesPath: 'plugins/modules' },
+  { namespace: 'cisco.dnac', repo: 'cisco-en-programmability/dnacenter-ansible', modulesPath: 'plugins/modules' },
+  { namespace: 'cisco.intersight', repo: 'CiscoDevNet/intersight-ansible', modulesPath: 'plugins/modules' },
+  { namespace: 'cisco.meraki', repo: 'meraki/dashboard-api-ansible', modulesPath: 'plugins/modules' },
+  { namespace: 'cisco.mso', repo: 'CiscoDevNet/ansible-mso', modulesPath: 'plugins/modules' },
+  { namespace: 'cisco.ucs', repo: 'CiscoDevNet/ansible-ucs', modulesPath: 'plugins/modules' },
+
+  // Dell EMC (outside ansible-collections org)
+  { namespace: 'dellemc.openmanage', repo: 'dell/dellemc-openmanage-ansible-modules', modulesPath: 'plugins/modules' },
+  { namespace: 'dellemc.powerflex', repo: 'dell/ansible-powerflex', modulesPath: 'plugins/modules' },
+  { namespace: 'dellemc.unity', repo: 'dell/ansible-unity', modulesPath: 'plugins/modules' },
+
+  // Storage
+  { namespace: 'purestorage.flasharray', repo: 'Pure-Storage-Ansible/FlashArray-Collection', modulesPath: 'plugins/modules' },
+  { namespace: 'purestorage.flashblade', repo: 'Pure-Storage-Ansible/FlashBlade-Collection', modulesPath: 'plugins/modules' },
+
+  // Secrets / Identity
+  { namespace: 'cyberark.conjur', repo: 'cyberark/ansible-conjur-collection', modulesPath: 'plugins/modules' },
+  { namespace: 'cyberark.pas', repo: 'cyberark/pas-orchestrator', modulesPath: 'plugins/modules' },
+
+  // Virtualization
+  { namespace: 'ovirt.ovirt', repo: 'oVirt/ovirt-ansible-collection', modulesPath: 'plugins/modules' },
+
+  // Windows
+  { namespace: 'chocolatey.chocolatey', repo: 'chocolatey/chocolatey-ansible', modulesPath: 'plugins/modules' },
+
+  // Database
+  { namespace: 'lowlydba.sqlserver', repo: 'lowlydba/lowlydba.sqlserver', modulesPath: 'plugins/modules' },
+];
+
 async function discoverCollections(): Promise<CollectionDef[]> {
   console.log('Discovering collections from ansible-collections org...');
 
   const repos = await ghFetchAll('https://api.github.com/orgs/ansible-collections/repos');
   console.log(`  Found ${repos.length} repos in ansible-collections org`);
 
-  // Filter to repos that look like collections (name contains a dot: "community.general")
   const collectionRepos = repos.filter((r: any) =>
     r.name.includes('.') && !r.archived && !r.disabled
   );
   console.log(`  ${collectionRepos.length} appear to be active collections`);
 
   const collections: CollectionDef[] = [
-    // ansible.builtin is always included (lives in the main ansible repo)
     {
       namespace: 'ansible.builtin',
       repo: 'ansible/ansible',
@@ -119,14 +169,28 @@ async function discoverCollections(): Promise<CollectionDef[]> {
     },
   ];
 
+  const seen = new Set<string>(['ansible.builtin']);
+
   for (const repo of collectionRepos) {
-    collections.push({
-      namespace: repo.name,
-      repo: `ansible-collections/${repo.name}`,
-      modulesPath: 'plugins/modules',
-    });
+    if (!seen.has(repo.name)) {
+      seen.add(repo.name);
+      collections.push({
+        namespace: repo.name,
+        repo: `ansible-collections/${repo.name}`,
+        modulesPath: 'plugins/modules',
+      });
+    }
   }
 
+  // Add extra collections hosted outside the ansible-collections org
+  for (const extra of EXTRA_COLLECTIONS) {
+    if (!seen.has(extra.namespace)) {
+      seen.add(extra.namespace);
+      collections.push(extra);
+    }
+  }
+
+  console.log(`  ${collections.length} total collections (${EXTRA_COLLECTIONS.length} extra from other orgs)`);
   return collections;
 }
 
