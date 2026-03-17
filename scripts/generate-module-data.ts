@@ -183,11 +183,68 @@ function extractDocumentation(source: string): ModuleData | null {
   }
 }
 
+// ─── Extract docs from standalone YAML doc files ──────────────────────────
+
+function extractYamlDocumentation(yamlSource: string): ModuleData | null {
+  try {
+    const doc = parseYaml(yamlSource, { strict: false });
+    if (!doc || typeof doc !== 'object') return null;
+
+    // Some YAML doc files wrap content under DOCUMENTATION key
+    const root = doc.DOCUMENTATION || doc;
+    if (!root || typeof root !== 'object') return null;
+
+    const options: Record<string, any> = {};
+    if (root.options && typeof root.options === 'object') {
+      for (const [key, val] of Object.entries(root.options as Record<string, any>)) {
+        if (!val || typeof val !== 'object') continue;
+        const desc = Array.isArray(val.description)
+          ? val.description.join(' ')
+          : (val.description || '');
+        options[key] = {
+          description: desc,
+          type: val.type || 'str',
+          required: val.required === true,
+          choices: val.choices || null,
+          default: val.default ?? null,
+          aliases: val.aliases || null,
+        };
+      }
+    }
+
+    const desc = Array.isArray(root.description)
+      ? root.description.join(' ')
+      : (root.description || '');
+
+    let deprecated: string | null = null;
+    if (root.deprecated) {
+      deprecated = typeof root.deprecated === 'object'
+        ? (root.deprecated.why || root.deprecated.removed_in || 'deprecated')
+        : String(root.deprecated);
+    }
+
+    return {
+      short_description: root.short_description || root.module || '',
+      description: desc,
+      options,
+      deprecated,
+    };
+  } catch {
+    return null;
+  }
+}
+
 // ─── List module files via GitHub API (handles subdirs) ────────────────────
 
-async function listModuleFiles(repo: string, modulesPath: string): Promise<string[]> {
-  const files: string[] = [];
+interface ModuleFile {
+  path: string;
+  type: 'python' | 'yaml';
+}
+
+async function listModuleFiles(repo: string, modulesPath: string): Promise<ModuleFile[]> {
+  const files: ModuleFile[] = [];
   const queue = [modulesPath];
+  const seenModules = new Set<string>();
 
   while (queue.length > 0) {
     const dirPath = queue.shift()!;
@@ -196,7 +253,7 @@ async function listModuleFiles(repo: string, modulesPath: string): Promise<strin
     try {
       items = await ghFetch(url);
     } catch (e) {
-      return files; // Directory doesn't exist — collection has no modules
+      return files;
     }
 
     if (!items || !Array.isArray(items)) return files;
@@ -204,13 +261,17 @@ async function listModuleFiles(repo: string, modulesPath: string): Promise<strin
     for (const item of items) {
       if (item.type === 'dir') {
         queue.push(item.path);
-      } else if (
-        item.type === 'file' &&
-        item.name.endsWith('.py') &&
-        !item.name.startsWith('_') &&
-        item.name !== '__init__.py'
-      ) {
-        files.push(item.path);
+      } else if (item.type === 'file' && !item.name.startsWith('_')) {
+        const baseName = item.name.replace(/\.(py|yml|yaml)$/, '');
+        if (item.name === '__init__.py') continue;
+
+        if (item.name.endsWith('.py') && !seenModules.has(baseName)) {
+          seenModules.add(baseName);
+          files.push({ path: item.path, type: 'python' });
+        } else if ((item.name.endsWith('.yml') || item.name.endsWith('.yaml')) && !seenModules.has(baseName)) {
+          seenModules.add(baseName);
+          files.push({ path: item.path, type: 'yaml' });
+        }
       }
     }
   }
@@ -230,25 +291,28 @@ async function processCollection(col: CollectionDef): Promise<Record<string, Mod
   console.log(`\n── ${col.namespace} (${col.repo}) ──`);
   const branch = await getDefaultBranch(col.repo);
 
-  const pyFiles = await listModuleFiles(col.repo, col.modulesPath);
-  if (pyFiles.length === 0) {
+  const moduleFiles = await listModuleFiles(col.repo, col.modulesPath);
+  if (moduleFiles.length === 0) {
     console.log(`  No module files found, skipping`);
     return {};
   }
-  console.log(`  Found ${pyFiles.length} module files`);
+  console.log(`  Found ${moduleFiles.length} module files`);
 
   const modules: Record<string, ModuleData> = {};
   let processed = 0;
 
   const BATCH = 10;
-  for (let i = 0; i < pyFiles.length; i += BATCH) {
-    const batch = pyFiles.slice(i, i + BATCH);
+  for (let i = 0; i < moduleFiles.length; i += BATCH) {
+    const batch = moduleFiles.slice(i, i + BATCH);
     const results = await Promise.all(
-      batch.map(async (filePath) => {
-        const moduleName = path.basename(filePath, '.py');
+      batch.map(async (mf) => {
+        const ext = mf.path.endsWith('.py') ? '.py' : mf.path.endsWith('.yaml') ? '.yaml' : '.yml';
+        const moduleName = path.basename(mf.path, ext);
         try {
-          const source = await ghRaw(col.repo, branch, filePath);
-          const doc = extractDocumentation(source);
+          const source = await ghRaw(col.repo, branch, mf.path);
+          const doc = mf.type === 'yaml'
+            ? extractYamlDocumentation(source)
+            : extractDocumentation(source);
           return { moduleName, doc };
         } catch (e) {
           return { moduleName, doc: null };
@@ -264,8 +328,8 @@ async function processCollection(col: CollectionDef): Promise<Record<string, Mod
       processed++;
     }
 
-    if (processed % 50 === 0 || processed === pyFiles.length) {
-      console.log(`  Processed ${processed}/${pyFiles.length}`);
+    if (processed % 50 === 0 || processed === moduleFiles.length) {
+      console.log(`  Processed ${processed}/${moduleFiles.length}`);
     }
   }
 

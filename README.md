@@ -42,7 +42,57 @@ npm run bundle         # esbuild → single dist/server.js
 
 > **Note:** You need Rust installed via [rustup](https://rustup.rs/) (not Homebrew) for Zed to compile the extension.
 
-### 3. Open an Ansible YAML file
+### 3. Configure Zed settings
+
+Add the following to your Zed settings (`Ctrl+Shift+P` → "open settings"). A reference config is included in [`settings.json`](settings.json).
+
+```json
+{
+  "languages": {
+    "Ansible": { "tab_size": 2, "use_auto_indent": false }
+  },
+  "file_types": {
+    "Ansible": [
+      "**.ansible.yml",
+      "**.ansible.yaml",
+      "**/defaults/*.yml",
+      "**/defaults/*.yaml",
+      "**/meta/*.yml",
+      "**/meta/*.yaml",
+      "**/tasks/*.yml",
+      "**/tasks/*.yaml",
+      "**/handlers/*.yml",
+      "**/handlers/*.yaml",
+      "**/group_vars/*.yml",
+      "**/group_vars/*.yaml",
+      "**/host_vars/*.yml",
+      "**/host_vars/*.yaml",
+      "**/playbooks/*.yaml",
+      "**/playbooks/*.yml",
+      "**playbook*.yaml",
+      "**playbook*.yml",
+      "**/roles/**/tasks/*.yml",
+      "**/roles/**/tasks/*.yaml",
+      "**/roles/**/handlers/*.yml",
+      "**/roles/**/handlers/*.yaml",
+      "**/roles/**/defaults/*.yml",
+      "**/roles/**/defaults/*.yaml",
+      "**/roles/**/vars/*.yml",
+      "**/roles/**/vars/*.yaml",
+      "**/roles/**/meta/*.yml",
+      "**/roles/**/meta/*.yaml",
+      "**/vars/*.yml",
+      "**/vars/*.yaml",
+      "**/inventory/*.yml",
+      "**/inventory/*.yaml",
+      "**site.yml",
+      "**site.yaml"
+    ]
+  }
+}
+```
+
+### 4. Open an Ansible YAML file
 
 Open any `.yml` or `.yaml` file and you should get completions, hover docs, lint diagnostics, and go-to-definition.
 
