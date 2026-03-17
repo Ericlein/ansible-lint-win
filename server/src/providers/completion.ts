@@ -9,44 +9,178 @@ import {
 import { ModuleDefinition } from '../data/keywords';
 
 export function getCompletions(doc: TextDocument, position: Position): CompletionItem[] {
-  const parsed = parseAnsibleDocument(doc.getText());
-  const ctx = detectContext(parsed, position);
+  const text = doc.getText();
+  const lines = text.split('\n');
   const items: CompletionItem[] = [];
 
-  switch (ctx.type) {
-    case 'play':
-      addKeywordCompletions(items, playKeywords, ctx.existingKeys);
-      break;
+  // Try AST-based context detection first
+  const parsed = parseAnsibleDocument(text);
+  const ctx = detectContext(parsed, position);
 
-    case 'task':
-      addKeywordCompletions(items, taskKeywords, ctx.existingKeys);
-      addModuleCompletions(items, ctx.existingKeys);
-      break;
+  // Use line-based detection — more reliable with incomplete YAML
+  fallbackCompletions(lines, position, items);
 
-    case 'block':
-      addKeywordCompletions(items, blockKeywords, ctx.existingKeys);
-      break;
+  return items;
+}
 
-    case 'role_entry':
-      addKeywordCompletions(items, roleKeywords, ctx.existingKeys);
-      break;
+// ─── Line-based fallback completions ──────────────────────────────────────
+// Works even when the YAML AST is broken (which happens often while typing)
 
-    case 'module_options': {
-      const mod = modulesByFQCN.get(ctx.moduleName) || modulesByShortName.get(ctx.moduleName);
-      if (mod) {
-        addModuleOptionCompletions(items, mod, ctx.existingKeys);
-      }
+function fallbackCompletions(lines: string[], position: Position, items: CompletionItem[]): void {
+  const line = lines[position.line] || '';
+  const indent = line.search(/\S/);
+  const trimmed = line.trimStart();
+
+  // Determine context by scanning upward
+  const context = detectContextFromLines(lines, position.line);
+
+  switch (context.type) {
+    case 'task-key': {
+      // We're at a task level — offer task keywords + modules
+      const existingKeys = context.existingKeys || [];
+      addKeywordCompletions(items, taskKeywords, existingKeys);
+      addModuleCompletions(items, existingKeys);
       break;
     }
+    case 'module-option': {
+      // We're inside a module's options
+      const mod = modulesByFQCN.get(context.moduleName!) || modulesByShortName.get(context.moduleName!);
+      if (mod) addModuleOptionCompletions(items, mod, context.existingKeys || []);
+      break;
+    }
+    case 'play-key': {
+      addKeywordCompletions(items, playKeywords, context.existingKeys || []);
+      break;
+    }
+    case 'block-key': {
+      addKeywordCompletions(items, blockKeywords, context.existingKeys || []);
+      break;
+    }
+    default: {
+      // Offer everything as a last resort
+      addKeywordCompletions(items, taskKeywords, []);
+      addModuleCompletions(items, []);
+      break;
+    }
+  }
+}
 
-    case 'value': {
-      addValueCompletions(items, ctx.key, ctx.parentContext);
+interface LineContext {
+  type: 'play-key' | 'task-key' | 'module-option' | 'block-key' | 'unknown';
+  moduleName?: string;
+  existingKeys?: string[];
+}
+
+const TASK_LIST_KEYS = new Set(['tasks', 'pre_tasks', 'post_tasks', 'handlers']);
+const BLOCK_TASK_KEYS = new Set(['block', 'rescue', 'always']);
+
+function detectContextFromLines(lines: string[], lineNum: number): LineContext {
+  const currentLine = lines[lineNum] || '';
+  const currentIndent = currentLine.search(/\S/);
+  const effectiveIndent = currentIndent === -1 ? currentLine.length : currentIndent;
+
+  // Collect sibling keys at the same indent level
+  const existingKeys: string[] = [];
+  let moduleName: string | undefined;
+  let parentKey: string | undefined;
+  let parentIndent = -1;
+
+  // Scan upward to find parent and siblings
+  for (let i = lineNum - 1; i >= 0; i--) {
+    const l = lines[i];
+    if (l.trim() === '' || l.trim().startsWith('#')) continue;
+
+    const ind = l.search(/\S/);
+    if (ind === -1) continue;
+
+    // Same indent level — sibling key
+    if (ind === effectiveIndent) {
+      const keyMatch = l.match(/^\s*([\w.]+)\s*:/);
+      if (keyMatch) existingKeys.push(keyMatch[1]);
+      // List item start
+      const listKeyMatch = l.match(/^\s*-\s*([\w.]+)\s*:/);
+      if (listKeyMatch) existingKeys.push(listKeyMatch[1]);
+      continue;
+    }
+
+    // Less indented — this is a parent
+    if (ind < effectiveIndent) {
+      const keyMatch = l.match(/^\s*-?\s*([\w.]+)\s*:/);
+      if (keyMatch) {
+        parentKey = keyMatch[1];
+        parentIndent = ind;
+      }
       break;
     }
   }
 
-  return items;
+  // Also scan forward for siblings
+  for (let i = lineNum + 1; i < Math.min(lines.length, lineNum + 30); i++) {
+    const l = lines[i];
+    if (l.trim() === '' || l.trim().startsWith('#')) continue;
+    const ind = l.search(/\S/);
+    if (ind < effectiveIndent) break;
+    if (ind === effectiveIndent) {
+      const keyMatch = l.match(/^\s*([\w.]+)\s*:/);
+      if (keyMatch) existingKeys.push(keyMatch[1]);
+      const listKeyMatch = l.match(/^\s*-\s*([\w.]+)\s*:/);
+      if (listKeyMatch) existingKeys.push(listKeyMatch[1]);
+    }
+  }
+
+  // Check if a module is already among siblings
+  for (const key of existingKeys) {
+    if (modulesByFQCN.has(key) || modulesByShortName.has(key)) {
+      moduleName = key;
+      break;
+    }
+  }
+
+  // Is parent a module name? Then we're in module options
+  if (parentKey && (modulesByFQCN.has(parentKey) || modulesByShortName.has(parentKey))) {
+    return { type: 'module-option', moduleName: parentKey, existingKeys };
+  }
+
+  // Is parent a task list key? Then we're in a task
+  if (parentKey && TASK_LIST_KEYS.has(parentKey)) {
+    return { type: 'task-key', existingKeys, moduleName };
+  }
+
+  // Is parent a block key?
+  if (parentKey && BLOCK_TASK_KEYS.has(parentKey)) {
+    return { type: 'task-key', existingKeys, moduleName };
+  }
+
+  // Is parent "block"? Then we might be at block level
+  if (existingKeys.includes('block')) {
+    return { type: 'block-key', existingKeys };
+  }
+
+  // Are we at play level? (top-level or has hosts/tasks/roles)
+  if (parentIndent === -1 || existingKeys.includes('hosts') || existingKeys.includes('tasks') || existingKeys.includes('roles')) {
+    return { type: 'play-key', existingKeys };
+  }
+
+  // Scan further up to find if we're nested inside tasks
+  for (let i = lineNum - 1; i >= 0; i--) {
+    const l = lines[i];
+    if (l.trim() === '' || l.trim().startsWith('#')) continue;
+    const ind = l.search(/\S/);
+    if (ind === -1) continue;
+    const keyMatch = l.match(/^\s*([\w.]+)\s*:\s*$/);
+    if (keyMatch && TASK_LIST_KEYS.has(keyMatch[1])) {
+      return { type: 'task-key', existingKeys, moduleName };
+    }
+    if (keyMatch && BLOCK_TASK_KEYS.has(keyMatch[1])) {
+      return { type: 'task-key', existingKeys, moduleName };
+    }
+    if (ind === 0) break; // Reached top-level
+  }
+
+  return { type: 'task-key', existingKeys, moduleName };
 }
+
+// ─── Completion builders ──────────────────────────────────────────────────
 
 function addKeywordCompletions(
   items: CompletionItem[],
@@ -111,7 +245,6 @@ function addModuleOptionCompletions(
 }
 
 function addValueCompletions(items: CompletionItem[], key: string, parentContext: any): void {
-  // Boolean keys
   const boolKeys = new Set(['become', 'gather_facts', 'no_log', 'ignore_errors', 'run_once',
     'delegate_facts', 'check_mode', 'diff', 'any_errors_fatal', 'force_handlers',
     'ignore_unreachable']);
@@ -123,7 +256,6 @@ function addValueCompletions(items: CompletionItem[], key: string, parentContext
     return;
   }
 
-  // If in module_options context, check for choices
   if (parentContext?.type === 'module_options') {
     const mod = modulesByFQCN.get(parentContext.moduleName) || modulesByShortName.get(parentContext.moduleName);
     if (mod?.options[key]?.choices) {
@@ -137,14 +269,12 @@ function addValueCompletions(items: CompletionItem[], key: string, parentContext
     }
   }
 
-  // Strategy values
   if (key === 'strategy') {
     for (const s of ['linear', 'free', 'debug']) {
       items.push({ label: s, kind: CompletionItemKind.Value });
     }
   }
 
-  // Connection values
   if (key === 'connection') {
     for (const c of ['ssh', 'local', 'winrm', 'paramiko', 'psrp']) {
       items.push({ label: c, kind: CompletionItemKind.Value });

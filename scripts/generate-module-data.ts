@@ -196,10 +196,17 @@ async function discoverCollections(): Promise<CollectionDef[]> {
 
 // ─── Module doc extraction ─────────────────────────────────────────────────
 
-const DOC_RE = /DOCUMENTATION\s*=\s*r?(?:'''|"""|'|")([\s\S]+?)(?:'''|"""|'|")/;
+const DOC_RE_TRIPLE_SINGLE = /DOCUMENTATION\s*=\s*r?'''([\s\S]*?)'''/;
+const DOC_RE_TRIPLE_DOUBLE = /DOCUMENTATION\s*=\s*r?"""([\s\S]*?)"""/;
+const DOC_RE_SINGLE = /DOCUMENTATION\s*=\s*r?'([^']*)'/;
+const DOC_RE_DOUBLE = /DOCUMENTATION\s*=\s*r?"([^"]*)"/;
 
 function extractDocumentation(source: string): ModuleData | null {
-  const match = source.match(DOC_RE);
+  const match =
+    DOC_RE_TRIPLE_SINGLE.exec(source) ||
+    DOC_RE_TRIPLE_DOUBLE.exec(source) ||
+    DOC_RE_SINGLE.exec(source) ||
+    DOC_RE_DOUBLE.exec(source);
   if (!match) return null;
 
   const yamlText = match[1];
