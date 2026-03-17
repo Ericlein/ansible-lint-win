@@ -49,7 +49,7 @@ Add the following to your Zed settings (`Ctrl+Shift+P` → "open settings"). A r
 ```json
 {
   "languages": {
-    "Ansible": { "tab_size": 2, "use_auto_indent": false }
+    "Ansible": { "tab_size": 2 }
   },
   "file_types": {
     "Ansible": [
