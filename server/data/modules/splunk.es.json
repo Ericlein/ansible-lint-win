@@ -1,0 +1,104 @@
+{
+  "splunk.es.splunk_adaptive_response_notable_events": {
+    "short_description": "Manage Adaptive Responses notable events resource module",
+    "description": "This module allows for creation, deletion, and modification of Splunk Enterprise Security Notable Event Adaptive Responses that are associated with a correlation search Tested against Splunk Enterprise Server 8.2.3",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.es.splunk_correlation_search_info": {
+    "short_description": "Gather information about Splunk Enterprise Security Correlation Searches",
+    "description": "This module allows for querying information about Splunk Enterprise Security Correlation Searches. Use this module to retrieve correlation search configurations without making changes. This module uses the httpapi connection plugin and does not require local Splunk SDK.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.es.splunk_correlation_searches": {
+    "short_description": "Splunk Enterprise Security Correlation searches resource module",
+    "description": "This module allows for creation, deletion, and modification of Splunk Enterprise Security correlation searches Tested against Splunk Enterprise Server v8.2.3 with Splunk Enterprise Security v7.0.1 installed on it.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.es.splunk_data_inputs_monitor": {
+    "short_description": "Splunk Data Inputs of type Monitor resource module",
+    "description": "Module to add/modify or delete, File and Directory Monitor Data Inputs in Splunk. Tested against Splunk Enterprise Server 8.2.3",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.es.splunk_data_inputs_network": {
+    "short_description": "Manage Splunk Data Inputs of type TCP or UDP resource module",
+    "description": "Module that allows to add/update or delete of TCP and UDP Data Inputs in Splunk.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.es.splunk_finding": {
+    "short_description": "Manage Splunk Enterprise Security findings",
+    "description": "This module allows for creation and update of Splunk Enterprise Security findings. When C(ref_id) is not provided, a new finding is always created (no idempotency check). When C(ref_id) is provided, the module will check if the finding exists and update it. Update operations use a different API endpoint and only support updating C(owner), C(status), C(urgency), and C(disposition). Tested against Splunk Enterprise Server with Splunk Enterprise Security installed.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.es.splunk_finding_info": {
+    "short_description": "Gather information about Splunk Enterprise Security Findings",
+    "description": "This module allows for querying information about Splunk Enterprise Security Findings. Use this module to retrieve finding configurations without making changes. Query by C(ref_id) to fetch a specific finding. Without C(earliest) and C(latest). Query by C(title) to filter findings by exact title match. Use C(earliest) and C(latest) to control the time range of returned findings. By default, if C(earliest) and C(latest) are not specified, findings from the last 24 hours are returned. This default time (24 hours) range applies when querying by C(title) or all findings (not by C(ref_id)). This module uses the httpapi connection plugin and does not require local Splunk SDK.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.es.splunk_investigation": {
+    "short_description": "Manage Splunk Enterprise Security investigations",
+    "description": "This module allows for creation and update of Splunk Enterprise Security investigations. When C(investigation_ref_id) is not provided, a new investigation is created. When C(investigation_ref_id) is provided, the module will update the existing investigation. Update operations can modify all fields except C(name).",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.es.splunk_investigation_info": {
+    "short_description": "Gather information about Splunk Enterprise Security Investigations",
+    "description": "This module allows for querying information about Splunk Enterprise Security Investigations. Use this module to retrieve investigation configurations without making changes. Query by C(investigation_ref_id) to fetch a specific investigation. Query by C(name) to filter investigations by exact name match. Use C(create_time_min) and C(create_time_max) to control the time range of returned investigations.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.es.splunk_investigation_type": {
+    "short_description": "Manage Splunk Enterprise Security investigation types",
+    "description": "This module allows for creation and update of Splunk Enterprise Security investigation types. Investigation type names are unique in Splunk ES, so C(name) is used as the identifier. The module creates the investigation type if it does not exist, or updates it if it does. Response plans can be associated with investigation types via C(response_plan_ids). B(Note:) Investigation types cannot be deleted via the Splunk API, so this module only supports create and update operations. B(IMPORTANT - Declarative Approach:) The C(response_plan_ids) parameter is declarative. Whatever response plan IDs you define will be exactly what is associated with the investigation type after the module runs. Any existing associations NOT included in your playbook will be REMOVED.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.es.splunk_investigation_type_info": {
+    "short_description": "Gather information about Splunk Enterprise Security investigation types",
+    "description": "This module allows for querying information about Splunk Enterprise Security investigation types. Use this module to retrieve investigation type configurations without making changes. Query by C(name) to get a specific investigation type. If C(name) is not specified, returns all investigation types.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.es.splunk_notes": {
+    "short_description": "Manage notes for findings, investigations, and response plan tasks",
+    "description": "This module allows for creation, update, and deletion of notes in Splunk Enterprise Security. Notes can be created for findings, investigations, or response plan tasks. Use C(target_type) to specify where the note should be attached. When C(state=present) without C(note_id), a new note is created. When C(state=present) with C(note_id), the existing note is updated. When C(state=absent) with C(note_id), the note is deleted. Note creation (without C(note_id)) is B(NOT idempotent). Each call creates a new note, even if the content is identical. This is by design, as notes are meant to be additive and multiple notes with the same content may be intentional. Note updates (with C(note_id)) B(ARE idempotent). The module compares the existing note",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.es.splunk_notes_info": {
+    "short_description": "Gather information about notes in Splunk Enterprise Security",
+    "description": "This module allows for querying information about notes in Splunk Enterprise Security. Notes can be queried from findings, investigations, or response plan tasks. Use C(target_type) to specify where to query notes from. Query by C(note_id) to fetch a specific note. Use C(limit) to control the maximum number of notes returned. This module is read-only and does not make any changes.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.es.splunk_response_plan": {
+    "short_description": "Manage Splunk Enterprise Security response plans",
+    "description": "This module allows for creation, update, and deletion of Splunk Enterprise Security response plans (response templates). Response plan names are unique in Splunk ES, so C(name) is used as the identifier. When C(state=present), the module creates or updates the response plan. When C(state=absent), the module deletes the response plan. Phases and tasks are matched by name for updates - existing IDs are preserved for items with matching names, and new IDs are generated for new items. B(IMPORTANT - Declarative Approach:) This module uses a declarative approach where the playbook defines the complete desired state. Whatever you define is exactly what will exist after the module runs. Any existing phases, tasks, or searches that are NOT included in your playbook will be REMOVED. This is not a merge operation - it is a full replacement of the response plan structure. For example, if a response plan has phases A, B, C and you only define phase A in your playbook, phases B and C will be deleted. The same applies to tasks within phases and searches within tasks.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.es.splunk_response_plan_execution": {
+    "short_description": "Apply response plans to investigations and manage tasks",
+    "description": "This module applies or removes response plans from Splunk Enterprise Security investigations. It also manages task lifecycle within applied response plans (start, end, change owner). The C(response_plan) parameter accepts either a UUID or a name. When C(state=present), the response plan is applied to the investigation. When C(state=absent), the response plan is removed from the investigation. Use the C(tasks) parameter to manage individual task statuses and owners within the applied plan.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.es.splunk_response_plan_execution_info": {
+    "short_description": "Gather information about applied response plans on an investigation",
+    "description": "This module retrieves information about response plans applied to a Splunk Enterprise Security investigation. Returns the complete structure of applied response plans including phases and task statuses. Use this module to query the current state of response plan execution without making changes.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.es.splunk_response_plan_info": {
+    "short_description": "Gather information about Splunk Enterprise Security response plans",
+    "description": "This module allows for querying information about Splunk Enterprise Security response plans. Use this module to retrieve response plan configurations without making changes. Query by C(name) to filter response plans by exact name match. If C(name) is not specified, returns all response plans. Returns complete response plan structure including all IDs (response plan ID, phase IDs, task IDs).",
+    "options": {},
+    "deprecated": null
+  }
+}

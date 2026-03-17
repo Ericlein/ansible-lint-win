@@ -1,0 +1,206 @@
+{
+  "community.ioscm.ioscm_command": {
+    "short_description": "Module to run commands on remote devices.",
+    "description": "Sends arbitrary commands to an iosxe node running in controller mode and returns the results read from the device. This module includes an argument that will cause the module to wait for a specific condition before returning or timing out if the condition is not met. This module does not support running commands in configuration mode. Please use L(ios_config,https://docs.ansible.com/ansible/latest/collections/ciscocommunity/ioscm/ioscm_config_module.html#ansible-collections-cisco-ios-ios-config-module) to configure IOS devices.",
+    "options": {
+      "commands": {
+        "description": "List of commands to send to the remote ios device over the configured provider. The resulting output from the command is returned. If the I(wait_for) argument is provided, the module is not returned until the condition is satisfied or the number of retries has expired. If a command sent to the device requires answering a prompt, it is possible to pass a dict containing I(command), I(answer) and I(prompt). Common answers are",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.ioscm.ioscm_config": {
+    "short_description": "Module to manage configuration sections.",
+    "description": "Cisco IOS configurations use a simple block indent file syntax for segmenting configuration into sections.  This module provides an implementation for working with IOS configuration sections in a deterministic way.",
+    "options": {
+      "lines": {
+        "description": "The ordered set of commands that should be configured in the section. The commands must be the exact same commands as found in the device running-config to ensure idempotency and correct diff. Be sure to note the configuration command syntax as some commands are automatically modified by the device config parser.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "commands"
+        ]
+      },
+      "parents": {
+        "description": "The ordered set of parents that uniquely identify the section or hierarchy the commands should be checked against.  If the parents argument is omitted, the commands are checked against the set of top level or global commands.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "src": {
+        "description": "Specifies the source path to the file that contains the configuration or configuration template to load.  The path to the source file can either be the full path on the Ansible control host or a relative path from the playbook or role root directory. This argument is mutually exclusive with I(lines), I(parents). The configuration lines in the source file should be similar to how it will appear if present in the running-configuration of the device including the indentation to ensure idempotency and correct diff.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "before": {
+        "description": "The ordered set of commands to push on to the command stack if a change needs to be made.  This allows the playbook designer the opportunity to perform configuration commands prior to pushing any changes without affecting how the set of commands are matched against the system.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "after": {
+        "description": "The ordered set of commands to append to the end of the command stack if a change needs to be made.  Just like with I(before) this allows the playbook designer to append a set of commands to be executed after the command set.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "match": {
+        "description": "Instructs the module on the way to perform the matching of the set of commands against the current device config.  If match is set to I(line), commands are matched line by line.  If match is set to I(strict), command lines are matched with respect to position.  If match is set to I(exact), command lines must be an equal match.  Finally, if match is set to I(none), the module will not attempt to compare the source configuration with the running configuration on the remote device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "line",
+          "strict",
+          "exact",
+          "none"
+        ],
+        "default": "line",
+        "aliases": null
+      },
+      "replace": {
+        "description": "Instructs the module on the way to perform the configuration on the device. If the replace argument is set to I(line) then the modified lines are pushed to the device in configuration mode.  If the replace argument is set to I(block) then the entire command block is pushed to the device in configuration mode if any line is not correct.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "line",
+          "block"
+        ],
+        "default": "line",
+        "aliases": null
+      },
+      "multiline_delimiter": {
+        "description": "This argument is used when pushing a multiline configuration element to the IOS device.  It specifies the character to use as the delimiting character.  This only applies to the configuration action.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.ioscm.ioscm_facts": {
+    "short_description": "Module to collect facts from remote devices.",
+    "description": "Collects a base set of device facts from a remote device that is running IOS.  This module prepends all of the base network fact keys with C(ansible_net_<fact>).  The facts module will always collect a base set of facts from the device and can enable or disable collection of additional facts.",
+    "options": {
+      "gather_subset": {
+        "description": "When supplied, this argument restricts the facts collected to a given subset. Possible values for this argument include C(all), C(min), C(default), C(hardware), C(config), and C(interfaces). Specify a list of values to include a larger subset. Use a value with an initial C(!) to collect all facts except that subset.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.ioscm.ioscm_ping": {
+    "short_description": "Tests reachability using ping from IOS switch.",
+    "description": "Tests reachability using ping from switch to a remote destination. For a general purpose network module, see the L(net_ping,https://docs.ansible.com/ansible/latest/collections/ansible/netcommon/net_ping_module.html) module. For Windows targets, use the L(win_ping,https://docs.ansible.com/ansible/latest/collections/ansible/windows/win_ping_module.html) module instead. For targets running Python, use the L(ping,https://docs.ansible.com/ansible/latest/collections/ansible/builtin/ping_module.html) module instead.",
+    "options": {
+      "count": {
+        "description": "Number of packets to send.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "afi": {
+        "description": "Define echo type ip or ipv6.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ip",
+          "ipv6"
+        ],
+        "default": "ip",
+        "aliases": null
+      },
+      "dest": {
+        "description": "The IP Address or hostname (resolvable by switch) of the remote node.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "df_bit": {
+        "description": "Set the DF bit.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "source": {
+        "description": "The source IP Address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "egress": {
+        "description": "Force egress interface bypassing routing.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ingress": {
+        "description": "LAN source interface for Ingress.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "specify timeout interval.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Determines if the expected result is success or fail.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "vrf": {
+        "description": "The VRF to use for forwarding.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

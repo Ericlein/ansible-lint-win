@@ -1,0 +1,801 @@
+{
+  "cisco.iosxr.iosxr_acl_interfaces": {
+    "short_description": "Resource module to configure ACL interfaces.",
+    "description": "This module manages adding and removing Access Control Lists (ACLs) from interfaces on devices running IOS-XR software.",
+    "options": {
+      "config": {
+        "description": "A dictionary of ACL options for interfaces.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS-XR device by executing the command B(show running-config interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_acls": {
+    "short_description": "Resource module to configure ACLs.",
+    "description": "This module manages Access Control Lists (ACLs) on devices running IOS-XR.",
+    "options": {
+      "config": {
+        "description": "A list of dictionaries specifying ACL configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_banner": {
+    "short_description": "Module to configure multiline banners.",
+    "description": "This module will configure both exec and motd banners on remote device running Cisco IOS XR. It allows playbooks to add or remove banner text from the running configuration.",
+    "options": {
+      "banner": {
+        "description": "Specifies the type of banner to configure on remote device.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "login",
+          "motd"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "text": {
+        "description": "Banner text to be configured. Accepts multi line string, without empty lines. When using a multi line string, the first and last characters must be the start and end delimiters for the banner Requires I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Existential state of the configuration on the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_bgp_global": {
+    "short_description": "Resource module to configure BGP.",
+    "description": "This module configures and manages the attributes of BGP global on Cisco IOS-XR platforms.",
+    "options": {
+      "config": {
+        "description": "A list of configurations for BGP global.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_command": {
+    "short_description": "Module to run commands on remote devices.",
+    "description": "Sends arbitrary commands to an IOS XR node and returns the results read from the device. This module includes an argument that will cause the module to wait for a specific condition before returning or timing out if the condition is not met. This module does not support running commands in configuration mode. Please use M(cisco.iosxr.iosxr_config) to configure iosxr devices.",
+    "options": {
+      "commands": {
+        "description": "List of commands to send to the remote iosxr device over the configured provider. The resulting output from the command is returned. If the I(wait_for) argument is provided, the module is not returned until the condition is satisfied or the number of retries has expired. If a command sent to the device requires answering a prompt, it is possible to pass a dict containing command, answer and prompt. Common answers are",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_config": {
+    "short_description": "Module to manage configuration sections.",
+    "description": "Cisco IOS XR configurations use a simple block indent file syntax for segmenting configuration into sections.  This module provides an implementation for working with IOS XR configuration sections in a deterministic way.",
+    "options": {
+      "lines": {
+        "description": "The ordered set of commands that should be configured in the section. The commands must be the exact same commands as found in the device running-config as found in the device running-config to ensure idempotency and correct diff. Be sure to note the configuration command syntax as some commands are automatically modified by the device config parser.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "commands"
+        ]
+      },
+      "parents": {
+        "description": "The ordered set of parents that uniquely identify the section or hierarchy the commands should be checked against.  If the parents argument is omitted, the commands are checked against the set of top level or global commands.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "src": {
+        "description": "Specifies the source path to the file that contains the configuration or configuration template to load. The path to the source file can either be the full path on the Ansible control host or a relative path from the playbook or role root directory.  This argument is mutually exclusive with I(lines), I(parents). The configuration lines in the source file should be similar to how it will appear if present in the running-configuration of the device to ensure idempotency and correct diff.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "before": {
+        "description": "The ordered set of commands to push on to the command stack if a change needs to be made.  This allows the playbook designer the opportunity to perform configuration commands prior to pushing any changes without affecting how the set of commands are matched against the system.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "after": {
+        "description": "The ordered set of commands to append to the end of the command stack if a change needs to be made.  Just like with I(before) this allows the playbook designer to append a set of commands to be executed after the command set.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "match": {
+        "description": "Instructs the module on the way to perform the matching of the set of commands against the current device config.  If match is set to I(line), commands are matched line by line.  If match is set to I(strict), command lines are matched with respect to position.  If match is set to I(exact), command lines must be an equal match.  Finally, if match is set to I(none), the module will not attempt to compare the source configuration with the running configuration on the remote device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "line",
+          "strict",
+          "exact",
+          "none"
+        ],
+        "default": "line",
+        "aliases": null
+      },
+      "replace": {
+        "description": "Instructs the module on the way to perform the configuration on the device.  If the replace argument is set to I(line) then the modified lines are pushed to the device in configuration mode.  If the replace argument is set to I(block) then the entire command block is pushed to the device in configuration mode if any line is not correct.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "line",
+          "block",
+          "config"
+        ],
+        "default": "line",
+        "aliases": null
+      },
+      "force": {
+        "description": "The force argument instructs the module to not consider the current devices running-config.  When set to true, this will cause the module to push the contents of I(src) into the device without first checking if already configured. Note this argument should be considered deprecated.  To achieve the equivalent, set the C(match=none) which is idempotent.  This argument will be removed in a future release.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "config": {
+        "description": "The module, by default, will connect to the remote device and retrieve the current running-config to use as a base for comparing against the contents of source.  There are times when it is not desirable to have the task get the current running-config for every task in a playbook.  The I(config) argument allows the implementer to pass in the configuration to use as the base config for comparison. The configuration lines for this option should be similar to how it will appear if present in the running-configuration of the device to ensure idempotency and correct diff.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup": {
+        "description": "This argument will cause the module to create a full backup of the current C(running-config) from the remote device before any changes are made. If the C(backup_options) value is not given, the backup file is written to the C(backup) folder in the playbook root directory or role root directory, if playbook is part of an ansible role. If the directory does not exist, it is created.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "comment": {
+        "description": "Allows a commit description to be specified to be included when the configuration is committed.  If the configuration is not changed or committed, this argument is ignored.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "configured by iosxr_config",
+        "aliases": null
+      },
+      "admin": {
+        "description": "Enters into administration configuration mode for making config changes to the device.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "label": {
+        "description": "Allows a commit label to be specified to be included when the configuration is committed. A valid label must begin with an alphabet and not exceed 30 characters, only alphabets, digits, hyphens and underscores are allowed. If the configuration is not changed or committed, this argument is ignored.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup_options": {
+        "description": "This is a dict object containing configurable options related to backup file path. The value of this option is read only when C(backup) is set to I(yes), if C(backup) is set to I(no) this option will be silently ignored.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "exclusive": {
+        "description": "Enters into exclusive configuration mode that locks out all users from committing configuration changes until the exclusive session ends.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "disable_default_comment": {
+        "description": "disable default comment when set to True.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_facts": {
+    "short_description": "Module to collect facts from remote devices.",
+    "description": "Collects facts from network devices running the iosxr operating system. This module places the facts gathered in the fact tree keyed by the respective resource name.  The facts module will always collect a base set of facts from the device and can enable or disable collection of additional facts.",
+    "options": {
+      "gather_subset": {
+        "description": "When supplied, this argument will restrict the facts collected to a given subset.  Possible values for this argument include all, hardware, config, and interfaces.  Can specify a list of values to include a larger subset.  Values can also be used with an initial C(!) to specify that a specific subset should not be collected.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_hostname": {
+    "short_description": "Resource module to configure hostname.",
+    "description": "This module configures and manages the attributes of hostname on Cisco IOSXR platforms.",
+    "options": {
+      "config": {
+        "description": "Hostname configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOSXR device by executing the command B(show running-config hostname). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_interfaces": {
+    "short_description": "Resource module to configure interfaces.",
+    "description": "This module manages the interface attributes on Cisco IOS-XR network devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of interface options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS-XR device by executing the command B(show running-config interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_l2_interfaces": {
+    "short_description": "Resource Module to configure L2 interfaces.",
+    "description": "This module manages the Layer-2 interface attributes on Cisco IOS-XR devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of Layer-2 interface options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_lacp": {
+    "short_description": "Resource module to configure LACP.",
+    "description": "This module manages Global Link Aggregation Control Protocol (LACP) on IOS-XR devices.",
+    "options": {
+      "config": {
+        "description": "The provided configurations.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS-XR device by executing the command B(show running-config lacp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_lacp_interfaces": {
+    "short_description": "Resource module to configure LACP interfaces.",
+    "description": "This module manages Link Aggregation Control Protocol (LACP) attributes of interfaces on IOS-XR devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of LACP interfaces options.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_lag_interfaces": {
+    "short_description": "Resource module to configure LAG interfaces.",
+    "description": "This module manages the attributes of LAG/Ether-Bundle interfaces on IOS-XR devices.",
+    "options": {
+      "config": {
+        "description": "A provided Link Aggregation Group (LAG) configuration.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_lldp_global": {
+    "short_description": "Resource module to configure LLDP.",
+    "description": "This module manages Global Link Layer Discovery Protocol (LLDP) settings on IOS-XR devices.",
+    "options": {
+      "config": {
+        "description": "The provided global LLDP configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS-XR device by executing the command B(show running-config lldp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_lldp_interfaces": {
+    "short_description": "Resource module to configure LLDP interfaces.",
+    "description": "This module manages Link Layer Discovery Protocol (LLDP) attributes of interfaces on IOS-XR devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of LLDP interfaces options.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS-XR device by executing the command B(show running-config int). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_netconf": {
+    "short_description": "Configures NetConf sub-system service on Cisco IOS-XR devices",
+    "description": "This module provides an abstraction that enables and configures the netconf system service running on Cisco IOS-XR Software. This module can be used to easily enable the Netconf API. Netconf provides a programmatic interface for working with configuration and state resources as defined in RFC 6242.",
+    "options": {
+      "netconf_port": {
+        "description": "This argument specifies the port the netconf service should listen on for SSH connections.  The default port as defined in RFC 6242 is 830.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 830,
+        "aliases": [
+          "listens_on"
+        ]
+      },
+      "netconf_vrf": {
+        "description": "netconf vrf name",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": [
+          "vrf"
+        ]
+      },
+      "state": {
+        "description": "Specifies the state of the C(iosxr_netconf) resource on the remote device.  If the I(state) argument is set to I(present) the netconf service will be configured.  If the I(state) argument is set to I(absent) the netconf service will be removed from the configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_ospf_interfaces": {
+    "short_description": "Resource module to configure OSPF interfaces.",
+    "description": "This module manages OSPF(v2/v3) configuration of interfaces on devices running Cisco IOS-XR.",
+    "options": {
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS-XR device by executing the command B(show running-config router ospf",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_ospfv2": {
+    "short_description": "Resource module to configure OSPFv2.",
+    "description": "This module manages global OSPFv2 configuration on devices running Cisco IOS-XR",
+    "options": {
+      "config": {
+        "description": "A list of OSPFv2 process configuration",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_ospfv3": {
+    "short_description": "Resource module to configure OSPFv3.",
+    "description": "This module manages global ospfv3 configuration on devices running Cisco IOS-XR",
+    "options": {
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS-XR device by executing the command B(show running-config router ospfv3). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_ping": {
+    "short_description": "Tests reachability using ping from IOSXR switch.",
+    "description": "Tests reachability using ping from switch to a remote destination. For a general purpose network module, see the L(net_ping,https://docs.ansible.com/ansible/latest/collections/ansible/netcommon/net_ping_module.html) module. For Windows targets, use the L(win_ping,https://docs.ansible.com/ansible/latest/collections/ansible/windows/win_ping_module.html) module instead. For targets running Python, use the L(ping,https://docs.ansible.com/ansible/latest/collections/ansible/builtin/ping_module.html) module instead.",
+    "options": {
+      "count": {
+        "description": "Repeat count the number of packets to send.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "afi": {
+        "description": "Define echo type ipv4 or ipv6.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ipv4",
+          "ipv6"
+        ],
+        "default": "ipv4",
+        "aliases": null
+      },
+      "dest": {
+        "description": "The IP Address or hostname (resolvable by switch) of the remote node.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "df_bit": {
+        "description": "Set the DF bit in IP-header.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "sweep": {
+        "description": "Sweep ping.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "validate": {
+        "description": "Validate return packet.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "source": {
+        "description": "Source address or source interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "size": {
+        "description": "Datagram size the size of packets to send.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Determines if the expected result is success or fail.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "vrf": {
+        "description": "The VRF to use for forwarding.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_prefix_lists": {
+    "short_description": "Resource module to configure prefix lists.",
+    "description": "This module manages prefix-lists configuration on devices running Cisco IOSXR.",
+    "options": {
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the Iosxr device by executing the command B(show running-config prefix-list). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_route_maps": {
+    "short_description": "Resource module to configure route maps.",
+    "description": "This module configures and manages the attributes of Route maps on Cisco IOSXR.",
+    "options": {
+      "config": {
+        "description": "A list of configurations for route policy.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_static_routes": {
+    "short_description": "Resource module to configure static routes.",
+    "description": "This module manages static routes on devices running Cisco IOS-XR.",
+    "options": {
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS-XR device by executing the command B(show running-config router static). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_system": {
+    "short_description": "Module to manage the system attributes.",
+    "description": "This module provides declarative management of node system attributes on Cisco IOS XR devices. It provides an option to configure host system parameters or remove those parameters from the device active configuration.",
+    "options": {
+      "hostname": {
+        "description": "Configure the device hostname parameter. This option takes an ASCII string value.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vrf": {
+        "description": "VRF name for domain services",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_user": {
+    "short_description": "Module to manage the aggregates of local users.",
+    "description": "This module provides declarative management of the local usernames configured on network devices. It allows playbooks to manage either individual usernames or the aggregate of usernames in the current running config. It also supports purging usernames from the configuration that are not explicitly defined.",
+    "options": {
+      "aggregate": {
+        "description": "The set of username objects to be configured on the remote Cisco IOS XR device. The list entries can either be the username or a hash of username and properties. This argument is mutually exclusive with the C(name) argument.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "users",
+          "collection"
+        ]
+      },
+      "name": {
+        "description": "The username to be configured on the Cisco IOS XR device. This argument accepts a string value and is mutually exclusive with the C(aggregate) argument. Please note that this option is not same as C(provider username).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "configured_password": {
+        "description": "The password to be configured on the Cisco IOS XR device. The password needs to be provided in clear text. Password is encrypted on the device when used with I(cli) and by Ansible when used with I(netconf) using the same MD5 hash technique with salt size of 3. Please note that this option is not same as C(provider password).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_password": {
+        "description": "Since passwords are encrypted in the device running config, this argument will instruct the module when to change the password.  When set to C(always), the password will always be updated in the device and when set to C(on_create) the password will be updated only if the username is created.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "on_create",
+          "always"
+        ],
+        "default": "always",
+        "aliases": null
+      },
+      "group": {
+        "description": "Configures the group for the username in the device running configuration. The argument accepts a string value defining the group name. This argument does not check if the group has been configured on the device.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "role"
+        ]
+      },
+      "groups": {
+        "description": "Configures the groups for the username in the device running configuration. The argument accepts a list of group names. This argument does not check if the group has been configured on the device. It is similar to the aggregate command for usernames, but lets you configure multiple groups for the user(s).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge": {
+        "description": "Instructs the module to consider the resource definition absolute. It will remove any previously configured usernames on the device with the exception of the `admin` user and the current defined set of users.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "admin": {
+        "description": "Enters into administration configuration mode for making config changes to the device. Applicable only when using network_cli transport",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the state of the username definition as it relates to the device operational configuration. When set to I(present), the username(s) should be configured in the device active configuration and when set to I(absent) the username(s) should not be in the device active configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "public_key": {
+        "description": "Configures the contents of the public keyfile to upload to the IOS-XR node. This enables users to login using the accompanying private key. IOS-XR only accepts base64 decoded files, so this will be decoded and uploaded to the node. Do note that this requires an OpenSSL public key file, PuTTy generated files will not work! Mutually exclusive with public_key_contents. If used with multiple users in aggregates, then the same key file is used for all users.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "public_key_contents": {
+        "description": "Configures the contents of the public keyfile to upload to the IOS-XR node. This enables users to login using the accompanying private key. IOS-XR only accepts base64 decoded files, so this will be decoded and uploaded to the node. Do note that this requires an OpenSSL public key file, PuTTy generated files will not work! Mutually exclusive with public_key.If used with multiple users in aggregates, then the same key file is used for all users.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.iosxr.iosxr_vrf_interfaces": {
+    "short_description": "Resource module to configure VRF interfaces.",
+    "description": "This module configures and manages the VRF configuration in interface on IOS XR platforms.",
+    "options": {
+      "config": {
+        "description": "A list of VRF interfaces options.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(sh running-config interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

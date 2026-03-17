@@ -1,0 +1,1853 @@
+{
+  "community.aws.acm_certificate": {
+    "short_description": "Upload and delete certificates in the AWS Certificate Manager service",
+    "description": "Import and delete certificates in Amazon Web Service\n",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.acm_certificate_info": {
+    "short_description": "Retrieve certificate information from AWS Certificate Manager service",
+    "description": "Retrieve information for ACM certificates. Note that this will not return information about uploaded keys of size 4096 bits, due to a limitation of the ACM API. Prior to release 5.0.0 this module was called C(community.aws.aws_acm_info). The usage did not change. Requires the IAM permissions",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.api_gateway_domain": {
+    "short_description": "Manage AWS API Gateway custom domains",
+    "description": "Manages API Gateway custom domains for API GW Rest APIs. AWS API Gateway custom domain setups use CloudFront behind the scenes. So you will get a CloudFront distribution as a result, configured to be aliased with your domain. Prior to release 5.0.0 this module was called C(community.aws.aws_api_gateway_domain). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.api_gateway_info": {
+    "short_description": "Gather information about ec2 instances in AWS",
+    "description": "Gather information about ec2 instances in AWS",
+    "options": {
+      "ids": {
+        "description": "The list of the string identifiers of the associated RestApis.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.autoscaling_complete_lifecycle_action": {
+    "short_description": "Completes the lifecycle action of an instance",
+    "description": "Used to complete the lifecycle action for the specified instance with the specified result.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.autoscaling_launch_config": {
+    "short_description": "Create or delete AWS Autoscaling Launch Configurations",
+    "description": "Can create or delete AWS Autoscaling Configurations. Works with the M(community.aws.autoscaling_group) module to manage Autoscaling Groups. Prior to release 5.0.0 this module was called C(community.aws.ec2_lc). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.autoscaling_launch_config_find": {
+    "short_description": "Find AWS Autoscaling Launch Configurations",
+    "description": "Returns list of matching Launch Configurations for a given name, along with other useful information. Results can be sorted and sliced. Based on the work by Tom Bamford U(https://github.com/tombamford). Prior to release 5.0.0 this module was called C(community.aws.ec2_lc_find). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.autoscaling_launch_config_info": {
+    "short_description": "Gather information about AWS Autoscaling Launch Configurations",
+    "description": "Gather information about AWS Autoscaling Launch Configurations. Prior to release 5.0.0 this module was called C(community.aws.ec2_lc_info). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.autoscaling_lifecycle_hook": {
+    "short_description": "Create, delete or update AWS ASG Lifecycle Hooks",
+    "description": "Will create a new hook when I(state=present) and no given Hook is found. Will update an existing hook when I(state=present) and a Hook is found, but current and provided parameters differ. Will delete the hook when I(state=absent) and a Hook is found. Prior to release 5.0.0 this module was called C(community.aws.ec2_asg_lifecycle_hook). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.batch_compute_environment": {
+    "short_description": "Manage AWS Batch Compute Environments",
+    "description": "This module allows the management of AWS Batch Compute Environments. It is idempotent and supports",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.batch_job_definition": {
+    "short_description": "Manage AWS Batch Job Definitions",
+    "description": "This module allows the management of AWS Batch Job Definitions. It is idempotent and supports",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.batch_job_queue": {
+    "short_description": "Manage AWS Batch Job Queues",
+    "description": "This module allows the management of AWS Batch Job Queues. It is idempotent and supports",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.cloudformation_exports_info": {
+    "short_description": "Read a value from CloudFormation Exports",
+    "description": "Module retrieves a value from CloudFormation Exports",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.cloudformation_stack_set": {
+    "short_description": "Manage groups of CloudFormation stacks",
+    "description": "Launches/updates/deletes AWS CloudFormation Stack Sets.",
+    "options": {
+      "name": {
+        "description": "Name of the CloudFormation stack set.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A description of what this stack set creates.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parameters": {
+        "description": "A list of hashes of all the template variables for the stack. The value can be a string or a dict. Dict can be used to set additional template parameter attributes like UsePreviousValue (see example).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "state": {
+        "description": "If I(state=present), stack will be created.  If I(state=present) and if stack exists and template has changed, it will be updated. If I(state=absent), stack will be removed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "template": {
+        "description": "The local path of the CloudFormation template. This must be the full path to the file, relative to the working directory. If using roles this may look like C(roles/cloudformation/files/cloudformation-example.json). If I(state=present) and the stack does not exist yet, either I(template), I(template_body) or I(template_url) must be specified (but only one of them). If I(state=present), the stack does exist, and neither I(template), I(template_body) nor I(template_url) are specified, the previous template will be reused.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_body": {
+        "description": "Template body. Use this to pass in the actual body of the CloudFormation template. If I(state=present) and the stack does not exist yet, either I(template), I(template_body) or I(template_url) must be specified (but only one of them). If I(state=present), the stack does exist, and neither I(template), I(template_body) nor I(template_url) are specified, the previous template will be reused.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_url": {
+        "description": "Location of file containing the template body. The URL must point to a template (max size 307,200 bytes) located in an S3 bucket in the same region as the stack. If I(state=present) and the stack does not exist yet, either I(template), I(template_body) or I(template_url) must be specified (but only one of them). If I(state=present), the stack does exist, and neither I(template), I(template_body) nor I(template_url) are specified, the previous template will be reused.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_stacks": {
+        "description": "Only applicable when I(state=absent). Sets whether, when deleting a stack set, the stack instances should also be deleted. By default, instances will be deleted. To keep stacks when stack set is deleted set I(purge_stacks=false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Whether or not to wait for stack operation to complete. This includes waiting for stack instances to reach UPDATE_COMPLETE status. If you choose not to wait, this module will not notify when stack operations fail because it will not wait for them to finish.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How long to wait (in seconds) for stacks to complete create/update/delete operations.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 900,
+        "aliases": null
+      },
+      "capabilities": {
+        "description": "Capabilities allow stacks to create and modify IAM resources, which may include adding users or roles. Currently the only available values are",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.cloudfront_distribution_info": {
+    "short_description": "Obtain facts about an AWS CloudFront distribution",
+    "description": "Gets information about an AWS CloudFront distribution. Prior to release 5.0.0 this module was called C(community.aws.cloudfront_info). The usage did not change.",
+    "options": {
+      "distribution_id": {
+        "description": "The id of the CloudFront distribution. Used with I(distribution), I(distribution_config), I(invalidation), I(streaming_distribution), I(streaming_distribution_config), I(list_invalidations).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "invalidation_id": {
+        "description": "The id of the invalidation to get information about. Used with I(invalidation).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "origin_access_identity_id": {
+        "description": "The id of the CloudFront origin access identity to get information about.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_name_alias": {
+        "description": "Can be used instead of I(distribution_id) - uses the aliased CNAME for the CloudFront distribution to get the distribution id where required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "all_lists": {
+        "description": "Get all CloudFront lists that do not require parameters.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "origin_access_identity": {
+        "description": "Get information about an origin access identity. Requires I(origin_access_identity_id) to be specified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "origin_access_identity_config": {
+        "description": "Get the configuration information about an origin access identity. Requires I(origin_access_identity_id) to be specified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "distribution": {
+        "description": "Get information about a distribution. Requires I(distribution_id) or I(domain_name_alias) to be specified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "distribution_config": {
+        "description": "Get the configuration information about a distribution. Requires I(distribution_id) or I(domain_name_alias) to be specified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "invalidation": {
+        "description": "Get information about an invalidation. Requires I(invalidation_id) to be specified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "streaming_distribution": {
+        "description": "Get information about a specified RTMP distribution. Requires I(distribution_id) or I(domain_name_alias) to be specified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "streaming_distribution_config": {
+        "description": "Get the configuration information about a specified RTMP distribution. Requires I(distribution_id) or I(domain_name_alias) to be specified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "list_origin_access_identities": {
+        "description": "Get a list of CloudFront origin access identities. Requires I(origin_access_identity_id) to be set.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "list_distributions": {
+        "description": "Get a list of CloudFront distributions.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "list_distributions_by_web_acl_id": {
+        "description": "Get a list of distributions using web acl id as a filter. Requires I(web_acl_id) to be set.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "list_invalidations": {
+        "description": "Get a list of invalidations. Requires I(distribution_id) or I(domain_name_alias) to be specified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "list_streaming_distributions": {
+        "description": "Get a list of streaming distributions.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "summary": {
+        "description": "Returns a summary of all distributions, streaming distributions and origin_access_identities. This is the default behaviour if no option is selected.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.cloudfront_invalidation": {
+    "short_description": "create invalidations for AWS CloudFront distributions",
+    "description": "Allows for invalidation of a batch of paths for a CloudFront distribution.",
+    "options": {
+      "distribution_id": {
+        "description": "The ID of the CloudFront distribution to invalidate paths for. Can be specified instead of the alias.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "alias": {
+        "description": "The alias of the CloudFront distribution to invalidate paths for. Can be specified instead of distribution_id.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "caller_reference": {
+        "description": "A unique reference identifier for the invalidation paths. Defaults to current datetime stamp.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_paths": {
+        "description": "A list of paths on the distribution to invalidate. Each path should begin with C(/). Wildcards are allowed. eg. C(/foo/bar/*)",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.cloudfront_origin_access_identity": {
+    "short_description": "Create, update and delete origin access identities for a CloudFront distribution",
+    "description": "Allows for easy creation, updating and deletion of origin access identities.",
+    "options": {
+      "state": {
+        "description": "If the named resource should exist.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "origin_access_identity_id": {
+        "description": "The origin_access_identity_id of the CloudFront distribution.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "A comment to describe the CloudFront origin access identity.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "caller_reference": {
+        "description": "A unique identifier to reference the origin access identity by.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.cloudfront_response_headers_policy": {
+    "short_description": "Create, update and delete response headers policies to be used in a Cloudfront distribution",
+    "description": "Create, update and delete response headers policies to be used in a Cloudfront distribution for inserting custom headers See docs at U(https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/cloudfront.html#CloudFront.Client.create_response_headers_policy)",
+    "options": {
+      "state": {
+        "description": "Decides if the named policy should be absent or present",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the policy",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Description of the policy",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cors_config": {
+        "description": "CORS header config block",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "security_headers_config": {
+        "description": "Security headers config block. For headers suchs as XSS-Protection, Content-Security-Policy or Strict-Transport-Security",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "custom_headers_config": {
+        "description": "Custom headers config block. Define your own list of headers and values as a list",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.codebuild_project": {
+    "short_description": "Create or delete an AWS CodeBuild project",
+    "description": "Create or delete a CodeBuild projects on AWS, used for building code artifacts from source code. Prior to release 5.0.0 this module was called C(community.aws.aws_codebuild). The usage did not change.",
+    "options": {
+      "name": {
+        "description": "Name of the CodeBuild project.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Descriptive text of the CodeBuild project.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source": {
+        "description": "Configure service and location for the build input source. I(source) is required when creating a new project.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.codecommit_repository": {
+    "short_description": "Manage repositories in AWS CodeCommit",
+    "description": "Supports creation and deletion of CodeCommit repositories. See U(https://aws.amazon.com/codecommit/) for more information about CodeCommit. Prior to release 5.0.0 this module was called C(community.aws.aws_codecommit). The usage did not change.",
+    "options": {
+      "name": {
+        "description": "Name of repository.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description or comment of repository.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "comment"
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.codepipeline": {
+    "short_description": "Create or delete AWS CodePipelines",
+    "description": "Create or delete a CodePipeline on AWS. Prior to release 5.0.0 this module was called C(community.aws.aws_codepipeline). The usage did not change.",
+    "options": {
+      "name": {
+        "description": "Name of the CodePipeline.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role_arn": {
+        "description": "ARN of the IAM role to use when executing the CodePipeline.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "artifact_store": {
+        "description": "Location information where artifacts are stored (on S3). Dictionary with fields type and location.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.config_aggregation_authorization": {
+    "short_description": "Manage cross-account AWS Config authorizations",
+    "description": "Module manages AWS Config aggregation authorizations. Prior to release 5.0.0 this module was called C(community.aws.aws_config_aggregation_authorization). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.config_aggregator": {
+    "short_description": "Manage AWS Config aggregations across multiple accounts",
+    "description": "Module manages AWS Config aggregator resources. Prior to release 5.0.0 this module was called C(community.aws.aws_config_aggregator). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.config_delivery_channel": {
+    "short_description": "Manage AWS Config delivery channels",
+    "description": "This module manages AWS Config delivery locations for rule checks and configuration info. Prior to release 5.0.0 this module was called C(community.aws.aws_config_delivery_channel). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.config_recorder": {
+    "short_description": "Manage AWS Config Recorders",
+    "description": "Module manages AWS Config configuration recorder settings. Prior to release 5.0.0 this module was called C(community.aws.aws_config_recorder). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.config_rule": {
+    "short_description": "Manage AWS Config rule resources",
+    "description": "Module manages AWS Config rules. Prior to release 5.0.0 this module was called C(community.aws.aws_config_rule). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.data_pipeline": {
+    "short_description": "Create and manage AWS Datapipelines",
+    "description": "Create and manage AWS Datapipelines. Creation is not idempotent in AWS, so the C(uniqueId) is created by hashing the options (minus objects) given to the datapipeline. The pipeline definition must be in the format given here U(https://docs.aws.amazon.com/datapipeline/latest/APIReference/API_PutPipelineDefinition.html#API_PutPipelineDefinition_RequestSyntax). Operations will wait for a configurable amount of time to ensure the pipeline is in the requested state.",
+    "options": {
+      "name": {
+        "description": "The name of the Datapipeline to create/modify/delete.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "An optional description for the pipeline being created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.directconnect_confirm_connection": {
+    "short_description": "Confirms the creation of a hosted DirectConnect connection",
+    "description": "Confirms the creation of a hosted DirectConnect, which requires approval before it can be used. DirectConnect connections that require approval would be in the C(ordering). After confirmation, they will move to the C(pending) state and finally the C(available) state. Prior to release 5.0.0 this module was called C(community.aws.aws_direct_connect_confirm_connection). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.directconnect_connection": {
+    "short_description": "Creates, deletes, modifies a DirectConnect connection",
+    "description": "Create, update, or delete a Direct Connect connection between a network and a specific AWS Direct Connect location. Upon creation the connection may be added to a link aggregation group or established as a standalone connection. The connection may later be associated or disassociated with a link aggregation group. Prior to release 5.0.0 this module was called C(community.aws.aws_direct_connect_connection). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.directconnect_link_aggregation_group": {
+    "short_description": "Manage Direct Connect LAG bundles",
+    "description": "Create, delete, or modify a Direct Connect link aggregation group. Prior to release 5.0.0 this module was called C(community.aws.aws_direct_connect_link_aggregation_group). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.directconnect_virtual_interface": {
+    "short_description": "Manage Direct Connect virtual interfaces",
+    "description": "Create, delete, or modify a Direct Connect public or private virtual interface. Prior to release 5.0.0 this module was called C(community.aws.aws_direct_connect_virtual_interface). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.dynamodb_table_info": {
+    "short_description": "Returns information about a Dynamo DB table",
+    "description": "Returns information about the Dynamo DB table, including the current status of the table, when it was created, the primary key schema, and any indexes on the table.",
+    "options": {
+      "name": {
+        "description": "The name of the table to describe.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.ec2_ami_copy": {
+    "short_description": "copies AMI between AWS regions, return new image id",
+    "description": "Copies AMI from a source region to a destination region. B(Since version 2.3 this module depends on boto3.)",
+    "options": {
+      "source_region": {
+        "description": "The source region the AMI should be copied from.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_image_id": {
+        "description": "The ID of the AMI in source region that should be copied.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the new AMI to copy. (As of 2.3 the default is C(default), in prior versions it was C(null).)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.ec2_carrier_gateway": {
+    "short_description": "Manage an AWS VPC Carrier gateway",
+    "description": "Manage an AWS VPC Carrier gateway.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.ec2_carrier_gateway_info": {
+    "short_description": "Gather information about carrier gateways in AWS",
+    "description": "Gather information about carrier gateways in AWS.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.ec2_customer_gateway_info": {
+    "short_description": "Gather information about customer gateways in AWS",
+    "description": "Gather information about customer gateways in AWS.",
+    "options": {
+      "filters": {
+        "description": "A dict of filters to apply. Each dict item consists of a filter key and a filter value. See U(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeCustomerGateways.html) for possible filters.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "customer_gateway_ids": {
+        "description": "Get details of a specific customer gateways using customer gateway ID/IDs. This value should be provided as a list.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.ec2_snapshot_copy": {
+    "short_description": "Copies an EC2 snapshot and returns the new Snapshot ID",
+    "description": "Copies an EC2 Snapshot from a source region to a destination region.",
+    "options": {
+      "source_region": {
+        "description": "The source region the Snapshot should be copied from.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_snapshot_id": {
+        "description": "The ID of the Snapshot in source region that should be copied.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "An optional human-readable string describing purpose of the new Snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.ec2_win_password": {
+    "short_description": "Gets the default administrator password for EC2 Windows instances",
+    "description": "Gets the default administrator password from any EC2 Windows instance. The instance is referenced by its id (e.g. C(i-XXXXXXX)).",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.ecs_ecr": {
+    "short_description": "Manage Elastic Container Registry repositories",
+    "description": "Manage Elastic Container Registry repositories.",
+    "options": {
+      "name": {
+        "description": "The name of the repository.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "registry_id": {
+        "description": "AWS account id associated with the registry. If not specified, the default registry is assumed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy": {
+        "description": "JSON or dict that represents the new policy.",
+        "type": "json",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force_absent": {
+        "description": "If I(force_absent=true), the repository will be removed, even if images are present.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "force_set_policy": {
+        "description": "If I(force_set_policy=false), it prevents setting a policy that would prevent you from setting another policy in the future.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "purge_policy": {
+        "description": "If C(true), remove the policy from the repository. Defaults to C(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image_tag_mutability": {
+        "description": "Configure whether repository should be mutable (ie. an already existing tag can be overwritten) or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "mutable",
+          "immutable"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.ecs_service": {
+    "short_description": "Create, terminate, start or stop a service in ECS",
+    "description": "Creates or terminates ECS services.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.ecs_service_info": {
+    "short_description": "List or describe services in ECS",
+    "description": "Lists or describes services in ECS.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.ecs_taskdefinition_info": {
+    "short_description": "Describe a task definition in ECS",
+    "description": "Describes a task definition in ECS.",
+    "options": {
+      "task_definition": {
+        "description": "The name of the task definition to get details for",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.efs": {
+    "short_description": "create and maintain EFS file systems",
+    "description": "Module allows create, search and destroy Amazon EFS file systems.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.efs_info": {
+    "short_description": "Get information about Amazon EFS file systems",
+    "description": "This module can be used to search Amazon EFS file systems. Note that the M(community.aws.efs_info) module no longer returns C(ansible_facts)!",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.eks_cluster": {
+    "short_description": "Manage Elastic Kubernetes Service (EKS) Clusters",
+    "description": "Manage Elastic Kubernetes Service (EKS) Clusters. Prior to release 5.0.0 this module was called C(community.aws.aws_eks_cluster). The usage did not change.",
+    "options": {
+      "name": {
+        "description": "Name of the EKS cluster.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "version": {
+        "description": "Kubernetes version. Defaults to C(latest).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role_arn": {
+        "description": "ARN of IAM role used by the EKS cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subnets": {
+        "description": "List of subnet IDs for the Kubernetes cluster.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "security_groups": {
+        "description": "List of security group names or IDs.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the EKS cluster.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dictionary of tags to add the EKS cluster.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Specifies whether the module waits until the cluster is active or deleted before moving on. It takes ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.eks_fargate_profile": {
+    "short_description": "Manage EKS Fargate Profile",
+    "description": "Manage EKS Fargate Profile.",
+    "options": {
+      "name": {
+        "description": "Name of EKS Fargate Profile.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_name": {
+        "description": "Name of EKS Cluster.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role_arn": {
+        "description": "ARN of IAM role used by the EKS cluster. Required when I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subnets": {
+        "description": "list of subnet IDs for the Kubernetes cluster. Required when I(state=present).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "selectors": {
+        "description": "A list of selectors to use in fargate profile. Required when I(state=present).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Create or delete the Fargate Profile.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "wait": {
+        "description": "Specifies whether the module waits until the profile is created or deleted before moving on.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "The duration in seconds to wait for the cluster to become active. Defaults to 1200 seconds (20 minutes).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1200,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.eks_nodegroup": {
+    "short_description": "Manage EKS Nodegroup module",
+    "description": "Manage EKS Nodegroup.",
+    "options": {
+      "name": {
+        "description": "Name of EKS Nodegroup.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_name": {
+        "description": "Name of EKS Cluster.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "node_role": {
+        "description": "ARN of IAM role used by the EKS cluster Nodegroup.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subnets": {
+        "description": "list of subnet IDs for the Kubernetes cluster.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scaling_config": {
+        "description": "The scaling configuration details for the Auto Scaling group that is created for your node group.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {
+          "min_size": 1,
+          "max_size": 2,
+          "desired_size": 1
+        },
+        "aliases": null
+      },
+      "disk_size": {
+        "description": "Size of disk in nodegroup nodes. If you specify I(launch_template), then don",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.elasticache": {
+    "short_description": "Manage cache clusters in Amazon ElastiCache",
+    "description": "Manage cache clusters in Amazon ElastiCache. Returns information about the specified cache cluster.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.elasticache_info": {
+    "short_description": "Retrieve information for AWS ElastiCache clusters",
+    "description": "Retrieve information from AWS ElastiCache clusters.",
+    "options": {
+      "name": {
+        "description": "The name of an ElastiCache cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.elasticache_parameter_group": {
+    "short_description": "Manage cache parameter groups in Amazon ElastiCache.",
+    "description": "Manage cache security groups in Amazon ElastiCache. Returns information about the specified cache cluster.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.elasticache_snapshot": {
+    "short_description": "Manage cache snapshots in Amazon ElastiCache",
+    "description": "Manage cache snapshots in Amazon ElastiCache. Returns information about the specified snapshot.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.elb_instance": {
+    "short_description": "De-registers or registers instances from EC2 ELBs",
+    "description": "This module de-registers or registers an AWS EC2 instance from the ELBs that it belongs to. Will be marked changed when called only if there are ELBs found to operate on.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.elb_network_lb": {
+    "short_description": "Manage a Network Load Balancer",
+    "description": "Manage an AWS Network Elastic Load Balancer. See U(https://aws.amazon.com/blogs/aws/new-network-load-balancer-effortless-scaling-to-millions-of-requests-per-second/) for details.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.elb_target": {
+    "short_description": "Manage a target in a target group",
+    "description": "Used to register or deregister a target in a target group.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.elb_target_group": {
+    "short_description": "Manage a target group for an Application or Network load balancer",
+    "description": "Manage an AWS Elastic Load Balancer target group. See U(https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html) or U(https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html) for details.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.elb_target_group_info": {
+    "short_description": "Gather information about ELB target groups in AWS",
+    "description": "Gather information about ELB target groups in AWS",
+    "options": {
+      "load_balancer_arn": {
+        "description": "The Amazon Resource Name (ARN) of the load balancer.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_group_arns": {
+        "description": "The Amazon Resource Names (ARN) of the target groups.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "names": {
+        "description": "The names of the target groups.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "collect_targets_health": {
+        "description": "When set to C(True), output contains targets health description",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.elb_target_info": {
+    "short_description": "Gathers which target groups a target is associated with.",
+    "description": "This module will search through every target group in a region to find which ones have registered a given instance ID or IP.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.glue_connection": {
+    "short_description": "Manage an AWS Glue connection",
+    "description": "Manage an AWS Glue connection. See U(https://aws.amazon.com/glue/) for details. Prior to release 5.0.0 this module was called C(community.aws.aws_glue_connection). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.glue_crawler": {
+    "short_description": "Manage an AWS Glue crawler",
+    "description": "Manage an AWS Glue crawler. See U(https://aws.amazon.com/glue/) for details. Prior to release 5.0.0 this module was called C(community.aws.aws_glue_crawler). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.glue_job": {
+    "short_description": "Manage an AWS Glue job",
+    "description": "Manage an AWS Glue job. See U(https://aws.amazon.com/glue/) for details. Prior to release 5.0.0 this module was called C(community.aws.aws_glue_job). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.iam_saml_federation": {
+    "short_description": "Maintain IAM SAML federation configuration.",
+    "description": "Provides a mechanism to manage AWS IAM SAML Identity Federation providers (create/update/delete metadata).",
+    "options": {
+      "name": {
+        "description": "The name of the provider to create.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "saml_metadata_document": {
+        "description": "The XML document generated by an identity provider (IdP) that supports SAML 2.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether to create or delete identity provider. If",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.iam_server_certificate_info": {
+    "short_description": "Retrieve the information of a server certificate",
+    "description": "Retrieve the attributes of a server certificate.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.inspector_target": {
+    "short_description": "Create, Update and Delete Amazon Inspector Assessment Targets",
+    "description": "Creates, updates, or deletes Amazon Inspector Assessment Targets and manages the required Resource Groups. Prior to release 5.0.0 this module was called C(community.aws.aws_inspector_target). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.lightsail": {
+    "short_description": "Manage instances in AWS Lightsail",
+    "description": "Manage instances in AWS Lightsail. Instance tagging is not yet supported in this module.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.lightsail_snapshot": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.lightsail_static_ip": {
+    "short_description": "Manage static IP addresses in AWS Lightsail",
+    "description": "Manage static IP addresses in AWS Lightsail.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.mq_broker": {
+    "short_description": "MQ broker management",
+    "description": "Create/update/delete a broker. Reboot a broker.",
+    "options": {
+      "broker_name": {
+        "description": "The Name of the MQ broker to work on.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.mq_broker_config": {
+    "short_description": "Update Amazon MQ broker configuration",
+    "description": "Update configuration for an MQ broker. If new configuration differs from the current one a new configuration is created and the new version is assigned to the broker. Optionally allows broker reboot to make changes effective immediately.",
+    "options": {
+      "broker_id": {
+        "description": "The ID of the MQ broker to work on.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "config_xml": {
+        "description": "The maximum number of results to return.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "config_description": {
+        "description": "Description to set on new configuration revision.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "reboot": {
+        "description": "Reboot broker after new config has been applied.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.mq_broker_info": {
+    "short_description": "Retrieve MQ Broker details",
+    "description": "Get details about a broker.",
+    "options": {
+      "broker_id": {
+        "description": "Get details for broker with specified ID.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "broker_name": {
+        "description": "Get details for broker with specified Name. Is ignored if I(broker_id) is specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.mq_user_info": {
+    "short_description": "List users of an Amazon MQ broker",
+    "description": "List users for the specified broker ID. Pending creations and deletions can be skipped by options.",
+    "options": {
+      "broker_id": {
+        "description": "The ID of the MQ broker to work on.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_results": {
+        "description": "The maximum number of results to return.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 100,
+        "aliases": null
+      },
+      "skip_pending_create": {
+        "description": "Will skip pending creates from the result set.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "skip_pending_delete": {
+        "description": "Will skip pending deletes from the result set.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "as_dict": {
+        "description": "Convert result into lookup table by username.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.msk_cluster": {
+    "short_description": "Manage Amazon MSK clusters",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.msk_config": {
+    "short_description": "Manage Amazon MSK cluster configurations",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.networkfirewall_policy_info": {
+    "short_description": "describe AWS Network Firewall policies",
+    "description": "A module for describing AWS Network Firewall policies.",
+    "options": {
+      "arn": {
+        "description": "The ARN of the Network Firewall policy. Mutually exclusive with I(name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Network Firewall policy. Mutually exclusive with I(arn).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.opensearch": {
+    "short_description": "Creates OpenSearch or ElasticSearch domain",
+    "description": "Creates or modify a Amazon OpenSearch Service domain.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.opensearch_info": {
+    "short_description": "obtain information about one or more OpenSearch or ElasticSearch domain",
+    "description": "Obtain information about one Amazon OpenSearch Service domain.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.redshift": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.redshift_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.redshift_subnet_group": {
+    "short_description": "manage Redshift cluster subnet groups",
+    "description": "Create, modifies, and deletes Redshift cluster subnet groups.",
+    "options": {
+      "state": {
+        "description": "Specifies whether the subnet group should be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.route53_wait": {
+    "short_description": "wait for changes in Amazons Route 53 DNS service to propagate",
+    "description": "When using M(amazon.aws.route53) with I(wait=false), this module allows to wait for the module",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.s3_bucket_notification": {
+    "short_description": "Creates, updates or deletes S3 Bucket notifications targeting Lambda functions, SNS or SQS.",
+    "description": "This module supports the creation, updates and deletions of S3 bucket notification profiles targeting either Lambda functions, SNS topics or SQS queues. The target for the notifications must already exist. For lambdas use module M(community.aws.lambda) to manage the lambda function itself, M(community.aws.lambda_alias) to manage function aliases and M(community.aws.lambda_policy) to modify lambda permissions. For SNS or SQS then use M(community.aws.sns_topic) or M(community.aws.sqs_queue).",
+    "options": {
+      "event_name": {
+        "description": "Unique name for event notification on bucket.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bucket_name": {
+        "description": "S3 bucket name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Describes the desired state.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.s3_cors": {
+    "short_description": "Manage CORS for S3 buckets in AWS",
+    "description": "Manage CORS for S3 buckets in AWS. Prior to release 5.0.0 this module was called C(community.aws.aws_s3_cors). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.s3_lifecycle": {
+    "short_description": "Manage S3 bucket lifecycle rules in AWS",
+    "description": "Manage S3 bucket lifecycle rules in AWS.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.s3_logging": {
+    "short_description": "Manage logging facility of an s3 bucket in AWS",
+    "description": "Manage logging facility of an s3 bucket in AWS",
+    "options": {
+      "name": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.s3_metrics_configuration": {
+    "short_description": "Manage s3 bucket metrics configuration in AWS",
+    "description": "Manage s3 bucket metrics configuration in AWS which allows to get the CloudWatch request metrics for the objects in a bucket",
+    "options": {
+      "bucket_name": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.s3_sync": {
+    "short_description": "Efficiently upload multiple files to S3",
+    "description": "The S3 module is great, but it is very slow for a large volume of files- even a dozen will be noticeable. In addition to speed, it handles globbing, inclusions/exclusions, mime types, expiration mapping, recursion, cache control and smart directory mapping.",
+    "options": {
+      "mode": {
+        "description": "sync direction.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.s3_website": {
+    "short_description": "Configure an s3 bucket as a website",
+    "description": "Configure an s3 bucket as a website",
+    "options": {
+      "name": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.secretsmanager_secret": {
+    "short_description": "Manage secrets stored in AWS Secrets Manager",
+    "description": "Create, update, and delete secrets stored in AWS Secrets Manager. Prior to release 5.0.0 this module was called C(community.aws.aws_secret). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.ses_identity": {
+    "short_description": "Manages SES email and domain identity",
+    "description": "This module allows the user to manage verified email and domain identity for SES. This covers verifying and removing identities as well as setting up complaint, bounce and delivery notification settings. Prior to release 5.0.0 this module was called C(community.aws.aws_ses_identity). The usage did not change.",
+    "options": {
+      "identity": {
+        "description": "This is the email address or domain to verify / delete. If this contains an",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.ses_identity_policy": {
+    "short_description": "Manages SES sending authorization policies",
+    "description": "This module allows the user to manage sending authorization policies associated with an SES identity (email or domain). SES authorization sending policies can be used to control what actors are able to send email on behalf of the validated identity and what conditions must be met by the sent emails. Prior to release 5.0.0 this module was called C(community.aws.aws_ses_identity_policy). The usage did not change.",
+    "options": {
+      "identity": {
+        "description": "The SES identity to attach or remove a policy from. This can be either the full ARN or just\nthe verified email or domain.\n",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy_name": {
+        "description": "The name used to identify the policy within the scope of the identity it",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.ses_rule_set": {
+    "short_description": "Manages SES inbound receipt rule sets",
+    "description": "This module allows you to create, delete, and manage SES receipt rule sets Prior to release 5.0.0 this module was called C(community.aws.aws_ses_rule_set). The usage did not change.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.sns_topic": {
+    "short_description": "Manages AWS SNS topics and subscriptions",
+    "description": "The M(community.aws.sns_topic) module allows you to create, delete, and manage subscriptions for AWS SNS topics.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.sns_topic_info": {
+    "short_description": "sns_topic_info module",
+    "description": "The M(community.aws.sns_topic_info) module allows to get all AWS SNS topics or properties of a specific AWS SNS topic.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.ssm_inventory_info": {
+    "short_description": "Get SSM inventory information for EC2 instance",
+    "description": "Gather SSM inventory for EC2 instance configured with SSM.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.stepfunctions_state_machine": {
+    "short_description": "Manage AWS Step Functions state machines",
+    "description": "Create, update and delete state machines in AWS Step Functions. Calling the module in C(state=present) for an existing AWS Step Functions state machine will attempt to update the state machine definition, IAM Role, or tags with the provided data. Prior to release 5.0.0 this module was called C(community.aws.aws_step_functions_state_machine). The usage did not change.",
+    "options": {
+      "name": {
+        "description": "Name of the state machine.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "definition": {
+        "description": "The Amazon States Language definition of the state machine. See U(https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) for more information on the Amazon States Language. Required when I(state=present).",
+        "type": "json",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role_arn": {
+        "description": "The ARN of the IAM Role that will be used by the state machine for its executions. Required when I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state for the state machine.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.stepfunctions_state_machine_execution": {
+    "short_description": "Start or stop execution of an AWS Step Functions state machine",
+    "description": "Start or stop execution of a state machine in AWS Step Functions. Prior to release 5.0.0 this module was called C(community.aws.aws_step_functions_state_machine_execution). The usage did not change.",
+    "options": {
+      "action": {
+        "description": "Desired action (C(start) or C(stop)) for a state machine execution.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "start",
+          "stop"
+        ],
+        "default": "start",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the execution.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "execution_input": {
+        "description": "The JSON input data for the execution.",
+        "type": "json",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "state_machine_arn": {
+        "description": "The ARN of the state machine that will be executed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "execution_arn": {
+        "description": "The ARN of the execution you wish to stop.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cause": {
+        "description": "A detailed explanation of the cause for stopping the execution.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.storagegateway_info": {
+    "short_description": "Fetch AWS Storage Gateway information",
+    "description": "Fetch AWS Storage Gateway information Prior to release 5.0.0 this module was called C(community.aws.aws_sgw_info). The usage did not change.",
+    "options": {
+      "gather_local_disks": {
+        "description": "Gather local disks attached to the storage gateway.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "gather_tapes": {
+        "description": "Gather tape information for storage gateways in tape mode.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "gather_file_shares": {
+        "description": "Gather file share information for storage gateways in s3 mode.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "gather_volumes": {
+        "description": "Gather volume information for storage gateways in iSCSI (cached & stored) modes.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.sts_session_token": {
+    "short_description": "obtain a session token from the AWS Security Token Service",
+    "description": "Obtain a session token from the AWS Security Token Service.",
+    "options": {
+      "duration_seconds": {
+        "description": "The duration, in seconds, of the session token. See U(https://docs.aws.amazon.com/STS/latest/APIReference/API_GetSessionToken.html#API_GetSessionToken_RequestParameters) for acceptable and default values.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mfa_serial_number": {
+        "description": "The identification number of the MFA device that is associated with the user who is making the GetSessionToken call.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mfa_token": {
+        "description": "The value provided by the MFA device, if the trust policy of the user requires MFA.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.aws.wafv2_ip_set": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.wafv2_ip_set_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.wafv2_resources": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.wafv2_resources_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.wafv2_rule_group": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.wafv2_rule_group_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.wafv2_web_acl": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.aws.wafv2_web_acl_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "ansible.utils.cli_parse": {
+    "short_description": "Parse cli output or text using a variety of parsers",
+    "description": "Parse cli output or text using a variety of parsers",
+    "options": {
+      "command": {
+        "description": "The command to run on the host",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "text": {
+        "description": "Text to be parsed",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parser": {
+        "description": "Parser specific parameters",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.utils.fact_diff": {
+    "short_description": "Find the difference between currently set facts",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.utils.update_fact": {
+    "short_description": "Update currently set facts",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.utils.validate": {
+    "short_description": "Validate data with provided criteria",
+    "description": "Validate data with provided criteria based on the validation engine.",
+    "options": {
+      "data": {
+        "description": "Data that will be validated against I(criteria). For the type of data refer to the documentation of individual validate plugins.",
+        "type": "raw",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "engine": {
+        "description": "The name of the validate plugin to use. The engine value should follow the fully qualified collection name format, that is <org-name>.<collection-name>.<validate-plugin-name>.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "ansible.utils.jsonschema",
+        "aliases": null
+      },
+      "criteria": {
+        "description": "The criteria used for validation of I(data). For the type of criteria refer to the documentation of individual validate plugins.",
+        "type": "raw",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

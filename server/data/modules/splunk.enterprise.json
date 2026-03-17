@@ -1,0 +1,26 @@
+{
+  "splunk.enterprise.splunk_universal_forwarder_linux": {
+    "short_description": "Manage Splunk Universal Forwarder installations on RHEL systems",
+    "description": "This module manages Splunk Universal Forwarder installations on RHEL 8, 9, and 10 systems with RPM package. Downloads the Splunk Universal Forwarder RPM and verifies its integrity using SHA512 checksums. Supports idempotent installation and removal of the forwarder. Automatically configures user credentials and starts the forwarder on first installation. If the forwarder is already installed, only upgrades are allowed. To downgrade the forwarder, you can use 2 tasks - absent then present. Password is set on first installation only, On subsequent tasks the user/password has to be provided.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.enterprise.splunk_universal_forwarder_linux_info": {
+    "short_description": "Gather information about Splunk Universal Forwarder installations on RHEL systems",
+    "description": "This module gathers information about Splunk Universal Forwarder installations on RHEL 8, 9, and 10 systems. Returns installation state, version, release id, CPU architecture, forward servers, and deployment server configuration.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.enterprise.win_splunk_universal_forwarder": {
+    "short_description": "Install and bootstrap Splunk Universal Forwarder on Windows",
+    "description": "Downloads the Splunk Universal Forwarder MSI for a requested version and installs it silently. Seeds initial credentials via C(user-seed.conf) and configures deployment/forward servers using C(splunk.exe) authenticated via environment variables. Supports upgrades to newer versions (downgrade is not supported). Configures forward servers and deployment server.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.enterprise.win_splunk_universal_forwarder_info": {
+    "short_description": "Gather information about Splunk Universal Forwarder on Windows",
+    "description": "Retrieves information about the installed Splunk Universal Forwarder. Returns installation state, version, release ID, forward servers, deployment server, and installation directory. Uses C(splunk.exe) commands authenticated via environment variables to retrieve configuration details.",
+    "options": {},
+    "deprecated": null
+  }
+}

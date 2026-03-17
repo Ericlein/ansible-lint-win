@@ -1,0 +1,2444 @@
+{
+  "hetzner.hcloud.certificate": {
+    "short_description": "Create and manage certificates on the Hetzner Cloud.",
+    "description": "Create, update and manage certificates on the Hetzner Cloud.",
+    "options": {
+      "id": {
+        "description": "The ID of the Hetzner Cloud certificate to manage. Only required if no certificate I(name) is given",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The Name of the Hetzner Cloud certificate to manage. Only required if no certificate I(id) is given or a certificate does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "User-defined labels (key-value pairs)",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "certificate": {
+        "description": "Certificate and chain in PEM format, in order so that each record directly certifies the one preceding. Required if certificate does not exist and I(type=uploaded).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "private_key": {
+        "description": "Certificate key in PEM format. Required if certificate does not exist and I(type=uploaded).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_names": {
+        "description": "Domains and subdomains that should be contained in the Certificate issued by Let",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.certificate_info": {
+    "short_description": "Gather infos about your Hetzner Cloud certificates.",
+    "description": "Gather facts about your Hetzner Cloud certificates.",
+    "options": {
+      "id": {
+        "description": "The ID of the certificate you want to get. The module will fail if the provided ID is invalid.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the certificate you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selector": {
+        "description": "The label selector for the certificate you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.datacenter_info": {
+    "short_description": "Gather info about the Hetzner Cloud datacenters.",
+    "description": "Gather info about your Hetzner Cloud datacenters.",
+    "options": {
+      "id": {
+        "description": "The ID of the datacenter you want to get. The module will fail if the provided ID is invalid.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the datacenter you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.firewall": {
+    "short_description": "Create and manage firewalls on the Hetzner Cloud.",
+    "description": "Create, update and manage firewalls on the Hetzner Cloud.",
+    "options": {
+      "id": {
+        "description": "The ID of the Hetzner Cloud Firewall to manage. Only required if no firewall O(name) is given.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The Name of the Hetzner Cloud Firewall to manage. Only required if no firewall O(id) is given, or the firewall does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "User-defined labels (key-value pairs).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rules": {
+        "description": "List of rules the firewall contain.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Force the deletion of the Firewall when still in use.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the firewall.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.firewall_info": {
+    "short_description": "Gather infos about the Hetzner Cloud Firewalls.",
+    "description": "Gather facts about your Hetzner Cloud Firewalls.",
+    "options": {
+      "id": {
+        "description": "The ID of the Firewall you want to get. The module will fail if the provided ID is invalid.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name for the Firewall you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selector": {
+        "description": "The label selector for the Firewalls you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.firewall_resource": {
+    "short_description": "Manage Resources a Hetzner Cloud Firewall is applied to.",
+    "description": "Add and Remove Resources a Hetzner Cloud Firewall is applied to.",
+    "options": {
+      "firewall": {
+        "description": "Name or ID of the Hetzner Cloud Firewall.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "servers": {
+        "description": "List of Server Name or ID.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selectors": {
+        "description": "List of Label Selector.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the firewall resources.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.floating_ip": {
+    "short_description": "Create and manage cloud Floating IPs on the Hetzner Cloud.",
+    "description": "Create, update and manage cloud Floating IPs on the Hetzner Cloud. To manage the DNS pointer of a Floating IP, use the M(hetzner.hcloud.rdns) module.",
+    "options": {
+      "id": {
+        "description": "The ID of the Hetzner Cloud Floating IPs to manage. Only required if no Floating IP I(name) is given.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The Name of the Hetzner Cloud Floating IPs to manage. Only required if no Floating IP I(id) is given or a Floating IP does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The Description of the Hetzner Cloud Floating IPs.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "home_location": {
+        "description": "Home Location of the Hetzner Cloud Floating IP. Required if no I(server) is given and Floating IP does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server": {
+        "description": "Server Name the Floating IP should be assigned to. Required if no I(home_location) is given and Floating IP does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Type of the Floating IP. Required if Floating IP does not exist",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ipv4",
+          "ipv6"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Force the assignment or deletion of the Floating IP.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delete_protection": {
+        "description": "Protect the Floating IP for deletion.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "User-defined labels (key-value pairs).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the Floating IP.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.floating_ip_info": {
+    "short_description": "Gather infos about the Hetzner Cloud Floating IPs.",
+    "description": "Gather facts about your Hetzner Cloud Floating IPs.",
+    "options": {
+      "id": {
+        "description": "The ID of the Floating IP you want to get. The module will fail if the provided ID is invalid.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name for the Floating IP you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selector": {
+        "description": "The label selector for the Floating IP you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.image_info": {
+    "short_description": "Gather infos about your Hetzner Cloud images.",
+    "description": "Gather infos about your Hetzner Cloud images.",
+    "options": {
+      "id": {
+        "description": "The ID of the image you want to get. The module will fail if the provided ID is invalid.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the image you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selector": {
+        "description": "The label selector for the images you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "The type for the images you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "system",
+          "snapshot",
+          "backup"
+        ],
+        "default": "system",
+        "aliases": null
+      },
+      "architecture": {
+        "description": "The architecture for the images you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "x86",
+          "arm"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.iso_info": {
+    "short_description": "Gather infos about the Hetzner Cloud ISO list.",
+    "description": "Gather infos about the Hetzner Cloud ISO list.",
+    "options": {
+      "id": {
+        "description": "The ID of the ISO image you want to get. The module will fail if the provided ID is invalid.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the ISO you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "architecture": {
+        "description": "Filter ISOs with compatible architecture.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "x86",
+          "arm"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "include_architecture_wildcard": {
+        "description": "Include ISOs with wildcard architecture (architecture is null). Works only if architecture filter is specified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.load_balancer": {
+    "short_description": "Create and manage cloud Load Balancers on the Hetzner Cloud.",
+    "description": "Create, update and manage cloud Load Balancers on the Hetzner Cloud. To manage the DNS pointer of a Load Balancer, use the M(hetzner.hcloud.rdns) module.",
+    "options": {
+      "id": {
+        "description": "The ID of the Hetzner Cloud Load Balancer to manage. Only required if no Load Balancer I(name) is given",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The Name of the Hetzner Cloud Load Balancer to manage. Only required if no Load Balancer I(id) is given or a Load Balancer does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "load_balancer_type": {
+        "description": "The Load Balancer Type of the Hetzner Cloud Load Balancer to manage. Required if Load Balancer does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "algorithm": {
+        "description": "Algorithm of the Load Balancer.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "round_robin",
+          "least_connections"
+        ],
+        "default": "round_robin",
+        "aliases": null
+      },
+      "location": {
+        "description": "Location of Load Balancer. Required if no I(network_zone) is given and Load Balancer does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network_zone": {
+        "description": "Network Zone of Load Balancer. Required of no I(location) is given and Load Balancer does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "User-defined labels (key-value pairs).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disable_public_interface": {
+        "description": "Disables the public interface.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "delete_protection": {
+        "description": "Protect the Load Balancer for deletion.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the Load Balancer.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.load_balancer_info": {
+    "short_description": "Gather infos about your Hetzner Cloud Load Balancers.",
+    "description": "Gather infos about your Hetzner Cloud Load Balancers..",
+    "options": {
+      "id": {
+        "description": "The ID of the Load Balancers you want to get. The module will fail if the provided ID is invalid.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Load Balancers you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selector": {
+        "description": "The label selector for the Load Balancers you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.load_balancer_network": {
+    "short_description": "Manage the relationship between Hetzner Cloud Networks and Load Balancers",
+    "description": "Create and delete the relationship Hetzner Cloud Networks and Load Balancers",
+    "options": {
+      "network": {
+        "description": "Name or ID of the Hetzner Cloud Networks.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "load_balancer": {
+        "description": "Name or ID of the Hetzner Cloud Load Balancer.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip_range": {
+        "description": "IP range in CIDR block notation of the subnet to attach to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip": {
+        "description": "The IP the Load Balancer should have.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the load_balancer_network.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.load_balancer_service": {
+    "short_description": "Create and manage the services of cloud Load Balancers on the Hetzner Cloud.",
+    "description": "Create, update and manage the services of cloud Load Balancers on the Hetzner Cloud.",
+    "options": {
+      "load_balancer": {
+        "description": "Name or ID of the Hetzner Cloud Load Balancer the service belongs to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "listen_port": {
+        "description": "The port the service listens on, i.e. the port users can connect to.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_port": {
+        "description": "The port traffic is forwarded to, i.e. the port the targets are listening and accepting connections on. Required if services does not exist and protocol is tcp.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol": {
+        "description": "Protocol of the service. Required if Load Balancer does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "http",
+          "https",
+          "tcp"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "proxyprotocol": {
+        "description": "Enable the PROXY protocol.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "http": {
+        "description": "Configuration for HTTP and HTTPS services",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "health_check": {
+        "description": "Configuration for health checks",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the Load Balancer.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.load_balancer_target": {
+    "short_description": "Manage Hetzner Cloud Load Balancer targets",
+    "description": "Create and delete Hetzner Cloud Load Balancer targets",
+    "options": {
+      "type": {
+        "description": "The type of the target.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "server",
+          "label_selector",
+          "ip"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "load_balancer": {
+        "description": "Name or ID of the Hetzner Cloud Load Balancer.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server": {
+        "description": "Name or ID of the Hetzner Cloud Server. Required if I(type) is server",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selector": {
+        "description": "A Label Selector that will be used to determine the targets dynamically Required if I(type) is label_selector",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip": {
+        "description": "An IP from a Hetzner Dedicated Server, needs to belongs to the same user as the project. Required if I(type) is ip",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_private_ip": {
+        "description": "Route the traffic over the private IP of the Load Balancer through a Hetzner Cloud Network. Load Balancer needs to be attached to a network. See M(hetzner.hcloud.load_balancer_network)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the load_balancer_network.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.load_balancer_type_info": {
+    "short_description": "Gather infos about the Hetzner Cloud Load Balancer types.",
+    "description": "Gather infos about your Hetzner Cloud Load Balancer types.",
+    "options": {
+      "id": {
+        "description": "The ID of the Load Balancer type you want to get. The module will fail if the provided ID is invalid.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Load Balancer type you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.location_info": {
+    "short_description": "Gather infos about your Hetzner Cloud locations.",
+    "description": "Gather infos about your Hetzner Cloud locations.",
+    "options": {
+      "id": {
+        "description": "The ID of the location you want to get. The module will fail if the provided ID is invalid.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the location you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.network": {
+    "short_description": "Create and manage cloud Networks on the Hetzner Cloud.",
+    "description": "Create, update and manage cloud Networks on the Hetzner Cloud. You need at least hcloud-python 1.3.0.",
+    "options": {
+      "id": {
+        "description": "The ID of the Hetzner Cloud Networks to manage. Only required if no Network I(name) is given.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The Name of the Hetzner Cloud Network to manage. Only required if no Network I(id) is given or a Network does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip_range": {
+        "description": "IP range of the Network. Required if Network does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "expose_routes_to_vswitch": {
+        "description": "Indicates if the routes from this network should be exposed to the vSwitch connection. The exposing only takes effect if a vSwitch connection is active.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "User-defined labels (key-value pairs).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delete_protection": {
+        "description": "Protect the Network for deletion.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the Network.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.network_info": {
+    "short_description": "Gather info about your Hetzner Cloud networks.",
+    "description": "Gather info about your Hetzner Cloud networks.",
+    "options": {
+      "id": {
+        "description": "The ID of the network you want to get. The module will fail if the provided ID is invalid.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the network you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selector": {
+        "description": "The label selector for the network you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.placement_group": {
+    "short_description": "Create and manage placement groups on the Hetzner Cloud.",
+    "description": "Create, update and manage placement groups on the Hetzner Cloud.",
+    "options": {
+      "id": {
+        "description": "The ID of the Hetzner Cloud placement group to manage. Only required if no placement group I(name) is given",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The Name of the Hetzner Cloud placement group to manage. Only required if no placement group I(id) is given, or a placement group does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "User-defined labels (key-value pairs)",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "The Type of the Hetzner Cloud placement group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the placement group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.primary_ip": {
+    "short_description": "Create and manage cloud Primary IPs on the Hetzner Cloud.",
+    "description": "Create, update and manage cloud Primary IPs on the Hetzner Cloud. To manage the DNS pointer of a Primary IP, use the M(hetzner.hcloud.rdns) module.",
+    "options": {
+      "id": {
+        "description": "The ID of the Hetzner Cloud Primary IPs to manage. Only required if no Primary IP O(name) is given.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The Name of the Hetzner Cloud Primary IPs to manage. Only required if no Primary IP O(id) is given or a Primary IP does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "location": {
+        "description": "ID or name of the Location the Hetzner Cloud Primary IP will be bound to. Required if no O(server) or O(datacenter) is given and Primary IP does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "datacenter": {
+        "description": "B(Deprecated:) The O(datacenter) argument is deprecated and will be removed after 1 July 2026. Please use the O(location) argument instead. See https://docs.hetzner.cloud/changelog#2025-12-16-phasing-out-datacenters. Home Location of the Hetzner Cloud Primary IP. Required if no O(server) or O(location) is given and Primary IP does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server": {
+        "description": "Name or ID of the Hetzner Cloud Server the Primary IP should be assigned to. The Primary IP cannot be assigned to a running server. Required if no O(datacenter) is given and the Primary IP does not exist. Use C(null) to unassign the Primary IP from the server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Type of the Primary IP. Required if Primary IP does not exist",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ipv4",
+          "ipv6"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "auto_delete": {
+        "description": "Delete the Primary IP when the resource it is assigned to is deleted.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "delete_protection": {
+        "description": "Protect the Primary IP for deletion.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "User-defined labels (key-value pairs).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the Primary IP.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.primary_ip_info": {
+    "short_description": "Gather infos about the Hetzner Cloud Primary IPs.",
+    "description": "Gather facts about your Hetzner Cloud Primary IPs.",
+    "options": {
+      "id": {
+        "description": "The ID of the Primary IP you want to get. The module will fail if the provided ID is invalid.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name for the Primary IP you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selector": {
+        "description": "The label selector for the Primary IP you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.rdns": {
+    "short_description": "Create and manage reverse DNS entries on the Hetzner Cloud.",
+    "description": "Create, update and delete reverse DNS entries on the Hetzner Cloud.",
+    "options": {
+      "server": {
+        "description": "Name or ID of the Hetzner Cloud server you want to add the reverse DNS entry to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "floating_ip": {
+        "description": "Name or ID of the Hetzner Cloud Floating IP you want to add the reverse DNS entry to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "primary_ip": {
+        "description": "Name or ID of the Hetzner Cloud Primary IP you want to add the reverse DNS entry to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "load_balancer": {
+        "description": "Name or ID of the Hetzner Cloud Load Balancer you want to add the reverse DNS entry to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip_address": {
+        "description": "The IP address that should point to I(dns_ptr).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dns_ptr": {
+        "description": "The DNS address the I(ip_address) should resolve to. Omit the param to reset the reverse DNS entry to the default value.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the reverse DNS entry.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.route": {
+    "short_description": "Create and delete cloud routes on the Hetzner Cloud.",
+    "description": "Create, update and delete cloud routes on the Hetzner Cloud.",
+    "options": {
+      "network": {
+        "description": "Name or ID of the Hetzner Cloud Network.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination": {
+        "description": "Destination network or host of this route.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gateway": {
+        "description": "Gateway for the route.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the route.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.server": {
+    "short_description": "Create and manage cloud servers on the Hetzner Cloud.",
+    "description": "Create, update and manage cloud servers on the Hetzner Cloud. To manage the DNS pointer of a Server, use the M(hetzner.hcloud.rdns) module.",
+    "options": {
+      "id": {
+        "description": "ID of the Hetzner Cloud Server to manage. Only required if no server O(name) is given",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Hetzner Cloud Server to manage. Only required if no server O(id) is given or a server does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_type": {
+        "description": "Hetzner Cloud Server Type (name or ID) of the server. Required if server does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssh_keys": {
+        "description": "List of Hetzner Cloud SSH Keys (name or ID) to create the server with. Only used during the server creation.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "volumes": {
+        "description": "List of Hetzner Cloud Volumes (name or ID) that should be attached to the server. Only used during the server creation.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "firewalls": {
+        "description": "List of Hetzner Cloud Firewalls (name or ID) that should be attached to the server.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image": {
+        "description": "Hetzner Cloud Image (name or ID) to create the server from. Required if server does not exist or when O(state=rebuild).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image_allow_deprecated": {
+        "description": "Allows the creation of servers with deprecated images.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "allow_deprecated_image"
+        ]
+      },
+      "location": {
+        "description": "Hetzner Cloud Location (name or ID) to create the server in. Required if the server does not exist. Only used during the server creation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "datacenter": {
+        "description": "B(Deprecated:) The O(datacenter) argument is deprecated and will be removed after 1 July 2026. Please use the O(location) argument instead. See https://docs.hetzner.cloud/changelog#2025-12-16-phasing-out-datacenters. Hetzner Cloud Datacenter (name or ID) to create the server in. Required if no O(location) is given and the server does not exist. Only used during the server creation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backups": {
+        "description": "Enable or disable Backups for the given Server.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "upgrade_disk": {
+        "description": "Resize the disk size, when resizing a server. If you want to downgrade the server later, this value should be False.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "enable_ipv4": {
+        "description": "Enables the public ipv4 address.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "enable_ipv6": {
+        "description": "Enables the public ipv6 address.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "ipv4": {
+        "description": "Hetzner Cloud Primary IPv4 (name or ID) to use. If omitted and O(enable_ipv4=true), a new ipv4 Primary IP will automatically be created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipv6": {
+        "description": "Hetzner Cloud Primary IPv6 (name or ID) to use. If omitted and O(enable_ipv6=true), a new ipv6 Primary IP will automatically be created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "private_networks": {
+        "description": "List of Hetzner Cloud Networks (name or ID) the server should be attached to. If None, private networks are left as they are (e.g. if previously added by hcloud_server_network), if it has any other value (including []), only those networks are attached to the server.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Force the update of the server. May power off the server if update is applied.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "user_data": {
+        "description": "User Data to be passed to the server on creation. C(cloud-init), C(ignition) or similar provisioning tools may retrieve user configuration from the Server",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.server_info": {
+    "short_description": "Gather infos about your Hetzner Cloud servers.",
+    "description": "Gather infos about your Hetzner Cloud servers.",
+    "options": {
+      "id": {
+        "description": "The ID of the server you want to get. The module will fail if the provided ID is invalid.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the server you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selector": {
+        "description": "The label selector for the server you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.server_network": {
+    "short_description": "Manage the relationship between Hetzner Cloud Networks and servers",
+    "description": "Create and delete the relationship Hetzner Cloud Networks and servers",
+    "options": {
+      "server": {
+        "description": "Name or ID of the Hetzner Cloud server.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network": {
+        "description": "Name or ID of the Hetzner Cloud Networks.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip_range": {
+        "description": "IP range in CIDR block notation of the subnet to attach to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip": {
+        "description": "The IP the server should have.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "alias_ips": {
+        "description": "Alias IPs the server has.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the server_network.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.server_type_info": {
+    "short_description": "Gather infos about the Hetzner Cloud server types.",
+    "description": "Gather infos about your Hetzner Cloud server types.",
+    "options": {
+      "id": {
+        "description": "The ID of the server type you want to get. The module will fail if the provided ID is invalid.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the server type you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.ssh_key": {
+    "short_description": "Create and manage ssh keys on the Hetzner Cloud.",
+    "description": "Create, update and manage ssh keys on the Hetzner Cloud.",
+    "options": {
+      "id": {
+        "description": "The ID of the Hetzner Cloud ssh_key to manage. Only required if no ssh_key I(name) is given",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The Name of the Hetzner Cloud ssh_key to manage. Only required if no ssh_key I(id) is given or a ssh_key does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fingerprint": {
+        "description": "The Fingerprint of the Hetzner Cloud ssh_key to manage. Only required if no ssh_key I(id) or I(name) is given.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "User-defined labels (key-value pairs)",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "public_key": {
+        "description": "The Public Key to add. Required if ssh_key does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Recreate the SSH Key if the public key does not match the one in the API.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the ssh_key.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.ssh_key_info": {
+    "short_description": "Gather infos about your Hetzner Cloud ssh_keys.",
+    "description": "Gather facts about your Hetzner Cloud ssh_keys.",
+    "options": {
+      "id": {
+        "description": "The ID of the ssh key you want to get. The module will fail if the provided ID is invalid.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the ssh key you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fingerprint": {
+        "description": "The fingerprint of the ssh key you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selector": {
+        "description": "The label selector for the ssh key you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.storage_box": {
+    "short_description": "Create and manage Storage Boxes in Hetzner.",
+    "description": "Create, update and delete Storage Boxes in Hetzner. See the L(Storage Boxes API documentation,https://docs.hetzner.cloud/reference/hetzner#storage-boxes) for more details.",
+    "options": {
+      "id": {
+        "description": "ID of the Storage Box to manage. Required if no Storage Box O(name) is given. If the ID is invalid, the module will fail.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Storage Box to manage. Required if no Storage Box O(id) is given. Required if the Storage Box does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_box_type": {
+        "description": "Name or ID of the Storage Box Type for the Storage Box. Required if the Storage Box does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "type"
+        ]
+      },
+      "location": {
+        "description": "Name or ID of the Location for the Storage Box. Required if the Storage Box does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password for the Storage Box. Required if the Storage Box does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "User-defined labels (key-value pairs) for the Storage Box.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssh_keys": {
+        "description": "SSH public keys in OpenSSH format to inject into the Storage Box.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "access_settings": {
+        "description": "Access settings of the Storage Box.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_plan": {
+        "description": "Snapshot plan of the Storage Box. Use null to disabled the snapshot plan.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delete_protection": {
+        "description": "Protect the Storage Box from deletion.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot": {
+        "description": "Snapshot ID or Name to rollback to. Only used when O(state=rollback_snapshot)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the Storage Box. C(reset_password) and C(rollback_snapshot) are not idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "reset_password",
+          "rollback_snapshot"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.storage_box_info": {
+    "short_description": "Gather infos about Hetzner Storage Boxes.",
+    "description": "Gather infos about Hetzner Storage Boxes. See the L(Storage Boxes API documentation,https://docs.hetzner.cloud/reference/hetzner#storage-boxes) for more details.",
+    "options": {
+      "id": {
+        "description": "ID of the Storage Box to get. If the ID is invalid, the module will fail.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Storage Box to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selector": {
+        "description": "Label selector to filter the Storage Boxes to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.storage_box_snapshot": {
+    "short_description": "Create and manage Storage Box Snapshots in Hetzner.",
+    "description": "Create, update and delete Storage Box Snapshots in Hetzner. See the L(Storage Box Snapshots API documentation,https://docs.hetzner.cloud/reference/hetzner#storage-box-snapshots) for more details.",
+    "options": {
+      "storage_box": {
+        "description": "ID or Name of the parent Storage Box. Using the ID is preferred, to reduce the amount of API requests.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "ID of the Storage Box Snapshot to manage. Required when updating or deleting and if no Storage Box Snapshot O(name) is given. If the ID is invalid, the module will fail.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Storage Box Snapshot to manage. Storage Box Snapshot names are defined by the API and cannot be changed. Required when updating or deleting and if no Storage Box Snapshot O(id) is given.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the Storage Box Snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "User-defined labels (key-value pairs) for the Storage Box Snapshot.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the Storage Box Snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.storage_box_snapshot_info": {
+    "short_description": "Gather infos about Hetzner Storage Box Snapshots.",
+    "description": "Gather infos about Hetzner Storage Box Snapshots. See the L(Storage Boxes API documentation,https://docs.hetzner.cloud/reference/hetzner#storage-boxes) for more details.",
+    "options": {
+      "storage_box": {
+        "description": "ID or Name of the parent Storage Box. Using the ID is preferred, to reduce the amount of API requests.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "ID of the Storage Box Snapshot to get. If the ID is invalid, the module will fail.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Storage Box Snapshot to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selector": {
+        "description": "Label selector to filter the Storage Box Snapshots to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.storage_box_subaccount": {
+    "short_description": "Create and manage Storage Box Subaccounts in Hetzner.",
+    "description": "Create, update and delete Storage Box Subaccounts in Hetzner. See the L(Storage Box Subaccounts API documentation,https://docs.hetzner.cloud/reference/hetzner#storage-box-subaccounts) for more details.",
+    "options": {
+      "storage_box": {
+        "description": "ID or Name of the parent Storage Box. Using the ID is preferred, to reduce the amount of API requests.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "ID of the Storage Box Subaccount to manage. Required if no Storage Box Subaccount O(name) is given. If the ID is invalid, the module will fail.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Storage Box Subaccount to manage. Required if no Storage Box Subaccount O(id) is given. Required if the Storage Box Subaccount does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password for the Storage Box Subaccount. Required if the Storage Box Subaccount does not exist or when O(state=reset_password).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "home_directory": {
+        "description": "Home directory of the Storage Box Subaccount. Required if the Storage Box Subaccount does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "access_settings": {
+        "description": "Access settings of the Storage Box Subaccount.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the Storage Box Subaccount.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "User-defined labels (key-value pairs) for the Storage Box Subaccount.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the Storage Box Subaccount. C(reset_password) is not idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "reset_password"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.storage_box_subaccount_info": {
+    "short_description": "Gather infos about Hetzner Storage Box Subaccounts.",
+    "description": "Gather infos about Hetzner Storage Box Subaccounts. See the L(Storage Box Subaccounts API documentation,https://docs.hetzner.cloud/reference/hetzner#storage-box-subaccounts) for more details.",
+    "options": {
+      "storage_box": {
+        "description": "ID or Name of the parent Storage Box. Using the ID is preferred, to reduce the amount of API requests.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "ID of the Storage Box Subaccount to get. If the ID is invalid, the module will fail.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Storage Box Subaccount to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selector": {
+        "description": "Label selector to filter the Storage Box Subaccounts to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.storage_box_type_info": {
+    "short_description": "Gather infos about Hetzner Storage Box Types.",
+    "description": "Gather infos about available Hetzner Storage Box Types. See the L(Storage Box Types documentation,https://docs.hetzner.cloud/reference/hetzner#storage-box-types) for more details.",
+    "options": {
+      "id": {
+        "description": "ID of the Storage Box Type to get. If the ID is invalid, the module will fail.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Storage Box Type to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.subnetwork": {
+    "short_description": "Manage cloud subnetworks on the Hetzner Cloud.",
+    "description": "Create, update and delete cloud subnetworks on the Hetzner Cloud.",
+    "options": {
+      "network": {
+        "description": "The name or ID of the Hetzner Cloud Networks.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip_range": {
+        "description": "IP range of the subnetwork.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Type of subnetwork.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "server",
+          "cloud",
+          "vswitch"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "network_zone": {
+        "description": "Name of network zone.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vswitch_id": {
+        "description": "ID of the vSwitch you want to couple with your Network. Required if type == vswitch",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the subnetwork.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.volume": {
+    "short_description": "Create and manage block Volume on the Hetzner Cloud.",
+    "description": "Create, update and attach/detach block Volume on the Hetzner Cloud.",
+    "options": {
+      "id": {
+        "description": "The ID of the Hetzner Cloud Block Volume to manage. Only required if no volume I(name) is given",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The Name of the Hetzner Cloud Block Volume to manage. Only required if no volume I(id) is given or a volume does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "size": {
+        "description": "The size of the Block Volume in GB. Required if volume does not yet exists.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "automount": {
+        "description": "Automatically mount the Volume.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "format": {
+        "description": "Automatically Format the volume on creation Can only be used in case the Volume does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "xfs",
+          "ext4"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "location": {
+        "description": "Location of the Hetzner Cloud Volume. Required if no I(server) is given and Volume does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server": {
+        "description": "Server Name the Volume should be assigned to. Required if no I(location) is given and Volume does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delete_protection": {
+        "description": "Protect the Volume for deletion.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "User-defined key-value pairs.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the Volume.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.volume_attachment": {
+    "short_description": "Manage the attachment of Hetzner Cloud Volumes",
+    "description": "Attach and detach Volumes from Hetzner Cloud Servers.",
+    "options": {
+      "volume": {
+        "description": "Name or ID of the Hetzner Cloud Volume to attach/detach.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server": {
+        "description": "Name or ID of the Hetzner Cloud Server to attach the Volume to. Required if O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "automount": {
+        "description": "Automatically mount the Volume in the Server.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the Volume.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.volume_info": {
+    "short_description": "Gather infos about your Hetzner Cloud Volumes.",
+    "description": "Gather infos about your Hetzner Cloud Volumes.",
+    "options": {
+      "id": {
+        "description": "The ID of the Volume you want to get. The module will fail if the provided ID is invalid.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Volume you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selector": {
+        "description": "The label selector for the Volume you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.zone": {
+    "short_description": "Create and manage DNS Zone on the Hetzner Cloud.",
+    "description": "Create, update and delete DNS Zone on the Hetzner Cloud. See the L(Zones API documentation,https://docs.hetzner.cloud/reference/cloud#zones) for more details.",
+    "options": {
+      "id": {
+        "description": "ID of the Zone to manage. Only required if no Zone O(name) is given.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Zone to manage. Only required if no Zone O(id) is given or the Zone does not exist. All names with well-known public suffixes (e.g. .de, .com, .co.uk) are supported. Subdomains are not supported. The name must be in lower case and must not end with a dot. Internationalized domain names must be transcribed to Punycode representation with ACE prefix, e.g. xn--mnchen-3ya.de (münchen.de).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mode": {
+        "description": "Mode of the Zone. Required if the Zone does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "primary",
+          "secondary"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "ttl": {
+        "description": "TTL of the Zone.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "User-defined key-value pairs.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delete_protection": {
+        "description": "Protect the Zone from deletion.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "primary_nameservers": {
+        "description": "Primary nameservers of the Zone. Only applicable for Zones with O(mode=secondary).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "zonefile": {
+        "description": "Zone file to import. Optional if O(state=present) and the Zone does not exist, ignored otherwise. Required if O(state=import).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the Zone. C(import) is not idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "import"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.zone_info": {
+    "short_description": "Gather infos about your Hetzner Cloud Zones.",
+    "description": "Gather infos about your Hetzner Cloud Zones. See the L(Zones API documentation,https://docs.hetzner.cloud/reference/cloud#zones) for more details.",
+    "options": {
+      "id": {
+        "description": "ID of the Zone you want to get. The module will fail if the provided ID is invalid.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Zone you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selector": {
+        "description": "Label selector to filter the Zones you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.zone_rrset": {
+    "short_description": "Create and manage Zone RRSets on the Hetzner Cloud.",
+    "description": "Create, update and delete Zone RRSets on the Hetzner Cloud. See the L(Zone RRSets API documentation,https://docs.hetzner.cloud/reference/cloud#zone-rrsets) for more details.",
+    "options": {
+      "zone": {
+        "description": "Name or ID of the parent Zone.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "ID of the Zone RRSet to manage. Only required if no Zone RRSet O(name) and O(type) are given.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Zone RRSet to manage. Only required if no Zone RRSet O(id) is given or the Zone RRSet does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Type of the Zone RRSet to manage. Only required if no Zone RRSet O(id) is given or the Zone RRSet does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ttl": {
+        "description": "TTL of the Zone RRSet.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "records": {
+        "description": "Records of the Zone RRSet.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "change_protection": {
+        "description": "Protect the Zone RRSet from changes (deletion and updates).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "User-defined key-value pairs.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the Zone RRSet.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "hetzner.hcloud.zone_rrset_info": {
+    "short_description": "Gather infos about your Hetzner Cloud Zone RRSets.",
+    "description": "Gather infos about your Hetzner Cloud Zone RRSets. See the L(Zone RRSets API documentation,https://docs.hetzner.cloud/reference/cloud#zone-rrsets) for more details.",
+    "options": {
+      "zone": {
+        "description": "Name or ID of the parent Zone.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "ID of the Zone RRSet you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Zone RRSets you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Type of the Zone RRSets you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selector": {
+        "description": "Label selector to filter the Zone RRSets you want to get.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

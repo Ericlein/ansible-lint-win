@@ -1,0 +1,663 @@
+{
+  "community.openwrt.apk": {
+    "short_description": "Manage packages with apk on OpenWrt",
+    "description": "The M(community.openwrt.apk) module manages packages on OpenWrt using the apk package manager (available in OpenWrt 25.12+). It can install and remove packages.",
+    "options": {
+      "name": {
+        "description": "Name of the package(s) to install or remove. Multiple packages can be specified as a comma-separated list with no spaces, for example V(curl,wget).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "pkg"
+        ]
+      },
+      "state": {
+        "description": "Whether the package should be installed or removed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "installed",
+          "present",
+          "removed"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "update_cache": {
+        "description": "Update the package cache (C(apk update)) before performing the operation. Mutually exclusive with (O(no_cache)).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "no_cache": {
+        "description": "Do not use a local cache files, fetch from index directly. Mutually exclusive with (O(update_cache)).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "force_broken_world": {
+        "description": "Continue even if package dependencies are broken.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.openwrt.command": {
+    "short_description": "Execute commands on OpenWrt targets",
+    "description": "The M(community.openwrt.command) module runs a command on the remote OpenWrt device. The command is executed directly or through a shell depending on the O(uses_shell) parameter. This module does not support check mode.",
+    "options": {
+      "cmd": {
+        "description": "The command to execute.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "raw_params",
+          "_raw_params"
+        ]
+      },
+      "uses_shell": {
+        "description": "Whether to execute the command through a shell. If V(false), the command is executed directly. If V(true), the command is executed through the shell specified in O(executable).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "_uses_shell"
+        ]
+      },
+      "chdir": {
+        "description": "Change into this directory before running the command.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "executable": {
+        "description": "The shell to use when O(uses_shell) is V(true).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "/bin/sh",
+        "aliases": null
+      },
+      "creates": {
+        "description": "A filename or glob pattern. If it already exists, the command does not run.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "removes": {
+        "description": "A filename or glob pattern. If it does not exist, the command does not run.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.openwrt.copy": {
+    "short_description": "Copy files to remote OpenWrt devices",
+    "description": "The M(community.openwrt.copy) module copies a file from the Ansible controller to remote OpenWrt devices. The C(content) parameter supports Jinja2 variable interpolation.",
+    "options": {
+      "src": {
+        "description": "Local path to a file to copy to the remote server. Can be absolute or relative. When relative, the file is searched in the C(files/) directory of the role or playbook. Only regular files are supported. Directories cannot be copied recursively. Do not specify together with O(content) (only one is used if both are provided).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content": {
+        "description": "When used instead of O(src), sets the contents of a file directly to the specified value. Works only when O(dest) is a file. Creates the file if it does not exist. Do not specify together with O(src) (only one is used if both are provided).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dest": {
+        "description": "Remote absolute path where the file is copied to. If O(dest) is a directory, the file is copied into that directory using the source file name. If O(dest) ends with",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.openwrt.file": {
+    "short_description": "Manage files and file properties on OpenWrt targets",
+    "description": "The M(community.openwrt.file) module sets attributes of files, symlinks, and directories. It can also create or remove files, directories, and symbolic/hard links.",
+    "options": {
+      "path": {
+        "description": "Path to the file being managed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "dest",
+          "name"
+        ]
+      },
+      "state": {
+        "description": "Desired state of the file. If not specified, defaults to V(file) if the path is a file, V(directory) if O(recurse) is set, or the current state otherwise.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "directory",
+          "file",
+          "hard",
+          "link",
+          "touch"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "src": {
+        "description": "Path of the file to link to. Required for O(state=link) and O(state=hard). For symbolic links, if not specified, the realpath of O(path) is used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Force creation of symlinks when the target does not exist. Force conversion between different link types.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "recurse": {
+        "description": "Recursively set the specified file attributes on directory contents. Only works with O(state=directory).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "original_basename": {
+        "description": "Original basename to use when O(path) is a directory.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "_original_basename"
+        ]
+      },
+      "diff_peek": {
+        "description": "Internal parameter for diff operations.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.openwrt.lineinfile": {
+    "short_description": "Manage lines in text files on OpenWrt targets",
+    "description": "The M(community.openwrt.lineinfile) module ensures a particular line is in a file, or replaces an existing line using a regular expression. This is useful when you want to change a single line in a file.",
+    "options": {
+      "path": {
+        "description": "The file to modify.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "dest",
+          "destfile",
+          "name"
+        ]
+      },
+      "line": {
+        "description": "The line to insert/replace into the file. Required when O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "value"
+        ]
+      },
+      "state": {
+        "description": "Whether the line should be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "regex": {
+        "description": "The regular expression to look for in every line of the file. For O(state=present), the pattern to replace if found. For O(state=absent), the pattern of the line(s) to remove.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "regexp"
+        ]
+      },
+      "backrefs": {
+        "description": "Used with O(regex). If set, the line is inserted/replaced only if the regex matches. The matched groups can be referenced in O(line) using backreferences.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "insertafter": {
+        "description": "Used with O(state=present). If specified, the line is inserted after the last match of the specified regular expression. Special values V(EOF) for end of file and V(BOF) for beginning of file.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "insertbefore": {
+        "description": "Used with O(state=present). If specified, the line is inserted before the last match of the specified regular expression. Special value V(BOF) for beginning of file.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "create": {
+        "description": "Create the file if it does not exist. Without this option, the task fails if the file does not exist.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.openwrt.nohup": {
+    "short_description": "Starts a command in background and returns",
+    "description": "The M(community.openwrt.nohup) module start runs a command in a shell using OpenWrt",
+    "options": {},
+    "deprecated": null
+  },
+  "community.openwrt.opkg": {
+    "short_description": "Manage packages with opkg on OpenWrt",
+    "description": "The M(community.openwrt.opkg) module manages packages on OpenWrt using the opkg package manager. It can install, remove, and update packages.",
+    "options": {
+      "name": {
+        "description": "Name of the package(s) to install or remove. Multiple packages can be specified as a comma-separated list.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "pkg"
+        ]
+      },
+      "state": {
+        "description": "Whether the package should be installed or removed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "installed",
+          "present",
+          "removed"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "force": {
+        "description": "Force option to pass to opkg.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "depends",
+          "maintainer",
+          "reinstall",
+          "overwrite",
+          "downgrade",
+          "space",
+          "postinstall",
+          "remove",
+          "checksum",
+          "removal-of-dependent-packages"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "update_cache": {
+        "description": "Update the package cache (C(opkg update)) before performing the operation.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "autoremove": {
+        "description": "Remove dependencies that are no longer required when removing a package.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nodeps": {
+        "description": "Do not follow dependencies.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.openwrt.package_facts": {
+    "short_description": "Gather package facts in OpenWrt systems",
+    "description": "The M(community.openwrt.package_facts) module gathers facts about installed packages in OpenWrt systems. It collects package name, version and package version of every installed package. This module should be called manually by playbooks when needed. It",
+    "options": {},
+    "deprecated": null
+  },
+  "community.openwrt.ping": {
+    "short_description": "Verify ability to communicate with OpenWrt targets",
+    "description": "The M(community.openwrt.ping) module tests the ability to log in to remote OpenWrt machines and execute commands. This is a simple way to verify that your host is reachable and that you have valid credentials.",
+    "options": {
+      "data": {
+        "description": "Data to return in the ping response. The special value V(crash) causes the module to crash with an error.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.openwrt.service": {
+    "short_description": "Manage services on OpenWrt targets",
+    "description": "The M(community.openwrt.service) module controls services on OpenWrt using init scripts. It can start, stop, restart, reload services and manage their enabled state.",
+    "options": {
+      "name": {
+        "description": "Name of the service. Corresponds to the init script name in C(/etc/init.d/).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the service.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "reloaded",
+          "restarted",
+          "started",
+          "stopped"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Whether the service should start on boot.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pattern": {
+        "description": "Pattern to search for in the process table to determine if the service is running. If specified, this pattern is used with C(pgrep) instead of the init script",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.openwrt.setup": {
+    "short_description": "Gather facts about OpenWrt systems",
+    "description": "The M(community.openwrt.setup) module gathers facts about OpenWrt systems. It collects system information including distribution details, hostname, network interfaces, services, and device information through ubus. This module is automatically called by playbooks to gather useful variables about remote hosts.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.openwrt.slurp": {
+    "short_description": "Slurps a file from remote OpenWrt nodes",
+    "description": "The M(community.openwrt.slurp) module reads a file from the OpenWrt target and encodes it in base64.",
+    "options": {
+      "src": {
+        "description": "The file on the remote system to fetch. This must be a file, not a directory.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "path"
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "community.openwrt.stat": {
+    "short_description": "Retrieve file or file system status on OpenWrt targets",
+    "description": "The M(community.openwrt.stat) module retrieves facts about files similar to the Linux C(stat) command.",
+    "options": {
+      "path": {
+        "description": "The full path of the file/directory to get the facts of.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "checksum_algorithm": {
+        "description": "Algorithm to use for checksumming the file.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "md5",
+          "sha1",
+          "sha224",
+          "sha256",
+          "sha384",
+          "sha512"
+        ],
+        "default": "sha1",
+        "aliases": [
+          "checksum_algo",
+          "checksum"
+        ]
+      },
+      "get_checksum": {
+        "description": "Whether to get the checksum of the file. Uses the algorithm specified in O(checksum_algorithm).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "get_md5": {
+        "description": "Whether to get the MD5 checksum of the file.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "get_mime": {
+        "description": "Whether to get the MIME type of the file. Note that this is not fully implemented and returns V(unknown).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "follow": {
+        "description": "Whether to follow symlinks.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.openwrt.sysctl": {
+    "short_description": "Manage sysctl entries on OpenWrt targets",
+    "description": "The M(community.openwrt.sysctl) module manages sysctl configuration on OpenWrt systems. It can modify both the running kernel parameters and the persistent configuration file.",
+    "options": {
+      "name": {
+        "description": "The sysctl key to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "key"
+        ]
+      },
+      "value": {
+        "description": "The value to set for the sysctl key. Required when O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "val"
+        ]
+      },
+      "state": {
+        "description": "Whether the sysctl entry should be present or absent in the configuration file.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "sysctl_file": {
+        "description": "The sysctl configuration file to modify.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "/etc/sysctl.conf",
+        "aliases": null
+      },
+      "sysctl_set": {
+        "description": "Whether to set the value in the running kernel. If V(false), only the configuration file is modified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "reload": {
+        "description": "Whether to reload the sysctl configuration after making changes. Only applies when O(state=present).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "ignore_errors": {
+        "description": "Ignore errors when the sysctl key is unknown.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ignoreerrors"
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "community.openwrt.tempfile": {
+    "short_description": "Creates temporary files and directories on OpenWrt nodes",
+    "description": "The M(community.openwrt.tempfile) module creates temporary files and directories on the OpenWrt target.",
+    "options": {
+      "state": {
+        "description": "Whether to create a file or a directory.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "file",
+          "directory"
+        ],
+        "default": "file",
+        "aliases": null
+      },
+      "path": {
+        "description": "Location where the temporary file or directory should be created.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": "/tmp",
+        "aliases": null
+      },
+      "prefix": {
+        "description": "Prefix of the file or directory name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "ansible",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.openwrt.template": {
+    "short_description": "Template a file out to remote OpenWrt target",
+    "description": "",
+    "options": {
+      "follow": {
+        "description": "Determine whether symbolic links should be followed. When set to V(true) symbolic links will be followed, if they exist. When set to V(false) symbolic links will not be followed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.openwrt.uci": {
+    "short_description": "Controls OpenWrt UCI",
+    "description": "The M(community.openwrt.uci) module is a Ansible wrapper for OpenWrt",
+    "options": {},
+    "deprecated": null
+  }
+}

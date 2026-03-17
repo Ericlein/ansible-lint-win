@@ -1,0 +1,339 @@
+{
+  "community.google.gc_storage": {
+    "short_description": "This module manages objects/buckets in Google Cloud Storage.",
+    "description": "This module allows users to manage their objects/buckets in Google Cloud Storage.  It allows upload and download operations and can set some canned permissions. It also allows retrieval of URLs for objects for use in playbooks, and retrieval of string contents of objects.  This module requires setting the default project in GCS prior to playbook usage.  See U(https://developers.google.com/storage/docs/reference/v1/apiversion1) for information about setting the default project.",
+    "options": {
+      "bucket": {
+        "description": "Bucket name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "object": {
+        "description": "Keyname of the object inside the bucket. Can be also be used to create",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.google.gce_eip": {
+    "short_description": "Create or Destroy Global or Regional External IP addresses.",
+    "description": "Create (reserve) or Destroy (release) Regional or Global IP Addresses. See U(https://cloud.google.com/compute/docs/configure-instance-ip-addresses#reserve_new_static) for more on reserving static addresses.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.google.gce_img": {
+    "short_description": "utilize GCE image resources",
+    "description": "This module can create and delete GCE private images from gzipped compressed tarball containing raw disk data or from existing detached disks in any zone. U(https://cloud.google.com/compute/docs/images)",
+    "options": {
+      "name": {
+        "description": "the name of the image to create or delete",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "an optional description",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "family": {
+        "description": "an optional family name",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source": {
+        "description": "the source disk or the Google Cloud Storage URI to create the image from",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "desired state of the image",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.google.gce_instance_template": {
+    "short_description": "create or destroy instance templates of Compute Engine of GCP.",
+    "description": "Creates or destroy Google instance templates of Compute Engine of Google Cloud Platform.",
+    "options": {
+      "state": {
+        "description": "The desired state for the instance template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.google.gce_labels": {
+    "short_description": "Create, Update or Destroy GCE Labels.",
+    "description": "Create, Update or Destroy GCE Labels on instances, disks, snapshots, etc. When specifying the GCE resource, users may specify the full URL for the resource (its",
+    "options": {},
+    "deprecated": null
+  },
+  "community.google.gce_lb": {
+    "short_description": "create/destroy GCE load-balancer resources",
+    "description": "This module can create and destroy Google Compute Engine C(loadbalancer) and C(httphealthcheck) resources.  The primary LB resource is the C(load_balancer) resource and the health check parameters are all prefixed with I(httphealthcheck). The full documentation for Google Compute Engine load balancing is at U(https://developers.google.com/compute/docs/load-balancing/).  However, the ansible module simplifies the configuration by following the libcloud model. Full install/configuration instructions for the gce* modules can be found in the comments of ansible/test/gce_tests.py.",
+    "options": {
+      "httphealthcheck_name": {
+        "description": "the name identifier for the HTTP health check",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "httphealthcheck_port": {
+        "description": "the TCP port to use for HTTP health checking",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 80,
+        "aliases": null
+      },
+      "httphealthcheck_path": {
+        "description": "the url path to use for HTTP health checking",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.google.gce_mig": {
+    "short_description": "Create, Update or Destroy a Managed Instance Group (MIG).",
+    "description": "Create, Update or Destroy a Managed Instance Group (MIG).  See U(https://cloud.google.com/compute/docs/instance-groups) for an overview. Full install/configuration instructions for the gce* modules can be found in the comments of ansible/test/gce_tests.py.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.google.gce_net": {
+    "short_description": "create/destroy GCE networks and firewall rules",
+    "description": "This module can create and destroy Google Compute Engine networks and firewall rules U(https://cloud.google.com/compute/docs/networking). The I(name) parameter is reserved for referencing a network while the I(fwname) parameter is used to reference firewall rules. IPv4 Address ranges must be specified using the CIDR U(http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) format. Full install/configuration instructions for the gce* modules can be found in the comments of ansible/test/gce_tests.py.",
+    "options": {
+      "allowed": {
+        "description": "the protocol:ports to allow (I(tcp:80) or I(tcp:80,443) or I(tcp:80-800;udp:1-25)) this parameter is mandatory when creating or updating a firewall rule",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipv4_range": {
+        "description": "the IPv4 address range in CIDR notation for the network this parameter is not mandatory when you specified existing network in name parameter, but when you create new network, this parameter is mandatory",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fwname": {
+        "description": "name of the firewall rule",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "name of the network",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "src_range": {
+        "description": "the source IPv4 address range in CIDR notation",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "src_tags": {
+        "description": "the source instance tags for creating a firewall rule",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "target_tags": {
+        "description": "the target instance tags for creating a firewall rule",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "state": {
+        "description": "desired state of the network or firewall ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.google.gce_pd": {
+    "short_description": "utilize GCE persistent disk resources",
+    "description": "This module can create and destroy unformatted GCE persistent disks U(https://developers.google.com/compute/docs/disks#persistentdisks). It also supports attaching and detaching disks from running instances. Full install/configuration instructions for the gce* modules can be found in the comments of ansible/test/gce_tests.py.",
+    "options": {
+      "detach_only": {
+        "description": "do not destroy the disk, merely detach it from an instance",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "instance_name": {
+        "description": "instance name if you wish to attach or detach the disk",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mode": {
+        "description": "GCE mount mode of disk, READ_ONLY (default) or READ_WRITE",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.google.gce_snapshot": {
+    "short_description": "Create or destroy snapshots for GCE storage volumes",
+    "description": "Manages snapshots for GCE instances. This module manages snapshots for the storage volumes of a GCE compute instance. If there are multiple volumes, each snapshot will be prepended with the disk name",
+    "options": {
+      "instance_name": {
+        "description": "The GCE instance to snapshot",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_name": {
+        "description": "The name of the snapshot to manage",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disks": {
+        "description": "A list of disks to create snapshots for. If none is provided, all of the volumes will have snapshots created.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether a snapshot should be C(present) or C(absent)",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "service_account_email": {
+        "description": "GCP service account email for the project where the instance resides",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credentials_file": {
+        "description": "The path to the credentials file associated with the service account",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project_id": {
+        "description": "The GCP project ID to use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.google.gce_tag": {
+    "short_description": "add or remove tag(s) to/from GCE instances",
+    "description": "This module can add or remove tags U(https://cloud.google.com/compute/docs/label-or-tag-resources#tags) to/from GCE instances.  Use",
+    "options": {},
+    "deprecated": null
+  },
+  "community.google.gcpubsub": {
+    "short_description": "Create and Delete Topics/Subscriptions, Publish and pull messages on PubSub",
+    "description": "Create and Delete Topics/Subscriptions, Publish and pull messages on PubSub. See U(https://cloud.google.com/pubsub/docs) for an overview.",
+    "options": {
+      "topic": {
+        "description": "GCP pubsub topic name. Only the name, not the full path, is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subscription": {
+        "description": "Dictionary containing a subscription name associated with a topic (required), along with optional ack_deadline, push_endpoint and pull. For pulling from a subscription, message_ack (bool), max_messages (int) and return_immediate are available as subfields. See subfields name, push_endpoint and ack_deadline for more information.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.google.gcpubsub_info": {
+    "short_description": "List Topics/Subscriptions and Messages from Google PubSub.",
+    "description": "List Topics/Subscriptions from Google PubSub.  Use the gcpubsub module for topic/subscription management. See U(https://cloud.google.com/pubsub/docs) for an overview. This module was called C(gcpubsub_facts) before Ansible 2.9. The usage did not change.",
+    "options": {},
+    "deprecated": null
+  }
+}

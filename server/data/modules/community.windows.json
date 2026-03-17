@@ -1,0 +1,2714 @@
+{
+  "community.windows.psexec": {
+    "short_description": "Runs commands on a remote Windows host based on the PsExec model",
+    "description": "Runs a remote command from a Linux host to a Windows host without WinRM being set up. Can be run on the Ansible controller to bootstrap Windows hosts to get them ready for WinRM.",
+    "options": {
+      "hostname": {
+        "description": "The remote Windows host to connect to, can be either an IP address or a hostname.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "connection_username": {
+        "description": "The username to use when connecting to the remote Windows host. This user must be a member of the C(Administrators) group of the Windows host. Required if the Kerberos requirements are not installed or the username is a local account to the Windows host. Can be omitted to use the default Kerberos principal ticket in the local credential cache if the Kerberos library is installed. If I(process_username) is not specified, then the remote process will run under a Network Logon under this account.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "connection_password": {
+        "description": "The password for I(connection_user). Required if the Kerberos requirements are not installed or the username is a local account to the Windows host. Can be omitted to use a Kerberos principal ticket for the principal set by I(connection_user) if the Kerberos library is installed and the ticket has already been retrieved with the C(kinit) command before.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "The port that the remote SMB service is listening on.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 445,
+        "aliases": null
+      },
+      "encrypt": {
+        "description": "Will use SMB encryption to encrypt the SMB messages sent to and from the host. This requires the SMB 3 protocol which is only supported from Windows Server 2012 or Windows 8, older versions like Windows 7 or Windows Server 2008 (R2) must set this to C(no) and use no encryption. When setting to C(no), the packets are in plaintext and can be seen by anyone sniffing the network, any process options are included in this.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "connection_timeout": {
+        "description": "The timeout in seconds to wait when receiving the initial SMB negotiate response from the server.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 60,
+        "aliases": null
+      },
+      "executable": {
+        "description": "The executable to run on the Windows host.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "arguments": {
+        "description": "Any arguments as a single string to use when running the executable.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "working_directory": {
+        "description": "Changes the working directory set when starting the process.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "C:\\Windows\\System32",
+        "aliases": null
+      },
+      "asynchronous": {
+        "description": "Will run the command as a detached process and the module returns immediately after starting the process while the process continues to run in the background. The I(stdout) and I(stderr) return values will be null when this is set to C(yes). The I(stdin) option does not work with this type of process. The I(rc) return value is not set when this is C(yes)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "load_profile": {
+        "description": "Runs the remote command with the user",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_data_deduplication": {
+    "short_description": "Module to enable Data Deduplication on a volume.",
+    "description": "This module can be used to enable Data Deduplication on a Windows volume. The module will install the FS-Data-Deduplication feature (a reboot will be necessary).",
+    "options": {
+      "drive_letter": {
+        "description": "Windows drive letter on which to enable data deduplication.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Wether to enable or disable data deduplication on the selected volume.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "settings": {
+        "description": "Dictionary of settings to pass to the Set-DedupVolume powershell command.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_defrag": {
+    "short_description": "Consolidate fragmented files on local volumes",
+    "description": "Locates and consolidates fragmented files on local volumes to improve system performance. ",
+    "options": {},
+    "deprecated": null
+  },
+  "community.windows.win_disk_facts": {
+    "short_description": "Show the attached disks and disk information of the target host",
+    "description": "With the module you can retrieve and output detailed information about the attached disks of the target and its volumes and partitions if existent.",
+    "options": {
+      "filter": {
+        "description": "Allows to filter returned facts by type of disk information. If volumes are selected partitions will be returned as well.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "physical_disk",
+          "virtual_disk",
+          "win32_disk_drive",
+          "partitions",
+          "volumes"
+        ],
+        "default": [
+          "physical_disk",
+          "virtual_disk",
+          "win32_disk_drive",
+          "partitions",
+          "volumes"
+        ],
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_disk_image": {
+    "short_description": "Manage ISO/VHD/VHDX mounts on Windows hosts",
+    "description": "Manages mount behavior for a specified ISO, VHD, or VHDX image on a Windows host. When C(state) is C(present), the image will be mounted under a system-assigned drive letter, which will be returned in the C(mount_path) value of the module result. Requires Windows 8+ or Windows Server 2012+.",
+    "options": {
+      "image_path": {
+        "description": "Path to an ISO, VHD, or VHDX image on the target Windows host (the file cannot reside on a network share)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the image should be present as a drive-letter mount or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_dotnet_ngen": {
+    "short_description": "Runs ngen to recompile DLLs after .NET  updates",
+    "description": "After .NET framework is installed/updated, Windows will probably want to recompile things to optimise for the host. This happens via scheduled task, usually at some inopportune time. This module allows you to run this task on your own schedule, so you incur the CPU hit at some more convenient and controlled time. U(https://docs.microsoft.com/en-us/dotnet/framework/tools/ngen-exe-native-image-generator#native-image-service) U(http://blogs.msdn.com/b/dotnet/archive/2013/08/06/wondering-why-mscorsvw-exe-has-high-cpu-usage-you-can-speed-it-up.aspx)",
+    "options": {},
+    "deprecated": null
+  },
+  "community.windows.win_eventlog_entry": {
+    "short_description": "Write entries to Windows event logs",
+    "description": "Write log entries to a given event log from a specified source.",
+    "options": {
+      "log": {
+        "description": "Name of the event log to write an entry to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source": {
+        "description": "Name of the log source to indicate where the entry is from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "event_id": {
+        "description": "The numeric event identifier for the entry. Value must be between 0 and 65535.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "message": {
+        "description": "The message for the given log entry.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "entry_type": {
+        "description": "Indicates the entry being written to the log is of a specific type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Error",
+          "FailureAudit",
+          "Information",
+          "SuccessAudit",
+          "Warning"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "category": {
+        "description": "A numeric task category associated with the category message file for the log source.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "raw_data": {
+        "description": "Binary data associated with the log entry. Value must be a comma-separated array of 8-bit unsigned integers (0 to 255).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_file_version": {
+    "short_description": "Get DLL or EXE file build version",
+    "description": "Get DLL or EXE file build version.",
+    "options": {
+      "path": {
+        "description": "File to get version. Always provide absolute path.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_firewall_rule": {
+    "short_description": "Windows firewall automation",
+    "description": "Allows you to create/remove/update firewall rules.",
+    "options": {
+      "enabled": {
+        "description": "Whether this firewall rule is enabled or disabled. Defaults to C(true) when creating a new rule.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "enable"
+        ]
+      },
+      "state": {
+        "description": "Should this rule be added or removed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The rule",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_format": {
+    "short_description": "Formats an existing volume or a new volume on an existing partition on Windows",
+    "description": "The M(community.windows.win_format) module formats an existing volume or a new volume on an existing partition on Windows",
+    "options": {
+      "drive_letter": {
+        "description": "Used to specify the drive letter of the volume to be formatted.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "Used to specify the path to the volume to be formatted.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label": {
+        "description": "Used to specify the label of the volume to be formatted.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_label": {
+        "description": "Used to specify the new file system label of the formatted volume.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "file_system": {
+        "description": "Used to specify the file system to be used when formatting the target volume.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ntfs",
+          "refs",
+          "exfat",
+          "fat32",
+          "fat"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "allocation_unit_size": {
+        "description": "Specifies the cluster size to use when formatting the volume. If no cluster size is specified when you format a partition, defaults are selected based on the size of the partition. This value must be a multiple of the physical sector size of the disk.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "large_frs": {
+        "description": "Specifies that large File Record System (FRS) should be used.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "compress": {
+        "description": "Enable compression on the resulting NTFS volume. NTFS compression is not supported where I(allocation_unit_size) is more than 4096.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "integrity_streams": {
+        "description": "Enable integrity streams on the resulting ReFS volume.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "full": {
+        "description": "A full format writes to every sector of the disk, takes much longer to perform than the default (quick) format, and is not recommended on storage that is thinly provisioned. Specify C(true) for full format.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "force": {
+        "description": "Specify if formatting should be forced for volumes that are not created from new partitions or if the source and target file system are different.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_iis_virtualdirectory": {
+    "short_description": "Configures a virtual directory in IIS",
+    "description": "Creates, Removes and configures a virtual directory in IIS.",
+    "options": {
+      "name": {
+        "description": "The name of the virtual directory to create or remove.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether to add or remove the specified virtual directory. Removing will remove the virtual directory and all under it (Recursively).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "site": {
+        "description": "The site name under which the virtual directory is created or exists.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "application": {
+        "description": "The application under which the virtual directory is created or exists.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "physical_path": {
+        "description": "The physical path to the folder in which the new virtual directory is created. The specified folder must already exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "connect_as": {
+        "description": "The type of authentication to use for the virtual directory. Either C(pass_through) or C(specific_user) If C(pass_through), IIS will use the identity of the user or application pool identity to access the physical path. If C(specific_user), IIS will use the credentials provided in I(username) and I(password) to access the physical path.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "pass_through",
+          "specific_user"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Specifies the user name of an account that can access configuration files and content for the virtual directory. Required when I(connect_as) is set to C(specific_user).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "The password associated with I(username). Required when I(connect_as) is set to C(specific_user).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": "This module has been deprecated and an alternative supported module is available in the C(microsoft.iis) collection."
+  },
+  "community.windows.win_iis_webapplication": {
+    "short_description": "Configures IIS web applications",
+    "description": "Creates, removes, and configures IIS web applications.",
+    "options": {
+      "name": {
+        "description": "Name of the web application.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "site": {
+        "description": "Name of the site on which the application is created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the web application.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "physical_path": {
+        "description": "The physical path on the remote host to use for the new application. The specified folder must already exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "application_pool": {
+        "description": "The application pool in which the new site executes. If not specified, the application pool of the current website will be used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "connect_as": {
+        "description": "The type of authentication to use for this application. Either C(pass_through) or C(specific_user) If C(pass_through), IIS will use the identity of the user or application pool identity to access the file system or network. If C(specific_user), IIS will use the credentials provided in I(username) and I(password) to access the file system or network.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "pass_through",
+          "specific_user"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Specifies the user name of an account that can access configuration files and content for this application. Required when I(connect_as) is set to C(specific_user).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "The password associated with I(username). Required when I(connect_as) is set to C(specific_user).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": "This module has been deprecated and an alternative supported module is available in the C(microsoft.iis) collection."
+  },
+  "community.windows.win_iis_webapppool": {
+    "short_description": "Configure IIS Web Application Pools",
+    "description": "Creates, removes and configures an IIS Web Application Pool.",
+    "options": {
+      "attributes": {
+        "description": "This field is a free form dictionary value for the application pool attributes. These attributes are based on the naming standard at U(https://www.iis.net/configreference/system.applicationhost/applicationpools/add#005), see the examples section for more details on how to set this. You can also set the attributes of child elements like cpu and processModel, see the examples to see how it is done. While you can use the numeric values for enums it is recommended to use the enum name itself, e.g. use SpecificUser instead of 3 for processModel.identityType. managedPipelineMode may be either",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": "This module has been deprecated and an alternative supported module is available in the C(microsoft.iis) collection."
+  },
+  "community.windows.win_iis_webbinding": {
+    "short_description": "Configures a IIS Web site binding",
+    "description": "Creates, removes and configures a binding to an existing IIS Web site.",
+    "options": {
+      "name": {
+        "description": "Names of web site.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "website"
+        ]
+      },
+      "state": {
+        "description": "State of the binding.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "port": {
+        "description": "The port to bind to / use for the new site.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 80,
+        "aliases": null
+      },
+      "ip": {
+        "description": "The IP address to bind to / use for the new site.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": "This module has been deprecated and an alternative supported module is available in the C(microsoft.iis) collection."
+  },
+  "community.windows.win_iis_website": {
+    "short_description": "Configures a IIS Web site",
+    "description": "Creates, Removes and configures a IIS Web site.",
+    "options": {
+      "name": {
+        "description": "Names of web site.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "site_id": {
+        "description": "Explicitly set the IIS numeric ID for a site. Note that this value cannot be changed after the website has been created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the web site",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "started",
+          "stopped",
+          "restarted"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "physical_path": {
+        "description": "The physical path on the remote host to use for the new site. The specified folder must already exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "application_pool": {
+        "description": "The application pool in which the new site executes.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "The port to bind to / use for the new site.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip": {
+        "description": "The IP address to bind to / use for the new site.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hostname": {
+        "description": "The host header to bind to / use for the new site.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parameters": {
+        "description": "Custom site Parameters from string where properties are separated by a pipe and property name/values by colon Ex.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": "This module has been deprecated and an alternative supported module is available in the C(microsoft.iis) collection."
+  },
+  "community.windows.win_initialize_disk": {
+    "short_description": "Initializes disks on Windows Server",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.windows.win_msg": {
+    "short_description": "Sends a message to logged in users on Windows hosts",
+    "description": "Wraps the msg.exe command in order to send messages to Windows hosts.",
+    "options": {
+      "to": {
+        "description": "Who to send the message to. Can be a username, sessionname or sessionid.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_net_adapter_feature": {
+    "short_description": "Enable or disable certain network adapters.",
+    "description": "Enable or disable some network components of a certain network adapter or all the network adapters.",
+    "options": {
+      "interface": {
+        "description": "Name of Network Adapter Interface. For example, C(Ethernet0) or C(*).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specify the state of ms_tcpip6 of interfaces.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "enabled",
+        "aliases": null
+      },
+      "component_id": {
+        "description": "Specify the below component_id of network adapters. component_id (DisplayName) C(ms_implat) (Microsoft Network Adapter Multiplexor Protocol) C(ms_lltdio) (Link-Layer Topology Discovery Mapper I/O Driver) C(ms_tcpip6) (Internet Protocol Version 6 (TCP/IPv6)) C(ms_tcpip) (Internet Protocol Version 4 (TCP/IPv4)) C(ms_lldp) (Microsoft LLDP Protocol Driver) C(ms_rspndr) (Link-Layer Topology Discovery Responder) C(ms_msclient) (Client for Microsoft Networks) C(ms_pacer) (QoS Packet Scheduler) If you",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_netbios": {
+    "short_description": "Manage NetBIOS over TCP/IP settings on Windows.",
+    "description": "Enables or disables NetBIOS on Windows network adapters. Can be used to protect a system against NBT-NS poisoning and avoid NBNS broadcast storms. Settings can be applied system wide or per adapter.",
+    "options": {
+      "state": {
+        "description": "Whether NetBIOS should be enabled, disabled, or default (use setting from DHCP server or if static IP address is assigned enable NetBIOS).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled",
+          "default"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "adapter_names": {
+        "description": "List of adapter names for which to manage NetBIOS settings. If this option is omitted then configuration is applied to all adapters on the system. The adapter name used is the connection caption in the Network Control Panel or via C(Get-NetAdapter), eg C(Ethernet 2).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_nssm": {
+    "short_description": "Install a service using NSSM",
+    "description": "Install a Windows service using the NSSM wrapper. NSSM is a service helper which doesn",
+    "options": {},
+    "deprecated": null
+  },
+  "community.windows.win_pagefile": {
+    "short_description": "Query or change pagefile configuration",
+    "description": "Query current pagefile configuration. Enable/Disable AutomaticManagedPagefile. Create new or override pagefile configuration.",
+    "options": {
+      "drive": {
+        "description": "The drive of the pagefile.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "initial_size": {
+        "description": "The initial size of the pagefile in megabytes.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "maximum_size": {
+        "description": "The maximum size of the pagefile in megabytes.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "override": {
+        "description": "Override the current pagefile on the drive.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "system_managed": {
+        "description": "Configures current pagefile to be managed by the system.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "automatic": {
+        "description": "Configures AutomaticManagedPagefile for the entire system.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remove_all": {
+        "description": "Remove all pagefiles in the system, not including automatic managed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "test_path": {
+        "description": "Use Test-Path on the drive to make sure the drive is accessible before creating the pagefile.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the pagefile.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "query"
+        ],
+        "default": "query",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_partition": {
+    "short_description": "Creates, changes and removes partitions on Windows Server",
+    "description": "The M(community.windows.win_partition) module can create, modify or delete a partition on a disk",
+    "options": {
+      "state": {
+        "description": "Used to specify the state of the partition. Use C(absent) to specify if a partition should be removed and C(present) to specify if the partition should be created or updated.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "drive_letter": {
+        "description": "Used for accessing partitions if I(disk_number) and I(partition_number) are not provided. Use C(auto) for automatically assigning a drive letter, or a letter A-Z for manually assigning a drive letter to a new partition. If not specified, no drive letter is assigned when creating a new partition.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disk_number": {
+        "description": "Disk number is mandatory for creating new partitions. A combination of I(disk_number) and I(partition_number) can be used to specify the partition instead of I(drive_letter) if required.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "partition_number": {
+        "description": "Used in conjunction with I(disk_number) to uniquely identify a partition.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "partition_size": {
+        "description": "Specify size of the partition in B, KB, KiB, MB, MiB, GB, GiB, TB or TiB. Use -1 to specify maximum supported size. Partition size is mandatory for creating a new partition but not for updating or deleting a partition. The decimal SI prefixes kilo, mega, giga, tera, etc., are powers of 10^3 = 1000. The binary prefixes kibi, mebi, gibi, tebi, etc. respectively refer to the corresponding power of 2^10 = 1024. Thus, a gigabyte (GB) is 1000000000 (1000^3) bytes while 1 gibibyte (GiB) is 1073741824 (1024^3) bytes.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "read_only": {
+        "description": "Make the partition read only, restricting changes from being made to the partition.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "active": {
+        "description": "Specifies if the partition is active and can be used to start the system. This property is only valid when the disk",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_pester": {
+    "short_description": "Run Pester tests on Windows hosts",
+    "description": "Run Pester tests on Windows hosts. Test files have to be available on the remote host.",
+    "options": {
+      "path": {
+        "description": "Path to a pester test file or a folder where tests can be found. If the path is a folder, the module will consider all ps1 files as Pester tests.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Runs only tests in Describe blocks with specified Tags values. Accepts multiple comma separated tags.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "output_file": {
+        "description": "Generates an output test report.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "output_format": {
+        "description": "Format of the test report to be generated. This parameter is to be used with output_file option.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "NunitXML",
+        "aliases": null
+      },
+      "test_parameters": {
+        "description": "Allows to specify parameters to the test script.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "version": {
+        "description": "Minimum version of the pester module that has to be available on the remote host.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "minimum_version"
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_power_plan": {
+    "short_description": "Changes the power plan of a Windows system",
+    "description": "This module will change the power plan of a Windows system to the defined string. Windows defaults to C(balanced) which will cause CPU throttling. In some cases it can be preferable to change the mode to C(high performance) to increase CPU performance. One of I(name) or I(guid) must be provided.",
+    "options": {
+      "name": {
+        "description": "String value that indicates the desired power plan by name. The power plan must already be present on the system. Commonly there will be options for C(balanced) and C(high performance).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "guid": {
+        "description": "String value that indicates the desired power plan by guid. The power plan must already be present on the system. For out of box guids see U(https://docs.microsoft.com/en-us/windows/win32/power/power-policy-settings).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_psexec": {
+    "short_description": "Runs commands (remotely) as another (privileged) user",
+    "description": "Run commands (remotely) through the PsExec service. Run commands as another (domain) user (with elevated privileges).",
+    "options": {
+      "command": {
+        "description": "The command line to run through PsExec (limited to 260 characters).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "executable": {
+        "description": "The location of the PsExec utility (in case it is not located in your PATH).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": "psexec.exe",
+        "aliases": null
+      },
+      "hostnames": {
+        "description": "The hostnames to run the command. If not provided, the command is run locally.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "The (remote) user to run the command as. If not provided, the current user is used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "The password for the (remote) user to run the command as. This is mandatory in order authenticate yourself.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chdir": {
+        "description": "Run the command from this (remote) directory.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nobanner": {
+        "description": "Do not display the startup banner and copyright message. This only works for specific versions of the PsExec binary.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "noprofile": {
+        "description": "Run the command without loading the account",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_psmodule": {
+    "short_description": "Adds or removes a Windows PowerShell module",
+    "description": "This module helps to install Windows PowerShell modules and register custom modules repository on Windows-based systems.",
+    "options": {
+      "name": {
+        "description": "Name of the Windows PowerShell module that has to be installed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "If C(present) a new module is installed. If C(absent) a module is removed. If C(latest) a module is updated to the newest version.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "latest",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "required_version": {
+        "description": "The exact version of the PowerShell module that has to be installed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "minimum_version": {
+        "description": "The minimum version of the PowerShell module that has to be installed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "maximum_version": {
+        "description": "The maximum version of the PowerShell module that has to be installed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_clobber": {
+        "description": "If C(yes) allows install modules that contains commands those have the same names as commands that already exists.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "skip_publisher_check": {
+        "description": "If C(yes), allows you to install a different version of a module that already exists on your computer in the case when a different one is not digitally signed by a trusted publisher and the newest existing module is digitally signed by a trusted publisher.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "allow_prerelease": {
+        "description": "If C(yes) installs modules marked as prereleases. It doesn",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_psmodule_info": {
+    "short_description": "Gather information about PowerShell Modules",
+    "description": "Gather information about PowerShell Modules including information from PowerShellGet.",
+    "options": {
+      "name": {
+        "description": "The name of the module to retrieve. Supports any wildcard pattern supported by C(Get-Module). If omitted then all modules will returned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_psrepository": {
+    "short_description": "Adds, removes or updates a Windows PowerShell repository.",
+    "description": "This module helps to add, remove and update Windows PowerShell repository on Windows-based systems.",
+    "options": {
+      "name": {
+        "description": "Name of the repository to work with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_location": {
+        "description": "Specifies the URI for discovering and installing modules from this repository. A URI can be a NuGet server feed (most common situation), HTTP, HTTPS, FTP or file location. Required when registering a new repository or using I(force=True).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "source"
+        ]
+      },
+      "script_source_location": {
+        "description": "Specifies the URI for discovering and installing scripts from this repository.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "publish_location": {
+        "description": "Specifies the URI for publishing modules to this repository.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "script_publish_location": {
+        "description": "Specifies the URI for publishing scripts to this repository.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "If C(present) a new repository is added or updated. If C(absent) a repository is removed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "installation_policy": {
+        "description": "Sets the C(InstallationPolicy) of a repository. Will default to C(trusted) when creating a new repository or used with I(force=True).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "trusted",
+          "untrusted"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "If C(True), any differences from the desired state will result in the repository being unregistered, and then re-registered. I(force) has no effect when I(state=absent). See notes for additional context.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "proxy": {
+        "description": "Proxy to use for repository.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Username to authenticate against private repository.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_psrepository_copy": {
+    "short_description": "Copies registered PSRepositories to other user profiles",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.windows.win_psrepository_info": {
+    "short_description": "Gather information about PSRepositories",
+    "description": "Gather information about all or a specific PSRepository.",
+    "options": {
+      "name": {
+        "description": "The name of the repository to retrieve. Supports any wildcard pattern supported by C(Get-PSRepository). If omitted then all repositories will returned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_psscript": {
+    "short_description": "Install and manage PowerShell scripts from a PSRepository",
+    "description": "Add or remove PowerShell scripts from registered PSRepositories.",
+    "options": {
+      "name": {
+        "description": "The name of the script you want to install or remove.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "repository": {
+        "description": "The registered name of the repository you want to install from. Cannot be used when I(state=absent). If ommitted, all repositories will be searched. To register a repository, use M(community.windows.win_psrepository).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scope": {
+        "description": "Determines whether the script is installed for only the C(current_user) or for C(all_users).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "current_user",
+          "all_users"
+        ],
+        "default": "all_users",
+        "aliases": null
+      },
+      "state": {
+        "description": "The desired state of the script. C(absent) removes the script. C(latest) will ensure the most recent version available is installed. C(present) only installs if the script is missing.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "latest"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "required_version": {
+        "description": "The exact version of the script to install. Cannot be used with I(minimum_version) or I(maximum_version). Cannot be used when I(state=latest).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "minimum_version": {
+        "description": "The minimum version of the script to install. Cannot be used when I(state=latest).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "maximum_version": {
+        "description": "The maximum version of the script to install. Cannot be used when I(state=latest).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_prerelease": {
+        "description": "If C(yes) installs scripts flagged as prereleases.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "source_username": {
+        "description": "The username portion of the credential required to access the repository. Must be used together with I(source_password).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_password": {
+        "description": "The password portion of the credential required to access the repository. Must be used together with I(source_username).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_psscript_info": {
+    "short_description": "Gather information about installed PowerShell Scripts",
+    "description": "Gather information about PowerShell Scripts installed via PowerShellGet.",
+    "options": {
+      "name": {
+        "description": "The name of the script. Supports any wildcard pattern supported by C(Get-InstalledScript). If omitted then all scripts will returned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_pssession_configuration": {
+    "short_description": "Manage PSSession Configurations",
+    "description": "Register, unregister, and modify PSSession Configurations for PowerShell remoting.",
+    "options": {
+      "name": {
+        "description": "The name of the session configuration to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The desired state of the configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "guid": {
+        "description": "The GUID (UUID) of the session configuration file. This value is metadata, so it only matters if you use it externally. If not set, a value will be generated automatically. Acceptable GUID formats are flexible. Any string of 32 hexadecimal digits will be accepted, with all hyphens C(-) and opening/closing C({}) ignored. See also I(lenient_config_fields).",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "schema_version": {
+        "description": "The schema version of the session configuration file. If not set, a value will be generated automatically. Must be a valid .Net System.Version string.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "author": {
+        "description": "The author of the session configuration. This value is metadata and does not affect the functionality of the session configuration. If not set, a value may be generated automatically. See also I(lenient_config_fields).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The description of the session configuration. This value is metadata and does not affect the functionality of the session configuration. See also I(lenient_config_fields).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "company_name": {
+        "description": "The company that authored the session configuration. This value is metadata and does not affect the functionality of the session configuration. If not set, a value may be generated automatically. See also I(lenient_config_fields).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "copyright": {
+        "description": "The copyright statement of the session configuration. This value is metadata and does not affect the functionality of the session configuration. If not set, a value may be generated automatically. See also I(lenient_config_fields).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "session_type": {
+        "description": "Controls what type of session this is.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "default",
+          "empty",
+          "restricted_remote_server"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "transcript_directory": {
+        "description": "Automatic session transcripts will be written to this directory.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "run_as_virtual_account": {
+        "description": "If C(yes) the session runs as a virtual account. Do not use I(run_as_credential_username) and I(run_as_credential_password) to specify a virtual account.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "run_as_virtual_account_groups": {
+        "description": "If I(run_as_virtual_account=yes) this is a list of groups to add the virtual account to.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mount_user_drive": {
+        "description": "If C(yes) the session creates and mounts a user-specific PSDrive for use with file transfers.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_drive_maximum_size": {
+        "description": "The maximum size of the user drive in bytes. Must fit into an Int64.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group_managed_service_account": {
+        "description": "If the session will run as a group managed service account (gMSA) then this is the name. Do not use I(run_as_credential_username) and I(run_as_credential_password) to specify a gMSA.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scripts_to_process": {
+        "description": "A list of paths to script files ending in C(.ps1) that should be applied to the session.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role_definitions": {
+        "description": "A dict defining the roles for JEA sessions. For more information see U(https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/jea/session-configurations#role-definitions).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "required_groups": {
+        "description": "For JEA sessions, defines conditional access rules about which groups a connecting user must belong to. For more information see U(https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/jea/session-configurations#conditional-access-rules).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "language_mode": {
+        "description": "Determines the language mode of the PowerShell session.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "no_language",
+          "restricted_language",
+          "constrained_language",
+          "full_language"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "execution_policy": {
+        "description": "The execution policy controlling script execution in the PowerShell session.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "default",
+          "remote_signed",
+          "restricted",
+          "undefined",
+          "unrestricted"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "powershell_version": {
+        "description": "The minimum required PowerShell version for this session. Must be a valid .Net System.Version string. This only works if targeting PowerShell 5.1, PowerShell 7.x does not support this option.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "modules_to_import": {
+        "description": "A list of modules that should be imported into the session. Any valid PowerShell module spec can be used here, so simple str names or dicts can be used. If a dict is used, no snake_case conversion is done, so the original PowerShell names must be used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "visible_aliases": {
+        "description": "The aliases that can be used in the session. For more information see U(https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/jea/role-capabilities).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "visible_cmdlets": {
+        "description": "The cmdlets that can be used in the session. The elements can be simple names or complex command specifications. For more information see U(https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/jea/role-capabilities).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "visible_functions": {
+        "description": "The functions that can be used in the session. The elements can be simple names or complex command specifications. For more information see U(https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/jea/role-capabilities).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "visible_external_commands": {
+        "description": "The external commands and scripts that can be used in the session. For more information see U(https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/jea/role-capabilities).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "alias_definitions": {
+        "description": "A dict that defines aliases for each session.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "function_definitions": {
+        "description": "A dict that defines functions for each session.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "variable_definitions": {
+        "description": "A list of dicts where each elements defines a variable for each session.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "environment_variables": {
+        "description": "A dict that defines environment variables for each session.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "types_to_process": {
+        "description": "Paths to type definition files to process for each session.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "formats_to_process": {
+        "description": "Paths to format definition files to process for each session.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "assemblies_to_load": {
+        "description": "The assemblies that should be loaded into each session.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "processor_architecure": {
+        "description": "The processor architecture of the session (32 bit vs. 64 bit).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "amd64",
+          "x86"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "access_mode": {
+        "description": "Controls whether the session configuration allows connection from the C(local) machine only, both local and C(remote), or none (C(disabled)).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disabled",
+          "local",
+          "remote"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "use_shared_process": {
+        "description": "If C(yes) then the session shares a process for each session.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "thread_apartment_state": {
+        "description": "The apartment state for the PowerShell session.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "mta",
+          "sta"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "thread_options": {
+        "description": "Sets thread options for the session.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "default",
+          "reuse_thread",
+          "use_current_thread",
+          "use_new_thread"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "startup_script": {
+        "description": "A script that gets run on session startup.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "maximum_received_data_size_per_command_mb": {
+        "description": "Sets the maximum received data size per command in MB. Must fit into a double precision floating point value.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "maximum_received_object_size_mb": {
+        "description": "Sets the maximum object size in MB. Must fit into a double precision floating point value.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "security_descriptor_sddl": {
+        "description": "An SDDL string that controls which users and groups can connect to the session. If I(role_definitions) is specified the security descriptor will be set based on that. If this option is not specified the default security descriptor will be applied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "run_as_credential_username": {
+        "description": "Used to set a RunAs account for the session. All commands executed in the session will be run as this user. To use a gMSA, see I(group_managed_service_account). To use a virtual account, see I(run_as_virtual_account) and I(run_as_virtual_account_groups). Status will always be C(changed) when a RunAs credential is set because the password cannot be retrieved for comparison.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "run_as_credential_password": {
+        "description": "The password for I(run_as_credential_username).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lenient_config_fields": {
+        "description": "Some fields used in the session configuration do not affect its function, and are sometimes auto-generated when not specified. To avoid unnecessarily changing the configuration on each run, the values of these options will only be enforced when they are explicitly specified.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [
+          "guid",
+          "author",
+          "company_name",
+          "copyright",
+          "description"
+        ],
+        "aliases": null
+      },
+      "async_timeout": {
+        "description": "Sets a timeout for how long in seconds to wait for asynchronous module execution and waiting for the connection to recover. Replicates the functionality of the C(async) keyword. Has no effect in check mode.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 300,
+        "aliases": null
+      },
+      "async_poll": {
+        "description": "Sets a delay in seconds between each check of the asynchronous execution status. Replicates the functionality of the C(poll) keyword. Has no effect in check mode. I(async_poll=0) is not supported.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_rabbitmq_plugin": {
+    "short_description": "Manage RabbitMQ plugins",
+    "description": "Manage RabbitMQ plugins.",
+    "options": {
+      "names": {
+        "description": "Comma-separated list of plugin names.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "new_only": {
+        "description": "Only enable missing plugins. Does not disable plugins that are not in the names list.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "state": {
+        "description": "Specify if plugins are to be enabled or disabled.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disabled",
+          "enabled"
+        ],
+        "default": "enabled",
+        "aliases": null
+      },
+      "prefix": {
+        "description": "Specify a custom install prefix to a Rabbit.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_rds_cap": {
+    "short_description": "Manage Connection Authorization Policies (CAP) on a Remote Desktop Gateway server",
+    "description": "Creates, removes and configures a Remote Desktop connection authorization policy (RD CAP). A RD CAP allows you to specify the users who can connect to a Remote Desktop Gateway server.",
+    "options": {
+      "name": {
+        "description": "Name of the connection authorization policy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of connection authorization policy. If C(absent) will ensure the policy is removed. If C(present) will ensure the policy is configured and exists. If C(enabled) will ensure the policy is configured, exists and enabled. If C(disabled) will ensure the policy is configured, exists, but disabled.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "enabled",
+          "disabled",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "auth_method": {
+        "description": "Specifies how the RD Gateway server authenticates users. When a new CAP is created, the default value is C(password).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "both",
+          "none",
+          "password",
+          "smartcard"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "order": {
+        "description": "Evaluation order of the policy. The CAP in which I(order) is set to a value of",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_rds_rap": {
+    "short_description": "Manage Resource Authorization Policies (RAP) on a Remote Desktop Gateway server",
+    "description": "Creates, removes and configures a Remote Desktop resource authorization policy (RD RAP). A RD RAP allows you to specify the network resources (computers) that users can connect to remotely through a Remote Desktop Gateway server.",
+    "options": {
+      "name": {
+        "description": "Name of the resource authorization policy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of resource authorization policy. If C(absent) will ensure the policy is removed. If C(present) will ensure the policy is configured and exists. If C(enabled) will ensure the policy is configured, exists and enabled. If C(disabled) will ensure the policy is configured, exists, but disabled.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "disabled",
+          "enabled",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "description": {
+        "description": "Optional description of the resource authorization policy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_groups": {
+        "description": "List of user groups that are associated with this resource authorization policy (RAP). A user must belong to one of these groups to access the RD Gateway server. Required when a new RAP is created.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allowed_ports": {
+        "description": "List of port numbers through which connections are allowed for this policy. To allow connections through any port, specify",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_rds_settings": {
+    "short_description": "Manage main settings of a Remote Desktop Gateway server",
+    "description": "Configure general settings of a Remote Desktop Gateway server.",
+    "options": {
+      "certificate_hash": {
+        "description": "Certificate hash (thumbprint) for the Remote Desktop Gateway server. The certificate hash is the unique identifier for the certificate.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_connections": {
+        "description": "The maximum number of connections allowed. If set to C(0), no new connections are allowed. If set to C(-1), the number of connections is unlimited.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl_bridging": {
+        "description": "Specifies whether to use SSL Bridging. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_regmerge": {
+    "short_description": "Merges the contents of a registry file into the Windows registry",
+    "description": "Wraps the reg.exe command to import the contents of a registry file. Suitable for use with registry files created using M(ansible.windows.win_template). Windows registry files have a specific format and must be constructed correctly with carriage return and line feed line endings otherwise they will not be merged. Exported registry files often start with a Byte Order Mark which must be removed if the file is to templated using M(ansible.windows.win_template). Registry file format is described at U(https://support.microsoft.com/en-us/kb/310516) See also M(ansible.windows.win_template), M(ansible.windows.win_regedit)",
+    "options": {
+      "path": {
+        "description": "The full path including file name to the registry file on the remote machine to be merged",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content": {
+        "description": "When used instead of O(path), merges the value specified into the Windows registry. It must not include the Byte Order Mark.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "compare_to": {
+        "description": "The parent key to use when comparing the contents of the registry to the contents of the file.  Needs to be in HKLM or HKCU part of registry. Use a PS-Drive style path for example HKLM:\\SOFTWARE not HKEY_LOCAL_MACHINE\\SOFTWARE If not supplied, or the registry key is not found, no comparison will be made, and the module will report changed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_robocopy": {
+    "short_description": "Synchronizes the contents of two directories using Robocopy",
+    "description": "Synchronizes the contents of files/directories from a source to destination. Under the hood this just calls out to RoboCopy, since that should be available on most modern Windows systems.",
+    "options": {
+      "src": {
+        "description": "Source file/directory to sync.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dest": {
+        "description": "Destination file/directory to sync (Will receive contents of src).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "recurse": {
+        "description": "Includes all subdirectories (Toggles the C(/e) flag to RoboCopy). If C(flags) is set, this will be ignored.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "purge": {
+        "description": "Deletes any files/directories found in the destination that do not exist in the source. Toggles the C(/purge) flag to RoboCopy. If C(flags) is set, this will be ignored.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "flags": {
+        "description": "Directly supply Robocopy flags. If set, C(purge) and C(recurse) will be ignored.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_say": {
+    "short_description": "Text to speech module for Windows to speak messages and optionally play sounds",
+    "description": "Uses .NET libraries to convert text to speech and optionally play .wav sounds.  Audio Service needs to be running and some kind of speakers or headphones need to be attached to the windows target(s) for the speech to be audible.",
+    "options": {
+      "msg": {
+        "description": "The text to be spoken. Use either C(msg) or C(msg_file). Optional so that you can use this module just to play sounds.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "msg_file": {
+        "description": "Full path to a windows format text file containing the text to be spoken. Use either C(msg) or C(msg_file). Optional so that you can use this module just to play sounds.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "voice": {
+        "description": "Which voice to use. See notes for how to discover installed voices. If the requested voice is not available the default voice will be used. Example voice names from Windows 10 are C(Microsoft Zira Desktop) and C(Microsoft Hazel Desktop).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "speech_speed": {
+        "description": "How fast or slow to speak the text. Must be an integer value in the range -10 to 10. -10 is slowest, 10 is fastest.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "start_sound_path": {
+        "description": "Full path to a C(.wav) file containing a sound to play before the text is spoken. Useful on conference calls to alert other speakers that ansible has something to say.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "end_sound_path": {
+        "description": "Full path to a C(.wav) file containing a sound to play after the text has been spoken. Useful on conference calls to alert other speakers that ansible has finished speaking.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_scheduled_task": {
+    "short_description": "Manage scheduled tasks",
+    "description": "Creates/modifies or removes Windows scheduled tasks.",
+    "options": {
+      "name": {
+        "description": "The name of the scheduled task without the path.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "Task folder in which this task will be stored. Will create the folder when C(state=present) and the folder does not already exist. Will remove the folder when C(state=absent) and there are no tasks left in the folder.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "\\",
+        "aliases": null
+      },
+      "state": {
+        "description": "When C(state=present) will ensure the task exists. When C(state=absent) will ensure the task does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "actions": {
+        "description": "A list of action to configure for the task. See suboptions for details on how to construct each list entry. When creating a task there MUST be at least one action but when deleting a task this can be a null or an empty list. The ordering of this list is important, the module will ensure the order is kept when modifying the task. This module only supports the C(ExecAction) type but can still delete the older legacy types.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "triggers": {
+        "description": "A list of triggers to configure for the task. See suboptions for details on how to construct each list entry. The ordering of this list is important, the module will ensure the order is kept when modifying the task. There are multiple types of triggers, see U(https://msdn.microsoft.com/en-us/library/windows/desktop/aa383868.aspx) for a list of trigger types and their options. The suboption options listed below are not required for all trigger types, read the description for more details.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_scheduled_task_stat": {
+    "short_description": "Get information about Windows Scheduled Tasks",
+    "description": "Will return whether the folder and task exists. Returns the names of tasks in the folder specified. Use M(community.windows.win_scheduled_task) to configure a scheduled task.",
+    "options": {
+      "path": {
+        "description": "The folder path where the task lives.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "\\",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the scheduled task to get information for. If C(name) is set and exists, will return information on the task itself.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_scoop": {
+    "short_description": "Manage packages using Scoop",
+    "description": "Manage packages using Scoop. If Scoop is missing from the system, the module will install it.",
+    "options": {
+      "architecture": {
+        "description": "Force Scoop to install the package of a specific process architecture.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "32bit",
+          "64bit"
+        ],
+        "default": null,
+        "aliases": [
+          "arch"
+        ]
+      },
+      "global": {
+        "description": "Install the app globally",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "independent": {
+        "description": "Don",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_scoop_bucket": {
+    "short_description": "Manage Scoop buckets",
+    "description": "Manage Scoop buckets",
+    "options": {
+      "name": {
+        "description": "Name of the Scoop bucket.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "repo": {
+        "description": "Git repository that contains the scoop bucket",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the Scoop bucket. When C(absent), will ensure the package is not installed. When C(present), will ensure the package is installed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_security_policy": {
+    "short_description": "Change local security policy settings",
+    "description": "Allows you to set the local security policies that are configured by SecEdit.exe.",
+    "options": {
+      "section": {
+        "description": "The ini section the key exists in. If the section does not exist then the module will return an error. Example sections to use are",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_shortcut": {
+    "short_description": "Manage shortcuts on Windows",
+    "description": "Create, manage and delete Windows shortcuts",
+    "options": {
+      "src": {
+        "description": "Executable or URL the shortcut points to. The executable needs to be in your PATH, or has to be an absolute path to the executable.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description for the shortcut. This is usually shown when hoovering the icon.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dest": {
+        "description": "Destination file for the shortcuting file. File name should have a C(.lnk) or C(.url) extension.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "arguments": {
+        "description": "Additional arguments for the executable defined in C(src).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "args"
+        ]
+      },
+      "directory": {
+        "description": "Working directory for executable defined in C(src).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "icon": {
+        "description": "Icon used for the shortcut. File name should have a C(.ico) extension. The file name is followed by a comma and the number in the library file (.dll) or use 0 for an image file.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hotkey": {
+        "description": "Key combination for the shortcut. This is a combination of one or more modifiers and a key. Possible modifiers are Alt, Ctrl, Shift, Ext. Possible keys are [A-Z] and [0-9].",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "windowstyle": {
+        "description": "Influences how the application is displayed when it is launched.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "maximized",
+          "minimized",
+          "normal"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "When C(absent), removes the shortcut if it exists. When C(present), creates or updates the shortcut.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "run_as_admin": {
+        "description": "When C(src) is an executable, this can control whether the shortcut will be opened as an administrator or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_snmp": {
+    "short_description": "Configures the Windows SNMP service",
+    "description": "This module configures the Windows SNMP service.",
+    "options": {
+      "permitted_managers": {
+        "description": "The list of permitted SNMP managers.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "community_strings": {
+        "description": "The list of read-only SNMP community strings.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "action": {
+        "description": "C(add) will add new SNMP community strings and/or SNMP managers C(set) will replace SNMP community strings and/or SNMP managers. An empty list for either C(community_strings) or C(permitted_managers) will result in the respective lists being removed entirely. C(remove) will remove SNMP community strings and/or SNMP managers",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "add",
+          "set",
+          "remove"
+        ],
+        "default": "set",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_toast": {
+    "short_description": "Sends Toast windows notification to logged in users on Windows 10 or later hosts",
+    "description": "Sends alerts which appear in the Action Center area of the windows desktop.",
+    "options": {
+      "expire": {
+        "description": "How long in seconds before the notification expires.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 45,
+        "aliases": null
+      },
+      "group": {
+        "description": "Which notification group to add the notification to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "Powershell",
+        "aliases": null
+      },
+      "msg": {
+        "description": "The message to appear inside the notification. May include \\n to format the message to appear within the Action Center.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "Hello, World!",
+        "aliases": null
+      },
+      "popup": {
+        "description": "If C(no), the notification will not pop up and will only appear in the Action Center.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "tag": {
+        "description": "The tag to add to the notification.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "Ansible",
+        "aliases": null
+      },
+      "title": {
+        "description": "The notification title, which appears in the pop up..",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "Notification HH:mm",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_unzip": {
+    "short_description": "Unzips compressed files and archives on the Windows node",
+    "description": "Unzips compressed files and archives. Supports .zip files natively. Supports other formats supported by the Powershell Community Extensions (PSCX) module (basically everything 7zip supports). For non-Windows targets, use the M(ansible.builtin.unarchive) module instead.",
+    "options": {
+      "src": {
+        "description": "File to be unzipped (provide absolute path).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dest": {
+        "description": "Destination of zip file (provide absolute path of directory). If it does not exist, the directory will be created.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delete_archive": {
+        "description": "Remove the zip file, after unzipping.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": [
+          "rm"
+        ]
+      },
+      "recurse": {
+        "description": "Recursively expand zipped files within the src file. Setting to a value of C(yes) requires the PSCX module to be installed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "creates": {
+        "description": "If this file or directory exists the specified src will not be extracted.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "If a zip file is encrypted with password. Passing a value to a password parameter requires the PSCX module to be installed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_wait_for_process": {
+    "short_description": "Waits for a process to exist or not exist before continuing.",
+    "description": "Waiting for a process to start or stop. This is useful when Windows services behave poorly and do not enumerate external dependencies in their manifest.",
+    "options": {
+      "process_name_exact": {
+        "description": "The name of the process(es) for which to wait.  The name of the process(es) should not include the file extension suffix.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "process_name_pattern": {
+        "description": "RegEx pattern matching desired process(es).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sleep": {
+        "description": "Number of seconds to sleep between checks. Only applies when waiting for a process to start.  Waiting for a process to start does not have a native non-polling mechanism. Waiting for a stop uses native PowerShell and does not require polling.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "process_min_count": {
+        "description": "Minimum number of process matching the supplied pattern to satisfy C(present) condition. Only applies to C(present).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "pid": {
+        "description": "The PID of the process.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "owner": {
+        "description": "The owner of the process. Requires PowerShell version 4.0 or newer.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pre_wait_delay": {
+        "description": "Seconds to wait before checking processes.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "post_wait_delay": {
+        "description": "Seconds to wait after checking for processes.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "state": {
+        "description": "When checking for a running process C(present) will block execution until the process exists, or until the timeout has been reached. C(absent) will block execution until the process no longer exists, or until the timeout has been reached. When waiting for C(present), the module will return changed only if the process was not present on the initial check but became present on subsequent checks. If, while waiting for C(absent), new processes matching the supplied pattern are started, these new processes will not be included in the action.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The maximum number of seconds to wait for a for a process to start or stop before erroring out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 300,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_wakeonlan": {
+    "short_description": "Send a magic Wake-on-LAN (WoL) broadcast packet",
+    "description": "The C(win_wakeonlan) module sends magic Wake-on-LAN (WoL) broadcast packets. For non-Windows targets, use the M(community.general.wakeonlan) module instead.",
+    "options": {
+      "mac": {
+        "description": "MAC address to send Wake-on-LAN broadcast packet for.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "broadcast": {
+        "description": "Network broadcast address to use for broadcasting magic Wake-on-LAN packet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "255.255.255.255",
+        "aliases": null
+      },
+      "port": {
+        "description": "UDP port to use for magic Wake-on-LAN packet.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 7,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_webpicmd": {
+    "short_description": "Installs packages using Web Platform Installer command-line",
+    "description": "Installs packages using Web Platform Installer command-line (U(http://www.iis.net/learn/install/web-platform-installer/web-platform-installer-v4-command-line-webpicmdexe-rtw-release)). Must be installed and present in PATH (see M(chocolatey.chocolatey.win_chocolatey) module;",
+    "options": {},
+    "deprecated": null
+  },
+  "community.windows.win_xml": {
+    "short_description": "Manages XML file content on Windows hosts",
+    "description": "Manages XML nodes, attributes and text, using xpath to select which xml nodes need to be managed. XML fragments, formatted as strings, are used to specify the desired state of a part or parts of XML files on remote Windows servers. For non-Windows targets, use the M(community.general.xml) module instead.",
+    "options": {
+      "attribute": {
+        "description": "The attribute name if the type is",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_zip": {
+    "short_description": "Compress file or directory as zip archive on the Windows node",
+    "description": "Compress file or directory as zip archive. For non-Windows targets, use the M(community.general.archive) module instead.",
+    "options": {
+      "src": {
+        "description": "File or directory path to be zipped (provide absolute path on the target node). When a directory path the directory is zipped as the root entry in the archive. Specify C(\\*) to the end of I(src) to zip the contents of the directory and not the directory itself.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dest": {
+        "description": "Destination path of zip file (provide absolute path of zip file on the target node).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

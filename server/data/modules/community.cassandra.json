@@ -1,0 +1,769 @@
+{
+  "community.cassandra.cassandra_assassinate": {
+    "short_description": "Run the assassinate command against a node.",
+    "description": "Run the assassinate command against a node. Forcefully removes a dead node without re-replicating any data. It is a last resort tool if you cannot successfully use nodetool removenode.",
+    "options": {
+      "ip_address": {
+        "description": "IP Address of endpoint to assassinate.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "debug": {
+        "description": "Add additional debug output.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_autocompaction": {
+    "short_description": "Enables or disables autocompaction.",
+    "description": "Enables or disables autocompaction.",
+    "options": {
+      "keyspace": {
+        "description": "The keyspace on which to change autocompact status.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "table": {
+        "description": "The table on which to change autocompact status.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The required status",
+        "type": "str",
+        "required": false,
+        "choices": [
+          null
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_backup": {
+    "short_description": "Enables or disables incremental backup.",
+    "description": "Enables or disables incremental backup.",
+    "options": {
+      "state": {
+        "description": "The required status",
+        "type": "str",
+        "required": true,
+        "choices": [
+          null
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_batchlogreplaythrottle": {
+    "short_description": "Sets the batch log replay throttle.",
+    "description": "Sets the batch log replay throttle.",
+    "options": {
+      "value": {
+        "description": "KB value to set batch log replay throttle to.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_binary": {
+    "short_description": "Enables or disables the binary protocol.",
+    "description": "Enables or disables the binary protocol, also known as the native transport.",
+    "options": {
+      "state": {
+        "description": "The required status",
+        "type": "str",
+        "required": false,
+        "choices": [
+          null
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_cleanup": {
+    "short_description": "Runs cleanup on a Cassandra node.",
+    "description": "Runs cleanup on a Cassandra node.",
+    "options": {
+      "keyspace": {
+        "description": "Optional keyspace.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "table": {
+        "description": "Optional table name or list of table names.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "num_jobs": {
+        "description": "Number of job threads.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 2,
+        "aliases": [
+          "j"
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_compact": {
+    "short_description": "Manage compaction on the Cassandra node.",
+    "description": "Manage compaction on the Cassandra node.",
+    "options": {
+      "compact": {
+        "description": "The required status",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_compactionthreshold": {
+    "short_description": "Sets the compaction threshold.",
+    "description": "Sets the compaction threshold.",
+    "options": {
+      "keyspace": {
+        "description": "The keyspace to adjust compaction thresholds for.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "table": {
+        "description": "The table to adjust compaction thresholds for.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "min": {
+        "description": "Sets the minimum number of SSTables to trigger a minor compaction when using SizeTieredCompactionStrategy or DateTieredCompactionStrategy.\n",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max": {
+        "description": "Sets the maximum number of SSTables to allow in a minor compaction when using SizeTieredCompactionStrategy or DateTieredCompactionStrategy.\n",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_compactionthroughput": {
+    "short_description": "Sets the compaction throughput.",
+    "description": "Sets the compaction throughput.",
+    "options": {
+      "value": {
+        "description": "MB value to set compaction throughput to.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_concurrency": {
+    "short_description": "Manage concurrency parameters on the Cassandra node.",
+    "description": "Manage concurrency parameters on the Cassandra node. Set maximum concurrency for processing stage. Set number of concurrent compactors. Set the number of concurrent view builders in the system.",
+    "options": {
+      "concurrency_type": {
+        "description": "Type of concurrency to manage.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          null
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_cqlsh": {
+    "short_description": "Run cql commands via the clqsh shell.",
+    "description": "Run cql commands via the clqsh shell. Run commands inline or using a cql file. Attempts to parse returned data into a format that Ansible can use.",
+    "options": {
+      "cqlsh_host": {
+        "description": "Host to connect to",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "localhost",
+        "aliases": [
+          null
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_decommission": {
+    "short_description": "Deactivates a node by streaming its data to another node.",
+    "description": "Deactivates a node by streaming its data to another node. Uses the nodetool ring command to determine if the node is still in the cluster. To ensure correct function of this module please use the ip address of the node in the host parameter.",
+    "options": {
+      "debug": {
+        "description": "Add additional debug to module output.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_drain": {
+    "short_description": "Drains a Cassandra node.",
+    "description": "Flushes all memtables from the node to SSTables on disk. Cassandra stops listening for connections from the client and other nodes. Restart Cassandra after running nodetool drain. Use this command before upgrading a node to a new version of Cassandra.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_flush": {
+    "short_description": "Flushes one or more tables from the memtable to SSTables on disk.",
+    "description": "Flushes one or more tables from the memtable to SSTables on disk.",
+    "options": {
+      "keyspace": {
+        "description": "Optional keyspace.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "table": {
+        "description": "Optional table name or list of table names.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_fullquerylog": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_garbagecollect": {
+    "short_description": "Removes deleted data from one or more tables.",
+    "description": "Removes deleted data from one or more tables.",
+    "options": {
+      "keyspace": {
+        "description": "Keyspace to clean up data from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "table": {
+        "description": "Table to clean up deleted data from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "granularity": {
+        "description": "ROW (default) removes deleted partitions and rows. CELL also removes overwritten or deleted cells.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_gossip": {
+    "short_description": "Enables or disables gossip.",
+    "description": "Enable or disable gossip.",
+    "options": {
+      "state": {
+        "description": "The required status",
+        "type": "str",
+        "required": false,
+        "choices": [
+          null
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_handoff": {
+    "short_description": "Enables or disables the storing of future hints on the current node.",
+    "description": "Enables or disables the storing of future hints on the current node.",
+    "options": {
+      "state": {
+        "description": "The required status",
+        "type": "str",
+        "required": false,
+        "choices": [
+          null
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_interdcstreamthroughput": {
+    "short_description": "Sets the inter-dc stream throughput.",
+    "description": "Sets the inter-dc stream throughput.",
+    "options": {
+      "value": {
+        "description": "MB value to set inter-dc stream throughput to.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_invalidatecache": {
+    "short_description": "Invalidates the various caches on the Cassandra node.",
+    "description": "Invalidates the various caches on the Cassandra node. Invalidates the Counter, Key and Row caches.",
+    "options": {
+      "cache": {
+        "description": "The cache to clear.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          null
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_keyspace": {
+    "short_description": "Manage keyspaces on your Cassandra cluster.",
+    "description": "Manage keyspaces on your Cassandra Cluster. Keyspace can be created to use SimpleStrategy or NetworkTopologyStrategy. ",
+    "options": {},
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_maxhintwindow": {
+    "short_description": "Set the specified max hint window in ms.",
+    "description": "Set the specified max hint window in ms.",
+    "options": {
+      "value": {
+        "description": "MS value to set the max hint window to.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_reload": {
+    "short_description": "Reloads various objects into the local node.",
+    "description": "Reloads various objects into the local node. Currently can reload local schema, seeds, ssl certs and triggers.",
+    "options": {
+      "reload": {
+        "description": "Object type to reload.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "localschema",
+          "seeds",
+          "ssl",
+          "triggers"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_removenode": {
+    "short_description": "Removes a node by the given host id from the cluster.",
+    "description": "Removes a node by the given host id from the cluster. Identify the node by the host id as given in nodetool status output. The nodetool status command is used to determine if the host_id exists in the cluster.",
+    "options": {
+      "host_id": {
+        "description": "Host Id of the node to rmeove.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Forces completion of the pending removal.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "debug": {
+        "description": "Add additional debug to module output.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_role": {
+    "short_description": "Manage roles on your Cassandra cluster.",
+    "description": "Manage roles on your Cassandra Cluster.",
+    "options": {
+      "login_user": {
+        "description": "The Cassandra user to login with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_password": {
+        "description": "The Cassandra password to login with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl": {
+        "description": "Uses SSL encryption if basic SSL encryption is enabled on Cassandra cluster (without client/server verification)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "ssl_cert_reqs": {
+        "description": "SSL verification mode.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          null
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_schema": {
+    "short_description": "Validates the schema version as seen from the node.",
+    "description": "Validates the schema version as seen from the node. Ensure that all nodes are have the same schema version. Can poll multiple times to wait for the schema version to converge. Can also specify a schema version if required. Schema version is obtained through the usage of the nodetool describecluster command.",
+    "options": {
+      "uuid": {
+        "description": "The expected schema version.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "is"
+        ]
+      },
+      "poll": {
+        "description": "The maximum number of times to call nodetool describecluster.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "interval": {
+        "description": "The number of seconds to wait between poll executions.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 30,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_status": {
+    "short_description": "Validates the status of the cluster as seen from the node.",
+    "description": "Validates the status of the cluster as seen from the C* node. Ensure that all nodes are in a UP/NORMAL state or tolerate a few down nodes. Optionally poll multiple times to allow the cluster state to stablise. Cluster status is obtained thtough the usage of the nodetool status command.",
+    "options": {
+      "down": {
+        "description": "The maximum number of nodes that can be tolerated as down.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": [
+          "d"
+        ]
+      },
+      "poll": {
+        "description": "The maximum number of times to call nodetool status to query cluster status.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "interval": {
+        "description": "The number of seconds to wait between poll executions.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 30,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_stopdaemon": {
+    "short_description": "Stops the Cassandra daemon.",
+    "description": "Stops the Cassandra daemon.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_streamthroughput": {
+    "short_description": "Sets the stream throughput.",
+    "description": "Sets the stream throughput.",
+    "options": {
+      "value": {
+        "description": "MB value to set stream throughput to.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_table": {
+    "short_description": "Create or drop tables on a Cassandra Keyspace.",
+    "description": "Create or drop tables on a Cassandra Keyspace. No alter functionality. If a table with the same name already exists then no changes are made.",
+    "options": {
+      "login_user": {
+        "description": "The Cassandra user to login with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_password": {
+        "description": "The Cassandra password to login with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl": {
+        "description": "Uses SSL encryption if basic SSL encryption is enabled on Cassandra cluster (without client/server verification)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "ssl_cert_reqs": {
+        "description": "SSL verification mode.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          null
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_thrift": {
+    "short_description": "Enables or disables the Thrift server.",
+    "description": "Enables or disables the Thrift server.",
+    "options": {
+      "state": {
+        "description": "The required status",
+        "type": "str",
+        "required": false,
+        "choices": [
+          null
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_timeout": {
+    "short_description": "Manages the timeout on the Cassandra node.",
+    "description": "Manages the timeout. Set the specified timeout in ms, or 0 to disable timeout.",
+    "options": {
+      "timeout": {
+        "description": "Timeout in milliseconds.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_type": {
+        "description": "Type of timeout.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "read",
+          "range",
+          "write",
+          "counterwrite",
+          "cascontention",
+          "truncate",
+          "internodeconnect",
+          "internodeuser",
+          "internodestreaminguser",
+          "misc"
+        ],
+        "default": "read",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_traceprobability": {
+    "short_description": "Sets the trace probability.",
+    "description": "Sets the trace probability.",
+    "options": {
+      "value": {
+        "description": "Trace probability between 0.0 and 1.0",
+        "type": "float",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_truncatehints": {
+    "short_description": "Truncate all hints on the local node, or truncate hints for the endpoint(s) specified.",
+    "description": "Truncate all hints on the local node, or truncate hints for the endpoint(s) specified.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_upgradesstables": {
+    "short_description": "Upgrade SSTables which are not on the current Cassandra version.",
+    "description": "Upgrade SSTables which are not on the current Cassandra version. Use this module when upgrading your server or changing compression options.",
+    "options": {
+      "keyspace": {
+        "description": "Optional keyspace.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "table": {
+        "description": "Optional table name or list of table names.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "num_jobs": {
+        "description": "Number of job threads.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 2,
+        "aliases": [
+          "j"
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "community.cassandra.cassandra_verify": {
+    "short_description": "Checks the data checksum for one or more tables.",
+    "description": "Checks the data checksum for one or more tables.",
+    "options": {
+      "keyspace": {
+        "description": "Optional keyspace.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "table": {
+        "description": "Optional table name or list of table names.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extended": {
+        "description": "Extended verify. Each cell data, beyond simply checking SSTable checksums.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "e"
+        ]
+      }
+    },
+    "deprecated": null
+  }
+}

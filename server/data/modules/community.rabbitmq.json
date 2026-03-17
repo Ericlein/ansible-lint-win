@@ -1,0 +1,344 @@
+{
+  "community.rabbitmq.rabbitmq_feature_flag": {
+    "short_description": "Enables feature flag",
+    "description": "Allows to enable specified feature flag.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.rabbitmq.rabbitmq_global_parameter": {
+    "short_description": "Manage RabbitMQ global parameters",
+    "description": "Manage dynamic, cluster-wide global parameters for RabbitMQ",
+    "options": {},
+    "deprecated": null
+  },
+  "community.rabbitmq.rabbitmq_plugin": {
+    "short_description": "Manage RabbitMQ plugins",
+    "description": "This module can be used to enable or disable RabbitMQ plugins.",
+    "options": {
+      "names": {
+        "description": "Comma-separated list of plugin names. Also, accepts plugin name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "new_only": {
+        "description": "Only enable missing plugins. Does not disable plugins that are not in the names list.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specify if plugins are to be enabled or disabled.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "enabled",
+        "aliases": null
+      },
+      "broker_state": {
+        "description": "Specify whether the broker should be online or offline for the plugin change.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "online",
+          "offline"
+        ],
+        "default": "online",
+        "aliases": null
+      },
+      "prefix": {
+        "description": "Specify a custom install prefix to a Rabbit.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.rabbitmq.rabbitmq_policy": {
+    "short_description": "Manage the state of policies in RabbitMQ",
+    "description": "Manage the state of a policy in RabbitMQ using rabbitmqctl or REST APIs.",
+    "options": {
+      "name": {
+        "description": "The name of the policy to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vhost": {
+        "description": "The name of the vhost to apply to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "/",
+        "aliases": null
+      },
+      "apply_to": {
+        "description": "What the policy applies to. Requires RabbitMQ 3.2.0 or later. For classic_queues, quorum_queues and streams RabbitMQ 3.12 or later is required",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "all",
+          "exchanges",
+          "queues",
+          "classic_queues",
+          "quorum_queues",
+          "streams"
+        ],
+        "default": "all",
+        "aliases": null
+      },
+      "pattern": {
+        "description": "A regex of queues to apply the policy to. Required when C(state=present). This option is no longer required as of Ansible 2.9.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict or string describing the policy. Required when C(state=present). This option is no longer required as of Ansible 2.9.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "priority": {
+        "description": "The priority of the policy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.rabbitmq.rabbitmq_publish": {
+    "short_description": "Publish a message to a RabbitMQ queue.",
+    "description": "Publish a message on a RabbitMQ queue using a blocking connection.",
+    "options": {
+      "url": {
+        "description": "An URL connection string to connect to the RabbitMQ server. I(url) and I(host)/I(port)/I(user)/I(pass)/I(vhost) are mutually exclusive, use either or but not both.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "proto": {
+        "description": "The protocol to use.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "amqps",
+          "amqp"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "The RabbitMQ server hostname or IP.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "The RabbitMQ server port.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "The RabbitMQ username.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "The RabbitMQ password.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vhost": {
+        "description": "The virtual host to target. If default vhost is required, use C(",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.rabbitmq.rabbitmq_upgrade": {
+    "short_description": "Execute rabbitmq-upgrade commands",
+    "description": "Allows to execute rabbitmq-upgrade commands",
+    "options": {},
+    "deprecated": null
+  },
+  "community.rabbitmq.rabbitmq_user": {
+    "short_description": "Manage RabbitMQ users",
+    "description": "Add or remove users to RabbitMQ and assign permissions",
+    "options": {
+      "user": {
+        "description": "Name of user to add",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "username",
+          "name"
+        ]
+      },
+      "password": {
+        "description": "Password of user to add. To change the password of an existing user, you must also specify C(update_password=always).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "User tags specified as comma delimited. The suggested tags to use are management, policymaker, monitoring and administrator.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "permissions": {
+        "description": "a list of dicts, each dict contains vhost, configure_priv, write_priv, and read_priv, and represents a permission rule for that vhost. This option should be preferable when you care about all permissions of the user. You should use vhost, configure_priv, write_priv, and read_priv options instead if you care about permissions for just some vhosts.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "vhost": {
+        "description": "vhost to apply access privileges. This option will be ignored when permissions option is used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "/",
+        "aliases": null
+      },
+      "node": {
+        "description": "erlang node name of the rabbit we wish to configure",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "rabbit",
+        "aliases": null
+      },
+      "configure_priv": {
+        "description": "Regular expression to restrict configure actions on a resource for the specified vhost. By default all actions are restricted. This option will be ignored when permissions option is used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.rabbitmq.rabbitmq_user_limits": {
+    "short_description": "Manage RabbitMQ user limits",
+    "description": "Manage the state of user limits in RabbitMQ. Supported since RabbitMQ version 3.8.10.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.rabbitmq.rabbitmq_vhost": {
+    "short_description": "Manage the state of a virtual host in RabbitMQ",
+    "description": "Manage the state of a virtual host in RabbitMQ using rabbitmqctl or REST APIs.",
+    "options": {
+      "name": {
+        "description": "The name of the vhost to manage",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "vhost"
+        ]
+      },
+      "node": {
+        "description": "erlang node name of the rabbit we wish to configure",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "rabbit",
+        "aliases": null
+      },
+      "tracing": {
+        "description": "Enable/disable tracing for a vhost",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "trace"
+        ]
+      },
+      "state": {
+        "description": "The state of vhost",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "login_user": {
+        "description": "RabbitMQ user for connection.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.rabbitmq.rabbitmq_vhost_limits": {
+    "short_description": "Manage the state of virtual host limits in RabbitMQ",
+    "description": "This module sets/clears certain limits on a virtual host. The configurable limits are I(max_connections) and I(max-queues).",
+    "options": {
+      "max_connections": {
+        "description": "Max number of concurrent client connections. Negative value means",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

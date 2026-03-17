@@ -1,0 +1,91 @@
+{
+  "netapp.azure.azure_rm_netapp_account": {
+    "short_description": "Manage NetApp Azure Files Account",
+    "description": "Create and delete NetApp Azure account. Provide the Resource group name for the NetApp account to be created.",
+    "options": {
+      "name": {
+        "description": "The name of the NetApp account.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "location": {
+        "description": "Resource location. Required for create.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "active_directories": {
+        "description": "list of active directory dictionaries. The list is currently limited to a single active directory (ANF or Azure limit of one AD per subscription).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "netapp.azure.azure_rm_netapp_snapshot": {
+    "short_description": "Manage NetApp Azure Files Snapshot",
+    "description": "Create and delete NetApp Azure Snapshot.",
+    "options": {
+      "name": {
+        "description": "The name of the snapshot.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "volume_name": {
+        "description": "The name of the volume.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool_name": {
+        "description": "The name of the capacity pool.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "account_name": {
+        "description": "The name of the NetApp account.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "location": {
+        "description": "Resource location. Required for create.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State C(present) will check that the snapshot exists with the requested configuration. State C(absent) will delete the snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

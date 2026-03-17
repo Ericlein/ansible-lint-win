@@ -1,0 +1,299 @@
+{
+  "community.proxmox.proxmox": {
+    "short_description": "Management of instances in Proxmox VE cluster",
+    "description": "Allows you to create/delete/stop instances in Proxmox VE cluster. The module automatically detects containerization type (lxc for PVE 4, openvz for older).",
+    "options": {
+      "password": {
+        "description": "The instance root password.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hostname": {
+        "description": "The instance hostname. Required only for O(state=present). Must be unique if vmid is not passed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ostemplate": {
+        "description": "The template for VM creating. Required only for O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disk": {
+        "description": "This option was previously described as",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_access_acl": {
+    "short_description": "Manages ACLs on the Proxmox PVE cluster",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_backup": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_backup_info": {
+    "short_description": "Retrieve information on Proxmox scheduled backups",
+    "description": "Retrieve information such as backup times, VM name, VM ID, mode, backup type, and backup schedule using the Proxmox Server API.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_backup_schedule": {
+    "short_description": "Schedule VM backups and removing them",
+    "description": "The module modifies backup jobs such as set or delete C(vmid).",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_cluster_ha_groups": {
+    "short_description": "Management of HA groups in Proxmox VE Cluster",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_cluster_ha_resources": {
+    "short_description": "Management of HA groups in Proxmox VE Cluster",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_cluster_join_info": {
+    "short_description": "Retrieve the join information of the Proxmox VE cluster",
+    "description": "Retrieve the join information of the Proxmox VE cluster.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_cluster_status_info": {
+    "short_description": "Retrieve Proxmox VE cluster status information",
+    "description": "Retrieve status information about the Proxmox VE cluster. Returns information about both the cluster itself and the nodes within it.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_disk": {
+    "short_description": "Management of a disk of a Qemu(KVM) VM in a Proxmox VE cluster",
+    "description": "Allows you to perform some supported operations on a disk in Qemu(KVM) Virtual Machines in a Proxmox VE cluster.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_firewall": {
+    "short_description": "Manage firewall rules in Proxmox",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_firewall_info": {
+    "short_description": "Manage firewall rules in Proxmox",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_group": {
+    "short_description": "Group management for Proxmox VE cluster",
+    "description": "Create or delete a user group for Proxmox VE clusters.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_ipam_info": {
+    "short_description": "Retrieve information about IPAMs.",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_kvm": {
+    "short_description": "Management of Qemu(KVM) Virtual Machines in Proxmox VE cluster",
+    "description": "Allows you to create/delete/stop Qemu(KVM) Virtual Machines in Proxmox VE cluster.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_nic": {
+    "short_description": "Management of a NIC of a Qemu(KVM) VM in a Proxmox VE cluster",
+    "description": "Allows you to create/update/delete a NIC on Qemu(KVM) Virtual Machines in a Proxmox VE cluster.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_node_info": {
+    "short_description": "Retrieve information about one or more Proxmox VE nodes",
+    "description": "Retrieve information about one or more Proxmox VE nodes.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_node_network": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_node_network_info": {
+    "short_description": "Retrieve information about Proxmox VE node network interfaces",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_pool": {
+    "short_description": "Pool management for Proxmox VE cluster",
+    "description": "Create or delete a pool for Proxmox VE clusters. For pool members management please consult M(community.proxmox.proxmox_pool_member) module.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_pool_member": {
+    "short_description": "Add or delete members from Proxmox VE cluster pools",
+    "description": "Create or delete a pool member in Proxmox VE clusters.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_role": {
+    "short_description": "Role management for Proxmox VE cluster",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_sendkey": {
+    "short_description": "Send key presses to a Proxmox VM console",
+    "description": "Uses the Proxmox API to send a sequence of key presses to the console of a VM. Keys can be specified explicitly or derived from a plain text string.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_snap_info": {
+    "short_description": "Snapshot management of instances in Proxmox VE cluster",
+    "description": "Allows you to list snapshots from instances in Proxmox VE cluster. Supports both KVM and LXC, OpenVZ has not been tested, as it is no longer supported on Proxmox VE.",
+    "options": {
+      "hostname": {
+        "description": "The instance name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vmid": {
+        "description": "The instance ID. If not set, will be fetched from PromoxAPI based on the hostname.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapname": {
+        "description": "Name of the snapshot that has to be listed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_subnet": {
+    "short_description": "Create/Update/Delete subnets from SDN",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_tasks_info": {
+    "short_description": "Retrieve information about one or more Proxmox VE tasks",
+    "description": "Retrieve information about one or more Proxmox VE tasks.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_template": {
+    "short_description": "Management of OS templates in Proxmox VE cluster",
+    "description": "Allows you to upload/delete templates in Proxmox VE cluster.",
+    "options": {
+      "node": {
+        "description": "Proxmox VE node on which to operate.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "src": {
+        "description": "Path to uploaded file. Exactly one of O(src) or O(url) is required for O(state=present).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "url": {
+        "description": "URL to file to download. Exactly one of O(src) or O(url) is required for O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template": {
+        "description": "The template name. Required for O(state=absent) to delete a template. Required for O(state=present) to download an appliance container template (pveam).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_type": {
+        "description": "Content type of the template. Valid values are V(vztmpl) for LXC container templates, V(iso) for ISO disc images, and V(import) for harddisk images and Open Virtual Appliances (OVA).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_user": {
+    "short_description": "User management for Proxmox VE cluster",
+    "description": "Create or delete a user for Proxmox VE clusters.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_vm_info": {
+    "short_description": "Retrieve information about one or more Proxmox VE virtual machines",
+    "description": "Retrieve information about one or more Proxmox VE virtual machines.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_vnet": {
+    "short_description": "Manage virtual networks in Proxmox SDN.",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_vnet_info": {
+    "short_description": "Retrieve information about one or more Proxmox VE SDN vnets.",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_zone": {
+    "short_description": "Manage Proxmox zone configurations.",
+    "description": "Create/Update/Delete proxmox sdn zones.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_zone_info": {
+    "short_description": "Get Proxmox zone info.",
+    "description": "List all available zones.",
+    "options": {},
+    "deprecated": null
+  }
+}

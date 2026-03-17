@@ -1,0 +1,68 @@
+{
+  "splunk.itsi.itsi_add_episode_comments": {
+    "short_description": "Add comments to Splunk ITSI episodes",
+    "description": "Add comments to existing episodes in Splunk IT Service Intelligence (ITSI). Comments are associated with a specific episode and can provide context or status updates. Every invocation creates a new comment; comments cannot be updated or deleted via the API.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.itsi.itsi_aggregation_policy": {
+    "short_description": "Manage Splunk ITSI aggregation policies",
+    "description": "Create, update, and delete aggregation policies in Splunk IT Service Intelligence (ITSI). An aggregation policy determines how notable events are grouped together into episodes. Uses the ITSI Event Management Interface REST API for CRUD operations. For querying/listing policies, use the C(itsi_aggregation_policy_info) module.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.itsi.itsi_aggregation_policy_info": {
+    "short_description": "Get information about Splunk ITSI aggregation policies",
+    "description": "Retrieve information about aggregation policies in Splunk IT Service Intelligence (ITSI). Query by policy_id for a specific policy, by title for all matching policies, or list all policies. This is a read-only module that does not modify any policies. Uses the ITSI Event Management Interface REST API.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.itsi.itsi_correlation_search": {
+    "short_description": "Manage Splunk ITSI correlation searches",
+    "description": "Create, update, and delete correlation searches in Splunk IT Service Intelligence (ITSI). A correlation search is a recurring search that generates a notable event when search results meet specific conditions. Multi-KPI alerts are a type of correlation search. Uses the ITSI Event Management Interface REST API for full CRUD operations. For querying correlation searches, use the C(itsi_correlation_search_info) module.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.itsi.itsi_correlation_search_info": {
+    "short_description": "Query Splunk ITSI correlation searches",
+    "description": "Retrieve information about correlation searches in Splunk IT Service Intelligence (ITSI). Query a specific correlation search by ID or name, or list all correlation searches. This is a read-only info module that does not make any changes. Uses the ITSI Event Management Interface REST API.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.itsi.itsi_episode_details_info": {
+    "short_description": "Read Splunk ITSI notable_event_group (episodes)",
+    "description": "Reads a single episode by _key, lists episodes, or returns only a count using the ITSI Event Management Interface. Requires ansible_connection=httpapi and ansible_network_os=splunk.itsi.itsi_api_client.\n",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.itsi.itsi_glass_table": {
+    "short_description": "Manage Splunk ITSI Glass Table objects via itoa_interface",
+    "description": "Create, update, or delete Splunk ITSI Glass Table objects using the itoa_interface REST API. Glass table titles are NOT unique; multiple glass tables can share the same title. The glass table C(_key) is the unique identifier. Provide C(glass_table_id) to update or delete. When C(glass_table_id) is omitted with C(state=present), a new glass table is always created. Uses the splunk.itsi.itsi_api_client httpapi plugin for authentication and transport. For more information on glass tables see U(https://help.splunk.com/en/splunk-it-service-intelligence/splunk-it-service-intelligence/visualize-and-assess-service-health/4.19/glass-tables/overview-of-the-glass-table-editor-in-itsi).",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.itsi.itsi_glass_table_info": {
+    "short_description": "Read Splunk ITSI glass table objects via itoa_interface",
+    "description": "Reads a single glass table by C(_key) or lists glass tables with optional server-side filtering, pagination, and sorting. Uses the splunk.itsi.itsi_api_client httpapi plugin for authentication and transport.",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.itsi.itsi_service": {
+    "short_description": "Manage Splunk ITSI Service objects via itoa_interface",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.itsi.itsi_service_info": {
+    "short_description": "Gather facts about Splunk ITSI Service objects via itoa_interface",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "splunk.itsi.itsi_update_episode_details": {
+    "short_description": "Update specific fields of Splunk ITSI episodes",
+    "description": "Update specific fields of existing episodes in Splunk IT Service Intelligence (ITSI). Uses partial data updates to modify only the specified fields without affecting other episode data. Supports common episode fields like severity, status, owner, and instruction.",
+    "options": {},
+    "deprecated": null
+  }
+}

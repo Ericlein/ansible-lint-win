@@ -1,0 +1,267 @@
+{
+  "kubernetes.core.helm": {
+    "short_description": "Manages Kubernetes packages with the Helm package manager",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "kubernetes.core.helm_info": {
+    "short_description": "Get information from Helm package deployed inside the cluster",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "kubernetes.core.helm_plugin": {
+    "short_description": "Manage Helm plugins",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "kubernetes.core.helm_plugin_info": {
+    "short_description": "Gather information about Helm plugins",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "kubernetes.core.helm_pull": {
+    "short_description": "download a chart from a repository and (optionally) unpack it in local directory.",
+    "description": "Retrieve a package from a package repository, and download it locally. It can also be used to perform cryptographic verification of a chart without installing the chart. There are options for unpacking the chart after download.",
+    "options": {},
+    "deprecated": null
+  },
+  "kubernetes.core.helm_registry_auth": {
+    "short_description": "Helm registry authentication module",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "kubernetes.core.helm_repository": {
+    "short_description": "Manage Helm repositories.",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "kubernetes.core.helm_template": {
+    "short_description": "Render chart templates",
+    "description": "Render chart templates to an output directory or as text of concatenated yaml documents.",
+    "options": {},
+    "deprecated": null
+  },
+  "kubernetes.core.k8s": {
+    "short_description": "Manage Kubernetes (K8s) objects",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "kubernetes.core.k8s_cluster_info": {
+    "short_description": "Describe Kubernetes (K8s) cluster, APIs available and their respective versions",
+    "description": "Use the Kubernetes Python client to perform read operations on K8s objects. Authenticate using either a config file, certificates, password or token. Supports check mode.",
+    "options": {
+      "invalidate_cache": {
+        "description": "Invalidate cache before retrieving information about cluster.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "kubernetes.core.k8s_cp": {
+    "short_description": "Copy files and directories to and from pod.",
+    "description": "Use the Kubernetes Python client to copy files and directories to and from containers inside a pod.",
+    "options": {},
+    "deprecated": null
+  },
+  "kubernetes.core.k8s_drain": {
+    "short_description": "Drain, Cordon, or Uncordon node in k8s cluster",
+    "description": "Drain node in preparation for maintenance same as kubectl drain. Cordon will mark the node as unschedulable. Uncordon will mark the node as schedulable. The given node will be marked unschedulable to prevent new pods from arriving. Then drain deletes all pods except mirror pods (which cannot be deleted through the API server).",
+    "options": {
+      "state": {
+        "description": "Determines whether to drain, cordon, or uncordon node.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "cordon",
+          "drain",
+          "uncordon"
+        ],
+        "default": "drain",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the node.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pod_selectors": {
+        "description": "Label selector to filter pods on the node. This option has effect only when C(state) is set to I(drain).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "label_selectors"
+        ]
+      },
+      "delete_options": {
+        "description": "Specify options to delete pods. This option has effect only when C(state) is set to I(drain).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "kubernetes.core.k8s_exec": {
+    "short_description": "Execute command in Pod",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "kubernetes.core.k8s_info": {
+    "short_description": "Describe Kubernetes (K8s) objects",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "kubernetes.core.k8s_json_patch": {
+    "short_description": "Apply JSON patch operations to existing objects",
+    "description": "This module is used to apply RFC 6902 JSON patch operations only. Use the M(kubernetes.core.k8s) module for strategic merge or JSON merge operations. The jsonpatch library is required for check mode.",
+    "options": {
+      "api_version": {
+        "description": "Use to specify the API version. Use in conjunction with I(kind), I(name), and I(namespace) to identify a specific object.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "v1",
+        "aliases": [
+          "api",
+          "version"
+        ]
+      },
+      "hidden_fields": {
+        "description": "List of fields to hide from the diff output. This is useful for fields that are not relevant to the patch operation, such as `metadata.managedFields`.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "kind": {
+        "description": "Use to specify an object model. Use in conjunction with I(api_version), I(name), and I(namespace) to identify a specific object.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "namespace": {
+        "description": "Use to specify an object namespace. Use in conjunction with I(api_version), I(kind), and I(name) to identify a specific object.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Use to specify an object name. Use in conjunction with I(api_version), I(kind), and I(namespace) to identify a specific object.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "patch": {
+        "description": "List of JSON patch operations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "kubernetes.core.k8s_log": {
+    "short_description": "Fetch logs from Kubernetes resources",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "kubernetes.core.k8s_rollback": {
+    "short_description": "Rollback Kubernetes (K8S) Deployments and DaemonSets",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "kubernetes.core.k8s_scale": {
+    "short_description": "Set a new size for a Deployment, ReplicaSet, Replication Controller, or Job.",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "kubernetes.core.k8s_service": {
+    "short_description": "Manage Services on Kubernetes",
+    "description": "Use Kubernetes Python SDK to manage Services on Kubernetes",
+    "options": {
+      "merge_type": {
+        "description": "Whether to override the default patch merge approach with a specific type. By default, the strategic merge will typically be used. For example, Custom Resource Definitions typically aren",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "kubernetes.core.k8s_taint": {
+    "short_description": "Taint a node in a Kubernetes/OpenShift cluster",
+    "description": "Taint allows a node to refuse Pod to be scheduled unless that Pod has a matching toleration. Untaint will remove taints from nodes as needed.",
+    "options": {
+      "state": {
+        "description": "Determines whether to add or remove taints.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the node.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "taints": {
+        "description": "List containing the taints.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "replace": {
+        "description": "If C(true), allow taints to be replaced.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

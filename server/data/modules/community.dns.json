@@ -1,0 +1,338 @@
+{
+  "community.dns.adguardhome_rewrite": {
+    "short_description": "Add, update or delete DNS rewrite rules from AdGuardHome",
+    "description": "Add, update or delete DNS rewrite rules from AdGuardHome.",
+    "options": {
+      "state": {
+        "description": "Wether a rewrite rule should be added/updated (O(state=present)) or removed (O(state=absent)).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "domain": {
+        "description": "Domain or wildcard domain that you want to be rewritten by AdGuardHome.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "answer": {
+        "description": "Value for the domain rewrite. Required when O(state=present). Value can be a CNAME, A or AAAA record.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.dns.adguardhome_rewrite_info": {
+    "short_description": "Retrieve DNS rewrite rules from AdGuardHome",
+    "description": "Retrieves DNS rewrite rules from AdGuardHome.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.dns.hetzner_dns_record": {
+    "short_description": "Add or delete a single record in Hetzner DNS service",
+    "description": "Creates and deletes single DNS records in Hetzner DNS service. If you do not want to add/remove values, but replace values, you will be interested in modifying a B(record set) and not a single record. This is in particular important when working with C(CNAME) and C(SOA) records. Use the M(community.dns.hetzner_dns_record_set) module for working with record sets.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.dns.hetzner_dns_record_info": {
+    "short_description": "Retrieve records in Hetzner DNS service",
+    "description": "Retrieves DNS records in Hetzner DNS service.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.dns.hetzner_dns_record_set": {
+    "short_description": "Add or delete record sets in Hetzner DNS service",
+    "description": "Creates and deletes DNS record sets in Hetzner DNS service.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.dns.hetzner_dns_record_set_info": {
+    "short_description": "Retrieve record sets in Hetzner DNS service",
+    "description": "Retrieves DNS record sets in Hetzner DNS service.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.dns.hetzner_dns_record_sets": {
+    "short_description": "Bulk synchronize DNS record sets in Hetzner DNS service",
+    "description": "Bulk synchronize DNS record sets in Hetzner DNS service.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.dns.hetzner_dns_zone_info": {
+    "short_description": "Retrieve zone information in Hetzner DNS service",
+    "description": "Retrieves zone information in Hetzner DNS service.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.dns.hosttech_dns_record": {
+    "short_description": "Add or delete a single record in Hosttech DNS service",
+    "description": "Creates and deletes single DNS records in Hosttech DNS service. This module replaces C(hosttech_dns_record) from community.dns before 2.0.0. If you do not want to add/remove values, but replace values, you will be interested in modifying a B(record set) and not a single record. This is in particular important when working with C(CNAME) and C(SOA) records. Use the M(community.dns.hosttech_dns_record_set) module for working with record sets.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.dns.hosttech_dns_record_info": {
+    "short_description": "Retrieve records in Hosttech DNS service",
+    "description": "Retrieves DNS records in Hosttech DNS service.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.dns.hosttech_dns_record_set": {
+    "short_description": "Add or delete record sets in Hosttech DNS service",
+    "description": "Creates and deletes DNS record sets in Hosttech DNS service. This module replaces C(hosttech_dns_record) from community.dns before 2.0.0.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.dns.hosttech_dns_record_set_info": {
+    "short_description": "Retrieve record sets in Hosttech DNS service",
+    "description": "Retrieves DNS record sets in Hosttech DNS service. This module was renamed from C(community.dns.hosttech_dns_record_info) to M(community.dns.hosttech_dns_record_set_info) in community.dns 2.0.0.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.dns.hosttech_dns_record_sets": {
+    "short_description": "Bulk synchronize DNS record sets in Hosttech DNS service",
+    "description": "Bulk synchronize DNS record sets in Hosttech DNS service. This module replaces C(hosttech_dns_records) from community.dns before 2.0.0.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.dns.hosttech_dns_zone_info": {
+    "short_description": "Retrieve zone information in Hosttech DNS service",
+    "description": "Retrieves zone information in Hosttech DNS service.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.dns.nameserver_info": {
+    "short_description": "Look up nameservers for a DNS name",
+    "description": "Retrieve all nameservers that are responsible for a DNS name.",
+    "options": {
+      "name": {
+        "description": "A list of DNS names whose nameservers to retrieve.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resolve_addresses": {
+        "description": "Whether to resolve the nameserver names to IP addresses.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "query_retry": {
+        "description": "Number of retries for DNS query timeouts.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3,
+        "aliases": null
+      },
+      "query_timeout": {
+        "description": "Timeout per DNS query in seconds.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "always_ask_default_resolver": {
+        "description": "When set to V(true) (default), will use the default resolver to find the authoritative nameservers of a subzone. See O(server) for how to configure the default resolver. When set to V(false), will use the authoritative nameservers of the parent zone to find the authoritative nameservers of a subzone. This only makes sense when the nameservers were recently changed and have not yet propagated.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "servfail_retries": {
+        "description": "How often to retry on SERVFAIL errors.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "server": {
+        "description": "The DNS server(s) to use to look up the result. Must be a list of one or more IP addresses. By default, the system",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.dns.nameserver_record_info": {
+    "short_description": "Look up all records of a type from all nameservers for a DNS name",
+    "description": "Given a DNS name and a record type, will retrieve all nameservers that are responsible for this DNS name, and from them all records for this name of the given type.",
+    "options": {
+      "name": {
+        "description": "A list of DNS names whose nameservers to retrieve.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "The record type to retrieve. Support for V(HTTPS) and V(SVCB) has been added in community.dns 3.4.0.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "A",
+          "AAAA",
+          "CAA",
+          "CNAME",
+          "DNAME",
+          "DNSKEY",
+          "DS",
+          "HINFO",
+          "HTTPS",
+          "LOC",
+          "MX",
+          "NAPTR",
+          "NS",
+          "NSEC",
+          "NSEC3",
+          "NSEC3PARAM",
+          "PTR",
+          "RP",
+          "RRSIG",
+          "SOA",
+          "SPF",
+          "SRV",
+          "SSHFP",
+          "SVCB",
+          "TLSA",
+          "TXT"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "query_retry": {
+        "description": "Number of retries for DNS query timeouts.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3,
+        "aliases": null
+      },
+      "query_timeout": {
+        "description": "Timeout per DNS query in seconds.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "always_ask_default_resolver": {
+        "description": "When set to V(true) (default), will use the default resolver to find the authoritative nameservers of a subzone. See O(server) for how to configure the default resolver. When set to V(false), will use the authoritative nameservers of the parent zone to find the authoritative nameservers of a subzone. This only makes sense when the nameservers were recently changed and have not yet propagated.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "servfail_retries": {
+        "description": "How often to retry on SERVFAIL errors.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "server": {
+        "description": "The DNS server(s) to use to look up the result. Must be a list of one or more IP addresses. By default, the system",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.dns.wait_for_txt": {
+    "short_description": "Wait for TXT entries to be available on all authoritative nameservers",
+    "description": "Wait for TXT entries with specific values to show up on B(all) authoritative nameservers for the DNS name.",
+    "options": {
+      "records": {
+        "description": "A list of DNS names with TXT entries to look out for.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "query_retry": {
+        "description": "Number of retries for DNS query timeouts.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3,
+        "aliases": null
+      },
+      "query_timeout": {
+        "description": "Timeout per DNS query in seconds.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Global timeout for waiting for all records in seconds. If not set, will wait indefinitely.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_sleep": {
+        "description": "Maximal amount of seconds to sleep between two rounds of probing the TXT records.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "always_ask_default_resolver": {
+        "description": "When set to V(true) (default), will use the default resolver to find the authoritative nameservers of a subzone. See O(server) for how to configure the default resolver. When set to V(false), will use the authoritative nameservers of the parent zone to find the authoritative nameservers of a subzone. This only makes sense when the nameservers were recently changed and have not yet propagated.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "servfail_retries": {
+        "description": "How often to retry on SERVFAIL errors.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "server": {
+        "description": "The DNS server(s) to use to look up the result. Must be a list of one or more IP addresses. By default, the system",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

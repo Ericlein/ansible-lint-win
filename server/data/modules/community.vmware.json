@@ -1,0 +1,3425 @@
+{
+  "community.vmware.vcenter_domain_user_group_info": {
+    "short_description": "Gather user or group information of a domain",
+    "description": "This module can be used to gather information about user or group of a domain.",
+    "options": {
+      "domain": {
+        "description": "The I(domain) to be specified searching.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "vsphere.local",
+        "aliases": null
+      },
+      "search_string": {
+        "description": "The I(search_string) is a string to be specified searching. Specify the domain user or group name to be searched.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "belongs_to_group": {
+        "description": "If a group existing, returned contains only users or groups that directly belong to the specified group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "belongs_to_user": {
+        "description": "If a user existing, returned contains only groups that directly contain the specified user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "exact_match": {
+        "description": "If V(true), it indicates the O(search_string) passed should match a user or group name exactly.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "find_users": {
+        "description": "If V(true), domain users will be included in the result.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "find_groups": {
+        "description": "If V(true), domain groups will be included in the result.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vcenter_extension": {
+    "short_description": "Register/deregister vCenter Extensions",
+    "description": "This module can be used to register/deregister vCenter Extensions.",
+    "options": {
+      "extension_key": {
+        "description": "The extension key of the extension to install or uninstall.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "version": {
+        "description": "The version of the extension you are installing or uninstalling.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Required for O(state=present). The name of the extension you are installing.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "company": {
+        "description": "Required for O(state=present). The name of the company that makes the extension.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Required for O(state=present). A short description of the extension.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "email": {
+        "description": "Required for O(state=present). Administrator email to use for extension.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "url": {
+        "description": "Required for O(state=present). Link to server hosting extension zip file to install.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl_thumbprint": {
+        "description": "Required for O(state=present). SSL thumbprint of the extension hosting server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_type": {
+        "description": "Required for O(state=present). Type of server being used to install the extension (SOAP, REST, HTTP, etc.).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "vsphere-client-serenity",
+        "aliases": null
+      },
+      "client_type": {
+        "description": "Required for O(state=present). Type of client the extension is (win32, .net, linux, etc.).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "vsphere-client-serenity",
+        "aliases": null
+      },
+      "visible": {
+        "description": "Show the extension in solution manager inside vCenter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Add or remove vCenter Extension.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vcenter_extension_info": {
+    "short_description": "Gather info vCenter extensions",
+    "description": "This module can be used to gather information about vCenter extension.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vcenter_root_password_expiration": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vcenter_standard_key_provider": {
+    "short_description": "Add, reconfigure or remove Standard Key Provider on vCenter server",
+    "description": "This module is used for adding, reconfiguring or removing Standard Key Provider on vCenter server. Refer to VMware docs for more information: L(Standard Key Provider, https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.security.doc/GUID-6DB1E745-9624-43EA-847C-DD2F767CB94B.html)\n",
+    "options": {
+      "name": {
+        "description": "Name of the Key Provider to be added, reconfigured or removed from vCenter.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mark_default": {
+        "description": "Set specified Key Provider with name O(name) as the default Key Provider. If new added Key Provider is the only key provider in vCenter, then will mark it as default after adding.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "If set to V(absent), the named Key Provider will be removed from vCenter. If set to V(present), the named existing Key Provider will be reconfigured or new Key Provider will be added.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "kms_info": {
+        "description": "The information of an external key server (KMS). O(kms_info[].kms_name), O(kms_info[].kms_ip) are required when adding a Standard Key Provider. If O(kms_info[].kms_port) is not specified, the default port 5696 will be used. O(kms_info[].kms_ip), O(kms_info[].kms_port) can be reconfigured for an existing KMS with name O(kms_info[].kms_name).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "proxy_server": {
+        "description": "Address of the proxy server to connect to KMS.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "proxy_port": {
+        "description": "Port of the proxy server.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kms_username": {
+        "description": "Username to authenticate to the KMS.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kms_password": {
+        "description": "Password to authenticate to the KMS.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "make_kms_trust_vc": {
+        "description": "After adding the Standard Key Provider to the vCenter Server, you can establish a trusted connection, the exact process depends on the certificates that the key provider accepts, and on your company policy. Three methods implemented here, (1) upload client certificate and private key through O(make_kms_trust_vc.upload_client_cert) and O(make_kms_trust_vc.upload_client_key) parameters, (2) generate, update, download vCenter self signed certificate through O(make_kms_trust_vc.download_self_signed_cert) parameter, (3) download generated Certificate Signing Request(CSR) through O(make_kms_trust_vc.download_client_csr) parameter, send it to KMS then upload the KMS signed CSR through O(make_kms_trust_vc.upload_kms_signed_client_csr) parameter. This is not set to be mandatory, if not set, please go to vCenter to setup trust connection with KMS manually.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_about_info": {
+    "short_description": "Provides information about VMware server to which user is connecting to",
+    "description": "This module can be used to gather information about VMware server to which user is trying to connect.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_category": {
+    "short_description": "Manage VMware categories",
+    "description": "This module can be used to create / delete / update VMware categories. Tag feature is introduced in vSphere 6 version, so this module is not supported in the earlier versions of vSphere.",
+    "options": {
+      "category_name": {
+        "description": "The name of category to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "category_description": {
+        "description": "The category description. This is required if O(state=present). This parameter is ignored when O(state=absent).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_category_info": {
+    "short_description": "Gather info about VMware tag categories",
+    "description": "This module can be used to gather information about VMware tag categories. Tag feature is introduced in vSphere 6 version, so this module is not supported in earlier versions of vSphere.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_cfg_backup": {
+    "short_description": "Backup / Restore / Reset ESXi host configuration",
+    "description": "This module can be used to perform various operations related to backup, restore and reset of ESXi host configuration.",
+    "options": {
+      "esxi_hostname": {
+        "description": "Name of ESXi server. This is required only if authentication against a vCenter is done.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dest": {
+        "description": "The destination where the ESXi configuration bundle will be saved. Can be a folder or a file. If a folder, the backup file will be saved in the folder with the default filename generated from the ESXi server. If a file, the backup file will be saved with that filename. The file extension will always be .tgz.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "src": {
+        "description": "The file containing the ESXi configuration that will be restored.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "If V(saved), the .tgz backup bundle will be saved in O(dest). If V(absent), the host configuration will be reset to default values. If V(loaded), the backup file in O(src) will be loaded to the ESXi host rewriting the hosts settings.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "saved",
+          "absent",
+          "loaded"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_cluster_vsan": {
+    "short_description": "Manages virtual storage area network (vSAN) configuration on VMware vSphere clusters",
+    "description": "Manages vSAN on VMware vSphere clusters.",
+    "options": {
+      "cluster_name": {
+        "description": "The name of the cluster to be managed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "datacenter": {
+        "description": "The name of the datacenter.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "datacenter_name"
+        ]
+      },
+      "enable": {
+        "description": "Whether to enable vSAN.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "vsan_auto_claim_storage": {
+        "description": "Whether the VSAN service is configured to automatically claim local storage on VSAN-enabled hosts in the cluster.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "advanced_options": {
+        "description": "Advanced VSAN Options.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_content_deploy_ovf_template": {
+    "short_description": "Deploy Virtual Machine from ovf template stored in content library.",
+    "description": "Module to deploy virtual machine from ovf template in content library.",
+    "options": {
+      "log_level": {
+        "description": "The level of logging desired in this module.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": "This module has been moved to the L(new vmware.vmware collection,https://forum.ansible.com/t/5880)"
+  },
+  "community.vmware.vmware_content_deploy_template": {
+    "short_description": "Deploy Virtual Machine from template stored in content library.",
+    "description": "Module to deploy virtual machine from template in content library. Content Library feature is introduced in vSphere 6.0 version. vmtx templates feature is introduced in vSphere 67U1 and APIs for clone template from content library in 67U2. This module does not work with vSphere version older than 67U2.",
+    "options": {
+      "log_level": {
+        "description": "The level of logging desired in this module.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": "This module has been moved to the L(new vmware.vmware collection,https://forum.ansible.com/t/5880)"
+  },
+  "community.vmware.vmware_content_library_info": {
+    "short_description": "Gather information about VMWare Content Library",
+    "description": "Module to list the content libraries. Module to get information about specific content library. Content Library feature is introduced in vSphere 6.0 version, so this module is not supported in the earlier versions of vSphere.",
+    "options": {
+      "library_id": {
+        "description": "content library id for which details needs to be fetched.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_content_library_manager": {
+    "short_description": "Create, update and delete VMware content library",
+    "description": "Module to manage VMware content Library Content Library feature is introduced in vSphere 6.0 version, so this module is not supported in the earlier versions of vSphere.",
+    "options": {
+      "library_name": {
+        "description": "The name of VMware content library to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "library_description": {
+        "description": "The content library description. This is required only if O(state=present). This parameter is ignored, when O(state=absent). Process of updating content library only allows description change.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "library_type": {
+        "description": "The content library type. This is required only if O(state=resent). This parameter is ignored, when O(state=absent).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": "This module has been moved to the L(new vmware.vmware collection,https://forum.ansible.com/t/5880)"
+  },
+  "community.vmware.vmware_custom_attribute": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_custom_attribute_manager": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_datacenter": {
+    "short_description": "Manage VMware vSphere Datacenters",
+    "description": "This module can be used to manage (create, delete) VMware vSphere Datacenters.",
+    "options": {
+      "datacenter_name": {
+        "description": "The name of the datacenter the cluster will be created in.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "If the datacenter should be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_datastore": {
+    "short_description": "Configure Datastores",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_datastore_cluster": {
+    "short_description": "Manage VMware vSphere datastore clusters",
+    "description": "This module can be used to add and delete datastore cluster in given VMware environment.",
+    "options": {
+      "datacenter_name": {
+        "description": "The name of the datacenter. You must specify either a O(datacenter_name) or a O(folder). Mutually exclusive with O(folder) parameter.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "datacenter"
+        ]
+      },
+      "datastore_cluster_name": {
+        "description": "The name of the datastore cluster.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "If the datastore cluster should be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "folder": {
+        "description": "Destination folder, absolute path to place datastore cluster in. The folder should include the datacenter. You must specify either a O(folder) or a O(datacenter_name). ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_datastore_cluster_manager": {
+    "short_description": "Manage VMware vSphere datastore cluster",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_datastore_maintenancemode": {
+    "short_description": "Place a datastore into maintenance mode",
+    "description": "This module can be used to manage maintenance mode of a datastore.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_deploy_ovf": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_drs_group": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_drs_group_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_drs_group_manager": {
+    "short_description": "Manage VMs and Hosts in DRS group.",
+    "description": "The module can be used to add VMs / Hosts to or remove them from a DRS group.",
+    "options": {
+      "cluster": {
+        "description": "Cluster to which DRS group associated with.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "cluster_name"
+        ]
+      },
+      "datacenter": {
+        "description": "Name of the datacenter.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "datacenter_name"
+        ]
+      },
+      "group_name": {
+        "description": "The name of the group to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hosts": {
+        "description": "A List of hosts to add / remove in the group. Required if O(vms) is not set. O(hosts) and O(vms) are mutually exclusive parameters.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vms": {
+        "description": "A List of vms to add / remove in the group. Required if O(hosts) is not set. O(hosts) and O(vms) are mutually exclusive parameters.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "If set to V(present), VMs/hosts will be added to the given DRS group. If set to V(absent), VMs/hosts will be removed from the given DRS group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_drs_override": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_drs_rule_info": {
+    "short_description": "Gathers info about DRS rule on the given cluster",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_dvs_host": {
+    "short_description": "Add or remove a host from distributed virtual switch",
+    "description": "Manage a host system from distributed virtual switch.",
+    "options": {
+      "esxi_hostname": {
+        "description": "The ESXi hostname.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "switch_name": {
+        "description": "The name of the Distributed vSwitch.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vmnics": {
+        "description": "The ESXi hosts vmnics to use with the Distributed vSwitch. If unset, the current non-LAG uplinks will be kept. To remove all non-LAG uplinks, use the empty list V([]).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lag_uplinks": {
+        "description": "The ESXi hosts vmnics to use with specific LAGs. If unset, the current LAG uplinks will be kept. If set, LAG uplinks will be set to I(exactly) this list. So you always have to define the complete LAG uplink configuration; if you don",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_dvs_portgroup_find": {
+    "short_description": "Find portgroup(s) in a VMware environment",
+    "description": "Find portgroup(s) based on different criteria such as distributed vSwitch, VLAN id or a string in the name.",
+    "options": {
+      "dvswitch": {
+        "description": "Name of a distributed vSwitch to look for.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vlanid": {
+        "description": "VLAN id can be any number between 1 and 4094. This search criteria will looks into VLAN ranges to find possible matches.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "string to check inside the name of the portgroup. Basic containment check using python C(in) operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "show_uplink": {
+        "description": "Show or hide uplink portgroups. Only relevant when O(vlanid) is supplied.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_dvs_portgroup_info": {
+    "short_description": "Gathers info DVS portgroup configurations",
+    "description": "This module can be used to gather information about DVS portgroup configurations.",
+    "options": {
+      "datacenter": {
+        "description": "Name of the datacenter.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dvswitch": {
+        "description": "Name of a dvswitch to look for.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "show_mac_learning": {
+        "description": "Show or hide MAC learning information of the DVS portgroup.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "show_network_policy": {
+        "description": "Show or hide network policies of DVS portgroup.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "show_port_policy": {
+        "description": "Show or hide port policies of DVS portgroup.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "show_teaming_policy": {
+        "description": "Show or hide teaming policies of DVS portgroup.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "show_uplinks": {
+        "description": "Show or hide uplinks of DVS portgroup.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "show_vlan_info": {
+        "description": "Show or hide vlan information of the DVS portgroup.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_dvswitch_info": {
+    "short_description": "Gathers info dvswitch configurations",
+    "description": "This module can be used to gather information about dvswitch configurations.",
+    "options": {
+      "folder": {
+        "description": "Specify a folder location of dvswitch to gather information from. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_dvswitch_lacp": {
+    "short_description": "Manage LACP configuration on a Distributed Switch",
+    "description": "This module can be used to configure Link Aggregation Control Protocol (LACP) support mode and Link Aggregation Groups (LAGs).",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_evc_mode": {
+    "short_description": "Enable/Disable EVC mode on vCenter",
+    "description": "This module can be used to enable/disable EVC mode on vCenter.",
+    "options": {
+      "datacenter_name": {
+        "description": "The name of the datacenter the cluster belongs to that you want to enable or disable EVC mode on.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "datacenter"
+        ]
+      },
+      "cluster_name": {
+        "description": "The name of the cluster to enable or disable EVC mode on.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "cluster"
+        ]
+      },
+      "evc_mode": {
+        "description": "Required for O(state=present). The EVC mode to enable or disable on the cluster. (intel-broadwell, intel-nehalem, intel-merom, etc.).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Add or remove EVC mode.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_export_ovf": {
+    "short_description": "Exports a VMware virtual machine to an OVF file, device files and a manifest file",
+    "description": "This module can be used to export a VMware virtual machine to OVF template from vCenter server or ESXi host.\n",
+    "options": {
+      "name": {
+        "description": "Name of the virtual machine to export. This is a required parameter, if parameter O(uuid) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "Uuid of the virtual machine to export. This is a required parameter, if parameter O(name) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "moid": {
+        "description": "Managed Object ID of the instance to manage if known, this is a unique identifier only within a single vCenter instance. This is required if O(name) or O(uuid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "datacenter": {
+        "description": "Datacenter name of the virtual machine to export.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "ha-datacenter",
+        "aliases": null
+      },
+      "folder": {
+        "description": "Destination folder, absolute path to find the specified guest. The folder should include the datacenter. ESX datacenter is ha-datacenter. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_first_class_disk": {
+    "short_description": "Manage VMware vSphere First Class Disks",
+    "description": "This module can be used to manage (create, delete, resize) VMware vSphere First Class Disks.",
+    "options": {
+      "datacenter_name": {
+        "description": "The name of the datacenter.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "datastore_name": {
+        "description": "Name of datastore or datastore cluster to be used for the disk.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disk_name": {
+        "description": "The name of the disk.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "size": {
+        "description": "Disk storage size, an integer plus a unit. There is no space allowed in between size number and unit. Allowed units are MB, GB and TB. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_first_class_disk_info": {
+    "short_description": "Gather info about VMware vSphere First Class Disks",
+    "description": "This module can be used to gather information about VMware vSphere First Class Disks.",
+    "options": {
+      "datacenter_name": {
+        "description": "The name of the datacenter.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "datastore_name": {
+        "description": "Name of datastore or datastore cluster of the disk.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disk_name": {
+        "description": "The name of the disk. If not set return all found.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest": {
+    "short_description": "Manages virtual machines in vCenter",
+    "description": "This module can be used to create new virtual machines from templates or other virtual machines, manage power state of virtual machine such as power on, power off, suspend, shutdown, reboot, restart etc., modify various virtual machine components like network, disk, customization etc., rename a virtual machine and remove a virtual machine with associated components.\n",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_boot_info": {
+    "short_description": "Gather info about boot options for the given virtual machine",
+    "description": "Gather information about boot options for the given virtual machine.",
+    "options": {
+      "name": {
+        "description": "Name of the VM to work with. This is required if O(uuid) or O(moid) parameter is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the instance to manage if known, this is VMware",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_boot_manager": {
+    "short_description": "Manage boot options for the given virtual machine",
+    "description": "This module can be used to manage boot options for the given virtual machine.",
+    "options": {
+      "name": {
+        "description": "Name of the VM to work with. This is required if O(uuid) or O(moid) parameter is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the instance to manage if known, this is VMware",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_controller": {
+    "short_description": "Manage disk or USB controllers related to virtual machine in given vCenter infrastructure",
+    "description": "This module can be used to add, remove disk controllers or USB controllers belonging to given virtual machine.",
+    "options": {
+      "name": {
+        "description": "Name of the virtual machine. This is a required parameter, if parameter O(uuid) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the instance to gather facts if known, this is VMware",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_cross_vc_clone": {
+    "short_description": "Cross-vCenter VM/template clone",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_custom_attribute_defs": {
+    "short_description": "Manage custom attributes definitions for virtual machine from VMware",
+    "description": "This module can be used to add and remove custom attributes definitions for the given virtual machine from VMware.",
+    "options": {
+      "attribute_key": {
+        "description": "Name of the custom attribute definition. This is required parameter, if O(state=present) or O(state=absent).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Manage definition of custom attributes. If set to V(present) and definition not present, then custom attribute definition is created. If set to V(present) and definition is present, then no action taken. If set to V(absent) and definition is present, then custom attribute definition is removed. If set to V(absent) and definition is absent, then no action taken.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_custom_attributes": {
+    "short_description": "Manage custom attributes from VMware for the given virtual machine",
+    "description": "This module can be used to add, remove and update custom attributes for the given virtual machine.",
+    "options": {
+      "name": {
+        "description": "Name of the virtual machine to work with. This is required parameter, if O(uuid) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The action to take. If set to V(present), then custom attribute is added or updated. If set to V(absent), then custom attribute value is removed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_customization_info": {
+    "short_description": "Gather info about VM customization specifications",
+    "description": "This module can be used to gather information about customization specifications.",
+    "options": {
+      "spec_name": {
+        "description": "Name of customization specification to find.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_disk": {
+    "short_description": "Manage disks related to virtual machine in given vCenter infrastructure",
+    "description": "This module can be used to add, remove and update disks belonging to given virtual machine. This module is destructive in nature, please read documentation carefully before proceeding. Be careful while removing disk specified as this may lead to data loss.",
+    "options": {
+      "name": {
+        "description": "Name of the virtual machine. This is a required parameter, if parameter O(uuid) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the instance to gather facts if known, this is VMware",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_disk_info": {
+    "short_description": "Gather info about disks of given virtual machine",
+    "description": "This module can be used to gather information about disks belonging to given virtual machine.",
+    "options": {
+      "name": {
+        "description": "Name of the virtual machine. This is required parameter, if parameter O(uuid) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the instance to gather information if known, this is VMware",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_file_operation": {
+    "short_description": "Files operation in a VMware guest operating system without network",
+    "description": "Module to copy a file to a VM, fetch a file from a VM and create or delete a directory in the guest OS.",
+    "options": {
+      "datacenter": {
+        "description": "The datacenter hosting the virtual machine. If set, it will help to speed up virtual machine search.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster": {
+        "description": "The cluster hosting the virtual machine. If set, it will help to speed up virtual machine search.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "folder": {
+        "description": "Destination folder, absolute path to find an existing guest or create the new guest. The folder should include the datacenter. ESX",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_find": {
+    "short_description": "Find the folder path(s) for a virtual machine by name or UUID",
+    "description": "Find the folder path(s) for a virtual machine by name or UUID",
+    "options": {
+      "name": {
+        "description": "Name of the VM to work with. This is required if O(uuid) parameter is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the instance to manage if known, this is VMware",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_info": {
+    "short_description": "Gather info about a single VM",
+    "description": "Gather information about a single VM on a VMware ESX cluster.",
+    "options": {
+      "name": {
+        "description": "Name of the VM to work with This is required if O(uuid) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name_match": {
+        "description": "If multiple VMs matching the name, use the first or last found",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_move": {
+    "short_description": "Moves virtual machines in vCenter",
+    "description": "This module can be used to move virtual machines between folders.",
+    "options": {
+      "name": {
+        "description": "Name of the existing virtual machine to move. This is required if O(uuid) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the virtual machine to manage if known, this is VMware",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_network": {
+    "short_description": "Manage network adapters of specified virtual machine in given vCenter infrastructure",
+    "description": "This module is used to add, reconfigure, remove network adapter of given virtual machine.",
+    "options": {
+      "name": {
+        "description": "Name of virtual machine Required if O(uuid) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "vm uuid Required if O(name) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_instance_uuid": {
+        "description": "Whether to use the VMware instance UUID rather than the BIOS UUID.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "moid": {
+        "description": "Managed Object ID of the instance to manage if known, this is a unique identifier only within a single vCenter instance. Required if O(uuid) or O(name) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "folder": {
+        "description": "Folder location of given VM, this is only required when there",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_powerstate": {
+    "short_description": "Manages power states of virtual machines in vCenter",
+    "description": "Power on / Power off / Restart a virtual machine.",
+    "options": {
+      "datacenter": {
+        "description": "The datacenter where the VM you",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": "This module has been moved to the L(new vmware.vmware collection,https://forum.ansible.com/t/5880)"
+  },
+  "community.vmware.vmware_guest_register_operation": {
+    "short_description": "VM inventory registration operation",
+    "description": "This module can register or unregister VMs to the inventory.",
+    "options": {
+      "datacenter": {
+        "description": "Destination datacenter for the register/unregister operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "ha-datacenter",
+        "aliases": null
+      },
+      "cluster": {
+        "description": "Specify a cluster name to register VM.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "folder": {
+        "description": "Description folder, absolute path of the target folder. The folder should include the datacenter. ESX",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_screenshot": {
+    "short_description": "Create a screenshot of the Virtual Machine console.",
+    "description": "This module is used to take screenshot of the given virtual machine when virtual machine is powered on.",
+    "options": {
+      "name": {
+        "description": "Name of the virtual machine. This is a required parameter, if parameter O(uuid) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the instance to gather facts if known, this is VMware",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_sendkey": {
+    "short_description": "Send USB HID codes to the Virtual Machine",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_serial_port": {
+    "short_description": "Manage serial ports on an existing VM",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_snapshot_info": {
+    "short_description": "Gather info about virtual machine",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_storage_policy": {
+    "short_description": "Set VM Home and disk(s) storage policy profiles.",
+    "description": "This module can be used to enforce storage policy profiles per disk and/or VM Home on a virtual machine.",
+    "options": {
+      "name": {
+        "description": "Name of the virtual machine. One of O(name), O(uuid), or O(moid) are required to define the virtual machine.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the virtual machine. One of O(name), O(uuid), or O(moid) are required to define the virtual machine.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "moid": {
+        "description": "Managed Object ID of the instance to manage if known, this is a unique identifier only within a single vCenter instance. One of O(name), O(uuid), or O(moid) are required to define the virtual machine.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "folder": {
+        "description": "Destination folder, absolute or relative path to find an existing guest. This is a required parameter if multiple VMs are found with same name. The folder should include the datacenter. ESX",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_tools_info": {
+    "short_description": "Gather info about VMware tools installed in VM",
+    "description": "Gather information about the VMware tools installed in virtual machine.",
+    "options": {
+      "name": {
+        "description": "Name of the VM to get VMware tools info. This is required if O(uuid) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name_match": {
+        "description": "If multiple VMs matching the name, use the first or last found.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_tools_upgrade": {
+    "short_description": "Module to upgrade VMTools",
+    "description": "This module upgrades the VMware Tools on Windows and Linux guests and reboots them.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_tools_wait": {
+    "short_description": "Wait for VMware tools to become available",
+    "description": "This module can be used to wait for VMware tools to become available on the given VM and return facts.",
+    "options": {
+      "name": {
+        "description": "Name of the VM for which to wait until the tools become available. This is required if O(uuid) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name_match": {
+        "description": "If multiple VMs match the name, use the first or last found.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_tpm": {
+    "short_description": "Add or remove vTPM device for specified VM.",
+    "description": "This module is used for adding or removing Virtual Trusted Platform Module(vTPM) device for an existing Virtual Machine. You must create a key provider on vCenter before you can add a vTPM. The ESXi hosts running in your environment must be ESXi 6.7 or later (Windows guest OS), or 7.0 Update 2 (Linux guest OS).\n",
+    "options": {
+      "name": {
+        "description": "Name of the virtual machine. This is required if parameter O(uuid) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the instance to manage if known, this is VMware",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_vgpu": {
+    "short_description": "Modify vGPU video card profile of the specified virtual machine in the given vCenter infrastructure",
+    "description": "This module is used to reconfigure vGPU card profile of the given virtual machine. VM must be power off to reconfigure vGPU card profile.",
+    "options": {
+      "name": {
+        "description": "Name of the virtual machine. This is a required parameter, if parameter O(uuid) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the instance to gather facts if known, this is VMware",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_vgpu_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_guest_video": {
+    "short_description": "Modify video card configurations of specified virtual machine in given vCenter infrastructure",
+    "description": "This module is used to reconfigure video card settings of given virtual machine.",
+    "options": {
+      "name": {
+        "description": "Name of the virtual machine. This is a required parameter, if parameter O(uuid) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the instance to gather facts if known, this is VMware",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_acceptance": {
+    "short_description": "Manage the host acceptance level of an ESXi host",
+    "description": "This module can be used to manage the host acceptance level of an ESXi host. The host acceptance level controls the acceptance level of each VIB on a ESXi host.",
+    "options": {
+      "cluster_name": {
+        "description": "Name of the cluster. Acceptance level of all ESXi host system in the given cluster will be managed. If O(esxi_hostname) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "esxi_hostname": {
+        "description": "ESXi hostname. Acceptance level of this ESXi host system will be managed. If O(cluster_name) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "If set to V(partner), then accept only partner and VMware signed and certified VIBs. If set to V(vmware_certified), then accept only VIBs that are signed and certified by VMware. If set to V(vmware_accepted), then accept VIBs that have been accepted by VMware. If set to V(community), then accept all VIBs, even those that are not signed.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "community",
+          "partner",
+          "vmware_accepted",
+          "vmware_certified"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_acceptance_info": {
+    "short_description": "Gather host acceptance level of ESXi hosts",
+    "description": "This module can be used to gather the host acceptance level of ESXi hosts. The host acceptance level controls the acceptance level of each VIB on a ESXi host.",
+    "options": {
+      "cluster_name": {
+        "description": "Name of the cluster. Acceptance level of all ESXi host system in the given cluster will be gathered. If O(esxi_hostname) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "esxi_hostname": {
+        "description": "ESXi hostname. Acceptance level of this ESXi host system will be gathered. If O(cluster_name) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_active_directory": {
+    "short_description": "Joins an ESXi host system to an Active Directory domain or leaves it",
+    "description": "This module can be used to join or leave an ESXi host to or from an Active Directory domain.",
+    "options": {
+      "ad_domain": {
+        "description": "AD Domain to join.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_auto_start": {
+    "short_description": "Manage the auto power ON or OFF for vm on ESXi host",
+    "description": "In this module, can set up automatic startup and shutdown of virtual machines according to host startup or shutdown.",
+    "options": {
+      "esxi_hostname": {
+        "description": "ESXi hostname where the VM to set auto power on or off exists.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "VM name to set auto power on or off. This is not necessary if change only system default VM settings for autoStart config.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "VM uuid to set auto power on or off, this is VMware",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_capability_info": {
+    "short_description": "Gathers info about an ESXi host",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_config_info": {
+    "short_description": "Gathers info about an ESXi host",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_config_manager": {
+    "short_description": "Manage advanced system settings of an ESXi host",
+    "description": "This module can be used to manage advanced system settings of an ESXi host when ESXi hostname or Cluster name is given.",
+    "options": {
+      "cluster_name": {
+        "description": "Name of the cluster. Settings are applied to every ESXi host in given cluster. If O(esxi_hostname) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "esxi_hostname": {
+        "description": "ESXi hostname. Settings are applied to this ESXi host. If O(cluster_name) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "options": {
+        "description": "A dictionary of advanced system settings. Invalid options will cause module to error. Note that the list of advanced options (with description and values) can be found by running `vim-cmd hostsvc/advopt/options`.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_custom_attributes": {
+    "short_description": "Manage custom attributes from VMware for the given ESXi host",
+    "description": "This module can be used to add, remove and update custom attributes for the given ESXi host.",
+    "options": {
+      "esxi_hostname": {
+        "description": "Name of the ESXi host to work with. This is a required parameter",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The action to take. If set to V(present), then custom attribute is added or updated. If set to V(absent), then custom attribute is removed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_datastore": {
+    "short_description": "Manage a datastore on ESXi host",
+    "description": "This module can be used to mount/umount datastore on ESXi host. This module only supports NFS (NFS v3 or NFS v4.1) and VMFS datastores. For VMFS datastore, available device must already be connected on ESXi host.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_disk_info": {
+    "short_description": "Gathers information about disks attached to given ESXi host/s.",
+    "description": "This module returns information about disks attached to given ESXi host/s If O(cluster_name) is provided, then disk information about all hosts from the given cluster will be returned. If O(esxi_hostname) is provided, then disk information about the given host system will be returned.",
+    "options": {
+      "cluster_name": {
+        "description": "Name of the cluster from which the ESXi host belong to. If O(esxi_hostname) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "esxi_hostname": {
+        "description": "ESXi hostname to gather information from. If O(cluster_name) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_dns_info": {
+    "short_description": "Gathers info about an ESXi host",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_feature_info": {
+    "short_description": "Gathers info about an ESXi host",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_firewall_info": {
+    "short_description": "Gathers info about an ESXi host",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_firewall_manager": {
+    "short_description": "Manage firewall configurations about an ESXi host",
+    "description": "This module can be used to manage firewall configurations about an ESXi host when ESXi hostname or Cluster name is given.",
+    "options": {
+      "cluster_name": {
+        "description": "Name of the cluster. Firewall settings are applied to every ESXi host system in given cluster. If O(esxi_hostname) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "esxi_hostname": {
+        "description": "ESXi hostname. Firewall settings are applied to this ESXi host system. If O(cluster_name) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rules": {
+        "description": "A list of Rule set which needs to be managed. Each member of list is rule set name and state to be set the rule. Both rule name and rule state are required parameters. Additional IPs and networks can also be specified Please see examples for more information.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_graphics": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_hyperthreading": {
+    "short_description": "Enables/Disables Hyperthreading optimization for an ESXi host system",
+    "description": "This module can be used to enable or disable Hyperthreading optimization for ESXi host systems in given vCenter infrastructure. It also checks if Hyperthreading is activated/deactivated and if the host needs to be restarted. The module informs the user if Hyperthreading is enabled but inactive because the processor is vulnerable to L1 Terminal Fault (L1TF).",
+    "options": {
+      "state": {
+        "description": "Enable or disable Hyperthreading. You need to reboot the ESXi host if you change the configuration. Make sure that Hyperthreading is enabled in the BIOS. Otherwise, it will be enabled, but never activated.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_ipv6": {
+    "short_description": "Enables/Disables IPv6 support for an ESXi host system",
+    "description": "This module can be used to enable or disable IPv6 support for ESXi host systems in given vCenter infrastructure. It also checks if the host needs to be restarted.",
+    "options": {
+      "state": {
+        "description": "Enable or disable IPv6 support. You need to reboot the ESXi host if you change the configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_iscsi": {
+    "short_description": "Manage the iSCSI configuration of ESXi host",
+    "description": "In this module, can manage the iSCSI configuration of ESXi host",
+    "options": {
+      "esxi_hostname": {
+        "description": "The ESXi hostname on which to change iSCSI settings.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iscsi_config": {
+        "description": "The iSCSI configs. This parameter is required if O(state=present) or O(state=absent).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_iscsi_info": {
+    "short_description": "Gather iSCSI configuration information of ESXi host",
+    "description": "This module can be used to gather information about the iSCSI configuration of the ESXi host.",
+    "options": {
+      "esxi_hostname": {
+        "description": "The ESXi hostname on which to gather iSCSI settings.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_kernel_manager": {
+    "short_description": "Manage kernel module options on ESXi hosts",
+    "description": "This module can be used to manage kernel module options on ESXi hosts. All connected ESXi hosts in scope will be configured when specified. If a host is not connected at time of configuration, it will be marked as such in the output. Kernel module options may require a reboot to take effect which is not covered here. You can use M(ansible.builtin.reboot) or M(community.vmware.vmware_host_powerstate) module to reboot all ESXi host systems.",
+    "options": {
+      "esxi_hostname": {
+        "description": "Name of the ESXi host to work on. This parameter is required if O(cluster_name) is not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_name": {
+        "description": "Name of the VMware cluster to work on. All ESXi hosts in this cluster will be configured. This parameter is required if O(esxi_hostname) is not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kernel_module_name": {
+        "description": "Name of the kernel module to be configured.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kernel_module_option": {
+        "description": "Specified configurations will be applied to the given module. These values are specified in key=value pairs and separated by a space when there are multiple options.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_lockdown": {
+    "short_description": "Manage administrator permission for the local administrative account for the ESXi host",
+    "description": "This module can be used to manage administrator permission for the local administrative account for the host when ESXi hostname is given. This module is destructive as administrator permission are managed using APIs used, please read options carefully and proceed. Please specify O(hostname) as vCenter IP or hostname only, as lockdown operations are not possible from standalone ESXi server.",
+    "options": {
+      "cluster_name": {
+        "description": "Name of cluster. All host systems from given cluster used to manage lockdown. Required parameter, if O(esxi_hostname) is not set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "esxi_hostname": {
+        "description": "List of ESXi hostname to manage lockdown. Required parameter, if O(cluster_name) is not set. See examples for specifications.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of hosts system If set to V(disabled), all host systems will be removed from lockdown mode. If host system is already out of lockdown mode and set to V(disabled), no action will be taken. If set to V(normal), all host systems will be set in lockdown mode. If host system is already in lockdown mode and set to V(normal), no action will be taken. If set to V(strict), all host systems will be set in strict lockdown mode. If host system is already in strict lockdown mode and set to V(strict), no action will be taken.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disabled",
+          "normal",
+          "strict"
+        ],
+        "default": "normal",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_lockdown_exceptions": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_logbundle": {
+    "short_description": "Fetch logbundle file from ESXi",
+    "description": "This module can be used to fetch logbundle file from ESXi.",
+    "options": {
+      "esxi_hostname": {
+        "description": "Name of the host system to fetch the logbundle.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dest": {
+        "description": "file destination on localhost, path must be exist.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "download_timeout": {
+        "description": "The user defined timeout in seconds of exporting the log file. The default of the function this module uses is so low that you have to set this this to a higher value in all probabilty.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "manifests": {
+        "description": "Logs to include in the logbundle file. Refer to the id key of the M(community.vmware.vmware_host_logbundle_info) module for values that can be specified in the manifest.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [
+          "System:Base",
+          "System:CoreDumps",
+          "System:EsxImage",
+          "System:IOFilter",
+          "System:LoadESX",
+          "System:Modules",
+          "System:RDMA",
+          "System:ResourceGroups",
+          "System:TPM",
+          "System:VFlash",
+          "System:VMTools",
+          "System:VmiofPlugins",
+          "System:ntp",
+          "System:uwstats",
+          "Fcd:Catalog",
+          "VirtualMachines:CoreDumps",
+          "VirtualMachines:VirtualMachineStats",
+          "VirtualMachines:base",
+          "VirtualMachines:base",
+          "VirtualMachines:diskinfo",
+          "VirtualMachines:logs",
+          "Storage:FCoE",
+          "Storage:Multipathing",
+          "Storage:NAS",
+          "Storage:VSAN",
+          "Storage:VSANHealth",
+          "Storage:VSANIscsiTarget",
+          "Storage:VSANPerfStats",
+          "Storage:VSANPerfSvc",
+          "Storage:VSANTraces",
+          "Storage:VVOL",
+          "Storage:base",
+          "Storage:iodm",
+          "Storage:iscsi",
+          "FeatureStateSwitch:FeatureStateSwitch",
+          "Userworld:HostAgent",
+          "Userworld:ProcessInformation",
+          "Configuration:System",
+          "Logs:System",
+          "hostProfiles:SystemImageCacheHostProfile",
+          "hostProfiles:hostProfiles",
+          "FileSystem:VMFSDiskDump",
+          "FileSystem:base",
+          "ActiveDirectory:base",
+          "CIM:base",
+          "Hardware:base",
+          "Hardware:usb",
+          "Installer:base",
+          "Network:base",
+          "Network:dvs",
+          "Network:lacp",
+          "Network:nscd",
+          "Network:tcpip",
+          "IntegrityChecks:md5sums"
+        ],
+        "aliases": null
+      },
+      "performance_data": {
+        "description": "Gather performance data for ESXi.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_logbundle_info": {
+    "short_description": "Gathers manifest info for logbundle",
+    "description": "This module can be used to gather manifest information for logbundle from ESXi.",
+    "options": {
+      "esxi_hostname": {
+        "description": "Name of the host system to fetch the manifests for logbundle.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_ntp": {
+    "short_description": "Manage NTP server configuration of an ESXi host",
+    "description": "This module can be used to configure, add or remove NTP servers from an ESXi host. If O(state) is not given, the NTP servers will be configured in the exact sequence. User can specify an ESXi hostname or Cluster name. In case of cluster name, all ESXi hosts are updated.",
+    "options": {
+      "esxi_hostname": {
+        "description": "Name of the host system to work with. This parameter is required if O(cluster_name) is not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_name": {
+        "description": "Name of the cluster from which all host systems will be used. This parameter is required if O(esxi_hostname) is not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ntp_servers": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_ntp_info": {
+    "short_description": "Gathers info about NTP configuration on an ESXi host",
+    "description": "This module can be used to gather information about NTP configurations on an ESXi host.",
+    "options": {
+      "cluster_name": {
+        "description": "Name of the cluster. NTP config information about each ESXi server will be returned for the given cluster. If O(esxi_hostname) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "esxi_hostname": {
+        "description": "ESXi hostname. NTP config information about this ESXi server will be returned. If O(cluster_name) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_package_info": {
+    "short_description": "Gathers info about available packages on an ESXi host",
+    "description": "This module can be used to gather information about available packages and their status on an ESXi host.",
+    "options": {
+      "cluster_name": {
+        "description": "Name of the cluster. Package information about each ESXi server will be returned for given cluster. If O(esxi_hostname) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "esxi_hostname": {
+        "description": "ESXi hostname. Package information about this ESXi server will be returned. If O(cluster_name) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_passthrough": {
+    "short_description": "Manage PCI device passthrough settings on host",
+    "description": "This module can be managed PCI device passthrough settings on host.",
+    "options": {
+      "cluster": {
+        "description": "Name of the cluster from which all host systems will be used. This parameter is required if O(esxi_hostname) is not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "cluster_name"
+        ]
+      },
+      "esxi_hostname": {
+        "description": "Name of the host system to work with. This parameter is required if O(cluster_name) is not specified. User can specify specific host from the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "devices": {
+        "description": "List of PCI device name or id.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "If V(state=present), passthrough of PCI device will be enabled. If V(state=absent), passthrough of PCI device will be disabled.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_powerstate": {
+    "short_description": "Manages power states of host systems in vCenter",
+    "description": "This module can be used to manage power states of host systems in given vCenter infrastructure. User can set power state to",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_scanhba": {
+    "short_description": "Rescan host HBA",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_scsidisk_info": {
+    "short_description": "Gather information about SCSI disk attached to the given ESXi",
+    "description": "This module can be used to gather information about SCSI disk attached to the given ESXi.",
+    "options": {
+      "esxi_hostname": {
+        "description": "Name of the host system to work with. SCSI disk information about this ESXi server will be returned. This parameter is required if O(cluster_name) is not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_name": {
+        "description": "Name of the cluster from which all host systems will be used. SCSI disk information about each ESXi server will be returned for the given cluster. This parameter is required if O(esxi_hostname) is not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_service_info": {
+    "short_description": "Gathers info about an ESXi host",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_service_manager": {
+    "short_description": "Manage services on a given ESXi host",
+    "description": "This module can be used to manage (start, stop, restart) services on a given ESXi host. If cluster_name is provided, specified service will be managed on all ESXi host belonging to that cluster. If specific esxi_hostname is provided, then specified service will be managed on given ESXi host only.",
+    "options": {
+      "cluster_name": {
+        "description": "Name of the cluster. Service settings are applied to every ESXi host system/s in given cluster. If O(esxi_hostname) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "esxi_hostname": {
+        "description": "ESXi hostname. Service settings are applied to this ESXi host system. If O(cluster_name) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of service. V(start) and V(present) has same effect. V(stop) and V(absent) has same effect. V(unchanged) allows defining O(service_policy) without defining or changing service state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "restart",
+          "start",
+          "stop",
+          "unchanged"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_snmp": {
+    "short_description": "Configures SNMP on an ESXi host system",
+    "description": "This module can be used to configure the embedded SNMP agent on an ESXi host.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_sriov": {
+    "short_description": "Manage SR-IOV settings on host",
+    "description": "This module can be used to configure, enable or disable SR-IOV functions on ESXi host. Module does not reboot the host after changes, but puts it in output",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_ssl_info": {
+    "short_description": "Gather info of ESXi host system about SSL",
+    "description": "This module can be used to gather information of the SSL thumbprint information for a host.",
+    "options": {
+      "cluster_name": {
+        "description": "Name of the cluster. SSL thumbprint information about all ESXi host system in the given cluster will be reported. If O(esxi_hostname) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "esxi_hostname": {
+        "description": "ESXi hostname. SSL thumbprint information of this ESXi host system will be reported. If O(cluster_name) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_tcpip_stacks": {
+    "short_description": "Manage the TCP/IP Stacks configuration of ESXi host",
+    "description": "This module can be used to modify the TCP/IP stacks configuration.",
+    "options": {
+      "esxi_hostname": {
+        "description": "Name of the ESXi host.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default": {
+        "description": "The TCP/IP stacks configuration of the I(default).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "provisioning": {
+        "description": "The TCP/IP stacks configuration of the I(provisioning).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vmotion": {
+        "description": "The TCP/IP stacks configuration of the I(vmotion).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vxlan": {
+        "description": "The TCP/IP stacks configuration of the I(vxlan).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "nsx_overlay"
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_user_manager": {
+    "short_description": "Manage users of ESXi",
+    "description": "This module can add, update or delete local users on ESXi host.",
+    "options": {
+      "esxi_hostname": {
+        "description": "Name of the ESXi host that is managing the local user.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_name": {
+        "description": "Name of the local user.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "local_user_name"
+        ]
+      },
+      "user_password": {
+        "description": "The local user password. If you",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_vmhba_info": {
+    "short_description": "Gathers info about vmhbas available on the given ESXi host",
+    "description": "This module can be used to gather information about vmhbas available on the given ESXi host. If O(cluster_name) is provided, then vmhba information about all hosts from given cluster will be returned. If O(esxi_hostname) is provided, then vmhba information about given host system will be returned.",
+    "options": {
+      "esxi_hostname": {
+        "description": "Name of the host system to work with. Vmhba information about this ESXi server will be returned. This parameter is required if O(cluster_name) is not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_name": {
+        "description": "Name of the cluster from which all host systems will be used. Vmhba information about each ESXi server will be returned for the given cluster. This parameter is required if O(esxi_hostname) is not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_host_vmnic_info": {
+    "short_description": "Gathers info about vmnics available on the given ESXi host",
+    "description": "This module can be used to gather information about vmnics available on the given ESXi host. If O(cluster_name) is provided, then vmnic information about all hosts from given cluster will be returned. If O(esxi_hostname) is provided, then vmnic information about given host system will be returned.",
+    "options": {
+      "capabilities": {
+        "description": "Gather information about general capabilities (Auto negotiation, Wake On LAN, and Network I/O Control).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "directpath_io": {
+        "description": "Gather information about DirectPath I/O capabilities and configuration.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "sriov": {
+        "description": "Gather information about SR-IOV capabilities and configuration.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "esxi_hostname": {
+        "description": "Name of the host system to work with. Vmnic information about this ESXi server will be returned. This parameter is required if O(cluster_name) is not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_name": {
+        "description": "Name of the cluster from which all host systems will be used. Vmnic information about each ESXi server will be returned for the given cluster. This parameter is required if O(esxi_hostname) is not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_local_role_info": {
+    "short_description": "Gather info about local roles on an ESXi host or vCenter",
+    "description": "This module can be used to gather information about local role info on an ESXi host or vCenter",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_local_user_info": {
+    "short_description": "Gather info about users on the given ESXi host",
+    "description": "This module can be used to gather information about users present on the given ESXi host system in VMware infrastructure. User must hold the",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_maintenancemode": {
+    "short_description": "Place a host into maintenance mode",
+    "description": "This module can be used for placing a ESXi host into maintenance mode. Support for VSAN compliant maintenance mode when selected.",
+    "options": {
+      "esxi_hostname": {
+        "description": "Name of the host as defined in vCenter.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vsan": {
+        "description": "Specify which VSAN compliant mode to enter.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          null
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": "This module has been moved to the L(new vmware.vmware collection,https://forum.ansible.com/t/5880)"
+  },
+  "community.vmware.vmware_migrate_vmk": {
+    "short_description": "Migrate a VMK interface from VSS to VDS",
+    "description": "Migrate a VMK interface from VSS to VDS",
+    "options": {
+      "esxi_hostname": {
+        "description": "ESXi hostname to be managed",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "device": {
+        "description": "VMK interface name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "current_switch_name": {
+        "description": "Switch VMK interface is currently on",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "current_portgroup_name": {
+        "description": "Portgroup name VMK interface is currently on",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "migrate_switch_name": {
+        "description": "Switch name to migrate VMK interface to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "migrate_portgroup_name": {
+        "description": "Portgroup name to migrate VMK interface to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "migrate_vlan_id": {
+        "description": "VLAN to use for the VMK interface when migrating from VDS to VSS Will be ignored when migrating from VSS to VDS",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_object_custom_attributes_info": {
+    "short_description": "Gather custom attributes of an object",
+    "description": "This module can be gathered custom attributes of an object.",
+    "options": {
+      "object_type": {
+        "description": "Type of an object to work with.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "Datacenter",
+          "Cluster",
+          "HostSystem",
+          "ResourcePool",
+          "Folder",
+          "VirtualMachine",
+          "DistributedVirtualSwitch",
+          "DistributedVirtualPortgroup",
+          "Datastore"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "object_name": {
+        "description": "Name of the object to work with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "moid": {
+        "description": "Managed Object ID of the instance to get if known, this is a unique identifier only within a single vCenter instance. This is required if O(object_name) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_object_rename": {
+    "short_description": "Renames VMware objects",
+    "description": "This module can be used to rename VMware objects. Renaming Host and Network is not supported by VMware APIs.",
+    "options": {
+      "object_type": {
+        "description": "Type of object to work with. Valid options are Cluster, ClusterComputeResource, Datacenter, Datastore, Folder, ResourcePool, VM or VirtualMachine.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          null
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_object_role_permission": {
+    "short_description": "Manage local roles on an ESXi host or vCenter",
+    "description": "This module can be used to manage object permissions on the given host or vCenter.",
+    "options": {
+      "role": {
+        "description": "The role to be assigned permission. User can also specify role name presented in Web UI.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "principal": {
+        "description": "The user to be assigned permission. Required if O(group) is not specified. If specifying domain user, required separator of domain uses backslash.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group": {
+        "description": "The group to be assigned permission. Required if O(principal) is not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "object_name": {
+        "description": "The object name to assigned permission.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "object_type": {
+        "description": "The object type being targeted.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_object_role_permission_info": {
+    "short_description": "Gather information about object",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_portgroup_info": {
+    "short_description": "Gathers info about an ESXi host",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_recommended_datastore": {
+    "short_description": "Returns the recommended datastore from a SDRS-enabled datastore cluster",
+    "description": "This module provides the recommended datastore name from a datastore cluster only if the SDRS is enabled for the specified datastore cluster",
+    "options": {
+      "datacenter": {
+        "description": "Name of the datacenter.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "datastore_cluster": {
+        "description": "Name of the datastore cluster.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_resource_pool": {
+    "short_description": "Add/remove resource pools to/from vCenter",
+    "description": "This module can be used to add/remove a resource pool to/from vCenter",
+    "options": {
+      "datacenter": {
+        "description": "Name of the datacenter.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster": {
+        "description": "Name of the cluster to configure the resource pool. This parameter is required if O(esxi_hostname) or O(parent_resource_pool) is not specified. The O(cluster), O(esxi_hostname) and O(parent_resource_pool) parameters are mutually exclusive.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "esxi_hostname": {
+        "description": "Name of the host to configure the resource pool. The host must not be member of a cluster. This parameter is required if O(cluster) or O(parent_resource_pool) is not specified. The O(cluster), O(esxi_hostname) and O(parent_resource_pool) parameters are mutually exclusive.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parent_resource_pool": {
+        "description": "Name of the parent resource pool. This parameter is required if O(cluster) or O(esxi_hostname) is not specified. The O(cluster), O(esxi_hostname) and O(parent_resource_pool) parameters are mutually exclusive.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resource_pool": {
+        "description": "Resource pool name to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cpu_expandable_reservations": {
+        "description": "In a resource pool with an expandable reservation, the reservation on a resource pool can grow beyond the specified value.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "cpu_reservation": {
+        "description": "Amount of resource that is guaranteed available to the virtual machine or resource pool.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "cpu_limit": {
+        "description": "The utilization of a virtual machine/resource pool will not exceed this limit, even if there are available resources. The default value -1 indicates no limit.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": -1,
+        "aliases": null
+      },
+      "cpu_shares": {
+        "description": "Memory shares are used in case of resource contention.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "high",
+          "custom",
+          "low",
+          "normal"
+        ],
+        "default": "normal",
+        "aliases": null
+      },
+      "cpu_allocation_shares": {
+        "description": "The number of cpu shares allocated. This value is only set if O(cpu_shares=custom).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 4000,
+        "aliases": null
+      },
+      "mem_expandable_reservations": {
+        "description": "In a resource pool with an expandable reservation, the reservation on a resource pool can grow beyond the specified value.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "mem_reservation": {
+        "description": "Amount of resource that is guaranteed available to the virtual machine or resource pool.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "mem_limit": {
+        "description": "The utilization of a virtual machine/resource pool will not exceed this limit, even if there are available resources. The default value -1 indicates no limit.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": -1,
+        "aliases": null
+      },
+      "mem_shares": {
+        "description": "Memory shares are used in case of resource contention.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "high",
+          "custom",
+          "low",
+          "normal"
+        ],
+        "default": "normal",
+        "aliases": null
+      },
+      "mem_allocation_shares": {
+        "description": "The number of memory shares allocated. This value is only set if O(mem_shares=custom).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 163840,
+        "aliases": null
+      },
+      "state": {
+        "description": "Add or remove the resource pool",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_resource_pool_info": {
+    "short_description": "Gathers info about resource pool information",
+    "description": "This module can be used to gather information about all resource configuration information.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_sdrs_vm_overrides_info": {
+    "short_description": "Check for VM overrides in a SDRS datastore cluster",
+    "description": "This module can be used to check if VM overrides exist in a SDRS enabled datastore cluster in a given VMware environment. All parameters and VMware object values are case sensitive.",
+    "options": {
+      "datastore_cluster_name": {
+        "description": "The name of the datastore cluster.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_tag_info": {
+    "short_description": "Manage VMware tag info",
+    "description": "This module can be used to collect information about VMware tags. Tag feature is introduced in vSphere 6 version, so this module is not supported in the earlier versions of vSphere.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_tag_manager": {
+    "short_description": "Manage association of VMware tags with VMware objects",
+    "description": "This module can be used to assign / remove VMware tags from the given VMware objects. Tag feature is introduced in vSphere 6 version, so this module is not supported in the earlier versions of vSphere.",
+    "options": {
+      "tag_names": {
+        "description": "List of tag(s) to be managed. User can also specify category name by specifying colon separated value. For example,",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_target_canonical_info": {
+    "short_description": "Return canonical (NAA) from an ESXi host system",
+    "description": "This module can be used to gather information about canonical (NAA) from an ESXi host based on SCSI target ID.",
+    "options": {
+      "target_id": {
+        "description": "The target id based on order of scsi device. version 2.6 onwards, this parameter is optional.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_name": {
+        "description": "Name of the cluster. Info about all SCSI devices for all host system in the given cluster is returned. This parameter is required, if O(esxi_hostname) is not provided.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "esxi_hostname": {
+        "description": "Name of the ESXi host system. Info about all SCSI devices for the given ESXi host system is returned. This parameter is required, if O(cluster_name) is not provided.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_vasa": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_vasa_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_vc_infraprofile_info": {
+    "short_description": "List and Export VMware vCenter infra profile configs.",
+    "description": "Module to manage VMware vCenter infra profile configs. vCenter infra profile Library feature is introduced in vSphere 7.0 version, so this module is not supported in the earlier versions of vSphere.",
+    "options": {
+      "decryption_key": {
+        "description": "decryption_key argument for while doing import profile task as of now its not taken into account form API team.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "encryption_key": {
+        "description": "encryption_key argument for while doing import profile task as of now its not taken into account form API team.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "api": {
+        "description": "API which needs to be executed",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "export",
+          "import",
+          "list",
+          "validate"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "config_path": {
+        "description": "Config file path which contains infra profile config JSON data, supports both relative and absolute path. This parameter is required only when V(import),V(validate) APIs are being used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "profiles": {
+        "description": "A list of profile names to be exported, imported, and validated. This parameter is not required while running for List API, not for V(export),V(import) and V(validate).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of about encryption or decryption key.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_vcenter_settings_info": {
+    "short_description": "Gather info vCenter settings",
+    "description": "This module can be used to gather information about vCenter settings.",
+    "options": {
+      "schema": {
+        "description": "Specify the output schema desired. The",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_vcenter_statistics": {
+    "short_description": "Configures statistics on a vCenter server",
+    "description": "This module can be used to configure the vCenter server statistics. The remaining settings can be configured with the module M(community.vmware.vmware_vcenter_settings).",
+    "options": {
+      "interval_past_day": {
+        "description": "Settings for vCenter server past day statistic collection.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interval_past_week": {
+        "description": "Settings for vCenter server past week statistic collection.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interval_past_month": {
+        "description": "Settings for vCenter server past month statistic collection.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interval_past_year": {
+        "description": "Settings for vCenter server past month statistic collection.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_vm_config_option": {
+    "short_description": "Return supported guest ID list and VM recommended config option for specific guest OS",
+    "description": "This module is used for getting the hardware versions supported for creation, the guest ID list supported by ESXi host for the most recent virtual hardware supported or specified hardware version, the VM recommended config options for specified guest OS ID.\n",
+    "options": {
+      "datacenter": {
+        "description": "The datacenter name used to get specified cluster or host.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "ha-datacenter",
+        "aliases": null
+      },
+      "cluster_name": {
+        "description": "Name of the cluster. If O(esxi_hostname) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "esxi_hostname": {
+        "description": "ESXi hostname. Obtain VM configure options on this ESXi host. If O(cluster_name) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "get_hardware_versions": {
+        "description": "Return the list of VM hardware versions supported for creation and the default hardware version on the specified entity.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "get_guest_os_ids": {
+        "description": "Return the list of guest OS IDs supported on the specified entity. If O(hardware_version) is set, will return the corresponding guest OS ID list supported, or will return the guest OS ID list for the default hardware version.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "get_config_options": {
+        "description": "Return the dict of VM recommended config options for guest ID specified by O(guest_id) with hardware version specified by O(hardware_version) or the default hardware version. When set to V(true), O(guest_id) must be set.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "guest_id": {
+        "description": "The guest OS ID from the returned list when O(get_guest_os_ids=true), e.g.,",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_vm_host_drs_rule": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_vm_info": {
+    "short_description": "Return basic info pertaining to a VMware machine guest",
+    "description": "Return basic information pertaining to a vSphere or ESXi virtual machine guest.",
+    "options": {
+      "vm_type": {
+        "description": "If set to V(vm), then information are gathered for virtual machines only. If set to V(template), then information are gathered for virtual machine templates only. If set to V(all), then information are gathered for all virtual machines and virtual machine templates.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_vm_shell": {
+    "short_description": "Run commands in a VMware guest operating system",
+    "description": "Module allows user to run common system administration commands in the guest operating system.",
+    "options": {
+      "datacenter": {
+        "description": "The datacenter hosting the virtual machine. If set, it will help to speed up virtual machine search.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster": {
+        "description": "The cluster hosting the virtual machine. If set, it will help to speed up virtual machine search.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "folder": {
+        "description": "Destination folder, absolute or relative path to find an existing guest or create the new guest. The folder should include the datacenter. ESX",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_vm_storage_policy": {
+    "short_description": "Create vSphere storage policies",
+    "description": "A vSphere storage policy defines metadata that describes storage requirements for virtual machines and storage capabilities of storage providers. Currently, only tag-based storage policy creation is supported.",
+    "options": {
+      "name": {
+        "description": "Name of the storage policy to create, update, or delete.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the storage policy to create or update. This parameter is ignored when O(state=absent).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tag_category": {
+        "description": "Name of the pre-existing tag category to assign to the storage policy. This parameter is ignored when O(state=absent). This parameter is required when O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tag_name": {
+        "description": "Name of the pre-existing tag to assign to the storage policy. This parameter is ignored when O(state=absent). This parameter is required when O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tag_affinity": {
+        "description": "If set to V(true), the storage policy enforces that virtual machines require the existence of a tag for datastore placement. If set to V(false), the storage policy enforces that virtual machines require the absence of a tag for datastore placement. This parameter is ignored when O(state=absent).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of storage policy. If set to V(present), the storage policy is created. If set to V(absent), the storage policy is deleted.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_vm_storage_policy_info": {
+    "short_description": "Gather information about vSphere storage profile defined storage policy information.",
+    "description": "Returns basic information on vSphere storage profiles. A vSphere storage profile defines storage policy information that describes storage requirements for virtual machines and storage capabilities of storage providers.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_vm_vm_drs_rule": {
+    "short_description": "Configure VMware DRS Affinity rule for virtual machines in the given cluster",
+    "description": "This module can be used to configure VMware DRS Affinity rule for virtual machines in the given cluster.",
+    "options": {
+      "datacenter": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_vm_vss_dvs_migrate": {
+    "short_description": "Migrates a virtual machine from a standard vswitch to distributed",
+    "description": "Migrates a virtual machine from a standard vswitch to distributed",
+    "options": {
+      "vm_name": {
+        "description": "Name of the virtual machine to migrate to a dvSwitch",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dvportgroup_name": {
+        "description": "Name of the portgroup to migrate to the virtual machine to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_vmkernel": {
+    "short_description": "Manages a VMware VMkernel Adapter of an ESXi host.",
+    "description": "This module can be used to manage the VMKernel adapters / VMKernel network interfaces of an ESXi host. The module assumes that the host is already configured with the Port Group in case of a vSphere Standard Switch (vSS). The module assumes that the host is already configured with the Distributed Port Group in case of a vSphere Distributed Switch (vDS). The module automatically migrates the VMKernel adapter from vSS to vDS or vice versa if present.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_vmkernel_info": {
+    "short_description": "Gathers VMKernel info about an ESXi host",
+    "description": "This module can be used to gather VMKernel information about an ESXi host from given ESXi hostname or cluster name.",
+    "options": {
+      "cluster_name": {
+        "description": "Name of the cluster. VMKernel information about each ESXi server will be returned for the given cluster. If O(esxi_hostname) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "esxi_hostname": {
+        "description": "ESXi hostname. VMKernel information about this ESXi server will be returned. If O(cluster_name) is not given, this parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_vsan_cluster": {
+    "short_description": "Configure VSAN clustering on an ESXi host",
+    "description": "This module can be used to configure VSAN clustering on an ESXi host",
+    "options": {
+      "cluster_uuid": {
+        "description": "Desired cluster UUID",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.vmware.vmware_vsan_hcl_db": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_vsan_health_info": {
+    "short_description": "Gather information about a VMware vSAN cluster",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_vsan_release_catalog": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vmware_vswitch_info": {
+    "short_description": "Gathers info about an ESXi host",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vsan_health_silent_checks": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.vmware.vsphere_file": {
+    "short_description": "Manage files on a vCenter datastore",
+    "description": "Manage files on a vCenter datastore.",
+    "options": {
+      "datacenter": {
+        "description": "The datacenter on the vCenter server that holds the datastore.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "datastore": {
+        "description": "The datastore on the vCenter server to push files to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "The file or directory on the datastore on the vCenter server.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "dest"
+        ]
+      },
+      "timeout": {
+        "description": "The timeout in seconds for the upload to the datastore.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of or the action on the provided path. If V(absent), the file will be removed. If V(directory), the directory will be created. If V(file), more information of the (existing) file will be returned. If V(touch), an empty file will be created if the path does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "directory",
+          "file",
+          "touch"
+        ],
+        "default": "file",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

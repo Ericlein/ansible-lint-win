@@ -1,0 +1,433 @@
+{
+  "community.hrobot.boot": {
+    "short_description": "Set boot configuration",
+    "description": "Set the boot configuration for a dedicated server.",
+    "options": {
+      "server_number": {
+        "description": "The server number of the server whose boot configuration to adjust.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "regular_boot": {
+        "description": "If this option is provided, all special boot configurations are removed and the installed operating system will be booted up next (assuming it is bootable). Precisely one of O(regular_boot), O(rescue), O(install_linux), O(install_vnc), O(install_windows), O(install_plesk), and O(install_cpanel) must be provided.",
+        "type": "bool",
+        "required": false,
+        "choices": [
+          true
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "rescue": {
+        "description": "If this option is provided, the rescue system will be activated for the next boot. Precisely one of O(regular_boot), O(rescue), O(install_linux), O(install_vnc), O(install_windows), O(install_plesk), and O(install_cpanel) must be provided.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "install_linux": {
+        "description": "If this option is provided, a Linux system install will be activated for the next boot. Precisely one of O(regular_boot), O(rescue), O(install_linux), O(install_vnc), O(install_windows), O(install_plesk), and O(install_cpanel) must be provided.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "install_vnc": {
+        "description": "If this option is provided, a VNC installation will be activated for the next boot. Precisely one of O(regular_boot), O(rescue), O(install_linux), O(install_vnc), O(install_windows), O(install_plesk), and O(install_cpanel) must be provided.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "install_windows": {
+        "description": "If this option is provided, a Windows installation will be activated for the next boot. Precisely one of O(regular_boot), O(rescue), O(install_linux), O(install_vnc), O(install_windows), O(install_plesk), and O(install_cpanel) must be provided.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "install_plesk": {
+        "description": "If this option is provided, a Plesk installation will be activated for the next boot. Precisely one of O(regular_boot), O(rescue), O(install_linux), O(install_vnc), O(install_windows), O(install_plesk), and O(install_cpanel) must be provided.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "install_cpanel": {
+        "description": "If this option is provided, a cPanel installation will be activated for the next boot. Precisely one of O(regular_boot), O(rescue), O(install_linux), O(install_vnc), O(install_windows), O(install_plesk), and O(install_cpanel) must be provided.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hrobot.failover_ip": {
+    "short_description": "Manage Hetzner",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hrobot.failover_ip_info": {
+    "short_description": "Retrieve information on Hetzner",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hrobot.firewall": {
+    "short_description": "Manage Hetzner",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hrobot.firewall_info": {
+    "short_description": "Manage Hetzner",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hrobot.reset": {
+    "short_description": "Reset a dedicated server",
+    "description": "Reset a dedicated server with a software or hardware reset, or by requesting a manual reset.",
+    "options": {
+      "server_number": {
+        "description": "The server number of the server to reset.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "reset_type": {
+        "description": "How to reset the server. V(software) is a software reset. This should be similar to pressing Ctrl+Alt+Del on the keyboard. V(power) is a hardware reset similar to pressing the Power button. An ACPI signal is sent, and if the server is configured correctly, this will trigger a regular shutdown. V(hardware) is a hardware reset similar to pressing the Restart button. The power is cycled for the server. V(manual) is a manual reset. This requests a technician to manually do the shutdown while looking at the screen output. B(Be careful) and only use this when really necessary! ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hrobot.reset_info": {
+    "short_description": "Query information on the resetter of a dedicated server",
+    "description": "Query information on the resetter of a dedicated server.",
+    "options": {
+      "server_number": {
+        "description": "The server number of the server to query its resetter.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hrobot.reverse_dns": {
+    "short_description": "Set or remove reverse DNS entry for IP",
+    "description": "Allows to set, update or remove a reverse DNS entry for an IP address.",
+    "options": {
+      "ip": {
+        "description": "The IP address to set or remove a reverse DNS entry for.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether to set or update (V(present)) or delete (V(absent)) the reverse DNS entry for O(ip).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "value": {
+        "description": "The reverse DNS entry for O(ip). Required if O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hrobot.server": {
+    "short_description": "Update server information",
+    "description": "Allows to update server information. Right now the API only supports updating the server",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hrobot.server_info": {
+    "short_description": "Query information on one or more servers",
+    "description": "Query information on one or more servers.",
+    "options": {
+      "server_number": {
+        "description": "Limit result list to server with this number.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_name": {
+        "description": "Limit result list to servers of this name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "full_info": {
+        "description": "Whether to provide full information for every server. Setting this to V(true) requires one REST call per server, which is slow and reduces your rate limit. Use with care. When O(server_number) is specified, this option is always treated as having value V(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hrobot.ssh_key": {
+    "short_description": "Add, remove or update SSH key",
+    "description": "Add, remove or update an SSH key stored in Hetzner",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hrobot.ssh_key_info": {
+    "short_description": "Query information on SSH keys",
+    "description": "List information on all your SSH keys stored in Hetzner",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hrobot.storagebox": {
+    "short_description": "Modify a storage box",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hrobot.storagebox_info": {
+    "short_description": "Query information on one or more storage boxes",
+    "description": "Query information on one or more storage box.",
+    "options": {
+      "hetzner_token": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storagebox_id": {
+        "description": "Limit result list to storage boxes with this ID.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "linked_server_number": {
+        "description": "Limit result list to storage boxes linked to the server with this number. Ignored when O(storagebox_id) has been specified, or when O(hetzner_token) has been specified.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "full_info": {
+        "description": "Whether to provide full information for every storage box. Setting this to V(true) requires one REST call per storage box, which is slow and reduces your rate limit. Use with care. When O(storagebox_id) is specified, this option is always treated as having value V(true). B(Note) that this option has no effect if O(hetzner_token) is specified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hrobot.storagebox_set_password": {
+    "short_description": "(Re)set the password for a storage box",
+    "description": "(Re)set the password for a storage box.",
+    "options": {
+      "hetzner_token": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "The ID of the storage box to modify.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "The new password for the storage box. If not provided, a random password will be created by the Robot API and returned as RV(password). This option is required if O(hetzner_token) is provided, since the new API does not support setting (and returning) a random password.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hrobot.storagebox_snapshot": {
+    "short_description": "Create, update, or delete a snapshot of a storage box",
+    "description": "Create, update comment, or delete a snapshot of a storage box.",
+    "options": {
+      "hetzner_token": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storagebox_id": {
+        "description": "The ID of the storage box to snapshot.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_name": {
+        "description": "The name of the snapshot to comment or delete. The snapshot name is automatically generated and should not be specified when creating a snapshot. Required when setting O(state) to V(absent), or when O(snapshot_comment) is specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "snapshot_comment": {
+        "description": "The comment to set for the snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hrobot.storagebox_snapshot_info": {
+    "short_description": "Query the snapshots for a storage box",
+    "description": "Query the snapshots for a storage box.",
+    "options": {
+      "hetzner_token": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storagebox_id": {
+        "description": "The ID of the storage box to query.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hrobot.storagebox_snapshot_plan": {
+    "short_description": "Modify a storage box",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hrobot.storagebox_snapshot_plan_info": {
+    "short_description": "Query the snapshot plans for a storage box",
+    "description": "Query the snapshot plans for a storage box.",
+    "options": {
+      "hetzner_token": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storagebox_id": {
+        "description": "The ID of the storage box to query.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hrobot.storagebox_subaccount": {
+    "short_description": "Create, update, or delete a subaccount for a storage box",
+    "description": "Create, update, or delete a subaccount for a storage box.",
+    "options": {},
+    "deprecated": null
+  },
+  "community.hrobot.storagebox_subaccount_info": {
+    "short_description": "Query the subaccounts for a storage box",
+    "description": "Query the subaccounts for a storage box.",
+    "options": {
+      "hetzner_token": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storagebox_id": {
+        "description": "The ID of the storage box to query.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.hrobot.v_switch": {
+    "short_description": "Manage Hetzner",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  }
+}

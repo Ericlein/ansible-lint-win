@@ -1,0 +1,130 @@
+{
+  "microsoft.hyperv.hv_vm_info": {
+    "short_description": "Gather information about Hyper-V Virtual Machines",
+    "description": "Gathers facts and information about one or all Virtual Machines on a Hyper-V host. Returns structured data including state, uptime, ID, and generation.",
+    "options": {
+      "name": {
+        "description": "The name of the specific Virtual Machine to query. If omitted, gathers information about all VMs on the host.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "vm_name"
+        ]
+      },
+      "ansible_host": {
+        "description": "Hostname or IP of the Hyper-V host.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ansible_user": {
+        "description": "Username for the Hyper-V host.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ansible_password": {
+        "description": "Password for the Hyper-V host.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ansible_port": {
+        "description": "WinRM port.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5985,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "microsoft.hyperv.hv_vm_state": {
+    "short_description": "Manage Hyper-V Virtual Machine power states",
+    "description": "Manage the power state of virtual machines on a Hyper-V host. Supports starting, stopping, restarting, pausing, resuming, and saving VMs. Consolidates power management and restart operations.",
+    "options": {
+      "name": {
+        "description": "The name of the virtual machine to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "vm_name"
+        ]
+      },
+      "state": {
+        "description": "The desired power state of the VM. C(running) ensures the VM is started. C(stopped) ensures the VM is shut down. C(restarted) will trigger a restart of the VM. C(paused) will suspend the VM execution. C(saved) will save the VM state to disk.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "running",
+          "stopped",
+          "restarted",
+          "paused",
+          "saved"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "If C(true), forces the operation (e.g., Turn Off instead of Shut Down).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait": {
+        "description": "If C(true), waits for the state transition to complete.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "ansible_host": {
+        "description": "Hostname or IP of the Hyper-V host.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ansible_user": {
+        "description": "Username for the Hyper-V host.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ansible_password": {
+        "description": "Password for the Hyper-V host.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ansible_port": {
+        "description": "WinRM port.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5985,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

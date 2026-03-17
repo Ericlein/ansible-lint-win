@@ -1,0 +1,158 @@
+{
+  "ansible.drill.acl": {
+    "short_description": "Set and retrieve file ACL information.",
+    "description": "Set and retrieve file ACL information.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.drill.at": {
+    "short_description": "Schedule the execution of a command or script file via the at command",
+    "description": "Use this module to schedule a command or script file to run once in the future. All jobs are executed in the",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.drill.authorized_key": {
+    "short_description": "Adds or removes an SSH authorized key",
+    "description": "Adds or removes SSH authorized keys for particular user accounts.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.drill.firewalld": {
+    "short_description": "Manage arbitrary ports/services with firewalld",
+    "description": "This module allows for addition or deletion of services and ports (either TCP or UDP) in either running or permanent firewalld rules.",
+    "options": {
+      "service": {
+        "description": "Name of a service to add/remove to/from firewalld. The service must be listed in output of firewall-cmd --get-services.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Name of a port or port range to add/remove to/from firewalld. Must be in the form PORT/PROTOCOL or PORT-PORT/PROTOCOL for port ranges.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port_forward": {
+        "description": "Port and protocol to forward using firewalld.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rich_rule": {
+        "description": "Rich rule to add/remove to/from firewalld. See L(Syntax for firewalld rich language rules,https://firewalld.org/documentation/man-pages/firewalld.richlanguage.html).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source": {
+        "description": "The source/network you would like to add/remove to/from firewalld.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interface": {
+        "description": "The interface you would like to add/remove to/from a zone in firewalld.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "icmp_block": {
+        "description": "The ICMP block you would like to add/remove to/from a zone in firewalld.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "icmp_block_inversion": {
+        "description": "Enable/Disable inversion of ICMP blocks for a zone in firewalld.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "zone": {
+        "description": "The firewalld zone to add/remove to/from. Note that the default zone can be configured per system but C(public) is default from upstream. Available choices can be extended based on per-system configs, listed here are",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.drill.firewalld_info": {
+    "short_description": "Gather information about firewalld",
+    "description": "This module gathers information about firewalld rules.",
+    "options": {
+      "active_zones": {
+        "description": "Gather information about active zones.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "zones": {
+        "description": "Gather information about specific zones. If only works if C(active_zones) is set to C(false).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.drill.mount": {
+    "short_description": "Control active and configured mount points",
+    "description": "This module controls active and configured mount points in C(/etc/fstab).",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.drill.patch": {
+    "short_description": "Apply patch files using the GNU patch tool",
+    "description": "Apply patch files using the GNU patch tool.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.drill.seboolean": {
+    "short_description": "Toggles SELinux booleans",
+    "description": "Toggles SELinux booleans.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.drill.selinux": {
+    "short_description": "Change policy and state of SELinux",
+    "description": "Configures the SELinux mode and policy. A reboot may be required after usage. Ansible will not issue this reboot but will let you know when it is required.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.drill.synchronize": {
+    "short_description": "A wrapper around rsync to make common tasks in your playbooks quick and easy",
+    "description": "C(synchronize) is a wrapper around rsync to make common tasks in your playbooks quick and easy. It is run and originates on the local host where Ansible is being run. Of course, you could just use the C(command) action to call rsync yourself, but you also have to add a fair number of boilerplate options and host facts. This module is not intended to provide access to the full power of rsync, but does make the most common invocations easier to implement. You `still` may need to call rsync directly via C(command) or C(shell) depending on your use case.",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.drill.sysctl": {
+    "short_description": "Manage entries in sysctl.conf.",
+    "description": "This module manipulates sysctl entries and optionally performs a C(/sbin/sysctl -p) after changing them.",
+    "options": {},
+    "deprecated": null
+  }
+}

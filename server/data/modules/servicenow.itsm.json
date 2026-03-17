@@ -1,0 +1,920 @@
+{
+  "servicenow.itsm.api": {
+    "short_description": "Manage ServiceNow POST, PATCH and DELETE requests",
+    "description": "Create, delete or update a ServiceNow record from the given resource. For more information, refer to the ServiceNow REST Table API documentation at U(https://docs.servicenow.com/bundle/tokyo-application-development/page/integrate/inbound-rest/concept/c_RESTAPI.html).",
+    "options": {
+      "sys_id": {
+        "description": "Required if I(action==patch) or I(action==delete).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resource": {
+        "description": "The name of the table in which a record is to be created, updated or deleted from. Mutually exclusive with C(api_path). Require one of C(resource) or C(api_path)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "api_path": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "servicenow.itsm.api_info": {
+    "short_description": "Manage ServiceNow GET requests",
+    "description": "Retrieve records via ServiceNow REST Table API for an arbitrary table. For more information, refer to the ServiceNow REST Table API documentation at U(https://docs.servicenow.com/bundle/tokyo-application-development/page/integrate/inbound-rest/concept/c_RESTAPI.html).",
+    "options": {
+      "resource": {
+        "description": "The name of the table in which a record is to be created, updated or deleted from. Mutually exclusive with C(api_path). Require one of C(resource) or C(api_path).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "api_path": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "servicenow.itsm.attachment_info": {
+    "short_description": "a module that users can use to download attachment using sys_id",
+    "description": "Download attachment using attachment",
+    "options": {},
+    "deprecated": null
+  },
+  "servicenow.itsm.attachment_upload": {
+    "short_description": "Upload attachment to the selected table",
+    "description": "Upload the attachment to the selected table using table name and table sys_id. Name of the attachment serves as a unique identifier. If an attachment with a certain name already exists, but the content is different, the attachment to be uploaded will overwrite the existing attachment. If an attachment with a certain name already exists and the content is the same, the attachment will not be uploaded.",
+    "options": {
+      "table_name": {
+        "description": "Table type to attach the file to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "table_sys_id": {
+        "description": "Record to attach the file to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "servicenow.itsm.catalog_request_info": {
+    "short_description": "List ServiceNow catalog requests",
+    "description": "Retrieve information about ServiceNow catalog requests (sc_request). For more information, refer to the ServiceNow service catalog documentation at U(https://docs.servicenow.com/bundle/utah-servicenow-platform/page/product/service-catalog/concept/c_ServiceCatalogProcess.html).",
+    "options": {},
+    "deprecated": null
+  },
+  "servicenow.itsm.catalog_request_task_info": {
+    "short_description": "List ServiceNow catalog request tasks",
+    "description": "Retrieve information about ServiceNow tasks in a catalog request (sc_task). For more information, refer to the ServiceNow service catalog documentation at U(https://docs.servicenow.com/bundle/utah-servicenow-platform/page/product/service-catalog/concept/c_ServiceCatalogProcess.html).",
+    "options": {},
+    "deprecated": null
+  },
+  "servicenow.itsm.change_request": {
+    "short_description": "Manage ServiceNow change requests",
+    "description": "Create, delete or update a ServiceNow change request. For more information, refer to the ServiceNow change management documentation at U(https://docs.servicenow.com/bundle/tokyo-it-service-management/page/product/change-management/concept/c_ITILChangeManagement.html).",
+    "options": {
+      "state": {
+        "description": "The state of the change request. If I(state) value is C(assess) or C(authorize) or C(scheduled) or C(implement) or C(review) or C(closed), I(assignment_group) parameter must be filled in. For more information on state model and transition, refere to the ServiceNow documentation at U(https://docs.servicenow.com/bundle/tokyo-it-service-management/page/product/change-management/concept/c_ChangeStateModel.html) Default choices are C(new), C(assess), C(authorize), C(scheduled), C(implement), C(review), C(closed), C(canceled), C(absent). One can override them by setting I(change_request_mapping.state).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Specify what type of change is required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "standard",
+          "normal",
+          "emergency"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "template": {
+        "description": "Predefined template name for standard change request. For more information on templates refer to ServiceNow documentation at U(https://docs.servicenow.com/bundle/tokyo-it-service-management/page/product/change-management/concept/c_StandardChangeCatalogPlugin.html) or find template names on <your_service_id>.service-now.com/nav_to.do?uri=%2Fstd_change_producer_version_list.do%3F",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "requested_by": {
+        "description": "User who requested the change.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "assignment_group": {
+        "description": "The name of the group that the change request is assigned to. Required if I(state) value is C(assess) or C(authorize) or C(scheduled) or C(implement) or C(review) or C(closed). Mutually exclusive with C(assignment_group_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "assignment_group_id": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "servicenow.itsm.change_request_info": {
+    "short_description": "List ServiceNow change requests",
+    "description": "Retrieve information about ServiceNow change requests. For more information, refer to the ServiceNow change management documentation at U(https://docs.servicenow.com/bundle/tokyo-it-service-management/page/product/change-management/concept/c_ITILChangeManagement.html).",
+    "options": {},
+    "deprecated": null
+  },
+  "servicenow.itsm.change_request_task": {
+    "short_description": "Manage ServiceNow change request tasks",
+    "description": "Create, delete or update a ServiceNow change request tasks. For more information, refer to the ServiceNow change management documentation at U(https://docs.servicenow.com/bundle/tokyo-it-service-management/page/product/change-management/concept/c_ITILChangeManagement.html).",
+    "options": {
+      "configuration_item": {
+        "description": "The configuration item (CI) or service name that the change task applies to. Note that contrary to I(configuration_item_id), configuration item names may not uniquely identify a record. In case there are more configuration items with the same name, the module fails and does nothing. Mutually exclusive with I(configuration_item_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "configuration_item_id": {
+        "description": "The configuration item (CI) or service ID that the change task applies to. Mutually exclusive with I(configuration_item).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "change_request_number": {
+        "description": "I(number) of the change request this task belongs to. Note that contrary to I(change_request_id), change request number may not uniquely identify a record. In case there are more change requests with the same number, the module fails and does nothing. Mutually exclusive with I(change_request_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "change_request_id": {
+        "description": "I(sys_id) of the change request this task belongs to. Mutually exclusive with I(change_request_number).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "The type of change task. Default workflow generates tasks in I(type) C(review). If the task I(type) is C(implementation), the I(planned_start_date) and I(planned_end_date) values must fall within the planned start and end dates specified in the I(change_request).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "planning",
+          "implementation",
+          "testing",
+          "review"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the change request task. Cannot be changed to C(pending) when I(on_hold) is C(true) (module fails and does nothing). Default choices are C(pending), C(open), C(in_progress), C(closed), C(canceled), C(absent). One can override them by setting I(change_request_task.state).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "assigned_to": {
+        "description": "The user that the change task is assigned to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "assignment_group": {
+        "description": "The name of the group that the change task is assigned to. Mutually exclusive with C(assignment_group_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "assignment_group_id": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "servicenow.itsm.change_request_task_info": {
+    "short_description": "List ServiceNow change request tasks",
+    "description": "Retrieve information about ServiceNow change request tasks. For more information, refer to the ServiceNow change management documentation at U(https://docs.servicenow.com/bundle/tokyo-it-service-management/page/product/change-management/concept/c_ITILChangeManagement.html).",
+    "options": {},
+    "deprecated": null
+  },
+  "servicenow.itsm.configuration_item": {
+    "short_description": "Manage ServiceNow configuration items",
+    "description": "Create, delete or update a ServiceNow configuration item. Configuration items can be managed using sys_id or name. Operations create and delete are idempotent on parameter C(name). When C(state) is set to C(present), a record identified by C(name) is only created once. Further invocations will update the record. For more information, refer to the ServiceNow configuration management documentation at U(https://docs.servicenow.com/bundle/tokyo-servicenow-platform/page/product/configuration-management/reference/cmdb-table-property-descriptions.html).",
+    "options": {
+      "state": {
+        "description": "State of the configuration item.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the configuration item. Required if the configuration item does not yet exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "short_description": {
+        "description": "Short description of the configuration item.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sys_class_name": {
+        "description": "ServiceNow configuration item class. The value of this parameter should point to a ServiceNow CMDB configuration item table, for instance C(cmdb_ci_server). For a list of valid CMDB tables, refer to ServiceNow documentation on U(https://docs.servicenow.com/bundle/tokyo-servicenow-platform/page/product/configuration-management/reference/cmdb-tables-details.html). If this parameter is unset when a new configuration item needs to be created, the default value C(cmdb_ci) will be used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "cmdb_ci",
+        "aliases": null
+      },
+      "asset_tag": {
+        "description": "Asset tag of the asset logically related to this configuration item. Read more about the relationship between configuration items and assets at U(https://docs.servicenow.com/bundle/tokyo-it-asset-management/page/product/asset-management/concept/c_ManagingAssets.html).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "install_status": {
+        "description": "The functional status of the configuration item. Default choices are C(implementing), C(installed), C(on_order), C(in_maintenance), C(pending_install), C(pending_repair), C(in_stock), C(retired), C(stolen), C(absent). One can override them by setting I(configuration_item_mapping.install_status).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "operational_status": {
+        "description": "The operational status of the configuration item. Default choices are C(operational), C(non_operational), C(repair_in_progress), C(dr_standby), C(ready), C(retired), C(pipeline), C(catalog). One can override them by setting I(configuration_item_mapping.operational_status).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "serial_number": {
+        "description": "Serial number of the configuration item.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip_address": {
+        "description": "Primary IP address used by the configuration item.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mac_address": {
+        "description": "MAC address of the configuration item.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "category": {
+        "description": "Category of the configuration item, for instance C(Hardware).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "environment": {
+        "description": "The environment to which this configuration item belongs. Default choices are C(development), C(production), C(test), One can override them by setting I(configuration_item_mapping.environment).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "assigned_to": {
+        "description": "A person to whom this configuration item is assigned to. Expected value for I(assigned_to) is user id (usually in the form of C(first_name.last_name)).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "other": {
+        "description": "Any of the remaining configuration parameters. For the attributes of the base C(cmdb_ci) table, refer to the ServiceNow documentation on U(https://docs.servicenow.com/bundle/tokyo-servicenow-platform/page/product/configuration-management/reference/cmdb-table-property-descriptions.html). For the attributes of configuration items specific to I(sys_class_name), please consult the relevant ServiceNow documentation.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "servicenow.itsm.configuration_item_batch": {
+    "short_description": "Manage ServiceNow configuration items in batch mode",
+    "description": "Create, update ServiceNow configuration items in batch mode. For more information, refer to the ServiceNow configuration management documentation at U(https://docs.servicenow.com/bundle/tokyo-servicenow-platform/page/product/configuration-management/reference/cmdb-table-property-descriptions.html).",
+    "options": {
+      "sys_class_name": {
+        "description": "Table name (configuration item type) that we would like to manipulate.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id_column_set": {
+        "description": "Columns that should be used to identify an existing record that we need to update.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dataset": {
+        "description": "List of dictionaries that will be used as a data source. Each item in a list represents one CMDB item.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "map": {
+        "description": "Transformation instructions on how to convert input data to CMDB items. Keys represent the CMDB item column names and the values are Jinja expressions that extract the value from the source data. Data is returned as string because ServiceNow API expect this",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "servicenow.itsm.configuration_item_info": {
+    "short_description": "List ServiceNow configuration item",
+    "description": "Retrieve information about the ServiceNow configuration items and also attachments related to this CI. For more information, refer to the ServiceNow configuration item management documentation at U(https://docs.servicenow.com/bundle/tokyo-servicenow-platform/page/product/configuration-management/concept/c_ITILConfigurationManagement.html).",
+    "options": {
+      "name": {
+        "description": "Unique identifier of the record to retrieve. Mutually exclusive with C(query) and C(sys_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sys_class_name": {
+        "description": "ServiceNow configuration item class. The value of this parameter should point to a ServiceNow CMDB configuration item table, for instance C(cmdb_ci_server). For a list of valid CMDB tables, refer to ServiceNow documentation on U(https://docs.servicenow.com/bundle/tokyo-servicenow-platform/page/product/configuration-management/reference/cmdb-tables-details.html). If this parameter is unset when a configuration item info is queried, the default value C(cmdb_ci) will be used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "return_fields": {
+        "description": "A list of fields to return. If defined you need to add",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "servicenow.itsm.configuration_item_relations": {
+    "short_description": "Manage ServiceNow relations between configuration items",
+    "description": "Add and remove ServiceNow relations between configuration items.",
+    "options": {
+      "state": {
+        "description": "State of the relation.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the relation. Mutually exclusive with C(sys_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "direction": {
+        "description": "Direction of the relation.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "inbound",
+          "outbound"
+        ],
+        "default": "outbound",
+        "aliases": null
+      },
+      "parent_sys_id": {
+        "description": "The sys_id of the configuration item who own the relation.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parent_classname": {
+        "description": "The class of the configuration item.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "targets": {
+        "description": "List of configuration items to be associated with the parent.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "servicenow.itsm.configuration_item_relations_info": {
+    "short_description": "Retreive ServiceNow relations of configuration items",
+    "description": "Retreive configuration items relations",
+    "options": {
+      "classname": {
+        "description": "The class of the configuration item.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "servicenow.itsm.incident": {
+    "short_description": "Manage ServiceNow incidents",
+    "description": "Create, delete or update a ServiceNow incident. For more information, refer to the ServiceNow incident management documentation at U(https://docs.servicenow.com/bundle/tokyo-it-service-management/page/product/incident-management/concept/c_IncidentManagement.html).",
+    "options": {
+      "state": {
+        "description": "State of incident. If I(state) value is C(on_hold), I(on_hold_reason) parameter must be filled in. Default choices are C(new), C(in_progress), C(on_hold), C(resolved), C(closed), C(canceled), C(absent). One can override them by setting I(incident_mapping.state).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hold_reason": {
+        "description": "Reason why incident is on hold. Required if I(state) value is C(on_hold). Default choices are C(awaiting_caller), C(awaiting_change), C(awaiting_problem), C(awaiting_vendor). One can override them by setting I(incident_mapping.hold_reason).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "caller": {
+        "description": "A person who reported or is affected by this incident. Expected value for I(caller) is user id (usually in the form of C(first_name.last_name)). Required if the incident does not exist yet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "short_description": {
+        "description": "Short description of the incident. Required if the incident does not exist yet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Long description of the incident with some more details.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "impact": {
+        "description": "The measure of the business criticality of the affected service. Default choices are C(low), C(medium), C(high). One can override them by setting I(incident_mapping.impact).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "urgency": {
+        "description": "The extent to which resolution of an incident can bear delay. Default choices are C(low), C(medium), C(high). One can override them by setting I(incident_mapping.urgency).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "close_code": {
+        "description": "Provide information on how the incident was resolved. Default choices are C(Solved (Work Around)), C(Solved (Permanently)), C(Solved Remotely (Work Around)), C(Solved Remotely (Permanently)), C(Not Solved (Not Reproducible)), C(Not Solved (Too Costly)), C(Closed/Resolved by Caller). One can override them by setting I(incident_mapping.close_code). Choices for I(close_code) removed in 2.4.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "close_notes": {
+        "description": "Resolution notes added by the user who closed the incident.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "other": {
+        "description": "Optional remaining parameters. For more information on optional parameters, refer to the ServiceNow create incident documentation at U(https://docs.servicenow.com/bundle/tokyo-it-service-management/page/product/incident-management/task/create-an-incident.html).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "servicenow.itsm.incident_info": {
+    "short_description": "List ServiceNow incidents",
+    "description": "Retrieve information about ServiceNow incidents. For more information, refer to the ServiceNow incident management documentation at U(https://docs.servicenow.com/bundle/tokyo-it-service-management/page/product/incident-management/concept/c_IncidentManagement.html).",
+    "options": {},
+    "deprecated": null
+  },
+  "servicenow.itsm.problem": {
+    "short_description": "Manage ServiceNow problems",
+    "description": "Create, delete or update a ServiceNow problem. For more information, refer to the ServiceNow problem management documentation at U(https://docs.servicenow.com/bundle/tokyo-it-service-management/page/product/problem-management/concept/c_ProblemManagement.html).",
+    "options": {
+      "state": {
+        "description": "State of the problem. If a problem does not yet exist, all states except for C(new) require setting of I(assigned_to) parameter. Default choices are C(new), C(assess), C(root_cause_analysis), C(fix_in_progress), C(resolved), C(closed), C(absent). One can override them by setting I(problem_mapping.state).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "short_description": {
+        "description": "Short description of the problem that the problem-solving team should address. Required if the problem does not exist yet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Detailed description of the problem.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "impact": {
+        "description": "Effect that the problem has on business. Default choices are C(low), C(medium), C(high). One can override them by setting I(problem_mapping.impact).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "urgency": {
+        "description": "The extent to which the problem resolution can bear delay. Default choices are C(low), C(medium), C(high). One can override them by setting I(problem_mapping.urgency).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "assigned_to": {
+        "description": "A person who will assess this problem. Expected value for I(assigned_to) is user id (usually in the form of C(first_name.last_name)). This field is required when creating new problems for all problem I(state)s except C(new).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resolution_code": {
+        "description": "The reason for problem resolution.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "fix_applied",
+          "risk_accepted",
+          "duplicate",
+          "canceled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "cause_notes": {
+        "description": "Provide information on what caused the problem. Required if I(state) is C(in_progress). Required if I(state) is C(resolved) or C(closed) and I(resolution_code) is C(fix_applied) or C(risk_accepted).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "close_notes": {
+        "description": "The reason for closing the problem. Required if I(state) is C(resolved) or C(closed) and I(resolution_code) is C(risk_accepted) or C(canceled).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fix_notes": {
+        "description": "Notes on how the problem was fixed. Required if I(state) is C(in_progress). Required if I(state) is C(resolved) or C(closed) and I(resolution_code) is C(fix_applied).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "duplicate_of": {
+        "description": "Number of the problem of which this problem is a duplicate of. Required if I(state) is C(resolved) or C(closed) and I(resolution_code) is C(duplicate).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "other": {
+        "description": "Optional remaining parameters. For more information on optional parameters, refer to the ServiceNow documentation on creating problems at U(https://docs.servicenow.com/bundle/tokyo-it-service-management/page/product/problem-management/task/create-a-problem-v2.html).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "base_api_path": {
+        "description": "Base API path for the ServiceNow problem state management scripted API. Used for managing problem state transitions. Requires I(API for Red Hat Ansible Automation Platform Certified Content Collection) application to be installed from the ServiceNow Store U(https://store.servicenow.com/sn_appstore_store.do#!/store/application/9b33c83a1bcc5510b76a0d0fdc4bcb21/1.0.0?sl=sh). Considered mostly for development and testing purposes, as in most cases the default value should be fine. Starting with release I(Rome), I(ServiceNow Table API) no longer supports problem state transitions, which is worked around by using this server-side scripted REST API resource.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "/api/x_rhtpp_ansible/problem",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "servicenow.itsm.problem_info": {
+    "short_description": "List ServiceNow problems",
+    "description": "Retrieve information about ServiceNow problems. For more information, refer to the ServiceNow problem management documentation at U(https://docs.servicenow.com/bundle/tokyo-it-service-management/page/product/problem-management/concept/c_ProblemManagement.html).",
+    "options": {},
+    "deprecated": null
+  },
+  "servicenow.itsm.problem_task": {
+    "short_description": "Manage ServiceNow problem tasks",
+    "description": "Create, delete or update ServiceNow problem tasks. For more information, refer to the ServiceNow problem management documentation at U(https://docs.servicenow.com/bundle/tokyo-it-service-management/page/product/problem-management/concept/c_ProblemManagement.html).",
+    "options": {
+      "state": {
+        "description": "State of problem tasks. If I(state) value is C(new), I(short_description) parameter must be filled in. Default choices are C(new), C(assess), C(work_in_progress), C(closed), C(absent). One can override them by setting I(problem_task_mapping.state).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Read-only state. Determines whether the problem task is created specifically to investigate the cause of the problem or is a general task.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "root_cause_analysis",
+          "general"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "configuration_item": {
+        "description": "Configuration item (CI) that the problem applies to. The CI class of the selected configuration item identifies the type of problem.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "due_date": {
+        "description": "Date within which the problem task should be completed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_problem": {
+        "description": "Number of the problem for which the problem task is created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "priority": {
+        "description": "How quickly the service desk should address the problem task. Default choices are C(critical), C(high), C(moderate), C(low), C(planning). One can override them by setting I(problem_task_mapping.priority).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "assignment_group": {
+        "description": "Specific group to whom the problem task is assigned to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "assigned_to": {
+        "description": "Specific problem analyst to whom the task is assigned to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "short_description": {
+        "description": "Brief description of the problem task.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Detailed description of the problem task.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "close_code": {
+        "description": "Provide information on how the change task was resolved. The change task must have this parameter set prior to transitioning to the C(closed) state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "completed",
+          "canceled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "close_notes": {
+        "description": "Resolution notes added by the user who closed the change task. The change task must have this parameter set prior to transitioning to the C(closed) state.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "other": {
+        "description": "Optional remaining parameters. For more information on optional parameters, refer to the ServiceNow create problem task documentation at U(https://docs.servicenow.com/bundle/tokyo-it-service-management/page/product/problem-management/task/create-problem-task.html).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "servicenow.itsm.problem_task_info": {
+    "short_description": "List ServiceNow problem tasks",
+    "description": "Retrieve information about ServiceNow problem tasks. For more information, refer to the ServiceNow problem management documentation at U(https://docs.servicenow.com/bundle/tokyo-it-service-management/page/product/problem-management/concept/c_ProblemManagement.html).",
+    "options": {},
+    "deprecated": null
+  },
+  "servicenow.itsm.service_catalog": {
+    "short_description": "Manage ServiceNow service catalog cart",
+    "description": "Add items to cart. Checkout cart. Submit order.",
+    "options": {
+      "action": {
+        "description": "Type of the action.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "checkout",
+          "submit_order",
+          "order_now"
+        ],
+        "default": "checkout",
+        "aliases": null
+      },
+      "items": {
+        "description": "List of items to be added to the cart.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "servicenow.itsm.service_catalog_info": {
+    "short_description": "List ServiceNow service catalogs along with categories and items",
+    "description": "Retrieve information about ServiceCatalogs. For more information, refer to ServiceNow service catalog documentation at U(https://developer.servicenow.com/dev.do#!/reference/api/utah/rest/c_ServiceCatalogAPI)",
+    "options": {
+      "categories": {
+        "description": "If set to V(true), the categories will be fetched from ServiceNow.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "items_info": {
+        "description": "List of options for fetching service catalog items. Set to V(full), if the whole item will be fetched.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "full",
+          "brief",
+          "none"
+        ],
+        "default": "none",
+        "aliases": null
+      },
+      "items_query": {
+        "description": "Query for the item content. For more information, please refer to U(https://developer.servicenow.com/dev.do#!/reference/api/utah/rest/c_ServiceCatalogAPI#servicecat-GET-items)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

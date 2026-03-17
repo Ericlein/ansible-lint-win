@@ -1,0 +1,117 @@
+{
+  "ansible.yang.configure": {
+    "short_description": "Reads the input configuration in JSON format and pushes to the remote host over netconf",
+    "description": "The module takes the JSON configuration as input. Pre-validates the config with the corresponding YANG model. Converts input JSON configuration to XML payload to be pushed on the remote host using netconf connection.",
+    "options": {
+      "config": {
+        "description": "The running-configuration to be pushed onto the device in JSON format (as per RFC 7951).",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "get_filter": {
+        "description": "The filter in xml string format to fetch a subset of the running-configuration for the YANG model given in C(file) option. If this option is provided it will compare the current running-configuration on the device with what is provided in the C(config) option and push to C(config) value to device only if it is different to ensure idempotent task run.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "file": {
+        "description": "The file path of the YANG model that corresponds to the configuration fetch from the remote host. This options accepts wildcard (*) as well for the filename in case the configuration requires to parse multiple yang file. For example",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.yang.fetch": {
+    "short_description": "Fetch given yang model and it",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "ansible.yang.generate_spec": {
+    "short_description": "Generate JSON/XML schema and tree representation for given YANG model",
+    "description": "The module will be read the given Yang model and generate the corresponding JSON, XML schema and the YANG tree representation (as per RFC 8340) of the model and return in the result and optionally store it in this individual files on control node.",
+    "options": {
+      "content": {
+        "description": "The text content of the top level YANG model for the the should be generated. This option is mutually-exclusive with C(path) option.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "file": {
+        "description": "The file path of the top level YANG model for the spec should be generated. This option is mutually-exclusive with C(content) option.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "search_path": {
+        "description": "is a colon C(:) separated list of directories to search for imported yang modules in the yang file mentioned in C(path) option. If the value is not given it will search in the default directory path.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.yang.get": {
+    "short_description": "Fetch the device configuration and render it in JSON format defined by RFC7951",
+    "description": "The module will fetch the configuration data for a given YANG model and render it in JSON format (as per RFC 7951).",
+    "options": {
+      "filter": {
+        "description": "This argument specifies the XML string which acts as a filter to restrict the portions of the data to be are retrieved from the remote device. If this option is not specified entire configuration or state data is returned in result depending on the value of C(source) option. The C(filter) value can be either XML string or XPath, if the filter is in XPath format the NETCONF server running on remote host should support xpath capability else it will result in an error.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source": {
+        "description": "This argument specifies the datastore from which configuration data should be fetched. Valid values are I(running), I(candidate) and I(startup). If the C(source) value is not set both configuration and state information are returned in response from running datastore.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "running",
+          "candidate",
+          "startup"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "lock": {
+        "description": "Instructs the module to explicitly lock the datastore specified as C(source). If no I(source) is defined, the I(running) datastore will be locked. By setting the option value I(always) is will explicitly lock the datastore mentioned in C(source) option. By setting the option value I(never) it will not lock the C(source) datastore. The value I(if-supported) allows better interworking with NETCONF servers, which do not support the (un)lock operation for all supported datastores.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "never",
+          "always",
+          "if-supported"
+        ],
+        "default": "never",
+        "aliases": null
+      },
+      "file": {
+        "description": "The file path of the YANG model that corresponds to the configuration fetch from the remote host. This options accepts wildcard (*) as well for the filename in case the configuration requires to parse multiple yang file. For example",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

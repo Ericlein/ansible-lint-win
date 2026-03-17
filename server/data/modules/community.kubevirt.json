@@ -1,0 +1,144 @@
+{
+  "community.kubevirt.kubevirt_cdi_upload": {
+    "short_description": "Upload local VM images to CDI Upload Proxy.",
+    "description": "Use Openshift Python SDK to create UploadTokenRequest objects. Transfer contents of local files to the CDI Upload Proxy.",
+    "options": {
+      "pvc_name": {
+        "description": "Use to specify the name of the target PersistentVolumeClaim.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pvc_namespace": {
+        "description": "Use to specify the namespace of the target PersistentVolumeClaim.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "upload_host": {
+        "description": "URL containing the host and port on which the CDI Upload Proxy is available. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.kubevirt.kubevirt_preset": {
+    "short_description": "Manage KubeVirt virtual machine presets",
+    "description": "Use Openshift Python SDK to manage the state of KubeVirt virtual machine presets.",
+    "options": {
+      "state": {
+        "description": "Create or delete virtual machine presets.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.kubevirt.kubevirt_pvc": {
+    "short_description": "Manage PVCs on Kubernetes",
+    "description": "Use Openshift Python SDK to manage PVCs on Kubernetes Support Containerized Data Importer out of the box",
+    "options": {
+      "resource_definition": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.kubevirt.kubevirt_rs": {
+    "short_description": "Manage KubeVirt virtual machine replica sets",
+    "description": "Use Openshift Python SDK to manage the state of KubeVirt virtual machine replica sets.",
+    "options": {
+      "state": {
+        "description": "Create or delete virtual machine replica sets.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.kubevirt.kubevirt_template": {
+    "short_description": "Manage KubeVirt templates",
+    "description": "Use Openshift Python SDK to manage the state of KubeVirt templates.",
+    "options": {
+      "name": {
+        "description": "Name of the Template object.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "namespace": {
+        "description": "Namespace where the Template object exists.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "objects": {
+        "description": "List of any valid API objects, such as a I(DeploymentConfig), I(Service), etc. The object will be created exactly as defined here, with any parameter values substituted in prior to creation. The definition of these objects can reference parameters defined earlier. As part of the list user can pass also I(VirtualMachine) kind. When passing I(VirtualMachine) user must use Ansible structure of the parameters not the Kubernetes API structure. For more information please take a look at M(community.kubevirt.kubevirt_vm) module and at EXAMPLES section, where you can see example.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "merge_type": {
+        "description": "Whether to override the default patch merge approach with a specific type. By default, the strategic merge will typically be used.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "json",
+          "merge",
+          "strategic-merge"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "display_name": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.kubevirt.kubevirt_vm": {
+    "short_description": "Manage KubeVirt virtual machine",
+    "description": "Use Openshift Python SDK to manage the state of KubeVirt virtual machines.",
+    "options": {
+      "state": {
+        "description": "Set the virtual machine to either I(present), I(absent), I(running) or I(stopped). ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

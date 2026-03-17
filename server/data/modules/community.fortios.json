@@ -1,0 +1,170 @@
+{
+  "community.fortios.faz_device": {
+    "short_description": "Add or remove device",
+    "description": "Add or remove a device or list of devices to FortiAnalyzer Device Manager. ADOM Capable.",
+    "options": {
+      "adom": {
+        "description": "The ADOM the configuration should belong to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": "root",
+        "aliases": null
+      },
+      "mode": {
+        "description": "Add or delete devices. Or promote unregistered devices that are in the FortiAnalyzer",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.fortios.fmgr_device_config": {
+    "short_description": "Edit device configurations",
+    "description": "Edit device configurations from FortiManager Device Manager using JSON RPC API.",
+    "options": {
+      "adom": {
+        "description": "The ADOM the configuration should belong to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "root",
+        "aliases": null
+      },
+      "device_unique_name": {
+        "description": "The unique device",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.fortios.fmgr_provisioning": {
+    "short_description": "Provision devices via FortiMananger",
+    "description": "Add model devices on the FortiManager using jsonrpc API and have them pre-configured, so when central management is configured, the configuration is pushed down to the registering devices",
+    "options": {
+      "adom": {
+        "description": "The administrative domain (admon) the configuration belongs to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vdom": {
+        "description": "The virtual domain (vdom) the configuration belongs to",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "The FortiManager",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.fortios.fmgr_query": {
+    "short_description": "Query FortiManager data objects for use in Ansible workflows.",
+    "description": "Provides information on data objects within FortiManager so that playbooks can perform conditionals.",
+    "options": {
+      "adom": {
+        "description": "The ADOM the configuration should belong to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "root",
+        "aliases": null
+      },
+      "object": {
+        "description": "The data object we wish to query (device, package, rule, etc). Will expand choices as improves.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "device",
+          "cluster_nodes",
+          "task",
+          "custom"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "custom_endpoint": {
+        "description": "ADVANCED USERS ONLY! REQUIRES KNOWLEDGE OF FMGR JSON API! The HTTP Endpoint on FortiManager you wish to GET from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "custom_dict": {
+        "description": "ADVANCED USERS ONLY! REQUIRES KNOWLEDGE OF FMGR JSON API! DICTIONARY JSON FORMAT ONLY -- Custom dictionary/datagram to send to the endpoint.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "device_ip": {
+        "description": "The IP of the device you want to query.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "device_unique_name": {
+        "description": "The desired",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.fortios.fmgr_script": {
+    "short_description": "Add/Edit/Delete and execute scripts",
+    "description": "Create/edit/delete scripts and execute the scripts on the FortiManager using jsonrpc API",
+    "options": {
+      "adom": {
+        "description": "The administrative domain (admon) the configuration belongs to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vdom": {
+        "description": "The virtual domain (vdom) the configuration belongs to",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mode": {
+        "description": "The desired mode of the specified object. Execute will run the script.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

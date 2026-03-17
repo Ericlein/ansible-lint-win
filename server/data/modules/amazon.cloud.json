@@ -1,0 +1,4175 @@
+{
+  "amazon.cloud.autoscaling_launch_configuration": {
+    "short_description": "Creates and manages a web ACL association.",
+    "description": "Creates and manages a web ACL association. Use a web ACL association to define an association between a web ACL and a regional application resource, to protect the resource.",
+    "options": {
+      "associate_public_ip_address": {
+        "description": "For Auto Scaling groups that are running in a virtual private cloud (VPC), specifies whether to assign a public IP address to the groups instances.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "block_device_mappings": {
+        "description": "I(block_device_mapping) is a property of AWS::AutoScaling::LaunchConfiguration that describes a block device mapping for an Auto Scaling group.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "classic_link_vpc_id": {
+        "description": "The ID of a ClassicLink-enabled VPC to link your EC2-Classic instances to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "classic_link_vpc_security_groups": {
+        "description": "The IDs of one or more security groups for the VPC that you specified in the ClassicLinkVPCId property.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ebs_optimized": {
+        "description": "Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "iam_instance_profile": {
+        "description": "Provides the name or the Amazon Resource Name (ARN) of the instance profile associated with the IAM role for the instance. The instance profile contains the IAM role.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image_id": {
+        "description": "Provides the unique ID of the Amazon Machine Image (AMI) that was assigned during registration.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "instance_id": {
+        "description": "The ID of the Amazon EC2 instance you want to use to create the launch configuration.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "instance_monitoring": {
+        "description": "Controls whether instances in this group are launched with detailed (true) or basic (false) monitoring.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "instance_type": {
+        "description": "Specifies the instance type of the EC2 instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kernel_id": {
+        "description": "Provides the ID of the kernel associated with the EC2 AMI.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "key_name": {
+        "description": "Provides the name of the EC2 key pair.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "launch_configuration_name": {
+        "description": "The name of the launch configuration. This name must be unique per Region per account.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "metadata_options": {
+        "description": "The metadata options for the instances.I(metadata_options) is a property of AWS::AutoScaling::LaunchConfiguration that describes metadata options for the instances.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "placement_tenancy": {
+        "description": "The tenancy of the instance, either default or dedicated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ram_disk_id": {
+        "description": "The ID of the RAM disk to select.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "security_groups": {
+        "description": "A list that contains the security groups to assign to the instances in the Auto Scaling group.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "spot_price": {
+        "description": "The maximum hourly price you are willing to pay for any Spot Instances launched to fulfill the request.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.autoscaling_lifecycle_hook": {
+    "short_description": "Creates and manages an Auto Scaling group",
+    "description": "Creates and manages an Auto Scaling group. The AWS AutoScaling Lifecycle Hook resource specifies lifecycle hooks for an Auto Scaling group. These hooks let you create solutions that are aware of events in the Auto Scaling instance lifecycle, and then perform a custom action on instances when the corresponding lifecycle event occurs. A lifecycle hook provides a specified amount of time (one hour by default) to wait for the action to complete before the instance transitions to the next state.",
+    "options": {
+      "auto_scaling_group_name": {
+        "description": "The name of the Auto Scaling group for the lifecycle hook.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_result": {
+        "description": "The action the Auto Scaling group takes when the lifecycle hook timeout elapses or if an unexpected failure occurs. The valid values are CONTINUE and ABANDON (default).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "heartbeat_timeout": {
+        "description": "The maximum time, in seconds, that can elapse before the lifecycle hook times out. The range is from 30 to 7200 seconds. The default value is 3600 seconds (1 hour). If the lifecycle hook times out, Amazon EC2 Auto Scaling performs the action that you specified in the DefaultResult property.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "identifier": {
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.autoscaling_warm_pool": {
+    "short_description": "Creates and manages a pool of pre-initialized EC2 instances that sits alongside the Auto Scaling group",
+    "description": "Creates and manages a pool of pre-initialized EC2 instances that sits alongside the Auto Scaling group. Whenever your application needs to scale out, the Auto Scaling group can draw on the warm pool to meet its new desired capacity.",
+    "options": {
+      "auto_scaling_group_name": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "instance_reuse_policy": {
+        "description": "Not Provived.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_group_prepared_capacity": {
+        "description": "Not Provived.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "min_size": {
+        "description": "Not Provived.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool_state": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.backup_backup_vault": {
+    "short_description": "Create and manage logical containers where backups are stored",
+    "description": "Creates and manages logical containers where backups are stored.",
+    "options": {
+      "access_policy": {
+        "description": "Not Provived.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup_vault_name": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup_vault_tags": {
+        "description": "Not Provived.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "encryption_key_arn": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "lock_configuration": {
+        "description": "Not Provived.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notifications": {
+        "description": "Not Provived.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.backup_framework": {
+    "short_description": "Create and manage frameworks with one or more controls",
+    "description": "Creates and manages frameworks with one or more controls.",
+    "options": {
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "framework_arn": {
+        "description": "An Amazon Resource Name (ARN) that uniquely identifies Framework as a resource.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "framework_controls": {
+        "description": "Contains detailed information about all of the controls of a framework. Each framework must contain at least one control.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.backup_report_plan": {
+    "short_description": "Create and manage report plans",
+    "description": "Creates and manages report plans.",
+    "options": {
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "report_delivery_channel": {
+        "description": "A structure that contains information about where and how to deliver your reports, specifically your Amazon S3 bucket name, S3 key prefix, and the formats of your reports.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.cloudtrail_event_data_store": {
+    "short_description": "Creates and manages a new event data store",
+    "description": "Creates and manages a new event data store.",
+    "options": {
+      "advanced_event_selectors": {
+        "description": "Advanced event selectors let you create fine-grained selectors for the following AWS CloudTrail event record ?elds. They help you control costs by logging only those events that are important to you.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "event_data_store_arn": {
+        "description": "The ARN of the event data store.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "kms_key_id": {
+        "description": "Specifies the KMS key ID to use to encrypt the events delivered by CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "multi_region_enabled": {
+        "description": "Indicates whether the event data store includes events from all regions, or only from the region in which it was created.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the event data store.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization_enabled": {
+        "description": "Indicates that an event data store is collecting logged events for an organization.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "retention_period": {
+        "description": "The retention period, in days.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.cloudtrail_trail": {
+    "short_description": "Creates and manages a trail that specifies the settings for delivery of log data to an Amazon S3 bucket.",
+    "description": "Creates and manages a trail that specifies the settings for delivery of log data to an Amazon S3 bucket.",
+    "options": {
+      "cloud_watch_logs_log_group_arn": {
+        "description": "Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. Not required unless you specify CloudWatchLogsRoleArn.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cloud_watch_logs_role_arn": {
+        "description": "Specifies the role for the CloudWatch Logs endpoint to assume to write to a users log group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_log_file_validation": {
+        "description": "Specifies whether log file validation is enabled. The default is false.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "event_selectors": {
+        "description": "The type of email sending events to publish to the event destination.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "include_global_service_events": {
+        "description": "Specifies whether the trail is publishing events from global services such as IAM to the log files.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "insight_selectors": {
+        "description": "A string that contains insight types that are logged on a trail.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_logging": {
+        "description": "Whether the CloudTrail is currently logging AWS API calls.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_multi_region_trail": {
+        "description": "Specifies whether the trail applies only to the current region or to all regions. The default is false. If the trail exists only in the current region and this value is set to true, shadow trails (replications of the trail) will be created in the other regions. If the trail exists in all regions and this value is set to false, the trail will remain in the region where it was created, and its shadow trails in other regions will be deleted. As a best practice, consider using trails that log events in all regions.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_organization_trail": {
+        "description": "Specifies whether the trail is created for all accounts in an organization in AWS Organizations, or only for the current AWS account. The default is false, and cannot be true unless the call is made on behalf of an AWS account that is the master account for an organization in AWS Organizations.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kms_key_id": {
+        "description": "Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "s3_bucket_name": {
+        "description": "Specifies the name of the Amazon S3 bucket designated for publishing log files. See Amazon S3 Bucket Naming Requirements.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "s3_key_prefix": {
+        "description": "Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files. The maximum length is 200 characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sns_topic_name": {
+        "description": "Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.cloudwatch_composite_alarm": {
+    "short_description": "Creates and manages a composite alarm",
+    "description": "Creates and manages a composite alarm. When you create a composite alarm, you specify a rule expression for the alarm that takes into account the alarm states of other alarms that you have created. The composite alarm goes into ALARM state only if all conditions of the rule are met.",
+    "options": {
+      "actions_enabled": {
+        "description": "Indicates whether actions should be executed during any changes to the alarm state. The default is C(True).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "actions_suppressor": {
+        "description": "Actions will be suppressed if the suppressor alarm is in the ALARM state. ActionsSuppressor can be an AlarmName or an Amazon Resource Name (ARN) from an existing alarm.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "actions_suppressor_extension_period": {
+        "description": "Actions will be suppressed if WaitPeriod is active. The length of time that actions are suppressed is in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "actions_suppressor_wait_period": {
+        "description": "Actions will be suppressed if ExtensionPeriod is active. The length of time that actions are suppressed is in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "alarm_actions": {
+        "description": "Amazon Resource Name (ARN) of the action.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "alarm_description": {
+        "description": "The description of the alarm.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "alarm_name": {
+        "description": "The name of the Composite Alarm.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "alarm_rule": {
+        "description": "Expression which aggregates the state of other Alarms (Metric or Composite Alarms).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "insufficient_data_actions": {
+        "description": "Amazon Resource Name (ARN) of the action.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ok_actions": {
+        "description": "Amazon Resource Name (ARN) of the action.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.cloudwatch_metric_stream": {
+    "short_description": "Creates and manages a metric stream",
+    "description": "Creates and manages a metric stream. Metrics streams can automatically stream CloudWatch metrics to AWS destinations including Amazon S3 and to many third-party solutions. For more information, see U(https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Metric-Streams.html).",
+    "options": {
+      "exclude_filters": {
+        "description": "This structure defines the metrics that will be streamed.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "firehose_arn": {
+        "description": "The ARN of the Kinesis Firehose where to stream the data.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "include_filters": {
+        "description": "This structure defines the metrics that will be streamed.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "include_linked_accounts_metrics": {
+        "description": "If you are creating a metric stream in a monitoring account, specify true to include metrics from source accounts that are linked to this monitoring account, in the metric stream. The default is false.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the metric stream.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "output_format": {
+        "description": "The output format of the data streamed to the Kinesis Firehose.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "role_arn": {
+        "description": "The ARN of the role that provides access to the Kinesis Firehose.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.dynamodb_global_table": {
+    "short_description": "Creates and manages a Version 2019.11.21 global table",
+    "description": "Creates and manages a Version 2019.11.21 global table. This resource cannot be used to create or manage a Version 2017.11.29 global table.",
+    "options": {
+      "attribute_definitions": {
+        "description": "Not Provived.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "billing_mode": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "global_secondary_indexes": {
+        "description": "Not Provived.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "key_schema": {
+        "description": "Not Provived.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "local_secondary_indexes": {
+        "description": "Not Provived.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "replicas": {
+        "description": "Not Provived.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sse_specification": {
+        "description": "Not Provived.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.ec2_placement_group": {
+    "short_description": "Creates and manages a placement group",
+    "description": "Specifies a placement group in which to launch instances. The strategy of the placement group determines how the instances are organized within the group. For more information see U(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-placementgroup.html).",
+    "options": {
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "group_name": {
+        "description": "The Group Name of Placement Group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "partition_count": {
+        "description": "The number of partitions. Valid only when **Strategy** is set to partition.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "spread_level": {
+        "description": "The Spread Level of Placement Group is an enum where it accepts either host or rack when strategy is spread.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.ecr_repository": {
+    "short_description": "Creates and manages an AWS ECR Repository resource",
+    "description": "The AWS ECR Repository resource specifies an Amazon Elastic Container Registry (Amazon ECR) repository, where users can push and pull Docker images, Open Container Initiative (OCI) images, and OCI compatible artifacts. For more information see U(https://docs.aws.amazon.com/AmazonECR/latest/userguide/Repositories.html).",
+    "options": {
+      "encryption_configuration": {
+        "description": "The encryption configuration for the repository. This determines how the contents of your repository are encrypted at rest. By default, when no encryption configuration is set or the C(AES256) encryption type is used, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts your data at rest using an AES-256 encryption algorithm. This does not require any action on your part. For more information, see U(https://docs.aws.amazon.com/AmazonECR/latest/userguide/encryption-at-rest.html).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "image_scanning_configuration": {
+        "description": "The image scanning configuration for the repository. This setting determines whether images are scanned for known vulnerabilities after being pushed to the repository.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image_tag_mutability": {
+        "description": "The image tag mutability setting for the repository.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "IMMUTABLE",
+          "MUTABLE"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "lifecycle_policy": {
+        "description": "The I(lifecycle_policy) property type specifies a lifecycle policy. For information about lifecycle policy syntax, see U(https://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "repository_name": {
+        "description": "The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app). If you dont specify a name, AWS CloudFormation generates a unique physical ID and uses that ID for the repository name. For more information, see U(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html.).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "repository_policy_text": {
+        "description": "The JSON repository policy text to apply to the repository. For more information, see U(https://docs.aws.amazon.com/AmazonECR/latest/userguide/RepositoryPolicyExamples.html) in the Amazon Elastic Container Registry User Guide.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.ecs_capacity_provider": {
+    "short_description": "Creates and manages a capacity provider",
+    "description": "Creates and manages a capacity provider. Capacity providers are associated with an Amazon ECS cluster and are used in capacity provider strategies to facilitate cluster auto scaling.",
+    "options": {
+      "auto_scaling_group_provider": {
+        "description": "Not Provived.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "name": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.ecs_cluster": {
+    "short_description": "Creates and manages an Amazon Elastic Container Service (Amazon ECS) cluster",
+    "description": "Creates and manages an Amazon Elastic Container Service (Amazon ECS) cluster.",
+    "options": {
+      "capacity_providers": {
+        "description": "Not Provived.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_name": {
+        "description": "A user-generated string that you use to identify your cluster. If you dont specify a name, AWS CloudFormation generates a unique physical ID for the name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_settings": {
+        "description": "The setting to use when creating a cluster. This parameter is used to enable CloudWatch Container Insights for a cluster. If this value is specified, it will override the containerInsights value set with PutAccountSetting or PutAccountSettingDefault.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "configuration": {
+        "description": "The configurations to be set at cluster level.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_capacity_provider_strategy": {
+        "description": "A capacity provider strategy consists of one or more capacity providers along with the base and weight to assign to them. A capacity provider must be associated with the cluster to be used in a capacity provider strategy. The PutClusterCapacityProviders API is used to associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or UPDATING status can be used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "service_connect_defaults": {
+        "description": "Service Connect Configuration default for all services or tasks within this cluster.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.ecs_cluster_capacity_provider_associations": {
+    "short_description": "Creates and manages the association between one or more capacity providers and a default capacity provider strategy with a cluster",
+    "description": "The AWS ECS Cluster Capacity Provider Associations resource associates one or more capacity providers and a default capacity provider strategy with a cluster.",
+    "options": {
+      "capacity_providers": {
+        "description": "If using ec2 auto-scaling, the name of the associated capacity provider. Otherwise C(FARGATE), C(FARGATE_SPOT).",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "FARGATE",
+          "FARGATE_SPOT"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "cluster": {
+        "description": "The name of the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_capacity_provider_strategy": {
+        "description": "List of capacity providers to associate with the cluster.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.ecs_primary_task_set": {
+    "short_description": "Specifies which task set in a service is the primary task set.",
+    "description": "Specifies which task set in a service is the primary task set. Any parameters that are updated on the primary task set in a service will transition to the service. This is used when a service uses the EXTERNAL deployment controller type.",
+    "options": {
+      "cluster": {
+        "description": "The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service to create the task set in.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "identifier": {
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.eks_addon": {
+    "short_description": "Creates and manages Amazon EKS add-ons",
+    "description": "Creates and manages Amazon EKS add-ons. Amazon EKS add-ons require clusters running version 1.18 or later because Amazon EKS add-ons rely on the Server-side Apply Kubernetes feature, which is only available in Kubernetes 1.18 and later. For more information see U(https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html).",
+    "options": {
+      "addon_name": {
+        "description": "Name of Addon.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "addon_version": {
+        "description": "Version of Addon.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_name": {
+        "description": "Name of Cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "configuration_values": {
+        "description": "The configuration values to use with the add-on.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "identifier": {
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.eks_cluster": {
+    "short_description": "Create and manages Amazon EKS control planes",
+    "description": "Create and manage Amazon EKS control planes.",
+    "options": {
+      "encryption_config": {
+        "description": "The encryption configuration for the cluster.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "kubernetes_network_config": {
+        "description": "The Kubernetes network configuration for the cluster.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "logging": {
+        "description": "Enable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs based on log types. By default, cluster control plane logs arent exported to CloudWatch Logs.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The unique name to give to your cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "outpost_config": {
+        "description": "An object representing the Outpost configuration to use for AWS EKS outpost cluster.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "resources_vpc_config": {
+        "description": "An object representing the VPC configuration to use for an Amazon EKS cluster.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role_arn": {
+        "description": "The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to AWS API operations on your behalf.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.eks_fargate_profile": {
+    "short_description": "Creates and manage AWS Fargate profiles",
+    "description": "Creates and manage AWS Fargate profiles for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate.",
+    "options": {
+      "cluster_name": {
+        "description": "Name of the Cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fargate_profile_name": {
+        "description": "Name of FargateProfile.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "identifier": {
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.iam_instance_profile": {
+    "short_description": "Creates and manages an instance profile",
+    "description": "Creates and manages an instance profile. For more information see U(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html).",
+    "options": {
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "instance_profile_name": {
+        "description": "The name of the instance profile to create.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "The path to the instance profile.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "roles": {
+        "description": "The name of the role to associate with the instance profile. Only one role can be assigned to an EC2 instance at a time, and all applications on the instance share the same role and permissions.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.iam_role": {
+    "short_description": "Create and manage roles",
+    "description": "Creates and manages new roles for your AWS account.",
+    "options": {
+      "assume_role_policy_document": {
+        "description": "The trust policy that is associated with this role.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A description of the role that you provide.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "managed_policy_arns": {
+        "description": "A list of Amazon Resource Names (ARNs) of the IAM managed policies that you want to attach to the role.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_session_duration": {
+        "description": "The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default maximum of one hour is applied. This setting can have a value from 1 hour to 12 hours.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "The path to the role.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "permissions_boundary": {
+        "description": "The ARN of the policy used to set the permissions boundary for the role.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policies": {
+        "description": "The inline policy document that is embedded in the specified IAM role.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "role_name": {
+        "description": "A name for the IAM role, up to 64 characters in length.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.iam_server_certificate": {
+    "short_description": "Uploads and manages a server certificate entity for the AWS account",
+    "description": "Uploads and manages a server certificate entity for the AWS account.",
+    "options": {
+      "certificate_body": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "certificate_chain": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "path": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "private_key": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "server_certificate_name": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.kms_alias": {
+    "short_description": "Specifies a display name for a KMS key.",
+    "description": "Specifies a display name for a KMS key.",
+    "options": {
+      "alias_name": {
+        "description": "Specifies the alias name. This value must begin with alias/ followed by a name, such as alias/ExampleAlias. The alias name cannot begin with alias/aws/. The alias/aws/ prefix is reserved for AWS managed keys.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.kms_replica_key": {
+    "short_description": "Creates and manages a multi-Region replica key that is based on a multi-Region primary key",
+    "description": "Creates andn manages a multi-Region replica key that is based on a multi-Region primary key.",
+    "options": {
+      "description": {
+        "description": "A description of the AWS KMS key. Use a description that helps you to distinguish this AWS KMS key from others in the account, such as its intended use.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Specifies whether the AWS KMS key is enabled. Disabled AWS KMS keys cannot be used in cryptographic operations.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "key_id": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "key_policy": {
+        "description": "The key policy that authorizes use of the AWS KMS key. The key policy must observe the following rules.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pending_window_in_days": {
+        "description": "Specifies the number of days in the waiting period before AWS KMS deletes an AWS KMS key that has been removed from a CloudFormation stack. Enter a value between 7 and 30 days. The default value is 30 days.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "primary_key_arn": {
+        "description": "Identifies the primary AWS KMS key to create a replica of. Specify the Amazon Resource Name (ARN) of the AWS KMS key. You cannot specify an alias or key ID. For help finding the ARN, see Finding the Key ID and ARN in the AWS Key Management Service Developer Guide.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.lambda_code_signing_config": {
+    "short_description": "Code signing for AWS Lambda",
+    "description": "Creates and manage code signing for AWS Lambda.",
+    "options": {
+      "allowed_publishers": {
+        "description": "When the CodeSigningConfig is later on attached to a function, the function code will be expected to be signed by profiles from this listWhen the CodeSigningConfig is later on attached to a function, the function code will be expected to be signed by profiles from this list.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "code_signing_config_arn": {
+        "description": "A unique Arn for CodeSigningConfig resource.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "code_signing_policies": {
+        "description": "Policies to control how to act if a signature is invalidPolicies to control how to act if a signature is invalid.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A description of the CodeSigningConfig.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.lambda_event_source_mapping": {
+    "short_description": "Create a mapping between an event source and an AWS Lambda function",
+    "description": "Create a mapping between an event source and an AWS Lambda function.",
+    "options": {
+      "amazon_managed_kafka_event_source_config": {
+        "description": "Specific configuration settings for an MSK event source.Specific configuration settings for an MSK event source.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "batch_size": {
+        "description": "The maximum number of items to retrieve in a single batch.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bisect_batch_on_function_error": {
+        "description": "(Streams) If the function returns an error, split the batch in two and retry.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_config": {
+        "description": "(Streams) An Amazon SQS queue or Amazon SNS topic destination for discarded records.(Streams) An Amazon SQS queue or Amazon SNS topic destination for discarded records.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Disables the event source mapping to pause polling and invocation.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "event_source_arn": {
+        "description": "The Amazon Resource Name (ARN) of the event source.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filter_criteria": {
+        "description": "The filter criteria to control event filtering.The filter criteria to control event filtering.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "function_name": {
+        "description": "The name of the Lambda function.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "function_response_types": {
+        "description": "(Streams) A list of response types supported by the function.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "ReportBatchItemFailures"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "Event Source Mapping Identifier UUID.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "maximum_batching_window_in_seconds": {
+        "description": "(Streams) The maximum amount of time to gather records before invoking the function, in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "maximum_record_age_in_seconds": {
+        "description": "(Streams) The maximum age of a record that Lambda sends to a function for processing.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "maximum_retry_attempts": {
+        "description": "(Streams) The maximum number of times to retry when the function returns an error.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parallelization_factor": {
+        "description": "(Streams) The number of batches to process from each shard concurrently.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "queues": {
+        "description": "(ActiveMQ) A list of ActiveMQ queues.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scaling_config": {
+        "description": "The scaling configuration for the event source.The scaling configuration for the event source.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "self_managed_event_source": {
+        "description": "Self-managed event source endpoints.The configuration used by AWS Lambda to access a self-managed event source.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "self_managed_kafka_event_source_config": {
+        "description": "Specific configuration settings for a Self-Managed Apache Kafka event source.Specific configuration settings for a Self-Managed Apache Kafka event source.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_access_configurations": {
+        "description": "The configuration used by AWS Lambda to access event source.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "starting_position": {
+        "description": "The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Streams sources.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "starting_position_timestamp": {
+        "description": "With StartingPosition set to C(AT_TIMESTAMP), the time from which to start reading, in Unix time seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.lambda_function": {
+    "short_description": "Create and manage Lambda functions",
+    "description": "Creates and manage Lambda functions.",
+    "options": {
+      "architectures": {
+        "description": "Not Provived.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "arm64",
+          "x86_64"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "code": {
+        "description": "The code for the function.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "code_signing_config_arn": {
+        "description": "A unique Arn for CodeSigningConfig resource.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dead_letter_config": {
+        "description": "A dead letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing.The dead-letter queue for failed asynchronous invocations.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A description of the function.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "environment": {
+        "description": "Environment variables that are accessible from function code during execution.A functions environment variable settings.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ephemeral_storage": {
+        "description": "A functions ephemeral storage settings.A functions ephemeral storage settings.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "file_system_configs": {
+        "description": "Connection settings for an Amazon EFS file system. To connect a function to a file system, a mount target must be available in every Availability Zone that your function connects to. If your template contains an AWS::EFS::MountTarget resource, you must also specify a DependsOn attribute to ensure that the mount target is created or updated before the function.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "function_name": {
+        "description": "The name of the Lambda function, up to 64 characters in length. If you dont specify a name, AWS CloudFormation generates one.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "handler": {
+        "description": "The name of the method within your code that Lambda calls to execute your function. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image_config": {
+        "description": "I(image_config).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kms_key_arn": {
+        "description": "The ARN of the AWS Key Management Service (AWS KMS) key thats used to encrypt your functions environment variables. If its not provided, AWS Lambda uses a default service key.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "layers": {
+        "description": "A list of function layers to add to the functions execution environment. Specify each layer by its ARN, including the version.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "memory_size": {
+        "description": "The amount of memory that your function has access to. Increasing the functions memory also increases its CPU allocation. The default value is 128 MB. The value must be a multiple of 64 MB.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "package_type": {
+        "description": "PackageType.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Image",
+          "Zip"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "reserved_concurrent_executions": {
+        "description": "The number of simultaneous executions to reserve for the function.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role": {
+        "description": "The Amazon Resource Name (ARN) of the functions execution role.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "runtime": {
+        "description": "The identifier of the functions runtime.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "runtime_management_config": {
+        "description": "I(runtime_management_config).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snap_start": {
+        "description": "The I(snap_start) setting of your functionThe functions I(snap_start) setting. When set to PublishedVersions, Lambda creates a snapshot of the execution environment when you publish a function version.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.logs_log_group": {
+    "short_description": "Create and manage log groups",
+    "description": "Create and manage log groups.",
+    "options": {
+      "data_protection_policy": {
+        "description": "The body of the policy document you want to use for this topic. You can only add one policy per topic. The policy must be in JSON string format. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.logs_metric_filter": {
+    "short_description": "Specifies a metric filter that describes how CloudWatch Logs extracts information from logs and transforms it into Amazon CloudWatch metrics",
+    "description": "Specifies a metric filter that describes how CloudWatch Logs extracts information from logs and transforms it into Amazon CloudWatch metrics. If you have multiple metric filters that are associated with a log group, all the filters are applied to the log streams in that group. The maximum number of metric filters that can be associated with a log group is 100.",
+    "options": {
+      "filter_name": {
+        "description": "A name for the metric filter.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filter_pattern": {
+        "description": "Pattern that Logs follows to interpret each entry in a log.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "identifier": {
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.logs_query_definition": {
+    "short_description": "Create and manage query definitions",
+    "description": "Creates and manage query definitions for CloudWatch Logs Insights.",
+    "options": {
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "log_group_names": {
+        "description": "I(log_group) name.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "A name for the saved query definition.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "query_definition_id": {
+        "description": "Unique identifier of a query definition.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "query_string": {
+        "description": "The query string to use for this definition.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.logs_resource_policy": {
+    "short_description": "Create and manage resource policies",
+    "description": "Creates and manage resource policies that allows other AWS services to put log events to the account.",
+    "options": {
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "policy_document": {
+        "description": "The policy document.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy_name": {
+        "description": "A name for resource policy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.memorydb_acl": {
+    "short_description": "Creates and manages a MemoryDB ACL",
+    "description": "Creates and manages an Access Control List (ACL) to specify permissions to a MemoryDB for Redis cluster. For more information, see U(https://docs.aws.amazon.com/memorydb/latest/devguide/clusters.acls.html)",
+    "options": {
+      "acl_name": {
+        "description": "The name of the acl.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.memorydb_cluster": {
+    "short_description": "Creates and manages a MemoryDB cluster",
+    "description": "Creates or manages a MemoryDB for Redis cluster. For more information, see U(https://docs.aws.amazon.com/cli/latest/reference/memorydb/create-cluster.html)",
+    "options": {
+      "acl_name": {
+        "description": "The name of the Access Control List to associate with the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auto_minor_version_upgrade": {
+        "description": "A flag that enables automatic minor version upgrade when set to true. You cannot modify the value of AutoMinorVersionUpgrade after the cluster is created. To enable AutoMinorVersionUpgrade on a cluster you must set AutoMinorVersionUpgrade to true when you create a cluster.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_endpoint": {
+        "description": "The cluster endpoint.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_name": {
+        "description": "The name of the cluster. This value must be unique as it also serves as the cluster identifier.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "data_tiering": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": [
+          null
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.memorydb_parameter_group": {
+    "short_description": "Creates and manages a MemoryDB parameter group",
+    "description": "Creates a new MemoryDB parameter group. A parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster. For more information, see U(https://docs.aws.amazon.com/MemoryDB/latest/devguide/parametergroups.html)",
+    "options": {
+      "description": {
+        "description": "A description of the parameter group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "family": {
+        "description": "The name of the parameter group family that this parameter group is compatible with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "parameter_group_name": {
+        "description": "The name of the parameter group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parameters": {
+        "description": "An map of parameter names and values for the parameter update. You must supply at least one parameter name and value; subsequent arguments are optional.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.memorydb_subnet_group": {
+    "short_description": "Creates and manages a MemoryDB subnet group",
+    "description": "A subnet group is a collection of subnets (typically private) that you can designate for your clusters running in an Amazon Virtual Private Cloud (VPC) environment. When you create a MemoryDB cluster, you must specify a subnet group. MemoryDB uses that subnet group to choose a subnet and IP addresses within that subnet to associate with your nodes. For more information, see U(https://docs.aws.amazon.com/MemoryDB/latest/devguide/subnetgroups.html)",
+    "options": {
+      "description": {
+        "description": "An optional description of the subnet group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.memorydb_user": {
+    "short_description": "Creates and manages a MemoryDB user",
+    "description": "Creates a MemoryDB user. For more information, see U(https://docs.aws.amazon.com/memorydb/latest/devguide/clusters.acls.html)",
+    "options": {
+      "access_string": {
+        "description": "Access permissions string used for this user account.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "authentication_mode": {
+        "description": "Not Provived.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.rds_db_cluster_parameter_group": {
+    "short_description": "Creates and manages an Amazon Aurora DB cluster or Multi-AZ DB cluster",
+    "description": "Creates and manages an Amazon Aurora DB cluster or Multi-AZ DB cluster.",
+    "options": {
+      "db_cluster_parameter_group_name": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A friendly description for this DB cluster parameter group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "family": {
+        "description": "The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a DB engine and engine version compatible with that DB cluster parameter group family.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "parameters": {
+        "description": "An array of parameters to be modified. A maximum of 20 parameters can be modified in a single request.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.rds_db_instance": {
+    "short_description": "Creates and manages resource creates an Amazon DB instance",
+    "description": "Creates and manages resource creates an Amazon DB instance. The new DB instance can be an RDS DB instance, or it can be a DB instance in an Aurora DB cluster.",
+    "options": {
+      "allocated_storage": {
+        "description": "The amount of storage (in gigabytes) to be initially allocated for the database instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_major_version_upgrade": {
+        "description": "A value that indicates whether major version upgrades are allowed. Changing this parameter doesnt result in an outage and the change is asynchronously applied as soon as possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "associated_roles": {
+        "description": "The AWS Identity and Access Management (IAM) roles associated with the DB instance.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auto_minor_version_upgrade": {
+        "description": "A value that indicates whether minor engine upgrades are applied automatically to the DB instance during the maintenance window. By default, minor engine upgrades are applied automatically.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "availability_zone": {
+        "description": "The Availability Zone (AZ) where the database will be created. For information on AWS Regions and Availability Zones.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup_retention_period": {
+        "description": "The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "ca_certificate_identifier": {
+        "description": "The identifier of the CA certificate for this DB instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "certificate_details": {
+        "description": "Returns the details of the DB instances server certificate.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "certificate_rotation_restart": {
+        "description": "A value that indicates whether the DB instance is restarted when you rotate your SSL/TLS certificate. By default, the DB instance is restarted when you rotate your SSL/TLS certificate. The certificate is not updated until the DB instance is restarted. If you are using SSL/TLS to connect to the DB instance, follow the appropriate instructions for your DB engine to rotate your SSL/TLS certificate. This setting doesnt apply to RDS Custom.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "character_set_name": {
+        "description": "For supported engines, indicates that the DB instance should be associated with the specified character set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "copy_tags_to_snapshot": {
+        "description": "A value that indicates whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "custom_iam_instance_profile": {
+        "description": "The instance profile associated with the underlying Amazon EC2 instance of an RDS Custom DB instance. The instance profile must meet the following requirements:. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.rds_db_proxy": {
+    "short_description": "Create and manage DB proxies",
+    "description": "Creates and manage DB proxies.",
+    "options": {
+      "auth": {
+        "description": "The authorization mechanism that the proxy uses.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "db_proxy_name": {
+        "description": "The identifier for the proxy. This name must be unique for all proxies owned by your AWS account in the specified AWS Region.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "debug_logging": {
+        "description": "Whether the proxy includes detailed information about SQL statements in its logs.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "engine_family": {
+        "description": "The kinds of databases that the proxy can connect to.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "MYSQL",
+          "POSTGRESQL",
+          "SQLSERVER"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "idle_client_timeout": {
+        "description": "The number of seconds that a connection to the proxy can be inactive before the proxy disconnects it.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "require_tls": {
+        "description": "A Boolean parameter that specifies whether Transport Layer Security (TLS) encryption is required for connections to the proxy.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role_arn": {
+        "description": "The Amazon Resource Name (ARN) of the IAM role that the proxy uses to access secrets in AWS Secrets Manager.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.rds_db_proxy_endpoint": {
+    "short_description": "Creates and manages a DB proxy endpoint",
+    "description": "Creates and manages a DB proxy endpoint. You can use custom proxy endpoints to access a proxy through a different VPC than the proxy",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.cloud.rds_db_subnet_group": {
+    "short_description": "Creates and manages a database subnet group",
+    "description": "Creates and manages a database subnet group. Subnet groups must contain at least two subnets in two different Availability Zones in the same region.",
+    "options": {
+      "db_subnet_group_description": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "db_subnet_group_name": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.rds_global_cluster": {
+    "short_description": "Creates and manages an Amazon Aurora global database spread across multiple AWS Regions",
+    "description": "Creates and manages an Amazon Aurora global database spread across multiple AWS Regions.",
+    "options": {
+      "deletion_protection": {
+        "description": "The deletion protection setting for the new global database. The global database cant be deleted when deletion protection is enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "engine": {
+        "description": "The name of the database engine to be used for this DB cluster. ",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "aurora",
+          "aurora-mysql",
+          "aurora-postgresql"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.rds_option_group": {
+    "short_description": "Creates and manages an option group",
+    "description": "Creates and manages an option group, to enable and configure features that are specific to a particular DB engine.",
+    "options": {
+      "engine_name": {
+        "description": "Indicates the name of the engine that this option group can be applied to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "major_engine_version": {
+        "description": "Indicates the major engine version associated with this option group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "option_configurations": {
+        "description": "The I(option_configuration) property type specifies an individual option, and its settings, within an AWS::RDS::OptionGroup resource.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "option_group_description": {
+        "description": "Provides a description of the option group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "option_group_name": {
+        "description": "Specifies the name of the option group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.redshift_cluster": {
+    "short_description": "Create and manage clusters",
+    "description": "Creates and manage clusters.",
+    "options": {
+      "allow_version_upgrade": {
+        "description": "Major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster. Default value is True.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "aqua_configuration_status": {
+        "description": "The value represents how the cluster is configured to use AQUA (Advanced Query Accelerator) after the cluster is restored. Possible values include the following. enabled - Use AQUA if it is available for the current Region and Amazon Redshift node type. disabled - Dont use AQUA. auto - Amazon Redshift determines whether to use AQUA.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "automated_snapshot_retention_period": {
+        "description": "The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Default value is 1.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "availability_zone": {
+        "description": "The EC2 Availability Zone (AZ) in which you want Amazon Redshift to provision the cluster. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.redshift_endpoint_access": {
+    "short_description": "Creates and manages Redshift-managed VPC endpoint",
+    "description": "Creates and manages a Redshift-managed VPC endpoint.",
+    "options": {
+      "cluster_identifier": {
+        "description": "A unique identifier for the cluster. You use this identifier to refer to the cluster for any subsequent cluster operations such as deleting or modifying. All alphabetical characters must be lower case, no hypens at the end, no two consecutive hyphens. Cluster name should be unique for all clusters within an AWS account.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "endpoint_name": {
+        "description": "The name of the endpoint.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "resource_owner": {
+        "description": "The AWS account ID of the owner of the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.redshift_endpoint_authorization": {
+    "short_description": "Describes an endpoint authorization for authorizing Redshift-managed VPC endpoint access to a cluster across AWS accounts.",
+    "description": "Describes an endpoint authorization for authorizing Redshift-managed VPC endpoint access to a cluster across AWS accounts.",
+    "options": {
+      "account": {
+        "description": "The target AWS account ID to grant or revoke access for.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_identifier": {
+        "description": "The cluster identifier.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "identifier": {
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.redshift_event_subscription": {
+    "short_description": "Create and manage Amazon Redshift event notification subscriptions",
+    "description": "Creates and manage Amazon Redshift event notification subscriptions.",
+    "options": {
+      "enabled": {
+        "description": "A boolean value; set to true to activate the subscription, and set to false to create the subscription but not activate it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "event_categories": {
+        "description": "Specifies the Amazon Redshift event categories to be published by the event notification subscription.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "configuration",
+          "management",
+          "monitoring",
+          "pending",
+          "security"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "severity": {
+        "description": "Specifies the Amazon Redshift event severity to be published by the event notification subscription.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ERROR",
+          "INFO"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "sns_topic_arn": {
+        "description": "The Amazon Resource Name (ARN) of the Amazon SNS topic used to transmit the event notifications.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_ids": {
+        "description": "A list of one or more identifiers of Amazon Redshift source objects.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_type": {
+        "description": "The type of source that will be generating the events.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "cluster",
+          "cluster-parameter-group",
+          "cluster-security-group",
+          "cluster-snapshot",
+          "scheduled-action"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.redshift_scheduled_action": {
+    "short_description": "Creates and manages a scheduled action",
+    "description": "Creates and manages a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action. For example, you can create a schedule of when to run the ResizeCluster API operation.",
+    "options": {
+      "enable": {
+        "description": "If true, the schedule is enabled. If false, the scheduled action does not trigger.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "end_time": {
+        "description": "The end time in UTC of the scheduled action. After this time, the scheduled action does not trigger.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "iam_role": {
+        "description": "The IAM role to assume to run the target action.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "schedule": {
+        "description": "The schedule in at( ) or cron( ) format.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scheduled_action_description": {
+        "description": "The description of the scheduled action.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scheduled_action_name": {
+        "description": "The name of the scheduled action. The name must be unique within an account.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "start_time": {
+        "description": "The start time in UTC of the scheduled action. Before this time, the scheduled action does not trigger.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.route53_dnssec": {
+    "short_description": "Is used to enable DNSSEC signing in a hosted zone",
+    "description": "Is used to enable DNSSEC signing in a hosted zone.",
+    "options": {
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "hosted_zone_id": {
+        "description": "The unique string (ID) used to identify a hosted zone.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.route53_key_signing_key": {
+    "short_description": "Creates a new key-signing key (KSK) in a hosted zone",
+    "description": "Creates a new key-signing key (KSK) in a hosted zone.",
+    "options": {
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "hosted_zone_id": {
+        "description": "The unique string (ID) used to identify a hosted zone.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "identifier": {
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.s3_access_point": {
+    "short_description": "Create and manage Amazon S3 access points to use to access S3 buckets",
+    "description": "Create and manage Amazon S3 access points to use to access S3 buckets.",
+    "options": {
+      "bucket": {
+        "description": "The name of the bucket that you want to associate this Access Point with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bucket_account_id": {
+        "description": "The AWS account ID associated with the S3 bucket associated with this access point.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name you want to assign to this Access Point. If you dont specify a name, AWS CloudFormation generates a unique ID and uses that ID for the access point name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy": {
+        "description": "The Access Point Policy you want to apply to this access point.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy_status": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.s3_bucket": {
+    "short_description": "Create and manage S3 buckets",
+    "description": "Create and manage S3 buckets.",
+    "options": {
+      "accelerate_configuration": {
+        "description": "Configuration for the transfer acceleration state.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "access_control": {
+        "description": "A canned access control list (ACL) that grants predefined permissions to the bucket.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "AuthenticatedRead",
+          "AwsExecRead",
+          "BucketOwnerFullControl",
+          "BucketOwnerRead",
+          "LogDeliveryWrite",
+          "Private",
+          "PublicRead",
+          "PublicReadWrite"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "analytics_configurations": {
+        "description": "Specifies the configuration and any analyses for the analytics filter of an Amazon S3 bucket.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bucket_encryption": {
+        "description": "Specifies default encryption for a bucket using server-side encryption with either Amazon S3-managed keys (SSE-S3) or AWS KMS-managed keys (SSE-KMS).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bucket_name": {
+        "description": "A name for the bucket. If you dont specify a name, AWS CloudFormation generates a unique physical ID and uses that ID for the bucket name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cors_configuration": {
+        "description": "Rules that define cross-origin resource sharing of objects in this bucket.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "intelligent_tiering_configurations": {
+        "description": "Specifies the S3 Intelligent-Tiering configuration for an Amazon S3 bucket.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.s3_multi_region_access_point": {
+    "short_description": "Create and manage Amazon S3 Multi-Region Access Points",
+    "description": "Create and manage Amazon S3 Multi-Region Access Points.",
+    "options": {
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name you want to assign to this Multi Region Access Point.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "public_access_block_configuration": {
+        "description": "The PublicAccessBlock configuration that you want to apply to this Multi Region Access Point. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see U(https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) The Meaning of Public in the Amazon Simple Storage Service Developer Guide.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.s3_multi_region_access_point_policy": {
+    "short_description": "Manage Amazon S3 access policies",
+    "description": "Applie and manage Amazon S3 access policies to an Amazon S3 Multi-Region Access Points.",
+    "options": {
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "mrap_name": {
+        "description": "The name of the Multi Region Access Point to apply policy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy": {
+        "description": "Policy document to apply to a Multi Region Access Point.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.s3objectlambda_access_point": {
+    "short_description": "Create and manage Object Lambda Access Points used to access S3 buckets",
+    "description": "Create and manage Object Lambda Access Points used to access S3 buckets.",
+    "options": {
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name you want to assign to this Object lambda Access Point.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "object_lambda_configuration": {
+        "description": "The Object lambda Access Point Configuration that configures transformations to be applied on the objects on specified S3 ActionsConfiguration to be applied to this Object lambda Access Point. It specifies Supporting Access Point, Transformation Configurations. Customers can also set if they like to enable Cloudwatch metrics for accesses to this Object lambda Access Point. Default setting for Cloudwatch metrics is disable.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.s3objectlambda_access_point_policy": {
+    "short_description": "Specifies the Object Lambda Access Point resource policy document",
+    "description": "Create and manage Object Lambda Access Point resource policy document.",
+    "options": {
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "object_lambda_access_point": {
+        "description": "The name of the Amazon S3 ObjectLambdaAccessPoint to which the policy applies.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy_document": {
+        "description": "A policy document containing permissions to add to the specified ObjectLambdaAccessPoint. For more information, see Access Policy Language Overview (U(https://docs.aws.amazon.com/AmazonS3/latest/dev/access-policy-language-overview.html)) in the Amazon Simple Storage Service Developer Guide.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.ssm_document": {
+    "short_description": "Creates and manages a Systems Manager (SSM) document",
+    "description": "Creates and manages a Systems Manager (SSM) document in AWS Systems Manager. This document defines the actions that Systems Manager performs on your AWS resources.",
+    "options": {
+      "attachments": {
+        "description": "A list of key and value pairs that describe attachments to a version of a document.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content": {
+        "description": "The content for the Systems Manager document in JSON, YAML or String format.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "document_format": {
+        "description": "Specify the document format for the request. The document format can be either JSON or YAML. JSON is the default format.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "JSON",
+          "TEXT",
+          "YAML"
+        ],
+        "default": "JSON",
+        "aliases": null
+      },
+      "document_type": {
+        "description": "The type of document to create.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ApplicationConfiguration",
+          "ApplicationConfigurationSchema",
+          "Automation",
+          "Automation.ChangeTemplate",
+          "ChangeCalendar",
+          "CloudFormation",
+          "Command",
+          "DeploymentStrategy",
+          "Package",
+          "Policy",
+          "ProblemAnalysis",
+          "ProblemAnalysisTemplate",
+          "Session"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "name": {
+        "description": "A name for the Systems Manager document.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "requires": {
+        "description": "A list of SSM documents required by a document. For example, an ApplicationConfiguration document requires an ApplicationConfigurationSchema document.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.ssm_resource_data_sync": {
+    "short_description": "Creates and manages a resource data sync",
+    "description": "Creates and manages a resource data sync for AWS Systems Manager. A resource data sync helps you view data from multiple sources in a single location.",
+    "options": {
+      "bucket_name": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bucket_prefix": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bucket_region": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "kms_key_arn": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "s3_destination": {
+        "description": "Not Provived.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.wafv2_ip_set": {
+    "short_description": "Creates and manages and IP set",
+    "description": "Creates and manages and IP set to identify web requests that originate from specific IP addresses or ranges of IP addresses. For example, if you",
+    "options": {},
+    "deprecated": null
+  },
+  "amazon.cloud.wafv2_logging_configuration": {
+    "short_description": "Creates and manages an association between logging destinations and a web ACL resource",
+    "description": "Creates and manages an association between logging destinations and a web ACL resource, for logging from AWS WAF. For more information see U(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-wafv2-loggingconfiguration.html).",
+    "options": {
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "log_destination_configs": {
+        "description": "The Amazon Resource Names (ARNs) of the logging destinations that you want to associate with the web ACL.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "logging_filter": {
+        "description": "Filtering that specifies which web requests are kept in the logs and which are dropped. You can filter on the rule action and on the web request labels that were applied by matching rules during web ACL evaluation.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "redacted_fields": {
+        "description": "A key-value pair to associate with a resource.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resource_arn": {
+        "description": "The Amazon Resource Name (ARN) of the web ACL that you want to associate with LogDestinationConfigs.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.wafv2_regex_pattern_set": {
+    "short_description": "Creates and manages an AWS WAFv2 Regex Pattern Set",
+    "description": "Creates and manages an AWS WAFv2 Regex Pattern Set. Use an AWS WAFv2 Regex Pattern Set to have AWS WAF inspect a web request component for a specific set of regular expression patterns.",
+    "options": {
+      "description": {
+        "description": "Description of the entity.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "id": {
+        "description": "Id of the RegexPatternSet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "identifier": {
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.cloud.wafv2_web_acl_association": {
+    "short_description": "Creates and manages a web ACL association",
+    "description": "Creates and manages a web ACL association. Use a web ACL association to define an association between a web ACL and a regional application resource, to protect the resource.",
+    "options": {
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "identifier": {
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

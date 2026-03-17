@@ -1,0 +1,239 @@
+{
+  "openvswitch.openvswitch.openvswitch_bond": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "openvswitch.openvswitch.openvswitch_bridge": {
+    "short_description": "Manage Open vSwitch bridges",
+    "description": "Manage Open vSwitch bridges",
+    "options": {
+      "bridge": {
+        "description": "Name of bridge or fake bridge to manage",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parent": {
+        "description": "Bridge parent of the fake bridge to manage",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vlan": {
+        "description": "The VLAN id of the fake bridge to manage (must be between 0 and 4095). This parameter is required if I(parent) parameter is set.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the bridge should exist",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "timeout": {
+        "description": "How long to wait for ovs-vswitchd to respond",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "external_ids": {
+        "description": "A dictionary of external-ids. Omitting this parameter is a No-op. To  clear all external-ids pass an empty value.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fail_mode": {
+        "description": "Set bridge fail-mode. The default value (None) is a No-op.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "set": {
+        "description": "Run set command after bridge configuration. This parameter is non-idempotent, play will always return I(changed) state if present",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "database_socket": {
+        "description": "Path/ip to datbase socket to use Default path is used if not specified Path should start with",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openvswitch.openvswitch.openvswitch_db": {
+    "short_description": "Configure open vswitch database.",
+    "description": "Set column values in record in database table.",
+    "options": {
+      "state": {
+        "description": "Configures the state of the key. When set to I(present), the I(key) and I(value) pair will be set on the I(record) and when set to I(absent) the I(key) will not be set.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "read"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "table": {
+        "description": "Identifies the table in the database.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "record": {
+        "description": "Identifies the record in the table.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "col": {
+        "description": "Identifies the column in the record.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "key": {
+        "description": "Identifies the key in the record column, when the column is a map type.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "value": {
+        "description": "Expected value for the table, record, column and key.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "How long to wait for ovs-vswitchd to respond",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "database_socket": {
+        "description": "Path/ip to datbase socket to use Default path is used if not specified Path should start with",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openvswitch.openvswitch.openvswitch_port": {
+    "short_description": "Manage Open vSwitch ports",
+    "description": "Manage Open vSwitch ports",
+    "options": {
+      "bridge": {
+        "description": "Name of bridge to manage",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Name of port to manage on the bridge",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tag": {
+        "description": "VLAN tag for this port. Must be a value between 0 and 4095.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the port should exist",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "timeout": {
+        "description": "How long to wait for ovs-vswitchd to respond",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "external_ids": {
+        "description": "Dictionary of external_ids applied to a port.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "set": {
+        "description": "Set multiple properties on a port.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "database_socket": {
+        "description": "Path/ip to datbase socket to use Default path is used if not specified Path should start with",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

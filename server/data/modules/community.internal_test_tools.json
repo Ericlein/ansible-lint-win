@@ -1,0 +1,48 @@
+{
+  "community.internal_test_tools.files_collect": {
+    "short_description": "Collect state of files and directories on disk",
+    "description": "This module collects the state (timestamps, attributes, content) of files and directories on disk and returns them. Use together with M(community.internal_test_tools.files_diff) to verify later on whether something changed, and if yes, what exactly changed.",
+    "options": {
+      "files": {
+        "description": "List of filenames to check.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "directories": {
+        "description": "List of directories to check.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.internal_test_tools.files_diff": {
+    "short_description": "Check whether there were changes since files_collect was called",
+    "description": "This module checks whether any changes (timestamps, attributes, content) were made to files and directories that M(community.internal_test_tools.files_collect) collected information on earlier.",
+    "options": {
+      "state": {
+        "description": "The state returned by M(community.internal_test_tools.files_collect).",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fail_on_diffs": {
+        "description": "Whether to fail when differences are found, instead of simply returning RV(changed=true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}
