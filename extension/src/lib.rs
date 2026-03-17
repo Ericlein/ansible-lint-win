@@ -14,10 +14,10 @@ impl zed::Extension for AnsibleLiteExtension {
 
     fn language_server_command(
         &mut self,
-        _language_server_id: &zed::LanguageServerId,
-        worktree: &zed::Worktree,
+        language_server_id: &zed::LanguageServerId,
+        _worktree: &zed::Worktree,
     ) -> Result<zed::Command> {
-        let server_path = self.ensure_server_installed()?;
+        let server_path = self.ensure_server_installed(language_server_id)?;
         let node = zed::node_binary_path()?;
 
         Ok(zed::Command {
@@ -29,21 +29,20 @@ impl zed::Extension for AnsibleLiteExtension {
 }
 
 impl AnsibleLiteExtension {
-    fn ensure_server_installed(&mut self) -> Result<String> {
-        // Check if already installed and up to date
+    fn ensure_server_installed(&mut self, language_server_id: &zed::LanguageServerId) -> Result<String> {
         let installed_version = zed::npm_package_installed_version(SERVER_PKG).ok().flatten();
         let latest_version = zed::npm_package_latest_version(SERVER_PKG)?;
 
         if installed_version.as_deref() != Some(&latest_version) || !self.installed {
             zed::set_language_server_installation_status(
-                "ansible-lite-ls",
+                language_server_id,
                 &zed::LanguageServerInstallationStatus::Downloading,
             );
 
             zed::npm_install_package(SERVER_PKG, &latest_version)?;
 
             zed::set_language_server_installation_status(
-                "ansible-lite-ls",
+                language_server_id,
                 &zed::LanguageServerInstallationStatus::None,
             );
         }
