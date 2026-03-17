@@ -1,0 +1,973 @@
+{
+  "lowlydba.sqlserver.ag_listener": {
+    "short_description": "Configures an availability group listener",
+    "description": "Creates an Availability Group Listener for an existing availability group.",
+    "options": {
+      "ag_name": {
+        "description": "Name of the target availability group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "listener_name": {
+        "description": "Name of the Listener to be configured.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip_address": {
+        "description": "IP address(es) of the listener. Comma separated if multiple.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subnet_ip": {
+        "description": "Subnet IP address(es) of the listener. Comma separated if multiple.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subnet_mask": {
+        "description": "Sets the subnet IP mask(s) of the availability group listener. Comma separated if multiple.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": "255.255.255.0",
+        "aliases": null
+      },
+      "port": {
+        "description": "Sets the port number used to communicate with the availability group.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1433,
+        "aliases": null
+      },
+      "dhcp": {
+        "description": "Indicates whether the listener uses DHCP.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.ag_replica": {
+    "short_description": "Configures an availability group replica",
+    "description": "Configures an availability group replica.",
+    "options": {
+      "sql_instance_replica": {
+        "description": "The SQL Server instance where of the replica to be configured.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sql_username_replica": {
+        "description": "Username for SQL Authentication for the secondary replica.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sql_password_replica": {
+        "description": "Password for SQL Authentication for the secondary replica.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ag_name": {
+        "description": "Name of the Availability Group that will have the new replica joined to it.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "endpoint": {
+        "description": "By default, this command will attempt to find a DatabaseMirror endpoint. If one does not exist, it will create it.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.agent_job": {
+    "short_description": "Configures a SQL Agent job",
+    "description": "Configure a SQL Agent job, including which schedules and category it belongs to.",
+    "options": {
+      "job": {
+        "description": "The name of the target SQL Agent job.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description for the SQL Agent job.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "category": {
+        "description": "Category for the target SQL Agent job. Must already exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Whether the SQL Agent job should be enabled or disabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.agent_job_step": {
+    "short_description": "Configures a SQL Agent job step",
+    "description": "Configures a step for an agent job.",
+    "options": {
+      "job": {
+        "description": "The name of the job to which to add the step.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "step_id": {
+        "description": "The sequence identification number for the job step. Step identification numbers start at C(1) and increment without gaps. Required if I(state=present).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "step_name": {
+        "description": "The name of the step. Required if I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "database": {
+        "description": "The name of the database in which to execute a Transact-SQL step.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.availability_group": {
+    "short_description": "Configures availability group(s)",
+    "description": "Configures SQL Server Availability Group(s) with up to one replica.",
+    "options": {
+      "sql_instance_secondary": {
+        "description": "The secondary SQL Server instance for the new Availability Group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sql_username_secondary": {
+        "description": "Username for SQL Authentication for the secondary replica.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sql_password_secondary": {
+        "description": "Password for SQL Authentication for the secondary replica.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "database": {
+        "description": "Name of the database to create the Availability Group for.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "database_name"
+        ]
+      },
+      "ag_name": {
+        "description": "Name of the Availability Group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "all_ags": {
+        "description": "Apply changes to all availability groups on the instance. Only used for configuring existing availability groups.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "shared_path": {
+        "description": "The network share where the backups will be backed up and restored from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dtc_support_enabled": {
+        "description": "Enables Dtc support.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "basic_availability_group": {
+        "description": "Indicates whether the availability group is Basic Availability Group.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "contained_availability_group": {
+        "description": "Indicates whether the availability group is Contained. Requires DBATools >= 2.1.15",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.backup": {
+    "short_description": "Performs a backup operation",
+    "description": "Performs any type of database backup operation.",
+    "options": {
+      "database": {
+        "description": "The database to process.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "Path in which to place the backup files. If not specified, the backups will be placed in the default backup location for SqlInstance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "file_path": {
+        "description": "The name of the file to backup to. If no name is specified then the backup files will be named C(DatabaseName_yyyyMMddHHmm) (i.e. C(Database1_201714022131))",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "increment_prefix": {
+        "description": "If set, this will prefix backup files with an incrementing integer (ie; C(1-), C(2-)). Using this has been alleged to improved restore times on some Azure based SQL Database platforms.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "replace_in_name": {
+        "description": "If set, the following list of strings will be replaced in the FilePath and Path strings. C(instancename) - will be replaced with the instance Name C(servername) - will be replaced with the server name C(dbname) - will be replaced with the database name C(timestamp) - will be replaced with the timestamp (either the default, or the format provided) C(backuptype) - will be replaced with C(Full), C(Log), or C(Differential) as appropriate",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "copy_only": {
+        "description": "The backup will be CopyOnly.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "type": {
+        "description": "The type of backup to perform.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.first_responder_kit": {
+    "short_description": "Install/update the First Responder Kit scripts",
+    "description": "A wrapper for C(Install-DbaFirstResponderKit) to fetch the latest version of the scripts, or install from a local cached version.",
+    "options": {
+      "local_file": {
+        "description": "Specifies the path to a local file to install FRK from. This should be the zip file as distributed by the maintainers. If this option is not specified, the latest version will be downloaded and installed Github.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "only_script": {
+        "description": "Specifies the name(s) of the script(s) to run for installation. Wildcards are permitted. This way only part of the First Responder Kit can be installed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.hadr": {
+    "short_description": "Enable or disable HADR",
+    "description": "Enable or disable the High Availability Disaster Recovery (HADR) feature.",
+    "options": {
+      "sql_instance": {
+        "description": "The SQL Server instance to modify.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Username for alternative credential to authenticate with Windows.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password for alternative credential to authenticate with Windows.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Flag to enable or disable the feature.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "force": {
+        "description": "Restart SQL Server and SQL Agent services automatically.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.install_script": {
+    "short_description": "Runs migration scripts against a database",
+    "description": "Uses the module C(DBOps) to run C(Dbo-InstallScript) against a target SQL Server database.",
+    "options": {
+      "database": {
+        "description": "Name of the target database.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "Directory where targeted sql scripts are stored.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "schema_version_table": {
+        "description": "A table that will hold the history of script execution. This table is used to choose what scripts are going to be run during the deployment, preventing the scripts from being execured twice.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "deployment_method": {
+        "description": "C(SingleTransaction) - wrap all the deployment scripts into a single transaction and rollback whole deployment on error. C(TransactionPerScript) - wrap each script into a separate transaction; rollback single script deployment in case of error. C(NoTransaction) - deploy as is. C(AlwaysRollback) - roll back the transaction.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.instance_info": {
+    "short_description": "Returns basic information for a SQL Server instance",
+    "description": "Returns basic information for a SQL Server instance.",
+    "options": {},
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.login": {
+    "short_description": "Configures a login for the target SQL Server instance",
+    "description": "Creates, modifies, or removes a Windows or SQL Authentication login on a SQL Server instance.",
+    "options": {
+      "login": {
+        "description": "Name of the login to configure.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password for the login, if SQL Authentication login.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Whether the login is enabled or disabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.login_role": {
+    "short_description": "Configures a login",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.maintenance_solution": {
+    "short_description": "Install/update Maintenance Solution by Ola Hallengren",
+    "description": "A wrapper for C(Install-DbaMaintenanceSolution) to fetch the latest version of the Ola Hallengren",
+    "options": {},
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.memory": {
+    "short_description": "Sets the maximum memory for a SQL Server instance",
+    "description": "Sets the maximum memory for a SQL Server instance.",
+    "options": {
+      "max": {
+        "description": "The maximum memory in MB that the SQL Server instance can utilize. C(0) will automatically calculate the ideal value.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.nonquery": {
+    "short_description": "Executes a generic nonquery",
+    "description": "Execute a nonquery against a database. Does not return a resultset. Ideal for ad-hoc configurations or DML queries.",
+    "options": {
+      "database": {
+        "description": "Name of the database to execute the nonquery in.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nonquery": {
+        "description": "The nonquery to be executed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "query_timeout": {
+        "description": "Number of seconds to wait before timing out the nonquery execution.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 60,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.resource_governor": {
+    "short_description": "Configures the resource governor on a SQL Server instance",
+    "description": "Enables or disables and optionally sets the classifier function for the resource governor feature.",
+    "options": {
+      "enabled": {
+        "description": "Whether to enable or disable resource governor.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "classifier_function": {
+        "description": "The name of the classifier function that resource governor will use. To clear the function, use the string C(NULL).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.restore": {
+    "short_description": "Performs a restore operation",
+    "description": "Performs a database restore operation.",
+    "options": {
+      "database": {
+        "description": "The database to process.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "Path to SQL Server backup files. Paths passed in as strings will be scanned using the desired method, default is a recursive folder scan. Accepts multiple paths separated by C(,).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_data_directory": {
+        "description": "Path to restore the SQL Server backups to on the target instance. If only this option is specified, then all database files (data and log) will be restored to this location",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_log_directory": {
+        "description": "Path to restore the database log files to. This option can only be specified alongside I(destination_data_directory).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_filestream_directory": {
+        "description": "Path to restore FileStream data to. This option can only be specified alongside I(destination_data_directory).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "restore_time": {
+        "description": "Specify a datetime string C(HH:MM:SS MM/DD/YYYY) to which you want the database restored to. Default is to the latest point available in the specified backups.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "with_replace": {
+        "description": "Indicates if the restore is allowed to replace an existing database.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "keep_replication": {
+        "description": "Indicates whether replication configuration should be restored as part of the database restore operation.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "xp_dirtree": {
+        "description": "Switch that indicated file scanning should be performed by the SQL Server instance using C(xp_dirtree). This will scan recursively from the passed in path. You must have sysadmin role membership on the instance for this to work.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "no_xp_dir_recurse": {
+        "description": "If specified, prevents the C(XpDirTree) process from recursing (its default behaviour).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "verify_only": {
+        "description": "Indicates the restore should be verified only.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "maintenance_solution_backup": {
+        "description": "Switch to indicate the backup files are in a folder structure as created by Ola Hallengreen",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.rg_resource_pool": {
+    "short_description": "Configures a resource pool for use by the Resource Governor",
+    "description": "Creates or modifies a resource pool to be used by the Resource Governor. Default values are handled by the Powershell functions themselves.",
+    "options": {
+      "resource_pool": {
+        "description": "Name of the target resource pool.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Specify the type of resource pool.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.rg_workload_group": {
+    "short_description": "Configures a workload group for use by the Resource Governor",
+    "description": "Creates or modifies a workload group to be used by the Resource Governor. Default values are handled by the Powershell functions themselves.",
+    "options": {
+      "workload_group": {
+        "description": "Name of the target workload group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resource_pool": {
+        "description": "Name of the resource pool for the workload group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resource_pool_type": {
+        "description": "Specify the type of resource pool.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.sa": {
+    "short_description": "Configure the C(sa) login for security best practices",
+    "description": "Rename, disable, and reset the password for the C(sa) login on a SQL Server instance per best practices.",
+    "options": {
+      "password": {
+        "description": "Password for the login.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_name": {
+        "description": "The new name to rename the C(sa) login to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Whether the login is enabled or disabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.sp_configure": {
+    "short_description": "Make instance level system configuration changes via C(sp_configure)",
+    "description": "Read instance level system configuration for a given configuration and update to a new value as provided.",
+    "options": {
+      "name": {
+        "description": "Name of the configuration that will be changed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "value": {
+        "description": "New value the configuration will be set to.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.sp_whoisactive": {
+    "short_description": "Install/update C(sp_whoisactive) by Adam Mechanic",
+    "description": "A wrapper for C(Install-DbaWhoIsActive) to fetch the latest version of the script, or install from a local cached version.",
+    "options": {
+      "local_file": {
+        "description": "Specifies the path to a local file to install sp_WhoisActive from. This can be either the zip file as distributed by the website or the expanded SQL script. If this option is not specified, the latest version will be downloaded and installed from https://github.com/amachanic/sp_whoisactive/releases",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "database": {
+        "description": "Name of the target database.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "If this switch is enabled, then C(sp_WhoisActive) will be downloaded from the internet even if previously cached.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.spn": {
+    "short_description": "Configures SPNs for SQL Server",
+    "description": "Configures SPNs for SQL Server.",
+    "options": {
+      "computer_username": {
+        "description": "Username of a credential to connect to Active Directory with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "computer_password": {
+        "description": "Password of a credential to connect to Active Directory with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "computer": {
+        "description": "The host or alias to configure the SPN for. Can include the port in the format C(host:port).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service_account": {
+        "description": "The account you want the SPN added to. Will be looked up if not provided.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.tcp_port": {
+    "short_description": "Sets the TCP port for the instance",
+    "description": "Sets the TCP port for a SQL Server instance.",
+    "options": {
+      "username": {
+        "description": "Username for alternative credential to authenticate with Windows.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password for alternative credential to authenticate with Windows.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Port for SQL Server to listen on.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip_address": {
+        "description": "IPv4 address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Restart SQL Server and SQL Agent services automatically.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.traceflag": {
+    "short_description": "Enable or disable global trace flags on a SQL Server instance",
+    "description": "Enable\\Disable global trace flag on a SQL Instance. This trace flag takes affect immediately and does not require SQL Instance restart. This setting does not persist after restart.",
+    "options": {
+      "trace_flag": {
+        "description": "Trace Flag number.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Flag to enable or disable the trace flag.",
+        "type": "bool",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.user": {
+    "short_description": "Configures a user within a database",
+    "description": "Creates, modifies, or removes a user in a database.",
+    "options": {
+      "login": {
+        "description": "Name of the login that the user is mapped to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "database": {
+        "description": "Database for the user.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Name of the user.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "external_provider": {
+        "description": "Specifies that the user is for Azure AD Authentication. Only used when creating a new user, this cannot be modified for an existing user.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_schema": {
+        "description": "The default database schema for the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.user_role": {
+    "short_description": "Configures a user",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  }
+}

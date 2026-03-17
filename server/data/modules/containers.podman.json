@@ -1,0 +1,662 @@
+{
+  "containers.podman.podman_container": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_container_copy": {
+    "short_description": "Copy file to/from a container",
+    "description": "Copy file or folder from the host to a container and vice-versa.",
+    "options": {
+      "executable": {
+        "description": "Path to C(podman) executable if it is not in the C($PATH) on the machine running C(podman)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "containers.podman.podman_container_exec": {
+    "short_description": "Executes a command in a running container.",
+    "description": "Executes a command in a running container.",
+    "options": {
+      "name": {
+        "description": "Name of the container where the command is executed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "command": {
+        "description": "The command to run in the container. One of the I(command) or I(args) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "argv": {
+        "description": "Passes the command as a list rather than a string. One of the I(command) or I(args) is required.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "detach": {
+        "description": "If true, the command runs in the background. The exec session is automatically removed when it completes.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "env": {
+        "description": "Set environment variables.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "executable": {
+        "description": "The path to the podman executable.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "podman",
+        "aliases": null
+      },
+      "privileged": {
+        "description": "Give extended privileges to the container.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "tty": {
+        "description": "Allocate a pseudo-TTY.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "user": {
+        "description": "The username or UID used and, optionally, the groupname or GID for the specified command. Both user and group may be symbolic or numeric.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "workdir": {
+        "description": "Working directory inside the container.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "containers.podman.podman_container_info": {
+    "short_description": "Gather facts about containers using podman",
+    "description": "Gather facts about containers using C(podman)",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_containers": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_export": {
+    "short_description": "Export a podman container",
+    "description": "podman export exports the filesystem of a container and saves it as a tarball on the local machine",
+    "options": {
+      "dest": {
+        "description": "Path to export container to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "container": {
+        "description": "Container to export.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "volume": {
+        "description": "Volume to export.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Force saving to file even if it exists.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "executable": {
+        "description": "Path to C(podman) executable if it is not in the C($PATH) on the machine running C(podman)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "containers.podman.podman_generate_systemd": {
+    "short_description": "Generate systemd unit from a pod or a container",
+    "description": "Generate systemd .service unit file(s) from a pod or a container Support Ansible check mode",
+    "options": {
+      "name": {
+        "description": "Name of the pod or container to export",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dest": {
+        "description": "Destination of the generated systemd unit file(s). Use C(/etc/systemd/system) for the system-wide systemd instance. Use C(/etc/systemd/user) or C(~/.config/systemd/user) for use with per-user instances of systemd.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Replace the systemd unit file(s) even if it already exists. This works with dest option.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "new": {
+        "description": "Generate unit files that create containers and pods, not only start them. Refer to podman-generate-systemd(1) man page for more information.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "restart_policy": {
+        "description": "Restart policy of the service",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "no-restart",
+          "on-success",
+          "on-failure",
+          "on-abnormal",
+          "on-watchdog",
+          "on-abort",
+          "always"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "restart_sec": {
+        "description": "Configures the time to sleep before restarting a service (as configured with restart-policy). Takes a value in seconds. Only with Podman 4.0.0 and above",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "start_timeout": {
+        "description": "Override the default start timeout for the container with the given value in seconds. Only with Podman 4.0.0 and above",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stop_timeout": {
+        "description": "Override the default stop timeout for the container with the given value in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "env": {
+        "description": "Set environment variables to the systemd unit files. Keys are the environment variable names, and values are the environment variable values Only with Podman 4.3.0 and above",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_names": {
+        "description": "Use name of the containers for the start, stop, and description in the unit file.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "container_prefix": {
+        "description": "Set the systemd unit name prefix for containers. If not set, use the default defined by podman, C(container). Refer to podman-generate-systemd(1) man page for more information.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pod_prefix": {
+        "description": "Set the systemd unit name prefix for pods. If not set, use the default defined by podman, C(pod). Refer to podman-generate-systemd(1) man page for more information.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "separator": {
+        "description": "Systemd unit name separator between the name/id of a container/pod and the prefix. If not set, use the default defined by podman, C(-). Refer to podman-generate-systemd(1) man page for more information.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "no_header": {
+        "description": "Do not generate the header including meta data such as the Podman version and the timestamp.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "after": {
+        "description": "Add the systemd unit after (C(After=)) option, that ordering dependencies between the list of dependencies and this service. This option may be specified more than once. User-defined dependencies will be appended to the generated unit file But any existing options such as needed or defined by default (e.g. C(online.target)) will not be removed or overridden. Only with Podman 4.0.0 and above",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wants": {
+        "description": "Add the systemd unit wants (C(Wants=)) option, that this service is (weak) dependent on. This option may be specified more than once. This option does not influence the order in which services are started or stopped. User-defined dependencies will be appended to the generated unit file But any existing options such as needed or defined by default (e.g. C(online.target)) will not be removed or overridden. Only with Podman 4.0.0 and above",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "requires": {
+        "description": "Set the systemd unit requires (Requires=) option. Similar to wants, but declares a stronger requirement dependency. Only with Podman 4.0.0 and above",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "executable": {
+        "description": "C(Podman) executable name or full path",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "podman",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "containers.podman.podman_image": {
+    "short_description": "Pull images for use by podman",
+    "description": "Build, pull, or push images using Podman.",
+    "options": {
+      "arch": {
+        "description": "CPU architecture for the container image",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "platform": {
+        "description": "Platform for the container image (e.g. C(linux/amd64), C(linux/arm64)). Specify the platform for selecting the image when pulling or building. Mutually exclusive with C(arch).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the image to pull, push, or delete. It may contain a tag using the format C(image:tag).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "executable": {
+        "description": "Path to C(podman) executable if it is not in the C($PATH) on the machine running C(podman).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "containers.podman.podman_image_info": {
+    "short_description": "Gather info about images using podman",
+    "description": "Gather info about images using C(podman)",
+    "options": {
+      "executable": {
+        "description": "Path to C(podman) executable if it is not in the C($PATH) on the machine running C(podman)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "containers.podman.podman_import": {
+    "short_description": "Import Podman container from a tar file.",
+    "description": "podman import imports a tarball (.tar, .tar.gz, .tgz, .bzip, .tar.xz, .txz) and saves it as a filesystem image.",
+    "options": {
+      "src": {
+        "description": "Path to image file to load.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "commit_message": {
+        "description": "Set commit message for imported image",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "change": {
+        "description": "Set changes as list of key-value pairs, see example.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "volume": {
+        "description": "Volume to import, cannot be used with change and commit_message",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "executable": {
+        "description": "Path to C(podman) executable if it is not in the C($PATH) on the machine running C(podman)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "containers.podman.podman_load": {
+    "short_description": "Load image from a tar file.",
+    "description": "podman load loads an image from either an oci-archive or a docker-archive stored on the local machine into container storage. podman load is used for loading from the archive generated by podman save, that includes the image parent layers.",
+    "options": {
+      "input": {
+        "description": "Path to image file to load.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "path"
+        ]
+      },
+      "executable": {
+        "description": "Path to C(podman) executable if it is not in the C($PATH) on the machine running C(podman)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "containers.podman.podman_login": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_login_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_logout": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_network": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_network_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_play": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_pod": {
+    "short_description": "Manage Podman pods",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_pod_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_prune": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_quadlet": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_quadlet_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_runlabel": {
+    "short_description": "Run given label from given image",
+    "description": "podman container runlabel runs selected label from given image",
+    "options": {
+      "image": {
+        "description": "Image to get the label from.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label": {
+        "description": "Label to run.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "executable": {
+        "description": "Path to C(podman) executable if it is not in the C($PATH) on the machine running C(podman)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "containers.podman.podman_save": {
+    "short_description": "Saves podman image to tar file",
+    "description": "podman save saves an image to either docker-archive, oci-archive, oci-dir (directory with oci manifest type), or docker-dir (directory with v2s2 manifest type) on the local machine, default is docker-archive.",
+    "options": {
+      "image": {
+        "description": "Image to save.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "compress": {
+        "description": "Compress tarball image layers when pushing to a directory using the",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "containers.podman.podman_search": {
+    "short_description": "Search for remote images using podman",
+    "description": "Search for remote images using C(podman)",
+    "options": {
+      "executable": {
+        "description": "Path to C(podman) executable if it is not in the C($PATH) on the machine running C(podman)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "containers.podman.podman_secret": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_secret_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_system_connection": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_system_connection_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_system_info": {
+    "short_description": "Get podman system information from host machine",
+    "description": "Runs",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_tag": {
+    "short_description": "Add an additional name to a local image",
+    "description": "podman tag adds one or more additional names to locally-stored image.",
+    "options": {
+      "image": {
+        "description": "Image to tag.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_names": {
+        "description": "Additional names.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "executable": {
+        "description": "Path to C(podman) executable if it is not in the C($PATH) on the machine running C(podman)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "containers.podman.podman_volume": {
+    "short_description": "Manage Podman volumes",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "containers.podman.podman_volume_info": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  }
+}

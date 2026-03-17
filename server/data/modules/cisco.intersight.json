@@ -1,0 +1,4541 @@
+{
+  "cisco.intersight.intersight_adapter_config_policy": {
+    "short_description": "Adapter Configuration Policy for Cisco Intersight",
+    "description": "Manages Adapter Configuration Policy on Cisco Intersight. This policy allows you to configure adapter settings such as LLDP, FIP, Port Channel, and FEC mode. For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles, Policies, and Pools that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Adapter Configuration Policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description for the Adapter Configuration Policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "settings": {
+        "description": "List of adapter configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_adapter_config_policy_info": {
+    "short_description": "Gather information about Adapter Configuration Policies",
+    "description": "Gathers information about Adapter Configuration Policies on Cisco Intersight. For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Adapter Configuration Policy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_bios_policy_info": {
+    "short_description": "Gather information about BIOS Policies in Cisco Intersight",
+    "description": "Gather information about BIOS Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all BIOS Policies will be returned. For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the BIOS Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the BIOS Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_boot_order_policy": {
+    "short_description": "Boot Order policy configuration for Cisco Intersight",
+    "description": "Boot Order policy configuration for Cisco Intersight. Used to configure Boot Order servers and timezone settings on Cisco Intersight managed devices. For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles and Policies that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Boot Order policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the Boot Order policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "configured_boot_mode": {
+        "description": "Sets the BIOS boot mode. UEFI uses the GUID Partition Table (GPT) whereas Legacy mode uses the Master Boot Record (MBR) partitioning scheme.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Legacy",
+          "Uefi"
+        ],
+        "default": "Legacy",
+        "aliases": null
+      },
+      "uefi_enable_secure_boot": {
+        "description": "Secure boot enforces that device boots using only software that is trusted by the Original Equipment Manufacturer (OEM). Option is only used if configured_boot_mode is set to Uefi.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "boot_devices": {
+        "description": "List of Boot Devices configured on the endpoint.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_boot_order_policy_info": {
+    "short_description": "Gather information about Boot Order Policies in Cisco Intersight",
+    "description": "Gather information about Boot Order Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Boot Order Policies will be returned. For more information see L(Cisco Intersight,https://intersight.com/apidocs/boot/PrecisionPolicy/get/).",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Boot Order Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Boot Order Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_certificate_management_policy": {
+    "short_description": "Certificate Management Policy configuration for Cisco Intersight",
+    "description": "Manages Certificate Management Policy configuration on Cisco Intersight. A policy to configure certificate management for Cisco Intersight managed servers. This policy allows configuration of Root CA certificates and IMC certificates with private keys. For more information see L(Cisco Intersight,https://intersight.com/apidocs/certificatemanagement/Policies/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles and Policies that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Certificate Management Policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description for the Certificate Management Policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "certificates": {
+        "description": "List of certificates to manage in the policy. Can include Root CA certificates and IMC certificates. Only one IMC certificate can be configured per policy.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_certificate_management_policy_info": {
+    "short_description": "Gather information about Certificate Management Policies in Cisco Intersight",
+    "description": "Gather information about Certificate Management Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Certificate Management Policies will be returned. Optionally retrieves associated certificates for each policy.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Certificate Management Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Certificate Management Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_chassis_profile": {
+    "short_description": "Manage Chassis Profiles in Cisco Intersight",
+    "description": "Create, update, and delete Chassis Profiles on Cisco Intersight. For more information see L(Cisco Intersight,https://intersight.com/apidocs/chassis/Profile/post/). This module does not manage deployment of the chassis profile.",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles and Policies that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Chassis Profile. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the Chassis Profile. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "assigned_chassis_name": {
+        "description": "The name of the chassis to assign to this profile. The module resolves the chassis name to a MOID via the C(/equipment/Chasses) API endpoint. If not provided, the profile will be created without a chassis assignment.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "imc_access_policy": {
+        "description": "Name of IMC Access Policy to associate with this profile.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "power_policy": {
+        "description": "Name of Power Policy to associate with this profile.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snmp_policy": {
+        "description": "Name of SNMP Policy to associate with this profile.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "thermal_policy": {
+        "description": "Name of Thermal Policy to associate with this profile.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_chassis_profile_info": {
+    "short_description": "Gather information about Chassis Profiles in Cisco Intersight",
+    "description": "Gather information about Chassis Profiles in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Chassis Profiles will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Chassis Profile belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Chassis Profile to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_device_connector_policy": {
+    "short_description": "Device Connector Policy configuration for Cisco Intersight",
+    "description": "Manages Device Connector Policy configuration on Cisco Intersight. A policy to configure device connector settings for Cisco Intersight managed devices. Enables or disables configuration lockout on the endpoint to prevent local configuration changes. For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles and Policies that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Device Connector Policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description for the Device Connector Policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "enable_lockout": {
+        "description": "Enables configuration lockout on the endpoint. When enabled, prevents local configuration changes on the device through IMC or CIMC interfaces. Lockout ensures that all configuration changes must be made through Intersight.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_device_connector_policy_info": {
+    "short_description": "Gather information about Device Connector Policies in Cisco Intersight",
+    "description": "Gather information about Device Connector Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Device Connector Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Device Connector Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Device Connector Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_domain": {
+    "short_description": "Manage UCS Domain Profiles in Cisco Intersight",
+    "description": "Create, update, and delete UCS Domain Profiles (SwitchClusterProfiles) on Cisco Intersight. Manages the associated SwitchProfiles (A and B), Fabric Interconnect assignments, and policy buckets. Policies are attached to SwitchProfiles via the Intersight bulk API. This module does not manage deployment of the domain profile. For more information see L(Cisco Intersight,https://intersight.com/apidocs/fabric/SwitchClusterProfiles/post/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles and Policies that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the UCS Domain Profile. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_. SwitchProfiles are automatically named C({name}-A) and C({name}-B).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the UCS Domain Profile.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "assigned_switch_a": {
+        "description": "The name of the Fabric Interconnect to assign to SwitchProfile A. Resolved via the C(/network/ElementSummaries) API endpoint.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "assigned_switch_b": {
+        "description": "The name of the Fabric Interconnect to assign to SwitchProfile B. Resolved via the C(/network/ElementSummaries) API endpoint.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vlan_policy_fi_a": {
+        "description": "Name of the VLAN Policy to associate with Fabric Interconnect A.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vlan_policy_fi_b": {
+        "description": "Name of the VLAN Policy to associate with Fabric Interconnect B.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vsan_policy_fi_a": {
+        "description": "Name of the VSAN Policy to associate with Fabric Interconnect A.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vsan_policy_fi_b": {
+        "description": "Name of the VSAN Policy to associate with Fabric Interconnect B.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port_policy_fi_a": {
+        "description": "Name of the Port Policy to associate with Fabric Interconnect A.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port_policy_fi_b": {
+        "description": "Name of the Port Policy to associate with Fabric Interconnect B.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ntp_policy": {
+        "description": "Name of the NTP Policy to associate with both Fabric Interconnects.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "syslog_policy": {
+        "description": "Name of the Syslog Policy to associate with both Fabric Interconnects.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network_connectivity_policy": {
+        "description": "Name of the Network Connectivity (DNS) Policy to associate with both Fabric Interconnects.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snmp_policy": {
+        "description": "Name of the SNMP Policy to associate with both Fabric Interconnects.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_policy": {
+        "description": "Name of the LDAP Policy to associate with both Fabric Interconnects.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "certificate_management_policy": {
+        "description": "Name of the Certificate Management Policy to associate with both Fabric Interconnects.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "system_qos_policy": {
+        "description": "Name of the System QoS Policy to associate with both Fabric Interconnects. This policy is mandatory for UCS Domain Profiles.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auditd_policy": {
+        "description": "Name of the Audit Log Policy to associate with both Fabric Interconnects.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "switch_control_policy": {
+        "description": "Name of the Switch Control Policy to associate with both Fabric Interconnects.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_domain_info": {
+    "short_description": "Gather information about UCS Domain Profiles in Cisco Intersight",
+    "description": "Gather information about UCS Domain Profiles (SwitchClusterProfiles) in L(Cisco Intersight,https://intersight.com). Returns enriched data including SwitchProfiles (A and B), their assigned Fabric Interconnects, and attached PolicyBuckets. Information can be filtered by O(name) and O(organization). If no filters are passed, all UCS Domain Profiles will be returned. For more information see L(Cisco Intersight,https://intersight.com/apidocs/fabric/SwitchClusterProfiles/get/).",
+    "options": {
+      "name": {
+        "description": "The name of the UCS Domain Profile to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization to filter UCS Domain Profiles by.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_drive_security_policy": {
+    "short_description": "Drive Security Policy configuration for Cisco Intersight",
+    "description": "Manages Drive Security Policy configuration on Cisco Intersight. A policy to configure drive security settings for Cisco Intersight managed servers. Supports both Manual key management and Remote key management (KMIP). For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles, Policies, and Pools that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Drive Security Policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description for the Drive Security Policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "manual_key": {
+        "description": "Configuration for manual key management. Use this for local key management with manual passphrase. Either C(manual_key) or C(remote_key) must be specified, but not both.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remote_key": {
+        "description": "Configuration for remote key management using KMIP server. Use this for remote key management with KMIP protocol. Either C(manual_key) or C(remote_key) must be specified, but not both.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_drive_security_policy_info": {
+    "short_description": "Gather information about Drive Security Policies in Cisco Intersight",
+    "description": "Gather information about Drive Security Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Drive Security Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Drive Security Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Drive Security Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_ethernet_adapter_policy_info": {
+    "short_description": "Gather information about Ethernet Adapter Policies in Cisco Intersight",
+    "description": "Gather information about Ethernet Adapter Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Ethernet Adapter Policies will be returned. Returns comprehensive policy configuration including VXLAN, NVGRE, ARFS, PTP, RoCE, queue settings, and offload configurations.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Ethernet Adapter Policy belongs to. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_ethernet_network_control_policy_info": {
+    "short_description": "Gather information about Ethernet Network Control Policies in Cisco Intersight",
+    "description": "Gather information about Ethernet Network Control Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Ethernet Network Control Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Ethernet Network Control Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Ethernet Network Control Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_ethernet_network_group_policy": {
+    "short_description": "Ethernet Network Group Policy configuration for Cisco Intersight",
+    "description": "Manages Ethernet Network Group Policy configuration on Cisco Intersight. A policy to configure VLAN settings and QinQ (802.1Q-in-802.1Q) tunneling for Ethernet virtual interfaces on Cisco Intersight managed servers. For more information see L(Cisco Intersight,https://intersight.com/apidocs/fabric/EthNetworkGroupPolicy/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed. When C(absent), VLAN configuration parameters are not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles, Policies, and Pools that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Ethernet Network Group Policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description for the Ethernet Network Group Policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "qinq_enabled": {
+        "description": "Enable QinQ (802.1Q-in-802.1Q) Tunneling on the vNIC. When enabled, C(qinq_vlan) is required and C(allowed_vlans) is ignored. When disabled, C(allowed_vlans) is required.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "qinq_vlan": {
+        "description": "Set QinQ VLAN number. Required when C(qinq_enabled) is true. Only one QinQ VLAN can be specified. Valid range is 2-4093.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "native_vlan": {
+        "description": "Set native VLAN for the Ethernet Network Group Policy. Can be used with QinQ (when C(qinq_enabled) is true) or with regular VLAN mode (when C(qinq_enabled) is false). When used with C(allowed_vlans), the native VLAN must be included in the allowed VLANs list. Only one native VLAN can be specified. Valid range is 1-4093.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allowed_vlans": {
+        "description": "Include VLAN IDs using a list of comma separated VLAN IDs and VLAN ID Ranges. Required when C(qinq_enabled) is false. Examples of valid formats are C(1), C(1,2,3,4,8), C(1-4,7), C(1-8,12,16). Valid VLAN range is 1-4093.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_ethernet_network_group_policy_info": {
+    "short_description": "Gather information about Ethernet Network Group Policies in Cisco Intersight",
+    "description": "Gather information about Ethernet Network Group Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Ethernet Network Group Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Ethernet Network Group Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Ethernet Network Group Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_ethernet_qos_policy_info": {
+    "short_description": "Gather information about Ethernet QoS Policies in Cisco Intersight",
+    "description": "Gather information about Ethernet QoS Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Ethernet QoS Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Ethernet QoS Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Ethernet QoS Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_fibre_channel_adapter_policy": {
+    "short_description": "Manage Fibre Channel Adapter Policies for Cisco Intersight",
+    "description": "Create, update, and delete Fibre Channel Adapter Policies on Cisco Intersight. Fibre Channel Adapter policies configure FC adapter settings for Fibre Channel virtual interfaces. These policies control error recovery, timeouts, retry counts, interrupt modes, queue settings, and LUN configurations. For more information see L(Cisco Intersight,https://intersight.com/apidocs/vnic/FcAdapterPolicies/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Policies created within a Custom Organization are applicable only to devices in the same Organization. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_fibre_channel_adapter_policy_info": {
+    "short_description": "Gather information about Fibre Channel Adapter Policies in Cisco Intersight",
+    "description": "Retrieve information about Fibre Channel Adapter Policies from L(Cisco Intersight,https://intersight.com). Query policies by organization or policy name. Returns structured data with policy metadata and Fibre Channel Adapter configuration details. If no filters are provided, all Fibre Channel Adapter Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization to filter Fibre Channel Adapter Policies by. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_fibre_channel_network_policy": {
+    "short_description": "Manage Fibre Channel Network Policies for Cisco Intersight",
+    "description": "Create, update, and delete Fibre Channel Network Policies on Cisco Intersight. Fibre Channel Network policies configure VSAN settings for Fibre Channel virtual interfaces. These policies control the default VLAN ID and VSAN ID assignments for FC networks. For more information see L(Cisco Intersight,https://intersight.com/apidocs/vnic/FcNetworkPolicies/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Policies created within a Custom Organization are applicable only to devices in the same Organization. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_fibre_channel_network_policy_info": {
+    "short_description": "Gather information about Fibre Channel Network Policies in Cisco Intersight",
+    "description": "Retrieve information about Fibre Channel Network Policies from L(Cisco Intersight,https://intersight.com). Query policies by organization or policy name. Returns structured data with policy metadata and Fibre Channel Network configuration details. If no filters are provided, all Fibre Channel Network Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization to filter Fibre Channel Network Policies by. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_fibre_channel_qos_policy": {
+    "short_description": "Manage Fibre Channel QoS Policies for Cisco Intersight",
+    "description": "Create, update, and delete Fibre Channel QoS Policies on Cisco Intersight. Fibre Channel QoS policies configure Quality of Service settings for Fibre Channel virtual interfaces. These policies control bandwidth rate limits, maximum data field size, class of service, and burst traffic. For more information see L(Cisco Intersight,https://intersight.com/apidocs/vnic/FcQosPolicies/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Policies created within a Custom Organization are applicable only to devices in the same Organization. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_fibre_channel_qos_policy_info": {
+    "short_description": "Gather information about Fibre Channel QoS Policies in Cisco Intersight",
+    "description": "Retrieve information about Fibre Channel QoS Policies from L(Cisco Intersight,https://intersight.com). Query policies by organization or policy name. Returns structured data with policy metadata and Fibre Channel QoS configuration details. If no filters are provided, all Fibre Channel QoS Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization to filter Fibre Channel QoS Policies by. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_fibre_channel_zone_policy": {
+    "short_description": "Manage Fibre Channel Zone Policies for Cisco Intersight",
+    "description": "Create, update, and delete Fibre Channel Zone Policies on Cisco Intersight. Manage FC target members (zones) within FC zone policies. FC Zone policies define zoning configurations for Fibre Channel networks. Supports SIST (Single Initiator Single Target), SIMT (Single Initiator Multiple Target), and None zoning types. When zoning type is None, targets cannot be added and existing targets will be disabled. For more information see L(Cisco Intersight,https://intersight.com/apidocs/fabric/FcZonePolicies/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Policies created within a Custom Organization are applicable only to devices in the same Organization. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_fibre_channel_zone_policy_info": {
+    "short_description": "Gather information about Fibre Channel Zone Policies in Cisco Intersight",
+    "description": "Retrieve comprehensive information about Fibre Channel Zone Policies from L(Cisco Intersight,https://intersight.com). Query policies by organization or policy name. FC target members are embedded in the policy object as FcTargetMembers array. If no filters are provided, all FC Zone Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization to filter FC Zone Policies by. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_firmware_policy_info": {
+    "short_description": "Gather information about Firmware Policies in Cisco Intersight",
+    "description": "Gather information about Firmware Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Firmware Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Firmware Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Firmware Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_flow_control_policy_info": {
+    "short_description": "Gather information about Flow Control Policies in Cisco Intersight",
+    "description": "Gather information about Flow Control Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Flow Control Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Flow Control Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Flow Control Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_imc_access_policy": {
+    "short_description": "IMC Access Policy configuration for Cisco Intersight",
+    "description": "IMC Access Policy configuration for Cisco Intersight. Used to configure IP addresses and VLAN used for external connectivity to Cisco IMC. For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles and Policies that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the IMC Access Policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the IMC access policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "out_of_band": {
+        "description": "If C(true), will enable Out-Of-Band configuration. If C(false), will enable In-Band configuration.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "vlan_id": {
+        "description": "VLAN to be used for server access over Inband network. Required if C(out_of_band) is C(false).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip_pool": {
+        "description": "IP Pool used to assign IP address and other required network settings.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_info": {
+    "short_description": "Gather information about Intersight",
+    "description": "Gathers information about servers in L(Cisco Intersight,https://intersight.com). This module was called C(intersight_facts) before Ansible 2.9. The usage did not change.",
+    "options": {
+      "server_names": {
+        "description": "Server names to retrieve information from. An empty list will return all servers.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_ip_pool": {
+    "short_description": "IP Pool configuration for Cisco Intersight",
+    "description": "IP Pool configuration for Cisco Intersight. Used to configure IP pools settings on Cisco Intersight managed devices. For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles, Policies, and Pools that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the IP Pool. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the IP Pool. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "enable_block_level_subnet_config": {
+        "description": "Determines if the",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_ip_pool_info": {
+    "short_description": "Gather information about IP Pool in Cisco Intersight",
+    "description": "Gather information about IP Pool in L(Cisco Intersight,https://intersight.com). Information can be filtered using Organization and Name. if none is passed all information regarding existing ip pools will be fetched.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization that will have information gathered from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the IP Pool that will have information gathered from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_ipmi_over_lan_policy": {
+    "short_description": "IPMI over LAN Policy configuration for Cisco Intersight",
+    "description": "Manages IPMI over LAN Policy configuration on Cisco Intersight. A policy to configure the IPMI over LAN settings on Cisco Intersight managed servers. IPMI over LAN allows management of servers using the IPMI protocol over Ethernet networks. For more information see L(Cisco Intersight,https://intersight.com/apidocs/ipmioverlan/Policy/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles, Policies, and Pools that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the IPMI over LAN Policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description for the IPMI over LAN Policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "State of the IPMI Over LAN service on the endpoint. Enable or disable IPMI over LAN functionality on the server.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "privilege": {
+        "description": "The highest privilege level that can be assigned to an IPMI session on a server. This configuration is supported by all Standalone C-Series servers. FI-attached C-Series servers with firmware at minimum of 4.2.3a support this configuration. B/X-Series servers with firmware at minimum of 5.1.0.x support this configuration. Privilege level",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_ipmi_over_lan_policy_info": {
+    "short_description": "Gather information about IPMI over LAN Policies in Cisco Intersight",
+    "description": "Gather information about IPMI over LAN Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all IPMI over LAN Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the IPMI over LAN Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the IPMI over LAN Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_iqn_pool": {
+    "short_description": "IQN Pool configuration for Cisco Intersight",
+    "description": "IQN Pool configuration for Cisco Intersight. Used to configure IQN pools settings on Cisco Intersight managed devices. For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles, Policies, and Pools that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the IQN Pool. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the IQN Pool. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "prefix": {
+        "description": "The prefix for any IQN blocks created for this pool. IQN Prefix must have the following format",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_iqn_pool_info": {
+    "short_description": "Gather information about IQN Pool in Cisco Intersight",
+    "description": "Gather information about IQN Pool in L(Cisco Intersight,https://intersight.com). Information can be filtered using Organization and Name. if none is passed all information regarding existing iqn pools will be fetched.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization that will have information gathered from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the IQN Pool that will have information gathered from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_iscsi_adapter_policy": {
+    "short_description": "Manage iSCSI Adapter Policies for Cisco Intersight",
+    "description": "Create, update, and delete iSCSI Adapter Policies on Cisco Intersight. iSCSI adapter policies configure timeout and retry settings for iSCSI adapters. These policies control TCP connection timeout, DHCP timeout, and LUN busy retry behavior. For more information see L(Cisco Intersight,https://intersight.com/apidocs/vnic/IscsiAdapterPolicies/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Policies created within a Custom Organization are applicable only to devices in the same Organization. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_iscsi_adapter_policy_info": {
+    "short_description": "Gather information about iSCSI Adapter Policies in Cisco Intersight",
+    "description": "Retrieve information about iSCSI Adapter Policies from L(Cisco Intersight,https://intersight.com). Query policies by organization or policy name. Returns structured data with policy metadata and iSCSI adapter configuration details. If no filters are provided, all iSCSI Adapter Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization to filter iSCSI Adapter Policies by. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_iscsi_boot_policy": {
+    "short_description": "Manage iSCSI Boot Policies for Cisco Intersight",
+    "description": "Create, update, and delete iSCSI Boot Policies on Cisco Intersight. iSCSI boot policies define how servers boot from iSCSI targets using IPv4 or IPv6 protocols. Supports automatic target discovery (Auto) and manual configuration (Static) with DHCP, Pool, or Static IP sources. For more information see L(Cisco Intersight,https://intersight.com/apidocs/vnic/IscsiBootPolicies/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Policies created within a Custom Organization are applicable only to devices in the same Organization. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_iscsi_boot_policy_info": {
+    "short_description": "Gather information about iSCSI Boot Policies in Cisco Intersight",
+    "description": "Retrieve information about iSCSI Boot Policies from L(Cisco Intersight,https://intersight.com). Query policies by organization or policy name. Returns structured data with policy metadata and iSCSI boot configuration details. If no filters are provided, all iSCSI Boot Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization to filter iSCSI Boot Policies by. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_iscsi_static_target_policy": {
+    "short_description": "Manage iSCSI Static Target Policies for Cisco Intersight",
+    "description": "Create, update, and delete iSCSI Static Target Policies on Cisco Intersight. iSCSI static target policy enables you to configure the iSCSI targets for iSCSI vNIC interfaces. For more information see L(Cisco Intersight,https://intersight.com/apidocs/vnic/IscsiStaticTargetPolicy/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Policies created within a Custom Organization are applicable only to devices in the same Organization. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_iscsi_static_target_policy_info": {
+    "short_description": "Gather information about iSCSI Static Target Policies in Cisco Intersight",
+    "description": "Retrieve information about iSCSI Static Target Policies from L(Cisco Intersight,https://intersight.com). Query policies by organization or policy name. Returns structured data with policy metadata and iSCSI target configuration details. If no filters are provided, all iSCSI Static Target Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization to filter iSCSI Static Target Policies by. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_kvm_policy": {
+    "short_description": "Virtual KVM Policy configuration for Cisco Intersight",
+    "description": "Manages Virtual KVM Policy configuration on Cisco Intersight. A policy to configure virtual KVM settings on Cisco Intersight managed servers. When enabled, configures session limits, port settings, encryption, and tunneling options. When disabled, only the enabled state is configured while other settings are ignored. For more information see L(Cisco Intersight,https://intersight.com/apidocs/kvm/Policy/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles, Policies, and Pools that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the KVM Policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description for the KVM Policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "State of the vKVM service on the endpoint. When set to false, all other configuration parameters are ignored and only the enabled state is configured. When set to true, all other configuration parameters take effect.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "maximum_sessions": {
+        "description": "The maximum number of concurrent KVM sessions allowed. Valid range is 1-4 sessions. This parameter is ignored when C(enabled) is C(false).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 4,
+        "aliases": null
+      },
+      "remote_port": {
+        "description": "The port used for KVM communication. Valid range is 1024-65535. This parameter is ignored when C(enabled) is C(false).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 2068,
+        "aliases": null
+      },
+      "enable_video_encryption": {
+        "description": "If enabled, encrypts all video information sent through KVM. Please note that this can no longer be disabled for servers running versions 4.2 and above. This parameter is ignored when C(enabled) is C(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "enable_local_server_video": {
+        "description": "If enabled, displays KVM session on any monitor attached to the server. This parameter is ignored when C(enabled) is C(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "tunneled_kvm_enabled": {
+        "description": "Enables Tunneled vKVM on the endpoint. Applicable only for Device Connectors that support Tunneled vKVM. This parameter is ignored when C(enabled) is C(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_kvm_policy_info": {
+    "short_description": "Gather information about KVM Policies in Cisco Intersight",
+    "description": "Gather information about KVM Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all KVM Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the KVM Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the KVM Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_lan_connectivity_policy": {
+    "short_description": "Manage LAN Connectivity Policies and vNICs for Cisco Intersight",
+    "description": "Create, update, and delete LAN Connectivity Policies on Cisco Intersight. Manage individual vNICs within LAN Connectivity policies. Supports both Standalone and FIAttached target platforms with different configuration options. LAN Connectivity policies define network connectivity settings for server profiles. For more information see L(Cisco Intersight,https://intersight.com/apidocs/vnic/LanConnectivityPolicy/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Policies created within a Custom Organization are applicable only to devices in the same Organization. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_lan_connectivity_policy_info": {
+    "short_description": "Gather information about LAN Connectivity Policies in Cisco Intersight",
+    "description": "Gather information about LAN Connectivity Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all LAN Connectivity Policies will be returned. Each policy includes its associated vNICs as part of the response.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the LAN Connectivity Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the LAN Connectivity Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_ldap_policy": {
+    "short_description": "Manage LDAP Policies for Cisco Intersight",
+    "description": "Create, update, and delete LDAP Policies on Cisco Intersight. Manage LDAP groups and providers associated with LDAP policies. LDAP policies enable authentication of Cisco IMC users using an LDAP server. For more information see L(Cisco Intersight,https://intersight.com/apidocs/iam/LdapPolicy/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Policies created within a Custom Organization are applicable only to devices in the same Organization. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_ldap_policy_info": {
+    "short_description": "Gather information about LDAP Policies in Cisco Intersight",
+    "description": "Gather information about LDAP Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all LDAP Policies will be returned. This module retrieves LDAP policy details including associated groups and providers.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the LDAP Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the LDAP Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_link_aggregation_policy": {
+    "short_description": "Link Aggregation Policy configuration for Cisco Intersight",
+    "description": "Manages Link Aggregation Policy configuration on Cisco Intersight. A policy to configure LACP (Link Aggregation Control Protocol) settings for link aggregation on Cisco Intersight managed fabric interconnects. For more information see L(Cisco Intersight,https://intersight.com/apidocs/fabric/LinkAggregationPolicies/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles, Policies, and Pools that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Link Aggregation Policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description for the Link Aggregation Policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "suspend_individual": {
+        "description": "Flag tells the switch whether to suspend the port if it didn",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_link_aggregation_policy_info": {
+    "short_description": "Gather information about Link Aggregation Policies in Cisco Intersight",
+    "description": "Gather information about Link Aggregation Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Link Aggregation Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Link Aggregation Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Link Aggregation Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_link_control_policy_info": {
+    "short_description": "Gather information about Link Control Policies in Cisco Intersight",
+    "description": "Gather information about Link Control Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Link Control Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Link Control Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Link Control Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_local_user_policy": {
+    "short_description": "Local User Policy configuration for Cisco Intersight",
+    "description": "Local User Policy configuration for Cisco Intersight. Used to configure local users on endpoint devices. For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles and Policies that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Local User Policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the Local User policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "enforce_strong_password": {
+        "description": "If true, enables a strong password policy. Strong password requirements:. A. The password must have a minimum of 8 and a maximum of 20 characters. B. The password must not contain the User",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_mac_pool": {
+    "short_description": "MAC Pool configuration for Cisco Intersight",
+    "description": "MAC Pool configuration for Cisco Intersight. Used to configure MAC pools settings on Cisco Intersight managed devices. For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles, Policies, and Pools that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the MAC Pool. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the MAC Pool. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "mac_blocks": {
+        "description": "List of the MAC blocks. Should include the address_from and size per block.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_mac_pool_info": {
+    "short_description": "Gather information about MAC Pool in Cisco Intersight",
+    "description": "Gather information about MAC Pool in L(Cisco Intersight,https://intersight.com). Information can be filtered using Organization and Name. if none is passed all information regarding existing mac pools will be fetched.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization that will have information gathered from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the MAC Pool that will have information gathered from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_macsec_policy_info": {
+    "short_description": "Gather information about MACsec Policies in Cisco Intersight",
+    "description": "Gather information about MACsec Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all MACsec Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the MACsec Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the MACsec Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_memory_persistent_policy": {
+    "short_description": "Memory Persistent Policy configuration for Cisco Intersight",
+    "description": "Manages Memory Persistent Policy configuration on Cisco Intersight. Configure Persistent Memory Modules (PMM) on servers including security, goals, and namespaces. Supports both Intersight-managed and Operating System-managed configuration modes. For more information see L(Cisco Intersight,https://intersight.com/apidocs/memory/PersistentMemoryPolicy/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Policies created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Memory Persistent Policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description for the Memory Persistent Policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "management_mode": {
+        "description": "Configuration management mode for Persistent Memory. C(configured-from-intersight) - Policy settings are configured and managed from Intersight. C(configured-from-operating-system) - Associated servers are managed by Operating System tools and policy settings are unavailable. When set to C(configured-from-operating-system), no other configuration fields are required or used.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "configured-from-intersight",
+          "configured-from-operating-system"
+        ],
+        "default": "configured-from-intersight",
+        "aliases": null
+      },
+      "enable_security_passphrase": {
+        "description": "Enable secure passphrase for Persistent Memory Modules. When enabled, requires secure_passphrase parameter. Only applicable when management_mode is C(configured-from-intersight).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "secure_passphrase": {
+        "description": "Secure passphrase to be applied on the Persistent Memory Modules on the server. Required when enable_security_passphrase is true. The allowed characters are a-z, A-Z, 0-9, and special characters =, !, &, Only applicable when management_mode is C(configured-from-intersight).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_goal": {
+        "description": "Enable goal configuration for Persistent Memory Modules. The Goal configured will be applicable to all the Persistent Memory Modules. Goal modification will delete all existing regions and namespaces along with their data during profile deployment. New regions and namespaces will be created after goal modification. Only applicable when management_mode is C(configured-from-intersight).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "memory_mode_percentage": {
+        "description": "Volatile memory percentage for Memory Mode. Valid range is 0-100. Only applicable when enable_goal is true and management_mode is C(configured-from-intersight).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "persistent_memory_type": {
+        "description": "Type of Persistent Memory configuration. C(app-direct) - Persistent Memory Modules are combined in an interleaved set. C(app-direct-non-interleaved) - Persistent Memory Modules are not interleaved. Only applicable when enable_goal is true and management_mode is C(configured-from-intersight).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "app-direct",
+          "app-direct-non-interleaved"
+        ],
+        "default": "app-direct",
+        "aliases": null
+      },
+      "retain_namespaces": {
+        "description": "Retain existing Persistent Memory Namespaces. If false, all existing namespaces not listed in the namespaces parameter will be deleted along with their data. Only applicable when management_mode is C(configured-from-intersight).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "namespaces": {
+        "description": "List of Logical Namespaces to be created or modified on the server. Only applicable when management_mode is C(configured-from-intersight).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_memory_persistent_policy_info": {
+    "short_description": "Gather information about Memory Persistent Policies in Cisco Intersight",
+    "description": "Gather information about Memory Persistent Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Memory Persistent Policies will be returned. For more information see L(Cisco Intersight,https://intersight.com/apidocs/memory/PersistentMemoryPolicy/get/).",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Memory Persistent Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Memory Persistent Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_memory_policy": {
+    "short_description": "Memory policy configuration for Cisco Intersight",
+    "description": "Memory policy configuration for Cisco Intersight. Used to configure memory blocklisting on Cisco Intersight managed devices. For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles and Policies that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Memory policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the Memory policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "enable_dimm_blocklisting": {
+        "description": "Enable or disable DIMM blocklisting.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_memory_policy_info": {
+    "short_description": "Gather information about Memory Policies in Cisco Intersight",
+    "description": "Gather information about Memory Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Memory Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Memory Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Memory Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_multicast_policy_info": {
+    "short_description": "Gather information about Multicast Policies in Cisco Intersight",
+    "description": "Gather information about Multicast Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Multicast Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Multicast Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Multicast Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_network_connectivity_policy": {
+    "short_description": "Network Connectivity Policy configuration for Cisco Intersight",
+    "description": "Manages Network Connectivity Policy configuration on Cisco Intersight. A policy to configure network connectivity settings including DNS and IPv6 on Cisco Intersight managed servers. For more information see L(Cisco Intersight,https://intersight.com/apidocs/networkconfig/Policy/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles, Policies, and Pools that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Network Connectivity Policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description for the Network Connectivity Policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_dynamic_dns": {
+        "description": "If enabled, updates the resource records to the DNS from Cisco IMC.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "dynamic_dns_domain": {
+        "description": "The domain name appended to a hostname for a Dynamic DNS (DDNS) update. If left blank, only a hostname is sent to the DDNS update request. This parameter is optional even when enable_dynamic_dns is true.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_ipv4_dns_from_dhcp": {
+        "description": "Enable IPv4 DNS from DHCP. If enabled, Cisco IMC retrieves the DNS server addresses from DHCP.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "preferred_ipv4_dns_server": {
+        "description": "IP address of the primary DNS server. This is used when enable_ipv4_dns_from_dhcp is false.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_network_connectivity_policy_info": {
+    "short_description": "Gather information about Network Connectivity Policies in Cisco Intersight",
+    "description": "Gather information about Network Connectivity Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Network Connectivity Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Network Connectivity Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Network Connectivity Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_ntp_policy": {
+    "short_description": "NTP policy configuration for Cisco Intersight",
+    "description": "NTP policy configuration for Cisco Intersight. Used to configure NTP servers and timezone settings on Cisco Intersight managed devices. For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles and Policies that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the NTP policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the NTP policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "enable": {
+        "description": "Enable or disable NTP.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "ntp_servers": {
+        "description": "List of NTP servers configured on the endpoint.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timezone": {
+        "description": "Timezone of services on the endpoint.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_organization": {
+    "short_description": "Organization configuration for Cisco Intersight",
+    "description": "Manages Organization configuration on Cisco Intersight. Organizations are account-level resources used to organize and manage Intersight resources. Supports assigning Resource Groups to define resource scope. Supports sharing resources with other Organizations via sharing rules. For more information see L(Cisco Intersight,https://intersight.com/apidocs/organization/Organization/model/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Organization.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description for the Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "share_resources": {
+        "description": "Enable this option to share resources with other Organizations. When C(true), use O(shared_orgs) to specify which Organizations to share with. Mutually exclusive with O(resource_groups).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "resource_groups": {
+        "description": "List of Resource Group names to assign to the Organization. Resource Group names are resolved to their Moids automatically. Mutually exclusive with O(share_resources) and O(shared_orgs).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "shared_orgs": {
+        "description": "List of Organization names to share resources with. Only valid when O(share_resources) is C(true). Organization names are resolved to their Moids automatically.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_organization_info": {
+    "short_description": "Gather information about Organizations in Cisco Intersight",
+    "description": "Gather information about Organizations in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(name). If no filters are passed, all Organizations will be returned. Organizations are account-level resources and are not scoped to another organization.",
+    "options": {
+      "name": {
+        "description": "The name of the Organization to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_port_policy": {
+    "short_description": "Manage Port Policies for Cisco Intersight",
+    "description": "Create, update, and delete Port Policies on Cisco Intersight. Manage port configurations including breakout ports, server roles, uplink port channels, and LAN pin groups. Supports various device models with model-specific port configurations. Port policies define the configuration of unified ports on fabric interconnects. For more information see L(Cisco Intersight,https://intersight.com/apidocs/fabric/PortPolicies/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Policies created within a Custom Organization are applicable only to devices in the same Organization. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_port_policy_info": {
+    "short_description": "Gather information about Cisco Intersight Port Policies",
+    "description": "Gathers information about Port Policies and their associated resources on Cisco Intersight. Retrieves comprehensive information including breakout ports, server ports, uplink port channels, pin groups, and all other port configurations. Supports filtering by policy name and organization. For more information see L(Cisco Intersight,https://intersight.com/apidocs/fabric/PortPolicies/get/).",
+    "options": {
+      "name": {
+        "description": "Name of the Port Policy to retrieve information for. If not provided, information for all Port Policies will be returned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization to filter policies by. If not provided, policies from all accessible organizations will be returned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_power_policy_info": {
+    "short_description": "Gather information about Power Policies in Cisco Intersight",
+    "description": "Gather information about Power Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Power Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Power Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Power Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_resource_group": {
+    "short_description": "Resource Group configuration for Cisco Intersight",
+    "description": "Manages Resource Group configuration on Cisco Intersight. Resource Groups define a set of resources that can be used for access control and organization assignment. Supports both C(all) and C(selectors) qualifier types. Resource Groups are account-level resources and are not scoped to an organization. For more information see L(Cisco Intersight,https://intersight.com/apidocs/resource/Group/model/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Resource Group. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description for the Resource Group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "qualifier": {
+        "description": "Qualifier defines how resources are added to the Resource Group. C(all) includes all resources (represents Allow-All in the API). C(selectors) uses selector queries to filter specific resources (represents Allow-Selectors in the API).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "all",
+          "selectors"
+        ],
+        "default": "all",
+        "aliases": null
+      },
+      "selectors": {
+        "description": "List of selector query strings used to filter resources for the Resource Group. Required when O(qualifier) is C(selectors). ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_resource_group_info": {
+    "short_description": "Gather information about Resource Groups in Cisco Intersight",
+    "description": "Gather information about Resource Groups in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(name). If no filters are passed, all Resource Groups will be returned. Resource Groups are account-level resources and are not scoped to an organization.",
+    "options": {
+      "name": {
+        "description": "The name of the Resource Group to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_rest_api": {
+    "short_description": "REST API configuration for Cisco Intersight",
+    "description": "Direct REST API configuration for Cisco Intersight. All REST API resources and properties must be specified. For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "resource_path": {
+        "description": "Resource URI being configured related to api_uri.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "query_params": {
+        "description": "Query parameters for the Intersight API query languange.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_method": {
+        "description": "The HTTP method used for update operations. Some Intersight resources require POST operations for modifications. json-patch is used for partial updates. json-patch is only supported for patch operations on existing resources and requires the list_body to be a list of dictionaries. See L(The Intersight API Docs, https://intersight.com/apidocs/introduction/methods/) for details on JSON Patch.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "patch",
+          "post",
+          "json-patch"
+        ],
+        "default": "patch",
+        "aliases": null
+      },
+      "api_body": {
+        "description": "The paylod for API requests used to modify resources.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "list_body": {
+        "description": "The paylod for API requests used to modify resources. Should be used instead of api_body if a list is required in the API payload.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "return_list": {
+        "description": "If C(yes), will return a list of API results in the api_response. By default only the 1st element of the API Results list is returned. Can only be used with GET operations.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_san_connectivity_policy": {
+    "short_description": "Manage SAN Connectivity Policies and vHBAs for Cisco Intersight",
+    "description": "Create, update, and delete SAN Connectivity Policies on Cisco Intersight. Manage individual vHBAs (virtual Host Bus Adapters) within SAN Connectivity policies. Supports Standalone and FIAttached target platforms with different configuration options. Note SAN Connectivity policies are not supported on Unified Edge Servers. SAN Connectivity policies define storage connectivity settings for server profiles. For more information see L(Cisco Intersight,https://intersight.com/apidocs/vnic/SanConnectivityPolicy/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Policies created within a Custom Organization are applicable only to devices in the same Organization. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_san_connectivity_policy_info": {
+    "short_description": "Gather information about SAN Connectivity Policies and their vHBAs in Cisco Intersight",
+    "description": "Retrieve information about SAN Connectivity Policies and their associated vHBAs from L(Cisco Intersight,https://intersight.com). Query policies by organization, policy name, or filter vHBAs by name patterns. Returns structured data combining policy metadata with detailed vHBA configurations. Supports filtering by organization, policy name, and vHBA name. If no filters are provided, all SAN Connectivity Policies and their vHBAs will be returned. Returns structured data with both policy information and associated vHBA details.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization to filter SAN Connectivity Policies by. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_server_pool_qualification_policy": {
+    "short_description": "Server Pool Qualification Policy configuration for Cisco Intersight",
+    "description": "Manages Server Pool Qualification Policy configuration on Cisco Intersight. A Server Pool Qualification Policy defines conditions to qualify servers for resource pools based on various hardware and configuration attributes. Supports multiple qualifier types including Domain, Rack Server, Blade, Tag, Memory, GPU, Processor, and Network Adaptor qualifiers. For more information see L(Cisco Intersight,https://intersight.com/apidocs/resourcepool/QualificationPolicies/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles and Policies that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Server Pool Qualification Policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description for the Server Pool Qualification Policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_qualifier": {
+        "description": "Domain qualifier for Fabric Interconnect and domain-based qualification.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rack_server_qualifier": {
+        "description": "Rack server qualifier for qualifying rack-based servers.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "blade_qualifier": {
+        "description": "Blade qualifier for qualifying blade-based servers.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tag_qualifier": {
+        "description": "Tag qualifier for qualifying resources based on tags.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "memory_qualifier": {
+        "description": "Memory qualifier for qualifying servers based on memory specifications.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gpu_qualifier": {
+        "description": "GPU qualifier for qualifying servers based on GPU specifications. If not specified, a default GPU qualifier with C(servers_without_gpu) evaluation type is automatically added.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "processor_qualifier": {
+        "description": "Processor qualifier for qualifying servers based on CPU specifications.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network_adaptor_qualifier": {
+        "description": "Network adaptor qualifier for qualifying servers based on network adaptor count.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_server_pool_qualification_policy_info": {
+    "short_description": "Gather information about Server Pool Qualification Policies in Cisco Intersight",
+    "description": "Gather information about Server Pool Qualification Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Server Pool Qualification Policies will be returned. Server Pool Qualification Policies define conditions to qualify servers for resource pools based on hardware and configuration attributes.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Server Pool Qualification Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Server Pool Qualification Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_server_profile": {
+    "short_description": "Server Profile configuration for Cisco Intersight",
+    "description": "Server Profile configuration for Cisco Intersight. Used to configure Server Profiles with assigned servers and server policies. For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles and Policies that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Server Profile. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_platform": {
+        "description": "The platform for which the server profile is applicable. Can either be a server that is operating in Standalone mode or which is attached to a Fabric Interconnect (FIAttached) managed by Intersight.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Standalone",
+          "FIAttached"
+        ],
+        "default": "Standalone",
+        "aliases": null
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the Server Profile. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_server_profile_template": {
+    "short_description": "Manage Server Profile Templates in Cisco Intersight",
+    "description": "Create, update, and delete Server Profile Templates on Cisco Intersight. Server Profile Templates define a reusable configuration that can be used to derive multiple Server Profiles. Policies are attached to the template via the PolicyBucket sub-resource endpoint. For more information see L(Cisco Intersight,https://intersight.com/apidocs/server/ProfileTemplate/post/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Templates and Policies that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Server Profile Template. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the Server Profile Template. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_platform": {
+        "description": "The platform for which the server profile template is applicable. C(standalone) for servers operating in Standalone mode. C(fi-attached) for servers attached to a Fabric Interconnect managed by Intersight. C(unified-edge) for Unified Edge servers.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "standalone",
+          "fi-attached",
+          "unified-edge"
+        ],
+        "default": "standalone",
+        "aliases": null
+      },
+      "adapter_policy": {
+        "description": "Name of Adapter Configuration Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bios_policy": {
+        "description": "Name of BIOS Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "boot_order_policy": {
+        "description": "Name of Boot Order Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "certificate_policy": {
+        "description": "Name of Certificate Management Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "device_connector_policy": {
+        "description": "Name of Device Connector Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "drive_security_policy": {
+        "description": "Name of Drive Security Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "firmware_policy": {
+        "description": "Name of Firmware Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipmi_over_lan_policy": {
+        "description": "Name of IPMI over LAN Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lan_connectivity_policy": {
+        "description": "Name of LAN Connectivity Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_policy": {
+        "description": "Name of LDAP Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "local_user_policy": {
+        "description": "Name of Local User Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "memory_policy": {
+        "description": "Name of Memory Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network_connectivity_policy": {
+        "description": "Name of Network Connectivity Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ntp_policy": {
+        "description": "Name of NTP Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "persistent_memory_policy": {
+        "description": "Name of Persistent Memory Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "power_policy": {
+        "description": "Name of Power Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "san_connectivity_policy": {
+        "description": "Name of SAN Connectivity Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sd_card_policy": {
+        "description": "Name of SD Card Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "serial_over_lan_policy": {
+        "description": "Name of Serial over LAN Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "smtp_policy": {
+        "description": "Name of SMTP Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snmp_policy": {
+        "description": "Name of SNMP Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssh_policy": {
+        "description": "Name of SSH Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_policy": {
+        "description": "Name of Storage Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "syslog_policy": {
+        "description": "Name of Syslog Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "thermal_policy": {
+        "description": "Name of Thermal Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "virtual_kvm_policy": {
+        "description": "Name of Virtual KVM Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "virtual_media_policy": {
+        "description": "Name of Virtual Media Policy to associate with this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_server_profile_template_info": {
+    "short_description": "Gather information about Server Profile Templates in Cisco Intersight",
+    "description": "Gather information about Server Profile Templates in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Server Profile Templates will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Server Profile Template belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Server Profile Template to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_smtp_policy": {
+    "short_description": "SMTP Policy configuration for Cisco Intersight",
+    "description": "Manages SMTP Policy configuration on Cisco Intersight. Configures SMTP settings for email notifications. For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles, Policies, and Pools that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the SMTP Policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description for the SMTP Policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "enabled": {
+        "description": "If enabled, controls the state of the SMTP client service on the managed device.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "smtp_server": {
+        "description": "IP address or hostname of the SMTP server. The SMTP server is used by the managed device to send email notifications. Required when C(enabled) is True.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "smtp_port": {
+        "description": "Port number used by the SMTP server for outgoing SMTP communication. Valid range is 1-65535.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 25,
+        "aliases": null
+      },
+      "min_severity": {
+        "description": "Minimum fault severity level to receive email notifications. Email notifications are sent for all faults whose severity is equal to or greater than the chosen level.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "critical",
+          "major",
+          "minor",
+          "warning",
+          "condition",
+          "condition"
+        ],
+        "default": "critical",
+        "aliases": null
+      },
+      "sender_email": {
+        "description": "The email address entered here will be displayed as the from address (mail received from address) of all the SMTP mail alerts that are received. If not configured, the hostname of the server is used in the from address field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "smtp_recipients": {
+        "description": "List of email addresses that will receive notifications for faults.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_smtp_policy_info": {
+    "short_description": "Gather information about SMTP Policies in Cisco Intersight",
+    "description": "Gather information about SMTP Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all SMTP Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the SMTP Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the SMTP Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_snmp_policy": {
+    "short_description": "SNMP Policy configuration for Cisco Intersight",
+    "description": "Manages SNMP Policy configuration on Cisco Intersight. A policy to configure SNMP settings for Cisco Intersight managed servers. Supports both SNMPv2c and SNMPv3 configurations with users, traps, and community strings. For more information see L(Cisco Intersight,https://intersight.com/apidocs/snmp/Policy/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles, Policies, and Pools that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the SNMP Policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description for the SNMP Policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "State of the SNMP Policy on the endpoint. If enabled, the endpoint sends SNMP traps to the designated host.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "v2c_enabled": {
+        "description": "State of the SNMPv2c protocol. When enabled, SNMPv2c access is available for the associated servers.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "v3_enabled": {
+        "description": "State of the SNMPv3 protocol. When enabled, SNMPv3 access is available for the associated servers.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "snmp_port": {
+        "description": "Port on which Cisco IMC SNMP agent runs. Enter a value between 1-65535. Reserved ports not allowed (22, 23, 80, 123, 389, 443, 623, 636, 2068, 3268, 3269).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 161,
+        "aliases": null
+      },
+      "sys_contact": {
+        "description": "Contact person responsible for the SNMP implementation. Enter a string up to 64 characters, such as an email address or a name and telephone number. Required when C(enabled) is C(true).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sys_location": {
+        "description": "Location of the host on which the SNMP agent (server) runs. Required when C(enabled) is C(true).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "community_access": {
+        "description": "Controls access to the information in the inventory tables. Applicable only for SNMPv2c users. For SNMPv3, this is always set to C(Disabled). For SNMPv2c, valid choices are C(Disabled), C(Limited), and C(Full). Required when C(enabled) is C(true).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Disabled",
+          "Limited",
+          "Full"
+        ],
+        "default": "Disabled",
+        "aliases": null
+      },
+      "access_community_string": {
+        "description": "The default SNMPv1, SNMPv2c community name or SNMPv3 username to include on any trap messages sent to the SNMP host. The name can be 32 characters long. Used with SNMPv2c access only.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trap_community": {
+        "description": "SNMP community group used for sending SNMP trap to other devices. Valid only for SNMPv2c users.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "engine_input_id": {
+        "description": "User-defined unique identification of the static engine. Used with SNMPv3 only.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snmp_users": {
+        "description": "List of SNMP users for SNMPv3 authentication.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snmp_traps": {
+        "description": "List of SNMP trap destinations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_snmp_policy_info": {
+    "short_description": "Gather information about SNMP Policies in Cisco Intersight",
+    "description": "Gather information about SNMP Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all SNMP Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the SNMP Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the SNMP Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_ssh_policy": {
+    "short_description": "SSH Policy configuration for Cisco Intersight",
+    "description": "Manages SSH Policy configuration on Cisco Intersight. A policy to configure SSH service settings on Cisco Intersight managed servers. This policy is applicable only for UCS Servers (Standalone). For more information see L(Cisco Intersight,https://intersight.com/apidocs/ssh/Policies/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles and Policies that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the SSH Policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description for the SSH Policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_ssh": {
+        "description": "State of SSH service on the endpoint. If set to false, SSH service will be disabled and ssh_port and ssh_timeout will be ignored.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "ssh_port": {
+        "description": "Port used for secure shell access. Valid range is 1-65535. This parameter is only used when enable_ssh is true.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 22,
+        "aliases": null
+      },
+      "ssh_timeout": {
+        "description": "Number of seconds to wait before the system considers a SSH request to have timed out. Valid range is 60-10800 seconds. This parameter is only used when enable_ssh is true.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1800,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_ssh_policy_info": {
+    "short_description": "Gather information about SSH Policies in Cisco Intersight",
+    "description": "Gather information about SSH Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all SSH Policies will be returned. SSH Policies are applicable only for UCS Servers (Standalone).",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the SSH Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the SSH Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_storage_policy_info": {
+    "short_description": "Gather information about Storage Policies in Cisco Intersight",
+    "description": "Gather information about Storage Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Storage Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Storage Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Storage Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_switch_control_policy": {
+    "short_description": "Switch Control Policy configuration for Cisco Intersight",
+    "description": "Manages Switch Control Policy configuration on Cisco Intersight. A policy to configure switching modes, VLAN optimization, MAC address aging, and UDLD settings for Cisco Intersight managed fabric interconnects. For more information see L(Cisco Intersight,https://intersight.com/apidocs/fabric/SwitchControlPolicies/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles and Policies that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Switch Control Policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description for the Switch Control Policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ethernet_switching_mode": {
+        "description": "Enable or Disable Ethernet End Host Switching Mode. Ethernet End Host Switching Mode is not applicable for Unified Edge; the value defaults to Ethernet Switch Mode. C(end-host) - Ethernet End Host Switching Mode (default). C(switch) - Ethernet Switch Mode.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "end-host",
+          "switch"
+        ],
+        "default": "end-host",
+        "aliases": null
+      },
+      "fc_switching_mode": {
+        "description": "Enable or Disable FC End Host Switching Mode. FC is not supported on Unified Edge, so this setting cannot be configured and is ignored. C(end-host) - FC End Host Switching Mode (default). C(switch) - FC Switch Mode.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "end-host",
+          "switch"
+        ],
+        "default": "end-host",
+        "aliases": null
+      },
+      "vlan_port_optimization_enabled": {
+        "description": "To enable or disable the VLAN port count optimization. This feature will always be enabled for Cisco UCS Fabric Interconnect 9108 100G. Also enabled on the IMM 6.x Bundle version and onwards. VLAN Port Count Optimization is not applicable for Unified Edge.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "reserved_vlan_start_id": {
+        "description": "The starting ID for VLANs reserved for internal use within the Fabric Interconnect. This VLAN ID is the starting ID of a contiguous block of 128 VLANs that cannot be configured for user data. This range of VLANs cannot be configured in VLAN policy. If this property is not configured, VLAN range 3915 - 4042 is reserved for internal use by default. The reserved VLAN range is fixed for Unified Edge, so this setting cannot be configured and is ignored.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3915,
+        "aliases": null
+      },
+      "mac_aging_option": {
+        "description": "MAC address aging time configuration option. C(default) - Use default MAC aging time with UDLD message interval (default). C(custom) - Use custom MAC aging time in seconds. C(never) - MAC addresses never age out.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "default",
+          "custom",
+          "never"
+        ],
+        "default": "default",
+        "aliases": null
+      },
+      "mac_aging_time": {
+        "description": "Define the MAC address aging time in seconds. This field is valid when the C(mac_aging_option) is set to C(custom). Valid range is 120-918000 seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 14500,
+        "aliases": null
+      },
+      "message_interval": {
+        "description": "Configures the time between UDLD probe messages on the UDLD enabled ports. Valid values are from 7 to 90 seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 15,
+        "aliases": null
+      },
+      "recovery_action": {
+        "description": "UDLD recovery action when enabled, attempts to bring an UDLD error-disabled port out of reset. C(none) - No recovery action (default). C(reset) - Reset the port to recover from UDLD error-disabled state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "none",
+          "reset"
+        ],
+        "default": "none",
+        "aliases": null
+      },
+      "fabric_pc_vhba_reset": {
+        "description": "When enabled, a Registered State Change Notification (RSCN) is sent to the VIC adapter. This occurs when any member port within the fabric port-channel goes down and vHBA would reset to restore the connection immediately. When disabled (default), vHBA reset is done only when all the members of a fabric port-channel are down. Fabric port-channel vHBA reset is not supported on Unified Edge and cannot be enabled. C(enabled) - Enable fabric port-channel vHBA reset. C(disabled) - Disable fabric port-channel vHBA reset (default).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "disabled",
+        "aliases": null
+      },
+      "primary_key": {
+        "description": "Encrypts MACsec keys in type-6 format. If a MACsec key is already provided in a type-6 format, the primary key decrypts it. MACSec is not supported on Unified Edge, so the primary key cannot be configured. Must be 16-64 characters in length when specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_switch_control_policy_info": {
+    "short_description": "Gather information about Switch Control Policies in Cisco Intersight",
+    "description": "Gather information about Switch Control Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Switch Control Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Switch Control Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Switch Control Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_syslog_policy_info": {
+    "short_description": "Gather information about Syslog Policies in Cisco Intersight",
+    "description": "Gathers information about existing Syslog Policies in L(Cisco Intersight,https://intersight.com). You can filter policies by O(organization) and O(name). If no filters are provided, the module returns all available Syslog Policies.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization to which the Syslog Policy belongs.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the specific Syslog Policy to retrieve.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_system_qos_policy_info": {
+    "short_description": "Gather information about System QoS Policies in Cisco Intersight",
+    "description": "Retrieve comprehensive information about System QoS Policies and their configured classes from L(Cisco Intersight,https://intersight.com). Query policies by organization, policy name, or filter by specific criteria. Returns structured data combining policy metadata with detailed QoS class configurations. Each policy includes all six QoS classes (Bronze, Silver, Gold, Platinum, Best Effort, FC) with their current settings. Supports filtering by organization and policy name. If no filters are provided, all System QoS Policies will be returned. Returns structured data with both policy information and associated QoS class details.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization to filter System QoS Policies by. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_target_claim": {
+    "short_description": "Target claim configuraiton for Cisco Intersight",
+    "description": "Target claim configuraiton for Cisco Intersight Used to claim or unclaim a Target from Cisco Intersight For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "claim_code": {
+        "description": "Claim code required for registering a new Target Required if I(state=present)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "device_id": {
+        "description": "Device id (serial number) of target Targets containing multiple Target ids (e.g. IMM) can be formatted as <target1_id>&<target2_id>",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_thermal_policy_info": {
+    "short_description": "Gather information about Thermal Policies in Cisco Intersight",
+    "description": "Gather information about Thermal Policies in L(Cisco Intersight,https://intersight.com). Information can be filtered by O(organization) and O(name). If no filters are passed, all Thermal Policies will be returned.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization the Thermal Policy belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Thermal Policy to gather information from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_uuid_pool": {
+    "short_description": "UUID Pool configuration for Cisco Intersight",
+    "description": "UUID Pool configuration for Cisco Intersight. Used to configure UUID pools settings on Cisco Intersight managed devices. For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles, Policies, and Pools that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the UUID Pool. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the UUID Pool. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "prefix": {
+        "description": "The UUID prefix used for all UUID suffix blocks. UUID must be in uppercase in order to support idempotency. The prefix must be in the format XXXXXXXX-XXXX-XXXX (8-4-4) where X is a hexadecimal character (0-9, A-F). This prefix will be combined with the suffix blocks to form complete UUIDs. Required for C(state=present)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid_suffix_blocks": {
+        "description": "List of UUID suffix blocks that define the range of UUIDs available in the pool. Each block defines a starting suffix and the number of consecutive UUIDs in that block. Required for C(state=present)",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_uuid_pool_info": {
+    "short_description": "Gather information about UUID Pool in Cisco Intersight",
+    "description": "Gather information about UUID Pool in L(Cisco Intersight,https://intersight.com). Information can be filtered using Organization and Name. if none is passed all information regarding existing uuid pools will be fetched.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization that will have information gathered from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the UUID Pool that will have information gathered from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_vhba_template": {
+    "short_description": "Manage vHBA Templates for Cisco Intersight",
+    "description": "Create, update, and delete vHBA Templates on Cisco Intersight. vHBA Templates define fibre channel interface configurations that can be used by SAN Connectivity policies. Templates provide a standardized way to configure vHBAs with consistent fibre channel policies. vHBA Templates are only applicable for FI-Attached (Fabric Interconnect) deployments. For more information see L(Cisco Intersight,https://intersight.com/apidocs/vnic/VhbaTemplate/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Policies created within a Custom Organization are applicable only to devices in the same Organization. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_vhba_template_info": {
+    "short_description": "Gather information about vHBA Templates in Cisco Intersight",
+    "description": "Retrieve comprehensive information about vHBA Templates from L(Cisco Intersight,https://intersight.com). Query templates by organization, template name, or other filters. Returns structured data with template metadata and policy associations. If no filters are provided, all vHBA Templates will be returned. vHBA Templates are used to define standardized fibre channel interface configurations for FI-Attached deployments.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization to filter vHBA Templates by. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_virtual_media_policy": {
+    "short_description": "Virtual Media policy configuration for Cisco Intersight",
+    "description": "Virtual Media policy configuration for Cisco Intersight. Used to configure Virtual Media image mappings on Cisco Intersight managed devices. For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles and Policies that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the NTP policy. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the NTP policy. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "enable": {
+        "description": "Enable or disable virtual media.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "encryption": {
+        "description": "If enabled, allows encryption of all Virtual Media communications",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "low_power_usb": {
+        "description": "If enabled, the virtual drives appear on the boot selection menu after mapping the image and rebooting the host.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "cdd_virtual_media": {
+        "description": "CDD Virtual Media image mapping options.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_vlan_policy": {
+    "short_description": "Manage VLAN Policies and VLANs for Cisco Intersight",
+    "description": "Create, update, and delete VLAN Policies on Cisco Intersight. Manage individual VLANs within VLAN policies. Supports both regular VLANs and Private VLANs (Primary, Isolated, Community) configurations. VLAN policies define network segmentation and can be attached to LAN Connectivity policies and Server Profiles. For more information see L(Cisco Intersight,https://intersight.com/apidocs/fabric/EthNetworkPolicy/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Policies created within a Custom Organization are applicable only to devices in the same Organization. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_vlan_policy_info": {
+    "short_description": "Gather information about VLAN Policies and their VLANs in Cisco Intersight",
+    "description": "Retrieve comprehensive information about VLAN Policies and their associated VLANs from L(Cisco Intersight,https://intersight.com). Query policies by organization, policy name, or filter VLANs by name patterns. Returns structured data combining policy metadata with detailed VLAN configurations. Supports filtering by organization, policy name, and VLAN name. If no filters are provided, all VLAN Policies and their VLANs will be returned. Returns structured data with both policy information and associated VLAN details.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization to filter VLAN Policies by. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_vnic_template": {
+    "short_description": "Manage vNIC Templates for Cisco Intersight",
+    "description": "Create, update, and delete vNIC Templates on Cisco Intersight. vNIC Templates define network interface configurations that can be used by LAN Connectivity policies. Templates provide a standardized way to configure vNICs with consistent network and adapter policies. vNIC Templates are only applicable for FI-Attached (Fabric Interconnect) deployments. For more information see L(Cisco Intersight,https://intersight.com/apidocs/vnic/VnicTemplate/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Policies created within a Custom Organization are applicable only to devices in the same Organization. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_vnic_template_info": {
+    "short_description": "Gather information about vNIC Templates in Cisco Intersight",
+    "description": "Retrieve comprehensive information about vNIC Templates from L(Cisco Intersight,https://intersight.com). Query templates by organization, template name, or other filters. Returns structured data with template metadata and policy associations. If no filters are provided, all vNIC Templates will be returned. vNIC Templates are used to define standardized network interface configurations for FI-Attached deployments.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization to filter vNIC Templates by. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_vsan_policy": {
+    "short_description": "Manage VSAN Policies and VSANs for Cisco Intersight",
+    "description": "Create, update, and delete VSAN (Virtual Storage Area Network) Policies on Cisco Intersight. For more information see L(Cisco Intersight,https://intersight.com/apidocs/fabric/FcNetworkPolicy/get/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Policies created within a Custom Organization are applicable only to devices in the same Organization. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_vsan_policy_info": {
+    "short_description": "Gather information about VSAN Policies and their VSANs in Cisco Intersight",
+    "description": "Retrieve information about VSAN (Virtual Storage Area Network) Policies and their associated VSANs from L(Cisco Intersight,https://intersight.com). Query policies by organization, policy name, or filter VSANs by name patterns. Returns structured data combining policy metadata with detailed VSAN configurations. Supports filtering by organization, policy name, and VSAN name. If no filters are provided, all VSAN Policies and their VSANs will be returned. Returns structured data with both policy information and associated VSAN details.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization to filter VSAN Policies by. Use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_wwn_pool": {
+    "short_description": "WWNN/WWPN Pool configuration for Cisco Intersight",
+    "description": "WWNN/WWPN Pool configuration for Cisco Intersight. Used to configure WWN pools settings on Cisco Intersight managed devices. For more information see L(Cisco Intersight,https://intersight.com/apidocs).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify the resource is present and will create if needed. If C(absent), will verify the resource is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "organization": {
+        "description": "The name of the Organization this resource is assigned to. Profiles, Policies, and Pools that are created within a Custom Organization are applicable only to devices in the same Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the WWNN/WWPN Pool. The name must be between 1 and 62 alphanumeric characters, allowing special characters :-_. Two pools WWNN and WWNP can have the same name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "List of tags in Key:<user-defined key> Value:<user-defined value> format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the WWNN/WWPN Pool. Description can contain letters(a-z, A-Z), numbers(0-9), hyphen(-), period(.), colon(:), or an underscore(_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "pool_purpose": {
+        "description": "The pool type WWNN or WWPN. Required also for C(absent) - Two pools WWNN and WWNP can have the same name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id_blocks": {
+        "description": "WWN Blocks Block of WWNN/WWPN Identifiers.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.intersight.intersight_wwn_pool_info": {
+    "short_description": "Gather information about WWN Pool in Cisco Intersight",
+    "description": "Gather information about WWNN/WWPN Pool in L(Cisco Intersight,https://intersight.com). Information can be filtered using Organization, Name and PoolPurpose. if none is passed all information regarding existing WWN pools will be fetched.",
+    "options": {
+      "organization": {
+        "description": "The name of the organization that will have information gathered from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the WWNN/WWPN Pool that will have information gathered from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool_purpose": {
+        "description": "The pool type WWNN or WWPN. WWNN and WWPN pools can have the same name. if none is passed all information regardless of pool purpose will be fetched.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

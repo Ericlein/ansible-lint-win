@@ -1,0 +1,745 @@
+{
+  "cisco.ucs.ucs_disk_group_policy": {
+    "short_description": "Configures disk group policies on Cisco UCS Manager",
+    "description": "Configures disk group policies on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "Desired state of the disk group policy. If C(present), will verify that the disk group policy is present and will create if needed. If C(absent), will verify that the disk group policy is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the disk group policy. This name can be between 1 and 16 alphanumeric characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_dns_server": {
+    "short_description": "Configure DNS servers on Cisco UCS Manager",
+    "description": "Configure DNS servers on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(absent), will remove a DNS server. If C(present), will add or update a DNS server.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "dns_server": {
+        "description": "DNS server IP address. Enter a valid IPV4 Address. UCS Manager supports up to 4 DNS Servers",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "description": {
+        "description": "A user-defined description of the DNS server. Enter up to 256 characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_graphics_card_policy": {
+    "short_description": "Manages UCS Graphics Card Policies on UCS Manager",
+    "description": "Manages UCS Graphics Card Policies on UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(absent), will remove organization. If C(present), will create or update organization.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the organization. Enter up to 16 characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_ip_pool": {
+    "short_description": "Configures IP address pools on Cisco UCS Manager",
+    "description": "Configures IP address pools and blocks of IP addresses on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify IP pool is present and will create if needed. If C(absent), will verify IP pool is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the IP address pool. This name can be between 1 and 32 alphanumeric characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_lan_connectivity": {
+    "short_description": "Configures LAN Connectivity Policies on Cisco UCS Manager",
+    "description": "Configures LAN Connectivity Policies on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify LAN Connectivity Policies are present and will create if needed. If C(absent), will verify LAN Connectivity Policies are absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the LAN Connectivity Policy. This name can be between 1 and 16 alphanumeric characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_mac_pool": {
+    "short_description": "Configures MAC address pools on Cisco UCS Manager",
+    "description": "Configures MAC address pools and MAC address blocks on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify MAC pool is present and will create if needed. If C(absent), will verify MAC pool is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the MAC pool. This name can be between 1 and 32 alphanumeric characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_managed_objects": {
+    "short_description": "Configures Managed Objects on Cisco UCS Manager",
+    "description": "Configures Managed Objects on Cisco UCS Manager. The Python SDK module, Python class within the module (UCSM Class), and all properties must be directly specified. More information on the UCSM Python SDK and how to directly configure Managed Objects is available at L(UCSM Python SDK,http://ucsmsdk.readthedocs.io/).",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify that the Managed Objects are present and will create if needed. If C(absent), will verify that the Managed Objects are absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "objects": {
+        "description": "List of managed objects to configure.  Each managed object has suboptions the specify the Python SDK module, class, and properties to configure.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_ntp_server": {
+    "short_description": "Configures NTP server on Cisco UCS Manager",
+    "description": "Configures NTP server on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(absent), will remove an NTP server. If C(present), will add or update an NTP server.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "ntp_server": {
+        "description": "NTP server IP address or hostname. Enter up to 63 characters that form a valid hostname. Enter a valid IPV4 Address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "description": {
+        "description": "A user-defined description of the NTP server. Enter up to 256 characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_org": {
+    "short_description": "Manages UCS Organizations for UCS Manager",
+    "description": "Manages UCS Organizations for UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(absent), will remove organization. If C(present), will create or update organization.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "org_name": {
+        "description": "The name of the organization. Enter up to 16 characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_query": {
+    "short_description": "Queries UCS Manager objects by class or distinguished name",
+    "description": "-Queries UCS Manager objects by class or distinguished name.",
+    "options": {
+      "class_ids": {
+        "description": "One or more UCS Manager Class IDs to query. As a comma separated list",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "distinguished_names": {
+        "description": "One or more UCS Manager Distinguished Names to query. As a comma separated list",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delegate_to": {
+        "description": "Where the module will be run",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "localhost",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_san_connectivity": {
+    "short_description": "Configures SAN Connectivity Policies on Cisco UCS Manager",
+    "description": "Configures SAN Connectivity Policies on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify SAN Connectivity Policies are present and will create if needed. If C(absent), will verify SAN Connectivity Policies are absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the SAN Connectivity Policy. This name can be between 1 and 16 alphanumeric characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_scrub_policy": {
+    "short_description": "Manages UCS Scrub Policies on UCS Manager",
+    "description": "Manages UCS Scrub Policies on UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(absent), will remove organization. If C(present), will create or update organization.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the organization. Enter up to 16 characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_serial_over_lan_policy": {
+    "short_description": "Manages UCS Serial Over Lan Policies on UCS Manager",
+    "description": "Manages UCS Serial Over Lan Policies on UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(absent), will remove Serial Over Lan Policy. If C(present), will create or update Serial Over Lan Policy.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the serial over lan policy. Enter up to 16 characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_server_maintenance": {
+    "short_description": "Creates Server Maintenance Policy on Cisco UCS Manager",
+    "description": "Configures Server Maintenance Policy on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify Server Maintenance Policy is present and will create if needed. If C(absent), will verify Server Maintenance Policy is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the Server Maintenance Policy. The Server Maintenance Policy name is case sensitive. This name can be between 1 and 16 alphanumeric characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_service_profile_association": {
+    "short_description": "Configures Service Profile Association on Cisco UCS Manager",
+    "description": "Configures Service Profile Association (change association or disassociate) on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify service profile association and associate with specified server or server pool if needed. If C(absent), will verify service profile is not associated and will disassociate if needed.  This is the same as specifying Assign Later in the webUI.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "service_profile_name": {
+        "description": "The name of the Service Profile being associated or disassociated.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_assignment": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_service_profile_from_template": {
+    "short_description": "Configures Service Profiles from templates on Cisco UCS Manager",
+    "description": "Configures Service Profile created from templates on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify Service Profiles are present and will create if needed. If C(absent), will verify Service Profiles are absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the service profile. This name can be between 2 and 32 alphanumeric characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_service_profile_template": {
+    "short_description": "Configures Service Profile Templates on Cisco UCS Manager",
+    "description": "Configures Service Profile Templates on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify Service Profile Templates are present and will create if needed. If C(absent), will verify Service Profile Templates are absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the service profile template. This name can be between 2 and 32 alphanumeric characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_storage_profile": {
+    "short_description": "Configures storage profiles on Cisco UCS Manager",
+    "description": "Configures storage profiles on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify that the storage profile is present and will create if needed. If C(absent), will verify that the storage profile is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the storage profile. This name can be between 1 and 16 alphanumeric characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_timezone": {
+    "short_description": "Configures timezone on Cisco UCS Manager",
+    "description": "Configures timezone on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(absent), will unset timezone. If C(present), will set or update timezone.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "admin_state": {
+        "description": "The admin_state setting The enabled admin_state indicates the timezone configuration is utilized by UCS Manager. The disabled admin_state indicates the timezone configuration is ignored by UCS Manager.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disabled",
+          "enabled"
+        ],
+        "default": "enabled",
+        "aliases": null
+      },
+      "description": {
+        "description": "A user-defined description of the timezone. Enter up to 256 characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_uuid_pool": {
+    "short_description": "Configures server UUID pools on Cisco UCS Manager",
+    "description": "Configures server UUID pools and UUID blocks on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify UUID pool is present and will create if needed. If C(absent), will verify UUID pool is absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the UUID pool. This name can be between 1 and 32 alphanumeric characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_vhba_template": {
+    "short_description": "Configures vHBA templates on Cisco UCS Manager",
+    "description": "Configures vHBA templates on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify vHBA templates are present and will create if needed. If C(absent), will verify vHBA templates are absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the virtual HBA template. This name can be between 1 and 16 alphanumeric characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_vlan_find": {
+    "short_description": "Find VLANs on Cisco UCS Manager",
+    "description": "Find VLANs on Cisco UCS Manager based on different criteria.",
+    "options": {
+      "pattern": {
+        "description": "Regex pattern to find within the name property of the fabricVlan class. This is required if C(vlanid) parameter is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fabric": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_vlan_to_group": {
+    "short_description": "Add VLANs to a VLAN Group. Requires VLAN and VLAN Group to already be created on UCS prior to running module.",
+    "description": "Add VLANs to VLAN Groups on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify VLANs are present and will create if needed. If C(absent), will verify VLANs are absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "vlanname": {
+        "description": "The name assigned to the VLAN. The VLAN name is case sensitive. This name can be between 1 and 32 alphanumeric characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_vlans": {
+    "short_description": "Configures VLANs on Cisco UCS Manager",
+    "description": "Configures VLANs on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify VLANs are present and will create if needed. If C(absent), will verify VLANs are absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the VLAN. The VLAN name is case sensitive. This name can be between 1 and 32 alphanumeric characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_vnic_template": {
+    "short_description": "Configures vNIC templates on Cisco UCS Manager",
+    "description": "Configures vNIC templates on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify vNIC templates are present and will create if needed. If C(absent), will verify vNIC templates are absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the vNIC template. This name can be between 1 and 16 alphanumeric characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_vsans": {
+    "short_description": "Configures VSANs on Cisco UCS Manager",
+    "description": "Configures VSANs on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify VSANs are present and will create if needed. If C(absent), will verify VSANs are absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name assigned to the VSAN. This name can be between 1 and 32 alphanumeric characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_wwn_pool": {
+    "short_description": "Configures WWNN or WWPN pools on Cisco UCS Manager",
+    "description": "Configures WWNNs or WWPN pools on Cisco UCS Manager.",
+    "options": {
+      "state": {
+        "description": "If C(present), will verify WWNNs/WWPNs are present and will create if needed. If C(absent), will verify WWNNs/WWPNs are absent and will delete if needed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the World Wide Node Name (WWNN) or World Wide Port Name (WWPN) pool. This name can be between 1 and 32 alphanumeric characters. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

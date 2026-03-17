@@ -1,0 +1,1445 @@
+{
+  "openstack.cloud.application_credential": {
+    "short_description": "Manage OpenStack Identity (Keystone) application credentials",
+    "description": "Create or delete an OpenStack Identity (Keystone) application credential. When the secret parameter is not set a secret will be generated and returned in the response. Existing credentials cannot be modified so running this module against an existing credential will result in it being deleted and recreated. This needs to be taken into account when the secret is generated, as the secret will change on each run of the module.",
+    "options": {
+      "name": {
+        "description": "Name of the application credential.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Application credential description.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "secret": {
+        "description": "Secret to use for authentication (if not provided, one will be generated).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "roles": {
+        "description": "Roles to authorize (name or ID).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "expires_at": {
+        "description": "Sets an expiration date for the application credential, format of YYYY-mm-ddTHH:MM:SS (if not provided, the application credential will not expire).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "unrestricted": {
+        "description": "Enable application credential to create and delete other application credentials and trusts (this is potentially dangerous behavior and is disabled by default).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "access_rules": {
+        "description": "List of access rules, each containing a request method, path, and service.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent. Application credentials are immutable so running with an existing present credential will result in the credential being deleted and recreated.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.auth": {
+    "short_description": "Retrieve auth token from OpenStack cloud",
+    "description": "Retrieve auth token from OpenStack cloud",
+    "options": {},
+    "deprecated": null
+  },
+  "openstack.cloud.baremetal_inspect": {
+    "short_description": "Explicitly triggers baremetal node introspection in ironic.",
+    "description": "Requests Ironic to set a node into inspect state in order to collect metadata regarding the node. This command may be out of band or in-band depending on the ironic driver configuration. This is only possible on nodes in",
+    "options": {},
+    "deprecated": null
+  },
+  "openstack.cloud.catalog_service_info": {
+    "short_description": "Retrieve information about services from OpenStack",
+    "description": "Retrieve information about services from OpenStack.",
+    "options": {
+      "name": {
+        "description": "Name or ID of the service.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.coe_cluster": {
+    "short_description": "Manage COE cluster in OpenStack Cloud",
+    "description": "Add or remove a COE (Container Orchestration Engine) cluster via OpenStack",
+    "options": {},
+    "deprecated": null
+  },
+  "openstack.cloud.coe_cluster_template": {
+    "short_description": "Manage COE cluster template in OpenStack Cloud",
+    "description": "Add or remove a COE (Container Orchestration Engine) cluster template via OpenStack",
+    "options": {},
+    "deprecated": null
+  },
+  "openstack.cloud.compute_flavor_info": {
+    "short_description": "Fetch compute flavors from OpenStack cloud",
+    "description": "Fetch OpenStack compute flavors.",
+    "options": {
+      "ephemeral": {
+        "description": "Filter flavors based on the amount of ephemeral storage. I(ephemeral) supports same format as I(ram) option.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "limit": {
+        "description": "Limits number of flavors to I(limit) results. By default all matching flavors are returned.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Flavor name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ram": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.compute_service_info": {
+    "short_description": "Fetch OpenStack Compute (Nova) services",
+    "description": "Fetch OpenStack Compute (Nova) services.",
+    "options": {
+      "binary": {
+        "description": "Filter the service list result by binary name of the service.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "Filter the service list result by the host name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.config": {
+    "short_description": "Get OpenStack Client config",
+    "description": "Get OpenStack cloud credentials and configuration, e.g. from clouds.yaml and environment variables.",
+    "options": {
+      "clouds": {
+        "description": "List of clouds to limit the return list to. When I(clouds) is not defined, then data is returned for all configured clouds.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.endpoint": {
+    "short_description": "Manage OpenStack Identity service endpoints",
+    "description": "Create, update, or delete OpenStack Identity service endpoints. If a service with the same combination of I(service), I(interface) and I(region) exist, the I(url), I(enabled) and I(state) (C(present) or C(absent)) will be updated.",
+    "options": {
+      "service": {
+        "description": "Name or id of the service.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "endpoint_interface": {
+        "description": "Interface of the service.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "admin",
+          "public",
+          "internal"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "url": {
+        "description": "URL of the service.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "region": {
+        "description": "ID of the region that the service belongs to. Note that I(region) is used for authentication.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Is the service enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be C(present) or C(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.group_assignment": {
+    "short_description": "Assign OpenStack identity users to groups",
+    "description": "Add and remove OpenStack identity (Keystone) users to/from groups.",
+    "options": {
+      "group": {
+        "description": "Name or ID for the group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the user be present or absent in the group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "user": {
+        "description": "Name or ID for the user.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.host_aggregate": {
+    "short_description": "Manage OpenStack host aggregates",
+    "description": "Create, update, or delete OpenStack host aggregates. If a aggregate with the supplied name already exists, it will be updated with the new name, new availability zone, new metadata and new list of hosts.",
+    "options": {
+      "name": {
+        "description": "Name of the aggregate.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "metadata": {
+        "description": "Metadata dict.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "availability_zone": {
+        "description": "Availability zone to create aggregate into.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hosts": {
+        "description": "List of hosts to set for an aggregate.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_hosts": {
+        "description": "Whether hosts not in I(hosts) should be removed from the aggregate",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.identity_domain_info": {
+    "short_description": "Fetch identity (Keystone) domains from OpenStack cloud",
+    "description": "Fetch identity (Keystone) domains from OpenStack cloud",
+    "options": {
+      "filters": {
+        "description": "A dictionary of meta data to use for filtering. Elements of this dictionary may be additional dictionaries.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name or ID of the domain",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.identity_group_info": {
+    "short_description": "Fetch OpenStack identity (Keystone) groups",
+    "description": "Fetch OpenStack identity (Keystone) groups.",
+    "options": {
+      "domain": {
+        "description": "Name or ID of the domain containing the group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filters": {
+        "description": "A dictionary of meta data to use for further filtering. Elements of this dictionary may be additional dictionaries.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name or ID of the group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.identity_role_info": {
+    "short_description": "Fetch OpenStack identity (Keystone) roles",
+    "description": "Fetch OpenStack identity (Keystone) roles.",
+    "options": {
+      "domain_id": {
+        "description": "Domain ID which owns the role.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name or ID of the role.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.identity_user": {
+    "short_description": "Manage a OpenStack identity (Keystone) user",
+    "description": "Create, update or delete a OpenStack identity (Keystone) user.",
+    "options": {
+      "default_project": {
+        "description": "Name or ID of the project, the user should be created in.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description about the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain": {
+        "description": "Domain to create the user in if the cloud supports domains.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "email": {
+        "description": "Email address for the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_enabled": {
+        "description": "Whether the user is enabled or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.identity_user_info": {
+    "short_description": "Fetch OpenStack identity (Keystone) users",
+    "description": "Fetch OpenStack identity (Keystone) users.",
+    "options": {
+      "domain": {
+        "description": "Name or ID of the domain containing the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filters": {
+        "description": "A dictionary of meta data to use for further filtering. Elements of this dictionary may be additional dictionaries.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name or ID of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.keypair": {
+    "short_description": "Add/Delete a keypair from OpenStack",
+    "description": "Add or Remove key pair from OpenStack",
+    "options": {
+      "name": {
+        "description": "Name that has to be given to the key pair",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "public_key": {
+        "description": "The public key that would be uploaded to nova and injected into VMs upon creation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "public_key_file": {
+        "description": "Path to local file containing ssh public key. Mutually exclusive with public_key.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent. If state is replace and the key exists but has different content, delete it and recreate it with the new content.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "replace"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.keypair_info": {
+    "short_description": "Get information about keypairs from OpenStack",
+    "description": "Get information about keypairs that are associated with the account",
+    "options": {
+      "name": {
+        "description": "Name or ID of the keypair",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_id": {
+        "description": "It allows admin users to operate key-pairs of specified user ID.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "limit": {
+        "description": "Requests a page size of items. Returns a number of items up to a limit value.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "marker": {
+        "description": "The last-seen item.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.lb_health_monitor": {
+    "short_description": "Manage health monitor in a OpenStack load-balancer pool",
+    "description": "Add, update or remove health monitor from a load-balancer pool in OpenStack cloud.",
+    "options": {
+      "delay": {
+        "description": "The interval, in seconds, between health checks. Required when I(state) is C(present).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "expected_codes": {
+        "description": "The list of HTTP status codes expected in response from the member to declare it healthy. Specify one of the following values. For example, I(expected_codes) could be a single value, such as C(200), a list, such as C(200, 202) or a range, such as C(200-204). ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.lb_member": {
+    "short_description": "Manage members in a OpenStack load-balancer pool",
+    "description": "Add, update or remove member from OpenStack load-balancer pool.",
+    "options": {
+      "address": {
+        "description": "The IP address of the member. Required when I(state) is C(present). This attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "monitor_address": {
+        "description": "IP address used to monitor this member.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "monitor_port": {
+        "description": "Port used to monitor this member.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name that has to be given to the member.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool": {
+        "description": "The name or id of the pool that this member belongs to. This attribute cannot be updated.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol_port": {
+        "description": "The protocol port number for the member. Required when I(state) is C(present). This attribute cannot be updated.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be C(present) or C(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "subnet_id": {
+        "description": "The subnet ID the member service is accessible from. This attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "weight": {
+        "description": "The weight of a member determines the portion of requests or connections it services compared to the other members of the pool. For example, a member with a weight of 10 receives five times as many requests as a member with a weight of 2. A value of 0 means the member does not receive new connections but continues to service existing connections. A valid value is from 0 to 256. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.lb_pool": {
+    "short_description": "Manage load-balancer pool in a OpenStack cloud.",
+    "description": "Add, update or remove load-balancer pool from OpenStack cloud.",
+    "options": {
+      "description": {
+        "description": "A human-readable description for the load-balancer pool.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lb_algorithm": {
+        "description": "The load balancing algorithm for the pool. For example, I(lb_algorithm) could be C(LEAST_CONNECTIONS), C(ROUND_ROBIN), C(SOURCE_IP) or C(SOURCE_IP_PORT).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "ROUND_ROBIN",
+        "aliases": null
+      },
+      "listener": {
+        "description": "The name or id of the listener that this pool belongs to. Either I(listener) or I(loadbalancer) must be specified for pool creation. This attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "loadbalancer": {
+        "description": "The name or id of the load balancer that this pool belongs to. Either I(listener) or I(loadbalancer) must be specified for pool creation. This attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name that has to be given to the pool. This attribute cannot be updated.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol": {
+        "description": "The protocol for the pool. For example, I(protocol) could be C(HTTP), C(HTTPS), C(PROXY), C(PROXYV2), C(SCTP), C(TCP) and C(UDP). This attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "HTTP",
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.networks_info": {
+    "short_description": "Retrieve information about one or more OpenStack networks.",
+    "description": "Retrieve information about one or more networks from OpenStack.",
+    "options": {
+      "name": {
+        "description": "Name or ID of the Network",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filters": {
+        "description": "A dictionary of meta data to use for further filtering.  Elements of this dictionary may be additional dictionaries.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.neutron_rbac_policies_info": {
+    "short_description": "Fetch Neutron RBAC policies.",
+    "description": "Fetch RBAC policies against a network, security group or a QoS Policy for one or more projects.",
+    "options": {
+      "action": {
+        "description": "Action for the RBAC policy. Can be either of the following options C(access_as_shared) or C(access_as_external). Logically AND",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.object_container": {
+    "short_description": "Manage a Swift container.",
+    "description": "Create, update and delete a Swift container.",
+    "options": {
+      "delete_with_all_objects": {
+        "description": "Whether the container should be deleted recursively, i.e. including all of its objects. If I(delete_with_all_objects) is set to C(false), an attempt to delete a container which contains objects will fail.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "delete_metadata_keys": {
+        "description": "Keys from I(metadata) to be deleted. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.port": {
+    "short_description": "Add/Update/Delete ports from an OpenStack cloud.",
+    "description": "Add, Update or Remove ports from an OpenStack cloud.",
+    "options": {
+      "allowed_address_pairs": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.project_info": {
+    "short_description": "Retrieve information about one or more OpenStack projects",
+    "description": "Retrieve information about a one or more OpenStack projects",
+    "options": {
+      "name": {
+        "description": "Name or ID of the project.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain": {
+        "description": "Name or ID of the domain containing the project.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filters": {
+        "description": "A dictionary of meta data to use for filtering projects. Elements of I(filters) are passed as query parameters to OpenStack Identity API.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.quota": {
+    "short_description": "Manage OpenStack Quotas",
+    "description": "Manage OpenStack Quotas. Quotas can be created, updated or deleted using this module. A quota will be updated if matches an existing project and is present.",
+    "options": {
+      "backup_gigabytes": {
+        "description": "Maximum size of backups in GB",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.resource": {
+    "short_description": "Manage a OpenStack cloud resource",
+    "description": "Create, update and delete a OpenStack cloud resource.",
+    "options": {
+      "attributes": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.resources": {
+    "short_description": "List OpenStack cloud resources",
+    "description": "List OpenStack cloud resources.",
+    "options": {
+      "service": {
+        "description": "OpenStack service which this resource is part of. Examples are C(block_storage), C(compute) or C(network). ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.role_assignment": {
+    "short_description": "Assign OpenStack identity groups and users to roles",
+    "description": "Grant and revoke roles in either project or domain context for OpenStack identity (Keystone) users and groups.",
+    "options": {
+      "domain": {
+        "description": "Name or ID of the domain to scope the role association to. Valid only with keystone version 3. Required if I(project) is not specified. When I(project) is specified, then I(domain) will not be used for scoping the role association, only for finding resources. Deprecated for finding resources, please use I(group_domain), I(project_domain), I(role_domain), or I(user_domain). ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.routers_info": {
+    "short_description": "Retrieve information about one or more OpenStack routers.",
+    "description": "Retrieve information about one or more routers from OpenStack.",
+    "options": {
+      "name": {
+        "description": "Name or ID of the router",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filters": {
+        "description": "A dictionary of meta data to use for further filtering. Elements of this dictionary may be additional dictionaries.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.security_group": {
+    "short_description": "Manage Neutron security groups of an OpenStack cloud.",
+    "description": "Add or remove Neutron security groups to/from an OpenStack cloud.",
+    "options": {
+      "description": {
+        "description": "Long description of the purpose of the security group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name that has to be given to the security group. This module requires that security group names be unique.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project": {
+        "description": "Unique name or ID of the project.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "security_group_rules": {
+        "description": "List of security group rules. When I(security_group_rules) is not defined, Neutron might create this security group with a default set of rules. Security group rules which are listed in I(security_group_rules) but not defined in this security group will be created. When I(security_group_rules) is not set, existing security group rules which are not listed in I(security_group_rules) will be deleted. When updating a security group, one has to explicitly list rules from Neutron",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.security_group_info": {
+    "short_description": "Lists security groups",
+    "description": "List security groups",
+    "options": {
+      "any_tags": {
+        "description": "A list of tags to filter the list result by. Resources that match any tag in this list will be returned.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the security group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name or id of the security group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "not_any_tags": {
+        "description": "A list of tags to filter the list result by. Resources that match any tag in this list will be excluded.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "not_tags": {
+        "description": "A list of tags to filter the list result by. Resources that match all tags in this list will be excluded.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project_id": {
+        "description": "Specifies the project id as filter criteria.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "revision_number": {
+        "description": "Filter the list result by the revision number of the resource.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "A list of tags to filter the list result by. Resources that match all tags in this list will be returned.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.server": {
+    "short_description": "Create/Delete Compute Instances from OpenStack",
+    "description": "Create or Remove compute instances from OpenStack.",
+    "options": {
+      "auto_ip": {
+        "description": "Ensure instance has public ip however the cloud wants to do that. For example, the cloud could add a floating ip for the server or attach the server to a public network. Requires I(wait) to be C(True) during server creation. Floating IP support is unstable in this module, use with caution. Options I(auto_ip), I(floating_ip_pools) and I(floating_ips) interact in non-obvious ways and undocumentable depth. For explicit and safe attaching and detaching of floating ip addresses use module I(openstack.cloud.resource) instead.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.server_volume": {
+    "short_description": "Attach/Detach Volumes from OpenStack VM",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "openstack.cloud.share_type": {
+    "short_description": "Manage OpenStack share type",
+    "description": "Add, remove or update share types in OpenStack Manila.",
+    "options": {
+      "name": {
+        "description": "Share type name or id. For private share types, the UUID must be used instead of name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the share type.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extra_specs": {
+        "description": "Dictionary of share type extra specifications",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_public": {
+        "description": "Make share type accessible to the public. Can be updated after creation using Manila API direct updates.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "driver_handles_share_servers": {
+        "description": "Boolean flag indicating whether share servers are managed by the driver. Required for share type creation. This is automatically added to extra_specs as",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.share_type_info": {
+    "short_description": "Get OpenStack share type details",
+    "description": "Get share type details in OpenStack Manila. Get share type access details for private share types. Uses Manila API microversion 2.50 to retrieve complete share type information including is_default field. Safely falls back to basic information if microversion 2.50 is not supported by the backend. Private share types can only be accessed by UUID.",
+    "options": {
+      "name": {
+        "description": "Share type name or id. For private share types, the UUID must be used instead of name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.subnets_info": {
+    "short_description": "Retrieve information about one or more OpenStack subnets.",
+    "description": "Retrieve information about one or more subnets from OpenStack.",
+    "options": {
+      "name": {
+        "description": "Name or ID of the subnet. Alias",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.trait": {
+    "short_description": "Add/Delete a trait from OpenStack",
+    "description": "Add or Delete a trait from OpenStack",
+    "options": {
+      "id": {
+        "description": "ID/Name of this trait",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.trunk": {
+    "short_description": "Add or delete trunks from an OpenStack cloud.",
+    "description": "Add or delete trunk from an OpenStack cloud.",
+    "options": {
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name that has to be given to the trunk. This port attribute cannot be updated.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "The name or ID of the port for the trunk.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sub_ports": {
+        "description": "The sub ports on the trunk.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.volume": {
+    "short_description": "Create/Delete Cinder Volumes",
+    "description": "Create or Remove cinder block storage volumes",
+    "options": {
+      "availability_zone": {
+        "description": "The availability zone.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "String describing the volume",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "display_description"
+        ]
+      },
+      "image": {
+        "description": "Image name or id for boot from volume Mutually exclusive with I(snapshot) and I(volume)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_bootable": {
+        "description": "Bootable flag for volume.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "bootable"
+        ]
+      },
+      "is_multiattach": {
+        "description": "Whether volume will be sharable or not. To enable this volume to attach to more than one server, set I(is_multiattach) to C(true). Note that support for multiattach volumes depends on the volume type being used. ",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.volume_backup_info": {
+    "short_description": "Get Backups",
+    "description": "Get Backup info from the Openstack cloud.",
+    "options": {
+      "name": {
+        "description": "Name of the Backup.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "volume": {
+        "description": "Name or ID of the volume.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.volume_info": {
+    "short_description": "Retrieve information about volumes",
+    "description": "Get information about block storage in openstack",
+    "options": {
+      "all_projects": {
+        "description": "Whether to return the volumes in all projects",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "details": {
+        "description": "Whether to provide additional information about volumes",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the volume",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "status": {
+        "description": "Status of the volume so that you can filter on C(available) for example",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.volume_manage": {
+    "short_description": "Manage/Unmanage Volumes",
+    "description": "Manage or Unmanage Volume in OpenStack.",
+    "options": {
+      "description": {
+        "description": "String describing the volume",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "metadata": {
+        "description": "Metadata for the volume",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the volume to be unmanaged or the new name of a managed volume When I(state) is C(absent) this must be the cinder volume ID",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "bootable": {
+        "description": "Bootable flag for volume.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "volume_type": {
+        "description": "Volume type for volume",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "availability_zone": {
+        "description": "The availability zone.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "Cinder host on which the existing volume resides Takes the form",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.volume_service_info": {
+    "short_description": "Fetch OpenStack Volume (Cinder) services",
+    "description": "Fetch OpenStack Volume (Cinder) services.",
+    "options": {
+      "binary": {
+        "description": "Filter the service list result by binary name of the service.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "Filter the service list result by the host name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.volume_type_info": {
+    "short_description": "Get OpenStack volume type details",
+    "description": "Get volume type details in OpenStack. Get volume type encryption details in OpenStack",
+    "options": {
+      "name": {
+        "description": "Volume type name or id.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

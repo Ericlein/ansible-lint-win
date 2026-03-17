@@ -1,0 +1,596 @@
+{
+  "vyos.vyos.vyos_banner": {
+    "short_description": "Manage multiline banners on VyOS devices",
+    "description": "This will configure both pre-login and post-login banners on remote devices running VyOS. It allows playbooks to add or remote banner text from the active running configuration.",
+    "options": {
+      "banner": {
+        "description": "Specifies which banner that should be configured on the remote device.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "pre-login",
+          "post-login"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "text": {
+        "description": "The banner text that should be present in the remote device running configuration. This argument accepts a multiline string, with no empty lines. Requires I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies whether or not the configuration is present in the current devices active running configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_bgp_global": {
+    "short_description": "BGP global resource module",
+    "description": "This module manages BGP global configuration of interfaces on devices running VYOS. Tested against VyOS 1.3.8, 1.4.2, the upcoming 1.5, and the rolling release of spring 2025 The provided examples of commands are valid for VyOS 1.4+",
+    "options": {
+      "config": {
+        "description": "A dict of BGP global configuration for interfaces.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_command": {
+    "short_description": "Run one or more commands on VyOS devices",
+    "description": "The command module allows running one or more commands on remote devices running VyOS.  This module can also be introspected to validate key parameters before returning successfully.  If the conditional statements are not met in the wait period, the task fails. Certain C(show) commands in VyOS produce many lines of output and use a custom pager that can cause this module to hang.  If the value of the environment variable C(ANSIBLE_VYOS_TERMINAL_LENGTH) is not set, the default number of 10000 is used.",
+    "options": {
+      "commands": {
+        "description": "The ordered set of commands to execute on the remote device running VyOS.  The output from the command execution is returned to the playbook.  If the I(wait_for) argument is provided, the module is not returned until the condition is satisfied or the number of retries has been exceeded. If a command sent to the device requires answering a prompt, it is possible to pass a dict containing command, answer and prompt. Common answers are",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_config": {
+    "short_description": "Manage VyOS configuration on remote device",
+    "description": "This module provides configuration file management of VyOS devices. It provides arguments for managing both the configuration file and state of the active configuration. All configuration statements are based on `set` and `delete` commands in the device configuration.",
+    "options": {
+      "lines": {
+        "description": "The ordered set of commands that should be configured in the section. The commands must be the exact same commands as found in the device running-config as found in the device running-config to ensure idempotency and correct diff. Be sure to note the configuration command syntax as some commands are automatically modified by the device config parser.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "src": {
+        "description": "The C(src) argument specifies the path to the source config file to load.  The source config file can either be in bracket format or set format.  The source file can include Jinja2 template variables. The configuration lines in the source file should be similar to how it will appear if present in the running-configuration of the device including indentation to ensure idempotency and correct diff.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "match": {
+        "description": "The C(match) argument controls the method used to match against the current active configuration.  By default, the desired config is matched against the active config and the deltas are loaded.  If the C(match) argument is set to C(none) the active configuration is ignored and the configuration is always loaded.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "line",
+          "none"
+        ],
+        "default": "line",
+        "aliases": null
+      },
+      "backup": {
+        "description": "The C(backup) argument will backup the current devices active configuration to the Ansible control host prior to making any changes. If the C(backup_options) value is not given, the backup file will be located in the backup folder in the playbook root directory or role root directory, if playbook is part of an ansible role. If the directory does not exist, it is created.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "comment": {
+        "description": "Allows a commit description to be specified to be included when the configuration is committed.  If the configuration is not changed or committed, this argument is ignored.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "configured by vyos_config",
+        "aliases": null
+      },
+      "confirm": {
+        "description": "The C(confirm) argument will tell vyos to revert to the previous configuration if not explicitly confirmed after applying the new config. When set to C(automatic) this module will automatically confirm the configuration, if the current session remains working with the new config. When set to C(manual), this module does not issue the confirmation itself.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "automatic",
+          "manual",
+          "none"
+        ],
+        "default": "none",
+        "aliases": null
+      },
+      "confirm_timeout": {
+        "description": "Minutes to wait for confirmation before reverting the configuration. Does not apply when C(confirm) is set to C(none) .",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "config": {
+        "description": "The C(config) argument specifies the base configuration to use to compare against the desired configuration.  If this value is not specified, the module will automatically retrieve the current active configuration from the remote device. The configuration lines in the option value should be similar to how it will appear if present in the running-configuration of the device including indentation to ensure idempotency and correct diff.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "save": {
+        "description": "The C(save) argument controls whether or not changes made to the active configuration are saved to disk.  This is independent of committing the config.  When set to True, the active configuration is saved.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "backup_options": {
+        "description": "This is a dict object containing configurable options related to backup file path. The value of this option is read only when C(backup) is set to I(yes), if C(backup) is set to I(no) this option will be silently ignored.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_facts": {
+    "short_description": "Get facts about vyos devices.",
+    "description": "Collects facts from network devices running the vyos operating system. This module places the facts gathered in the fact tree keyed by the respective resource name.  The facts module will always collect a base set of facts from the device and can enable or disable collection of additional facts.",
+    "options": {
+      "gather_subset": {
+        "description": "When supplied, this argument will restrict the facts collected to a given subset.  Possible values for this argument include C(all), C(default), C(config), C(neighbors) and C(min). Can specify a list of values to include a larger subset. Values can also be used with an initial C(!) to specify that a specific subset should not be collected.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_firewall_global": {
+    "short_description": "Firewall global resource module",
+    "description": "This module manage global policies or configurations for firewall on VyOS devices.",
+    "options": {},
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_firewall_interfaces": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_firewall_rules": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_hostname": {
+    "short_description": "Manages hostname resource module",
+    "description": "This module manages the hostname attribute of Vyos network devices",
+    "options": {
+      "config": {
+        "description": "Hostname configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the vyos device by executing the command B(",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_interfaces": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_l3_interfaces": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_lag_interfaces": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_lldp_global": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_lldp_interfaces": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_logging_global": {
+    "short_description": "Logging resource module",
+    "description": "This module manages the logging attributes of Vyos network devices",
+    "options": {
+      "config": {
+        "description": "A list containing dictionary of logging options",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the VYOS device by executing the command B(show configuration commands | grep syslog). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_ntp_global": {
+    "short_description": "NTP global resource module",
+    "description": "This module manages ntp configuration on devices running Vyos",
+    "options": {},
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_ospfv2": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_ospfv3": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_ping": {
+    "short_description": "Tests reachability using ping from VyOS network devices",
+    "description": "Tests reachability using ping from a VyOS device to a remote destination. Tested against VyOS 1.3.8, 1.4.2, the upcoming 1.5, and the rolling release of spring 2025 For a general purpose network module, see the M(ansible.netcommon.net_ping) module. For Windows targets, use the M(ansible.windows.win_ping) module instead. For targets running Python, use the M(ansible.builtin.ping) module instead.",
+    "options": {
+      "dest": {
+        "description": "The IP Address or hostname (resolvable by the device) of the remote node.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "count": {
+        "description": "Number of packets to send to check reachability.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "source": {
+        "description": "The source interface or IP Address to use while sending the ping packet(s).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ttl": {
+        "description": "The time-to-live value for the ICMP packet(s).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "size": {
+        "description": "Determines the size (in bytes) of the ping packet(s).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interval": {
+        "description": "Determines the interval (in seconds) between consecutive pings.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Determines if the expected result is success or fail.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_route_maps": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_snmp_server": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_static_routes": {
+    "short_description": "",
+    "description": "",
+    "options": {},
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_system": {
+    "short_description": "Run `set system` commands on VyOS devices",
+    "description": "Runs one or more commands on remote devices running VyOS. This module can also be introspected to validate key parameters before returning successfully.",
+    "options": {
+      "host_name": {
+        "description": "Configure the device hostname parameter. This option takes an ASCII string value.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_name": {
+        "description": "The new domain name to apply to the device.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name_server": {
+        "description": "A list of name servers to use with the device. Mutually exclusive with I(domain_search)",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name_servers"
+        ]
+      },
+      "domain_search": {
+        "description": "A list of domain names to search. Mutually exclusive with I(name_server)",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether to apply (C(present)) or remove (C(absent)) the settings.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_user": {
+    "short_description": "Manage the collection of local users on VyOS device",
+    "description": "This module provides declarative management of the local usernames configured on network devices. It allows playbooks to manage either individual usernames or the collection of usernames in the current running config. It also supports purging usernames from the configuration that are not explicitly defined.",
+    "options": {
+      "aggregate": {
+        "description": "The set of username objects to be configured on the remote VyOS device. The list entries can either be the username or a hash of username and properties. This argument is mutually exclusive with the C(name) argument.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "users",
+          "collection"
+        ]
+      },
+      "name": {
+        "description": "The username to be configured on the VyOS device. This argument accepts a string value and is mutually exclusive with the C(aggregate) argument.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "full_name": {
+        "description": "The C(full_name) argument provides the full name of the user account to be created on the remote device. This argument accepts any text string value.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "encrypted_password": {
+        "description": "The encrypted password of the user account on the remote device. Note that unlike the C(configured_password) argument, this argument ignores the C(update_password) and updates if the value is different from the one in the device running config.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "configured_password": {
+        "description": "The password to be configured on the VyOS device. The password needs to be provided in clear and it will be encrypted on the device.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_password": {
+        "description": "Since passwords are encrypted in the device running config, this argument will instruct the module when to change the password.  When set to C(always), the password will always be updated in the device and when set to C(on_create) the password will be updated only if the username is created.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "on_create",
+          "always"
+        ],
+        "default": "always",
+        "aliases": null
+      },
+      "public_keys": {
+        "description": "Public keys for authentiction over SSH.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge": {
+        "description": "Instructs the module to consider the resource definition absolute. It will remove any previously configured usernames on the device with the exception of the `admin` user (the current defined set of users).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the state of the username definition as it relates to the device operational configuration. When set to I(present), the username(s) should be configured in the device active configuration and when set to I(absent) the username(s) should not be in the device active configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_vlan": {
+    "short_description": "Manage VLANs on VyOS network devices",
+    "description": "This module provides declarative management of VLANs on VyOS network devices.",
+    "options": {
+      "name": {
+        "description": "Name of the VLAN.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "address": {
+        "description": "Configure Virtual interface address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vlan_id": {
+        "description": "ID of the VLAN. Range 0-4094.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interfaces": {
+        "description": "List of interfaces that should be associated to the VLAN.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "associated_interfaces": {
+        "description": "This is a intent option and checks the operational state of the for given vlan C(name) for associated interfaces. If the value in the C(associated_interfaces) does not match with the operational state of vlan on device it will result in failure.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delay": {
+        "description": "Delay the play should wait to check for declarative intent params values.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "aggregate": {
+        "description": "List of VLANs definitions.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge": {
+        "description": "Purge VLANs not defined in the I(aggregate) parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the VLAN configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

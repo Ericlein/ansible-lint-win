@@ -1,0 +1,267 @@
+{
+  "cloudscale_ch.cloud.custom_image": {
+    "short_description": "Manage custom images on the cloudscale.ch IaaS service",
+    "description": "Import, modify and delete custom images.",
+    "options": {
+      "url": {
+        "description": "The URL used to download the image.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force_retry": {
+        "description": "Retry the image import even if a failed import using the same name and URL already exists. This is necessary to recover from download errors.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "name": {
+        "description": "The human readable name of the custom image. Either name or UUID must be present to change an existing image.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "The unique identifier of the custom image import. Either name or UUID must be present to change an existing image.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "slug": {
+        "description": "A string identifying the custom image for use within the API.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_data_handling": {
+        "description": "How user_data will be handled when creating a server. There are currently two options,",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cloudscale_ch.cloud.floating_ip": {
+    "short_description": "Manages floating IPs on the cloudscale.ch IaaS service",
+    "description": "Create, assign and delete floating IPs on the cloudscale.ch IaaS service.",
+    "options": {
+      "network": {
+        "description": "Floating IP address to change. One of I(network) or I(name) is required to identify the floating IP.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ip"
+        ]
+      },
+      "name": {
+        "description": "Name to identifiy the floating IP address for idempotency. One of I(network) or I(name) is required to identify the floating IP. Required for assigning a new floating IP.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the floating IP.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "ip_version": {
+        "description": "IP protocol version of the floating IP. Required when assigning a new floating IP.",
+        "type": "int",
+        "required": false,
+        "choices": [
+          4,
+          6
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "server": {
+        "description": "UUID of the server assigned to this floating IP.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "The type of the floating IP.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "regional",
+          "global"
+        ],
+        "default": "regional",
+        "aliases": null
+      },
+      "region": {
+        "description": "Region in which the floating IP resides (e.g. C(lpg) or C(rma)). If omitted, the region of the project default zone is used. This parameter must be omitted if I(type) is set to C(global).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "prefix_length": {
+        "description": "Only valid if I(ip_version) is 6. Prefix length for the IPv6 network. Currently only a prefix of /56 can be requested. If no I(prefix_length) is present, a single address is created.",
+        "type": "int",
+        "required": false,
+        "choices": [
+          56
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "reverse_ptr": {
+        "description": "Reverse PTR entry for this address. You cannot set a reverse PTR entry for IPv6 floating networks. Reverse PTR entries are only allowed for single addresses.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Tags associated with the floating IP. Set this to C({}) to clear any tags.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cloudscale_ch.cloud.load_balancer": {
+    "short_description": "Manages load balancers on the cloudscale.ch IaaS service",
+    "description": "Get, create, update, delete load balancers on the cloudscale.ch IaaS service.",
+    "options": {},
+    "deprecated": null
+  },
+  "cloudscale_ch.cloud.load_balancer_health_monitor": {
+    "short_description": "Manages load balancers on the cloudscale.ch IaaS service",
+    "description": "Get, create, update, delete health monitors on the cloudscale.ch IaaS service.",
+    "options": {},
+    "deprecated": null
+  },
+  "cloudscale_ch.cloud.load_balancer_listener": {
+    "short_description": "Manages load balancer listeners on the cloudscale.ch IaaS service",
+    "description": "Get, create, update, delete listeners on the cloudscale.ch IaaS service.",
+    "options": {},
+    "deprecated": null
+  },
+  "cloudscale_ch.cloud.load_balancer_pool": {
+    "short_description": "Manages load balancer pools on the cloudscale.ch IaaS service",
+    "description": "Get, create, update, delete pools on the cloudscale.ch IaaS service.",
+    "options": {},
+    "deprecated": null
+  },
+  "cloudscale_ch.cloud.load_balancer_pool_member": {
+    "short_description": "Manages load balancer pool members on the cloudscale.ch IaaS service",
+    "description": "Get, create, update, delete pool members on the cloudscale.ch IaaS service.",
+    "options": {},
+    "deprecated": null
+  },
+  "cloudscale_ch.cloud.network": {
+    "short_description": "Manages networks on the cloudscale.ch IaaS service",
+    "description": "Create, update and remove networks.",
+    "options": {},
+    "deprecated": null
+  },
+  "cloudscale_ch.cloud.objects_user": {
+    "short_description": "Manages objects users on the cloudscale.ch IaaS service",
+    "description": "Create, update and remove objects users cloudscale.ch IaaS service.",
+    "options": {
+      "display_name": {
+        "description": "Display name of the objects user. Either I(display_name) or I(id) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "id": {
+        "description": "Name of the objects user. Either I(display_name) or I(id) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Tags associated with the objects user. Set this to C({}) to clear any tags.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the objects user.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cloudscale_ch.cloud.server": {
+    "short_description": "Manages servers on the cloudscale.ch IaaS service",
+    "description": "Create, update, start, stop and delete servers on the cloudscale.ch IaaS service.",
+    "options": {},
+    "deprecated": null
+  },
+  "cloudscale_ch.cloud.server_group": {
+    "short_description": "Manages server groups on the cloudscale.ch IaaS service",
+    "description": "Create, update and remove server groups.",
+    "options": {},
+    "deprecated": null
+  },
+  "cloudscale_ch.cloud.subnet": {
+    "short_description": "Manages subnets on the cloudscale.ch IaaS service",
+    "description": "Create, update and remove subnets.",
+    "options": {},
+    "deprecated": null
+  },
+  "cloudscale_ch.cloud.volume": {
+    "short_description": "Manages volumes on the cloudscale.ch IaaS service.",
+    "description": "Create, attach/detach, update, delete and revert volumes on the cloudscale.ch IaaS service.",
+    "options": {},
+    "deprecated": null
+  },
+  "cloudscale_ch.cloud.volume_snapshot": {
+    "short_description": "Manage volume snapshots on the cloudscale.ch IaaS service",
+    "description": "Get, create, update, delete volume snapshots on the cloudscale.ch IaaS service.",
+    "options": {},
+    "deprecated": null
+  }
+}
