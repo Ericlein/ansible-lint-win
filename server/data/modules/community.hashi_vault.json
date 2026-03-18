@@ -72,7 +72,16 @@
   "community.hashi_vault.vault_database_connection_read": {
     "short_description": "Returns the configuration settings for a O(connection_name)",
     "description": "L(Reads a Database Connection,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#read-configuration), identified by its O(connection_name) from Hashcorp Vault.",
-    "options": {},
+    "options": {
+      "connection_name": {
+        "description": "The connection name to be read.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.hashi_vault.vault_database_connection_reset": {
@@ -185,7 +194,16 @@
   "community.hashi_vault.vault_database_role_read": {
     "short_description": "Queries a dynamic role definition",
     "description": "L(Queries a role definition,L(reads a static role,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#read-a-role), identified by its O(role_name).",
-    "options": {},
+    "options": {
+      "role_name": {
+        "description": "The role name to be read from Hashicorp Vault.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.hashi_vault.vault_database_roles_list": {
@@ -259,19 +277,46 @@
   "community.hashi_vault.vault_database_static_role_get_credentials": {
     "short_description": "Returns the current credentials based on the named static role",
     "description": "Returns the L(current credentials based of the named static role,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#get-static-credentials), identified by its O(role_name).",
-    "options": {},
+    "options": {
+      "role_name": {
+        "description": "The role name from which the credentials should be retrieved.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.hashi_vault.vault_database_static_role_read": {
     "short_description": "Queries a static role definition",
     "description": "L(Queries a static role definition,L(reads a static role,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#read-static-role), identified by its O(role_name)",
-    "options": {},
+    "options": {
+      "role_name": {
+        "description": "The role name to be read from Hashicorp Vault.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.hashi_vault.vault_database_static_role_rotate_credentials": {
     "short_description": "Trigger the credential rotation for a static role",
-    "description": "This endpoint is used to L(rotate the Static Role credentials,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#rotate-static-role-credentials) stored for a given role name. While Static Roles are rotated automatically by Vault at configured rotation periods, users can use this endpoint to manually trigger a rotation to change the stored password and reset the TTL of the Static Role",
-    "options": {},
+    "description": "This endpoint is used to L(rotate the Static Role credentials,https://hvac.readthedocs.io/en/stable/usage/secrets_engines/database.html#rotate-static-role-credentials) stored for a given role name. While Static Roles are rotated automatically by Vault at configured rotation periods, users can use this endpoint to manually trigger a rotation to change the stored password and reset the TTL of the Static Role's password.",
+    "options": {
+      "role_name": {
+        "description": "The name of the role to rotate credentials for.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.hashi_vault.vault_database_static_roles_list": {
@@ -281,21 +326,88 @@
     "deprecated": null
   },
   "community.hashi_vault.vault_kv1_get": {
-    "short_description": "Get a secret from HashiCorp Vault",
-    "description": "",
-    "options": {},
+    "short_description": "Get a secret from HashiCorp Vault's KV version 1 secret store",
+    "description": "Gets a secret from HashiCorp Vault's KV version 1 secret store.",
+    "options": {
+      "engine_mount_point": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "kv",
+        "aliases": null
+      },
+      "path": {
+        "description": "Vault KV path to be read. This is relative to the I(engine_mount_point), so the mount path should not be included.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.hashi_vault.vault_kv2_delete": {
-    "short_description": "Delete one or more versions of a secret from HashiCorp Vault",
-    "description": "",
-    "options": {},
+    "short_description": "Delete one or more versions of a secret from HashiCorp Vault's KV version 2 secret store",
+    "description": "Delete one or more versions of a secret from HashiCorp Vault's KV version 2 secret store.",
+    "options": {
+      "engine_mount_point": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "secret",
+        "aliases": null
+      },
+      "path": {
+        "description": "Vault KV path to be deleted. This is relative to the I(engine_mount_point), so the mount path should not be included. For kv2, do not include C(/data/) or C(/metadata/).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "versions": {
+        "description": "One or more versions of the secret to delete. When omitted, the latest version of the secret is deleted.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.hashi_vault.vault_kv2_get": {
-    "short_description": "Get a secret from HashiCorp Vault",
-    "description": "",
-    "options": {},
+    "short_description": "Get a secret from HashiCorp Vault's KV version 2 secret store",
+    "description": "Gets a secret from HashiCorp Vault's KV version 2 secret store.",
+    "options": {
+      "engine_mount_point": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "secret",
+        "aliases": null
+      },
+      "path": {
+        "description": "Vault KV path to be read. This is relative to the I(engine_mount_point), so the mount path should not be included. For kv2, do not include C(/data/) or C(/metadata/).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "version": {
+        "description": "Specifies the version to return. If not set the latest version is returned.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.hashi_vault.vault_kv2_write": {
@@ -363,7 +475,16 @@
   "community.hashi_vault.vault_login": {
     "short_description": "Perform a login operation against HashiCorp Vault",
     "description": "Performs a login operation against a given path in HashiCorp Vault, returning the login response, including the token.",
-    "options": {},
+    "options": {
+      "token_validate": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.hashi_vault.vault_pki_generate_certificate": {
@@ -423,11 +544,46 @@
         "aliases": null
       },
       "other_sans": {
-        "description": "Specifies custom OID/UTF8-string SANs. These must match values specified on the role in C(allowed_other_sans). ",
+        "description": "Specifies custom OID/UTF8-string SANs. These must match values specified on the role in C(allowed_other_sans). The format is the same as OpenSSL: C(<oid>;<type>:<value>) where the only current valid type is C(UTF8).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "engine_mount_point": {
+        "description": "Specify the mount point used by the PKI engine. Defaults to the default used by C(hvac).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "private_key_format": {
+        "description": "Specifies the format for marshaling the private key. Defaults to C(der) which will return either base64-encoded DER or PEM-encoded DER, depending on the value of I(format). The other option is C(pkcs8) which will return the key marshalled as PEM-encoded PKCS8.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "der",
+          "pkcs8"
+        ],
+        "default": "der",
+        "aliases": null
+      },
+      "ttl": {
+        "description": "Specifies requested Time To Live. Cannot be greater than the role's C(max_ttl) value. If not provided, the role's C(ttl) value will be used. Note that the role values default to system values if not explicitly set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uri_sans": {
+        "description": "Specifies the requested URI Subject Alternative Names.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
         "aliases": null
       }
     },

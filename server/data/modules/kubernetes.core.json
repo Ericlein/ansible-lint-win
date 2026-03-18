@@ -1,56 +1,1060 @@
 {
   "kubernetes.core.helm": {
     "short_description": "Manages Kubernetes packages with the Helm package manager",
-    "description": "",
-    "options": {},
+    "description": "Install, upgrade, delete packages with the Helm package manager.",
+    "options": {
+      "chart_ref": {
+        "description": "chart_reference on chart repository. path to a packaged chart. path to an unpacked chart directory. absolute URL. Required when I(release_state) is set to C(present).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chart_repo_url": {
+        "description": "Chart repository URL where to locate the requested chart.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chart_version": {
+        "description": "Chart version to install. If this is not specified, the latest version is installed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dependency_update": {
+        "description": "Run standalone C(helm dependency update CHART) before the operation. Run inline C(--dependency-update) with C(helm install) command. This feature is not supported yet with the C(helm upgrade) command. So we should consider to use I(dependency_update) options with I(replace) option enabled when specifying I(chart_repo_url). The I(dependency_update) option require the add of C(dependencies) block in C(Chart.yaml/requirements.yaml) file. For more information please visit U(https://helm.sh/docs/helm/helm_dependency/)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "dep_up"
+        ]
+      },
+      "release_name": {
+        "description": "Release name to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "release_namespace": {
+        "description": "Kubernetes namespace where the chart should be installed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "namespace"
+        ]
+      },
+      "release_state": {
+        "description": "Desirated state of release.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": [
+          "state"
+        ]
+      },
+      "release_values": {
+        "description": "Value to pass to chart.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": [
+          "values"
+        ]
+      },
+      "values_files": {
+        "description": "Value files to pass to chart. Paths will be read from the target host's filesystem, not the host running ansible. values_files option is evaluated before values option if both are used. Paths are evaluated in the order the paths are specified.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "update_repo_cache": {
+        "description": "Run C(helm repo update) before the operation. Can be run as part of the package installation or as a separate step (see Examples).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "set_values": {
+        "description": "Values to pass to chart configuration",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "reuse_values": {
+        "description": "When upgrading package, specifies wether to reuse the last release's values and merge in any overrides from parameters I(release_values), I(values_files) or I(set_values). If I(reset_values) is set to C(True), this is ignored.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "reset_values": {
+        "description": "When upgrading package, reset the values to the ones built into the chart.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "reset_then_reuse_values": {
+        "description": "When upgrading package, reset the values to the ones built into the chart, apply the last release's values and merge in any overrides from parameters O(release_values), O(values_files) or O(set_values). If O(reset_values) or O(reuse_values) is set to V(True), this is ignored. This feature requires helm diff >= 3.9.12.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "disable_hook": {
+        "description": "Helm option to disable hook on install/upgrade/delete.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "force": {
+        "description": "Helm option to force reinstall, ignore on new install.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "purge": {
+        "description": "Remove the release from the store and make its name free for later use.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "wait": {
+        "description": "When I(release_state) is set to C(present), wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment are in a ready state before marking the release as successful. When I(release_state) is set to C(absent), will wait until all the resources are deleted before returning. It will wait for as long as I(wait_timeout). This feature requires helm>=3.7.0. Added in version 2.3.0.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "Timeout when wait option is enabled (helm2 is a number of seconds, helm3 is a duration). The use of I(wait_timeout) to wait for kubernetes commands to complete has been deprecated and will be removed after 2022-12-01.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "A Go duration (described here I(https://pkg.go.dev/time#ParseDuration)) value to wait for Kubernetes commands to complete. This defaults to 5m0s. similar to C(wait_timeout) but does not required C(wait) to be activated. Mutually exclusive with C(wait_timeout).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "atomic": {
+        "description": "If set, the installation process deletes the installation on failure.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "create_namespace": {
+        "description": "Create the release namespace if not present.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "post_renderer": {
+        "description": "Path to an executable to be used for post rendering.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "replace": {
+        "description": "Reuse the given name, only if that name is a deleted release which remains in the history. This is unsafe in production environment. mutually exclusive with with C(history_max).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "skip_crds": {
+        "description": "Skip custom resource definitions when installing or upgrading.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "history_max": {
+        "description": "Limit the maximum number of revisions saved per release. mutually exclusive with with C(replace).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "insecure_skip_tls_verify": {
+        "description": "Skip tls certificate checks for the chart download. Do not confuse with the C(validate_certs) option. This option is only available for helm >= 3.16.0.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "skip_tls_certs_check"
+        ]
+      },
+      "plain_http": {
+        "description": "Use HTTP instead of HTTPS when working with OCI registries Requires Helm >= 3.13.0",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "take_ownership": {
+        "description": "Helm will ignore the check for helm annotations and take ownership of the existing resources This feature requires helm >= 3.17.0",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "skip_schema_validation": {
+        "description": "Disables JSON schema validation for Chart and values. This feature requires helm >= 3.16.0",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "kubernetes.core.helm_info": {
     "short_description": "Get information from Helm package deployed inside the cluster",
-    "description": "",
-    "options": {},
+    "description": "Get information (values, states, ...) from Helm package deployed inside the cluster.",
+    "options": {
+      "release_name": {
+        "description": "Release name to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "release_namespace": {
+        "description": "Kubernetes namespace where the chart should be installed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "namespace"
+        ]
+      },
+      "release_state": {
+        "description": "Show releases as per their states. Default value is C(deployed) and C(failed). If set to C(all), show all releases without any filter applied. If set to C(deployed), show deployed releases. If set to C(failed), show failed releases. If set to C(pending), show pending releases. If set to C(superseded), show superseded releases. If set to C(uninstalled), show uninstalled releases, if C(helm uninstall --keep-history) was used. If set to C(uninstalling), show releases that are currently being uninstalled.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "get_all_values": {
+        "description": "Set to C(True) if you want to get all (computed) values of the release. When C(False) (default), only user supplied values are returned.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "kubernetes.core.helm_plugin": {
     "short_description": "Manage Helm plugins",
-    "description": "",
-    "options": {},
+    "description": "Manages Helm plugins.",
+    "options": {
+      "state": {
+        "description": "If C(state=present) the Helm plugin will be installed. If C(state=latest) the Helm plugin will be updated. Added in version 2.3.0. If C(state=absent) the Helm plugin will be removed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "latest"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "plugin_name": {
+        "description": "Name of Helm plugin. Required only if C(state=absent) or C(state=latest).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "plugin_path": {
+        "description": "Plugin path to a plugin on your local file system or a url of a remote VCS repo. If plugin path from file system is provided, make sure that tar is present on remote machine and not on Ansible controller. Required only if C(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "plugin_version": {
+        "description": "Plugin version to install. If this is not specified, the latest version is installed. Ignored when C(state=absent) or C(state=latest).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "verify": {
+        "description": "Verify the plugin signature before installing. This option requires helm version >= 4.0.0 Used with I(state=present).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "kubernetes.core.helm_plugin_info": {
     "short_description": "Gather information about Helm plugins",
-    "description": "",
-    "options": {},
+    "description": "Gather information about Helm plugins installed in namespace.",
+    "options": {
+      "plugin_name": {
+        "description": "Name of Helm plugin, to gather particular plugin info.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "kubernetes.core.helm_pull": {
     "short_description": "download a chart from a repository and (optionally) unpack it in local directory.",
     "description": "Retrieve a package from a package repository, and download it locally. It can also be used to perform cryptographic verification of a chart without installing the chart. There are options for unpacking the chart after download.",
-    "options": {},
+    "options": {
+      "chart_ref": {
+        "description": "chart name on chart repository. absolute URL.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chart_version": {
+        "description": "Specify a version constraint for the chart version to use. This constraint can be a specific tag (e.g. 1.1.1) or it may reference a valid range (e.g. ^2.0.0). Mutually exclusive with C(chart_devel).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "verify_chart": {
+        "description": "Verify the package before using it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "verify_chart_keyring": {
+        "description": "location of public keys used for verification.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "provenance": {
+        "description": "Fetch the provenance file, but don't perform verification.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "repo_url": {
+        "description": "chart repository url where to locate the requested chart.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "url",
+          "chart_repo_url"
+        ]
+      },
+      "repo_username": {
+        "description": "Chart repository username where to locate the requested chart. Required if C(repo_password) is specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "username",
+          "chart_repo_username"
+        ]
+      },
+      "repo_password": {
+        "description": "Chart repository password where to locate the requested chart. Required if C(repo_username) is specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "password",
+          "chart_repo_password"
+        ]
+      },
+      "pass_credentials": {
+        "description": "Pass credentials to all domains.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "skip_tls_certs_check": {
+        "description": "Whether or not to check tls certificate for the chart download. Requires helm >= 3.3.0. Alias C(insecure_skip_tls_verify) added in 5.3.0.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "insecure_skip_tls_verify"
+        ]
+      },
+      "chart_devel": {
+        "description": "Use development versions, too. Equivalent to version '>0.0.0-0'. Mutually exclusive with C(chart_version).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "untar_chart": {
+        "description": "if set to true, will untar the chart after downloading it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "force": {
+        "description": "Force download of the chart even if it already exists in the destination directory. By default, the module will skip downloading if the chart with the same version already exists for idempotency. When used with O(untar_chart=true), will remove any existing chart directory before extracting.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "destination": {
+        "description": "location to write the chart.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chart_ca_cert": {
+        "description": "Verify certificates of HTTPS-enabled servers using this CA bundle. Requires helm >= 3.1.0.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chart_ssl_cert_file": {
+        "description": "Identify HTTPS client using this SSL certificate file. Requires helm >= 3.1.0.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chart_ssl_key_file": {
+        "description": "Identify HTTPS client using this SSL key file Requires helm >= 3.1.0.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "binary_path": {
+        "description": "The path of a helm binary to use.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "plain_http": {
+        "description": "Use HTTP instead of HTTPS when working with OCI registries Requires Helm >= 3.13.0",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "kubernetes.core.helm_registry_auth": {
     "short_description": "Helm registry authentication module",
-    "description": "",
-    "options": {},
+    "description": "Helm registry authentication module allows you to login C(helm registry login) and logout C(helm registry logout) from a Helm registry.",
+    "options": {
+      "state": {
+        "description": "Desired state of the registry. If set to V(present) attempt to log in to the remote registry server using the URL specified in O(host). If set to V(absent) attempt to log out from the remote registry server using the URL specified in O(host). As helm >= 3.18.0 reports successful logout even if the user is not logged in, this module will report a change regardless of the current state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "host": {
+        "description": "Provide a URL for accessing the registry.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "registry_url"
+        ]
+      },
+      "insecure": {
+        "description": "Allow connections to SSL sites without certs.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "username": {
+        "description": "Username for the registry.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "repo_username"
+        ]
+      },
+      "password": {
+        "description": "Password for the registry.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "repo_password"
+        ]
+      },
+      "key_file": {
+        "description": "Path to the client key SSL file for identify registry client using this key file.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cert_file": {
+        "description": "Path to the client certificate SSL file for identify registry client using this certificate file.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ca_file": {
+        "description": "Path to the CA certificate SSL file for verify registry server certificate.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "plain_http": {
+        "description": "Use insecure HTTP connections for C(helm registry login). Requires Helm >= 3.18.0",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "binary_path": {
+        "description": "The path of a helm binary to use.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "kubernetes.core.helm_repository": {
     "short_description": "Manage Helm repositories.",
-    "description": "",
-    "options": {},
+    "description": "Manage Helm repositories.",
+    "options": {
+      "binary_path": {
+        "description": "The path of a helm binary to use.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "repo_name": {
+        "description": "Chart repository name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "repo_url": {
+        "description": "Chart repository url",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "url"
+        ]
+      },
+      "repo_username": {
+        "description": "Chart repository username for repository with basic auth. Required if chart_repo_password is specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "username"
+        ]
+      },
+      "repo_password": {
+        "description": "Chart repository password for repository with basic auth. Required if chart_repo_username is specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "password"
+        ]
+      },
+      "repo_state": {
+        "description": "Desired state of repository.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": [
+          "state"
+        ]
+      },
+      "pass_credentials": {
+        "description": "Pass credentials to all domains.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "host": {
+        "description": "Provide a URL for accessing the API. Can also be specified via C(K8S_AUTH_HOST) environment variable.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "api_key": {
+        "description": "Token used to authenticate with the API. Can also be specified via C(K8S_AUTH_API_KEY) environment variable.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "validate_certs": {
+        "description": "Whether or not to verify the API server's SSL certificates. Can also be specified via C(K8S_AUTH_VERIFY_SSL) environment variable.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": [
+          "verify_ssl"
+        ]
+      },
+      "ca_cert": {
+        "description": "Path to a CA certificate used to authenticate with the API. The full certificate chain must be provided to avoid certificate validation errors. Can also be specified via C(K8S_AUTH_SSL_CA_CERT) environment variable.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ssl_ca_cert"
+        ]
+      },
+      "context": {
+        "description": "Helm option to specify which kubeconfig context to use. If the value is not specified in the task, the value of environment variable C(K8S_AUTH_CONTEXT) will be used instead.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "kube_context"
+        ]
+      },
+      "kubeconfig": {
+        "description": "Helm option to specify kubeconfig path to use. If the value is not specified in the task, the value of environment variable C(K8S_AUTH_KUBECONFIG) will be used instead. The configuration can be provided as dictionary.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "kubeconfig_path"
+        ]
+      },
+      "force_update": {
+        "description": "Whether or not to replace (overwrite) the repo if it already exists.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "force"
+        ]
+      },
+      "insecure_skip_tls_verify": {
+        "description": "Skip tls certificate checks for the repository url.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "skip_tls_certs_check"
+        ]
+      }
+    },
     "deprecated": null
   },
   "kubernetes.core.helm_template": {
     "short_description": "Render chart templates",
     "description": "Render chart templates to an output directory or as text of concatenated yaml documents.",
-    "options": {},
+    "options": {
+      "binary_path": {
+        "description": "The path of a helm binary to use.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chart_ref": {
+        "description": "Chart reference with repo prefix, for example, C(nginx-stable/nginx-ingress). Path to a packaged chart. Path to an unpacked chart directory. Absolute URL.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chart_repo_url": {
+        "description": "Chart repository URL where the requested chart is located.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chart_version": {
+        "description": "Chart version to use. If this is not specified, the latest version is installed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dependency_update": {
+        "description": "Run helm dependency update before the operation. The I(dependency_update) option require the add of C(dependencies) block in C(Chart.yaml/requirements.yaml) file. For more information please visit U(https://helm.sh/docs/helm/helm_dependency/)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "dep_up"
+        ]
+      },
+      "disable_hook": {
+        "description": "Prevent hooks from running during install.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "include_crds": {
+        "description": "Include custom resource descriptions in rendered templates.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "output_dir": {
+        "description": "Output directory where templates will be written. If the directory already exists, it will be overwritten.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "insecure_registry": {
+        "description": "Skip TLS certificate checks for the chart download",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "release_name": {
+        "description": "Release name to use in rendered templates.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "release_namespace": {
+        "description": "namespace scope for this request.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "release_values": {
+        "description": "Values to pass to chart.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": [
+          "values"
+        ]
+      },
+      "show_only": {
+        "description": "Only show manifests rendered from the given templates.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "values_files": {
+        "description": "Value files to pass to chart. Paths will be read from the target host's filesystem, not the host running ansible. I(values_files) option is evaluated before I(values) option if both are used. Paths are evaluated in the order the paths are specified.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "update_repo_cache": {
+        "description": "Run C(helm repo update) before the operation. Can be run as part of the template generation or as a separate step.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "set_values": {
+        "description": "Values to pass to chart configuration.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "plain_http": {
+        "description": "Use HTTP instead of HTTPS when working with OCI registries Requires Helm >= 3.13.0",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "kubernetes.core.k8s": {
     "short_description": "Manage Kubernetes (K8s) objects",
-    "description": "",
-    "options": {},
+    "description": "Use the Kubernetes Python client to perform CRUD operations on K8s objects. Pass the object definition from a source file or inline. See examples for reading files and using Jinja templates or vault-encrypted files. Access to the full range of K8s APIs. Use the M(kubernetes.core.k8s_info) module to obtain a list of items about an object of type C(kind) Authenticate using either a config file, certificates, password or token. Supports check mode.",
+    "options": {
+      "state": {
+        "description": "Determines if an object should be created, patched, or deleted. When set to C(present), an object will be created, if it does not already exist. If set to C(absent), an existing object will be deleted. If set to C(present), an existing object will be patched, if its attributes differ from those specified using I(resource_definition) or I(src). C(patched) state is an existing resource that has a given patch applied. If the resource doesn't exist, silently skip it (do not raise an error).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "patched"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "force": {
+        "description": "If set to C(yes), and I(state) is C(present), an existing object will be replaced.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "merge_type": {
+        "description": "Whether to override the default patch merge approach with a specific type. By default, the strategic merge will typically be used. For example, Custom Resource Definitions typically aren't updatable by the usual strategic merge. You may want to use C(merge) if you see \"strategic merge patch format is not supported\". See U(https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/#use-a-json-merge-patch-to-update-a-deployment) If more than one C(merge_type) is given, the merge_types will be tried in order. This defaults to C(['strategic-merge', 'merge']), which is ideal for using the same parameters on resource kinds that combine Custom Resources and built-in resources. Mutually exclusive with C(apply). I(merge_type=json) has been removed in version 4.0.0. Please use M(kubernetes.core.k8s_json_patch) instead.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "merge",
+          "strategic-merge"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "validate": {
+        "description": "how (if at all) to validate the resource definition against the kubernetes schema. Requires the kubernetes-validate python module.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "append_hash": {
+        "description": "Whether to append a hash to a resource name for immutability purposes Applies only to ConfigMap and Secret resources The parameter will be silently ignored for other resource kinds The full definition of an object is needed to generate the hash - this means that deleting an object created with append_hash will only work if the same object is passed with state=absent (alternatively, just use state=absent with the name including the generated hash and append_hash=no)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "apply": {
+        "description": "C(apply) compares the desired resource definition with the previously supplied resource definition, ignoring properties that are automatically generated C(apply) works better with Services than 'force=yes' Mutually exclusive with C(merge_type).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "template": {
+        "description": "Provide a valid YAML template definition file for an object when creating or updating. Value can be provided as string or dictionary. The parameter accepts multiple template files. Added in version 2.0.0. Mutually exclusive with C(src) and C(resource_definition). Template files needs to be present on the Ansible Controller's file system. Additional parameters can be specified using dictionary. Valid additional parameters -  C(newline_sequence) (str): Specify the newline sequence to use for templating files. valid choices are \"\\n\", \"\\r\", \"\\r\\n\". Default value \"\\n\". C(block_start_string) (str): The string marking the beginning of a block. Default value \"{%\". C(block_end_string) (str): The string marking the end of a block. Default value \"%}\". C(variable_start_string) (str): The string marking the beginning of a print statement. Default value \"{{\". C(variable_end_string) (str): The string marking the end of a print statement. Default value \"}}\". C(trim_blocks) (bool): Determine when newlines should be removed from blocks. When set to C(yes) the first newline after a block is removed (block, not variable tag!). Default value is true. C(lstrip_blocks) (bool): Determine when leading spaces and tabs should be stripped. When set to C(yes) leading spaces and tabs are stripped from the start of a line to a block. This functionality requires Jinja 2.7 or newer. Default value is false.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "continue_on_error": {
+        "description": "Whether to continue on creation/deletion errors when multiple resources are defined. This has no effect on the validation step which is controlled by the C(validate.fail_on_error) parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "label_selectors": {
+        "description": "Selector (label query) to filter on.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "generate_name": {
+        "description": "Use to specify the basis of an object name and random characters will be added automatically on server to generate a unique name. This option is ignored when I(state) is not set to C(present) or when I(apply) is set to C(yes). If I(resource definition) is provided, the I(metadata.generateName) value from the I(resource_definition) will override this option. If I(resource definition) is provided, and contains I(metadata.name), this option is ignored. mutually exclusive with C(name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_side_apply": {
+        "description": "When this option is set, apply runs in the server instead of the client. Ignored if C(apply) is not set or is set to False. This option requires \"kubernetes >= 19.15.0\".",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delete_all": {
+        "description": "When this option is set to I(true) and I(state=absent), module will delete all resources of the specified resource type in the requested namespace. Ignored when C(state) is not set to I(absent) or when one of (src), C(name)  or C(resource_definition) is provided. Parameter C(kind) is required to use this option. This parameter can be used with C(label_selectors) to restrict the resources to be deleted.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "all"
+        ]
+      },
+      "hidden_fields": {
+        "description": "Hide fields matching this option in the result An example might be C(hidden_fields=[metadata.managedFields]) or V(hidden_fields=[spec.containers[0].env[3].value]) or V(hidden_fields=[metadata.annotations[kubectl.kubernetes.io/last-applied-configuration]])",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "kubernetes.core.k8s_cluster_info": {
@@ -71,7 +1075,75 @@
   "kubernetes.core.k8s_cp": {
     "short_description": "Copy files and directories to and from pod.",
     "description": "Use the Kubernetes Python client to copy files and directories to and from containers inside a pod.",
-    "options": {},
+    "options": {
+      "namespace": {
+        "description": "The pod namespace name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pod": {
+        "description": "The pod name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "container": {
+        "description": "The name of the container in the pod to copy files/directories from/to. Defaults to the only container if there is only one container in the pod.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remote_path": {
+        "description": "Path of the file or directory to copy.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "local_path": {
+        "description": "Path of the local file or directory. Required when I(state) is set to C(from_pod). Mutually exclusive with I(content).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content": {
+        "description": "When used instead of I(local_path), sets the contents of a local file directly to the specified value. Works only when I(remote_path) is a file. Creates the file if it does not exist. For advanced formatting or if the content contains a variable, use the M(ansible.builtin.template) module. Mutually exclusive with I(local_path).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "When set to C(to_pod), the local I(local_path) file or directory will be copied to I(remote_path) into the pod. When set to C(from_pod), the remote file or directory I(remote_path) from pod will be copied locally to I(local_path).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "to_pod",
+          "from_pod"
+        ],
+        "default": "to_pod",
+        "aliases": null
+      },
+      "no_preserve": {
+        "description": "The copied file/directory's ownership and permissions will not be preserved in the container. This option is ignored when I(content) is set or when I(state) is set to C(from_pod).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "kubernetes.core.k8s_drain": {
@@ -121,14 +1193,88 @@
   },
   "kubernetes.core.k8s_exec": {
     "short_description": "Execute command in Pod",
-    "description": "",
-    "options": {},
+    "description": "Use the Kubernetes Python client to execute command on K8s pods.",
+    "options": {
+      "proxy": {
+        "description": "The URL of an HTTP proxy to use for the connection. Can also be specified via I(K8S_AUTH_PROXY) environment variable. Please note that this module does not pick up typical proxy settings from the environment (for example, HTTP_PROXY).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "namespace": {
+        "description": "The pod namespace name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pod": {
+        "description": "The pod name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "container": {
+        "description": "The name of the container in the pod to connect to. Defaults to only container if there is only one container in the pod. If not specified, will choose the first container from the given pod as kubectl cmdline does.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "command": {
+        "description": "The command to execute.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "kubernetes.core.k8s_info": {
     "short_description": "Describe Kubernetes (K8s) objects",
-    "description": "",
-    "options": {},
+    "description": "Use the Kubernetes Python client to perform read operations on K8s objects. Access to the full range of K8s APIs. Authenticate using either a config file, certificates, password or token. Supports check mode. This module was called C(k8s_facts) before Ansible 2.9. The usage did not change.",
+    "options": {
+      "kind": {
+        "description": "Use to specify an object model. Use to create, delete, or discover an object without providing a full resource definition. Use in conjunction with I(api_version), I(name), and I(namespace) to identify a specific object. If I(resource definition) is provided, the I(kind) value from the I(resource_definition) will override this option.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selectors": {
+        "description": "List of label selectors to use to filter results",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "field_selectors": {
+        "description": "List of field selectors to use to filter results",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "hidden_fields": {
+        "description": "Hide fields matching any of the field definitions in the result An example might be C(hidden_fields=[metadata.managedFields]) or V(hidden_fields=[spec.containers[0].env[3].value]) or V(hidden_fields=[metadata.annotations[kubectl.kubernetes.io/last-applied-configuration]])",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "kubernetes.core.k8s_json_patch": {
@@ -191,20 +1337,119 @@
   },
   "kubernetes.core.k8s_log": {
     "short_description": "Fetch logs from Kubernetes resources",
-    "description": "",
-    "options": {},
+    "description": "Use the Kubernetes Python client to perform read operations on K8s log endpoints. Authenticate using either a config file, certificates, password or token. Supports check mode. Analogous to `kubectl logs` or `oc logs`",
+    "options": {
+      "kind": {
+        "description": "Use to specify an object model. Use in conjunction with I(api_version), I(name), and I(namespace) to identify a specific object. If using I(label_selectors), cannot be overridden.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "Pod",
+        "aliases": null
+      },
+      "name": {
+        "description": "Use to specify an object name. Use in conjunction with I(api_version), I(kind) and I(namespace) to identify a specific object. Only one of I(name) or I(label_selectors) may be provided.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selectors": {
+        "description": "List of label selectors to use to filter results Only one of I(name) or I(label_selectors) may be provided.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "container": {
+        "description": "Use to specify the container within a pod to grab the log from. If there is only one container, this will default to that container. If there is more than one container, this option is required or set I(all_containers) to C(true). mutually exclusive with C(all_containers).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "since_seconds": {
+        "description": "A relative time in seconds before the current time from which to show logs.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "previous": {
+        "description": "If C(true), print the logs for the previous instance of the container in a pod if it exists.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "tail_lines": {
+        "description": "A number of lines from the end of the logs to retrieve.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "all_containers": {
+        "description": "If set to C(true), retrieve all containers' logs in the pod(s). mutually exclusive with C(container).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "kubernetes.core.k8s_rollback": {
     "short_description": "Rollback Kubernetes (K8S) Deployments and DaemonSets",
-    "description": "",
-    "options": {},
+    "description": "Use the Kubernetes Python client to perform the Rollback. Authenticate using either a config file, certificates, password or token. Similar to the C(kubectl rollout undo) command.",
+    "options": {
+      "label_selectors": {
+        "description": "List of label selectors to use to filter results.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "field_selectors": {
+        "description": "List of field selectors to use to filter results.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "kubernetes.core.k8s_scale": {
     "short_description": "Set a new size for a Deployment, ReplicaSet, Replication Controller, or Job.",
-    "description": "",
-    "options": {},
+    "description": "Similar to the kubectl scale command. Use to set the number of replicas for a Deployment, ReplicaSet, or Replication Controller, or the parallelism attribute of a Job. Supports check mode. C(wait) parameter is not supported for Jobs.",
+    "options": {
+      "label_selectors": {
+        "description": "List of label selectors to use to filter results.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "continue_on_error": {
+        "description": "Whether to continue on errors when multiple resources are defined.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "kubernetes.core.k8s_service": {
@@ -212,11 +1457,68 @@
     "description": "Use Kubernetes Python SDK to manage Services on Kubernetes",
     "options": {
       "merge_type": {
-        "description": "Whether to override the default patch merge approach with a specific type. By default, the strategic merge will typically be used. For example, Custom Resource Definitions typically aren",
+        "description": "Whether to override the default patch merge approach with a specific type. By default, the strategic merge will typically be used. For example, Custom Resource Definitions typically aren't updatable by the usual strategic merge. You may want to use C(merge) if you see \"strategic merge patch format is not supported\" See U(https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/#use-a-json-merge-patch-to-update-a-deployment) If more than one C(merge_type) is given, the merge_types will be tried in order This defaults to C(['strategic-merge', 'merge']), which is ideal for using the same parameters on resource kinds that combine Custom Resources and built-in resources.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "json",
+          "merge",
+          "strategic-merge"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Use to specify a Service object name.",
         "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "namespace": {
+        "description": "Use to specify a Service object namespace.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Specifies the type of Service to create. See U(https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types)",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "NodePort",
+          "ClusterIP",
+          "LoadBalancer",
+          "ExternalName"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "ports": {
+        "description": "A list of ports to expose. U(https://kubernetes.io/docs/concepts/services-networking/service/#multi-port-services)",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "selector": {
+        "description": "Label selectors identify objects this Service should apply to. U(https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/)",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "apply": {
+        "description": "C(apply) compares the desired resource definition with the previously supplied resource definition, ignoring properties that are automatically generated C(apply) works better with Services than 'force=yes' mutually exclusive with C(merge_type)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },

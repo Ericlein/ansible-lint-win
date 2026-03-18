@@ -1,14 +1,159 @@
 {
   "ansible.scm.git_publish": {
     "short_description": "Publish changes from a repository available on the execution node to a distant location",
-    "description": "",
-    "options": {},
+    "description": "Publish changes from a repository available on the execution node to a distant location",
+    "options": {
+      "commit": {
+        "description": "Details for the the commit",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "include": {
+        "description": "A list of files to include (add) in the commit",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [
+          "--all"
+        ],
+        "aliases": null
+      },
+      "open_browser": {
+        "description": "Open the default browser to the pull-request page",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "path": {
+        "description": "The path to the repository",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remove": {
+        "description": "Remove the local copy of the repository if the push is successful",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The timeout in seconds for each command issued",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 30,
+        "aliases": null
+      },
+      "token": {
+        "description": "The token to use to authenticate to the origin repository If provided, an 'http.extraheader' will be added to the commands interacting with the origin repository\n Will only be used for https based connections",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tag": {
+        "description": "Specify the tag details associated with the commit.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user": {
+        "description": "Details for the user to be used for the commit Will only be used if not already configured",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "ssh_key_file": {
+        "description": "Path to the SSH private key file to use for authentication with git. Used only for SSH-based repository URLs (e.g., git@github.com:...).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssh_key_content": {
+        "description": "The content of the SSH private key for authentication with git. Ideal for use with Ansible Vault or other secret management systems. Used only for SSH-based repository URLs.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ansible.scm.git_retrieve": {
     "short_description": "Retrieve a repository from a distant location and make it available on the execution node",
-    "description": "",
-    "options": {},
+    "description": "Retrieve a repository from a distant location and make it available on the execution node",
+    "options": {
+      "branch": {
+        "description": "Details about the new branch that will be created",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "host_key_checking": {
+        "description": "Configure strict host key checking for ssh based connections accept-new will accept new host keys (StrictHostKeyChecking=accept-new) no will disable strict host key checking (StrictHostKeyChecking=no) system will use the global system setting and not configure the git repository yes will enable strict host key checking (StrictHostKeyChecking=yes)",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "accept-new",
+          "no",
+          "system",
+          "yes"
+        ],
+        "default": "system",
+        "aliases": null
+      },
+      "origin": {
+        "description": "Details about the origin",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parent_directory": {
+        "description": "The local directory where the repository will be placed If the parent directory does not exist, it will be created",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "{temporary_directory}",
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The timeout in seconds for each command issued",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 30,
+        "aliases": null
+      },
+      "upstream": {
+        "description": "Details about the upstream",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

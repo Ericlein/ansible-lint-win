@@ -28,8 +28,786 @@
         "aliases": null
       },
       "disk": {
-        "description": "This option was previously described as",
+        "description": "This option was previously described as \"hard disk size in GiB for instance\" however several formats describing a lxc mount are permitted. Older versions of Proxmox will accept a numeric value for size using the O(storage) parameter to automatically choose which storage to allocate from, however new versions enforce the C(<STORAGE>:<SIZE>) syntax. Additional options are available by using some combination of the following key-value pairs as a comma-delimited list C([volume=]<volume> [,acl=<1|0>] [,mountoptions=<opt[;opt...] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]). See U(https://pve.proxmox.com/wiki/Linux_Container) for a full description. This option is mutually exclusive with O(disk_volume).",
         "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disk_volume": {
+        "description": "Specify a hash/dictionary of the C(rootfs) disk. See U(https://pve.proxmox.com/wiki/Linux_Container#pct_mount_points) for a full description. This option is mutually exclusive with O(storage) and O(disk).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cores": {
+        "description": "Specify number of cores per socket.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cpus": {
+        "description": "Number of allocated cpus for instance.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "memory": {
+        "description": "Memory size in MB for instance.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "swap": {
+        "description": "Swap memory size in MB for instance.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "netif": {
+        "description": "Specifies network interfaces for the container. As a hash/dictionary defining interfaces.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "features": {
+        "description": "Specifies a list of features to be enabled. For valid options, see U(https://pve.proxmox.com/wiki/Linux_Container#pct_options). Some features require the use of a privileged container.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delete": {
+        "description": "A list of settings you want to delete.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "startup": {
+        "description": "Specifies the startup order of the container. Use C(order=#) where C(#) is a non-negative number to define the general startup order. Shutdown in done with reverse ordering. Use C(up=#) where C(#) is in seconds, to specify a delay to wait before the next VM is started. Use C(down=#) where C(#) is in seconds, to specify a delay to wait before the next VM is stopped.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mounts": {
+        "description": "Specifies additional mounts (separate disks) for the container. As a hash/dictionary defining mount points as strings. This Option is mutually exclusive with O(mount_volumes).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mount_volumes": {
+        "description": "Specify additional mounts (separate disks) for the container. As a hash/dictionary defining mount points. See U(https://pve.proxmox.com/wiki/Linux_Container#pct_mount_points) for a full description. This Option is mutually exclusive with O(mounts).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip_address": {
+        "description": "Specifies the address the container will be assigned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "onboot": {
+        "description": "Specifies whether a VM will be started during system bootup.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage": {
+        "description": "Target storage. This option is mutually exclusive with O(disk_volume) and O(mount_volumes).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "local",
+        "aliases": null
+      },
+      "ostype": {
+        "description": "Specifies the C(ostype) of the LXC container. If set to V(auto), no C(ostype) will be provided on instance creation.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "debian",
+          "devuan",
+          "ubuntu",
+          "centos",
+          "fedora",
+          "opensuse",
+          "archlinux",
+          "alpine",
+          "gentoo",
+          "nixos",
+          "unmanaged"
+        ],
+        "default": "auto",
+        "aliases": null
+      },
+      "cpuunits": {
+        "description": "CPU weight for a VM.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nameserver": {
+        "description": "Sets DNS server IP address for a container.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "searchdomain": {
+        "description": "Sets DNS search domain for a container.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "List of tags to apply to the container. Tags must start with V([a-z0-9_]) followed by zero or more of the following characters V([a-z0-9_-+.]). Tags are only available in Proxmox 7+.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Timeout for operations.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 30,
+        "aliases": null
+      },
+      "update": {
+        "description": "If V(true), the container will be updated with new values. This only happens if O(state=present), O(force=false), and O(clone) is not specified. If V(false), it will not be updated. The default changed from V(false) to V(true) in community.proxmox 1.0.0.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "force": {
+        "description": "Forcing operations. Can be used only with states V(absent), V(present), V(stopped), and V(restarted). With O(state=present) force option allow to overwrite existing container. With O(state=absent) force option will force stop the container before deletion. With states V(stopped), V(restarted) allow to force stop instance. When specifying O(force), O(update) must not be specified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "purge": {
+        "description": "Remove container from all related configurations. For example backup jobs, replication jobs, or HA. Related ACLs and Firewall entries will always be removed. Used with O(state=absent).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicate desired state of the instance.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "started",
+          "absent",
+          "stopped",
+          "restarted",
+          "template"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "pubkey": {
+        "description": "Public key to add to /root/.ssh/authorized_keys. This was added on Proxmox 4.2, it is ignored for earlier versions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "unprivileged": {
+        "description": "Indicate if the container should be unprivileged.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "description": {
+        "description": "Specify the description for the container. Only used on the configuration web interface. This is saved as a comment inside the configuration file.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hookscript": {
+        "description": "Script that will be executed during various steps in the containers lifetime.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timezone": {
+        "description": "Timezone used by the container, accepts values like V(Europe/Paris). The special value V(host) configures the same timezone used by Proxmox host.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "clone": {
+        "description": "ID of the container to be cloned. O(description), O(hostname), and O(pool) will be copied from the cloned container if not specified. The type of clone created is defined by the O(clone_type) parameter. This operator is only supported for Proxmox clusters that use LXC containerization (PVE version >= 4).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "clone_type": {
+        "description": "Type of the clone created. V(full) creates a full clone, and O(storage) must be specified. V(linked) creates a linked clone, and the cloned container must be a template container. V(opportunistic) creates a linked clone if the cloned container is a template container, and a full clone if not. O(storage) may be specified, if not it will fall back to the default.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "full",
+          "linked",
+          "opportunistic"
+        ],
+        "default": "opportunistic",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_access_acl": {
+    "short_description": "Manages ACLs on the Proxmox PVE cluster",
+    "description": "Setting ACLs via C(/access/acls) to grant permission to interact with objects.",
+    "options": {
+      "state": {
+        "description": "Indicate desired state of the ACL.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "path": {
+        "description": "Access Control Path.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "roleid": {
+        "description": "The name of the role.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Type of access control.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "user",
+          "group",
+          "token"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "ugid": {
+        "description": "The ID of user or group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "propagate": {
+        "description": "Allow to propagate (inherit) permissions.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_backup": {
+    "short_description": "Start a VM backup in Proxmox VE cluster",
+    "description": "Allows you to create backups of KVM and LXC guests in Proxmox VE cluster. Offers the GUI functionality of creating a single backup as well as using the run-now functionality from the cluster backup schedule. The mininum required privileges to use this module are C(VM.Backup) and C(Datastore.AllocateSpace) for the respective VMs and storage. Most options are optional and if unspecified will be chosen by the Cluster and its default values. Note that this module B(is not idempotent). It always starts a new backup (when not in check mode).",
+    "options": {
+      "backup_mode": {
+        "description": "The mode how Proxmox performs backups. The default is, to create a runtime snapshot including memory. Check U(https://pve.proxmox.com/pve-docs/chapter-vzdump.html#_backup_modes) for an explanation of the differences.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "snapshot",
+          "suspend",
+          "stop"
+        ],
+        "default": "snapshot",
+        "aliases": null
+      },
+      "bandwidth": {
+        "description": "Limit the I/O bandwidth (in KiB/s) to write backup. V(0) is unlimited.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "change_detection_mode": {
+        "description": "Set the change detection mode (available from Proxmox VE 8.3). It is only used when backing up containers, Proxmox silently ignores this option when applied to kvm guests.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "legacy",
+          "data",
+          "metadata"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "compress": {
+        "description": "Enable additional compression of the backup archive. V(0) will use the Proxmox recommended value, depending on your storage target.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "0",
+          "1",
+          "gzip",
+          "lzo",
+          "zstd"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "compression_threads": {
+        "description": "The number of threads zstd will use to compress the backup. V(0) uses 50% of the available cores, anything larger than V(0) will use exactly as many threads. Is ignored if you specify O(compress=gzip) or O(compress=lzo).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Specify the description of the backup. Needs to be a single line, newline and backslash need to be escaped as V(\\\\n) and V(\\\\\\\\) respectively. If you need variable interpolation, you can set the content as usual through ansible jinja templating and/or let Proxmox substitute templates. Proxmox currently supports V({{cluster}}), V({{guestname}}), V({{node}}), and V({{vmid}}) as templating variables. Since this is also a jinja delimiter, you need to set these values as raw jinja.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "{{guestname}}",
+        "aliases": null
+      },
+      "fleecing": {
+        "description": "Enable backup fleecing. Works only for virtual machines and their disks. Must be entered as a string, containing key-value pairs in a list.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mode": {
+        "description": "Specifices the mode to select backup targets.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "include",
+          "all",
+          "pool"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "node": {
+        "description": "Only execute the backup job for the given node. This option is usually used if O(mode=all). If you specify a node ID and your vmids or pool do not reside there, they will not be backed up!",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_mode": {
+        "description": "Determine which notification system to use.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "legacy-sendmail",
+          "notification-system"
+        ],
+        "default": "auto",
+        "aliases": null
+      },
+      "performance_tweaks": {
+        "description": "Enable other performance-related settings. Must be entered as a string, containing comma separated key-value pairs. For example: V(max-workers=2,pbs-entries-max=2).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool": {
+        "description": "Specify a pool name to limit backups to guests to the given pool. Required, when O(mode=pool). Also required, when your user only has VM.Backup permission for this single pool.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protected": {
+        "description": "Marks backups as protected. \"Might fail, when the PBS backend has verify enabled due to this bug: U(https://bugzilla.proxmox.com/show_bug.cgi?id=4289)\".",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "retention": {
+        "description": "Use custom retention options instead of those from the default cluster configuration (which is usually V(\"keep-all=1\")). Always requires Datastore.Allocate permission at the storage endpoint. Specifying a retention time other than V(keep-all=1) might trigger pruning on the datastore, if an existing backup should be deleted due to your specified timeframe. Deleting requires C(Datastore.Modify) or C(Datastore.Prune) permissions on the backup storage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage": {
+        "description": "Store the backup archive on this storage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vmids": {
+        "description": "The instance IDs to be backed up. Only valid, if O(mode=include).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for the backup to be finished. Fails, if job does not succeed successfully within the given timeout.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "Seconds to wait for the backup to be finished. Will only be evaluated, if O(wait=true).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_backup_info": {
+    "short_description": "Retrieve information on Proxmox scheduled backups",
+    "description": "Retrieve information such as backup times, VM name, VM ID, mode, backup type, and backup schedule using the Proxmox Server API.",
+    "options": {
+      "vm_name": {
+        "description": "The name of the Proxmox VM. If defined, the returned list will contain backup jobs that have been parsed and filtered based on O(vm_name) value. Mutually exclusive with O(vm_id) and O(backup_jobs).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm_id": {
+        "description": "The ID of the Proxmox VM. If defined, the returned list will contain backup jobs that have been parsed and filtered based on O(vm_id) value. Mutually exclusive with O(vm_name) and O(backup_jobs).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup_jobs": {
+        "description": "If V(true), the module will return all backup jobs information. If V(false), the module will parse all backup jobs based on VM IDs and return a list of VMs' backup information. Mutually exclusive with O(vm_id) and O(vm_name).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_backup_schedule": {
+    "short_description": "Schedule VM backups and removing them",
+    "description": "The module modifies backup jobs such as set or delete C(vmid).",
+    "options": {
+      "vm_name": {
+        "description": "The name of the Proxmox VM. Mutually exclusive with O(vm_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm_id": {
+        "description": "The ID of the Proxmox VM. Mutually exclusive with O(vm_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup_id": {
+        "description": "The backup job ID.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "If V(present), ensure that VM is present in the backup job on defined O(backup_id). If V(absent), ensure that VM is not present in the backup job if O(backup_id) is defined and otherwise, it should not exist in any of the backup jobs.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_ceph_mds": {
+    "short_description": "Add or delete Ceph Mds.",
+    "description": "Add or delete ceph metada server of a cluster.",
+    "options": {
+      "state": {
+        "description": "Indicate whether the Ceph mds should be present (created if missing) or absent (deleted if it exists).",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "node": {
+        "description": "The cluster node name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_ceph_mgr": {
+    "short_description": "Add or delete Ceph Manager.",
+    "description": "Add or delete managers of a ceph cluster.",
+    "options": {
+      "state": {
+        "description": "Indicate whether the Ceph manager should be present (created if missing) or absent (deleted if it exists).",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "node": {
+        "description": "The cluster node name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_ceph_mon": {
+    "short_description": "Add or delete Ceph Monitor.",
+    "description": "Add or delete monitors of a ceph cluster.",
+    "options": {
+      "state": {
+        "description": "Indicate whether the Ceph monitor should be present (created if missing) or absent (deleted if it exists).",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "node": {
+        "description": "The cluster node name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_ceph_osd": {
+    "short_description": "Manage osd.",
+    "description": "This module allows you to add or delete an osd. You can also in, out or scrub an osd.",
+    "options": {
+      "cleanup": {
+        "description": "If set remove partition table entries. Used with O(state=absent).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "crush_device_class": {
+        "description": "Set the device class of the OSD in crush. Used with O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "db_dev": {
+        "description": "Block device name for block.db. Used with O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "db_dev_size": {
+        "description": "If a block.db is requested but the size is not given, will be automatically selected by bluestore_block_db_size from the ceph database (osd or global section) or config (osd or global section) in that order. If this is not available, it will be sized 10% of the size of the OSD device. Fails if the available size is not enough. Used with O(state=present).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "deep": {
+        "description": "If set, instructs a deep scrub instead of a normal one. Used with O(state=scrub).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "dev": {
+        "description": "Block device name. Required when O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "encrypted": {
+        "description": "Enables encryption of the OSD. Used with O(state=present).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "node": {
+        "description": "The cluster node name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "osdid": {
+        "description": "Osd id. Required when O(state=absent), O(state=in), O(state=out), O(state=scrub), O(state=start), O(state=stop) or O-state=restart).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "osds_per_device": {
+        "description": "OSD services per physical device. Used with O(state=present).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "create, delete, in, out or scrub",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent",
+          "in",
+          "out",
+          "scrub",
+          "start",
+          "stop",
+          "restart"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "wal_dev": {
+        "description": "Block device name for block.wal. Used with O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wal_dev_size": {
+        "description": "If a block.wal is requested but the size is not given, will be automatically selected by bluestore_block_wal_size from the ceph database (osd or global section) or config (osd or global section) in that order. If this is not available, it will be sized 1% of the size of the OSD device. Fails if the available size is not enough. Used with O(state=present).",
+        "type": "int",
         "required": false,
         "choices": null,
         "default": null,
@@ -38,34 +816,294 @@
     },
     "deprecated": null
   },
-  "community.proxmox.proxmox_access_acl": {
-    "short_description": "Manages ACLs on the Proxmox PVE cluster",
-    "description": "",
-    "options": {},
-    "deprecated": null
-  },
-  "community.proxmox.proxmox_backup": {
-    "short_description": "",
-    "description": "",
-    "options": {},
-    "deprecated": null
-  },
-  "community.proxmox.proxmox_backup_info": {
-    "short_description": "Retrieve information on Proxmox scheduled backups",
-    "description": "Retrieve information such as backup times, VM name, VM ID, mode, backup type, and backup schedule using the Proxmox Server API.",
-    "options": {},
+  "community.proxmox.proxmox_cluster": {
+    "short_description": "Create and join Proxmox VE clusters",
+    "description": "Create and join Proxmox VE clusters with PVE nodes.",
+    "options": {
+      "link0": {
+        "description": "The first IP address to use for cluster communication.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "link1": {
+        "description": "The second IP address to use for cluster communication.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "master_ip": {
+        "description": "The IP address of the cluster master when joining the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "master_api_password": {
+        "description": "Specify the password to authenticate with the master node. Uses the api_password parameter if not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fingerprint": {
+        "description": "The fingerprint of the cluster master when joining the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_name": {
+        "description": "The cluster name to use for cluster creation. Not used when joining a cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Possible module state to perform the required steps within the Proxmox VE API.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_cluster_ha_groups": {
     "short_description": "Management of HA groups in Proxmox VE Cluster",
-    "description": "",
-    "options": {},
+    "description": "Configure HA groups via C(/cluster/ha/groups).",
+    "options": {
+      "state": {
+        "description": "Whether the HA groups should be there (created if missing) or not (deleted if they exist).",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "group name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Description",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nodes": {
+        "description": "List of cluster node members, where a priority can be given to each node. A resource bound to a group will run on the available nodes with the\nhighest priority. If there are more nodes in the highest priority class, the services will get distributed to those nodes. The priorities have a\nrelative meaning only. The higher the number, the higher the priority.\nIt can either be a string C(node_name:priority,node_name:priority) or an actual list of strings.\n",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nofailback": {
+        "description": "The CRM tries to run services on the node with the highest priority. If a node with higher priority comes online, the CRM migrates the service to\nthat node. Setting O(nofailback=true) prevents that behavior.\n",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "restricted": {
+        "description": "Resources bound to restricted groups may only run on nodes defined by the group. The resource will be placed in the stopped state if no group node\nmember is online. Resources on unrestricted groups may run on any cluster node if all group members are offline, but they will migrate back as\nsoon as a group member comes online. One can implement a 'preferred node' behavior using an unrestricted group with only one member.\n",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_cluster_ha_resources": {
     "short_description": "Management of HA groups in Proxmox VE Cluster",
-    "description": "",
-    "options": {},
+    "description": "Configure HA groups via C(/cluster/ha/groups).",
+    "options": {
+      "state": {
+        "description": "create or delete",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: V(vm:100) / V(ct:100) ).\nFor virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).\nThe API documentation refers to this field as \\\"sid\\\".\n",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Description",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "group": {
+        "description": "The HA group identifier.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_relocate": {
+        "description": "Maximal number of service relocate tries when a service failes to start.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "max_restart": {
+        "description": "Maximal number of tries to restart the service on a node after its start failed.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "hastate": {
+        "description": "Requested resource state. The CRM reads this state and acts accordingly. Please note that V(enabled) is just an alias for V(started).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "started",
+          "stopped",
+          "disabled",
+          "ignored"
+        ],
+        "default": "started",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_cluster_ha_rules": {
+    "short_description": "Management of HA rules",
+    "description": "Configure ha rules C(/cluster/ha/rules).",
+    "options": {
+      "affinity": {
+        "description": "Describes whether the HA resource are supposed to be kept on the same node V(positive),\nor are supposed to be kept on separate nodes V(negative).\nRequired if O(type=resource-affinity).\n",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "positive",
+          "negative"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Description",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disable": {
+        "description": "Whether the HA rule is disabled. If not specified, the Proxmox API default C(false) will be used.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Existing rules with a specific O(type) can not be changed to the other type.\nIf V(force=true), the existing rule will be deleted and recreated with the new type.\n",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "name": {
+        "description": "HA rule identifier.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nodes": {
+        "description": "List of cluster node members, where a priority can be given to each node. A resource bound to a group will run on the\navailable nodes with the highest priority. If there are more nodes in the highest priority class, the services will\nget distributed to those nodes. The priorities have a\nrelative meaning only. The higher the number, the higher the priority.\nIt can either be a string C(node_name:priority,node_name:priority) or an actual list of strings.\nRequired if O(type=node-affinity).\n",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resources": {
+        "description": "List of HA resource IDs. It can either be a string C(vm:100,ct:101) or an actual list of strings.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "create or delete rule",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "strict": {
+        "description": "If false, the HA resource can also be moved to other nodes if there is none of the specified nodes available.\nIf not specified, the Proxmox API default C(false) will be used.\n",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "HA rule type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "node-affinity",
+          "resource-affinity"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_cluster_join_info": {
@@ -83,43 +1121,1723 @@
   "community.proxmox.proxmox_disk": {
     "short_description": "Management of a disk of a Qemu(KVM) VM in a Proxmox VE cluster",
     "description": "Allows you to perform some supported operations on a disk in Qemu(KVM) Virtual Machines in a Proxmox VE cluster.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The unique name of the VM. You can specify either O(name) or O(vmid) or both of them.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vmid": {
+        "description": "The unique ID of the VM. You can specify either O(vmid) or O(name) or both of them.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disk": {
+        "description": "The disk key (V(unused[n]), V(ide[n]), V(sata[n]), V(scsi[n]), V(virtio[n]), V(efidisk[n]) or V(tpmstate[n])) you want to operate on. Disk buses (IDE, SATA and so on) have fixed ranges of V(n) that accepted by Proxmox API. For IDE: 0-3; for SCSI: 0-30; for SATA: 0-5; for VirtIO: 0-15; for Unused: 0-255; for EFI disk: 0; for TPM state: 0.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicates desired state of the disk. O(state=present) can be used to create, replace disk or update options in existing disk. It will create missing disk or update options in existing one by default. See the O(create) parameter description to control behavior of this option. Some updates on options (like O(cache)) are not being applied instantly and require VM restart. Use O(state=detached) to detach existing disk from VM but do not remove it entirely. When O(state=detached) and disk is V(unused[n]) it will be left in same state (not removed). O(state=moved) may be used to change backing storage for the disk in bounds of the same VM or to send the disk to another VM (using the same backing storage). O(state=resized) intended to change the disk size. As of Proxmox 7.2 you can only increase the disk size because shrinking disks is not supported by the PVE API and has to be done manually. To entirely remove the disk from backing storage use O(state=absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "resized",
+          "detached",
+          "moved",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "create": {
+        "description": "With O(create) flag you can control behavior of O(state=present). When O(create=disabled) it will not create new disk (if not exists) but will update options in existing disk. When O(create=regular) it will either create new disk (if not exists) or update options in existing disk. When O(create=forced) it will always create new disk (if disk exists it will be detached and left unused).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disabled",
+          "regular",
+          "forced"
+        ],
+        "default": "regular",
+        "aliases": null
+      },
+      "storage": {
+        "description": "The drive's backing storage. Used only when O(state) is V(present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "size": {
+        "description": "Desired volume size in GiB to allocate when O(state=present) (specify O(size) without suffix). New (or additional) size of volume when O(state=resized). With the V(+) sign the value is added to the actual size of the volume and without it, the value is taken as an absolute one (specify O(size) with suffix V(KMGT)).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bwlimit": {
+        "description": "Override I/O bandwidth limit (in KB/s). Used only when O(state=moved).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delete_moved": {
+        "description": "Delete the original disk after successful copy. By default the original disk is kept as unused disk. Used only when O(state=moved).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_disk": {
+        "description": "The config key the disk will be moved to on the target VM (for example, V(ide0) or V(scsi1)). Default is the source disk key. Used only when O(state=moved).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_storage": {
+        "description": "Move the disk to this storage when O(state=moved). You can move between storages only in scope of one VM. Mutually exclusive with O(target_vmid). Consider increasing O(timeout) in case of large disk images or slow storage backend.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_vmid": {
+        "description": "The (unique) ID of the VM where disk will be placed when O(state=moved). You can move disk between VMs only when the same storage is used. Mutually exclusive with O(target_vmid).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Timeout in seconds to wait for slow operations such as importing disk or moving disk between storages. Used only when O(state) is V(present) or V(moved).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 600,
+        "aliases": null
+      },
+      "aio": {
+        "description": "AIO type to use.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "native",
+          "threads",
+          "io_uring"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "backup": {
+        "description": "Whether the drive should be included when making backups.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bps_max_length": {
+        "description": "Maximum length of total r/w I/O bursts in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bps_rd_max_length": {
+        "description": "Maximum length of read I/O bursts in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bps_wr_max_length": {
+        "description": "Maximum length of write I/O bursts in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cache": {
+        "description": "The drive's cache mode.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "none",
+          "writethrough",
+          "writeback",
+          "unsafe",
+          "directsync"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "cyls": {
+        "description": "Force the drive's physical geometry to have a specific cylinder count.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "detect_zeroes": {
+        "description": "Control whether to detect and try to optimize writes of zeroes.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "discard": {
+        "description": "Control whether to pass discard/trim requests to the underlying storage.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ignore",
+          "on"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "format": {
+        "description": "The drive's backing file's data format.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "raw",
+          "cow",
+          "qcow",
+          "qed",
+          "qcow2",
+          "vmdk",
+          "cloop"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "heads": {
+        "description": "Force the drive's physical geometry to have a specific head count.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "import_from": {
+        "description": "Import volume from this existing one. Volume string format. V(<STORAGE>:<VMID>/<FULL_NAME>) or V(<ABSOLUTE_PATH>/<FULL_NAME>). V(<STORAGE>:import/<FULL_NAME>) for PVE 9.x and later, to use storage's import directory. Attention! Only root can use absolute paths. This parameter is mutually exclusive with O(size). Increase O(timeout) parameter when importing large disk images or using slow storage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iops": {
+        "description": "Maximum total r/w I/O in operations per second. You can specify either total limit or per operation (mutually exclusive with O(iops_rd) and O(iops_wr)).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iops_max": {
+        "description": "Maximum unthrottled total r/w I/O pool in operations per second.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iops_max_length": {
+        "description": "Maximum length of total r/w I/O bursts in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iops_rd": {
+        "description": "Maximum read I/O in operations per second. You can specify either read or total limit (mutually exclusive with O(iops)).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iops_rd_max": {
+        "description": "Maximum unthrottled read I/O pool in operations per second.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iops_rd_max_length": {
+        "description": "Maximum length of read I/O bursts in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iops_wr": {
+        "description": "Maximum write I/O in operations per second. You can specify either write or total limit (mutually exclusive with O(iops)).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iops_wr_max": {
+        "description": "Maximum unthrottled write I/O pool in operations per second.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iops_wr_max_length": {
+        "description": "Maximum length of write I/O bursts in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iothread": {
+        "description": "Whether to use iothreads for this drive (only for SCSI and VirtIO).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mbps": {
+        "description": "Maximum total r/w speed in megabytes per second. Can be fractional but use with caution - fractionals less than 1 are not supported officially. You can specify either total limit or per operation (mutually exclusive with O(mbps_rd) and O(mbps_wr)).",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mbps_max": {
+        "description": "Maximum unthrottled total r/w pool in megabytes per second.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mbps_rd": {
+        "description": "Maximum read speed in megabytes per second. You can specify either read or total limit (mutually exclusive with O(mbps)).",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mbps_rd_max": {
+        "description": "Maximum unthrottled read pool in megabytes per second.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mbps_wr": {
+        "description": "Maximum write speed in megabytes per second. You can specify either write or total limit (mutually exclusive with O(mbps)).",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mbps_wr_max": {
+        "description": "Maximum unthrottled write pool in megabytes per second.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "media": {
+        "description": "The drive's media type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "cdrom",
+          "disk"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "iso_image": {
+        "description": "The ISO image to be mounted on the specified in O(disk) CD-ROM. O(media=cdrom) needs to be specified for this option to work. Use V(<STORAGE>:iso/<ISO_NAME>) to mount ISO. Use V(cdrom) to access the physical CD/DVD drive. Use V(none) to unmount image from existent CD-ROM or create empty CD-ROM drive.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "queues": {
+        "description": "Number of queues (SCSI only).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "replicate": {
+        "description": "Whether the drive should considered for replication jobs.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rerror": {
+        "description": "Read error action.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ignore",
+          "report",
+          "stop"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "ro": {
+        "description": "Whether the drive is read-only.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scsiblock": {
+        "description": "Whether to use scsi-block for full passthrough of host block device. Can lead to I/O errors in combination with low memory or high memory fragmentation on host.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "secs": {
+        "description": "Force the drive's physical geometry to have a specific sector count.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "serial": {
+        "description": "The drive's reported serial number, url-encoded, up to 20 bytes long.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "shared": {
+        "description": "Mark this locally-managed volume as available on all nodes. This option does not share the volume automatically, it assumes it is shared already!",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot": {
+        "description": "Control qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssd": {
+        "description": "Whether to expose this drive as an SSD, rather than a rotational hard disk.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trans": {
+        "description": "Force disk geometry bios translation mode.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "lba",
+          "none"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "werror": {
+        "description": "Write error action.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enospc",
+          "ignore",
+          "report",
+          "stop"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "wwn": {
+        "description": "The drive's worldwide name, encoded as 16 bytes hex string, prefixed by V(0x).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_domain_info": {
+    "short_description": "Retrieve information about one or more Proxmox VE domains",
+    "description": "Retrieve information about one or more Proxmox VE domains.",
+    "options": {
+      "domain": {
+        "description": "Restrict results to a specific authentication realm.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "realm",
+          "name"
+        ]
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_firewall": {
     "short_description": "Manage firewall rules in Proxmox",
-    "description": "",
-    "options": {},
+    "description": "create/update/delete FW rules at cluster/group/vnet/node/vm level Create/delete firewall security groups Create/delete aliases",
+    "options": {
+      "state": {
+        "description": "Create/update/delete firewall rules or security group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "update": {
+        "description": "If O(state=present) and if one or more rule/alias/ipset already exists it will update them.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "level": {
+        "description": "Level at which the firewall rule applies.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "cluster",
+          "group",
+          "vnet",
+          "node",
+          "vm"
+        ],
+        "default": "cluster",
+        "aliases": null
+      },
+      "node": {
+        "description": "Name of the node. Only needed when O(level=node).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vmid": {
+        "description": "ID of the VM to which the rule applies. Only needed when O(level=vm).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vnet": {
+        "description": "Name of the virtual network for the rule. Only needed when O(level=vnet).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pos": {
+        "description": "Position of the rule in the list. Only needed if O(state=absent).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group_conf": {
+        "description": "Whether security group should be created or deleted.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "group": {
+        "description": "Name of the group to which the rule belongs. Only needed when O(level=group) or O(group_conf=true).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Comment for security group. Only needed when creating group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip_sets": {
+        "description": "List of IP set definitions to create, update, or remove. Each IP set is a named collection of CIDRs (with optional negation and comments).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "aliases": {
+        "description": "List of aliases. Alias can only be created/updated/deleted at cluster or VM level.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rules": {
+        "description": "List of individual rules to be applied.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_firewall_info": {
     "short_description": "Manage firewall rules in Proxmox",
-    "description": "",
-    "options": {},
+    "description": "Get firewall rules at cluster/group/vnet/node/vm level. Get firewall security groups at cluster level. Get aliases at cluster/VM level.",
+    "options": {
+      "level": {
+        "description": "Level at which the firewall rule applies.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "cluster",
+          "group",
+          "vnet",
+          "node",
+          "vm"
+        ],
+        "default": "cluster",
+        "aliases": null
+      },
+      "node": {
+        "description": "Name of the node. Only needed when O(level=node).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vmid": {
+        "description": "ID of the VM to which the rule applies. Only needed when O(level=vm).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vnet": {
+        "description": "Name of the virtual network for the rule. Only needed when O(level=vnet).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pos": {
+        "description": "Position of the rule in the list.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group": {
+        "description": "Name of the group to which the rule belongs. Only needed when O(level=group).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_group": {
     "short_description": "Group management for Proxmox VE cluster",
     "description": "Create or delete a user group for Proxmox VE clusters.",
-    "options": {},
+    "options": {
+      "groupid": {
+        "description": "The group name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "state": {
+        "description": "Indicate desired state of the group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "comment": {
+        "description": "Specify the description for the group. Parameter is ignored when group already exists or O(state=absent).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_group_info": {
+    "short_description": "Retrieve information about one or more Proxmox VE groups",
+    "description": "Retrieve information about one or more Proxmox VE groups.",
+    "options": {
+      "group": {
+        "description": "Restrict results to a specific group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "groupid",
+          "name"
+        ]
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_ipam_info": {
     "short_description": "Retrieve information about IPAMs.",
-    "description": "",
-    "options": {},
+    "description": "Retrieve all IPs under IPAM and limit it by IP or IPAM.",
+    "options": {
+      "ipam": {
+        "description": "Limit results to a single IPAM.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vmid": {
+        "description": "Get IP of a VM under IPAM.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_kvm": {
     "short_description": "Management of Qemu(KVM) Virtual Machines in Proxmox VE cluster",
     "description": "Allows you to create/delete/stop Qemu(KVM) Virtual Machines in Proxmox VE cluster.",
-    "options": {},
+    "options": {
+      "archive": {
+        "description": "Specify a path to an archive to restore (instead of creating or cloning a VM).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "acpi": {
+        "description": "Specify if ACPI should be enabled/disabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "agent": {
+        "description": "Specify if the QEMU Guest Agent should be enabled/disabled.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "args": {
+        "description": "Pass arbitrary arguments to kvm. This option is for experts only!",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "audio": {
+        "description": "A hash/dictionary of audio devices for the VM. O(audio={\"key\":\"value\", \"key\":\"value\"}). Keys allowed are - C(audio[n]) where 0 ≤ n ≤ N. Values allowed are - C(device=\"ich9-intel-hda|intel-hda|AC97\",driver=\"none|spice\"). C(device) is either V(ich9-intel-hda) or V(intel-hda) or V(AC97). Option C(driver) is V(none) or V(spice).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "autostart": {
+        "description": "Specify if the VM should be automatically restarted after crash (currently ignored in PVE API).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "balloon": {
+        "description": "Specify the amount of RAM for the VM in MB. Using zero disables the balloon driver.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bios": {
+        "description": "Specify the BIOS implementation.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "seabios",
+          "ovmf"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "boot": {
+        "description": "Specify the boot order -> boot on floppy V(a), hard disk V(c), CD-ROM V(d), or network V(n). For newer versions of Proxmox VE, use a boot order like V(order=scsi0;net0;hostpci0). You can combine to set order. Network boot requires setting V(rng0) since PVE 8.3.5.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bootdisk": {
+        "description": "Enable booting from specified disk. Format V((ide|sata|scsi|virtio\\)\\\\d+).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cicustom": {
+        "description": "Cloud-init: Specify custom files to replace the automatically generated ones at start.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cipassword": {
+        "description": "Cloud-init: password of default user to create.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "citype": {
+        "description": "Cloud-init: Specifies the cloud-init configuration format. The default depends on the configured operating system type (V(ostype)). We use the V(nocloud) format for Linux, and V(configdrive2) for Windows.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "nocloud",
+          "configdrive2"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "ciupgrade": {
+        "description": "Cloud-init: do an automatic package upgrade after the first boot.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ciuser": {
+        "description": "Cloud-init: username of default user to create.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "clone": {
+        "description": "Name of VM to be cloned. If O(vmid) is set, O(clone) can take an arbitrary value but is required for initiating the clone.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cores": {
+        "description": "Specify number of cores per socket.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cpu": {
+        "description": "Specify emulated CPU type.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cpulimit": {
+        "description": "Specify if CPU usage will be limited. Value V(0) indicates no CPU limit. If the computer has 2 CPUs, it has total of '2' CPU time.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cpuunits": {
+        "description": "Specify CPU weight for a VM. You can disable fair-scheduler configuration by setting this to V(0).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delete": {
+        "description": "Specify a list of settings you want to delete.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Specify the description for the VM. Only used on the configuration web interface. This is saved as comment inside the configuration file.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "digest": {
+        "description": "Specify if to prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "efidisk0": {
+        "description": "Specify a hash/dictionary of EFI disk options. Requires O(bios=ovmf) to be set to be able to use it.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "If V(true), allows forceful power operations (stop, reset). When used with O(state=stopped), attempts a graceful shutdown and if the VM is still running after O(timeout), it will be forcefully powered off. When used with O(state=restarted), performs reset (power off and on) and not a graceful reboot.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "format": {
+        "description": "Target drive's backing file's data format. Used only with clone. Use O(format=unspecified) and O(full=false) for a linked clone. Please refer to the Proxmox VE Administrator Guide, section Proxmox VE Storage (see U(https://pve.proxmox.com/pve-docs/chapter-pvesm.html) for the latest version, tables 3 to 14) to find out format supported by the provided storage backend. Not specifying this option is equivalent to setting it to V(unspecified).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "cloop",
+          "cow",
+          "qcow",
+          "qcow2",
+          "qed",
+          "raw",
+          "vmdk",
+          "unspecified"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "freeze": {
+        "description": "Specify if PVE should freeze CPU at startup (use 'c' monitor command to start execution).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "full": {
+        "description": "Create a full copy of all disk. This is always done when you clone a normal VM. For VM templates, we try to create a linked clone by default. Used only with clone.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "hookscript": {
+        "description": "Script that will be executed during various steps in the containers lifetime.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hostpci": {
+        "description": "Specify a hash/dictionary of map host pci devices into guest. O(hostpci='{\"key\":\"value\", \"key\":\"value\"}'). Keys allowed are - C(hostpci[n]) where 0 ≤ n ≤ N. Values allowed are - V(\"host=\"HOSTPCIID[;HOSTPCIID2...]\",pcie=\"1|0\",rombar=\"1|0\",x-vga=\"1|0\"\"). The C(host) parameter is Host PCI device pass through. HOSTPCIID syntax is V(bus:dev.func) (hexadecimal numbers). V(pcie=boolean) V(default=0) Choose the PCI-express bus (needs the q35 machine model). V(rombar=boolean) V(default=1) Specify whether or not the device's ROM will be visible in the guest's memory map. V(x-vga=boolean) V(default=0) Enable vfio-vga device support. /!\\ This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hotplug": {
+        "description": "Selectively enable hotplug features. This is a comma separated list of hotplug features V(network), V(disk), V(cpu), V(memory), and V(usb). Value 0 disables hotplug completely and value 1 is an alias for the default V(network,disk,usb).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hugepages": {
+        "description": "Enable/disable hugepages memory.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "any",
+          "2",
+          "1024"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "ide": {
+        "description": "A hash/dictionary of volume used as IDE hard disk or CD-ROM. Keys must be C(ide[n]) where 0 ≤ n ≤ 3. Values are strings containing comma-separated options in the format V(<storage>:<size>[,option=value]...) Examples: V(\"<storage>:10,format=qcow2\") for a disk, or V(\"<storage>:iso/debian.iso,media=cdrom\") for a CD-ROM. For a complete list of all available options, please refer to the Proxmox VE documentation (look for \"ide[n]:\") at U(https://pve.proxmox.com/pve-docs/chapter-qm.html#qm_options).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipconfig": {
+        "description": "Cloud-init: Set the IP configuration. A hash/dictionary of network IP configurations. O(ipconfig='{\"key\":\"value\", \"key\":\"value\"}'). Keys allowed are - V(ipconfig[n]) where 0 ≤ n ≤ network interfaces. Values allowed are - V(\"[gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>]\"). Cloud-init: Specify IP addresses and gateways for the corresponding interface. IP addresses use CIDR notation, gateways are optional but they should be in the same subnet of specified IP address. The special string V(dhcp) can be used for IP addresses to use DHCP, in which case no explicit gateway should be provided. For IPv6 the special string V(auto) can be used to use stateless autoconfiguration. If cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using dhcp on IPv4.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "keyboard": {
+        "description": "Sets the keyboard layout for VNC server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kvm": {
+        "description": "Enable/disable KVM hardware virtualization.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "localtime": {
+        "description": "Sets the real time clock to local time. This is enabled by default if ostype indicates a Microsoft OS.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lock": {
+        "description": "Lock/unlock the VM.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "migrate",
+          "backup",
+          "snapshot",
+          "rollback"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "machine": {
+        "description": "Specifies the Qemu machine type. Type => V((pc|pc(-i440fx\\)?-\\\\d+\\\\.\\\\d+(\\\\.pxe\\)?|q35|pc-q35-\\\\d+\\\\.\\\\d+(\\\\.pxe\\)?\\)). Allows to set, [[type=]<machine type>] [,enable-s3=<1|0>] [,enable-s4=<1|0>] [,viommu=<intel|virtio>].",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "memory": {
+        "description": "Memory size in MB for instance.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "migrate": {
+        "description": "Migrate the VM to O(node) if it is on another node.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "migrate_downtime": {
+        "description": "Sets maximum tolerated downtime (in seconds) for migrations.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "migrate_speed": {
+        "description": "Sets maximum speed (in MB/s) for migrations. A value of 0 is no limit.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Specifies the VM name. Name could be non-unique across the cluster. Required only for O(state=present). With O(state=present) if O(vmid) not provided and VM with name exists in the cluster then no changes will be made.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nameservers": {
+        "description": "Cloud-init: DNS server IP address(es). If unset, PVE host settings are used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "net": {
+        "description": "A hash/dictionary of network interfaces for the VM. Keys must be C(net[n]) where 0 ≤ n ≤ N. Values are strings containing comma-separated options in the format V([model=]<enum>[,option=value]...) Examples: V(\"virtio,bridge=vmbr0\") for a basic interface, or V(\"virtio,bridge=vmbr0,firewall=1,rate=200,tag=10\") for a rate-limited VLAN interface with firewall enabled. V(macaddr=XX:XX:XX:XX:XX:XX) must be a unique MAC address. If not specified, a unique MAC address is automatically generated. For a complete list of all available options, please refer to the Proxmox VE documentation (look for \"net[n]:\") at U(https://pve.proxmox.com/pve-docs/chapter-qm.html\\#qm_options).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "newid": {
+        "description": "VMID for the clone. Used only with clone. If newid is not set, the next available VM ID will be fetched from ProxmoxAPI.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "numa": {
+        "description": "A hash/dictionaries of NUMA topology. O(numa='{\"key\":\"value\", \"key\":\"value\"}'). Keys allowed are - V(numa[n]) where 0 ≤ n ≤ N. Values allowed are - V(\"cpu=\"<id[-id];...>\",hostnodes=\"<id[-id];...>\",memory=\"number\",policy=\"(bind|interleave|preferred)\"\"). V(cpus) CPUs accessing this NUMA node. V(hostnodes) Host NUMA nodes to use. V(memory) Amount of memory this NUMA node provides. V(policy) NUMA allocation policy.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "numa_enabled": {
+        "description": "Enables NUMA.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "onboot": {
+        "description": "Specifies whether a VM will be started during system bootup.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ostype": {
+        "description": "Specifies guest operating system. This is used to enable special optimization/features for specific operating systems. The l26 is Linux 2.6/3.X Kernel.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "other",
+          "wxp",
+          "w2k",
+          "w2k3",
+          "w2k8",
+          "wvista",
+          "win7",
+          "win8",
+          "win10",
+          "win11",
+          "l24",
+          "l26",
+          "solaris"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "parallel": {
+        "description": "A hash/dictionary of map host parallel devices. O(parallel='{\"key\":\"value\", \"key\":\"value\"}'). Keys allowed are - (parallel[n]) where 0 ≤ n ≤ 2. Values allowed are - C(\"/dev/parport\\d+|/dev/usb/lp\\d+\").",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection": {
+        "description": "Enable/disable the protection flag of the VM. This will enable/disable the remove VM and remove disk operations.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge": {
+        "description": "Remove VMID from configurations, like backup & replication jobs and HA. Used with state C(absent).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "reboot": {
+        "description": "Allow reboot. If set to V(true), the VM exit on reboot.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "revert": {
+        "description": "Revert a pending change.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rng0": {
+        "description": "Randomness source for RNG device, for example V(/dev/urandom).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sata": {
+        "description": "A hash/dictionary of volume used as SATA hard disk or CD-ROM. Keys must be C(sata[n]) where 0 ≤ n ≤ 5. Values are strings containing comma-separated options in the format V(<storage>:<size>[,option=value]...) Examples: V(\"<storage>:10,format=qcow2\") for a disk, or V(\"<storage>:iso/debian.iso,media=cdrom\") for a CD-ROM. For a complete list of all available options, please refer to the Proxmox VE documentation (look for \"sata[n]:\") at U(https://pve.proxmox.com/pve-docs/chapter-qm.html#qm_options).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scsi": {
+        "description": "A hash/dictionary of volume used as SCSI hard disk or CD-ROM. Keys must be C(scsi[n]) where 0 ≤ n ≤ 30. Values are strings containing comma-separated options in the format V(<storage>:<size>[,option=value]...) Examples: V(\"<storage>:10,format=qcow2\") for a disk, or V(\"<storage>:iso/debian.iso,media=cdrom\") for a CD-ROM. For a complete list of all available options, please refer to the Proxmox VE documentation (look for \"scsi[n]:\") at U(https://pve.proxmox.com/pve-docs/chapter-qm.html#qm_options).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scsihw": {
+        "description": "Specifies the SCSI controller model.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "lsi",
+          "lsi53c810",
+          "virtio-scsi-pci",
+          "virtio-scsi-single",
+          "megasas",
+          "pvscsi"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "searchdomains": {
+        "description": "Cloud-init: Sets DNS search domain(s). If unset, PVE host settings are used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "serial": {
+        "description": "A hash/dictionary of serial device to create inside the VM. V('{\"key\":\"value\", \"key\":\"value\"}'). Keys allowed are - serial[n](str; required) where 0 ≤ n ≤ 3. Values allowed are - V((/dev/.+|socket\\)). /!\\ If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "shares": {
+        "description": "Rets amount of memory shares for auto-ballooning. (0 - 50000). The larger the number is, the more memory this VM gets. The number is relative to weights of all other running VMs. Using 0 disables auto-ballooning, this means no limit.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "skiplock": {
+        "description": "Ignore locks. Only root is allowed to use this option.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "smbios": {
+        "description": "Specifies SMBIOS type 1 fields. Comma separated, Base64 encoded (optional) SMBIOS properties:. V([base64=<1|0>] [,family=<Base64 encoded string>]). V([,manufacturer=<Base64 encoded string>]). V([,product=<Base64 encoded string>]). V([,serial=<Base64 encoded string>]). V([,sku=<Base64 encoded string>]). V([,uuid=<UUID>]). V([,version=<Base64 encoded string>]).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapname": {
+        "description": "The name of the snapshot. Used only with clone.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sockets": {
+        "description": "Sets the number of CPU sockets. (1 - N).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sshkeys": {
+        "description": "Cloud-init: SSH public key(s) to assign to the default user. Supports multiple SSH keys by providing a multi-line value. Each key should be on a separate line in the format C(ssh-key-type key-data [comment]). Use YAML literal block scalar (C(|)) to provide multiple keys, one per line.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "startdate": {
+        "description": "Sets the initial date of the real time clock. Valid format for date are V('now') or V('2016-09-25T16:01:21') or V('2016-09-25').",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "startup": {
+        "description": "Startup and shutdown behavior. V([[order=]\\\\d+] [,up=\\\\d+] [,down=\\\\d+]). Order is a non-negative number defining the general startup order. Shutdown in done with reverse ordering.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicates desired state of the instance. If V(current), the current state of the VM will be fetched. You can access it with C(results.status). V(stopped) ensures that the VM is powered off using a graceful shutdown.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "started",
+          "absent",
+          "stopped",
+          "restarted",
+          "current",
+          "template",
+          "paused",
+          "hibernated"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "storage": {
+        "description": "Target storage for full clone. If restoring from archive, target storage for all disks. If omitted, storage location embedded inside archive will be used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tablet": {
+        "description": "Enables/disables the USB tablet device.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "List of tags to apply to the VM instance. Tags must start with V([a-z0-9_]) followed by zero or more of the following characters V([a-z0-9_-+.]). Tags are only available in Proxmox 6+.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target": {
+        "description": "Target node. Only allowed if the original VM is on shared storage. Used only with clone.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tdf": {
+        "description": "Enables/disables time drift fix.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template": {
+        "description": "Enables/disables the template.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Timeout in seconds for operations. If the timeout is reached with O(state=stopped) and O(force=True), the VM will be forcefully powered off. If the timeout is reached with O(state=stopped) and O(force=False), the task will fail.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 30,
+        "aliases": null
+      },
+      "tpmstate0": {
+        "description": "A hash/dictionary of options for the Trusted Platform Module disk. A TPM state disk is required for Windows 11 installations.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "usb": {
+        "description": "A hash/dictionary of USB devices for the VM. O(usb='{\"key\":\"value\", \"key\":\"value\"}'). Keys allowed are - C(usb[n]) where 0 ≤ n ≤ N. Values allowed are - C(host=\"value|spice\",mapping=\"value\",usb3=\"1|0\"). Host is either C(spice) or the USB id/port. Option C(mapping) is the mapped USB device name. Option C(usb3) enables USB 3 support.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update": {
+        "description": "If V(true), the VM will be updated with new value. Because of the operations of the API and security reasons, I have disabled the update of the following parameters O(net), O(virtio), O(ide), O(sata), O(scsi). Per example updating O(net) update the MAC address and O(virtio) create always new disk... This security feature can be disabled by setting the O(update_unsafe) to V(true). Update of O(pool) is disabled. It needs an additional API endpoint not covered by this module.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "update_unsafe": {
+        "description": "If V(true), do not enforce limitations on parameters O(net), O(virtio), O(ide), O(sata), O(scsi), O(efidisk0), and O(tpmstate0). Use this option with caution because an improper configuration might result in a permanent loss of data (for example disk recreated).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "vcpus": {
+        "description": "Sets number of hotplugged vcpus.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vga": {
+        "description": "Select VGA type. If you want to use high resolution modes (>= 1280x1024x16) then you should use option V(std) or V(vmware). Please refer to the Proxmox VE Administrator Guide, section QEMU/KVM Virtual Machines (see U(https://pve.proxmox.com/pve-docs/chapter-qm.html#qm_options)) for more information on possible values.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "virtio": {
+        "description": "A hash/dictionary of volume used as VIRTIO hard disk or CD-ROM. Keys must be C(virtio[n]) where 0 ≤ n ≤ 15. Values are strings containing comma-separated options in the format V(<storage>:<size>[,option=value]...) Examples: V(\"<storage>:10,format=qcow2\") for a disk, or V(\"<storage>:iso/debian.iso,media=cdrom\") for a CD-ROM. For a complete list of all available options, please refer to the Proxmox VE documentation (look for \"virtio[n]:\") at U(https://pve.proxmox.com/pve-docs/chapter-qm.html#qm_options).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "watchdog": {
+        "description": "Creates a virtual hardware watchdog device.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "with_local_disks": {
+        "description": "Enables migration of local disks to the next node.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_nic": {
     "short_description": "Management of a NIC of a Qemu(KVM) VM in a Proxmox VE cluster",
     "description": "Allows you to create/update/delete a NIC on Qemu(KVM) Virtual Machines in a Proxmox VE cluster.",
-    "options": {},
+    "options": {
+      "bridge": {
+        "description": "Add this interface to the specified bridge device. The Proxmox VE default bridge is called V(vmbr0).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "firewall": {
+        "description": "Whether this interface should be protected by the firewall.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "interface": {
+        "description": "Name of the interface, should be V(net[n]) where C(0 ≤ n ≤ 31).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "link_down": {
+        "description": "Whether this interface should be disconnected (like pulling the plug).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "mac": {
+        "description": "V(XX:XX:XX:XX:XX:XX) should be a unique MAC address. This is automatically generated if not specified. When not specified this module will keep the MAC address the same when changing an existing interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "model": {
+        "description": "The NIC emulator model.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "e1000",
+          "e1000-82540em",
+          "e1000-82544gc",
+          "e1000-82545em",
+          "i82551",
+          "i82557b",
+          "i82559er",
+          "ne2k_isa",
+          "ne2k_pci",
+          "pcnet",
+          "rtl8139",
+          "virtio",
+          "vmxnet3"
+        ],
+        "default": "virtio",
+        "aliases": null
+      },
+      "mtu": {
+        "description": "Force MTU, for C(virtio) model only, setting will be ignored otherwise. Set to V(1) to use the bridge MTU. Value should be C(1 ≤ n ≤ 65520).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Specifies the VM name. Only used on the configuration web interface. Required only for O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "queues": {
+        "description": "Number of packet queues to be used on the device. Value should be C(0 ≤ n ≤ 16).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rate": {
+        "description": "Rate limit in MBps (MegaBytes per second) as floating point number.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicates desired state of the NIC.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tag": {
+        "description": "VLAN tag to apply to packets on this interface. Value should be C(1 ≤ n ≤ 4094).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trunks": {
+        "description": "List of VLAN trunks to pass through this interface.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vmid": {
+        "description": "Specifies the instance ID.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_node": {
+    "short_description": "Manage Proxmox VE nodes",
+    "description": "Manage the Proxmox VE nodes itself.",
+    "options": {
+      "node_name": {
+        "description": "The targeted node to perform actions on.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "power_state": {
+        "description": "Manages the power state of the node.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "online",
+          "offline"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "certificates": {
+        "description": "Manages the x509 certificates of the node.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dns": {
+        "description": "Manages the resolving DNS options of the node.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subscription": {
+        "description": "Manages the license subscription of the node.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_node_info": {
@@ -129,39 +2847,537 @@
     "deprecated": null
   },
   "community.proxmox.proxmox_node_network": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage network interfaces on Proxmox nodes",
+    "description": "This module allows you to manage network interfaces on Proxmox nodes. Supports various interface types including bridge, bond, eth, vlan, and OVS interfaces. Network configuration changes are staged and must be explicitly applied using C(state=apply) to take effect. Changes made with C(state=present) or C(state=absent) are only staged and will not affect the running network configuration until applied.",
+    "options": {
+      "node": {
+        "description": "The Proxmox node to manage network interfaces on.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The desired state of the network interface. C(present) and C(absent) stage changes but do not apply them to the running configuration. C(apply) applies all staged network configuration changes to the running configuration. C(revert) discards all staged network configuration changes.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "apply",
+          "revert"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "iface": {
+        "description": "Network interface name. Required when C(state=present) or C(state=absent). For C(vlan) interface type, should be in format C(vlanXY) (e.g., C(vlan100)) or C(iface_name.vlan_id) (e.g., C(eth0.100)).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iface_type": {
+        "description": "Type of network interface. Required when C(state=present). Cannot be changed after interface creation.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "bridge",
+          "bond",
+          "eth",
+          "vlan",
+          "OVSBridge",
+          "OVSBond",
+          "OVSIntPort"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "cidr": {
+        "description": "IPv4 host address with prefix length (e.g., '192.168.1.10/24'). Supported for C(eth), C(bridge), C(bond), C(vlan), C(OVSBridge), and C(OVSIntPort) interface types. Can be deleted by setting to empty string C('').",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gateway": {
+        "description": "Default IPv4 gateway address. Supported for C(eth), C(bridge), C(bond), C(vlan), C(OVSBridge), and C(OVSIntPort) interface types. Can be deleted by setting to empty string C('').",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cidr6": {
+        "description": "IPv6 host address with prefix length (e.g., '2001:db8::10/64'). Supported for C(eth), C(bridge), C(bond), C(vlan), C(OVSBridge), and C(OVSIntPort) interface types. Can be deleted by setting to empty string C('').",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gateway6": {
+        "description": "Default IPv6 gateway address. Supported for C(eth), C(bridge), C(bond), C(vlan), C(OVSBridge), and C(OVSIntPort) interface types. Can be deleted by setting to empty string C('').",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "autostart": {
+        "description": "Automatically start interface on boot. Supported for C(eth), C(bridge), C(bond), C(vlan), and C(OVSBridge) interface types.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comments": {
+        "description": "Comments for the interface configuration. Supported for C(eth), C(bridge), C(bond), C(vlan), C(OVSBridge), C(OVSBond), and C(OVSIntPort) interface types. Can be deleted by setting to empty string C('').",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mtu": {
+        "description": "Maximum Transmission Unit (1280 - 65520). Supported for C(eth), C(bridge), C(bond), C(vlan), C(OVSBridge), C(OVSBond), and C(OVSIntPort) interface types. Can be deleted by setting to C(-1).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bridge_ports": {
+        "description": "Specify the interfaces you want to add to your bridge. Supported for C(bridge) interface type only. Can be deleted by setting to empty string C('').",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bridge_vids": {
+        "description": "Specify the allowed VLANs (e.g., '2 4 100-200'). Only used if C(bridge_vlan_aware) is enabled. Supported for C(bridge) interface type only. Can be deleted by setting to empty string C('').",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bridge_vlan_aware": {
+        "description": "Enable bridge VLAN support. Supported for C(bridge) interface type only.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bond_primary": {
+        "description": "Primary interface for active-backup bond. Required for C(active-backup) bonding mode. Supported for C(bond) interface type only. Primary interface should be specified in C(slaves) parameter as well.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bond_mode": {
+        "description": "Bonding mode for C(bond) or C(OVSBond) interface types. Valid values for C(bond) interface type: C(balance-rr), C(active-backup), C(balance-xor), C(broadcast), C(802.3ad), C(balance-tlb), C(balance-alb) Valid values for C(OVSBond) interface type: C(active-backup), C(balance-slb), C(lacp-balance-slb), C(lacp-balance-tcp)",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "balance-rr",
+          "active-backup",
+          "balance-xor",
+          "broadcast",
+          "802.3ad",
+          "balance-tlb",
+          "balance-alb",
+          "balance-slb",
+          "lacp-balance-slb",
+          "lacp-balance-tcp"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "bond_xmit_hash_policy": {
+        "description": "Transmit hash policy for bond type. Required for C(balance-xor) and C(802.3ad) bonding modes.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "layer2",
+          "layer2+3",
+          "layer3+4"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "slaves": {
+        "description": "Interfaces used by the bonding device (space separated). Required for C(bond) interface type.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vlan_raw_device": {
+        "description": "Raw device for VLAN interface. Required if iface is in format 'vlanXY'. Supported for C(vlan) interface type only.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ovs_ports": {
+        "description": "Interfaces to add to OVS bridge. Supported for C(OVSBridge) interface type only. Can be deleted by setting to empty string C('').",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ovs_options": {
+        "description": "OVS interface options. Supported for C(OVSBridge), C(OVSBond), and C(OVSIntPort) interface types. Can be deleted by setting to empty string C('').",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ovs_bonds": {
+        "description": "Interfaces used by OVS bonding device. (space separated) Required for C(OVSBond) interface type.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ovs_bridge": {
+        "description": "OVS bridge name. Required for C(OVSBond) and C(OVSIntPort) interface types.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ovs_tag": {
+        "description": "VLAN tag (1 - 4094). Supported for C(OVSBond) and C(OVSIntPort) interface types. Can be deleted by setting to C(-1).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_node_network_info": {
     "short_description": "Retrieve information about Proxmox VE node network interfaces",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about network interfaces on Proxmox VE nodes. This module does not make any changes to the system.",
+    "options": {
+      "node": {
+        "description": "The Proxmox node to retrieve network interface information from.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iface": {
+        "description": "Name of a specific network interface to retrieve information for. If not specified, information for all interfaces will be returned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iface_type": {
+        "description": "Filter results by interface type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "bridge",
+          "bond",
+          "eth",
+          "vlan",
+          "OVSBridge",
+          "OVSBond",
+          "OVSPort",
+          "OVSIntPort"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "check_changes": {
+        "description": "Whether to check for pending network configuration changes. When enabled, the module will return only information about any staged changes that are waiting to be applied. When disabled (default), the module will return network interface information. This parameter cannot be used together with C(iface) or C(iface_type) parameters, as checking for pending changes is a node-level operation.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_pool": {
     "short_description": "Pool management for Proxmox VE cluster",
     "description": "Create or delete a pool for Proxmox VE clusters. For pool members management please consult M(community.proxmox.proxmox_pool_member) module.",
-    "options": {},
+    "options": {
+      "poolid": {
+        "description": "The pool ID.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "state": {
+        "description": "Indicate desired state of the pool. The pool must be empty prior deleting it with O(state=absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "comment": {
+        "description": "Specify the description for the pool. Parameter is ignored when pool already exists or O(state=absent).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_pool_member": {
     "short_description": "Add or delete members from Proxmox VE cluster pools",
     "description": "Create or delete a pool member in Proxmox VE clusters.",
-    "options": {},
+    "options": {
+      "poolid": {
+        "description": "The pool ID.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "member": {
+        "description": "Specify the member name. For O(type=storage) it is a storage name. For O(type=vm) either vmid or vm name could be used.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Member type to add/remove from the pool.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "vm",
+          "storage"
+        ],
+        "default": "vm",
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicate desired state of the pool member.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_role": {
     "short_description": "Role management for Proxmox VE cluster",
-    "description": "",
-    "options": {},
+    "description": "Create, update or delete roles in Proxmox VE cluster.",
+    "options": {
+      "roleid": {
+        "description": "The role ID.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "state": {
+        "description": "Indicate desired state of the role. Custom roles are not allowed to use PVE reserved prefix.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "privs": {
+        "description": "List of privileges the role has.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "privileges"
+        ]
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_sendkey": {
     "short_description": "Send key presses to a Proxmox VM console",
     "description": "Uses the Proxmox API to send a sequence of key presses to the console of a VM. Keys can be specified explicitly or derived from a plain text string.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The unique name of the VM.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vmid": {
+        "description": "The unique ID of the VM. Takes precedence over O(name).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "keys_send": {
+        "description": "List of keys or key sequence to send in order. Each item must follow the qemu key naming format such as C(ctrl-alt-delete) or C(ret). You can specify either O(keys_send) or O(string_send).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "string_send": {
+        "description": "Raw string that will be transformed to the corresponding key presses Only ASCII-characters are supported. before sending. You can specify either O(keys_send) or O(string_send).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delay": {
+        "description": "Delay in seconds between each key press.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_snap": {
+    "short_description": "Snapshot management of instances in Proxmox VE cluster",
+    "description": "Allows you to create/delete/restore snapshots from instances in Proxmox VE cluster. Supports both KVM and LXC, OpenVZ has not been tested, as it is no longer supported on Proxmox VE.",
+    "options": {
+      "hostname": {
+        "description": "The instance name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vmid": {
+        "description": "The instance ID. If not set, will be fetched from PromoxAPI based on the hostname.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicate desired state of the instance snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "rollback"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "force": {
+        "description": "For removal from config file, even if removing disk snapshot fails.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "unbind": {
+        "description": "This option only applies to LXC containers. Allows to snapshot a container even if it has configured mountpoints. Temporarily disables all configured mountpoints, takes snapshot, and finally restores original configuration. If running, the container will be stopped and restarted to apply config changes. Due to restrictions in the Proxmox API this option can only be used authenticating as V(root@pam) with O(api_password), API tokens do not work either. See U(https://pve.proxmox.com/pve-docs/api-viewer/#/nodes/{node}/lxc/{vmid}/config) (PUT tab) for more details.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "vmstate": {
+        "description": "Snapshot includes RAM.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "description": {
+        "description": "Specify the description for the snapshot. Only used on the configuration web interface. This is saved as a comment inside the configuration file.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Timeout for operations.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 30,
+        "aliases": null
+      },
+      "snapname": {
+        "description": "Name of the snapshot that has to be created/deleted/restored.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "ansible_snap",
+        "aliases": null
+      },
+      "retention": {
+        "description": "Remove old snapshots if there are more than O(retention) snapshots. If O(retention) is set to V(0), all snapshots will be kept. This is only used when O(state=present) and when an actual snapshot is created. If no snapshot is created, all existing snapshots will be kept.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_snap_info": {
@@ -195,16 +3411,354 @@
     },
     "deprecated": null
   },
+  "community.proxmox.proxmox_storage": {
+    "short_description": "Manage storage in PVE clusters and nodes",
+    "description": "Manage storage in PVE clusters and nodes.",
+    "options": {
+      "nodes": {
+        "description": "A list of Proxmox VE nodes on which the target storage is enabled.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the storage displayed in the storage list.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the defined storage type to perform.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "The storage type/protocol to use when adding the storage.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "cephfs",
+          "cifs",
+          "dir",
+          "iscsi",
+          "nfs",
+          "pbs",
+          "zfspool"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "cephfs_options": {
+        "description": "Extended information for adding CephFS storage.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cifs_options": {
+        "description": "Extended information for adding CIFS storage.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dir_options": {
+        "description": "Extended information for adding Directory storage.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nfs_options": {
+        "description": "Extended information for adding NFS storage.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iscsi_options": {
+        "description": "Extended information for adding iSCSI storage.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pbs_options": {
+        "description": "Extended information for adding Proxmox Backup Server as storage.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "zfspool_options": {
+        "description": "Extended information for adding ZFS storage.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content": {
+        "description": "The desired content that should be used with this storage type.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "images",
+          "snippets",
+          "import",
+          "iso",
+          "backup",
+          "rootdir",
+          "vztmpl"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_storage_contents_info": {
+    "short_description": "List content from a Proxmox VE storage",
+    "description": "Retrieves information about stored objects on a specific storage attached to a node.",
+    "options": {
+      "storage": {
+        "description": "Only return content stored on that specific storage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "node": {
+        "description": "Proxmox node to which the storage is attached.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content": {
+        "description": "Filter on a specific content type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "all",
+          "backup",
+          "rootdir",
+          "images",
+          "iso",
+          "import"
+        ],
+        "default": "all",
+        "aliases": null
+      },
+      "vmid": {
+        "description": "Filter on a specific VMID.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_storage_info": {
+    "short_description": "Retrieve information about one or more Proxmox VE storages",
+    "description": "Retrieve information about one or more Proxmox VE storages.",
+    "options": {
+      "storage": {
+        "description": "Only return information on a specific storage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "type": {
+        "description": "Filter on a specific storage type.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
   "community.proxmox.proxmox_subnet": {
     "short_description": "Create/Update/Delete subnets from SDN",
-    "description": "",
-    "options": {},
+    "description": "Create, update, or delete subnets in Proxmox SDN.",
+    "options": {
+      "state": {
+        "description": "Desired state of the subnet configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "update": {
+        "description": "If O(state=present) then it will update the subnet if needed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "dhcp_range_update_mode": {
+        "description": "Only applicable for O(state=present) and it will honor and only make changes when O(update=true) If set to append and new dhcp_range passed it will just append to existing ranges. And If no dhcp_range passed and there are existing ranges it will just ignore existing ranges and only update other params if needed If set to overwrite and new dhcp_range passed it will overwrite existing ranges. If no dhcp_range passed and there are existing ranges it will delete all dhcp_ranges",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "append",
+          "overwrite"
+        ],
+        "default": "append",
+        "aliases": null
+      },
+      "subnet": {
+        "description": "Subnet CIDR.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vnet": {
+        "description": "The virtual network to which the subnet belongs.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "zone": {
+        "description": "Vnet Zone.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dhcp_dns_server": {
+        "description": "IP address for the DNS server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dhcp_range": {
+        "description": "Range of IP addresses for DHCP.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dnszoneprefix": {
+        "description": "Prefix for the DNS zone.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gateway": {
+        "description": "Subnet Gateway. Will be assign on vnet for layer3 zones.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lock_token": {
+        "description": "the token for unlocking the global SDN configuration.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snat": {
+        "description": "Enable Source NAT for the subnet.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "delete": {
+        "description": "A list of settings you want to delete.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_tasks_info": {
     "short_description": "Retrieve information about one or more Proxmox VE tasks",
     "description": "Retrieve information about one or more Proxmox VE tasks.",
-    "options": {},
+    "options": {
+      "node": {
+        "description": "Node where to get tasks.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "task": {
+        "description": "Return specific task.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "upid",
+          "name"
+        ]
+      },
+      "source": {
+        "description": "Source of tasks to be considered.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "archive",
+          "active",
+          "all"
+        ],
+        "default": "archive",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_template": {
@@ -247,6 +3801,68 @@
         "description": "Content type of the template. Valid values are V(vztmpl) for LXC container templates, V(iso) for ISO disc images, and V(import) for harddisk images and Open Virtual Appliances (OVA).",
         "type": "str",
         "required": false,
+        "choices": [
+          "vztmpl",
+          "import",
+          "iso"
+        ],
+        "default": "vztmpl",
+        "aliases": null
+      },
+      "storage": {
+        "description": "Target storage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "local",
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Timeout for operations.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 30,
+        "aliases": null
+      },
+      "force": {
+        "description": "It can only be used with O(state=present), existing template will be overwritten.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicate desired state of the template.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "checksum_algorithm": {
+        "description": "Algorithm used to verify the checksum. If specified, O(checksum) must also be specified.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "md5",
+          "sha1",
+          "sha224",
+          "sha256",
+          "sha384",
+          "sha512"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "checksum": {
+        "description": "The checksum to validate against. Checksums are often provided by software distributors to verify that a download is not corrupted. Checksums can usually be found on the distributors download page in the form of a file or string. If specified, O(checksum_algorithm) must also be specified.",
+        "type": "str",
+        "required": false,
         "choices": null,
         "default": null,
         "aliases": null
@@ -257,37 +3873,572 @@
   "community.proxmox.proxmox_user": {
     "short_description": "User management for Proxmox VE cluster",
     "description": "Create or delete a user for Proxmox VE clusters.",
-    "options": {},
+    "options": {
+      "userid": {
+        "description": "The user name. Must include the desired PVE authentication realm.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "state": {
+        "description": "Indicate desired state of the user.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "comment": {
+        "description": "Specify the description for the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable": {
+        "description": "Whether or not the account is active.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "email": {
+        "description": "Email address for the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "expire": {
+        "description": "Expiration date of the user in seconds after epoch. 0 means no expiration date.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "firstname": {
+        "description": "First name of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lastname": {
+        "description": "Last name of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "groups": {
+        "description": "List of groups the user is a member of.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "keys": {
+        "description": "Keys for two factor authentication (yubico).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Initial password. Only for PVE Authentication Realm users. Parameter is ignored when user already exists or O(state=absent).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.proxmox.proxmox_user_info": {
+    "short_description": "Retrieve information about one or more Proxmox VE users",
+    "description": "Retrieve information about one or more Proxmox VE users.",
+    "options": {
+      "domain": {
+        "description": "Restrict results to a specific authentication realm.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "realm"
+        ]
+      },
+      "user": {
+        "description": "Restrict results to a specific user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "userid": {
+        "description": "Restrict results to a specific user ID, which is a concatenation of a user and domain parts.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_vm_info": {
     "short_description": "Retrieve information about one or more Proxmox VE virtual machines",
     "description": "Retrieve information about one or more Proxmox VE virtual machines.",
-    "options": {},
+    "options": {
+      "node": {
+        "description": "Restrict results to a specific Proxmox VE node.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Restrict results to a specific virtual machine(s) type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "all",
+          "qemu",
+          "lxc"
+        ],
+        "default": "all",
+        "aliases": null
+      },
+      "vmid": {
+        "description": "Restrict results to a specific virtual machine by using its ID. If VM with the specified vmid does not exist in a cluster then resulting list will be empty.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Restrict results to a specific virtual machine(s) by using their name. If VM(s) with the specified name do not exist in a cluster then the resulting list will be empty.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "Whether to retrieve the VM configuration along with VM status. If set to V(none) (default), no configuration will be returned. If set to V(current), the current running configuration will be returned. If set to V(pending), the configuration with pending changes applied will be returned.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "none",
+          "current",
+          "pending"
+        ],
+        "default": "none",
+        "aliases": null
+      },
+      "network": {
+        "description": "Whether to retrieve the current network status. Requires enabled/running qemu-guest-agent on qemu VMs.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_vnet": {
     "short_description": "Manage virtual networks in Proxmox SDN.",
-    "description": "",
-    "options": {},
+    "description": "Create, update, or delete virtual networks in Proxmox SDN. Configure network isolation, VLAN awareness, and other network settings.",
+    "options": {
+      "state": {
+        "description": "Desired state of the virtual network.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "update": {
+        "description": "If O(state=present) then it will update the vnet if needed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "vnet": {
+        "description": "The name of the virtual network to be managed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "zone": {
+        "description": "zone for the virtual network.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "alias": {
+        "description": "An optional alias for the virtual network.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "isolate_ports": {
+        "description": "Enable isolation of ports within the virtual network.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "lock_token": {
+        "description": "The token for unlocking the global SDN configuration.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tag": {
+        "description": "Tag for the virtual network.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vlanaware": {
+        "description": "Enable VLAN awareness for the virtual network.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delete": {
+        "description": "A list of settings you want to delete.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_vnet_info": {
     "short_description": "Retrieve information about one or more Proxmox VE SDN vnets.",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more Proxmox VE SDN vnets.",
+    "options": {
+      "vnet": {
+        "description": "Restrict results to a specific vnet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_zone": {
     "short_description": "Manage Proxmox zone configurations.",
     "description": "Create/Update/Delete proxmox sdn zones.",
-    "options": {},
+    "options": {
+      "advertise_subnets": {
+        "description": "Advertise EVPN subnets if you have silent hosts.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bridge": {
+        "description": "Specify the bridge interface to use.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bridge_disable_mac_learning": {
+        "description": "Disable auto MAC address learning on the bridge interface.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "controller": {
+        "description": "FRR router name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dhcp": {
+        "description": "Type of the DHCP backend for this zone.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "dnsmasq"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "disable_arp_nd_suppression": {
+        "description": "Disable IPv4 ARP and IPv6 neighbour discovery suppression.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dns": {
+        "description": "DNS API server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dnszone": {
+        "description": "DNS domain zone.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dp_id": {
+        "description": "Faucet dataplane ID.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "exitnodes": {
+        "description": "List of cluster node names.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "exitnodes_local_routing": {
+        "description": "Allow exitnodes to connect to EVPN guests.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "exitnodes_primary": {
+        "description": "Force traffic to this exit node first.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fabric": {
+        "description": "SDN fabric to use as underlay for this VXLAN zone. Either O(fabric) or O(peers) is required for VXLAN zones.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipam": {
+        "description": "Use a specific IPAM.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mac": {
+        "description": "Anycast logical router MAC address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mtu": {
+        "description": "Set the Maximum Transmission Unit (MTU).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nodes": {
+        "description": "List of cluster node names.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "peers": {
+        "description": "Peers address list (comma-separated IP addresses). Either O(fabric) or O(peers) is required for VXLAN zones. Example: 192.168.0.1,192.168.0.2,192.168.0.3",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "reversedns": {
+        "description": "Reverse DNS API server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rt_import": {
+        "description": "Route-Target import.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The desired state of the zone configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tag": {
+        "description": "Service-VLAN tag.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Specify the type of zone.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "evpn",
+          "faucet",
+          "qinq",
+          "simple",
+          "vlan",
+          "vxlan"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "update": {
+        "description": "If O(state=present) and zone exists it'll update.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "vlan_protocol": {
+        "description": "Specify the VLAN protocol to use.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "802.1q",
+          "802.1ad"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "vrf_vxlan": {
+        "description": "Specify the VRF VXLAN identifier.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vxlan_port": {
+        "description": "VXLAN tunnel UDP port (default 4789).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "zone": {
+        "description": "Unique zone name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxmox.proxmox_zone_info": {
     "short_description": "Get Proxmox zone info.",
     "description": "List all available zones.",
-    "options": {},
+    "options": {
+      "type": {
+        "description": "Filter zones on based on type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "evpn",
+          "faucet",
+          "qinq",
+          "simple",
+          "vlan",
+          "vxlan"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

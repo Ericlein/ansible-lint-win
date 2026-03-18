@@ -1,14 +1,224 @@
 {
+  "community.mysql.mysql_db": {
+    "short_description": "Add or remove MySQL or MariaDB databases from a remote host",
+    "description": "Add or remove MySQL or MariaDB databases from a remote host.",
+    "options": {
+      "name": {
+        "description": "Name of the database to add or remove. I(name=all) may only be provided if I(state) is C(dump) or C(import). List of databases is provided with I(state=dump), I(state=present) and I(state=absent). If I(name=all) it works like --all-databases option for mysqldump (Added in 2.0).",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "db"
+        ]
+      },
+      "state": {
+        "description": "The database state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "dump",
+          "import",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "collation": {
+        "description": "Collation mode (sorting). This only applies to new table/databases and does not update existing ones, this is a limitation of MySQL.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "encoding": {
+        "description": "Encoding mode to use, examples include C(utf8) or C(latin1_swedish_ci), at creation of database, dump or importation of sql script.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "target": {
+        "description": "Location, on the remote host, of the dump file to read from or write to. Uncompressed SQL files (C(.sql)) as well as bzip2 (C(.bz2)), gzip (C(.gz)), xz (Added in 2.0) and zstd (C(.zst)) (Added in 3.12.0) compressed files are supported.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "single_transaction": {
+        "description": "Execute the dump in a single transaction.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "quick": {
+        "description": "Option used for dumping large tables.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "ignore_tables": {
+        "description": "A list of table names that will be ignored in the dump of the form database_name.table_name.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "hex_blob": {
+        "description": "Dump binary columns using hexadecimal notation.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "force": {
+        "description": "Continue dump or import even if we get an SQL error. Used only when I(state) is C(dump) or C(import).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "master_data": {
+        "description": "Option to dump a master replication server to produce a dump file that can be used to set up another server as a slave of the master. C(0) to not include master data. C(1) to generate a 'CHANGE MASTER TO' statement required on the slave to start the replication process. C(2) to generate a commented 'CHANGE MASTER TO'. Can be used when I(state=dump).",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          1,
+          2
+        ],
+        "default": 0,
+        "aliases": null
+      },
+      "skip_lock_tables": {
+        "description": "Skip locking tables for read. Used when I(state=dump), ignored otherwise.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "dump_extra_args": {
+        "description": "Provide additional arguments for mysqldump. Used when I(state=dump) only, ignored otherwise.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_shell": {
+        "description": "Used to prevent C(Broken pipe) errors when the imported I(target) file is compressed. If C(yes), the module will internally execute commands via a shell. Used when I(state=import), ignored otherwise.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "unsafe_login_password": {
+        "description": "If C(no), the module will safely use a shell-escaped version of the I(login_password) value. It makes sense to use C(yes) only if there are special symbols in the value and errors C(Access denied) occur. Used only when I(state) is C(import) or C(dump) and I(login_password) is passed, ignored otherwise.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "restrict_config_file": {
+        "description": "Read only passed I(config_file). When I(state) is C(dump) or C(import), by default the module passes I(config_file) parameter using C(--defaults-extra-file) command-line argument to C(mysql/mysqldump) utilities under the hood that read named option file in addition to usual option files. If this behavior is undesirable, use C(yes) to read only named option file.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "check_implicit_admin": {
+        "description": "Check if mysql allows login as root/nopassword before trying supplied credentials. If success, passed I(login_user)/I(login_password) will be ignored.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "config_overrides_defaults": {
+        "description": "If C(yes), connection parameters from I(config_file) will override the default values of I(login_host) and I(login_port) parameters. Used when I(stat) is C(present) or C(absent), ignored otherwise. It needs Python 3.5+ as the default interpreter on a target host.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "chdir": {
+        "description": "Changes the current working directory. Can be useful, for example, when I(state=import) and a dump file contains relative paths.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pipefail": {
+        "description": "Use C(bash) instead of C(sh) and add C(-o pipefail) to catch errors from the mysql_dump command when I(state=dump) and compression is used.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "sql_log_bin": {
+        "description": "Whether binary logging should be enabled or disabled for the connection.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
   "community.mysql.mysql_info": {
     "short_description": "Gather information about MySQL or MariaDB servers",
     "description": "Gathers information about MySQL or MariaDB servers.",
     "options": {
       "filter": {
-        "description": "Limit the collected information by comma separated string or YAML list. Allowable values are C(version), C(databases), C(settings), C(global_status), C(users), C(users_info), C(engines), C(master_status), C(slave_status), C(slave_hosts). By default, collects all subsets. You can use",
+        "description": "Limit the collected information by comma separated string or YAML list. Allowable values are C(version), C(databases), C(settings), C(global_status), C(users), C(users_info), C(engines), C(master_status), C(slave_status), C(slave_hosts). By default, collects all subsets. You can use '!' before value (for example, C(!settings)) to exclude it from the information. If you pass including and excluding values to the filter, for example, I(filter=!settings,version), the excluding values, C(!settings) in this case, will be ignored.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_db": {
+        "description": "Database name to connect to. It makes sense if I(login_user) is allowed to connect to a specific database only.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "exclude_fields": {
+        "description": "List of fields which are not needed to collect. Supports elements: C(db_size), C(db_table_count). Unsupported elements will be ignored.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "return_empty_dbs": {
+        "description": "Includes names of empty databases to returned dictionary.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },
@@ -17,7 +227,56 @@
   "community.mysql.mysql_query": {
     "short_description": "Run MySQL or MariaDB queries",
     "description": "Runs arbitrary MySQL or MariaDB queries. Pay attention, the module does not support check mode! All queries will be executed in autocommit mode. To run SQL queries from a file, use M(community.mysql.mysql_db) module.",
-    "options": {},
+    "options": {
+      "query": {
+        "description": "SQL query to run. Multiple queries can be passed using YAML list syntax. Must be a string or YAML list containing strings. If you use I(named_args) or I(positional_args) any C(%) will be interpreted as a formatting character. All literal C(%) characters in the query should be escaped as C(%%). Note that if you use the C(IF EXISTS/IF NOT EXISTS) clauses in your query and C(mysqlclient) or C(PyMySQL 0.10.0+) connectors, the module will report that the state has been changed even if it has not. If it is important in your workflow, use the C(PyMySQL 0.9.3) connector instead.",
+        "type": "raw",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "positional_args": {
+        "description": "List of values to be passed as positional arguments to the query. Mutually exclusive with I(named_args).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "named_args": {
+        "description": "Dictionary of key-value arguments to pass to the query. Mutually exclusive with I(positional_args).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_db": {
+        "description": "Name of database to connect to and run queries against.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "single_transaction": {
+        "description": "Where passed queries run in a single transaction (C(yes)) or commit them one-by-one (C(no)).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "session_vars": {
+        "description": "Dictionary of session variables in form of C(variable: value) to set at the beginning of module execution. Cannot be used to set global variables, use the M(community.mysql.mysql_variables) module instead.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mysql.mysql_replication": {
@@ -195,6 +454,64 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "primary_auto_position": {
+        "description": "Whether the host uses GTID based replication or not. Same as the C(MASTER_AUTO_POSITION) mysql variable.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "master_auto_position"
+        ]
+      },
+      "primary_use_gtid": {
+        "description": "Configures the replica to use the MariaDB Global Transaction ID. C(disabled) equals MASTER_USE_GTID=no command. To find information about available values see U(https://mariadb.com/kb/en/library/change-master-to/#master_use_gtid). Available since MariaDB 10.0.2.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "current_pos",
+          "replica_pos",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": [
+          "master_use_gtid"
+        ]
+      },
+      "primary_delay": {
+        "description": "Time lag behind the primary's state (in seconds). Same as the C(MASTER_DELAY) mysql variable. Available from MySQL 5.6. For more information see U(https://dev.mysql.com/doc/refman/8.0/en/replication-delayed.html).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "master_delay"
+        ]
+      },
+      "connection_name": {
+        "description": "Name of the primary connection. Supported from MariaDB 10.0.1. Mutually exclusive with I(channel). For more information see U(https://mariadb.com/kb/en/library/multi-source-replication/).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "channel": {
+        "description": "Name of replication channel. Multi-source replication is supported from MySQL 5.7. Mutually exclusive with I(connection_name). For more information see U(https://dev.mysql.com/doc/refman/8.0/en/replication-multi-source.html).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fail_on_error": {
+        "description": "Fails on error when calling mysql.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
       }
     },
     "deprecated": null
@@ -202,7 +519,344 @@
   "community.mysql.mysql_role": {
     "short_description": "Adds, removes, or updates a MySQL or MariaDB role",
     "description": "Adds, removes, or updates a MySQL or MariaDB role. Roles are supported since MySQL 8.0.0 and MariaDB 10.0.5.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the role to add or remove.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "admin": {
+        "description": "Supported by B(MariaDB). Name of the admin user of the role (the I(login_user), by default).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "priv": {
+        "description": "MySQL privileges string in the format: C(db.table:priv1,priv2). You can specify multiple privileges by separating each one using a forward slash: C(db.table:priv/db.table:priv). The format is based on MySQL C(GRANT) statement. Database and table names can be quoted, MySQL-style. If column privileges are used, the C(priv1,priv2) part must be exactly as returned by a C(SHOW GRANT) statement. If not followed, the module will always report changes. It includes grouping columns by permission (C(SELECT(col1,col2)) instead of C(SELECT(col1),SELECT(col2))). Can be passed as a dictionary (see the examples). Supports GRANTs for procedures and functions (see the examples for the M(community.mysql.mysql_user) module).",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "append_privs": {
+        "description": "Append the privileges defined by the I(priv) option to the existing ones for this role instead of overwriting them. Mutually exclusive with I(subtract_privs).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "subtract_privs": {
+        "description": "Revoke the privileges defined by the I(priv) option and keep other existing privileges. If set, invalid privileges in I(priv) are ignored. Mutually exclusive with I(append_privs).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "members": {
+        "description": "List of members of the role. For users, use the format C(username@hostname). Always specify the hostname part explicitly. For roles, use the format C(rolename). Mutually exclusive with I(admin).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "append_members": {
+        "description": "Add members defined by the I(members) option to the existing ones for this role instead of overwriting them. Mutually exclusive with the I(detach_members) and I(admin) option.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "detach_members": {
+        "description": "Detaches members defined by the I(members) option from the role instead of overwriting all the current members. Mutually exclusive with the I(append_members) and I(admin) option.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "set_default_role_all": {
+        "description": "Is not supported by MariaDB and is silently ignored when working with MariaDB. If C(yes), runs B(SET DEFAULT ROLE ALL TO) each of the I(members) when changed. If you want to avoid this behavior, set this option to C(no) explicitly.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "If C(present) and the role does not exist, creates the role. If C(present) and the role exists, does nothing or updates its attributes. If C(absent), removes the role.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "check_implicit_admin": {
+        "description": "Check if mysql allows login as root/nopassword before trying supplied credentials. If success, passed I(login_user)/I(login_password) will be ignored.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "members_must_exist": {
+        "description": "When C(yes), the module fails if any user in I(members) does not exist. When C(no), users in I(members) which don't exist are simply skipped.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "column_case_sensitive": {
+        "description": "The default is C(true). When C(true), the module will not uppercase the field in the privileges. When C(false), the field names will be upper-cased. This was the default before this feature was introduced but since MySQL/MariaDB is case sensitive you should set this to C(true) in most cases. The default changed from C(false) to C(true) in v4.0.0",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "sql_log_bin": {
+        "description": "Whether binary logging should be enabled or disabled for the connection.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.mysql.mysql_user": {
+    "short_description": "Adds or removes a user from a MySQL or MariaDB database",
+    "description": "Adds or removes a user from a MySQL or MariaDB database.",
+    "options": {
+      "name": {
+        "description": "Name of the user (role) to add or remove.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "user"
+        ]
+      },
+      "password": {
+        "description": "Set the user's password. Only for C(mysql_native_password) authentication. For other authentication plugins see the combination of I(plugin), I(plugin_hash_string), I(plugin_auth_string).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "encrypted": {
+        "description": "Indicate that the 'password' field is a `mysql_native_password` hash.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "host": {
+        "description": "The 'host' part of the MySQL username.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "localhost",
+        "aliases": null
+      },
+      "host_all": {
+        "description": "Override the host option, making ansible apply changes to all hostnames for a given user. This option cannot be used when creating users.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "priv": {
+        "description": "MySQL privileges string in the format: C(db.table:priv1,priv2). Additionally, there must be no spaces between the table and the privilege as this will yield a non-idempotent check mode. Multiple privileges can be specified by separating each one using a forward slash: C(db.table1:priv/db.table2:priv). The format is based on MySQL C(GRANT) statement. Database and table names can be quoted, MySQL-style. If column privileges are used, the C(priv1,priv2) part must be exactly as returned by a C(SHOW GRANT) statement. If not followed, the module will always report changes. It includes grouping columns by permission (C(SELECT(col1,col2)) instead of C(SELECT(col1),SELECT(col2))). Can be passed as a dictionary (see the examples). Supports GRANTs for procedures and functions (see the examples). Note: If you pass the same C(db.table) combination to this parameter two or more times with different privileges, for example, C('*.*:SELECT/*.*:SHOW VIEW'), only the last one will be applied, in this example, it will be C(SHOW VIEW) respectively. Use C('*.*:SELECT,SHOW VIEW') instead to apply both.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "append_privs": {
+        "description": "Append the privileges defined by priv to the existing ones for this user instead of overwriting existing ones. Mutually exclusive with I(subtract_privs).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "subtract_privs": {
+        "description": "Revoke the privileges defined by the I(priv) option and keep other existing privileges. If set, invalid privileges in I(priv) are ignored. Mutually exclusive with I(append_privs).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "tls_requires": {
+        "description": "Set requirement for secure transport as a dictionary of requirements (see the examples). Valid requirements are SSL, X509, SUBJECT, ISSUER, CIPHER. SUBJECT, ISSUER and CIPHER are complementary, and mutually exclusive with SSL and X509. U(https://mariadb.com/kb/en/securing-connections-for-client-and-server/#requiring-tls).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sql_log_bin": {
+        "description": "Whether binary logging should be enabled or disabled for the connection.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "force_context": {
+        "description": "Sets the С(mysql) system database as context for the executed statements (it will be used as a database to connect to). Useful if you use binlog / replication filters in MySQL as per default the statements can not be caught by a binlog / replication filter, they require a database to be set to work, otherwise the replication can break down. See U(https://dev.mysql.com/doc/refman/8.0/en/replication-options-binary-log.html#option_mysqld_binlog-ignore-db) for a description on how binlog filters work (filtering on the primary). See U(https://dev.mysql.com/doc/refman/8.0/en/replication-options-replica.html#option_mysqld_replicate-ignore-db) for a description on how replication filters work (filtering on the replica).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the user should exist. When C(absent), removes the user.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "check_implicit_admin": {
+        "description": "Check if mysql allows login as root/nopassword before trying supplied credentials. If success, passed I(login_user)/I(login_password) will be ignored.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "update_password": {
+        "description": "C(always) will update passwords if they differ. This affects I(password) and the combination of I(plugin), I(plugin_hash_string), I(plugin_auth_string). C(on_create) will only set the password or the combination of I(plugin), I(plugin_hash_string), I(plugin_auth_string) for newly created users. C(on_new_username) works like C(on_create), but it tries to reuse an existing password: If one different user with the same username exists, or multiple different users with the same username and equal C(plugin) and C(authentication_string) attribute, the existing C(plugin) and C(authentication_string) are used for the new user instead of the I(password), I(plugin), I(plugin_hash_string) or I(plugin_auth_string) argument.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "always",
+          "on_create",
+          "on_new_username"
+        ],
+        "default": "always",
+        "aliases": null
+      },
+      "plugin": {
+        "description": "User's plugin to authenticate (``CREATE USER user IDENTIFIED WITH plugin``).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "plugin_hash_string": {
+        "description": "User's plugin hash string (``CREATE USER user IDENTIFIED WITH plugin AS plugin_hash_string``).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "plugin_auth_string": {
+        "description": "User's plugin auth_string (``CREATE USER user IDENTIFIED WITH plugin BY plugin_auth_string``). If I(plugin) is ``pam`` (MariaDB) or ``auth_pam`` (MySQL) an optional I(plugin_auth_string) can be used to choose a specific PAM service. You need to define a I(salt) to have idempotence on password change with ``caching_sha2_password`` and ``sha256_password`` plugins.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "salt": {
+        "description": "Salt used to generate password hash from I(plugin_auth_string). Salt length must be 20 characters. Salt only support ``caching_sha2_password`` or ``sha256_password`` authentication I(plugin).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resource_limits": {
+        "description": "Limit the user for certain server resources. Provided since MySQL 5.6 / MariaDB 10.2. Available options are C(MAX_QUERIES_PER_HOUR: num), C(MAX_UPDATES_PER_HOUR: num), C(MAX_CONNECTIONS_PER_HOUR: num), C(MAX_USER_CONNECTIONS: num), C(MAX_STATEMENT_TIME: num) (supported only for MariaDB since collection version 3.7.0). Used when I(state=present), ignored otherwise.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "session_vars": {
+        "description": "Dictionary of session variables in form of C(variable: value) to set at the beginning of module execution. Cannot be used to set global variables, use the M(community.mysql.mysql_variables) module instead.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password_expire": {
+        "description": "C(never) - I(password) will never expire. C(default) - I(password) is defined using global system variable I(default_password_lifetime) setting. C(interval) - I(password) will expire in days which is defined in I(password_expire_interval). C(now) - I(password) will expire immediately.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "now",
+          "never",
+          "default",
+          "interval"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "password_expire_interval": {
+        "description": "Number of days I(password) will expire. Requires I(password_expire=interval).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "column_case_sensitive": {
+        "description": "The default is C(true). When C(true), the module will not uppercase the field names in the privileges. When C(false), the field names will be upper-cased. This is the default This feature was introduced because MySQL 8 and above uses case sensitive fields names in privileges. The default changed from C(false) to C(true) in v4.0.0",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "locked": {
+        "description": "Lock account to prevent connections using it. This is primarily used for creating a user that will act as a DEFINER on stored procedures. If not specified leaves the lock state as is (for a new user creates unlocked).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "attributes": {
+        "description": "Create, update, or delete user attributes (arbitrary 'key: value' comments) for the user. MySQL server must support the INFORMATION_SCHEMA.USER_ATTRIBUTES table. Provided since MySQL 8.0. To delete an existing attribute, set its value to null.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mysql.mysql_variables": {
@@ -218,11 +872,23 @@
         "aliases": null
       },
       "value": {
-        "description": "If set, then sets variable value to this. With boolean values, use C(0)|C(1) or quoted C(",
+        "description": "If set, then sets variable value to this. With boolean values, use C(0)|C(1) or quoted C(\"ON\")|C(\"OFF\").",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "mode": {
+        "description": "C(global) assigns C(value) to a global system variable which will be changed at runtime but won't persist across server restarts. C(persist) assigns C(value) to a global system variable and persists it to the mysqld-auto.cnf option file in the data directory (the variable will survive service restarts). C(persist_only) persists C(value) to the mysqld-auto.cnf option file in the data directory but without setting the global variable runtime value (the value will be changed after the next service restart). Supported by MySQL 8.0 or later. For more information see U(https://dev.mysql.com/doc/refman/8.0/en/set-variable.html).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "global",
+          "persist",
+          "persist_only"
+        ],
+        "default": "global",
         "aliases": null
       }
     },

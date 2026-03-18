@@ -8,25 +8,305 @@
   "vultr.cloud.bare_metal": {
     "short_description": "Manages bare metal machines on Vultr.",
     "description": "Manage bare metal machines on Vultr.",
-    "options": {},
+    "options": {
+      "label": {
+        "description": "Name of the bare metal machine.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "hostname": {
+        "description": "The hostname to assign to this bare metal machine.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "os": {
+        "description": "The operating system name. Mutually exclusive with I(image) and I(app).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "app": {
+        "description": "The app deploy name of Vultr OneClick apps. Mutually exclusive with I(image) and I(os).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image": {
+        "description": "The image deploy name of Vultr Marketplace apps. Mutually exclusive with I(os) and I(app).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "plan": {
+        "description": "The plan name to use for the bare metal machine. Required if the bare metal machine does not yet exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "activation_email": {
+        "description": "Whether to send an activation email when the bare metal machine is ready or not. Only considered on creation.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "mdisk_mode": {
+        "description": "Multi-disk operating mode of the bare metal server. If C(none), leaves all non-OS disks unformatted. If C(jbod) (Just a Bunch Of Disks), formats and mounts all non-OS disks. If C(raid1), creates the instance with the OS disk configured in a software RAID1. The C(raid1) choice is not applicable for Windows OS.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "none",
+          "jbod",
+          "raid1"
+        ],
+        "default": "none",
+        "aliases": null
+      },
+      "persistent_pxe": {
+        "description": "Whether to enable persistent PXE or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_ipv6": {
+        "description": "Whether to enable IPv6 or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Tags for the bare metal machine.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_data": {
+        "description": "User data to be passed to the bare metal machine.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "startup_script": {
+        "description": "Name or ID of the startup script to execute on boot. Only considered while creating the bare metal machine.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssh_keys": {
+        "description": "List of SSH key names passed to the bare metal machine on creation.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot": {
+        "description": "Description or ID of the snapshot. Only considered while creating the bare metal machine.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "reserved_ipv4": {
+        "description": "IP address of the floating IP to use as the main IP of this bare metal machine. Only considered on creation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "region": {
+        "description": "Region the bare metal machine is deployed into.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vpc2s": {
+        "description": "A list of VPCs (VPC 2.0) identified by their description to be assigned to the bare metal machine.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "skip_wait": {
+        "description": "Whether to skip the wait for the instance to be completely ready for access.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the bare metal machine.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vultr.cloud.block_storage": {
     "short_description": "Manages block storage volumes on Vultr",
     "description": "Manage block storage volumes.",
-    "options": {},
+    "options": {
+      "label": {
+        "description": "Name of the block storage volume.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "size_gb": {
+        "description": "Size of the block storage volume in GB. Required if I(state) is present. If it is larger than the volume's current size, the volume will be resized.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "size"
+        ]
+      },
+      "block_type": {
+        "description": "The type of block storage volume that will be created.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "high_perf",
+          "storage_opt"
+        ],
+        "default": "high_perf",
+        "aliases": null
+      },
+      "region": {
+        "description": "Region the block storage volume is deployed into. Required if I(state) is present.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the block storage volume.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "attached_to_instance": {
+        "description": "The ID of the server instance the volume is attached to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "live": {
+        "description": "Whether the volume should be attached/detached without restarting the instance.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vultr.cloud.block_storage_info": {
     "short_description": "Get information about the Vultr block storage",
-    "description": "",
+    "description": "Get infos about block storages available.",
     "options": {},
     "deprecated": null
   },
   "vultr.cloud.dns_domain": {
     "short_description": "Manages DNS domains on Vultr",
     "description": "Create and remove DNS domains.",
-    "options": {},
+    "options": {
+      "domain": {
+        "description": "The domain name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "ip": {
+        "description": "The default server IP. Use M(vultr.cloud.dns_record) to change it once the domain is created. Required if C(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "server_ip"
+        ]
+      },
+      "dns_sec": {
+        "description": "Ensure DNSSEC is enabled or disabled.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "disabled",
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the DNS domain.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vultr.cloud.dns_domain_info": {
@@ -38,13 +318,115 @@
   "vultr.cloud.dns_record": {
     "short_description": "Manages DNS records on Vultr",
     "description": "Create, update and remove DNS records.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The record name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "domain": {
+        "description": "The domain the record is related to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Type of the record.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "A",
+          "AAAA",
+          "CNAME",
+          "NS",
+          "MX",
+          "SRV",
+          "TXT",
+          "CAA",
+          "SSHFP"
+        ],
+        "default": "A",
+        "aliases": [
+          "record_type"
+        ]
+      },
+      "data": {
+        "description": "Data of the record. Required if C(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ttl": {
+        "description": "TTL of the record.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 300,
+        "aliases": null
+      },
+      "priority": {
+        "description": "Priority of the record.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "multiple": {
+        "description": "Whether to use more than one record with similar I(name) including no name and I(type). Only allowed for a few record types, e.g. C(type=A), C(type=NS) or C(type=MX). I(data) will not be updated, instead it is used as a key to find existing records.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the DNS record.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vultr.cloud.firewall_group": {
     "short_description": "Manages firewall groups on Vultr",
     "description": "Create and remove firewall groups.",
-    "options": {},
+    "options": {
+      "description": {
+        "description": "Description of the firewall group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "state": {
+        "description": "State of the firewall group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vultr.cloud.firewall_group_info": {
@@ -56,54 +438,550 @@
   "vultr.cloud.firewall_rule": {
     "short_description": "Manages firewall rules on Vultr",
     "description": "Create and remove firewall rules.",
-    "options": {},
+    "options": {
+      "group": {
+        "description": "Name of the firewall group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip_type": {
+        "description": "IP address version",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "v4",
+          "v6"
+        ],
+        "default": "v4",
+        "aliases": null
+      },
+      "protocol": {
+        "description": "Protocol of the firewall rule.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "icmp",
+          "tcp",
+          "udp",
+          "gre",
+          "esp",
+          "ah"
+        ],
+        "default": "tcp",
+        "aliases": null
+      },
+      "subnet": {
+        "description": "The network or IP, e.g. 192.0.2.123 or 0.0.0.0. Mutally exclusive with I(source).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subnet_size": {
+        "description": "The number of bits for the netmask in CIDR notation, e.g. C(32).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Single port or port range, e.g. C(80) or C(8000:8080). Required if I(protocol) is tcp or udp and I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "port_range"
+        ]
+      },
+      "source": {
+        "description": "Possible values are C(cloudflare) or a loadbalancer label. Mutally exclusive with I(subnet).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notes": {
+        "description": "Notes of the firewall rule.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the firewall rule.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vultr.cloud.firewall_rule_info": {
     "short_description": "Gather information about the Vultr firewall rules",
     "description": "Gather information about firewall rules available.",
-    "options": {},
+    "options": {
+      "group": {
+        "description": "Name of the firewall group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vultr.cloud.instance": {
     "short_description": "Manages server instances on Vultr.",
     "description": "Manage server instances on Vultr.",
-    "options": {},
+    "options": {
+      "label": {
+        "description": "Name of the instance.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "hostname": {
+        "description": "The hostname to assign to this instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "os": {
+        "description": "The operating system name. Mutually exclusive with I(image) and I(app).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "app": {
+        "description": "The app deploy name of Vultr OneClick apps. Mutually exclusive with I(image) and I(os).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image": {
+        "description": "The image deploy name of Vultr Marketplace apps. Mutually exclusive with I(os) and I(app).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "firewall_group": {
+        "description": "The firewall group description to assign this instance to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "plan": {
+        "description": "The plan name to use for the instance. Required if the instance does not yet exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "activation_email": {
+        "description": "Whether to send an activation email when the instance is ready or not. Only considered on creation.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "backups": {
+        "description": "Whether to enable automatic backups or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ddos_protection": {
+        "description": "Whether to enable ddos_protection or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_ipv6": {
+        "description": "Whether to enable IPv6 or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Tags for the instance.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_data": {
+        "description": "User data to be passed to the instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_scheme": {
+        "description": "The user scheme used as login user (Linux-only). By default, the I(root) user is configured. Only considered while creating the instance.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "root",
+          "limited"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "startup_script": {
+        "description": "Name or ID of the startup script to execute on boot. Only considered while creating the instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssh_keys": {
+        "description": "List of SSH key names passed to the instance on creation.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot": {
+        "description": "Description or ID of the snapshot. Only considered while creating the instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "reserved_ipv4": {
+        "description": "IP address of the floating IP to use as the main IP of this instance. Only considered on creation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "region": {
+        "description": "Region the instance is deployed into.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vpcs": {
+        "description": "A list of VPCs identified by their description to be assigned to the instance.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "skip_wait": {
+        "description": "Whether to skip the wait for the instance to be completely ready for access.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the instance. The state I(reinstalled) was added in version 1.8.0.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "started",
+          "stopped",
+          "restarted",
+          "reinstalled"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vultr.cloud.instance_info": {
     "short_description": "Get information about the Vultr instances",
     "description": "Get infos about available instances.",
-    "options": {},
+    "options": {
+      "label": {
+        "description": "Name of the instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "region": {
+        "description": "Filter instances by region.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vultr.cloud.load_balancer": {
     "short_description": "Manages load balancers on Vultr",
     "description": "Create, update, or delete load balancers on Vultr.",
-    "options": {},
+    "options": {
+      "label": {
+        "description": "The label for your Load Balancer.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "region": {
+        "description": "Region where the load balancer will be created.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the load balancer.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "forwarding_rules": {
+        "description": "An array of forwarding rule objects.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "balancing_algorithm": {
+        "description": "The balancing algorithm.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "roundrobin",
+          "leastconn"
+        ],
+        "default": "roundrobin",
+        "aliases": null
+      },
+      "ssl_redirect": {
+        "description": "If true, this will redirect all HTTP traffic to HTTPS. You must have an HTTPS rule and SSL certificate installed on the load balancer to enable this option.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "http2": {
+        "description": "If true, this will enable HTTP2 traffic. You must have an HTTPS forwarding rule combo (HTTPS -> HTTPS) to enable this option.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "http3": {
+        "description": "If true, this will enable HTTP3/QUIC traffic. You must have HTTP2 enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nodes": {
+        "description": "The number of nodes to add to the load balancer (1-99), must be an odd number. Defaults to 1.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The maximum time allowed for the connection to remain inactive before timing out in seconds. Defaults to 600.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 600,
+        "aliases": null
+      },
+      "health_check": {
+        "description": "The health check configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "proxy_protocol": {
+        "description": "If true, you must configure backend nodes to accept Proxy protocol.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "sticky_session": {
+        "description": "Enables sticky sessions for your load balancer when a cookie_name is provided.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "instances": {
+        "description": "Array of Instance IDs to attach to this Load Balancer. Instances will be attached or detached to match your array.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vpc": {
+        "description": "ID of the VPC you wish to use. If omitted, defaults to the public network.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "firewall_rules": {
+        "description": "An array of firewall rule objects.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auto_ssl": {
+        "description": "The Auto SSL configuration. Must be using Vultr DNS for Auto SSL.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "global_regions": {
+        "description": "Array of Region ids to deploy child Load Balancers to.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vultr.cloud.load_balancer_info": {
     "short_description": "Get information about Vultr load balancers",
-    "description": "",
+    "description": "Retrieve details about load balancers on Vultr.",
     "options": {},
     "deprecated": null
   },
   "vultr.cloud.object_storage": {
     "short_description": "Manages object storages on Vultr",
     "description": "Manage object storages.",
-    "options": {},
+    "options": {
+      "label": {
+        "description": "Name of the object storage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "cluster": {
+        "description": "Cluster hostname where the object storage will be created.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tier": {
+        "description": "Name of storage tier to use for object storage. Must be available for specified cluster. Required if I(state) is present.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "Legacy",
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the object storage.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vultr.cloud.object_storage_cluster_info": {
     "short_description": "Get information about the Vultr object storage clusters",
-    "description": "",
+    "description": "Get infos about object storage clusters available.",
     "options": {},
     "deprecated": null
   },
   "vultr.cloud.object_storage_info": {
     "short_description": "Get information about the Vultr object stores",
-    "description": "",
+    "description": "Get infos about object storages available.",
     "options": {},
     "deprecated": null
   },
@@ -134,13 +1012,116 @@
   "vultr.cloud.reserved_ip": {
     "short_description": "Manages reserved IPs on Vultr",
     "description": "Create, attach, detach and remove reserved IPs.",
-    "options": {},
+    "options": {
+      "label": {
+        "description": "Label of the reserved IP.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "instance_name": {
+        "description": "Name of the Instance the reserved IP should be attached to. Mutually exclusive with I(instance_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "instance_id": {
+        "description": "ID of the Instance the reserved IP should be attached to. Mutually exclusive with I(instance_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "region": {
+        "description": "Region of the reserved IP will be related to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip_type": {
+        "description": "Type of the IP.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "v4",
+          "v6"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the reserved IP.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vultr.cloud.snapshot": {
     "short_description": "Manages snapshots on Vultr",
     "description": "Create and remove snapshots.",
-    "options": {},
+    "options": {
+      "description": {
+        "description": "Description of the snapshot.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "instance": {
+        "description": "The description or ID of the instance from which to take the snapshot. Mutually exclusive with I(url). I(instance) or I(url) is required if I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uefi": {
+        "description": "Whether or not the snapshot uses UEFI. Only considered on creation when I(url) is provided.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "url": {
+        "description": "The URL of the snapshot image (RAW) to be uploaded. Mutually exclusive with I(instance). I(instance) or I(url) is required if I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vultr.cloud.snapshot_info": {
@@ -152,7 +1133,35 @@
   "vultr.cloud.ssh_key": {
     "short_description": "Manages ssh keys on Vultr.",
     "description": "Create, update and remove ssh keys.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the ssh key.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssh_key": {
+        "description": "SSH public key. Required if C(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the ssh key.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vultr.cloud.ssh_key_info": {
@@ -164,7 +1173,48 @@
   "vultr.cloud.startup_script": {
     "short_description": "Manages startup scripts on Vultr",
     "description": "Create, update and remove startup scripts.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The script name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "The script type, can not be changed once created.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "boot",
+          "pxe"
+        ],
+        "default": "boot",
+        "aliases": [
+          "script_type"
+        ]
+      },
+      "script": {
+        "description": "The script source code. Required if I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the script.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vultr.cloud.startup_script_info": {
@@ -176,25 +1226,201 @@
   "vultr.cloud.user": {
     "short_description": "Manages users on Vultr",
     "description": "Create, update and remove users.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the user",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "email": {
+        "description": "Email of the user. Required if C(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password of the user. Only considered while creating a user or when C(force=true).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Password will only be changed with enforcement.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "api_enabled": {
+        "description": "Whether the API is enabled or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "acls": {
+        "description": "List of ACLs this users should have. Required if C(state=present). One or more of the choices list, some depend on each other.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "manage_users",
+          "subscriptions_view",
+          "subscriptions",
+          "provisioning",
+          "billing",
+          "support",
+          "abuse",
+          "dns",
+          "upgrade",
+          "objstore",
+          "loadbalancer"
+        ],
+        "default": null,
+        "aliases": [
+          "acl"
+        ]
+      },
+      "state": {
+        "description": "State of the user.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vultr.cloud.user_info": {
     "short_description": "Get information about the Vultr users",
-    "description": "",
+    "description": "Get infos about users available.",
     "options": {},
     "deprecated": null
   },
   "vultr.cloud.vpc": {
     "short_description": "Manages VPCs on Vultr",
     "description": "Create and remove VPCs.",
-    "options": {},
+    "options": {
+      "description": {
+        "description": "Description of the VPC.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "v4_subnet": {
+        "description": "IPv4 subnet of the VPC. Required if I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "v4_subnet_mask": {
+        "description": "IPv4 subnet mask of the VPC. Required if I(state=present).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "region": {
+        "description": "Region the VPC will be related to. Required if I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the VPC.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vultr.cloud.vpc2": {
     "short_description": "Manages VPCs 2.0 on Vultr",
     "description": "Create and remove VPCs 2.0.",
-    "options": {},
+    "options": {
+      "description": {
+        "description": "Description of the VPC.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "ip_type": {
+        "description": "Type of the IP version. Required if I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "v4"
+        ],
+        "default": "v4",
+        "aliases": null
+      },
+      "ip_block": {
+        "description": "The subnet of the VPC. Required if I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "prefix_length": {
+        "description": "The number of bits for the netmask in CIDR notation, e.g. 24. Required if I(state=present).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "region": {
+        "description": "Region the VPC will be related to. Required if I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the VPC.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vultr.cloud.vpc2_info": {

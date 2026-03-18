@@ -12,11 +12,114 @@
         "aliases": null
       },
       "object": {
-        "description": "Keyname of the object inside the bucket. Can be also be used to create",
+        "description": "Keyname of the object inside the bucket. Can be also be used to create \"virtual directories\" (see examples).",
         "type": "path",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "src": {
+        "description": "The source file path when performing a PUT operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dest": {
+        "description": "The destination file path when downloading an object/key with a GET operation.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "overwrite": {
+        "description": "Forces an overwrite either locally on the filesystem or remotely with the object/key. Used with PUT and GET operations.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": [
+          "force"
+        ]
+      },
+      "permission": {
+        "description": "This option let's the user set the canned permissions on the object/bucket that are created. The permissions that can be set are 'private', 'public-read', 'authenticated-read'.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "private",
+          "public-read",
+          "authenticated-read"
+        ],
+        "default": "private",
+        "aliases": null
+      },
+      "headers": {
+        "description": "Headers to attach to object.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "expiration": {
+        "description": "Time limit (in seconds) for the URL generated and returned by GCA when performing a mode=put or mode=get_url operation. This url is only available when public-read is the acl for the object.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 600,
+        "aliases": [
+          "expiry"
+        ]
+      },
+      "mode": {
+        "description": "Switches the module behaviour between upload, download, get_url (return download url) , get_str (download object as string), create (bucket) and delete (bucket).",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "get",
+          "put",
+          "get_url",
+          "get_str",
+          "delete",
+          "create"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "gs_secret_key": {
+        "description": "GS secret key. If not set then the value of the GS_SECRET_ACCESS_KEY environment variable is used.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gs_access_key": {
+        "description": "GS access key. If not set then the value of the GS_ACCESS_KEY_ID environment variable is used.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "region": {
+        "description": "The gs region to use. If not defined then the value 'US' will be used. See U(https://cloud.google.com/storage/docs/bucket-locations)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "US",
+        "aliases": null
+      },
+      "versioning": {
+        "description": "Whether versioning is enabled or disabled (note that once versioning is enabled, it can only be suspended)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },
@@ -25,7 +128,75 @@
   "community.google.gce_eip": {
     "short_description": "Create or Destroy Global or Regional External IP addresses.",
     "description": "Create (reserve) or Destroy (release) Regional or Global IP Addresses. See U(https://cloud.google.com/compute/docs/configure-instance-ip-addresses#reserve_new_static) for more on reserving static addresses.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of Address.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "region": {
+        "description": "Region to create the address in. Set to 'global' to create a global address.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the address should be in. C(present) or C(absent) are the only valid options.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "project_id": {
+        "description": "The Google Cloud Platform project ID to use.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pem_file": {
+        "description": "The path to the PEM file associated with the service account email. This option is deprecated and may be removed in a future release. Use I(credentials_file) instead.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credentials_file": {
+        "description": "The path to the JSON file associated with the service account email.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service_account_email": {
+        "description": "service account email",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service_account_permissions": {
+        "description": "service account permissions",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.google.gce_img": {
@@ -68,6 +239,49 @@
         "description": "desired state of the image",
         "type": "str",
         "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "zone": {
+        "description": "the zone of the disk specified by source",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "us-central1-a",
+        "aliases": null
+      },
+      "timeout": {
+        "description": "timeout for the operation",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 180,
+        "aliases": null
+      },
+      "service_account_email": {
+        "description": "service account email",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pem_file": {
+        "description": "path to the pem file associated with the service account email",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project_id": {
+        "description": "your GCE project ID",
+        "type": "str",
+        "required": false,
         "choices": null,
         "default": null,
         "aliases": null
@@ -83,6 +297,214 @@
         "description": "The desired state for the instance template.",
         "type": "str",
         "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the GCE instance template.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "base_name"
+        ]
+      },
+      "size": {
+        "description": "The desired machine type for the instance template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "f1-micro",
+        "aliases": null
+      },
+      "source": {
+        "description": "A source disk to attach to the instance. Cannot specify both I(image) and I(source).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image": {
+        "description": "The image to use to create the instance. Cannot specify both both I(image) and I(source).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image_family": {
+        "description": "The image family to use to create the instance. If I(image) has been used I(image_family) is ignored. Cannot specify both I(image) and I(source).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "debian-8",
+        "aliases": null
+      },
+      "disk_type": {
+        "description": "Specify a C(pd-standard) disk or C(pd-ssd) for an SSD disk.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "pd-standard",
+          "pd-ssd"
+        ],
+        "default": "pd-standard",
+        "aliases": null
+      },
+      "disk_auto_delete": {
+        "description": "Indicate that the boot disk should be deleted when the Node is deleted.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "network": {
+        "description": "The network to associate with the instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "subnetwork": {
+        "description": "The Subnetwork resource name for this instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "can_ip_forward": {
+        "description": "Set to C(yes) to allow instance to send/receive non-matching src/dst packets.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "external_ip": {
+        "description": "The external IP address to use. If C(ephemeral), a new non-static address will be used.  If C(None), then no external address will be used.  To use an existing static IP address specify address name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "ephemeral",
+        "aliases": null
+      },
+      "service_account_email": {
+        "description": "service account email",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service_account_permissions": {
+        "description": "service account permissions (see U(https://cloud.google.com/sdk/gcloud/reference/compute/instances/create), --scopes section for detailed information) Available choices are: C(bigquery), C(cloud-platform), C(compute-ro), C(compute-rw), C(useraccounts-ro), C(useraccounts-rw), C(datastore), C(logging-write), C(monitoring), C(sql-admin), C(storage-full), C(storage-ro), C(storage-rw), C(taskqueue), C(userinfo-email).\n",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "automatic_restart": {
+        "description": "Defines whether the instance should be automatically restarted when it is terminated by Compute Engine.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "preemptible": {
+        "description": "Defines whether the instance is preemptible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "a comma-separated list of tags to associate with the instance",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "metadata": {
+        "description": "a hash/dictionary of custom data for the instance; '{\"key\":\"value\", ...}'",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "description of instance template",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disks": {
+        "description": "a list of persistent disks to attach to the instance; a string value gives the name of the disk; alternatively, a dictionary value can define 'name' and 'mode' ('READ_ONLY' or 'READ_WRITE'). The first entry will be the boot disk (which must be READ_WRITE).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nic_gce_struct": {
+        "description": "Support passing in the GCE-specific formatted networkInterfaces[] structure.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disks_gce_struct": {
+        "description": "Support passing in the GCE-specific formatted formatted disks[] structure. Case sensitive. see U(https://cloud.google.com/compute/docs/reference/latest/instanceTemplates#resource) for detailed information",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project_id": {
+        "description": "your GCE project ID",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pem_file": {
+        "description": "path to the pem file associated with the service account email This option is deprecated. Use 'credentials_file'.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credentials_file": {
+        "description": "path to the JSON file associated with the service account email",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subnetwork_region": {
+        "description": "Region that subnetwork resides in. (Required for subnetwork to successfully complete)",
+        "type": "str",
+        "required": false,
         "choices": null,
         "default": null,
         "aliases": null
@@ -92,8 +514,100 @@
   },
   "community.google.gce_labels": {
     "short_description": "Create, Update or Destroy GCE Labels.",
-    "description": "Create, Update or Destroy GCE Labels on instances, disks, snapshots, etc. When specifying the GCE resource, users may specify the full URL for the resource (its",
-    "options": {},
+    "description": "Create, Update or Destroy GCE Labels on instances, disks, snapshots, etc. When specifying the GCE resource, users may specify the full URL for the resource (its 'self_link'), or the individual parameters of the resource (type, location, name). Examples for the two options can be seen in the documentation. See U(https://cloud.google.com/compute/docs/label-or-tag-resources) for more information about GCE Labels. Labels are gradually being added to more GCE resources, so this module will need to be updated as new resources are added to the GCE (v1) API.",
+    "options": {
+      "labels": {
+        "description": "A list of labels (key/value pairs) to add or remove for the resource.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resource_url": {
+        "description": "The 'self_link' for the resource (instance, disk, snapshot, etc)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resource_type": {
+        "description": "The type of resource (instances, disks, snapshots, images)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resource_location": {
+        "description": "The location of resource (global, us-central1-f, etc.)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resource_name": {
+        "description": "The name of resource.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the labels should be in. C(present) or C(absent) are the only valid options.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "project_id": {
+        "description": "The Google Cloud Platform project ID to use.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pem_file": {
+        "description": "The path to the PEM file associated with the service account email. This option is deprecated and may be removed in a future release. Use I(credentials_file) instead.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credentials_file": {
+        "description": "The path to the JSON file associated with the service account email.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service_account_email": {
+        "description": "service account email",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service_account_permissions": {
+        "description": "service account email",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.google.gce_lb": {
@@ -121,6 +635,134 @@
         "type": "str",
         "required": false,
         "choices": null,
+        "default": "/",
+        "aliases": null
+      },
+      "httphealthcheck_interval": {
+        "description": "the duration in seconds between each health check request",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "httphealthcheck_timeout": {
+        "description": "the timeout in seconds before a request is considered a failed check",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "httphealthcheck_unhealthy_count": {
+        "description": "number of consecutive failed checks before marking a node unhealthy",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 2,
+        "aliases": null
+      },
+      "httphealthcheck_healthy_count": {
+        "description": "number of consecutive successful checks before marking a node healthy",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 2,
+        "aliases": null
+      },
+      "httphealthcheck_host": {
+        "description": "host header to pass through on HTTP check requests",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "name of the load-balancer resource",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol": {
+        "description": "the protocol used for the load-balancer packet forwarding, tcp or udp the available choices are: C(tcp) or C(udp).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "tcp",
+        "aliases": null
+      },
+      "region": {
+        "description": "the GCE region where the load-balancer is defined",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "external_ip": {
+        "description": "the external static IPv4 (or auto-assigned) address for the LB",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port_range": {
+        "description": "the port (range) to forward, e.g. 80 or 8000-8888 defaults to all ports",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "members": {
+        "description": "a list of zone/nodename pairs, e.g ['us-central1-a/www-a', ...]",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "desired state of the LB the available choices are: C(active), C(present), C(absent), C(deleted).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "present",
+        "aliases": null
+      },
+      "service_account_email": {
+        "description": "service account email",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pem_file": {
+        "description": "path to the pem file associated with the service account email This option is deprecated. Use 'credentials_file'.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credentials_file": {
+        "description": "path to the JSON file associated with the service account email",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project_id": {
+        "description": "your GCE project ID",
+        "type": "str",
+        "required": false,
+        "choices": null,
         "default": null,
         "aliases": null
       }
@@ -130,7 +772,115 @@
   "community.google.gce_mig": {
     "short_description": "Create, Update or Destroy a Managed Instance Group (MIG).",
     "description": "Create, Update or Destroy a Managed Instance Group (MIG).  See U(https://cloud.google.com/compute/docs/instance-groups) for an overview. Full install/configuration instructions for the gce* modules can be found in the comments of ansible/test/gce_tests.py.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the Managed Instance Group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template": {
+        "description": "Instance Template to be used in creating the VMs.  See U(https://cloud.google.com/compute/docs/instance-templates) to learn more about Instance Templates.  Required for creating MIGs.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "size": {
+        "description": "Size of Managed Instance Group.  If MIG already exists, it will be resized to the number provided here.  Required for creating MIGs.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service_account_email": {
+        "description": "service account email",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service_account_permissions": {
+        "description": "service account permissions",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pem_file": {
+        "description": "path to the pem file associated with the service account email This option is deprecated. Use 'credentials_file'.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credentials_file": {
+        "description": "Path to the JSON file associated with the service account email",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project_id": {
+        "description": "GCE project ID",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "desired state of the resource",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "zone": {
+        "description": "The GCE zone to use for this Managed Instance Group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "autoscaling": {
+        "description": "A dictionary of configuration for the autoscaler. 'enabled (bool)', 'name (str)' and policy.max_instances (int) are required fields if autoscaling is used. See U(https://cloud.google.com/compute/docs/reference/beta/autoscalers) for more information on Autoscaling.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "named_ports": {
+        "description": "Define named ports that backend services can forward data to.  Format is a a list of name:port dictionaries.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "recreate_instances": {
+        "description": "Recreate MIG instances.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.google.gce_net": {
@@ -194,7 +944,75 @@
         "aliases": null
       },
       "state": {
-        "description": "desired state of the network or firewall ",
+        "description": "desired state of the network or firewall Available choices are: C(active), C(present), C(absent), C(deleted).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "present",
+        "aliases": null
+      },
+      "service_account_email": {
+        "description": "service account email",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pem_file": {
+        "description": "path to the pem file associated with the service account email This option is deprecated. Use C(credentials_file).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credentials_file": {
+        "description": "path to the JSON file associated with the service account email",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project_id": {
+        "description": "your GCE project ID",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mode": {
+        "description": "network mode for Google Cloud C(legacy) indicates a network with an IP address range; C(auto) automatically generates subnetworks in different regions; C(custom) uses networks to group subnets of user specified IP address ranges https://cloud.google.com/compute/docs/networking#network_types",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "legacy",
+          "auto",
+          "custom"
+        ],
+        "default": "legacy",
+        "aliases": null
+      },
+      "subnet_name": {
+        "description": "name of subnet to create",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subnet_region": {
+        "description": "region of subnet to create",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subnet_desc": {
+        "description": "description of subnet to create",
         "type": "str",
         "required": false,
         "choices": null,
@@ -227,6 +1045,121 @@
       "mode": {
         "description": "GCE mount mode of disk, READ_ONLY (default) or READ_WRITE",
         "type": "str",
+        "required": false,
+        "choices": [
+          "READ_WRITE",
+          "READ_ONLY"
+        ],
+        "default": "READ_ONLY",
+        "aliases": null
+      },
+      "name": {
+        "description": "name of the disk",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "size_gb": {
+        "description": "whole integer size of disk (in GB) to create, default is 10 GB",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "10",
+        "aliases": null
+      },
+      "image": {
+        "description": "the source image to use for the disk",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot": {
+        "description": "the source snapshot to use for the disk",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "desired state of the persistent disk Available choices are: C(active), C(present), C(absent), C(deleted).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "present",
+        "aliases": null
+      },
+      "zone": {
+        "description": "zone in which to create the disk",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "us-central1-b",
+        "aliases": null
+      },
+      "service_account_email": {
+        "description": "service account email",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pem_file": {
+        "description": "path to the pem file associated with the service account email This option is deprecated. Use 'credentials_file'.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credentials_file": {
+        "description": "path to the JSON file associated with the service account email",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project_id": {
+        "description": "your GCE project ID",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disk_type": {
+        "description": "Specify a C(pd-standard) disk or C(pd-ssd) for an SSD disk.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "pd-standard",
+        "aliases": null
+      },
+      "delete_on_termination": {
+        "description": "If C(yes), deletes the volume when instance is terminated",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image_family": {
+        "description": "The image family to use to create the instance. If I(image) has been used I(image_family) is ignored. Cannot specify both I(image) and I(source).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "external_projects": {
+        "description": "A list of other projects (accessible with the provisioning credentials) to be searched for the image.",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
@@ -303,8 +1236,76 @@
   },
   "community.google.gce_tag": {
     "short_description": "add or remove tag(s) to/from GCE instances",
-    "description": "This module can add or remove tags U(https://cloud.google.com/compute/docs/label-or-tag-resources#tags) to/from GCE instances.  Use",
-    "options": {},
+    "description": "This module can add or remove tags U(https://cloud.google.com/compute/docs/label-or-tag-resources#tags) to/from GCE instances.  Use 'instance_pattern' to update multiple instances in a specify zone.",
+    "options": {
+      "instance_name": {
+        "description": "The name of the GCE instance to add/remove tags. Required if C(instance_pattern) is not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "instance_pattern": {
+        "description": "The pattern of GCE instance names to match for adding/removing tags.  Full-Python regex is supported. See U(https://docs.python.org/2/library/re.html) for details. If C(instance_name) is not specified, this field is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Comma-separated list of tags to add or remove.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the tags.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "zone": {
+        "description": "The zone of the disk specified by source.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "us-central1-a",
+        "aliases": null
+      },
+      "service_account_email": {
+        "description": "Service account email.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pem_file": {
+        "description": "Path to the PEM file associated with the service account email.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project_id": {
+        "description": "Your GCE project ID.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.google.gcpubsub": {
@@ -326,6 +1327,49 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "publish": {
+        "description": "List of dictionaries describing messages and attributes to be published.  Dictionary is in message(str):attributes(dict) format. Only message is required.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the topic or queue. Applies to the most granular resource. If subscription isspecified we remove it. If only topic is specified, that is what is removed. NOTE - A topic can be removed without first removing the subscription.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "project_id": {
+        "description": "your GCE project ID",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credentials_file": {
+        "description": "path to the JSON file associated with the service account email",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service_account_email": {
+        "description": "service account email",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
       }
     },
     "deprecated": null
@@ -333,7 +1377,61 @@
   "community.google.gcpubsub_info": {
     "short_description": "List Topics/Subscriptions and Messages from Google PubSub.",
     "description": "List Topics/Subscriptions from Google PubSub.  Use the gcpubsub module for topic/subscription management. See U(https://cloud.google.com/pubsub/docs) for an overview. This module was called C(gcpubsub_facts) before Ansible 2.9. The usage did not change.",
-    "options": {},
+    "options": {
+      "topic": {
+        "description": "GCP pubsub topic name.  Only the name, not the full path, is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "view": {
+        "description": "Choices are 'topics' or 'subscriptions'",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "topics",
+          "subscriptions"
+        ],
+        "default": "topics",
+        "aliases": null
+      },
+      "state": {
+        "description": "list is the only valid option.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "list"
+        ],
+        "default": "list",
+        "aliases": null
+      },
+      "project_id": {
+        "description": "your GCE project ID",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credentials_file": {
+        "description": "path to the JSON file associated with the service account email",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service_account_email": {
+        "description": "service account email",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

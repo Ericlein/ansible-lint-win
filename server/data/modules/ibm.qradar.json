@@ -2,55 +2,410 @@
   "ibm.qradar.deploy": {
     "short_description": "Trigger a qradar configuration deployment",
     "description": "This module allows for INCREMENTAL or FULL deployments",
-    "options": {},
+    "options": {
+      "type": {
+        "description": "Type of deployment",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "INCREMENTAL",
+          "FULL"
+        ],
+        "default": "INCREMENTAL",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ibm.qradar.log_source_management": {
     "short_description": "Manage Log Sources in QRadar",
     "description": "This module allows for addition, deletion, or modification of Log Sources in QRadar",
-    "options": {},
-    "deprecated": null
+    "options": {
+      "name": {
+        "description": "Name of Log Source",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Add or remove a log source.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "type_name": {
+        "description": "Type of resource by name",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type_id": {
+        "description": "Type of resource by id, as defined in QRadar Log Source Types Documentation",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol_type_id": {
+        "description": "Type of protocol by id, as defined in QRadar Log Source Types Documentation",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "identifier": {
+        "description": "Log Source Identifier (Typically IP Address or Hostname of log source)",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of log source",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": "Newer and updated modules released with more functionality."
   },
   "ibm.qradar.offense_action": {
     "short_description": "Take action on a QRadar Offense",
     "description": "This module allows to assign, protect, follow up, set status, and assign closing reason to QRadar Offenses",
-    "options": {},
+    "options": {
+      "id": {
+        "description": "ID of Offense",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "status": {
+        "description": "One of \"open\", \"hidden\" or \"closed\". (Either all lower case or all caps)",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "open",
+          "OPEN",
+          "hidden",
+          "HIDDEN",
+          "closed",
+          "CLOSED"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "assigned_to": {
+        "description": "Assign to an user, the QRadar username should be provided",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "closing_reason": {
+        "description": "Assign a predefined closing reason here, by name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "closing_reason_id": {
+        "description": "Assign a predefined closing reason here, by id.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "follow_up": {
+        "description": "Set or unset the flag to follow up on a QRadar Offense",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protected": {
+        "description": "Set or unset the flag to protect a QRadar Offense",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ibm.qradar.offense_info": {
     "short_description": "Obtain information about one or many QRadar Offenses, with filter options",
     "description": "This module allows to obtain information about one or many QRadar Offenses, with filter options",
-    "options": {},
+    "options": {
+      "id": {
+        "description": "Obtain only information of the Offense with provided ID",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Obtain only information of the Offense that matches the provided name",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "status": {
+        "description": "Obtain only information of Offenses of a certain status",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "open",
+          "OPEN",
+          "hidden",
+          "HIDDEN",
+          "closed",
+          "CLOSED"
+        ],
+        "default": "open",
+        "aliases": null
+      },
+      "assigned_to": {
+        "description": "Obtain only information of Offenses assigned to a certain user",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "closing_reason": {
+        "description": "Obtain only information of Offenses that were closed by a specific closing reason",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "closing_reason_id": {
+        "description": "Obtain only information of Offenses that were closed by a specific closing reason ID",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "follow_up": {
+        "description": "Obtain only information of Offenses that are marked with the follow up flag",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protected": {
+        "description": "Obtain only information of Offenses that are protected",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ibm.qradar.offense_note": {
     "short_description": "Create or update a QRadar Offense Note",
     "description": "This module allows to create a QRadar Offense note",
-    "options": {},
+    "options": {
+      "id": {
+        "description": "Offense ID to operate on",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "note_text": {
+        "description": "The note's text contents",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ibm.qradar.qradar_analytics_rules": {
     "short_description": "Qradar Analytics Rules Management resource module",
     "description": "This module allows for modification, deletion, and checking of Analytics Rules in QRadar",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "A dictionary of Qradar Analytics Rules options",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The state I(gathered) will get the module API configuration from the device and transform it into structured data in the format as per the module argspec and the value is returned in the I(gathered) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "gathered",
+          "deleted"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ibm.qradar.qradar_log_sources_management": {
     "short_description": "Qradar Log Sources Management resource module",
     "description": "This module allows for addition, deletion, or modification of Log Sources in QRadar",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "A dictionary of Qradar Log Sources options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The state I(gathered) will get the module API configuration from the device and transform it into structured data in the format as per the module argspec and the value is returned in the I(gathered) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "gathered",
+          "deleted"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ibm.qradar.rule": {
     "short_description": "Manage state of QRadar Rules, with filter options",
     "description": "Manage state of QRadar Rules, with filter options",
-    "options": {},
-    "deprecated": null
+    "options": {
+      "id": {
+        "description": "Manage state of a QRadar Rule by ID",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Manage state of a QRadar Rule by name",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Manage state of a QRadar Rule",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "enabled",
+          "disabled",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "owner": {
+        "description": "Manage ownership of a QRadar Rule",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": "Newer and updated modules released with more functionality."
   },
   "ibm.qradar.rule_info": {
     "short_description": "Obtain information about one or many QRadar Rules, with filter options",
     "description": "This module obtains information about one or many QRadar Rules, with filter options",
-    "options": {},
-    "deprecated": null
+    "options": {
+      "id": {
+        "description": "Obtain only information of the Rule with provided ID",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Obtain only information of the Rule that matches the provided name",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Obtain only information for the Rules of a certain type",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "EVENT",
+          "FLOW",
+          "COMMON",
+          "USER"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "owner": {
+        "description": "Obtain only information of Rules owned by a certain user",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "origin": {
+        "description": "Obtain only information of Rules that are of a certain origin",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "SYSTEM",
+          "OVERRIDE",
+          "USER"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": "Newer and updated modules released with more functionality."
   }
 }

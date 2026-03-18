@@ -27,8 +27,55 @@
   },
   "ansible.windows.dsc3": {
     "short_description": "Sets or checks DSC v3 configuration state",
-    "description": "",
-    "options": {},
+    "description": "Calls C(dsc config set) or C(dsc config test) using O(config) as the configuration document. This module assumes that C(dsc) can be found using E(PATH) environment variable, and C(dsc) itself relies on E(PATH) for resource discovery. Manipulate the environment variable directly if C(dsc) is not already discoverable using E(PATH).",
+    "options": {
+      "config": {
+        "description": "The DSC configuration document to set or test. See U(https://learn.microsoft.com/en-us/powershell/dsc/concepts/configuration-documents/overview?view=dsc-3.0) for an overview of how to author a configuration document. The C($schema) top-level property may be omitted. If so, it will default to C(https://aka.ms/dsc/schemas/v3/bundled/config/document.json) One of O(config) or O(config_file) must be specified.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "config_file": {
+        "description": "Path to DSC configuration document either on the control node or the target host. The O(remote_config_file) parameter controls whether the file is located on the control node (V(false)) or the target host (V(true)). This corresponds to the C(--file) DSC commandline option. One of O(config) or O(config_file) must be specified.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parameters": {
+        "description": "Runtime parameter values. This corresponds to the C(--parameters) commandline option.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remote_config_file": {
+        "description": "Whether the provided O(config_file) is already on the target host. If V(false), the file will be transferred from the control node to the target host and removed after the module is done. A local O(config_file) cannot be used with async tasks, the file will need to be pre-transferred to the target host.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "trace_level": {
+        "description": "Specify level of tracing output, which are returned in RV(stderr_lines). This corresponds to the C(--trace-level) DSC commandline option.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "error",
+          "warn",
+          "info",
+          "debug",
+          "trace"
+        ],
+        "default": "warn",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ansible.windows.setup": {
@@ -157,7 +204,15 @@
           "None",
           "NoPropagateInherit"
         ],
-        "default": null,
+        "default": "None",
+        "aliases": null
+      },
+      "follow": {
+        "description": "Follow the symlinks and junctions to apply the ACLs to the target instead of the link.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },
@@ -165,8 +220,36 @@
   },
   "ansible.windows.win_acl_inheritance": {
     "short_description": "Change ACL inheritance",
-    "description": "Change ACL (Access Control List) inheritance and optionally copy inherited ACE",
-    "options": {},
+    "description": "Change ACL (Access Control List) inheritance and optionally copy inherited ACE's (Access Control Entry) to dedicated ACE's or vice versa.",
+    "options": {
+      "path": {
+        "description": "Path to be used for changing inheritance Support for registry keys have been added in C(ansible.windows>=1.11.0)",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specify whether to enable I(present) or disable I(absent) ACL inheritance.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "absent",
+        "aliases": null
+      },
+      "reorganize": {
+        "description": "For C(state=absent), indicates if the inherited ACE's should be copied from the parent. This is necessary (in combination with removal) for a simple ACL instead of using multiple ACE deny entries. For C(state=present), indicates if the inherited ACE's should be deduplicated compared to the parent. This removes complexity of the ACL structure.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ansible.windows.win_audit_policy_system": {
@@ -256,7 +339,29 @@
           "InheritOnly",
           "NoPropagateInherit"
         ],
-        "default": null,
+        "default": "None",
+        "aliases": null
+      },
+      "audit_flags": {
+        "description": "Defines whether to log on failure, success, or both. To log both define as comma separated list \"Success, Failure\".",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "failure",
+          "success"
+        ],
+        "default": "success",
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the rule should be C(present) or C(absent). For absent, only I(path), I(user), and I(state) are required. Specifying C(absent) will remove all rules matching the defined I(user).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -371,7 +476,137 @@
         "aliases": null
       },
       "store_name": {
-        "description": "The store name to use when importing a certificate or searching for a certificate. ",
+        "description": "The store name to use when importing a certificate or searching for a certificate. C(AddressBook): The X.509 certificate store for other users C(AuthRoot): The X.509 certificate store for third-party certificate authorities (CAs) C(CertificateAuthority): The X.509 certificate store for intermediate certificate authorities (CAs) C(Disallowed): The X.509 certificate store for revoked certificates C(My): The X.509 certificate store for personal certificates C(Root): The X.509 certificate store for trusted root certificate authorities (CAs) C(TrustedPeople): The X.509 certificate store for directly trusted people and resources C(TrustedPublisher): The X.509 certificate store for directly trusted publishers",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "My",
+        "aliases": null
+      },
+      "store_location": {
+        "description": "The store location to use when importing a certificate or searching for a certificate. Can be set to C(CurrentUser) or C(LocalMachine) when C(store_type=system). Defaults to C(LocalMachine) when C(store_type=system). Must be set to any service name when C(store_type=service).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "LocalMachine",
+        "aliases": null
+      },
+      "store_type": {
+        "description": "The store type to manage. Use C(system) to manage locations in the system store, C(LocalMachine) and C(CurrentUser). Use C(service) to manage the store of a service account specified by I(store_location).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "system",
+          "service"
+        ],
+        "default": "system",
+        "aliases": null
+      },
+      "password": {
+        "description": "The password of the pkcs12 certificate key. This is used when reading a pkcs12 certificate file or the password to set when C(state=exported) and C(file_type=pkcs12). If the pkcs12 file has no password set or no password should be set on the exported file, do not set this option.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "key_exportable": {
+        "description": "Whether to allow the private key to be exported. If C(false), then this module and other process will only be able to export the certificate and the private key cannot be exported. Used when C(state=present) only.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "key_storage": {
+        "description": "Specifies where Windows will store the private key when it is imported. When set to C(default), the default option as set by Windows is used, typically C(user). When set to C(machine), the key is stored in a path accessible by various users. When set to C(user), the key is stored in a path only accessible by the current user. Used when C(state=present) only and cannot be changed once imported. See U(https://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.x509keystorageflags.aspx) for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "default",
+          "machine",
+          "user"
+        ],
+        "default": "default",
+        "aliases": null
+      },
+      "file_type": {
+        "description": "The file type to export the certificate as when C(state=exported). C(der) is a binary ASN.1 encoded file. C(pem) is a base64 encoded file of a der file in the OpenSSL form. C(pkcs12) (also known as pfx) is a binary container that contains both the certificate and private key unlike the other options. When C(pkcs12) is set and the private key is not exportable or accessible by the current user, it will throw an exception.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "der",
+          "pem",
+          "pkcs12"
+        ],
+        "default": "der",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.windows.win_command": {
+    "short_description": "Executes a command on a remote Windows node",
+    "description": "The C(win_command) module takes the command name followed by a list of space-delimited arguments. The given command will be executed on all selected nodes. It will not be processed through the shell, so variables like C($env:HOME) and operations like C(\"<\"), C(\">\"), C(\"|\"), and C(\";\") will not work (use the M(ansible.windows.win_shell) module if you need these features). For non-Windows targets, use the M(ansible.builtin.command) module instead.",
+    "options": {
+      "_raw_params": {
+        "description": "The C(win_command) module takes a free form command to run. This is mutually exclusive with the C(cmd) and C(argv) options. There is no parameter actually named '_raw_params'. See the examples!",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cmd": {
+        "description": "The command and arguments to run. This is mutually exclusive with the C(_raw_params) and C(argv) options.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "argv": {
+        "description": "A list that contains the executable and arguments to run. The module will attempt to quote the arguments specified based on the L(Win32 C command-line argument rules,https://docs.microsoft.com/en-us/cpp/c-language/parsing-c-command-line-arguments). Not all applications use the same quoting rules so the escaping may not work, for those scenarios use C(cmd) instead.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "creates": {
+        "description": "A path or path filter pattern; when the referenced path exists on the target host, the task will be skipped.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "removes": {
+        "description": "A path or path filter pattern; when the referenced path B(does not) exist on the target host, the task will be skipped.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chdir": {
+        "description": "Set the specified path as the current working directory before executing a command.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stdin": {
+        "description": "Set the stdin of the command directly to the specified value.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "output_encoding_override": {
+        "description": "This option overrides the encoding of stdout/stderr output. You can use this option when you need to run a command which ignore the console's codepage. You should only need to use this option in very rare circumstances. This value can be any valid encoding C(Name) based on the output of C([System.Text.Encoding]::GetEncodings()). See U(https://docs.microsoft.com/dotnet/api/system.text.encoding.getencodings).",
         "type": "str",
         "required": false,
         "choices": null,
@@ -381,18 +616,28 @@
     },
     "deprecated": null
   },
-  "ansible.windows.win_command": {
-    "short_description": "Executes a command on a remote Windows node",
-    "description": "The C(win_command) module takes the command name followed by a list of space-delimited arguments. The given command will be executed on all selected nodes. It will not be processed through the shell, so variables like C($env:HOME) and operations like C(",
-    "options": {},
-    "deprecated": null
-  },
   "ansible.windows.win_computer_description": {
     "short_description": "Set windows description, owner and organization",
     "description": "This module sets Windows description that is shown under My Computer properties. Module also sets Windows license owner and organization. License information can be viewed by running winver commad.",
     "options": {
       "description": {
-        "description": "String value to apply to Windows descripton. Specify value of",
+        "description": "String value to apply to Windows descripton. Specify value of \"\" to clear the value.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "String value of organization that the Windows is licensed to. Specify value of \"\" to clear the value.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "owner": {
+        "description": "String value of the persona that the Windows is licensed to. Specify value of \"\" to clear the value.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -423,8 +668,48 @@
         "aliases": null
       },
       "dest": {
-        "description": "Remote absolute path where the file should be copied to. If C(src) is a directory, this must be a directory too. Use \\ for path separators or \\\\ when in",
-        "type": "str",
+        "description": "Remote absolute path where the file should be copied to. If C(src) is a directory, this must be a directory too. Use \\ for path separators or \\\\ when in \"double quotes\". If C(dest) ends with \\ then source or the contents of source will be copied to the directory without renaming. If C(dest) is a nonexistent path, it will only be created if C(dest) ends with \"/\" or \"\\\", or C(src) is a directory. If C(src) and C(dest) are files and if the parent directory of C(dest) doesn't exist, then the task will fail.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup": {
+        "description": "Determine whether a backup should be created. When set to C(true), create a backup file including the timestamp information so you can get the original file back if you somehow clobbered it incorrectly. No backup is taken when C(remote_src=False) and multiple files are being copied.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "force": {
+        "description": "If set to C(true), the file will only be transferred if the content is different than destination. If set to C(false), the file will only be transferred if the destination does not exist. If set to C(false), no checksuming of the content is performed which can help improve performance on larger files.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "local_follow": {
+        "description": "This flag indicates that filesystem links in the source tree, if they exist, should be followed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "remote_src": {
+        "description": "If C(false), it will search for src at originating/controller machine. If C(true), it will go to the remote/target machine for the src.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "src": {
+        "description": "Local path to a file to copy to the remote server; can be absolute or relative. If path is a directory, it is copied (including the source folder name) recursively to C(dest). If path is a directory and ends with \"/\", only the inside contents of that directory are copied to the destination. Otherwise, if it does not end with \"/\", the directory itself with all contents is copied. If path is a file and dest ends with \"\\\", the file is copied to the folder with the same filename. Required unless using C(content).",
+        "type": "path",
         "required": false,
         "choices": null,
         "default": null,
@@ -580,7 +865,59 @@
         "aliases": null
       },
       "scope_id": {
-        "description": "Specifies the scope identifier as defined by the DHCP server. This is a required parameter, if l(state=present) and the reservation or lease doesn",
+        "description": "Specifies the scope identifier as defined by the DHCP server. This is a required parameter, if l(state=present) and the reservation or lease doesn't already exist. Not required if updating an existing lease or reservation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mac": {
+        "description": "Specifies the client identifier to be set on the IPv4 address. This is a required parameter, if l(ip) is not set. Windows clients use the MAC address as the client ID. Linux and other operating systems can use other types of identifiers. Can be used to identify an existing lease/reservation, instead of l(ip).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "duration": {
+        "description": "Specifies the duration of the DHCP lease in days. The duration value only applies to l(type=lease). Defaults to the duration specified by the DHCP server configuration. Only applicable to l(type=lease).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dns_hostname": {
+        "description": "Specifies the DNS hostname of the client for which the IP address lease is to be added.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dns_regtype": {
+        "description": "Indicates the type of DNS record to be registered by the DHCP. server service for this lease. l(a) results in an A record being registered. l(aptr) results in both A and PTR records to be registered. l(noreg) results in no DNS records being registered.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "aptr",
+          "a",
+          "noreg"
+        ],
+        "default": "aptr",
+        "aliases": null
+      },
+      "reservation_name": {
+        "description": "Specifies the name of the reservation being created. Only applicable to l(type=reservation).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Specifies the description for reservation being created. Only applicable to l(type=reservation).",
         "type": "str",
         "required": false,
         "choices": null,
@@ -595,8 +932,28 @@
     "description": "The M(ansible.windows.win_dns_client) module configures the DNS client on Windows network adapters.",
     "options": {
       "adapter_names": {
-        "description": "Adapter name or list of adapter names for which to manage DNS settings (",
-        "type": "str",
+        "description": "Adapter name or list of adapter names for which to manage DNS settings ('*' is supported as a wildcard value). The adapter name used is the connection caption in the Network Control Panel or the InterfaceAlias of C(Get-DnsClientServerAddress).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dns_servers": {
+        "description": "Single or ordered list of DNS servers (IPv4 and IPv6 addresses) to configure for lookup. An empty list will configure the adapter to use the DHCP-assigned values on connections where DHCP is enabled, or disable DNS lookup on statically-configured connections. IPv6 DNS servers can only be set on Windows Server 2012 or newer, older hosts can only set IPv4 addresses.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ipv4_addresses",
+          "ip_addresses",
+          "addresses"
+        ]
+      },
+      "suffix_search_list": {
+        "description": "Specifies a list of global suffixes that can be used in the specified order by the DNS client for resolving the IP address.",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
@@ -645,7 +1002,82 @@
         "aliases": null
       },
       "ttl": {
-        "description": "The",
+        "description": "The \"time to live\" of the record, in seconds. Ignored when C(state=absent). Valid range is 1 - 31557600. Note that an Active Directory forest can specify a minimum TTL, and will dynamically \"round up\" other values to that minimum.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3600,
+        "aliases": null
+      },
+      "aging": {
+        "description": "Should aging be activated for the record. If set to C(false), the record will be static.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "allow_update_any": {
+        "description": "Specifies if any authenticated user can update the record. If set to C(true), any authenticated user can update the record. If set to C(false), only the account that created the record or accounts with appropriate permissions can update it. For non-SRV records, this was previously hardcoded to C(true). Since C(ansible.windows>=3.5.0) it now defaults to C(false) to ensure records are secure by default.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "type": {
+        "description": "The type of DNS record to manage. C(SRV) was added in the 1.0.0 release of this collection. C(NS) was added in the 1.1.0 release of this collection. C(TXT) was added in the 1.6.0 release of this collection. C(DHCID) was added in the 1.12.0 release of this collection.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "A",
+          "AAAA",
+          "CNAME",
+          "DHCID",
+          "NS",
+          "PTR",
+          "SRV",
+          "TXT"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "value": {
+        "description": "The value(s) to specify. Required when C(state=present). When C(type=PTR) only the partial part of the IP should be given. Multiple values can be passed when C(type=NS)",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "values"
+        ]
+      },
+      "weight": {
+        "description": "Weightage given to each service record in SRV record. Required when C(type=SRV). Supported only for C(type=SRV).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "zone": {
+        "description": "The name of the zone to manage (eg C(example.com)). The zone must already exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "zone_scope": {
+        "description": "The name of the zone scope to manage (eg C(ScopeAZ)). The zone must already exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "computer_name": {
+        "description": "Specifies a DNS server. You can specify an IP address or any value that resolves to an IP address, such as a fully qualified domain name (FQDN), host name, or NETBIOS name.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -804,6 +1236,18 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "level": {
+        "description": "The level at which to set the environment variable. Use C(machine) to set for all users. Use C(user) to set for the current user that ansible is connected as. Use C(process) to set for the current process.  Probably not that useful.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "machine",
+          "process",
+          "user"
+        ],
+        "default": null,
+        "aliases": null
       }
     },
     "deprecated": null
@@ -946,9 +1390,18 @@
     "deprecated": null
   },
   "ansible.windows.win_feature_info": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Gather information about Windows features",
+    "description": "Gather information about all or a specific installed Windows feature(s).",
+    "options": {
+      "name": {
+        "description": "If specified, this is used to match the C(name) of the Windows feature to get the info for. Can be a wildcard to match multiple features but the wildcard will only be matched on the C(name) of the feature. If omitted then all features will returned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "*",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ansible.windows.win_file": {
@@ -1058,8 +1511,138 @@
   },
   "ansible.windows.win_find": {
     "short_description": "Return a list of files based on specific criteria",
-    "description": "Return a list of files based on specified criteria. Multiple criteria are AND",
-    "options": {},
+    "description": "Return a list of files based on specified criteria. Multiple criteria are AND'd together. For non-Windows targets, use the M(ansible.builtin.find) module instead.",
+    "options": {
+      "age": {
+        "description": "Select files or folders whose age is equal to or greater than the specified time. Use a negative age to find files equal to or less than the specified time. You can choose seconds, minutes, hours, days or weeks by specifying the first letter of an of those words (for example, \"2s\", \"10d\", 1w\").",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "age_stamp": {
+        "description": "Choose the file property against which we compare C(age). The default attribute we compare with is the last modification time.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "atime",
+          "ctime",
+          "mtime"
+        ],
+        "default": "mtime",
+        "aliases": null
+      },
+      "checksum_algorithm": {
+        "description": "Algorithm to determine the checksum of a file. Will throw an error if the host is unable to use specified algorithm.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "md5",
+          "sha1",
+          "sha256",
+          "sha384",
+          "sha512"
+        ],
+        "default": "sha1",
+        "aliases": null
+      },
+      "depth": {
+        "description": "Set the maximum number of levels to descend into. Setting recurse to C(false) will override this value, which is effectively depth 1. Default depth is unlimited.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "file_type": {
+        "description": "Type of file to search for. Specify V(any) to find both file and directory. Added in version 3.2.0.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "directory",
+          "file",
+          "any"
+        ],
+        "default": "file",
+        "aliases": null
+      },
+      "follow": {
+        "description": "Set this to C(true) to follow symlinks in the path. This needs to be used in conjunction with C(recurse).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "get_checksum": {
+        "description": "Whether to return a checksum of the file in the return info (default sha1), use C(checksum_algorithm) to change from the default.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "hidden": {
+        "description": "Set this to include hidden files or folders.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "paths": {
+        "description": "List of paths of directories to search for files or folders in. This can be supplied as a single path or a list of paths.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "patterns": {
+        "description": "One or more (powershell or regex) patterns to compare filenames with. The type of pattern matching is controlled by C(use_regex) option. The patterns restrict the list of files or folders to be returned based on the filenames. For a file to be matched it only has to match with one pattern in a list provided.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "regex",
+          "regexp"
+        ]
+      },
+      "recurse": {
+        "description": "Will recursively descend into the directory looking for files or folders.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "size": {
+        "description": "Select files or folders whose size is equal to or greater than the specified size. Use a negative value to find files equal to or less than the specified size. You can specify the size with a suffix of the byte type i.e. kilo = k, mega = m... Size is not evaluated for symbolic links.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_regex": {
+        "description": "Will set patterns to run as a regex check if set to C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "case_sensitive": {
+        "description": "Make case-sensitive string comparisons for the filename match. Set C(use_regex) to V(true) to make this work.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ansible.windows.win_firewall": {
@@ -1214,11 +1797,30 @@
         "aliases": null
       },
       "description": {
-        "description": "Description of the group. Set to an empty string C(",
+        "description": "Description of the group. Set to an empty string C(\"\") to unset the description.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "members": {
+        "description": "The members of the group to set. The value is a dictionary that contains 3 keys, I(add), I(remove), or I(set). Each subkey value is a list of users or domain groups to add, remove, or set respectively. The members can either be the username in the form of C(SERVER\\user), C(DOMAIN\\user), C(.\\user) to represent a local user, a UPN C(user@DOMAIN.COM), or a security identifier C(S-1-5-....). A local group member cannot be another local group, it must be either a local user, domain user, or a domain group. The I(add) and I(remove) keys can be set together but I(set) can only be set by itself.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Create or remove the group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -1333,8 +1935,35 @@
     "description": "Install, uninstall a Windows hotfix.",
     "options": {
       "hotfix_identifier": {
-        "description": "The name of the hotfix as shown in DISM, see examples for details. This or C(hotfix_kb) MUST be set when C(state=absent). If C(state=present) then the hotfix at C(source) will be validated against this value, if it does not match an error will occur. You can get the identifier by running",
+        "description": "The name of the hotfix as shown in DISM, see examples for details. This or C(hotfix_kb) MUST be set when C(state=absent). If C(state=present) then the hotfix at C(source) will be validated against this value, if it does not match an error will occur. You can get the identifier by running 'Get-WindowsPackage -Online -PackagePath path-to-cab-in-msu' after expanding the msu file.",
         "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hotfix_kb": {
+        "description": "The name of the KB the hotfix relates to, see examples for details. This or C(hotfix_identifier) MUST be set when C(state=absent). If C(state=present) then the hotfix at C(source) will be validated against this value, if it does not match an error will occur. Because DISM uses the identifier as a key and doesn't refer to a KB in all cases it is recommended to use C(hotfix_identifier) instead.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether to install or uninstall the hotfix. When C(present), C(source) MUST be set. When C(absent), C(hotfix_identifier) or C(hotfix_kb) MUST be set.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "source": {
+        "description": "The path to the downloaded hotfix .msu file. This MUST be set if C(state=present) and MUST be a .msu hotfix file.",
+        "type": "path",
         "required": false,
         "choices": null,
         "default": null,
@@ -1364,10 +1993,12 @@
         "aliases": null
       },
       "source": {
-        "description": "Instead of manually specifying the I(proxy) and/or I(bypass), set this to import the proxy from a set source like Internet Explorer. Using C(ie) will import the Internet Explorer proxy settings for the current active network connection of the current user. Only IE",
+        "description": "Instead of manually specifying the I(proxy) and/or I(bypass), set this to import the proxy from a set source like Internet Explorer. Using C(ie) will import the Internet Explorer proxy settings for the current active network connection of the current user. Only IE's proxy URL and bypass list will be imported into WinHTTP. This is like running C(netsh winhttp import proxy source=ie). The value is imported when the module runs and will not automatically be updated if the IE configuration changes in the future. The module will have to be run again to sync the latest changes.",
         "type": "str",
         "required": false,
-        "choices": null,
+        "choices": [
+          "ie"
+        ],
         "default": null,
         "aliases": null
       }
@@ -1423,8 +2054,27 @@
   },
   "ansible.windows.win_listen_ports_facts": {
     "short_description": "Recopilates the facts of the listening ports of the machine",
-    "description": "Recopilates the information of the TCP and UDP ports of the machine and the related processes. State of the TCP ports could be filtered, as well as the format of the date when the parent process was launched. The module",
-    "options": {},
+    "description": "Recopilates the information of the TCP and UDP ports of the machine and the related processes. State of the TCP ports could be filtered, as well as the format of the date when the parent process was launched. The module's goal is to replicate the functionality of the linux module listen_ports_facts, mantaining the format of the said module.",
+    "options": {
+      "date_uformat": {
+        "description": "The format of the date when the process that owns the port started. The date specification is UFormat",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "%c",
+        "aliases": null
+      },
+      "tcp_filter": {
+        "description": "Filter for the state of the TCP ports that will be recopilated. Supports multiple states (Bound, Closed, CloseWait, Closing, DeleteTCB, Established, FinWait1, FinWait2, LastAck, Listen, SynReceived, SynSent and TimeWait), that can be used alone or combined. Note that the Bound state is only available on PowerShell version 4.0 or later.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [
+          "Listen"
+        ],
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ansible.windows.win_mapped_drive": {
@@ -1501,7 +2151,15 @@
         "aliases": null
       },
       "include_parent": {
-        "description": "Whether to enable the parent feature and the parent",
+        "description": "Whether to enable the parent feature and the parent's dependencies.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "source": {
+        "description": "Specify a source to install the feature from. Can either be C({driveletter}:\\sources\\sxs) or C(\\\\{IP}\\share\\sources\\sxs).",
         "type": "str",
         "required": false,
         "choices": null,
@@ -1591,6 +2249,98 @@
         "choices": null,
         "default": false,
         "aliases": null
+      },
+      "creates_path": {
+        "description": "Will check the existence of the path specified and use the result to determine whether the package is already installed. You can use this in conjunction with C(product_id) and other C(creates_*).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "creates_service": {
+        "description": "Will check the existing of the service specified and use the result to determine whether the package is already installed. You can use this in conjunction with C(product_id) and other C(creates_*).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "creates_version": {
+        "description": "Will check the file version property of the file at C(creates_path) and use the result to determine whether the package is already installed. C(creates_path) MUST be set and is a file. You can use this in conjunction with C(product_id) and other C(creates_*).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "expected_return_code": {
+        "description": "One or more return codes from the package installation that indicates success. The return codes are read as a signed integer, any values greater than 2147483647 need to be represented as the signed equivalent, i.e. C(4294967295) is C(-1). To convert a unsigned number to the signed equivalent you can run \"[Int32](\"0x{0:X}\" -f ([UInt32]3221225477))\". A return code of C(3010) usually means that a reboot is required, the C(reboot_required) return value is set if the return code is C(3010). This is only used for the C(msi), C(msp), and C(registry) providers.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [
+          0,
+          3010
+        ],
+        "aliases": null
+      },
+      "log_path": {
+        "description": "Specifies the path to a log file that is persisted after a package is installed or uninstalled. This is only used for the C(msi) or C(msp) provider. When omitted, a temporary log file is used instead for those providers. This is only valid for MSI files, use C(arguments) for the C(registry) provider.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "Location of the package to be installed or uninstalled. This package can either be on the local file system, network share or a url. When C(state=present), C(product_id) is not set and the path is a URL, this file will always be downloaded to a temporary directory for idempotency checks, otherwise the file will only be downloaded if the package has not been installed based on the C(product_id) checks. If C(state=present) then this value MUST be set. If C(state=absent) and C(product_id) is set then this value is not required. Module can not derive product id if C(state=absent) and path is a URL.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "product_id": {
+        "description": "The product id of the installed packaged. This is used for checking whether the product is already installed and getting the uninstall information if C(state=absent). For msi packages, this is the C(ProductCode) (GUID) of the package. This can be found under the same registry paths as the C(registry) provider. For msp packages, this is the C(PatchCode) (GUID) of the package which can found under the C(Details -> Revision number) of the file's properties. For msix packages, this is the C(Name) or C(PackageFullName) of the package found under the C(Get-AppxPackage) cmdlet. For registry (exe) packages, this is the registry key name under the registry paths specified in I(provider). This value is ignored if C(path) is set to a local accessible file path and the package is not an C(exe). This SHOULD be set when the package is an C(exe), or the path is a url or a network share and credential delegation is not being used. The C(creates_*) options can be used instead but is not recommended.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "provider": {
+        "description": "Set the package provider to use when searching for a package. The C(auto) provider will select the proper provider if I(path) otherwise it scans all the other providers based on the I(product_id). The C(msi) provider scans for MSI packages installed on a machine wide and current user context based on the C(ProductCode) of the MSI. The C(msix) provider is used to install C(.appx), C(.msix), C(.appxbundle), or C(.msixbundle) packages. These packages are only installed or removed on the current use. The host must be set to allow sideloaded apps or in developer mode. See the examples for how to enable this. If a package is already installed but C(path) points to an updated package, this will be installed over the top of the existing one. The C(msp) provider scans for all MSP patches installed on a machine wide and current user context based on the C(PatchCode) of the MSP. A C(msp) will be applied or removed on all C(msi) products that it applies to and is installed. If the patch is obsoleted or superseded then no action will be taken. The C(registry) provider is used for traditional C(exe) installers and uses the following registry path to determine if a product was installed; C(HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall), C(HKLM:\\Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall), C(HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall), and C(HKCU:\\Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "msi",
+          "msix",
+          "msp",
+          "registry"
+        ],
+        "default": "auto",
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether to install or uninstall the package. The module uses I(product_id) to determine whether the package is installed or not. For all providers but C(auto), the I(path) can be used for idempotency checks if it is locally accessible filesystem path.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "wait_for_children": {
+        "description": "The module will wait for the process it spawns to finish but any processes spawned in that child process as ignored. Set to C(true) to wait for all descendent processes to finish before the module returns. This is useful if the install/uninstaller is just a wrapper which then calls the actual installer as its own child process. When this option is C(true) then the module will wait for both processes to finish before returning. This should not be required for most installers and setting to C(true) could result in the module not returning until the process it is waiting for has been stopped manually. Requires Windows Server 2012 or Windows 8 or newer to use.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -1645,11 +2395,11 @@
     "description": "Checks management connectivity of a windows host. This is NOT ICMP ping, this is just a trivial test module. For non-Windows targets, use the M(ansible.builtin.ping) module instead.",
     "options": {
       "data": {
-        "description": "Alternate data to return instead of",
+        "description": "Alternate data to return instead of 'pong'. If this parameter is set to C(crash), the module will cause an exception.",
         "type": "str",
         "required": false,
         "choices": null,
-        "default": null,
+        "default": "pong",
         "aliases": null
       }
     },
@@ -1833,7 +2583,7 @@
         "type": "str",
         "required": false,
         "choices": null,
-        "default": null,
+        "default": "(Get-CimInstance -ClassName Win32_OperatingSystem -Property LastBootUpTime).LastBootUpTime.ToFileTime()",
         "aliases": null
       }
     },
@@ -1854,12 +2604,16 @@
         ]
       },
       "name": {
-        "description": "The registry property name to get information for, the return json will not include the sub_keys and properties entries for the I(key) specified. Set to an empty string to target the registry key",
+        "description": "The registry property name to get information for, the return json will not include the sub_keys and properties entries for the I(key) specified. Set to an empty string to target the registry key's C((Default)) property value.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
-        "aliases": null
+        "aliases": [
+          "entry",
+          "value",
+          "property"
+        ]
       }
     },
     "deprecated": null
@@ -1869,8 +2623,74 @@
     "description": "Add, modify or remove registry keys and values. More information about the windows registry from Wikipedia U(https://en.wikipedia.org/wiki/Windows_Registry).",
     "options": {
       "path": {
-        "description": "Name of the registry path. ",
+        "description": "Name of the registry path. Should be in one of the following registry hives: HKCC, HKCR, HKCU, HKLM, HKU.",
         "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "key"
+        ]
+      },
+      "name": {
+        "description": "Name of the registry entry in the above C(path) parameters. If not provided, or empty then the '(Default)' property for the key will be used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "entry",
+          "value"
+        ]
+      },
+      "data": {
+        "description": "Value of the registry entry C(name) in C(path). If not specified then the value for the property will be null for the corresponding C(type). Binary and None data should be expressed in a yaml byte array or as comma separated hex values. An easy way to generate this is to run C(regedit.exe) and use the I(export) option to save the registry values to a file. In the exported file, binary value will look like C(hex:be,ef,be,ef), the C(hex:) prefix is optional. DWORD and QWORD values should either be represented as a decimal number or a hex value. Multistring values should be passed in as a list. See the examples for more details on how to format this data.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "The registry value data type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "none",
+          "binary",
+          "dword",
+          "expandstring",
+          "multistring",
+          "string",
+          "qword"
+        ],
+        "default": "string",
+        "aliases": [
+          "datatype"
+        ]
+      },
+      "state": {
+        "description": "The state of the registry entry.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "delete_key": {
+        "description": "When C(state) is 'absent' then this will delete the entire key. If C(false) then it will only clear out the '(Default)' property for that key.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "hive": {
+        "description": "A path to a hive key like C:\\Users\\Default\\NTUSER.DAT to load in the registry. This hive is loaded under the HKLM:\\ANSIBLE key which can then be used in I(name) like any other path. This can be used to load the default user profile registry hive or any other hive saved as a file. Using this function requires the user to have the C(SeRestorePrivilege) and C(SeBackupPrivilege) privileges enabled.",
+        "type": "path",
         "required": false,
         "choices": null,
         "default": null,
@@ -2054,7 +2874,138 @@
         "aliases": null
       },
       "failure_reset_period_sec": {
-        "description": "The time in seconds after which the failure action list resets back to the start of the list if there are no failures. To set this value, I(failure_actions) must have at least 1 action present. Specify C(",
+        "description": "The time in seconds after which the failure action list resets back to the start of the list if there are no failures. To set this value, I(failure_actions) must have at least 1 action present. Specify C('0xFFFFFFFF') to set an infinite reset period.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "failure_reset_period"
+        ]
+      },
+      "force_dependent_services": {
+        "description": "If C(true), stopping or restarting a service with dependent services will force the dependent services to stop or restart also. If C(false), stopping or restarting a service with dependent services may fail.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "load_order_group": {
+        "description": "The name of the load ordering group of which this service is a member. Specify an empty string to remove the existing load order group of a service.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the service. If only the name parameter is specified, the module will report on whether the service exists or not without making any changes.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "The path to the executable to set for the service.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "The password to set the service to start as. This and the C(username) argument should be supplied together when using a local or domain account. If omitted then the password will continue to use the existing value password set. If specifying C(LocalSystem), C(NetworkService), C(LocalService), the C(NT SERVICE), or a gMSA this field can be omitted as those accounts have no password.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pre_shutdown_timeout_ms": {
+        "description": "The time in which the service manager waits after sending a preshutdown notification to the service until it proceeds to continue with the other shutdown actions.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "pre_shutdown_timeout"
+        ]
+      },
+      "required_privileges": {
+        "description": "A list of privileges the service must have when starting up. When set the service will only have the privileges specified on its access token. The I(username) of the service must already have the privileges assigned. The existing privileges will be replace with the list defined in the task if there is a mismatch with any of them. Set to an empty list to remove all required privileges, otherwise an omitted or null value will keep the existing privileges. See L(privilege text constants,https://docs.microsoft.com/en-us/windows/win32/secauthz/privilege-constants) for a list of privilege constants that can be used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service_type": {
+        "description": "The type of service. The default type of a new service is C(win32_own_process). I(desktop_interact) can only be set if the service type is C(win32_own_process) or C(win32_share_process).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "user_own_process",
+          "user_share_process",
+          "win32_own_process",
+          "win32_share_process"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "sid_info": {
+        "description": "Used to define the behaviour of the service's access token groups. C(none) will not add any groups to the token. C(restricted) will add the C(NT SERVICE\\<service name>) SID to the access token's groups and restricted groups. C(unrestricted) will add the C(NT SERVICE\\<service name>) SID to the access token's groups.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "none",
+          "restricted",
+          "unrestricted"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "start_mode": {
+        "description": "Set the startup type for the service. A newly created service will default to C(auto).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "delayed",
+          "disabled",
+          "manual"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The desired state of the service. C(started)/C(stopped)/C(absent)/C(paused) are idempotent actions that will not run commands unless necessary. C(restarted) will always bounce the service. Only services that support the paused state can be paused, you can check the return value C(can_pause_and_continue). You can only pause a service that is already started. A newly created service will default to C(stopped).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "paused",
+          "started",
+          "stopped",
+          "restarted"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "update_password": {
+        "description": "When set to C(always) and I(password) is set, the module will always report a change and set the password. Set to C(on_create) to only set the password if the module needs to create the service. If I(username) was specified and the service changed to that username then I(password) will also be changed if specified. The current default is C(on_create) but this behaviour may change in the future, it is best to be explicit here.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "always",
+          "on_create"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "The username to set the service to start as. Can also be set to C(LocalSystem) or C(SYSTEM) to use the SYSTEM account. A newly created service will default to C(LocalSystem). If using a custom user account, it must have the C(SeServiceLogonRight) granted to be able to start up. You can use the M(ansible.windows.win_user_right) module to grant this user right for you. Set to C(NT SERVICE\\service name) to run as the NT SERVICE account for that service. This can also be a gMSA in the form C(DOMAIN\\gMSA$).",
         "type": "str",
         "required": false,
         "choices": null,
@@ -2180,6 +3131,25 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "encrypt": {
+        "description": "Sets whether to encrypt the traffic to the share or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "rule_action": {
+        "description": "Whether to add or set (replace) access control entries.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "set",
+          "add"
+        ],
+        "default": "set",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -2247,7 +3217,7 @@
         "aliases": null
       },
       "output_encoding_override": {
-        "description": "This option overrides the encoding of stdout/stderr output. You can use this option when you need to run a command which ignore the console",
+        "description": "This option overrides the encoding of stdout/stderr output. You can use this option when you need to run a command which ignore the console's codepage. You should only need to use this option in very rare circumstances. This value can be any valid encoding C(Name) based on the output of C([System.Text.Encoding]::GetEncodings()). See U(https://docs.microsoft.com/dotnet/api/system.text.encoding.getencodings).",
         "type": "str",
         "required": false,
         "choices": null,
@@ -2287,6 +3257,28 @@
         "choices": null,
         "default": "yes",
         "aliases": null
+      },
+      "checksum_algorithm": {
+        "description": "Algorithm to determine checksum of file. Will throw an error if the host is unable to use specified algorithm.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "md5",
+          "sha1",
+          "sha256",
+          "sha384",
+          "sha512"
+        ],
+        "default": "sha1",
+        "aliases": null
+      },
+      "follow": {
+        "description": "Whether to follow symlinks or junction points. In the case of C(path) pointing to another link, then that will be followed until no more links are found.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -2311,6 +3303,24 @@
         "type": "path",
         "required": false,
         "choices": null,
+        "default": "%TEMP%",
+        "aliases": [
+          "dest"
+        ]
+      },
+      "prefix": {
+        "description": "Prefix of file/directory name created by module.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "ansible.",
+        "aliases": null
+      },
+      "suffix": {
+        "description": "Suffix of file/directory name created by module.",
+        "type": "str",
+        "required": false,
+        "choices": null,
         "default": null,
         "aliases": null
       }
@@ -2319,8 +3329,125 @@
   },
   "ansible.windows.win_template": {
     "short_description": "Template a file out to a remote server",
-    "description": "Templates are processed by the L(Jinja2 templating language,http://jinja.pocoo.org/docs/). Documentation on the template formatting can be found in the L(Template Designer Documentation,http://jinja.pocoo.org/docs/templates/). Additional variables listed below can be used in templates. C(ansible_managed) (configurable via the C(defaults) section of C(ansible.cfg)) contains a string which can be used to describe the template name, host, modification time of the template file and the owner uid. C(template_host) contains the node name of the template",
-    "options": {},
+    "description": "Templates are processed by the L(Jinja2 templating language,http://jinja.pocoo.org/docs/). Documentation on the template formatting can be found in the L(Template Designer Documentation,http://jinja.pocoo.org/docs/templates/). Additional variables listed below can be used in templates. C(ansible_managed) (configurable via the C(defaults) section of C(ansible.cfg)) contains a string which can be used to describe the template name, host, modification time of the template file and the owner uid. C(template_host) contains the node name of the template's machine. C(template_uid) is the numeric user id of the owner. C(template_path) is the path of the template. C(template_fullpath) is the absolute path of the template. C(template_destpath) is the path of the template on the remote system (added in 2.8). C(template_run_date) is the date that the template was rendered.",
+    "options": {
+      "backup": {
+        "description": "Determine whether a backup should be created. When set to C(true), create a backup file including the timestamp information so you can get the original file back if you somehow clobbered it incorrectly.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "block_end_string": {
+        "description": "The string marking the end of a block.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "%}",
+        "aliases": null
+      },
+      "block_start_string": {
+        "description": "The string marking the beginning of a block.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "{%",
+        "aliases": null
+      },
+      "comment_start_string": {
+        "description": "The string marking the beginning of a comment statement.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "{#",
+        "aliases": null
+      },
+      "comment_end_string": {
+        "description": "The string marking the end of a comment statement.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "#}",
+        "aliases": null
+      },
+      "dest": {
+        "description": "Location to render the template to on the remote machine.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Determine when the file is being transferred if the destination already exists. When set to C(true), replace the remote file when contents are different than the source. When set to C(false), the file will only be transferred if the destination does not exist.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "lstrip_blocks": {
+        "description": "Determine when leading spaces and tabs should be stripped. When set to C(true) leading spaces and tabs are stripped from the start of a line to a block. This functionality requires Jinja 2.7 or newer.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "newline_sequence": {
+        "description": "Specify the newline sequence to use for templating files.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "\\n",
+          "\\r",
+          "\\r\\n"
+        ],
+        "default": "\\r\\n",
+        "aliases": null
+      },
+      "output_encoding": {
+        "description": "Overrides the encoding used to write the template file defined by C(dest). It defaults to C(utf-8), but any encoding supported by python can be used. The source template file must always be encoded using C(utf-8), for homogeneity.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "utf-8",
+        "aliases": null
+      },
+      "src": {
+        "description": "Path of a Jinja2 formatted template on the Ansible controller. This can be a relative or an absolute path. The file must be encoded with C(utf-8) but I(output_encoding) can be used to control the encoding of the output template.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trim_blocks": {
+        "description": "Determine when newlines should be removed from blocks. When set to C(true) the first newline after a block is removed (block, not variable tag!).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "variable_end_string": {
+        "description": "The string marking the end of a print statement.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "}}",
+        "aliases": null
+      },
+      "variable_start_string": {
+        "description": "The string marking the beginning of a print statement.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "{{",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ansible.windows.win_timezone": {
@@ -2328,7 +3455,7 @@
     "description": "Sets machine time to the specified timezone.",
     "options": {
       "timezone": {
-        "description": "Timezone to set to. ",
+        "description": "Timezone to set to. Example: Central Standard Time To disable Daylight Saving time, add the suffix C(_dstoff) on timezones that support this.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -2462,12 +3589,82 @@
         "aliases": null
       },
       "content_type": {
-        "description": "Sets the",
+        "description": "Sets the \"Content-Type\" header.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "body": {
+        "description": "The body of the HTTP request/response to the web service.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dest": {
+        "description": "Output the response body to a file.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "creates": {
+        "description": "A filename, when it already exists, this step will be skipped.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "removes": {
+        "description": "A filename, when it does not exist, this step will be skipped.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "return_content": {
+        "description": "Whether or not to return the body of the response as a \"content\" key in the dictionary result. If the reported Content-type is \"application/json\", then the JSON is additionally loaded into a key called C(json) in the dictionary results.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "status_code": {
+        "description": "A valid, numeric, HTTP status code that signifies success of the request. Can also be comma separated list of status codes.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [
+          200
+        ],
+        "aliases": null
+      },
+      "url_method": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "GET",
+        "aliases": [
+          "method"
+        ]
+      },
+      "url_timeout": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "timeout"
+        ]
       }
     },
     "deprecated": null
@@ -2517,8 +3714,107 @@
         "aliases": null
       },
       "groups": {
-        "description": "Adds or removes the user from this comma-separated list of groups, depending on the value of I(groups_action). When I(groups_action) is C(replace) and I(groups) is set to the empty string (",
+        "description": "Adds or removes the user from this comma-separated list of groups, depending on the value of I(groups_action). When I(groups_action) is C(replace) and I(groups) is set to the empty string ('groups='), the user is removed from all groups. Since C(ansible.windows v1.5.0) it is possible to specify a group using it's security identifier.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "groups_action": {
+        "description": "If C(add), the user is added to each group in I(groups) where not already a member. If C(replace), the user is added as a member of each group in I(groups) and removed from any other groups. If C(remove), the user is removed from each group in I(groups).",
         "type": "str",
+        "required": false,
+        "choices": [
+          "add",
+          "replace",
+          "remove"
+        ],
+        "default": "replace",
+        "aliases": null
+      },
+      "home_directory": {
+        "description": "The designated home directory of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_script": {
+        "description": "The login script of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the user to create, remove or modify.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Optionally set the user's password to this (plain text) value.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password_expired": {
+        "description": "C(true) will require the user to change their password at next login. C(false) will clear the expired password flag.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password_never_expires": {
+        "description": "C(true) will set the password to never expire. C(false) will allow the password to expire.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "profile": {
+        "description": "The profile path of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "When C(absent), removes the user account if it exists. When C(present), creates or updates the user account. When C(query), retrieves the user account details without making any changes.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "query"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "update_password": {
+        "description": "C(always) will update passwords if they differ. C(on_create) will only set the password for newly created users.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "always",
+          "on_create"
+        ],
+        "default": "always",
+        "aliases": null
+      },
+      "user_cannot_change_password": {
+        "description": "C(true) will prevent the user from changing their password. C(false) will allow the user to change their password.",
+        "type": "bool",
         "required": false,
         "choices": null,
         "default": null,
@@ -2548,8 +3844,19 @@
         "aliases": null
       },
       "state": {
-        "description": "Will ensure the profile exists when set to C(present). When creating a profile the I(username) option must be set to a valid account. Will remove the profile(s) when set to C(absent). When removing a profile either I(username) must be set to a valid account, or I(name) is set to the profile",
+        "description": "Will ensure the profile exists when set to C(present). When creating a profile the I(username) option must be set to a valid account. Will remove the profile(s) when set to C(absent). When removing a profile either I(username) must be set to a valid account, or I(name) is set to the profile's base name.",
         "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "username": {
+        "description": "The account name of security identifier (SID) for the profile. This must be set when I(state) is C(present) and must be a valid account or the SID of a valid account. When I(state) is C(absent) then this must still be a valid account number but the SID can be a deleted user's SID.",
+        "type": "sid",
         "required": false,
         "choices": null,
         "default": null,
@@ -2622,11 +3929,68 @@
         "aliases": null
       },
       "host": {
-        "description": "A resolvable hostname or IP address to wait for. If C(state=drained) then it will only check for connections on the IP specified, you can use",
+        "description": "A resolvable hostname or IP address to wait for. If C(state=drained) then it will only check for connections on the IP specified, you can use '0.0.0.0' to use all host IPs.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "127.0.0.1",
+        "aliases": null
+      },
+      "path": {
+        "description": "The path to a file on the filesystem to check. If C(state) is present or started then it will wait until the file exists. If C(state) is absent then it will wait until the file does not exist.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "The port number to poll on C(host).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "regex": {
+        "description": "Can be used to match a string in a file. If C(state) is present or started then it will wait until the regex matches. If C(state) is absent then it will wait until the regex does not match. Defaults to a multiline regex.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": [
+          "search_regex",
+          "regexp"
+        ]
+      },
+      "sleep": {
+        "description": "Number of seconds to sleep between checks.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "state": {
+        "description": "When checking a port, C(started) will ensure the port is open, C(stopped) will check that is it closed and C(drained) will check for active connections. When checking for a file or a search string C(present) or C(started) will ensure that the file or string is present, C(absent) will check that the file or search string is absent or removed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "drained",
+          "present",
+          "started",
+          "stopped"
+        ],
+        "default": "started",
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The maximum number of seconds to wait for.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 300,
         "aliases": null
       }
     },

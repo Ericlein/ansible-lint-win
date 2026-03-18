@@ -134,7 +134,41 @@
         "aliases": null
       },
       "dest": {
-        "description": "Remote absolute path where the file is copied to. If O(dest) is a directory, the file is copied into that directory using the source file name. If O(dest) ends with",
+        "description": "Remote absolute path where the file is copied to. If O(dest) is a directory, the file is copied into that directory using the source file name. If O(dest) ends with \"/\", it is treated as a directory and is created if it does not exist. If O(dest) is a relative path, the starting directory is determined by the remote host. The parent directory of O(dest) must exist or the task fails.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup": {
+        "description": "Create a backup file including the timestamp information so you can get the original file back if you clobbered it incorrectly.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "force": {
+        "description": "Determines whether the remote file must always be replaced. If V(true), the remote file is replaced when contents are different from the source. If V(false), the file is only transferred if the destination does not exist.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": [
+          "thirsty"
+        ]
+      },
+      "directory_mode": {
+        "description": "Permissions to set on directories that are created during the copy operation. Used when O(dest) ends with \"/\" and the directory structure needs to be created. Follows the same format rules as O(mode). If not specified, directories are created with system default permissions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "validate": {
+        "description": "Command to run to validate the file before copying it into place. The file path is substituted for C(%s) in the command. The command must include C(%s) or the validation fails. The command is executed through C(printf) substitution, so shell features like pipes do not work. If the validation command fails, the copy operation is aborted.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -303,8 +337,27 @@
   },
   "community.openwrt.nohup": {
     "short_description": "Starts a command in background and returns",
-    "description": "The M(community.openwrt.nohup) module start runs a command in a shell using OpenWrt",
-    "options": {},
+    "description": "The M(community.openwrt.nohup) module start runs a command in a shell using OpenWrt's C(start-stop-daemon). The module dispatches the command and return.",
+    "options": {
+      "command": {
+        "description": "Command to execute. Execution takes place in a shell.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "cmd"
+        ]
+      },
+      "delay": {
+        "description": "Seconds to wait, before command is run.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.openwrt.opkg": {
@@ -382,7 +435,7 @@
   },
   "community.openwrt.package_facts": {
     "short_description": "Gather package facts in OpenWrt systems",
-    "description": "The M(community.openwrt.package_facts) module gathers facts about installed packages in OpenWrt systems. It collects package name, version and package version of every installed package. This module should be called manually by playbooks when needed. It",
+    "description": "The M(community.openwrt.package_facts) module gathers facts about installed packages in OpenWrt systems. It collects package name, version and package version of every installed package. This module should be called manually by playbooks when needed. It's not part of the C(setup) task.",
     "options": {},
     "deprecated": null
   },
@@ -435,7 +488,7 @@
         "aliases": null
       },
       "pattern": {
-        "description": "Pattern to search for in the process table to determine if the service is running. If specified, this pattern is used with C(pgrep) instead of the init script",
+        "description": "Pattern to search for in the process table to determine if the service is running. If specified, this pattern is used with C(pgrep) instead of the init script's running command.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -656,8 +709,154 @@
   },
   "community.openwrt.uci": {
     "short_description": "Controls OpenWrt UCI",
-    "description": "The M(community.openwrt.uci) module is a Ansible wrapper for OpenWrt",
-    "options": {},
+    "description": "The M(community.openwrt.uci) module is a Ansible wrapper for OpenWrt's C(uci). It supports all the command line functionality plus some extra commands.",
+    "options": {
+      "autocommit": {
+        "description": "Whether to automatically commit changes.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "command": {
+        "description": "C(uci) command to execute. The default is V(set) if O(value) is passed, otherwise the default is V(get). The V(get), V(export), and V(show) states should be factored out of this module into an C(_info) module.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "add",
+          "add_list",
+          "batch",
+          "changes",
+          "commit",
+          "del_list",
+          "export",
+          "find",
+          "get",
+          "import",
+          "rename",
+          "reorder",
+          "revert",
+          "section",
+          "set",
+          "show"
+        ],
+        "default": null,
+        "aliases": [
+          "cmd"
+        ]
+      },
+      "config": {
+        "description": "Config part of the O(key). If not specified, extracted from O(key).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "find": {
+        "description": "Value(s) to match sections against. Option value to find if O(option) is set. May be list. Dict of options/values if O(option) is not set. Values may be list. Lists are compared in order. Required when O(command=find) or O(command=section).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "find_by",
+          "search"
+        ]
+      },
+      "keep_keys": {
+        "description": "Space separated list or list of keys not in O(value) or O(find) to keep when O(replace=yes).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "keep"
+        ]
+      },
+      "key": {
+        "description": "The C(uci) key to operate on. Takes precedence over O(config), O(section) and O(option). If not specified, constructed as O(config).O(section).O(option).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "merge": {
+        "description": "Whether to merge or replace when O(command=import).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "name": {
+        "description": "New name when O(command=rename) or O(command=add). Desired name when O(command=section). If a matching section is found it is renamed, if not it is created with that name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "option": {
+        "description": "Option part of the O(key). If not specified, extracted from O(key).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "replace": {
+        "description": "When O(command=set) or O(command=section), whether to delete all options not mentioned in O(keep_keys), O(value) or find when O(set_find=true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "section": {
+        "description": "Section part of the O(key). If not specified, extracted from O(key).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "set_find": {
+        "description": "When O(command=section) whether to set the options used to search a matching section in the newly created section when no match was found.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "type": {
+        "description": "Section type for O(command=section), O(command=find) and O(command=add). If not specified, defaults to the value of O(section).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "unique": {
+        "description": "When O(command=add_list), whether to add the value if it is already contained in the list.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "value": {
+        "description": "The value for various commands.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.openwrt.wrapper": {

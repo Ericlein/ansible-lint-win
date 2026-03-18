@@ -1,8 +1,25 @@
 {
   "ansible.mcp.run_tool": {
     "short_description": "Call a specific tool on an MCP server",
-    "description": "Call a specific tool on an MCP server. The plugin validates tool calls using the server",
-    "options": {},
+    "description": "Call a specific tool on an MCP server. The plugin validates tool calls using the server's tools list. Fails with an appropriate error message when there is a mismatch. Uses the MCP connection plugin to communicate with the server.",
+    "options": {
+      "name": {
+        "description": "The name of the tool to call on the MCP server.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "args": {
+        "description": "Arguments to pass to the tool. The required arguments vary depending on the tool being called.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ansible.mcp.server_info": {

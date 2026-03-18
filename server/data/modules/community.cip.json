@@ -44,9 +44,66 @@
     "deprecated": null
   },
   "community.cip.generic_message": {
-    "short_description": "Craft and send a custom",
-    "description": "",
-    "options": {},
+    "short_description": "Craft and send a custom \"generic\" CIP message",
+    "description": "A thin abstraction of the pycomm3 generic_message() API call. Connection related arguments are handled by ansible. This is intended for experienced developers needing functionality not already covered by the industrial.logix plugin. The functionality of this module is similar to crafting a TCP packet by hand. Typically, this call uses many builtin constants provided by the pycomm3 package, but in this case raw hex or dec values must be used. The lookup tables used by pycomm3 can be found in the following directory: https://github.com/ottowayi/pycomm3/tree/master/pycomm3/cip",
+    "options": {
+      "service": {
+        "description": "service code for the request (single byte)",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "class_code": {
+        "description": "request object class ID",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "instance": {
+        "description": "ID for an instance of the class. If set to 0, request class attributes",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "attribute": {
+        "description": "attribute ID for the service/class/instance",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "request_data": {
+        "description": "any additional data required for the request",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "data_type": {
+        "description": "dict containing description of the expected return data type",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "name": {
+        "description": "return Tag.Tag value, arbitrary but can be for tracking returned Tags",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "generic",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.cip.tag_info": {

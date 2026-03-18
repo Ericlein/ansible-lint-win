@@ -2,7 +2,48 @@
   "community.postgresql.postgresql_alter_system": {
     "short_description": "Change a PostgreSQL server configuration parameter",
     "description": "Supports C(PostgreSQL 14) or later. Allows to change a PostgreSQL server configuration parameter. The module uses ALTER SYSTEM command and applies changes by reload server configuration. Some parameters require PostgreSQL to restart. See the RV(restart_required) return value.",
-    "options": {},
+    "options": {
+      "param": {
+        "description": "Name of PostgreSQL server parameter.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "value": {
+        "description": "Parameter value to set. Specify the value in appropriate units! For memory-related parameters of type integer, it is C(kB), C(MB), C(GB), and C(TB). Use V(_RESET) to run the C(ALTER SYSTEM RESET param) which will remove a corresponding entry from C(postgresql.auto.conf). Always returns C(changed=True). For boolean parameters, pass the V(\"on\") or V(\"off\") string.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the O(session_role) were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_db": {
+        "description": "Name of database to connect.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trust_input": {
+        "description": "If V(false), check whether values of parameters are potentially dangerous. It makes sense to use V(false) only when SQL injections are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.postgresql.postgresql_copy": {
@@ -123,6 +164,148 @@
         "type": "str",
         "required": false,
         "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "template": {
+        "description": "Template used to create the database.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "encoding": {
+        "description": "Encoding of the database.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "lc_collate": {
+        "description": "Collation order (LC_COLLATE) to use in the database must match collation order of template database unless C(template0) is used as template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "lc_ctype": {
+        "description": "Character classification (LC_CTYPE) to use in the database (e.g. lower, upper, ...). Must match LC_CTYPE of template database unless C(template0) is used as template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "icu_locale": {
+        "description": "Specifies the ICU locale (ICU_LOCALE) for the database default collation order and character classification, overriding the setting locale. The locale provider must be ICU. The default is the setting of locale if specified; otherwise the same setting as the template database.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "locale_provider": {
+        "description": "Specifies the provider to use for the default collation in this database (LOCALE_PROVIDER). Possible values are icu (if the server was built with ICU support) or libc. By default, the provider is the same as that of the template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session_role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The database state. C(present) implies that the database should be created if necessary. C(absent) implies that the database should be removed if present. C(dump) requires a target definition to which the database will be backed up. (Added in Ansible 2.4) Note that in some PostgreSQL versions of pg_dump, which is an embedded PostgreSQL utility and is used by the module, returns rc 0 even when errors occurred (e.g. the connection is forbidden by pg_hba.conf, etc.), so the module returns changed=True but the dump has not actually been done. Please, be sure that your version of pg_dump returns rc 1 in this case. C(restore) also requires a target definition from which the database will be restored. (Added in Ansible 2.4). The format of the backup will be detected based on the target name. Supported compression formats for dump and restore determined by target file format C(.pgc) (custom), C(.bz2) (bzip2), C(.gz) (gzip/pigz) and C(.xz) (xz). Supported formats for dump and restore determined by target file format C(.sql) (plain), C(.tar) (tar), C(.pgc) (custom) and C(.dir) (directory) For the directory format which is supported since collection version 1.4.0. Restore program is selected by target file format: C(.tar), C(.pgc), and C(.dir) are handled by pg_restore, other with pgsql. . DEPRECATED (see the L(discussion,https://github.com/ansible-collections/community.postgresql/issues/820)). C(rename) is used to rename the database C(name) to C(target). To rename a database, use the M(community.postgresql.postgresql_query) module.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "dump",
+          "present",
+          "rename",
+          "restore"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "force": {
+        "description": "Used to forcefully drop a database when the I(state) is C(absent), ignored otherwise.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "target": {
+        "description": "File to back up or restore from. Used when I(state) is C(dump) or C(restore).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "target_opts": {
+        "description": "Additional arguments for pg_dump or restore program (pg_restore or psql, depending on target's format). Used when I(state) is C(dump) or C(restore).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "maintenance_db": {
+        "description": "The value specifies the initial database (which is also called as maintenance DB) that Ansible connects to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "postgres",
+        "aliases": null
+      },
+      "conn_limit": {
+        "description": "Specifies the database connection limit.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "tablespace": {
+        "description": "The tablespace to set for the database U(https://www.postgresql.org/docs/current/sql-alterdatabase.html). If you want to move the database back to the default tablespace, explicitly set this to pg_default.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "dump_extra_args": {
+        "description": "Provides additional arguments when I(state) is C(dump). Cannot be used with dump-file-format-related arguments like ``--format=d``.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trust_input": {
+        "description": "If C(false), check whether values of parameters I(owner), I(conn_limit), I(encoding), I(db), I(template), I(tablespace), I(session_role) are potentially dangerous. It makes sense to use C(false) only when SQL injections via the parameters are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Sets a comment on the database. To reset the comment, pass an empty string.",
+        "type": "str",
+        "required": false,
+        "choices": null,
         "default": null,
         "aliases": null
       }
@@ -212,7 +395,33 @@
         "aliases": null
       },
       "ca_cert": {
-        "description": "Specifies the name of a file containing SSL certificate authority (CA) certificate(s). If the file exists, the server",
+        "description": "Specifies the name of a file containing SSL certificate authority (CA) certificate(s). If the file exists, the server's certificate will be verified to be signed by one of these authorities.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ssl_rootcert"
+        ]
+      },
+      "version": {
+        "description": "Extension version to add or update to. Has effect with I(state=present) only. If not specified and extension is not installed in the database, the latest version available will be created. If extension is already installed, will update to the given version if a valid update path exists. Downgrading is only supported if the extension provides a downgrade path otherwise the extension must be removed and a lower version of the extension must be made available. Set I(version=latest) to update the extension to the latest available version.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trust_input": {
+        "description": "If C(false), check whether values of parameters I(ext), I(schema), I(version), I(session_role) are potentially dangerous. It makes sense to use C(false) only when SQL injections via the parameters are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Sets a comment on the extension. To reset the comment, pass an empty string.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -324,6 +533,38 @@
         "choices": null,
         "default": false,
         "aliases": null
+      },
+      "tablespace": {
+        "description": "Set a tablespace for the index. Mutually exclusive with I(state=absent).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_params": {
+        "description": "Storage parameters like fillfactor, vacuum_cleanup_index_scale_factor, etc. Mutually exclusive with I(state=absent).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cascade": {
+        "description": "Automatically drop objects that depend on the index, and in turn all objects that depend on those objects. It used only with I(state=absent). Mutually exclusive with I(concurrent=true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "trust_input": {
+        "description": "If C(false), check whether values of parameters I(idxname), I(session_role), I(schema), I(table), I(columns), I(tablespace), I(storage_params), I(cond) are potentially dangerous. It makes sense to use C(false) only when SQL injections via the parameters are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
       }
     },
     "deprecated": null
@@ -333,11 +574,35 @@
     "description": "Gathers information about PostgreSQL servers.",
     "options": {
       "filter": {
-        "description": "Limit the collected information by comma separated string or YAML list. Allowable values are C(version), C(databases), C(in_recovery), C(settings), C(tablespaces), C(roles), C(replications), C(repl_slots). By default, collects all subsets. You can use shell-style (fnmatch) wildcard to pass groups of values (see Examples). You can use",
+        "description": "Limit the collected information by comma separated string or YAML list. Allowable values are C(version), C(databases), C(in_recovery), C(settings), C(tablespaces), C(roles), C(replications), C(repl_slots). By default, collects all subsets. You can use shell-style (fnmatch) wildcard to pass groups of values (see Examples). You can use '!' before value (for example, C(!settings)) to exclude it from the information. If you pass including and excluding values to the filter, for example, I(filter=!settings,ver), the excluding values will be ignored.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_db": {
+        "description": "Name of database to connect.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session_role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trust_input": {
+        "description": "If C(false), check whether a value of I(session_role) is potentially dangerous. It makes sense to use C(false) only when SQL injections via I(session_role) are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
         "aliases": null
       }
     },
@@ -345,8 +610,79 @@
   },
   "community.postgresql.postgresql_membership": {
     "short_description": "Add or remove PostgreSQL roles from groups",
-    "description": "Adds or removes PostgreSQL roles from groups (other roles). Users are roles with login privilege. Groups are PostgreSQL roles usually without LOGIN privilege. ",
-    "options": {},
+    "description": "Adds or removes PostgreSQL roles from groups (other roles). Users are roles with login privilege. Groups are PostgreSQL roles usually without LOGIN privilege. Common use case: 1) add a new group (groups) by M(community.postgresql.postgresql_user) module with I(role_attr_flags=NOLOGIN) 2) grant them desired privileges by M(community.postgresql.postgresql_privs) module 3) add desired PostgreSQL users to the new group (groups) by this module",
+    "options": {
+      "groups": {
+        "description": "The list of groups (roles) that need to be granted to or revoked from I(target_roles).",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "group",
+          "source_role",
+          "source_roles"
+        ]
+      },
+      "target_roles": {
+        "description": "The list of target roles (groups will be granted to them).",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "target_role",
+          "users",
+          "user"
+        ]
+      },
+      "fail_on_role": {
+        "description": "If C(true), fail when group or target_role doesn't exist. If C(false), just warn and continue.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Membership state. I(state=present) implies the I(groups)must be granted to I(target_roles). I(state=absent) implies the I(groups) must be revoked from I(target_roles). I(state=exact) implies that I(target_roles) will be members of only the I(groups) (available since community.postgresql 2.2.0). Any other groups will be revoked from I(target_roles).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "exact",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "login_db": {
+        "description": "Name of database to connect to. The V(db) alias is deprecated and will be removed in version 5.0.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "db"
+        ]
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session_role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trust_input": {
+        "description": "If C(false), check whether values of parameters I(groups), I(target_roles), I(session_role) are potentially dangerous. It makes sense to use C(false) only when SQL injections via the parameters are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.postgresql.postgresql_owner": {
@@ -452,8 +788,184 @@
   },
   "community.postgresql.postgresql_pg_hba": {
     "short_description": "Add, remove or modify a rule in a pg_hba file",
-    "description": "The fundamental function of the module is to create, or delete lines in pg_hba files. The lines in the file should be in a typical pg_hba form and lines should be unique per key (type, databases, users, source). If they are not unique and the SID is",
-    "options": {},
+    "description": "The fundamental function of the module is to create, or delete lines in pg_hba files. The lines in the file should be in a typical pg_hba form and lines should be unique per key (type, databases, users, source). If they are not unique and the SID is 'the one to change', only one for I(state=present) or none for I(state=absent) of the SID's will remain.",
+    "options": {
+      "address": {
+        "description": "The source address/net where the connections could come from. Will not be used for entries of I(type)=C(local). You can also use keywords C(all), C(samehost), and C(samenet).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "samehost",
+        "aliases": [
+          "source",
+          "src"
+        ]
+      },
+      "backup": {
+        "description": "If set, create a backup of the C(pg_hba) file before it is modified. The location of the backup is returned in the (backup) variable by this module.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "backup_file": {
+        "description": "Write backup to a specific backupfile rather than a temp file.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "create": {
+        "description": "Create an C(pg_hba) file if none exists. When set to false, an error is raised when the C(pg_hba) file doesn't exist.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "contype": {
+        "description": "Type of the rule. If not set, C(postgresql_pg_hba) will only return contents.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "local",
+          "host",
+          "hostnossl",
+          "hostssl",
+          "hostgssenc",
+          "hostnogssenc"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "A comment that will be placed in the same line behind the rule. See also the I(keep_comments_at_rules) parameter.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "databases": {
+        "description": "Databases this line applies to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "all",
+        "aliases": null
+      },
+      "dest": {
+        "description": "Path to C(pg_hba) file to modify.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "method": {
+        "description": "Authentication method to be used.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "cert",
+          "gss",
+          "ident",
+          "krb5",
+          "ldap",
+          "md5",
+          "pam",
+          "password",
+          "peer",
+          "radius",
+          "reject",
+          "scram-sha-256",
+          "sspi",
+          "trust"
+        ],
+        "default": "md5",
+        "aliases": null
+      },
+      "netmask": {
+        "description": "The netmask of the source address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "options": {
+        "description": "Additional options for the authentication I(method).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "overwrite": {
+        "description": "Remove all existing rules before adding rules. (Like I(state=absent) for all pre-existing rules.) Ignores all errors in the existing file.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "keep_comments_at_rules": {
+        "description": "This option has been deprecated and doesn't do anything. The module behaves as if this is C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "rules": {
+        "description": "A list of objects, specifying rules for the pg_hba.conf. Use this to manage multiple rules at once. Each object can have the following keys (the 'rule-specific arguments'), which are treated the same as if they were arguments of this module: C(address), C(comment), C(contype), C(databases), C(method), C(netmask), C(options), C(state), C(users) See also C(rules_behavior).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rules_behavior": {
+        "description": "Configure how the I(rules) argument works together with the rule-specific arguments outside the I(rules) argument. See I(rules) for the complete list of rule-specific arguments. When set to C(conflict), fail if I(rules) and, for example, I(address) are set. If C(combine), the normal rule-specific arguments are not defining a rule, but are used as defaults for the arguments in the I(rules) argument. Is used only when I(rules) is specified, ignored otherwise.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "conflict",
+          "combine"
+        ],
+        "default": "conflict",
+        "aliases": null
+      },
+      "sort_rules": {
+        "description": "Sorts the rules in the file only if a change is required. It will sort the rules so more specific rules are at the top. For example, a rule matching a single host will be before a rule that matches an ip-range. The order of rules is important, as they are evaluated top-down and the first one that matches is used. This means changing the order of rules in the file can change how your instance behaves. Will sort comments to the top, includes to the bottom and remove empty lines. I would advise to turn this off when managing a file that receives manual changes, as well or if the order you specify your rules in is important.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "The lines will be added/modified when C(state=present) and removed when C(state=absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "users": {
+        "description": "Users this line applies to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "all",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.postgresql.postgresql_ping": {
@@ -477,14 +989,148 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "trust_input": {
+        "description": "If C(false), check whether a value of I(session_role) is potentially dangerous. It makes sense to use C(false) only when SQL injections via I(session_role) are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
       }
     },
     "deprecated": null
   },
   "community.postgresql.postgresql_privs": {
     "short_description": "Grant or revoke privileges on PostgreSQL database objects",
-    "description": "Grant or revoke privileges on PostgreSQL database objects. This module is basically a wrapper around most of the functionality of PostgreSQL",
-    "options": {},
+    "description": "Grant or revoke privileges on PostgreSQL database objects. This module is basically a wrapper around most of the functionality of PostgreSQL's GRANT and REVOKE statements with detection of changes (GRANT/REVOKE I(privs) ON I(type) I(objs) TO/FROM I(roles)).",
+    "options": {
+      "login_db": {
+        "description": "Name of database to connect to. The V(db) and V(database) aliases are deprecated and will be removed in version 5.0.0.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "db",
+          "database"
+        ]
+      },
+      "state": {
+        "description": "If C(present), the specified privileges are granted, if C(absent) they are revoked.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "privs": {
+        "description": "Comma separated list of privileges to grant/revoke.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "priv"
+        ]
+      },
+      "type": {
+        "description": "Type of database object to set privileges on. The C(default_privs) choice is available starting at version 2.7. The C(foreign_data_wrapper) and C(foreign_server) object types are available since Ansible version 2.8. The C(type) choice is available since Ansible version 2.10. The C(procedure) is supported since collection version 1.3.0 and PostgreSQL 11. The C(parameter) is supported since collection version 3.1.0 and PostgreSQL 15. The C(table) also includes views and materialized views. It is inclusive of foreign tables since collection version 3.6.0.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "database",
+          "default_privs",
+          "foreign_data_wrapper",
+          "foreign_server",
+          "function",
+          "group",
+          "language",
+          "table",
+          "tablespace",
+          "schema",
+          "sequence",
+          "type",
+          "procedure",
+          "parameter"
+        ],
+        "default": "table",
+        "aliases": null
+      },
+      "objs": {
+        "description": "Comma separated list of database objects to set privileges on. If I(type) is C(table), C(partition table), C(sequence), C(function) or C(procedure), the special value C(ALL_IN_SCHEMA) can be provided instead to specify all database objects of I(type) in the schema specified via I(schema). (This also works with PostgreSQL < 9.0.) (C(ALL_IN_SCHEMA) is available for C(function) and C(partition table) since Ansible 2.8). C(procedure) is supported since PostgreSQL 11 and community.postgresql collection 1.3.0. C(parameter) is supported since PostgreSQL 15 and community.postgresql collection 3.1.0. If I(type) is C(database), this parameter can be omitted, in which case privileges are set for the database specified via I(database). If I(type) is C(function) or C(procedure), colons (\":\") in object names will be replaced with commas (needed to specify signatures, see examples).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "obj"
+        ]
+      },
+      "schema": {
+        "description": "Schema that contains the database objects specified via I(objs). May only be provided if I(type) is C(table), C(sequence), C(function), C(procedure), C(type), or C(default_privs). Defaults to C(public) in these cases. Pay attention, for embedded types when I(type=type) I(schema) can be C(pg_catalog) or C(information_schema) respectively. If not specified, uses C(public). Not to pass any schema, use C(not-specified).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "roles": {
+        "description": "Comma separated list of role (user/group) names to set permissions for. Roles C(PUBLIC), C(CURRENT_ROLE), C(CURRENT_USER), C(SESSION_USER) are implicitly defined in PostgreSQL. C(CURRENT_USER) and C(SESSION_USER) implicit roles are supported since collection version 3.1.0 and PostgreSQL 9.5. C(CURRENT_ROLE) implicit role is supported since collection version 3.1.0 and PostgreSQL 14.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "role"
+        ]
+      },
+      "fail_on_role": {
+        "description": "If C(true), fail when target role (for whom privs need to be granted) does not exist. Otherwise just warn and continue.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session_role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_roles": {
+        "description": "A list of existing role (user/group) names to set as the default permissions for database objects subsequently created by them. Parameter I(target_roles) is only available with C(type=default_privs).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "grant_option": {
+        "description": "Whether C(role) may grant/revoke the specified privileges/group memberships to others. Set to C(false) to revoke GRANT OPTION, leave unspecified to make no changes. I(grant_option) only has an effect if I(state) is C(present).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "admin_option"
+        ]
+      },
+      "trust_input": {
+        "description": "If C(false), check whether values of parameters I(roles), I(target_roles), I(session_role), I(schema) are potentially dangerous. It makes sense to use C(false) only when SQL injections via the parameters are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.postgresql.postgresql_publication": {
@@ -512,6 +1158,89 @@
       "columns": {
         "description": "List of tables and its columns to add to the publication. If no columns are passed for table, it will be published as a whole. Mutually exclusive with I(tables) and I(tables_in_schema).",
         "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rowfilters": {
+        "description": "Optional dictionary of row filters to apply to I(tables) or I(columns) of the publication. Mutually exclusive with I(tables_in_schema).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tables": {
+        "description": "List of tables to add to the publication. If no value is set all tables are targeted. If the publication already exists for specific tables and I(tables) is not passed, nothing will be changed. If you need to add all tables to the publication with the same name, drop existent and create new without passing I(tables). Mutually exclusive with I(tables_in_schema) and I(columns).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tables_in_schema": {
+        "description": "Specifies a list of schemas to add to the publication to replicate changes for all tables in those schemas. If you want to remove all schemas, explicitly pass an empty list C([]). Supported since PostgreSQL 15. Mutually exclusive with I(tables) and I(columns).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The publication state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "parameters": {
+        "description": "Dictionary with optional publication parameters. Available parameters depend on PostgreSQL version.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "owner": {
+        "description": "Publication owner. If I(owner) is not defined, the owner will be set as I(login_user) or I(session_role).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cascade": {
+        "description": "Drop publication dependencies. Has effect with I(state=absent) only.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session_role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trust_input": {
+        "description": "If C(false), check whether values of parameters I(name), I(tables), I(owner), I(session_role), I(params) are potentially dangerous. It makes sense to use C(false) only when SQL injections via the parameters are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Sets a comment on the publication. To reset the comment, pass an empty string.",
+        "type": "str",
         "required": false,
         "choices": null,
         "default": null,
@@ -567,8 +1296,32 @@
         ]
       },
       "autocommit": {
-        "description": "Execute in autocommit mode when the query can",
+        "description": "Execute in autocommit mode when the query can't be run inside a transaction block (e.g., VACUUM). Mutually exclusive with I(check_mode).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "encoding": {
+        "description": "Set the client encoding for the current session (e.g. C(UTF-8)). The default is the encoding defined by the database.",
         "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trust_input": {
+        "description": "If C(false), check whether a value of I(session_role) is potentially dangerous. It makes sense to use C(false) only when SQL injections via I(session_role) are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "search_path": {
+        "description": "List of schema names to look in.",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
@@ -607,6 +1360,49 @@
         "type": "str",
         "required": false,
         "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session_role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The schema state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "cascade_drop": {
+        "description": "Drop schema with CASCADE to remove child objects.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "trust_input": {
+        "description": "If C(false), check whether values of parameters I(schema), I(owner), I(session_role) are potentially dangerous. It makes sense to use C(false) only when SQL injections via the parameters are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Sets a comment on the schema. To reset the comment, pass an empty string.",
+        "type": "str",
+        "required": false,
+        "choices": null,
         "default": null,
         "aliases": null
       }
@@ -616,7 +1412,74 @@
   "community.postgresql.postgresql_script": {
     "short_description": "Run PostgreSQL statements from a file",
     "description": "Runs arbitrary PostgreSQL statements from a file. The module always reports that the state has changed. Do NOT run the module against files generated by C(pg_dump), C(pg_dumpall), C(pg_restore) and other PostgreSQL utilities. Use M(community.postgresql.postgresql_db) with I(state=restore) to run queries from files generated by C(pg_dump/pg_dumpall).",
-    "options": {},
+    "options": {
+      "positional_args": {
+        "description": "List of values to substitute variable placeholders within the file content. When the value is a list, it will be converted to PostgreSQL array. Mutually exclusive with I(named_args).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "named_args": {
+        "description": "Dictionary of key-value arguments to substitute variable placeholders within the file content. When the value is a list, it will be converted to PostgreSQL array. Mutually exclusive with I(positional_args).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "Path to a SQL script on the target machine. To upload dumps, the preferable way is to use the M(community.postgresql.postgresql_db) module with I(state=restore).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "session_role": {
+        "description": "Switch to C(session_role) after connecting. The specified role must be a role that the current C(login_user) is a member of. Permissions checking for SQL commands is carried out as though the C(session_role) were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_db": {
+        "description": "Name of database to connect to and run queries against. The V(db) alias is deprecated and will be removed in version 5.0.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "db"
+        ]
+      },
+      "encoding": {
+        "description": "Set the client encoding for the current session (e.g. C(UTF-8)). The default is the encoding defined by the database.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trust_input": {
+        "description": "If C(false), check whether a value of I(session_role) is potentially dangerous. It makes sense to use C(false) only when SQL injections via I(session_role) are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "search_path": {
+        "description": "Overrides the list of schemas to search for db objects in.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.postgresql.postgresql_sequence": {
@@ -761,7 +1624,18 @@
         "type": "str",
         "required": false,
         "choices": null,
-        "default": null,
+        "default": "",
+        "aliases": [
+          "database",
+          "db"
+        ]
+      },
+      "trust_input": {
+        "description": "If C(false), check whether values of parameters I(sequence), I(schema), I(rename_to), I(owner), I(newschema), I(session_role) are potentially dangerous. It makes sense to use C(false) only when SQL injections via the parameters are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
         "aliases": null
       }
     },
@@ -769,9 +1643,60 @@
   },
   "community.postgresql.postgresql_set": {
     "short_description": "Change a PostgreSQL server configuration parameter",
-    "description": "",
-    "options": {},
-    "deprecated": "deprecated"
+    "description": "IMPORTANT: If your PostgreSQL server version is 14 or later, use the M(community.postgresql.postgresql_alter_system) module instead as it will replace this module in future. Allows to change a PostgreSQL server configuration parameter. The module uses ALTER SYSTEM command and applies changes by reload server configuration. ALTER SYSTEM is used for changing server configuration parameters across the entire database cluster. It can be more convenient and safe than the traditional method of manually editing the postgresql.conf file. ALTER SYSTEM writes the given parameter setting to the $PGDATA/postgresql.auto.conf file, which is read in addition to postgresql.conf. The module allows to reset parameter to boot_val (cluster initial value) by I(reset=true) or remove parameter string from postgresql.auto.conf and reload I(value=default) (for settings with postmaster context restart is required). After change you can see in the ansible output the previous and the new parameter value and other information using returned values and M(ansible.builtin.debug) module.",
+    "options": {
+      "name": {
+        "description": "Name of PostgreSQL server parameter. Pay attention that parameters are case sensitive (see examples below).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "value": {
+        "description": "Parameter value to set. To remove parameter string from postgresql.auto.conf and reload the server configuration you must pass I(value=default). With I(value=default) the playbook always returns changed is true.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "reset": {
+        "description": "Restore parameter to initial state (boot_val). Mutually exclusive with I(value).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session_role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_db": {
+        "description": "Name of database to connect. The V(db) alias is deprecated and will be removed in version 5.0.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "db"
+        ]
+      },
+      "trust_input": {
+        "description": "If C(false), check whether values of parameters are potentially dangerous. It makes sense to use C(false) only when SQL injections are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": "It has been replaced with a better-designed module."
   },
   "community.postgresql.postgresql_slot": {
     "short_description": "Add or remove replication slots from a PostgreSQL database",
@@ -818,11 +1743,37 @@
         "aliases": null
       },
       "output_plugin": {
-        "description": "All logical slots must indicate which output plugin decoder they",
+        "description": "All logical slots must indicate which output plugin decoder they're using. This parameter does not apply to physical slots. It will be ignored with I(slot_type=physical).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "test_decoding",
+        "aliases": null
+      },
+      "login_db": {
+        "description": "Name of database to connect to. The V(db) alias is deprecated and will be removed in version 5.0.0.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": [
+          "db"
+        ]
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session_role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trust_input": {
+        "description": "If C(false), check the value of I(session_role) is potentially dangerous. It makes sense to use C(false) only when SQL injections via I(session_role) are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
         "aliases": null
       }
     },
@@ -831,7 +1782,102 @@
   "community.postgresql.postgresql_subscription": {
     "short_description": "Add, update, or remove PostgreSQL subscription",
     "description": "Add, update, or remove PostgreSQL subscription.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the subscription to add, update, or remove.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_db": {
+        "description": "Name of the database to connect to and where the subscription state will be changed. The V(db) alias is deprecated and will be removed in version 5.0.0.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "db"
+        ]
+      },
+      "state": {
+        "description": "The subscription state. C(present) implies that if I(name) subscription doesn't exist, it will be created. C(absent) implies that if I(name) subscription exists, it will be removed. C(refresh) implies that if I(name) subscription exists, it will be refreshed. Fetch missing table information from publisher. Always returns ``changed`` is ``True``. This will start replication of tables that were added to the subscribed-to publications since the last invocation of REFRESH PUBLICATION or since CREATE SUBSCRIPTION. The existing data in the publications that are being subscribed to should be copied once the replication starts. For more information about C(refresh) see U(https://www.postgresql.org/docs/current/sql-altersubscription.html).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "refresh"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "owner": {
+        "description": "Subscription owner. If I(owner) is not defined, the owner will be set as I(login_user) or I(session_role). Ignored when I(state) is not C(present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "publications": {
+        "description": "The publication names on the publisher to use for the subscription. Ignored when I(state) is not C(present).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "connparams": {
+        "description": "The connection dict param-value to connect to the publisher. For more information see U(https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING). Ignored when I(state) is not C(present). Ignored when an existing subscription's connection parameters are not available from the server (such as in CloudSQL).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cascade": {
+        "description": "Drop subscription dependencies. Has effect with I(state=absent) only. Ignored when I(state) is not C(absent).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "subsparams": {
+        "description": "Dictionary of optional parameters for a subscription, e.g. copy_data, enabled, create_slot, etc. For update the subscription allowed keys are C(enabled), C(slot_name), C(synchronous_commit), C(publication_name). See available parameters to create a new subscription on U(https://www.postgresql.org/docs/current/sql-createsubscription.html). Ignored when I(state) is not C(present).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session_role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trust_input": {
+        "description": "If C(false), check whether values of parameters I(name), I(publications), I(owner), I(session_role), I(connparams), I(subsparams) are potentially dangerous. It makes sense to use C(true) only when SQL injections via the parameters are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Sets a comment on the subscription. To reset the comment, pass an empty string.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.postgresql.postgresql_table": {
@@ -936,7 +1982,33 @@
         "type": "str",
         "required": false,
         "choices": null,
+        "default": "",
+        "aliases": [
+          "db"
+        ]
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session_role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "cascade": {
+        "description": "Automatically drop objects that depend on the table (such as views). Used with I(state=absent) only.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "trust_input": {
+        "description": "If C(false), check whether values of parameters are potentially dangerous. It makes sense to use C(false) only when SQL injections are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
         "aliases": null
       }
     },
@@ -967,7 +2039,68 @@
         ]
       },
       "state": {
-        "description": "Tablespace state. I(state=present) implies the tablespace must be created if it doesn",
+        "description": "Tablespace state. I(state=present) implies the tablespace must be created if it doesn't exist. I(state=absent) implies the tablespace must be removed if present. I(state=absent) is mutually exclusive with I(location), I(owner), i(set). See the Notes section for information about check mode restrictions.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "owner": {
+        "description": "Name of the role to set as an owner of the tablespace. If this option is not specified, the tablespace owner is a role that creates the tablespace.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "set": {
+        "description": "Dict of tablespace options to set. Supported from PostgreSQL 9.0. For more information see U(https://www.postgresql.org/docs/current/sql-createtablespace.html). When reset is passed as an option's value, if the option was set previously, it will be removed.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rename_to": {
+        "description": "DEPRECATED (see the L(discussion,https://github.com/ansible-collections/community.postgresql/issues/820)). This option will be removed in version 5.0.0. To rename a tablespace, use the M(community.postgresql.postgresql_query) module. New name of the tablespace. The new name cannot begin with pg_, as such names are reserved for system tablespaces.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session_role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_db": {
+        "description": "Name of database to connect to and run queries against. The V(db) alias is deprecated and will be removed in version 5.0.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "db"
+        ]
+      },
+      "trust_input": {
+        "description": "If C(false), check whether values of parameters I(tablespace), I(location), I(owner), I(rename_to), I(session_role), I(settings_list) are potentially dangerous. It makes sense to use C(false) only when SQL injections via the parameters are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Sets a comment on the tablespace. To reset the comment, pass an empty string.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -979,14 +2112,220 @@
   },
   "community.postgresql.postgresql_user": {
     "short_description": "Create, alter, or remove a user (role) from a PostgreSQL server instance",
-    "description": "Creates, alters, or removes a user (role) from a PostgreSQL server instance (",
-    "options": {},
+    "description": "Creates, alters, or removes a user (role) from a PostgreSQL server instance (\"cluster\" in PostgreSQL terminology) and, optionally, grants the user access to an existing database or tables. A user is a role with login privilege. You cannot remove a user while it still has any privileges granted to it in any database. Set I(fail_on_user) to C(false) to make the module ignore failures when trying to remove a user. In this case, the module reports if changes happened as usual and separately reports whether the user has been removed or not.",
+    "options": {
+      "name": {
+        "description": "Name of the user (role) to add or remove.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "user"
+        ]
+      },
+      "password": {
+        "description": "Set the user's password, before 1.4 this was required. Password can be passed unhashed or hashed (MD5-hashed). An unhashed password is automatically hashed when saved into the database if I(encrypted) is set, otherwise it is saved in plain text format. When passing an MD5-hashed password, you must generate it with the format C('str[\"md5\"] + md5[ password + username ]'), resulting in a total of 35 characters. An easy way to do this is C(echo \"md5`echo -n 'verysecretpasswordJOE' | md5sum | awk '{print $1}'`\"). Note that if the provided password string is already in MD5-hashed format, then it is used as-is, regardless of I(encrypted) option.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_db": {
+        "description": "Name of database to connect to and where user's permissions are granted. The V(db) alias is deprecated and will be removed in version 5.0.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": [
+          "db"
+        ]
+      },
+      "fail_on_user": {
+        "description": "If C(true), fails when the user (role) cannot be removed. Otherwise just log and continue.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": [
+          "fail_on_role"
+        ]
+      },
+      "role_attr_flags": {
+        "description": "PostgreSQL user attributes string in the format: CREATEDB,CREATEROLE,SUPERUSER. Note that '[NO]CREATEUSER' is deprecated. To create a simple role for using it like a group, use C(NOLOGIN) flag. See the full list of supported flags in documentation for your PostgreSQL version.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "session_role": {
+        "description": "Switch to session role after connecting. The specified session role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The user (role) state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "encrypted": {
+        "description": "Whether the password is stored hashed in the database. You can specify an unhashed password, and PostgreSQL ensures the stored password is hashed when I(encrypted=true) is set. If you specify a hashed password, the module uses it as-is, regardless of the setting of I(encrypted). Note: Postgresql 10 and newer does not support unhashed passwords. Previous to Ansible 2.6, this was C(false) by default.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "expires": {
+        "description": "The date at which the user's password is to expire. If set to C('infinity'), user's password never expires. Note that this value must be a valid SQL date and time type.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "no_password_changes": {
+        "description": "If C(true), does not inspect the database for password changes. If the user already exists, skips all password related checks. Useful when C(pg_authid) is not accessible (such as in AWS RDS). Otherwise, makes password changes as necessary.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "conn_limit": {
+        "description": "Specifies the user (role) connection limit.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl_mode": {
+        "description": "Determines how an SSL session is negotiated with the server. See U(https://www.postgresql.org/docs/current/static/libpq-ssl.html) for more information on the modes. Default of C(prefer) matches libpq default.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "allow",
+          "disable",
+          "prefer",
+          "require",
+          "verify-ca",
+          "verify-full"
+        ],
+        "default": "prefer",
+        "aliases": null
+      },
+      "ca_cert": {
+        "description": "Specifies the name of a file containing SSL certificate authority (CA) certificate(s). If the file exists, verifies that the server's certificate is signed by one of these authorities.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ssl_rootcert"
+        ]
+      },
+      "comment": {
+        "description": "Adds a comment on the user (equivalent to the C(COMMENT ON ROLE) statement). To reset the comment, pass an empty string.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trust_input": {
+        "description": "If C(false), checks whether values of options I(name), I(password), I(expires), I(role_attr_flags), I(comment), I(session_role) are potentially dangerous. It makes sense to use C(false) only when SQL injections through the options are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "configuration": {
+        "description": "Role-specific configuration parameters that would otherwise be set by C(ALTER ROLE user SET variable TO value;). Takes a dict where the key is the name of the configuration parameter. If the key includes special characters like C(.) and C(-), it needs to be quoted to ensure the YAML is valid. Sets or updates any parameter in the list that is not present or has the wrong value in the database. Removes any parameter from the user that is not listed here. Parameters that are present in the database but are not included in this list will only be reset, if O(reset_unspecified_configuration=true). Inputs to O(user) as well as keys and values in this parameter are quoted by the module. If you require the user to contain a C(\"), you need to double it, otherwise the module will fail. C(\") and C(') are not allowed in configuration keys and any C(') in the value of a configuration will be escaped by this module. Additionally, parameters and values are checked if O(trust_input) is C(false).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "reset_unspecified_configuration": {
+        "description": "If set to C(true), the user's default configuration parameters will be reset in case they are not included in O(configuration), otherwise existing parameters will not be modified if not included in O(configuration).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "quote_configuration_values": {
+        "description": "Automatically quote the values of configuration variables added via I(configuration). The default is C(true) and setting this to C(false) leaves these options open to SQL-injections and makes the user responsible for properly quoting values. This is required to be C(false) to modify settings like C(search_path), that need to be unquoted. If this is C(false) you will also need to make sure that strings are properly quoted. For example C(\"'16MB'\") for C(work_mem). Set this only to C(false) if you know what you are doing!",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.postgresql.postgresql_user_obj_stat_info": {
     "short_description": "Gather statistics about PostgreSQL user objects",
     "description": "Gathers statistics about PostgreSQL user objects.",
-    "options": {},
+    "options": {
+      "filter": {
+        "description": "Limit the collected information by comma separated string or YAML list. Allowable values are C(functions), C(indexes), C(tables). By default, collects all subsets. Unsupported values are ignored.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "schema": {
+        "description": "Restrict the output by certain schema.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_db": {
+        "description": "Name of database to connect. The V(db) alias is deprecated and will be removed in version 5.0.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "db"
+        ]
+      },
+      "session_role": {
+        "description": "Switch to session_role after connecting. The specified session_role must be a role that the current login_user is a member of. Permissions checking for SQL commands is carried out as though the session_role were the one that had logged in originally.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trust_input": {
+        "description": "If C(false), check the value of I(session_role) is potentially dangerous. It makes sense to use C(false) only when SQL injections via I(session_role) are possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

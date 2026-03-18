@@ -2,85 +2,752 @@
   "theforeman.foreman.activation_key": {
     "short_description": "Manage Activation Keys",
     "description": "Create and manage activation keys",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the activation key",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the activation key",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lifecycle_environment": {
+        "description": "Name of the lifecycle environment",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_view": {
+        "description": "Name of the content view",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_view_environments": {
+        "description": "List of content view environments to add to activation key. Mutually exclusive with C(content_view) and C(lifecycle_environment).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subscriptions": {
+        "description": "List of subscriptions that include either Name, Pool ID, or Upstream Pool ID. Pool IDs are preferred since Names and Upstream Pool IDs are not guaranteed to be unique. The module will fail if it finds more than one match. This parameter is not supported in SCA mode.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_collections": {
+        "description": "List of host collections to add to activation key",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_overrides": {
+        "description": "List of content overrides that include label and override state Label refers to repository C(content_label). For Red Hat products for example C(rhel-7-server-rpms). For custom products it's in the format C(<organization_label>_<product_label>_<repository_label>), e.g. C(ExampleOrg_ExampleProduct_ExampleRepository). Override state ('enabled', 'disabled', or 'default') sets initial state of repository for newly registered hosts",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auto_attach": {
+        "description": "Set Auto-Attach on or off The C(auto_attach) parameter is deprecated since Katello 4.13 and not available after Katello 4.19",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "release_version": {
+        "description": "Set the content release version",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service_level": {
+        "description": "Set the service level",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Self-Support",
+          "Standard",
+          "Premium"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "max_hosts": {
+        "description": "Maximum number of registered content hosts. Required if I(unlimited_hosts=false)",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "unlimited_hosts": {
+        "description": "Can the activation key have unlimited hosts",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purpose_usage": {
+        "description": "Sets the system purpose usage",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purpose_role": {
+        "description": "Sets the system purpose role",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purpose_addons": {
+        "description": "Sets the system purpose add-ons",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the Activation Key If C(copied) the key will be copied to a new one with I(new_name) as the name and all other fields left untouched C(present_with_defaults) will ensure the entity exists, but won't update existing ones",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "present_with_defaults",
+          "absent",
+          "copied"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "new_name": {
+        "description": "Name of the new activation key when state == copied",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.architecture": {
     "short_description": "Manage Architectures",
     "description": "Create, update, and delete Architectures",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of architecture",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "updated_name": {
+        "description": "New architecture name. When this parameter is set, the module will not be idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.auth_source_ldap": {
     "short_description": "Manage LDAP Authentication Sources",
     "description": "Create, update, and delete LDAP authentication sources",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The name of the LDAP authentication source",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "The hostname of the LDAP server",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "The port number of the LDAP server",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 389,
+        "aliases": null
+      },
+      "account": {
+        "description": "Account name to use when accessing the LDAP server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "account_password": {
+        "description": "Account password to use when accessing the LDAP server. Required when using I(onthefly_register). When this parameter is set, the module will not be idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "base_dn": {
+        "description": "The base DN to use when searching.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "attr_login": {
+        "description": "Attribute containing login ID. Required when using I(onthefly_register).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "attr_firstname": {
+        "description": "Attribute containing first name. Required when using I(onthefly_register).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "attr_lastname": {
+        "description": "Attribute containing last name. Required when using I(onthefly_register).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "attr_mail": {
+        "description": "Attribute containing email address. Required when using I(onthefly_register).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "attr_photo": {
+        "description": "Attribute containing user photo",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "onthefly_register": {
+        "description": "Whether or not to register users on the fly.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "usergroup_sync": {
+        "description": "Whether or not to sync external user groups on login",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tls": {
+        "description": "Whether or not to use TLS when contacting the LDAP server.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "groups_base": {
+        "description": "Base DN where groups reside.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_netgroups": {
+        "description": "Whether to use NIS netgroups instead of posix groups, not valid for I(server_type=active_directory) Deprecated: The I(use_netgroups) parameter is deprecated with Foreman 3.16 in favor of I(ldap_group_membership) and will be removed in a future release.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_group_membership": {
+        "description": "Which group membership method to use, not valid for I(server_type=active_directory). Option I(rfc4519) is valid only for I(server_type=posix).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "posix",
+          "nis_netgroups",
+          "rfc4519"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "server_type": {
+        "description": "Type of the LDAP server",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "free_ipa",
+          "active_directory",
+          "posix"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "ldap_filter": {
+        "description": "Filter to apply to LDAP searches",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.bookmark": {
     "short_description": "Manage Bookmarks",
-    "description": "",
-    "options": {},
+    "description": "Manage Bookmark Entities",
+    "options": {
+      "name": {
+        "description": "Name of the bookmark",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "controller": {
+        "description": "Controller for the bookmark",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "public": {
+        "description": "Make bookmark available for all users",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "query": {
+        "description": "Query of the bookmark",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.compute_attribute": {
     "short_description": "Manage Compute Attributes",
-    "description": "",
-    "options": {},
+    "description": "Manage Compute Attributes This beta version can create, and update compute attributes",
+    "options": {
+      "compute_resource": {
+        "description": "Name of compute resource",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "compute_profile": {
+        "description": "Name of compute profile",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm_attrs": {
+        "description": "Hash containing the data of vm_attrs",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "vm_attributes"
+        ]
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.compute_profile": {
     "short_description": "Manage Compute Profiles",
     "description": "Create, update, and delete Compute Profiles",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "compute profile name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "updated_name": {
+        "description": "new compute profile name",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "compute_attributes": {
+        "description": "Compute attributes related to this compute profile. Some of these attributes are specific to the underlying compute resource type",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.compute_resource": {
     "short_description": "Manage Compute Resources",
     "description": "Create, update, and delete Compute Resources",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "compute resource name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "updated_name": {
+        "description": "new compute resource name",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "compute resource description",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "provider": {
+        "description": "Compute resource provider. Required if I(state=present_with_defaults).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "vmware",
+          "libvirt",
+          "ovirt",
+          "proxmox",
+          "EC2",
+          "AzureRm",
+          "GCE",
+          "Openstack"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "provider_params": {
+        "description": "Parameter specific to compute resource provider. Required if I(state=present_with_defaults).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.config_group": {
     "short_description": "Manage (Puppet) Config Groups",
     "description": "Create, update, and delete (Puppet) config groups",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The config group name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "updated_name": {
+        "description": "New config group name. When this parameter is set, the module will not be idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "puppetclasses": {
+        "description": "List of puppet classes to include in this group",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.content_credential": {
     "short_description": "Manage Content Credentials",
     "description": "Create and manage content credentials",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the content credential",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_type": {
+        "description": "Type of credential Required when creating a new credential",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "gpg_key",
+          "cert"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "content": {
+        "description": "Content of the content credential Required when creating a new credential",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.content_export_info": {
     "short_description": "List content exports",
     "description": "List information about content exports.",
-    "options": {},
+    "options": {
+      "id": {
+        "description": "Export history identifier.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_view_version": {
+        "description": "Content view version.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_view": {
+        "description": "Content view name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_server": {
+        "description": "Destination server name",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Specify complete or incremental exports.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "complete",
+          "incremental"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.content_export_library": {
     "short_description": "Manage library content exports",
     "description": "Export library content to a directory.",
-    "options": {},
+    "options": {
+      "destination_server": {
+        "description": "Destination server name; optional parameter to differentiate between exports",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fail_on_missing_content": {
+        "description": "Fails if any of the repositories belonging to this organization are unexportable.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.content_export_repository": {
     "short_description": "Manage repository content exports",
     "description": "Export repository content to a directory.",
-    "options": {},
+    "options": {
+      "repository": {
+        "description": "Name of the repository to export.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "product": {
+        "description": "Name of the product that the repository belongs to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.content_export_version": {
     "short_description": "Manage content view version content exports",
     "description": "Export a content view version to a directory.",
-    "options": {},
+    "options": {
+      "content_view_version": {
+        "description": "Content view version, e.g. \"7.0\"",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_view": {
+        "description": "Content view name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_server": {
+        "description": "Destination server name; optional parameter to differentiate between exports",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fail_on_missing_content": {
+        "description": "Fails if any of the repositories belonging to this version are unexportable.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.content_import_info": {
     "short_description": "List content imports",
     "description": "List information about content imports.",
-    "options": {},
+    "options": {
+      "id": {
+        "description": "Import history identifier.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_view_version": {
+        "description": "Content view version.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_view": {
+        "description": "Content view name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Specify complete or incremental imports.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "complete",
+          "incremental"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.content_import_library": {
@@ -104,43 +771,423 @@
   "theforeman.foreman.content_upload": {
     "short_description": "Upload content to a repository",
     "description": "Allows the upload of content to a repository",
-    "options": {},
+    "options": {
+      "src": {
+        "description": "File (on the remote/target machine) to upload",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "file"
+        ]
+      },
+      "repository": {
+        "description": "Repository to upload file in to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "product": {
+        "description": "Product to which the repository lives in",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ostree_repository_name": {
+        "description": "Name of repository within the OSTree archive. Required for OSTree uploads.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.content_view": {
     "short_description": "Manage Content Views",
     "description": "Create and manage content views",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the Content View",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the Content View",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label": {
+        "description": "Label of the Content View. This field cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "repositories": {
+        "description": "List of repositories that include name and product. Cannot be combined with I(composite=True).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auto_publish": {
+        "description": "Auto publish composite view when a new version of a component content view is created. Also note auto publish will only happen when the component is marked \"latest\".",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "solve_dependencies": {
+        "description": "Solve RPM dependencies by default on Content View publish",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "import_only": {
+        "description": "Designate this Content View for importing from upstream servers only.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rolling": {
+        "description": "A rolling content view contains latest synced state of repositories.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lifecycle_environments": {
+        "description": "List of lifecycle environments that content of this rolling content view will be promoted to. Only valid for I(rolling=True).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "composite": {
+        "description": "A composite view contains other content views.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "components": {
+        "description": "List of content views to includes content_view and either version or latest. Ignored if I(composite=False).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.content_view_filter": {
     "short_description": "Manage Content View Filters",
     "description": "Create and manage content View filters",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the Content View Filter",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the Content View Filter",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_view": {
+        "description": "Name of the content view",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the content view filter",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": [
+          "filter_state"
+        ]
+      },
+      "repositories": {
+        "description": "List of repositories that include name and product An empty Array means all current and future repositories",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "filter_type": {
+        "description": "Content view filter type",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "rpm",
+          "package_group",
+          "erratum",
+          "docker",
+          "modulemd",
+          "deb"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "inclusion": {
+        "description": "Create an include filter",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "original_packages": {
+        "description": "Include all RPMs with no errata",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "original_module_streams": {
+        "description": "Include all module streams with no errata Only valid on I(filter_type=modulemd).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.content_view_filter_info": {
     "short_description": "Fetch information about a Content View Filter",
     "description": "Fetch information about a Content View Filter",
-    "options": {},
+    "options": {
+      "content_view": {
+        "description": "the name of the content view that the filter applies to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.content_view_filter_rule": {
     "short_description": "Manage content view filter rules",
     "description": "Create, manage and remove content view filter rules",
-    "options": {},
+    "options": {
+      "architecture": {
+        "description": "set package, module_stream, etc. architecture that the rule applies to",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "arch"
+        ]
+      },
+      "content_view": {
+        "description": "the name of the content view that the filter applies to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_view_filter": {
+        "description": "the name of the content view filter that the rule applies to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "the context for a module only valid in filter I(type=modulemd)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "date_type": {
+        "description": "set whether rule applied to erratum using the 'Issued On' or 'Updated On' date only valid on filter I(type=erratum).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "issued",
+          "updated"
+        ],
+        "default": "updated",
+        "aliases": null
+      },
+      "end_date": {
+        "description": "the rule limit for erratum end date (YYYY-MM-DD) see date_type for the date the rule applies to Only valid on I(filter_type=erratum_by_date).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "errata_id": {
+        "description": "erratum id",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_version": {
+        "description": "package maximum version",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "min_version": {
+        "description": "package minimum version",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Content view filter rule name, package name, package_group name, module stream or docker tag If omitted, the value of I(name) will be used if necessary for module stream filters, this is the name of the module stream to search for",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "rule_name",
+          "module_name",
+          "package_name",
+          "package_group",
+          "tag"
+        ]
+      },
+      "start_date": {
+        "description": "the rule limit for erratum start date (YYYY-MM-DD) see date_type for the date the rule applies to Only valid on I(filter_type=erratum).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stream": {
+        "description": "the context for a module only valid in filter I(type=modulemd)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "types": {
+        "description": "errata types the ruel applies to (enhancement, bugfix, security) Only valid on I(filter_type=erratum)",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [
+          "bugfix",
+          "enhancement",
+          "security"
+        ],
+        "aliases": null
+      },
+      "version": {
+        "description": "package or module version",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.content_view_filter_rule_info": {
     "short_description": "Fetch information about a Content View Filter Rule",
     "description": "Fetch information about a Content View Filter Rule",
-    "options": {},
+    "options": {
+      "content_view": {
+        "description": "the name of the content view that the filter applies to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_view_filter": {
+        "description": "the name of the content view filter that the rule applies to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "errata_id": {
+        "description": "for erratum fitlers using errata_by_id, the errata id to search for",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.content_view_history_info": {
     "short_description": "Fetch history of a Content View",
     "description": "Fetch history of a Content View",
-    "options": {},
+    "options": {
+      "content_view": {
+        "description": "Content view to get the history for",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.content_view_info": {
@@ -152,25 +1199,195 @@
   "theforeman.foreman.content_view_version": {
     "short_description": "Manage Content View Versions",
     "description": "Publish, Promote or Remove a Content View Version",
-    "options": {},
+    "options": {
+      "content_view": {
+        "description": "Name of the content view",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the Content View Version",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "version": {
+        "description": "The content view version number (i.e. 1.0)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lifecycle_environments": {
+        "description": "The lifecycle environments the Content View Version should be in.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force_promote": {
+        "description": "Force content view promotion and bypass lifecycle environment restriction",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "force"
+        ]
+      },
+      "force_yum_metadata_regeneration": {
+        "description": "Force metadata regeneration when performing Publish and Promote tasks",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "current_lifecycle_environment": {
+        "description": "The lifecycle environment that is already associated with the content view version Helpful for promoting a content view version",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.content_view_version_info": {
     "short_description": "Fetch information about Content Views",
     "description": "Fetch information about Content Views",
-    "options": {},
+    "options": {
+      "content_view": {
+        "description": "Content View to which the Version belongs",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.discovery_rule": {
     "short_description": "Manage Host Discovery Rules",
     "description": "Manage Host Discovery Rules",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the Discovery Rule",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "search": {
+        "description": "Expression to match newly discovered hosts with Required if I(state=present)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hostgroup": {
+        "description": "Hostgroup to assign hosts to Required if I(state=present)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hostname": {
+        "description": "Hostname to assign to discovered host(s) When matching multiple hosts, must provide unique hostnames for each of the discovered hosts",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Enable or disable the rule",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "priority": {
+        "description": "Priority of the rule",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_count": {
+        "description": "Maximum amount of hosts to provision with the rule 0 means no limit",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.domain": {
     "short_description": "Manage Domains",
     "description": "Create, update, and delete Domains",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The full DNS domain name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "updated_name": {
+        "description": "New domain name. When this parameter is set, the module will not be idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dns_proxy": {
+        "description": "DNS proxy to use within this domain for managing A records",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "dns"
+        ]
+      },
+      "description": {
+        "description": "Full name describing the domain",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "fullname"
+        ]
+      },
+      "parameters": {
+        "description": "Domain specific host parameters",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.domain_info": {
@@ -182,55 +1399,423 @@
   "theforeman.foreman.external_usergroup": {
     "short_description": "Manage External User Groups",
     "description": "Create, update, and delete external user groups",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the group",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "usergroup": {
+        "description": "Name of the linked usergroup",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auth_source": {
+        "description": "Name of the authentication source to be used for this group",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "auth_source_ldap"
+        ]
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.flatpak_remote": {
     "short_description": "Manage Flatpak Remotes",
     "description": "Manage Flatpak Remotes",
-    "options": {},
+    "options": {
+      "description": {
+        "description": "Description of the flatpak remote",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "token": {
+        "description": "Token/password for the flatpak remote",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "url": {
+        "description": "Base URL of the flatpak registry index, like C(https://flatpaks.redhat.io/rhel/), C(https://registry.fedoraproject.org).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remote_username": {
+        "description": "Username for the flatpak remote",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.flatpak_remote_repository_mirror": {
     "short_description": "Mirror a Flatpak Remote Repository",
     "description": "Mirror a Flatpak Remote Repository to a Product",
-    "options": {},
+    "options": {
+      "flatpak_remote": {
+        "description": "Flatpak remote",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "flatpak_remote_repository": {
+        "description": "Flatpak remote repository",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "product": {
+        "description": "Product to mirror the remote repository to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.flatpak_remote_scan": {
     "short_description": "Scan a Flatpak Remote",
     "description": "Scan a Flatpak Remote",
-    "options": {},
+    "options": {
+      "flatpak_remote": {
+        "description": "Flatpak remote",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.global_parameter": {
     "short_description": "Manage Global Parameters",
-    "description": "",
-    "options": {},
+    "description": "Manage Global Parameter Entities",
+    "options": {
+      "name": {
+        "description": "Name of the Global Parameter",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "updated_name": {
+        "description": "New name of the Global Parameter. When this parameter is set, the module will not be idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "value": {
+        "description": "Value of the Global Parameter",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hidden_value": {
+        "description": "Whether the value should be hidden in the GUI",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parameter_type": {
+        "description": "Type of value",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "string",
+          "boolean",
+          "integer",
+          "real",
+          "array",
+          "hash",
+          "yaml",
+          "json"
+        ],
+        "default": "string",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.hardware_model": {
     "short_description": "Manage Hardware Models",
     "description": "Manage hardware models",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the hardware model",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "info": {
+        "description": "General description of the hardware model",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vendor_class": {
+        "description": "The class of the machine as reported by the OpenBoot PROM. This is primarily used by Solaris SPARC builds and can be left blank for other architectures.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hardware_model": {
+        "description": "The class of CPU supplied in this machine. This is primarily used by Sparc Solaris builds and can be left blank for other architectures.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.host": {
     "short_description": "Manage Hosts",
     "description": "Create, update, and delete Hosts",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Fully Qualified Domain Name of host",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hostgroup": {
+        "description": "Title of related hostgroup Example: A child hostgroup I(bar) within a parent hostgroup I(foo) would have the title I(foo/bar).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "location": {
+        "description": "Name of related location",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "Name of related organization",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "build": {
+        "description": "Whether or not to setup build context for the host",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Include this host within reporting",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "managed": {
+        "description": "Whether a host is managed or unmanaged. Forced to true when I(build=true)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip": {
+        "description": "IP address of the primary interface of the host.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mac": {
+        "description": "MAC address of the primary interface of the host. Please include leading zeros and separate nibbles by colons, otherwise the execution will not be idempotent. Example EE:BB:01:02:03:04",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Comment about the host.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "owner": {
+        "description": "Owner (user) of the host. Users are looked up by their C(login). Mutually exclusive with I(owner_group).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "owner_group": {
+        "description": "Owner (user group) of the host. Mutually exclusive with I(owner).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "provision_method": {
+        "description": "The method used to provision the host. I(provision_method=bootdisk) is only available if the bootdisk plugin is installed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "build",
+          "image",
+          "bootdisk"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "image": {
+        "description": "The image to use when I(provision_method=image). The I(compute_resource) parameter is required to find the correct image.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "compute_attributes": {
+        "description": "Additional compute resource specific attributes. When this parameter is set, the module will not be idempotent. When you provide a I(cluster) here and I(compute_resource) is set, the cluster id will be automatically looked up.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interfaces_attributes": {
+        "description": "Additional interfaces specific attributes.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.host_collection": {
     "short_description": "Manage Host Collections",
     "description": "Create and Manage host collections",
-    "options": {},
+    "options": {
+      "description": {
+        "description": "Description of the host collection",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the host collection",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "updated_name": {
+        "description": "New name of the host collection. When this parameter is set, the module will not be idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.host_errata_info": {
     "short_description": "Fetch information about Host Errata",
     "description": "Fetch information about Host Errata",
-    "options": {},
+    "options": {
+      "host": {
+        "description": "Name of the host to fetch errata for.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_view": {
+        "description": "Calculate Applicable Errata based on a particular Content View. Required together with I(lifecycle_environment). If this is set, I(organization) also needs to be set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lifecycle_environment": {
+        "description": "Calculate Applicable Errata based on a particular Lifecycle Environment. Required together with I(content_view). If this is set, I(organization) also needs to be set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.host_info": {
@@ -241,14 +1826,101 @@
   },
   "theforeman.foreman.host_power": {
     "short_description": "Manage Power State of Hosts",
-    "description": "",
-    "options": {},
+    "description": "Manage power state of a host This beta version can start and stop an existing foreman host and question the current power state.",
+    "options": {
+      "name": {
+        "description": "Name (FQDN) of the host",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "hostname"
+        ]
+      },
+      "state": {
+        "description": "Desired power state",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "on",
+          "start",
+          "off",
+          "stop",
+          "soft",
+          "reboot",
+          "cycle",
+          "reset",
+          "state",
+          "status"
+        ],
+        "default": "state",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.hostgroup": {
     "short_description": "Manage Hostgroups",
     "description": "Create, update, and delete Hostgroups",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of hostgroup",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "updated_name": {
+        "description": "New name of hostgroup. When this parameter is set, the module will not be idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of hostgroup",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parent": {
+        "description": "Title of the parent Hostgroup. Can be nested in the form \"Main Group/Sub Group\".",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "Organization for scoped resources attached to the hostgroup. Only used for Katello installations. This organization will implicitly be added to the I(organizations) parameter if needed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parameters": {
+        "description": "Hostgroup specific host parameters",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ansible_roles": {
+        "description": "A list of ansible roles to associate with the hostgroup. The foreman-ansible plugin must be installed to use this parameter.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.hostgroup_info": {
@@ -260,55 +1932,609 @@
   "theforeman.foreman.http_proxy": {
     "short_description": "Manage HTTP Proxies",
     "description": "Create, update, and delete HTTP Proxies",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The HTTP Proxy name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "url": {
+        "description": "URL of the HTTP Proxy Required when creating a new HTTP Proxy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "proxy_username": {
+        "description": "Username used to authenticate with the HTTP Proxy",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "proxy_password": {
+        "description": "Password used to authenticate with the HTTP Proxy When this parameter is set, the module will not be idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.image": {
     "short_description": "Manage Images",
     "description": "Create, update, and delete Images",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Image name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "compute_resource": {
+        "description": "Compute resource the image is assigned to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID or Marketplace URN of the operatingsystem image",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "image_uuid"
+        ]
+      },
+      "image_username": {
+        "description": "Username that is used to login into the operating system",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image_password": {
+        "description": "Password that is used to login into the operating system",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "operatingsystem": {
+        "description": "",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "architecture": {
+        "description": "architecture of the image",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_data": {
+        "description": "Image supports user_data",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.installation_medium": {
     "short_description": "Manage Installation Media",
     "description": "Create, update, and delete Installation Media",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The full installation medium name. The special name \"*\" (only possible as parameter) is used to perform bulk actions (modify, delete) on all existing partition tables.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "updated_name": {
+        "description": "New full installation medium name. When this parameter is set, the module will not be idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "os_family": {
+        "description": "The OS family the template shall be assigned with. If no os_family is set but a operatingsystem, the value will be derived from it.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "Path to the installation medium",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.job_invocation": {
     "short_description": "Invoke Remote Execution Jobs",
-    "description": "",
-    "options": {},
+    "description": "Invoke and schedule Remote Execution Jobs",
+    "options": {
+      "search_query": {
+        "description": "Search query to identify hosts",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bookmark": {
+        "description": "Bookmark to infer the search query from",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "job_template": {
+        "description": "Job template to execute",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "targeting_type": {
+        "description": "Dynamic query updates the search results before execution (useful for scheduled jobs)",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "static_query",
+          "dynamic_query"
+        ],
+        "default": "static_query",
+        "aliases": null
+      },
+      "randomized_ordering": {
+        "description": "Whether to order the selected hosts randomly",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "execution_timeout_interval": {
+        "description": "Override the timeout interval from the template for this invocation only",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssh": {
+        "description": "ssh related options",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "command": {
+        "description": "Command to be executed on host. Required for command templates",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inputs": {
+        "description": "Inputs to use",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "recurrence": {
+        "description": "Schedule a recurring job",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scheduling": {
+        "description": "Schedule the job to start at a later time",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "concurrency_control": {
+        "description": "Control concurrency level and distribution over time",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description_format": {
+        "description": "Override the description format from the template for this invocation only",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "feature": {
+        "description": "Feature label that should be triggered A job template assigned to this feature will be used",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.job_template": {
     "short_description": "Manage Job Templates",
     "description": "Manage Remote Execution Job Templates",
-    "options": {},
+    "options": {
+      "audit_comment": {
+        "description": "Content of the audit comment field",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description_format": {
+        "description": "description of the job template. Template inputs can be referenced.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "file_name": {
+        "description": "The path of a template file, that shall be imported. Either this or I(template) is required as a source for the Job Template \"content\".",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "job_category": {
+        "description": "The category the template should be assigend to",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "locked": {
+        "description": "Determines whether the template shall be locked",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Job Template. If omited, will be determined from the C(name) header of the template or the filename (in that order). The special value \"*\" can be used to perform bulk actions (modify, delete) on all existing templates.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "provider_type": {
+        "description": "Determines via which provider the template shall be executed",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snippet": {
+        "description": "Determines whether the template shall be a snippet",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template": {
+        "description": "The content of the Job Template. Either this or I(file_name) is required as a source for the Job Template \"content\".",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_inputs": {
+        "description": "The template inputs used in the Job Template",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.lifecycle_environment": {
     "short_description": "Manage Lifecycle Environments",
     "description": "Create and manage lifecycle environments",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the lifecycle environment",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label": {
+        "description": "Label of the lifecycle environment. This field cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the lifecycle environment",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "prior": {
+        "description": "Name of the parent lifecycle environment",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.location": {
     "short_description": "Manage Locations",
     "description": "Manage Locations",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the Location",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the Location",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parent": {
+        "description": "Title of a parent Location for nesting",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organizations": {
+        "description": "List of organizations the location should be assigned to",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ignore_types": {
+        "description": "List of resources types that will be automatically associated",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "select_all_types"
+        ]
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.operatingsystem": {
     "short_description": "Manage Operating Systems",
     "description": "Manage Operating Systems",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the Operating System",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "updated_name": {
+        "description": "New operating system name. When this parameter is set, the module will not be idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "release_name": {
+        "description": "Release name of the operating system (recommended for debian)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the Operating System",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "os_family": {
+        "description": "Distribution family of the Operating System",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "family"
+        ]
+      },
+      "major": {
+        "description": "major version of the Operating System",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "minor": {
+        "description": "minor version of the Operating System",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "architectures": {
+        "description": "architectures, the operating system can be installed on",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "media": {
+        "description": "list of installation media",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ptables": {
+        "description": "list of partitioning tables",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "provisioning_templates": {
+        "description": "List of provisioning templates that are associated with the operating system. Specify the full list of template names you want to associate with your OS. For example [\"Kickstart default\", \"Kickstart default finish\", \"Kickstart default iPXE\", \"custom\"]. After specifying the template associations, you can set the default association in the M(theforeman.foreman.os_default_template) module.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password_hash": {
+        "description": "hashing algorithm for passwd",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "MD5",
+          "SHA256",
+          "SHA512",
+          "Base64",
+          "Base64-Windows"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "parameters": {
+        "description": "Operating System specific host parameters",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.organization": {
     "short_description": "Manage Organizations",
     "description": "Manage Organizations",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the Organization",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the Organization",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label": {
+        "description": "Label of the Organization",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ignore_types": {
+        "description": "List of resources types that will be automatically associated",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "select_all_types"
+        ]
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.organization_info": {
@@ -320,127 +2546,1423 @@
   "theforeman.foreman.os_default_template": {
     "short_description": "Manage Default Template Associations To Operating Systems",
     "description": "Manage OSDefaultTemplate Entities",
-    "options": {},
+    "options": {
+      "operatingsystem": {
+        "description": "",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_kind": {
+        "description": "name of the template kind",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "Bootdisk",
+          "cloud-init",
+          "finish",
+          "host_init_config",
+          "iPXE",
+          "job_template",
+          "kexec",
+          "POAP",
+          "provision",
+          "PXEGrub",
+          "PXEGrub2",
+          "PXELinux",
+          "registration",
+          "script",
+          "user_data",
+          "ZTP"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "provisioning_template": {
+        "description": "name of provisioning template",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.partition_table": {
     "short_description": "Manage Partition Table Templates",
     "description": "Manage Partition Table Templates",
-    "options": {},
+    "options": {
+      "file_name": {
+        "description": "The path of a template file, that shall be imported. Either this or I(layout) is required as a source for the Partition Template \"content\".",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "layout": {
+        "description": "The content of the Partitioning Table Template Either this or I(file_name) is required as a source for the Partition Template \"content\".",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "locked": {
+        "description": "Determines whether the template shall be locked",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Partition Table. If omited, will be determined from the C(name) header of the template or the filename (in that order). The special value \"*\" can be used to perform bulk actions (modify, delete) on all existing Partition Tables.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "updated_name": {
+        "description": "New name of the template. When this parameter is set, the module will not be idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "os_family": {
+        "description": "The OS family the template shall be assigned with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.product": {
     "short_description": "Manage Products",
     "description": "Create and manage products",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the product",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label": {
+        "description": "Label to show the user",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gpg_key": {
+        "description": "Content GPG key name attached to this product",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl_ca_cert": {
+        "description": "Content SSL CA certificate name attached to this product",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl_client_cert": {
+        "description": "Content SSL client certificate name attached to this product",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl_client_key": {
+        "description": "Content SSL client private key name attached to this product",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sync_plan": {
+        "description": "Sync plan name attached to this product",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Possibly long description to show the user in detail view",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.provisioning_template": {
     "short_description": "Manage Provisioning Templates",
     "description": "Manage Provisioning Templates",
-    "options": {},
+    "options": {
+      "audit_comment": {
+        "description": "Content of the audit comment field",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kind": {
+        "description": "The provisioning template kind",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Bootdisk",
+          "cloud-init",
+          "finish",
+          "host_init_config",
+          "iPXE",
+          "job_template",
+          "kexec",
+          "POAP",
+          "provision",
+          "PXEGrub",
+          "PXEGrub2",
+          "PXELinux",
+          "registration",
+          "script",
+          "snippet",
+          "user_data",
+          "ZTP"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "template": {
+        "description": "The content of the provisioning template. Either this or I(file_name) is required as a source for the Provisioning Template \"content\".",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "file_name": {
+        "description": "The path of a template file, that shall be imported. Either this or I(template) is required as a source for the Provisioning Template \"content\".",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "locked": {
+        "description": "Determines whether the template shall be locked",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the Provisioning Template. If omited, will be determined from the C(name) header of the template or the filename (in that order). The special value \"*\" can be used to perform bulk actions (modify, delete) on all existing templates.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "updated_name": {
+        "description": "New provisioning template name. When this parameter is set, the module will not be idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.puppet_environment": {
     "short_description": "Manage Puppet Environments",
     "description": "Create, update, and delete Puppet Environments",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The full environment name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.puppetclasses_import": {
     "short_description": "Import Puppet Classes from a Proxy",
     "description": "Import Puppet Classes from a Proxy",
-    "options": {},
+    "options": {
+      "smart_proxy": {
+        "description": "Smart Proxy to import Puppet Classes from",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "environment": {
+        "description": "Puppet Environment to import Puppet Classes from",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "except": {
+        "description": "Which types of Puppet Classes to exclude from the import.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "new",
+          "updated",
+          "obsolete"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.realm": {
     "short_description": "Manage Realms",
     "description": "Manage Realms",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the realm",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "realm_proxy": {
+        "description": "Proxy to use for this realm",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "realm_type": {
+        "description": "Realm type",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "Red Hat Identity Management",
+          "FreeIPA",
+          "Active Directory"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.redhat_manifest": {
     "short_description": "Interact with a Red Hat Satellite Subscription Manifest",
     "description": "Download and modify a Red Hat Satellite Subscription Manifest",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Manifest Name",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "Manifest uuid",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Red Hat Portal username",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Red Hat Portal password",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool_id": {
+        "description": "Subscription pool_id",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "quantity": {
+        "description": "quantity of pool_id Subscriptions",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "pool_state": {
+        "description": "Subscription state",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "state": {
+        "description": "Manifest state",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "path": {
+        "description": "path to export the manifest",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "validate_certs": {
+        "description": "Validate Portal SSL",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "portal": {
+        "description": "Red Hat Portal subscription access address",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "https://subscription.rhsm.redhat.com",
+        "aliases": null
+      },
+      "content_access_mode": {
+        "description": "Content Access Mode of the Subscription Manifest. Setting I(content_access_mode=org_enviroment) enables Simple Content Access.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "org_environment",
+          "entitlement"
+        ],
+        "default": "entitlement",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.registration_command": {
     "short_description": "Manage Registration Command",
     "description": "Manage Registration Command",
-    "options": {},
+    "options": {
+      "activation_keys": {
+        "description": "Activation keys for subscription-manager client, required for CentOS and Red Hat Enterprise Linux. Required only if host group has no activation keys.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Clear any previous registration and run C(subscription-manager) with C(--force).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hostgroup": {
+        "description": "Host group to register the host in.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ignore_subman_errors": {
+        "description": "Ignore C(subscription-manager) errors for C(subscription-manager register) command.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "insecure": {
+        "description": "Enable insecure argument for the initial C(curl).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "jwt_expiration": {
+        "description": "Expiration of the authorization token (in hours).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lifecycle_environment": {
+        "description": "Lifecycle environment for the host. Deprecated: The Lifecycle Environment of a Host should be set by the Activation Key. Removed from the API since Katello 4.12.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "operatingsystem": {
+        "description": "Operating System to register the host in. Operating system must have a C(host_init_config) template assigned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "packages": {
+        "description": "Packages to install on the host when registered. Multiple packages are to be given as a space delimited string.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remote_execution_interface": {
+        "description": "Identifier of the Host interface for Remote execution.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "repo": {
+        "description": "Repository URL (yum/dnf) or full sources.list entry (apt). Deprecated: Use the I(repo_data) option instead. This option was deprecated in version Foreman 3.11.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "repo_gpg_key_url": {
+        "description": "URL of the GPG key for the repository. Deprecated: Use the I(repo_data) option instead. This option was deprecated in version Foreman 3.11.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "repo_data": {
+        "description": "Array with repository URL and corresponding GPG key URL. Each element is a dictionary with keys C(repo) and C(repo_gpg_key_url).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "setup_insights": {
+        "description": "If this is set to C(true), C(insights-client) will be installed and registered on Red Hat family operating systems.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "setup_remote_execution": {
+        "description": "If this is set to true, SSH keys will be installed on the host.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "setup_remote_execution_pull": {
+        "description": "If this is set to true, pull provider client will be deployed on the host.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "smart_proxy": {
+        "description": "Name of Smart Proxy. This Proxy must have both the C(Templates) and C(Registration) features enabled.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_packages": {
+        "description": "Update all packages on the host.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "Organization to register the host in.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "location": {
+        "description": "Location to register the host in.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.repository": {
     "short_description": "Manage Repositories",
     "description": "Create and manage repositories",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the repository",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the repository",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "product": {
+        "description": "Product to which the repository lives in",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label": {
+        "description": "label of the repository",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_type": {
+        "description": "The content type of the repository",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "deb",
+          "docker",
+          "file",
+          "ostree",
+          "puppet",
+          "yum",
+          "ansible_collection",
+          "python"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "url": {
+        "description": "Repository URL to sync from",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ignore_global_proxy": {
+        "description": "Whether content sync should use or ignore the global http proxy setting This is deprecated with Katello 3.13 It has been superseeded by I(http_proxy_policy)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "http_proxy_policy": {
+        "description": "Which proxy to use for content synching",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "global_default_http_proxy",
+          "none",
+          "use_selected_http_proxy"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "http_proxy": {
+        "description": "Name of the http proxy to use for content synching Should be combined with I(http_proxy_policy='use_selected_http_proxy')",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gpg_key": {
+        "description": "Repository GPG key",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl_ca_cert": {
+        "description": "Repository SSL CA certificate",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl_client_cert": {
+        "description": "Repository SSL client certificate",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl_client_key": {
+        "description": "Repository SSL client private key",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "download_concurrency": {
+        "description": "download concurrency for sync from upstream as the API does not return this value, this will break idempotence for this module",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "download_policy": {
+        "description": "The download policy for sync from upstream. The download policy C(background) is deprecated and not available since Katello 4.3.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "background",
+          "immediate",
+          "on_demand"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "mirror_on_sync": {
+        "description": "toggle \"mirror on sync\" where the state of the repository mirrors that of the upstream repository at sync time This is deprecated with Katello 4.3 It has been superseeded by I(mirroring_policy=mirror_content_only)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mirroring_policy": {
+        "description": "Policy to set for mirroring content Supported since Katello 4.3",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "additive",
+          "mirror_content_only",
+          "mirror_complete"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "verify_ssl_on_sync": {
+        "description": "verify the upstream certifcates are signed by a trusted CA",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "upstream_username": {
+        "description": "username to access upstream repository",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "upstream_password": {
+        "description": "Password to access upstream repository. When this parameter is set, the module will not be idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "docker_upstream_name": {
+        "description": "name of the upstream docker repository only available for I(content_type=docker)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "docker_tags_whitelist": {
+        "description": "list of tags to sync for Container Image repository only available for I(content_type=docker) Deprecated since Katello 4.4",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "deb_releases": {
+        "description": "comma separated list of releases to be synced from deb-archive only available for I(content_type=deb)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "deb_components": {
+        "description": "comma separated list of repo components to be synced from deb-archive only available for I(content_type=deb)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "deb_architectures": {
+        "description": "comma separated list of architectures to be synced from deb-archive only available for I(content_type=deb)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "deb_errata_url": {
+        "description": "URL to sync Debian or Ubuntu errata information from only available on Orcharhino only available for I(content_type=deb)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "unprotected": {
+        "description": "publish the repository via HTTP",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "checksum_type": {
+        "description": "Checksum of the repository",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "sha1",
+          "sha256"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "ignorable_content": {
+        "description": "List of content units to ignore while syncing a yum repository. Must be subset of rpm,drpm,srpm,distribution,erratum.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ansible_collection_requirements": {
+        "description": "Contents of requirement yaml file to sync from URL",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auto_enabled": {
+        "description": "repositories will be automatically enabled on a registered host subscribed to this product",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "os_versions": {
+        "description": "Identifies whether the repository should be disabled on a client with a non-matching OS version. A maximum of one OS version can be selected. Set to C([]) to disable filtering again.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "rhel-6",
+          "rhel-7",
+          "rhel-8",
+          "rhel-9",
+          "rhel-10"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "arch": {
+        "description": "Architecture of content in the repository Set to C(noarch) to disable the architecture restriction again.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "include_tags": {
+        "description": "List of tags to sync for a container image repository.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "exclude_tags": {
+        "description": "List of tags to exclude when syncing a container image repository.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "retain_package_versions_count": {
+        "description": "The maximum number of versions of each package to keep.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "metadata_expire": {
+        "description": "Set the metadata expiration time (in seconds) for a yum repository.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ansible_collection_auth_token": {
+        "description": "The token key to use for authentication.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ansible_collection_auth_url": {
+        "description": "The URL to receive a session token from, e.g. used with Automation Hub.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "depth": {
+        "description": "An option to specify how many ostree commits to traverse.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "exclude_refs": {
+        "description": "List of tags to exclude during an ostree sync. The wildcards C(*), C(?) are recognized. C(exclude_refs) is evaluated after C(include_refs).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "excludes": {
+        "description": "Python packages to exclude from the upstream URL. You may also specify versions, for example: C(django~=2.0).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "include_refs": {
+        "description": "List of refs to include during an ostree sync. The wildcards C(*), C(?) are recognized.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "includes": {
+        "description": "Python packages to include from the upstream URL, You may also specify versions, for example: C(django~=2.0). Leave empty to include every package.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "keep_latest_packages": {
+        "description": "The amount of latest versions of a package to keep on sync, includes pre-releases if synced. Defaults to keep all versions.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "package_types": {
+        "description": "Package types to sync for Python content, separated by comma. FIXME Leave empty to get every package type.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "bdist_dmg",
+          "bdist_dumb",
+          "bdist_egg",
+          "bdist_msi",
+          "bdist_rpm",
+          "bdist_wheel",
+          "bdist_wininst",
+          "sdist"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "upstream_authentication_token": {
+        "description": "Upstream authentication token string for yum repositories.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.repository_info": {
     "short_description": "Fetch information about Repositories",
     "description": "Fetch information about Repositories",
-    "options": {},
+    "options": {
+      "product": {
+        "description": "Product to which the repository lives in",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.repository_set": {
     "short_description": "Enable/disable Red Hat Repositories available through subscriptions",
     "description": "Enable/disable Red Hat Repositories that are available through subscriptions",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the repository set",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "product": {
+        "description": "Name of the parent product",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label": {
+        "description": "Label of the repository set, can be used in place of I(name) & I(product)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "repositories": {
+        "description": "Release version and base architecture of the repositories to enable. Some repository sets require only I(basearch) or only I(releasever) to be set. See the examples how you can obtain this information using M(theforeman.foreman.resource_info). Required when I(all_repositories) is unset or C(false).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "all_repositories": {
+        "description": "Affect all available repositories in the repository set instead of listing them in I(repositories). Required when I(repositories) is unset or an empty list.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the repositories are enabled or not",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "enabled",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.repository_set_info": {
     "short_description": "Fetch information about Red Hat Repositories",
     "description": "Fetch information about Red Hat Repositories",
-    "options": {},
+    "options": {
+      "product": {
+        "description": "Name of the parent product",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.repository_sync": {
     "short_description": "Sync a Repository or Product",
     "description": "Sync a repository or product",
-    "options": {},
+    "options": {
+      "product": {
+        "description": "Product to which the I(repository) lives in",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "repository": {
+        "description": "Name of the repository to sync\nIf omitted, all repositories in I(product) are synched.\n",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.resource_info": {
     "short_description": "Gather information about resources",
     "description": "Gather information about resources",
-    "options": {},
+    "options": {
+      "resource": {
+        "description": "Resource to search Set to an invalid choice like I(foo) see all available options.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "search": {
+        "description": "Search query to use If None, all resources are returned",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "params": {
+        "description": "Add parameters to the API call if necessary If not specified, no additional parameters are passed",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "Scope the searched resource by organization",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "full_details": {
+        "description": "If C(True) all details about the found resources are returned",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "info"
+        ]
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.role": {
     "short_description": "Manage Roles",
     "description": "Create, update, and delete Roles",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The name of the role",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the role",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filters": {
+        "description": "Filters with permissions for this role",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.scap_content": {
     "short_description": "Manage SCAP content",
     "description": "Create, update, and delete SCAP content",
-    "options": {},
+    "options": {
+      "title": {
+        "description": "Title of SCAP content.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "updated_title": {
+        "description": "New SCAP content title. When this parameter is set, the module will not be idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.scap_tailoring_file": {
     "short_description": "Manage SCAP Tailoring Files",
     "description": "Create, update, and delete SCAP Tailoring Files",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the tailoring file.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "updated_name": {
+        "description": "New name of the tailoring file. When this parameter is set, the module will not be idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.scc_account": {
     "short_description": "Manage SUSE Customer Center Accounts",
     "description": "Manage SUSE Customer Center Accounts This module requires the foreman_scc_manager plugin set up in the server See U(https://github.com/ATIX-AG/foreman_scc_manager)",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the suse customer center account",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login": {
+        "description": "Login id of suse customer center account",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scc_account_password": {
+        "description": "Password of suse customer center account",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "base_url": {
+        "description": "URL of SUSE for suse customer center account",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interval": {
+        "description": "Interval for syncing suse customer center account",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "never",
+          "daily",
+          "weekly",
+          "monthly"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "sync_date": {
+        "description": "Last Sync time of suse customer center account",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "Name of related organization",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "test_connection": {
+        "description": "Test suse customer center account credentials that connects to the server",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "updated_name": {
+        "description": "Name to be updated of suse customer center account",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the suse customer center account",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "synced"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.scc_product": {
     "short_description": "Subscribe SUSE Customer Center Account Products",
     "description": "Manage SUSE Customer Center Products This module requires the foreman_scc_manager plugin set up in the server See U(https://github.com/ATIX-AG/foreman_scc_manager)",
-    "options": {},
+    "options": {
+      "scc_product": {
+        "description": "Full name of the product of suse customer center account. The I(friendly_name) alias is deprecated as it refers to an attribute that does not uniquely identify a product and not used for product lookups since SCC Manager 1.8.6.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "friendly_name"
+        ]
+      },
+      "scc_account": {
+        "description": "Name of the suse customer center account associated with product",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.setting": {
     "short_description": "Manage Settings",
     "description": "Manage Settings",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the Setting",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "value": {
+        "description": "value to set the Setting to if missing, reset to default",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.setting_info": {
@@ -452,37 +3974,358 @@
   "theforeman.foreman.smart_class_parameter": {
     "short_description": "Manage Smart Class Parameters",
     "description": "Update Smart Class Parameters. Smart Class Parameters are created/deleted for Puppet classes during import and cannot be created or deleted otherwise.",
-    "options": {},
+    "options": {
+      "puppetclass_name": {
+        "description": "Name of the puppetclass that own the parameter",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "puppetclass"
+        ]
+      },
+      "parameter": {
+        "description": "Name of the parameter",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "smart_class_parameter"
+        ]
+      },
+      "description": {
+        "description": "Description of the Smart Class Parameter",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "override": {
+        "description": "Whether the smart class parameter value is managed by Foreman",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_value": {
+        "description": "Value to use by default.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hidden_value": {
+        "description": "When enabled the parameter is hidden in the UI.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "omit": {
+        "description": "Don't send this parameter in classification output. Puppet will use the value defined in the Puppet manifest for this parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "override_value_order": {
+        "description": "The order in which values are resolved.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "validator_type": {
+        "description": "Types of validation values.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "regexp",
+          "list"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "validator_rule": {
+        "description": "Used to enforce certain values for the parameter values.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parameter_type": {
+        "description": "Types of variable values. If C(none), set the parameter type to empty value.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "string",
+          "boolean",
+          "integer",
+          "real",
+          "array",
+          "hash",
+          "yaml",
+          "json",
+          "none"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "required": {
+        "description": "If true, will raise an error if there is no default value and no matcher provide a value.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "merge_overrides": {
+        "description": "Merge all matching values (only array/hash type).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "merge_default": {
+        "description": "Include default value when merging all matching values.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "avoid_duplicates": {
+        "description": "Remove duplicate values (only array type)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "override_values": {
+        "description": "Value overrides",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the entity.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "present_with_defaults"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.smart_class_parameter_override_value": {
     "short_description": "Manage Smart Class Parameter Override Values",
     "description": "Manage Smart Class Parameter Override Values",
-    "options": {},
+    "options": {
+      "puppetclass": {
+        "description": "Puppet Class the Smart Class Parameter belongs to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "puppetclass_name"
+        ]
+      },
+      "smart_class_parameter": {
+        "description": "Smart Class Parameter the Override Value belongs to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "parameter"
+        ]
+      },
+      "match": {
+        "description": "Override match",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "omit": {
+        "description": "Foreman will not send this parameter in classification output",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "value": {
+        "description": "Override value, required if omit is false",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.smart_proxy": {
     "short_description": "Manage Smart Proxies",
     "description": "Create, update and delete Smart Proxies",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the Smart Proxy",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lifecycle_environments": {
+        "description": "Lifecycle Environments synced to the Smart Proxy. Only available for Katello installations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "url": {
+        "description": "URL of the Smart Proxy",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "download_policy": {
+        "description": "The download policy for the Smart Proxy Only available for Katello installations. The download policy C(background) is deprecated and not available since Katello 4.3. The download policy C(streamed) is available since Katello 4.5.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "background",
+          "immediate",
+          "on_demand",
+          "streamed",
+          "inherit"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.smart_proxy_refresh": {
     "short_description": "Refresh Smart Proxy features",
     "description": "Refresh Smart Proxy features",
-    "options": {},
+    "options": {
+      "smart_proxy": {
+        "description": "Name of the Smart Proxy",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.snapshot": {
     "short_description": "Manage Snapshots",
-    "description": "",
-    "options": {},
+    "description": "Manage Snapshots for Host Entities This module can create, update, revert and delete snapshots This module requires the foreman_snapshot_management plugin set up in the server See: U(https://github.com/ATIX-AG/foreman_snapshot_management)",
+    "options": {
+      "name": {
+        "description": "Name of Snapshot",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of Snapshot",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "Name of related Host",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "include_ram": {
+        "description": "Option to add RAM (only available for VMWare compute-resource)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "quiesce": {
+        "description": "Option to create quiesce snapshot (only available for VMWare compute-resource)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of Snapshot",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "reverted",
+          "absent",
+          "new_snapshot"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "id": {
+        "description": "Id of Snapshot",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.snapshot_info": {
     "short_description": "Fetch information about Foreman Snapshots",
     "description": "Fetch information about Foreman Snapshots",
-    "options": {},
+    "options": {
+      "host": {
+        "description": "Name of related Host",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.status_info": {
@@ -494,7 +4337,245 @@
   "theforeman.foreman.subnet": {
     "short_description": "Manage Subnets",
     "description": "Create, update, and delete Subnets",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Subnet name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the subnet",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "updated_name": {
+        "description": "New subnet name. When this parameter is set, the module will not be idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network_type": {
+        "description": "Subnet type",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "IPv4",
+          "IPv6"
+        ],
+        "default": "IPv4",
+        "aliases": null
+      },
+      "dns_primary": {
+        "description": "Primary DNS server for this subnet",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dns_secondary": {
+        "description": "Secondary DNS server for this subnet",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domains": {
+        "description": "List of DNS domains the subnet should assigned to",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gateway": {
+        "description": "Subnet gateway IP address",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network": {
+        "description": "Subnet IP address",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cidr": {
+        "description": "CIDR prefix length; Required if I(network_type=IPv4) and no I(mask) provided",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mask": {
+        "description": "Subnet netmask. Required if I(network_type=IPv4) and no I(cidr) prefix length provided",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "from_ip": {
+        "description": "First IP address of the host IP allocation pool",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "to_ip": {
+        "description": "Last IP address of the host IP allocation pool",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "boot_mode": {
+        "description": "Boot mode used by hosts in this subnet",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "DHCP",
+          "Static"
+        ],
+        "default": "DHCP",
+        "aliases": null
+      },
+      "ipam": {
+        "description": "IPAM mode for this subnet",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "DHCP",
+          "Internal DB",
+          "Random DB",
+          "EUI-64",
+          "External IPAM",
+          "None"
+        ],
+        "default": "DHCP",
+        "aliases": null
+      },
+      "dhcp_proxy": {
+        "description": "DHCP Smart proxy for this subnet",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "httpboot_proxy": {
+        "description": "HTTP Boot Smart proxy for this subnet",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tftp_proxy": {
+        "description": "TFTP Smart proxy for this subnet",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "discovery_proxy": {
+        "description": "Discovery Smart proxy for this subnet This option is only available if the discovery plugin is installed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dns_proxy": {
+        "description": "Reverse DNS Smart proxy for this subnet",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_proxy": {
+        "description": "Template Smart proxy for this subnet",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bmc_proxy": {
+        "description": "BMC Smart proxy for this subnet",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remote_execution_proxies": {
+        "description": "Remote execution Smart proxies for this subnet This option is only available if the remote_execution plugin is installed. This will always report I(changed=true) when used with I(remote_execution < 4.1.0), due to a bug in the plugin.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "externalipam_proxy": {
+        "description": "External IPAM proxy for this subnet. Only relevant if I(ipam=External IPAM).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "externalipam_group": {
+        "description": "External IPAM group for this subnet. Only relevant if I(ipam=External IPAM).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vlanid": {
+        "description": "VLAN ID",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mtu": {
+        "description": "MTU",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parameters": {
+        "description": "Subnet specific host parameters",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.subnet_info": {
@@ -512,43 +4593,695 @@
   "theforeman.foreman.subscription_manifest": {
     "short_description": "Manage Subscription Manifests",
     "description": "Upload, refresh and delete Subscription Manifests",
-    "options": {},
+    "options": {
+      "manifest_path": {
+        "description": "Path to the manifest zip file This parameter will be ignored if I(state=absent) or I(state=refreshed)",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the manifest",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "refreshed"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "repository_url": {
+        "description": "URL to retrieve content from",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "redhat_repository_url"
+        ]
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.sync_plan": {
     "short_description": "Manage Sync Plans",
     "description": "Manage sync plans",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the sync plan",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the sync plan",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interval": {
+        "description": "How often synchronization should run",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "hourly",
+          "daily",
+          "weekly",
+          "custom cron"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Whether the sync plan is active",
+        "type": "bool",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sync_date": {
+        "description": "Start date and time of the first synchronization. Multiple formats are accepted, but only C(YYYY-mm-dd HH:MM:SS +z) (e.g. C(2024-08-01 00:00:00 +0000)) will be idempotent.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cron_expression": {
+        "description": "A cron expression as found in crontab files This must be provided together with I(interval='custom cron').",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "products": {
+        "description": "List of products to include in the sync plan",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.templates_import": {
     "short_description": "Sync Templates from a repository",
     "description": "Sync provisioning templates, report_templates, partition tables and job templates from external git repository or file system. Based on foreman_templates plugin U(https://github.com/theforeman/foreman_templates).",
-    "options": {},
+    "options": {
+      "prefix": {
+        "description": "Adds specified string to beginning of all imported templates that do not yet have that prefix.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "associate": {
+        "description": "Associate to Operatingsystems, Locations and Organizations based on metadata.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "always",
+          "new",
+          "never"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "verbose": {
+        "description": "Add template reports to the output.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Update templates that are locked.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lock": {
+        "description": "Lock imported templates.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "branch": {
+        "description": "Branch of the I(repo). Only for git-based repositories.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "repo": {
+        "description": "Filesystem path or repo (with protocol), for example /tmp/dir or git://example.com/repo.git or https://example.com/repo.git.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filter": {
+        "description": "Sync only templates with name matching this regular expression, after I(prefix) was applied. Case-insensitive, snippets are not filtered.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "negate": {
+        "description": "Negate the filter condition.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dirname": {
+        "description": "The directory within Git repo containing the templates.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "http_proxy_policy": {
+        "description": "HTTP proxy policy for template sync. You can choose no HTTP proxy, global HTTP proxy, or a custom HTTP proxy (C(selected)) If you choose 'selected', provide the C(http_proxy) parameter.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "none",
+          "global",
+          "selected"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "http_proxy": {
+        "description": "HTTP proxy to use for template sync. Use this parameter together with C(http_proxy_policy=selected)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.user": {
     "short_description": "Manage Users",
     "description": "Create, update, and delete users",
-    "options": {},
+    "options": {
+      "login": {
+        "description": "Name of the user",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "firstname": {
+        "description": "First name of the user",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lastname": {
+        "description": "Last name of the user",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mail": {
+        "description": "Email address of the user Required when creating a new user",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the user",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "admin": {
+        "description": "Whether or not the user is an administrator",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_password": {
+        "description": "Password for the user. When this parameter is set, the module will not be idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_location": {
+        "description": "The location that the user uses by default",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_organization": {
+        "description": "The organization that the user uses by default",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auth_source": {
+        "description": "Authentication source where the user exists",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timezone": {
+        "description": "Timezone for the user If blank it will use the browser timezone.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "International Date Line West",
+          "American Samoa",
+          "Midway Island",
+          "Hawaii",
+          "Alaska",
+          "Pacific Time (US & Canada)",
+          "Tijuana",
+          "Arizona",
+          "Chihuahua",
+          "Mazatlan",
+          "Mountain Time (US & Canada)",
+          "Central America",
+          "Central Time (US & Canada)",
+          "Guadalajara",
+          "Mexico City",
+          "Monterrey",
+          "Saskatchewan",
+          "Bogota",
+          "Eastern Time (US & Canada)",
+          "Indiana (East)",
+          "Lima",
+          "Quito",
+          "Atlantic Time (Canada)",
+          "Caracas",
+          "Georgetown",
+          "La Paz",
+          "Puerto Rico",
+          "Santiago",
+          "Newfoundland",
+          "Brasilia",
+          "Buenos Aires",
+          "Greenland",
+          "Montevideo",
+          "Mid-Atlantic",
+          "Azores",
+          "Cape Verde Is.",
+          "Dublin",
+          "Edinburgh",
+          "Lisbon",
+          "London",
+          "Monrovia",
+          "UTC",
+          "Amsterdam",
+          "Belgrade",
+          "Berlin",
+          "Bern",
+          "Bratislava",
+          "Brussels",
+          "Budapest",
+          "Casablanca",
+          "Copenhagen",
+          "Ljubljana",
+          "Madrid",
+          "Paris",
+          "Prague",
+          "Rome",
+          "Sarajevo",
+          "Skopje",
+          "Stockholm",
+          "Vienna",
+          "Warsaw",
+          "West Central Africa",
+          "Zagreb",
+          "Zurich",
+          "Athens",
+          "Bucharest",
+          "Cairo",
+          "Harare",
+          "Helsinki",
+          "Jerusalem",
+          "Kaliningrad",
+          "Kyiv",
+          "Pretoria",
+          "Riga",
+          "Sofia",
+          "Tallinn",
+          "Vilnius",
+          "Baghdad",
+          "Istanbul",
+          "Kuwait",
+          "Minsk",
+          "Moscow",
+          "Nairobi",
+          "Riyadh",
+          "St. Petersburg",
+          "Tehran",
+          "Abu Dhabi",
+          "Baku",
+          "Muscat",
+          "Samara",
+          "Tbilisi",
+          "Volgograd",
+          "Yerevan",
+          "Kabul",
+          "Ekaterinburg",
+          "Islamabad",
+          "Karachi",
+          "Tashkent",
+          "Chennai",
+          "Kolkata",
+          "Mumbai",
+          "New Delhi",
+          "Sri Jayawardenepura",
+          "Kathmandu",
+          "Almaty",
+          "Astana",
+          "Dhaka",
+          "Urumqi",
+          "Rangoon",
+          "Bangkok",
+          "Hanoi",
+          "Jakarta",
+          "Krasnoyarsk",
+          "Novosibirsk",
+          "Beijing",
+          "Chongqing",
+          "Hong Kong",
+          "Irkutsk",
+          "Kuala Lumpur",
+          "Perth",
+          "Singapore",
+          "Taipei",
+          "Ulaanbaatar",
+          "Osaka",
+          "Sapporo",
+          "Seoul",
+          "Tokyo",
+          "Yakutsk",
+          "Adelaide",
+          "Darwin",
+          "Brisbane",
+          "Canberra",
+          "Guam",
+          "Hobart",
+          "Melbourne",
+          "Port Moresby",
+          "Sydney",
+          "Vladivostok",
+          "Magadan",
+          "New Caledonia",
+          "Solomon Is.",
+          "Srednekolymsk",
+          "Auckland",
+          "Fiji",
+          "Kamchatka",
+          "Marshall Is.",
+          "Wellington",
+          "Chatham Is.",
+          "Nuku'alofa",
+          "Samoa",
+          "Tokelau Is."
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "locale": {
+        "description": "The language locale for the user",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ca",
+          "de",
+          "en",
+          "en_GB",
+          "es",
+          "fr",
+          "gl",
+          "it",
+          "ja",
+          "ko",
+          "nl_NL",
+          "pl",
+          "pt_BR",
+          "ru",
+          "sv_SE",
+          "zh_CN",
+          "zh_TW"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "roles": {
+        "description": "List of roles assigned to the user",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.usergroup": {
     "short_description": "Manage User Groups",
     "description": "Create, update, and delete user groups",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the group",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "updated_name": {
+        "description": "New user group name. When this parameter is set, the module will not be idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "admin": {
+        "description": "Whether or not the users in this group are administrators",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "roles": {
+        "description": "List of roles assigned to the group",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "users": {
+        "description": "List of users assigned to the group",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "usergroups": {
+        "description": "List of other groups assigned to the group",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.wait_for_task": {
     "short_description": "Wait for a task",
     "description": "Wait for a task to finish",
-    "options": {},
+    "options": {
+      "task": {
+        "description": "Task id to wait for.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "How much time the task should take to be finished",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 60,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "theforeman.foreman.webhook": {
     "short_description": "Manage Webhooks",
     "description": "Manage Webhooks",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the Webhook",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_url": {
+        "description": "The URL to call when the webhook is triggered Required when creating a new webhook",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "http_method": {
+        "description": "The HTTP method used in the webhook",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "POST",
+          "GET",
+          "PUT",
+          "DELETE",
+          "PATCH"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "http_content_type": {
+        "description": "The HTTP content type for the webhook",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "event": {
+        "description": "Name of the event that shall trigger the webhook Required when creating a new webhook",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webhook_template": {
+        "description": "Name of the webhook template",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Enable or disable the webhook",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "verify_ssl": {
+        "description": "Verify SSL certs for the webhook",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl_ca_certs": {
+        "description": "X509 Certification Authorities concatenated in PEM format",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webhook_username": {
+        "description": "Username for the webhook, if required",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webhook_password": {
+        "description": "Password for the webhook, if required",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "http_headers": {
+        "description": "HTTP headers for the webhook",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "proxy_authorization": {
+        "description": "Authorize with client certificate and validate CA from Settings",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

@@ -44,11 +44,63 @@
         "aliases": null
       },
       "user_data_handling": {
-        "description": "How user_data will be handled when creating a server. There are currently two options,",
+        "description": "How user_data will be handled when creating a server. There are currently two options, \"pass-through\" and \"extend-cloud-config\".",
         "type": "str",
+        "required": false,
+        "choices": [
+          "pass-through",
+          "extend-cloud-config"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "zones": {
+        "description": "Specify zones in which the custom image will be available (e.g. C(lpg1) or C(rma1)).",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "source_format": {
+        "description": "The file format of the image referenced in the url.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "raw",
+          "qcow2"
+        ],
+        "default": "raw",
+        "aliases": null
+      },
+      "firmware_type": {
+        "description": "The firmware type that will be used for servers created with this image.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "bios",
+          "uefi"
+        ],
+        "default": "bios",
+        "aliases": null
+      },
+      "tags": {
+        "description": "The tags assigned to the custom image.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the coustom image.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -157,37 +209,477 @@
   "cloudscale_ch.cloud.load_balancer": {
     "short_description": "Manages load balancers on the cloudscale.ch IaaS service",
     "description": "Get, create, update, delete load balancers on the cloudscale.ch IaaS service.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "State of the load balancer.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the load balancer. Either I(name) or I(uuid) are required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the load balancer. Either I(name) or I(uuid) are required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "flavor": {
+        "description": "Flavor of the load balancer.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "lb-standard",
+        "aliases": null
+      },
+      "vip_addresses": {
+        "description": "See the [API documentation](https://www.cloudscale.ch/en/api/v1#vip_addresses-attribute-specification) for details about this parameter.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "zone": {
+        "description": "Zone in which the load balancer resides (e.g. C(lpg1) or C(rma1)).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Tags assosiated with the load balancer. Set this to C({}) to clear any tags.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cloudscale_ch.cloud.load_balancer_health_monitor": {
     "short_description": "Manages load balancers on the cloudscale.ch IaaS service",
     "description": "Get, create, update, delete health monitors on the cloudscale.ch IaaS service.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "State of the load balancer health monitor.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the load balancer health monitor.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool": {
+        "description": "The pool of the health monitor.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delay_s": {
+        "description": "The delay between two successive checks in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_s": {
+        "description": "The maximum time allowed for an individual check in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "up_threshold": {
+        "description": "The number of checks that need to be successful before the monitor_status of a pool member changes to \"up\".",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "down_threshold": {
+        "description": "The number of checks that need to fail before the monitor_status of a pool member changes to \"down\".",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "The type of the health monitor. See the [API documentation](https://www.cloudscale.ch/en/api/v1#create-a-health-monitor) for allowed options.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "http": {
+        "description": "Advanced options for health monitors with type \"http\" or \"https\".",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Tags assosiated with the load balancer. Set this to C({}) to clear any tags.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cloudscale_ch.cloud.load_balancer_listener": {
     "short_description": "Manages load balancer listeners on the cloudscale.ch IaaS service",
     "description": "Get, create, update, delete listeners on the cloudscale.ch IaaS service.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "State of the load balancer listener.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the load balancer listener. Either I(name) or I(uuid) are required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the load balancer listener. Either I(name) or I(uuid) are required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool": {
+        "description": "The pool of the listener.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol": {
+        "description": "The protocol used for receiving traffic.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol_port": {
+        "description": "The port on which traffic is received.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allowed_cidrs": {
+        "description": "Restrict the allowed source IPs for this listener. Empty means that any source IP is allowed. If the list is non-empty, traffic from source IPs not included is denied.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_client_data_ms": {
+        "description": "Client inactivity timeout in milliseconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_member_connect_ms": {
+        "description": "Pool member connection timeout in milliseconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_member_data_ms": {
+        "description": "Pool member inactivity timeout in milliseconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Tags assosiated with the load balancer. Set this to C({}) to clear any tags.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cloudscale_ch.cloud.load_balancer_pool": {
     "short_description": "Manages load balancer pools on the cloudscale.ch IaaS service",
     "description": "Get, create, update, delete pools on the cloudscale.ch IaaS service.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "State of the load balancer pool.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the load balancer pool.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the load balancer pool. Either I(name) or I(uuid) are required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "load_balancer": {
+        "description": "UUID of the load balancer for this pool.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "algorithm": {
+        "description": "The algorithm according to which the incoming traffic is distributed between the pool members. See the [API documentation](https://www.cloudscale.ch/en/api/v1#pool-algorithms) for supported distribution algorithms.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol": {
+        "description": "The protocol used for traffic between the load balancer and the pool members. See the [API documentation](https://www.cloudscale.ch/en/api/v1#pool-protocols) for supported protocols.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Tags assosiated with the load balancer. Set this to C({}) to clear any tags.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cloudscale_ch.cloud.load_balancer_pool_member": {
     "short_description": "Manages load balancer pool members on the cloudscale.ch IaaS service",
     "description": "Get, create, update, delete pool members on the cloudscale.ch IaaS service.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "State of the load balancer pool member.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the load balancer pool member. Either I(name) or I(uuid) are required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the load balancer. Either I(name) or I(uuid) are required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "load_balancer_pool": {
+        "description": "UUID of the load balancer pool.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Pool member will not receive traffic if false. Default is true.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "protocol_port": {
+        "description": "The port to which actual traffic is sent.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "monitor_port": {
+        "description": "The port to which health monitor checks are sent. If not specified, protocol_port will be used. Default is null.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "address": {
+        "description": "The IP address to which traffic is sent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subnet": {
+        "description": "The subnet of the address must be specified here.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Tags assosiated with the load balancer. Set this to C({}) to clear any tags.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cloudscale_ch.cloud.network": {
     "short_description": "Manages networks on the cloudscale.ch IaaS service",
     "description": "Create, update and remove networks.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the network. Either I(name) or I(uuid) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the network. Either I(name) or I(uuid) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mtu": {
+        "description": "The MTU of the network.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 9000,
+        "aliases": null
+      },
+      "auto_create_ipv4_subnet": {
+        "description": "Whether to automatically create an IPv4 subnet in the network or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "zone": {
+        "description": "Zone slug of the network (e.g. C(lpg1) or C(rma1)).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the network.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "Tags assosiated with the networks. Set this to C({}) to clear any tags.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cloudscale_ch.cloud.objects_user": {
@@ -237,31 +729,426 @@
   "cloudscale_ch.cloud.server": {
     "short_description": "Manages servers on the cloudscale.ch IaaS service",
     "description": "Create, update, start, stop and delete servers on the cloudscale.ch IaaS service.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "State of the server.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "running",
+          "stopped",
+          "absent"
+        ],
+        "default": "running",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Server. Either I(name) or I(uuid) are required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the server. Either I(name) or I(uuid) are required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "flavor": {
+        "description": "Flavor of the server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image": {
+        "description": "Image used to create the server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "zone": {
+        "description": "Zone in which the server resides (e.g. C(lpg1) or C(rma1)).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "volume_size_gb": {
+        "description": "Initial size of the root volume in GB. This parameter has no effect on existing servers. Use the volume module to change the size of the root volume.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "bulk_volume_size_gb": {
+        "description": "Size of the bulk storage volume in GB. No bulk storage volume if not set.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssh_keys": {
+        "description": "List of SSH public keys. Use the full content of your .pub file here.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password for the server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_public_network": {
+        "description": "Attach a public network interface to the server.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_private_network": {
+        "description": "Attach a private network interface to the server.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_ipv6": {
+        "description": "Enable IPv6 on the public network interface.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "interfaces": {
+        "description": "List of network interface objects specifying the interfaces to be attached to the server. See U(https://www.cloudscale.ch/en/api/v1/#interfaces-attribute-specification) for more details.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_groups": {
+        "description": "List of UUID or names of server groups.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_data": {
+        "description": "Cloud-init configuration (cloud-config) data to use for the server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Allow to stop the running server for updating if necessary.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Tags assosiated with the servers. Set this to C({}) to clear any tags.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cloudscale_ch.cloud.server_group": {
     "short_description": "Manages server groups on the cloudscale.ch IaaS service",
     "description": "Create, update and remove server groups.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the server group. Either I(name) or I(uuid) is required. These options are mutually exclusive.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the server group. Either I(name) or I(uuid) is required. These options are mutually exclusive.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Type of the server group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "anti-affinity",
+        "aliases": null
+      },
+      "zone": {
+        "description": "Zone slug of the server group (e.g. C(lpg1) or C(rma1)).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the server group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "Tags assosiated with the server groups. Set this to C({}) to clear any tags.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cloudscale_ch.cloud.subnet": {
     "short_description": "Manages subnets on the cloudscale.ch IaaS service",
     "description": "Create, update and remove subnets.",
-    "options": {},
+    "options": {
+      "uuid": {
+        "description": "UUID of the subnet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cidr": {
+        "description": "The cidr of the subnet. Required if I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network": {
+        "description": "The name of the network the subnet is related to. Required if I(state=present).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gateway_address": {
+        "description": "The gateway address of the subnet. If not set, no gateway is used. Cannot be within the DHCP range, which is the lowest .101-.254 in the subnet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dns_servers": {
+        "description": "A list of DNS resolver IP addresses, that act as DNS servers. If not set, the cloudscale.ch default resolvers are used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "reset": {
+        "description": "Resets I(gateway_address) and I(dns_servers) to default values by the API. Note: Idempotency is not given.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the subnet.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "Tags associated with the subnet. Set this to C({}) to clear any tags.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cloudscale_ch.cloud.volume": {
     "short_description": "Manages volumes on the cloudscale.ch IaaS service.",
     "description": "Create, attach/detach, update, delete and revert volumes on the cloudscale.ch IaaS service.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "State of the volume.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the volume. Either name or UUID must be present to change an existing volume.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the volume. Either name or UUID must be present to change an existing volume.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "size_gb": {
+        "description": "Size of the volume in GB.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Type of the volume. Cannot be changed after creating the volume. Defaults to C(ssd) on volume creation.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ssd",
+          "bulk"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "zone": {
+        "description": "Zone in which the volume resides (e.g. C(lpg1) or C(rma1)). Cannot be changed after creating the volume. Defaults to the project default zone.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "servers": {
+        "description": "UUIDs of the servers this volume is attached to. Set this to C([]) to detach the volume. Currently a volume can only be attached to a single server. The aliases C(server_uuids) and C(server_uuid) are deprecated and will be removed in version 3.0.0 of this collection.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "server_uuids",
+          "server_uuid"
+        ]
+      },
+      "revert": {
+        "description": "UUID of the snapshot to revert the volume to. This must be the most recent snapshot of the volume. For root volumes: the respective server must be shut down. For non-root volumes: the volume to be reverted must be detached",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Tags associated with the volume. Set this to C({}) to clear any tags.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cloudscale_ch.cloud.volume_snapshot": {
     "short_description": "Manage volume snapshots on the cloudscale.ch IaaS service",
     "description": "Get, create, update, delete volume snapshots on the cloudscale.ch IaaS service.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "State of the volume snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the volume snapshot. Either I(name) or I(uuid) are required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the volume snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_volume": {
+        "description": "UUID of the volume this snapshot belongs to. If I(name) and I(source_volume) are present, a new volume snapshot is created. This parameter has no effect on existing volume snapshots (I(uuid) option is present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Tags assigned to the volume snapshot. Set this to C({}) to clear any tags.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

@@ -1,4 +1,67 @@
 {
+  "openstack.cloud.address_scope": {
+    "short_description": "Create or delete address scopes from OpenStack",
+    "description": "Create or Delete address scopes from OpenStack.",
+    "options": {
+      "state": {
+        "description": "Indicate desired state of the resource",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name to be give to the address scope This option cannot be updated.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project": {
+        "description": "Unique name or ID of the project. This option cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip_version": {
+        "description": "The IP version of the subnet 4 or 6. This option cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "4",
+          "6"
+        ],
+        "default": "4",
+        "aliases": null
+      },
+      "is_shared": {
+        "description": "Whether this address scope is shared or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "false",
+        "aliases": [
+          "shared"
+        ]
+      },
+      "extra_specs": {
+        "description": "Dictionary with extra key/value pairs passed to the API",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
   "openstack.cloud.application_credential": {
     "short_description": "Manage OpenStack Identity (Keystone) application credentials",
     "description": "Create or delete an OpenStack Identity (Keystone) application credential. When the secret parameter is not set a secret will be generated and returned in the response. Existing credentials cannot be modified so running this module against an existing credential will result in it being deleted and recreated. This needs to be taken into account when the secret is generated, as the secret will change on each run of the module.",
@@ -79,10 +142,574 @@
     "options": {},
     "deprecated": null
   },
+  "openstack.cloud.baremetal_deploy_template": {
+    "short_description": "Create/Delete Bare Metal deploy template Resources from OpenStack",
+    "description": "Create, Update and Remove ironic deploy templates from OpenStack.",
+    "options": {
+      "extra": {
+        "description": "A set of one or more arbitrary metadata key and value pairs.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "ID of the deploy template. Will be auto-generated if not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "uuid"
+        ]
+      },
+      "name": {
+        "description": "Name of the deploy template. Must be formatted as a trait name (see API reference). Required when the deploy template is created, after which the name or ID may be used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "steps": {
+        "description": "List of deploy steps to apply. Required when the deploy template is created.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicates desired state of the resource",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
   "openstack.cloud.baremetal_inspect": {
     "short_description": "Explicitly triggers baremetal node introspection in ironic.",
-    "description": "Requests Ironic to set a node into inspect state in order to collect metadata regarding the node. This command may be out of band or in-band depending on the ironic driver configuration. This is only possible on nodes in",
-    "options": {},
+    "description": "Requests Ironic to set a node into inspect state in order to collect metadata regarding the node. This command may be out of band or in-band depending on the ironic driver configuration. This is only possible on nodes in 'manageable' and 'available' state.",
+    "options": {
+      "mac": {
+        "description": "unique mac address that is used to attempt to identify the host.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name or id of the node to inspect. Mutually exclusive with I(mac)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "id",
+          "uuid"
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.baremetal_node": {
+    "short_description": "Create/Delete Bare Metal Resources from OpenStack",
+    "description": "Create or Remove Ironic nodes from OpenStack.",
+    "options": {
+      "bios_interface": {
+        "description": "The bios interface for this node, e.g. C(no-bios).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "boot_interface": {
+        "description": "The boot interface for this node, e.g. C(pxe).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chassis_id": {
+        "description": "Associate the node with a pre-defined chassis.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "chassis_uuid"
+        ]
+      },
+      "console_interface": {
+        "description": "The console interface for this node, e.g. C(no-console).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "deploy_interface": {
+        "description": "The deploy interface for this node, e.g. C(iscsi).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "driver": {
+        "description": "The name of the Ironic Driver to use with this node. Required when I(state) is C(present)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "driver_info": {
+        "description": "Information for this node's driver. Will vary based on which driver is in use. Any sub-field which is populated will be validated during creation. For compatibility reasons sub-fields `power`, `deploy`, `management` and `console` are flattened.",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "ID to be given to the baremetal node. Will be auto-generated on creation if not specified, and I(name) is specified. Definition of I(id) will always take precedence over I(name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "uuid"
+        ]
+      },
+      "inspect_interface": {
+        "description": "The interface used for node inspection, e.g. C(no-inspect).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "management_interface": {
+        "description": "The interface for out-of-band management of this node, e.g. \"ipmitool\".",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "unique name identifier to be given to the resource.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network_interface": {
+        "description": "The network interface provider to use when describing connections for this node.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nics": {
+        "description": "A list of network interface cards, eg, C( - mac: aa:bb:cc:aa:bb:cc) This node attribute cannot be updated.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "power_interface": {
+        "description": "The interface used to manage power actions on this node, e.g. C(ipmitool).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "properties": {
+        "description": "Definition of the physical characteristics of this node Used for scheduling purposes",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "raid_interface": {
+        "description": "Interface used for configuring raid on this node.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rescue_interface": {
+        "description": "Interface used for node rescue, e.g. C(no-rescue).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resource_class": {
+        "description": "The specific resource type to which this node belongs.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "skip_update_of_masked_password": {
+        "description": "Deprecated, no longer used. Updating or specifing a password has not been supported for a while.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicates desired state of the resource",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "storage_interface": {
+        "description": "Interface used for attaching and detaching volumes on this node, e.g. C(cinder).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Number of seconds to wait for the newly created node to reach the available state.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1800,
+        "aliases": null
+      },
+      "vendor_interface": {
+        "description": "Interface for all vendor-specific actions on this node, e.g. C(no-vendor).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.baremetal_node_action": {
+    "short_description": "Activate/Deactivate Bare Metal nodes from OpenStack",
+    "description": "Deploy to Bare Metal nodes controlled by Ironic.",
+    "options": {
+      "deploy": {
+        "description": "Indicates if the resource should be deployed. Allows for deployment logic to be disengaged and control of the node power or maintenance state to be changed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "config_drive": {
+        "description": "A configdrive file or HTTP(S) URL that will be passed along to the node.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "instance_info": {
+        "description": "Definition of the instance information which is used to deploy the node.  This information is only required when I(state) is set to C(present) or C(on).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "maintenance": {
+        "description": "Set node into maintenance mode. The power state as controlled with I(power) will not be changed when maintenance mode of a node is changed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "maintenance_reason": {
+        "description": "A string expression regarding the reason a node is in a maintenance mode.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name or ID of the Bare Metal node.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "id",
+          "uuid"
+        ]
+      },
+      "power": {
+        "description": "A setting to allow power state to be asserted allowing nodes that are not yet deployed to be powered on, and nodes that are deployed to be powered off. I(power) can be C(present), C(absent), C(maintenance), C(on) or C(off).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "maintenance",
+          "on",
+          "off"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicates desired state of the resource. I(state) can be C(present), C(absent), C(maintenance), C(on) or C(off).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "maintenance",
+          "on",
+          "off"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Number of seconds to wait for the node activation or deactivation to complete.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1800,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.baremetal_node_info": {
+    "short_description": "Retrieve information about Bare Metal nodes from OpenStack",
+    "description": "Retrieve information about Bare Metal nodes from OpenStack.",
+    "options": {
+      "mac": {
+        "description": "MAC address that is used to attempt to identify the host.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name or ID of the baremetal node.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "node"
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.baremetal_port": {
+    "short_description": "Create/Delete Bare Metal port Resources from OpenStack",
+    "description": "Create, Update and Remove ironic ports from OpenStack.",
+    "options": {
+      "address": {
+        "description": "Physical hardware address of this network Port, typically the hardware MAC address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extra": {
+        "description": "A set of one or more arbitrary metadata key and value pairs.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "ID of the Port. Will be auto-generated if not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "uuid"
+        ]
+      },
+      "is_pxe_enabled": {
+        "description": "Whether PXE should be enabled or disabled on the Port.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "pxe_enabled"
+        ]
+      },
+      "local_link_connection": {
+        "description": "The Port binding profile.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "node": {
+        "description": "ID or Name of the Node this resource belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "physical_network": {
+        "description": "The name of the physical network to which a port is connected.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port_group": {
+        "description": "ID or Name of the portgroup this resource belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "portgroup"
+        ]
+      },
+      "state": {
+        "description": "Indicates desired state of the resource",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.baremetal_port_info": {
+    "short_description": "Retrieve information about Bare Metal ports from OpenStack",
+    "description": "Retrieve information about Bare Metal ports from OpenStack.",
+    "options": {
+      "address": {
+        "description": "Physical hardware address of this network Port, typically the hardware MAC address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name or ID of the Bare Metal port.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "uuid"
+        ]
+      },
+      "node": {
+        "description": "Name or ID of a Bare Metal node.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.catalog_service": {
+    "short_description": "Manage OpenStack services",
+    "description": "Create, update or delete a OpenStack service.",
+    "options": {
+      "name": {
+        "description": "Name of the service.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the service.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_enabled": {
+        "description": "Whether this service is enabled or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "enabled"
+        ]
+      },
+      "type": {
+        "description": "The type of service.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "service_type"
+        ]
+      },
+      "state": {
+        "description": "Whether the service should be C(present) or C(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "openstack.cloud.catalog_service_info": {
@@ -102,14 +729,498 @@
   },
   "openstack.cloud.coe_cluster": {
     "short_description": "Manage COE cluster in OpenStack Cloud",
-    "description": "Add or remove a COE (Container Orchestration Engine) cluster via OpenStack",
-    "options": {},
+    "description": "Add or remove a COE (Container Orchestration Engine) cluster via OpenStack's Magnum aka Container Infrastructure Management API.",
+    "options": {
+      "cluster_template_id": {
+        "description": "The template ID of cluster template. Required if I(state) is C(present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "discovery_url": {
+        "description": "URL used for cluster node discovery.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "flavor_id": {
+        "description": "The flavor of the minion node for this cluster template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_floating_ip_enabled": {
+        "description": "Indicates whether created cluster should have a floating ip. Whether enable or not using the floating IP of cloud provider. Some cloud providers used floating IP, some used public IP, thus Magnum provide this option for specifying the choice of using floating IP. If not set, the value of I(is_floating_ip_enabled) of the cluster template specified with I(cluster_template_id) will be used. When I(is_floating_ip_enabled) is set to C(true), then I(external_network_id) in cluster template must be defined.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "floating_ip_enabled"
+        ]
+      },
+      "keypair": {
+        "description": "Name of the keypair to use.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "One or more key/value pairs.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "master_count": {
+        "description": "The number of master nodes for this cluster. Magnum's default value for I(master_count) is 1.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "master_flavor_id": {
+        "description": "The flavor of the master node for this cluster template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name that has to be given to the cluster template.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "node_count": {
+        "description": "The number of nodes for this cluster. Magnum's default value for I(node_count) is 1.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicate desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "openstack.cloud.coe_cluster_template": {
     "short_description": "Manage COE cluster template in OpenStack Cloud",
-    "description": "Add or remove a COE (Container Orchestration Engine) cluster template via OpenStack",
-    "options": {},
+    "description": "Add or remove a COE (Container Orchestration Engine) cluster template via OpenStack's Magnum aka Container Infrastructure Management API.",
+    "options": {
+      "coe": {
+        "description": "The Container Orchestration Engine for this cluster template Required if I(state) is C(present).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "kubernetes",
+          "swarm",
+          "mesos"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "dns_nameserver": {
+        "description": "The DNS nameserver address. Magnum's default value for I(dns_nameserver) is C(8.8.8.8).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "docker_storage_driver": {
+        "description": "Docker storage driver.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "devicemapper",
+          "overlay",
+          "overlay2"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "docker_volume_size": {
+        "description": "The size in GB of the docker volume.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "external_network_id": {
+        "description": "The external network to attach to the cluster. When I(is_floating_ip_enabled) is set to C(true), then I(external_network_id) must be defined.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fixed_network": {
+        "description": "The fixed network name or id to attach to the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fixed_subnet": {
+        "description": "The fixed subnet name or id to attach to the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "flavor_id": {
+        "description": "The flavor of the minion node for this cluster template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_floating_ip_enabled": {
+        "description": "Indicates whether created clusters should have a floating ip or not. When I(is_floating_ip_enabled) is set to C(true), then I(external_network_id) must be defined.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": [
+          "floating_ip_enabled"
+        ]
+      },
+      "is_master_lb_enabled": {
+        "description": "Indicates whether created clusters should have a load balancer for master nodes or not. Magnum's default value for I(is_master_lb_enabled) is C(true), ours is C(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "master_lb_enabled"
+        ]
+      },
+      "is_public": {
+        "description": "Indicates whether the cluster template is public or not. Magnum's default value for I(is_public) is C(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "public"
+        ]
+      },
+      "is_registry_enabled": {
+        "description": "Indicates whether the docker registry is enabled. Magnum's default value for I(is_registry_enabled) is C(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "registry_enabled"
+        ]
+      },
+      "insecure_registry": {
+        "description": "The URL pointing to users own private insecure docker registry.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_tls_disabled": {
+        "description": "Indicates whether the TLS should be disabled. Magnum's default value for I(is_tls_disabled) is C(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "tls_disabled"
+        ]
+      },
+      "keypair_id": {
+        "description": "Name or ID of the keypair to use.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image_id": {
+        "description": "Image id the cluster will be based on. Required if I(state) is C(present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "One or more key/value pairs.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "http_proxy": {
+        "description": "Address of a proxy that will receive all HTTP requests and relay them. The format is a URL including a port number.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "https_proxy": {
+        "description": "Address of a proxy that will receive all HTTPS requests and relay them. The format is a URL including a port number.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "master_flavor_id": {
+        "description": "The flavor of the master node for this cluster template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name that has to be given to the cluster template.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network_driver": {
+        "description": "The name of the driver used for instantiating container networks.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "flannel",
+          "calico",
+          "docker"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "no_proxy": {
+        "description": "A comma separated list of IPs for which proxies should not be used in the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_type": {
+        "description": "Server type for this cluster template. Magnum's default value for I(server_type) is C(vm).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "vm",
+          "bm"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicate desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "volume_driver": {
+        "description": "The name of the driver used for instantiating container volumes.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "cinder",
+          "rexray"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.compute_flavor": {
+    "short_description": "Manage OpenStack compute flavors",
+    "description": "Add or remove compute flavors from OpenStack. Updating a flavor consists of deleting and (re)creating a flavor.",
+    "options": {
+      "description": {
+        "description": "Description of the flavor.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disk": {
+        "description": "Size of local disk, in GB. Required when I(state) is C(present).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ephemeral": {
+        "description": "Ephemeral space size, in GB.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extra_specs": {
+        "description": "Metadata dictionary",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "ID for the flavor. This is optional as a unique UUID will be assigned if a value is not specified. Note that this ID will only be used when first creating the flavor. The ID of an existing flavor cannot be changed. When I(id) is set to C(auto), a new id will be autogenerated. C(auto) is kept for backward compatibility and will be dropped in the next major release.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "flavorid"
+        ]
+      },
+      "is_public": {
+        "description": "Make flavor accessible to the public.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Flavor name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ram": {
+        "description": "Amount of memory, in MB. Required when I(state) is C(present).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rxtx_factor": {
+        "description": "RX/TX factor.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicate desired state of the resource. When I(state) is C(present), then I(ram), I(vcpus), and I(disk) are required. There are no default values for those parameters.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "swap": {
+        "description": "Swap space size, in MB.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vcpus": {
+        "description": "Number of virtual CPUs. Required when I(state) is C(present).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.compute_flavor_access": {
+    "short_description": "Manage access to OpenStack compute flavors",
+    "description": "Add or remove access to OpenStack compute flavor",
+    "options": {
+      "name": {
+        "description": "Name or ID of the compute flavor.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project": {
+        "description": "ID or Name of project to grant. Allow I(project) to access private flavor (name or ID).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project_domain": {
+        "description": "Domain the project belongs to (name or ID). This can be used in case collisions between project names exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicate whether project should have access to compute flavor or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "openstack.cloud.compute_flavor_info": {
@@ -141,7 +1252,15 @@
         "aliases": null
       },
       "ram": {
-        "description": "",
+        "description": "A string used for filtering flavors based on the amount of RAM (in MB) desired. This string accepts the following special values: 'MIN' (return flavors with the minimum amount of RAM), and 'MAX' (return flavors with the maximum amount of RAM). A specific amount of RAM may also be specified. Any flavors with this exact amount of RAM will be returned. A range of acceptable RAM may be given using a special syntax. Simply prefix the amount of RAM with one of these acceptable range values: '<', '>', '<=', '>='. These values represent less than, greater than, less than or equal to, and greater than or equal to, respectively.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vcpus": {
+        "description": "Filter flavors based on the number of virtual CPUs. I(vcpus) supports same format as I(ram) option.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -184,6 +1303,127 @@
         "required": false,
         "choices": null,
         "default": [],
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.dns_zone": {
+    "short_description": "Manage a OpenStack DNS zone.",
+    "description": "Create, delete or update a OpenStack DNS zone.",
+    "options": {
+      "description": {
+        "description": "Zone description.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "email": {
+        "description": "Email of the zone owner. Only applies if I(type) is C(primary).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "masters": {
+        "description": "Master nameservers Only applies if I(type) is C(secondary).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the DNS zone.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the zone should be C(present) or C(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "ttl": {
+        "description": "TTL (Time To Live) value in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Zone type. This attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "primary",
+          "secondary"
+        ],
+        "default": null,
+        "aliases": [
+          "zone_type"
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.dns_zone_info": {
+    "short_description": "Getting information about dns zones",
+    "description": "Getting information about dns zones. Output can be filtered.",
+    "options": {
+      "description": {
+        "description": "Zone description.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "email": {
+        "description": "Email of the zone owner Only applies to primary zones.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Zone name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ttl": {
+        "description": "TTL (Time To Live) value in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Zone type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "primary",
+          "secondary"
+        ],
+        "default": null,
         "aliases": null
       }
     },
@@ -246,6 +1486,291 @@
           "absent"
         ],
         "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.federation_idp": {
+    "short_description": "Manage an identity provider in a OpenStack cloud",
+    "description": "Create, update or delete an identity provider of the OpenStack identity (Keystone) service.",
+    "options": {
+      "description": {
+        "description": "The description of the identity provider.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_id": {
+        "description": "The ID of a domain that is associated with the identity provider. Federated users that authenticate with the identity provider will be created under the domain specified. Required when creating a new identity provider.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "The ID (and name) of the identity provider.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "is_enabled": {
+        "description": "Whether the identity provider is enabled or not. Will default to C(false) when creating a new identity provider.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "enabled"
+        ]
+      },
+      "remote_ids": {
+        "description": "List of the unique identity provider's remote IDs. Will default to an empty list when creating a new identity provider.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the identity provider should be C(present) or C(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.federation_idp_info": {
+    "short_description": "Fetch OpenStack federation identity providers",
+    "description": "Fetch OpenStack federation identity providers.",
+    "options": {
+      "id": {
+        "description": "The ID (and name) of the identity provider to fetch.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.federation_mapping": {
+    "short_description": "Manage a federation mapping",
+    "description": "Manage a federation mapping.",
+    "options": {
+      "name": {
+        "description": "The name of the mapping to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "id"
+        ]
+      },
+      "rules": {
+        "description": "The rules that comprise the mapping. These are pairs of I(local) and I(remote) definitions. For more details on how these work please see the OpenStack documentation U(https://docs.openstack.org/keystone/latest/admin/federation/mapping_combinations.html). Required if I(state) is C(present).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the mapping should be C(present) or C(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.federation_mapping_info": {
+    "short_description": "Fetch Keystone federation mappings",
+    "description": "Fetch Keystone federation mappings.",
+    "options": {
+      "name": {
+        "description": "ID or name of the federation mapping.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "id"
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.floating_ip": {
+    "short_description": "Manage floating IP addresses for OpenStack servers",
+    "description": "Add or remove an floating ip address to/from an OpenStack server. Returns the floating IP when attaching only if I(wait) is C(true). When detaching a floating IP there might be a delay until an server does not list the floating IP any more.",
+    "options": {
+      "fixed_address": {
+        "description": "To which fixed IP of server the floating IP address should be attached to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "floating_ip_address": {
+        "description": "A floating IP address to attach or to detach. When I(state) is present can be used to specify a IP address to attach. I(floating_ip_address) requires I(network) to be set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nat_destination": {
+        "description": "The name or id of a neutron private network that the fixed IP to attach floating IP is on",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "fixed_network",
+          "internal_network"
+        ]
+      },
+      "network": {
+        "description": "The name or ID of a neutron external network or a nova pool name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge": {
+        "description": "When I(state) is absent, indicates whether or not to delete the floating IP completely, or only detach it from the server. Default is to detach only.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "false",
+        "aliases": null
+      },
+      "reuse": {
+        "description": "When I(state) is present, and I(floating_ip_address) is not present, this parameter can be used to specify whether we should try to reuse a floating IP address already allocated to the project. When I(reuse) is C(true), I(network) is defined and I(floating_ip_address) is undefined, then C(nat_destination) and C(fixed_address) will be ignored.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "false",
+        "aliases": null
+      },
+      "server": {
+        "description": "The name or ID of the server to which the IP address should be assigned.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.floating_ip_info": {
+    "short_description": "Get information about floating ips",
+    "description": "Get a generator of floating ips.",
+    "options": {
+      "description": {
+        "description": "The description of a floating IP.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fixed_ip_address": {
+        "description": "The fixed IP address associated with a floating IP address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "floating_ip_address": {
+        "description": "The IP address of a floating IP.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "floating_network": {
+        "description": "The name or id of the network associated with a floating IP.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "The name or id of the port to which a floating IP is associated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project": {
+        "description": "The name or ID of the project a floating IP is associated with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "project_id"
+        ]
+      },
+      "router": {
+        "description": "The name or id of an associated router.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "status": {
+        "description": "The status of a floating IP.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "active",
+          "down"
+        ],
+        "default": null,
         "aliases": null
       }
     },
@@ -343,6 +1868,50 @@
     },
     "deprecated": null
   },
+  "openstack.cloud.identity_domain": {
+    "short_description": "Manage OpenStack identity (Keystone) domains",
+    "description": "Create, update or delete OpenStack identity (Keystone) domains.",
+    "options": {
+      "description": {
+        "description": "Domain description.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_enabled": {
+        "description": "Whether this domain is enabled or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "enabled"
+        ]
+      },
+      "name": {
+        "description": "Domain name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
   "openstack.cloud.identity_domain_info": {
     "short_description": "Fetch identity (Keystone) domains from OpenStack cloud",
     "description": "Fetch identity (Keystone) domains from OpenStack cloud",
@@ -361,6 +1930,48 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.identity_group": {
+    "short_description": "Manage a OpenStack identity (Keystone) group",
+    "description": "Create, update or delete an OpenStack identity (Keystone) group.",
+    "options": {
+      "description": {
+        "description": "Group description.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_id": {
+        "description": "Domain id to create the group in.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Group name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -392,6 +2003,48 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.identity_role": {
+    "short_description": "Manage a OpenStack identity (Keystone) role",
+    "description": "Create, update or delete a OpenStack identity (Keystone) role.",
+    "options": {
+      "description": {
+        "description": "Role description.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_id": {
+        "description": "Domain id to create the role in.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Role name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -461,7 +2114,47 @@
         "type": "bool",
         "required": false,
         "choices": null,
+        "default": "true",
+        "aliases": [
+          "enabled"
+        ]
+      },
+      "name": {
+        "description": "Name of the user. I(name) cannot be updated without deleting and re-creating the user.",
+        "type": "str",
+        "required": true,
+        "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password for the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "update_password": {
+        "description": "When I(update_password) is C(always), then the password will always be updated. When I(update_password) is C(on_create), then the password is only set when creating a user.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "always",
+          "on_create"
+        ],
+        "default": "on_create",
         "aliases": null
       }
     },
@@ -494,6 +2187,234 @@
         "choices": null,
         "default": null,
         "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.image": {
+    "short_description": "Manage images of OpenStack image (Glance) service.",
+    "description": "Create or delete images in OpenStack image (Glance) service.",
+    "options": {
+      "checksum": {
+        "description": "The checksum of the image.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "container_format": {
+        "description": "The format of the container. This image attribute cannot be changed. Examples are C(ami), C(aki), C(ari), C(bare), C(ovf), C(ova) or C(docker).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "bare",
+        "aliases": null
+      },
+      "disk_format": {
+        "description": "The format of the disk that is getting uploaded. This image attribute cannot be changed. Examples are C(ami), C(ari), C(aki), C(vhd), C(vmdk), C(raw), C(qcow2), C(vdi), c(iso), C(vhdx) or C(ploop).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "qcow2",
+        "aliases": null
+      },
+      "filename": {
+        "description": "The path to the file which has to be uploaded. This image attribute cannot be changed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "The ID of the image when uploading an image. This image attribute cannot be changed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_protected": {
+        "description": "Prevent image from being deleted.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "protected"
+        ]
+      },
+      "is_public": {
+        "description": "Whether the image can be accessed publicly. Setting I(is_public) to C(true) requires admin role by default. I(is_public) has been deprecated. Use I(visibility) instead of I(is_public).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "kernel": {
+        "description": "The name of an existing kernel image that will be associated with this image.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "min_disk": {
+        "description": "The minimum disk space (in GB) required to boot this image.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "min_ram": {
+        "description": "The minimum ram (in MB) required to boot this image.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the image when uploading - or the name/ID of the image if deleting. If provided with the id, it can be used to change the name of existing image.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "owner": {
+        "description": "The name or ID of the project owning the image.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "project"
+        ]
+      },
+      "owner_domain": {
+        "description": "The name or id of the domain the project owning the image belongs to. May be used to identify a unique project when providing a name to the project argument and multiple projects with such name exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "project_domain"
+        ]
+      },
+      "properties": {
+        "description": "Additional properties to be associated with this image.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "ramdisk": {
+        "description": "The name of an existing ramdisk image that will be associated with this image.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present, absent or inactive.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "inactive"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "List of tags to be applied to the image.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "visibility": {
+        "description": "The image visibility.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "public",
+          "private",
+          "shared",
+          "community"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "volume": {
+        "description": "ID of a volume to create an image from. The volume must be in AVAILABLE state. I(volume) has been deprecated. Use module M(openstack.cloud.volume) instead.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_import": {
+        "description": "Use the 'glance-direct' method of the interoperable image import mechanism. Should only be used when needed, such as when the user needs the cloud to transform image format.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "import_method": {
+        "description": "Method to use for importing the image. Not all deployments support all methods. Supports web-download or glance-download. copy-image is not supported with create actions. glance-direct is removed from the import method so use_import can be used in that case.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "web-download",
+          "glance-download"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "uri": {
+        "description": "Required only if using the web-download import method. This url is where the data is made available to the Image service.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.image_info": {
+    "short_description": "Fetch images from OpenStack image (Glance) service.",
+    "description": "Fetch images from OpenStack image (Glance) service.",
+    "options": {
+      "name": {
+        "description": "Name or ID of the image",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "image"
+        ]
+      },
+      "filters": {
+        "description": "Dict of properties of the images used for query",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "properties"
+        ]
       }
     },
     "deprecated": null
@@ -580,6 +2501,84 @@
     },
     "deprecated": null
   },
+  "openstack.cloud.keystone_federation_protocol": {
+    "short_description": "Manage a Keystone federation protocol",
+    "description": "Manage a Keystone federation protocol.",
+    "options": {
+      "name": {
+        "description": "ID or name of the federation protocol. This attribute cannot be updated.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "id"
+        ]
+      },
+      "idp": {
+        "description": "ID or name of the identity provider this protocol is associated with. This attribute cannot be updated.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "idp_id",
+          "idp_name"
+        ]
+      },
+      "mapping": {
+        "description": "ID or name of the mapping to use for this protocol. Required when creating a new protocol.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "mapping_id",
+          "mapping_name"
+        ]
+      },
+      "state": {
+        "description": "Whether the protocol should be C(present) or C(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.keystone_federation_protocol_info": {
+    "short_description": "Fetch Keystone federation protocols",
+    "description": "Fetch Keystone federation protocols.",
+    "options": {
+      "name": {
+        "description": "ID or name of the federation protocol.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "id"
+        ]
+      },
+      "idp": {
+        "description": "ID or name of the identity provider this protocol is associated with.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "idp_id",
+          "idp_name"
+        ]
+      }
+    },
+    "deprecated": null
+  },
   "openstack.cloud.lb_health_monitor": {
     "short_description": "Manage health monitor in a OpenStack load-balancer pool",
     "description": "Add, update or remove health monitor from a load-balancer pool in OpenStack cloud.",
@@ -593,8 +2592,195 @@
         "aliases": null
       },
       "expected_codes": {
-        "description": "The list of HTTP status codes expected in response from the member to declare it healthy. Specify one of the following values. For example, I(expected_codes) could be a single value, such as C(200), a list, such as C(200, 202) or a range, such as C(200-204). ",
+        "description": "The list of HTTP status codes expected in response from the member to declare it healthy. Specify one of the following values. For example, I(expected_codes) could be a single value, such as C(200), a list, such as C(200, 202) or a range, such as C(200-204). Octavia's default for I(expected_codes) is C(200).",
         "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "health_monitor_timeout": {
+        "description": "The time, in seconds, after which a health check times out. Must be less than I(delay). Required when I(state) is C(present).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resp_timeout"
+        ]
+      },
+      "http_method": {
+        "description": "The HTTP method that the health monitor uses for requests. For example, I(http_method) could be C(CONNECT), C(DELETE), C(GET), C(HEAD), C(OPTIONS), C(PATCH), C(POST), C(PUT), or C(TRACE). Octavia's default for I(http_method) is C(GET).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_admin_state_up": {
+        "description": "Whether the health monitor is up or down.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "admin_state_up"
+        ]
+      },
+      "max_retries": {
+        "description": "The number of successful checks before changing the operating status of the member to ONLINE. Required when I(state) is C(present).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_retries_down": {
+        "description": "The number of allowed check failures before changing the operating status of the member to ERROR. A valid value is from 1 to 10.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name that has to be given to the health monitor. This attribute cannot be updated.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool": {
+        "description": "The pool name or id to monitor by the health monitor. Required when I(state) is C(present). This attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "type": {
+        "description": "The type of health monitor. For example, I(type) could be C(HTTP), C(HTTPS), C(PING), C(SCTP), C(TCP), C(TLS-HELLO) or C(UDP-CONNECT). This attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "HTTP",
+        "aliases": null
+      },
+      "url_path": {
+        "description": "The HTTP URL path of the request sent by the monitor to test the health of a backend member. Must be a string that begins with a forward slash (C(/)). Octavia's default URL path is C(/).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.lb_listener": {
+    "short_description": "Manage load-balancer listener in a OpenStack cloud",
+    "description": "Add, update or remove listener from OpenStack load-balancer.",
+    "options": {
+      "default_tls_container_ref": {
+        "description": "A URI to a key manager service secrets container with TLS secrets.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A human-readable description for the load-balancer listener.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_admin_state_up": {
+        "description": "The administrative state of the listener, which is up or down.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "load_balancer": {
+        "description": "The name or id of the load-balancer that this listener belongs to. Required when I(state) is C(present). This attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "loadbalancer"
+        ]
+      },
+      "name": {
+        "description": "Name that has to be given to the listener. This attribute cannot be updated.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol": {
+        "description": "The protocol for the listener. For example, I(protocol) could be C(HTTP), C(HTTPS), C(TCP), C(TERMINATED_HTTPS), C(UDP), C(SCTP) or C(PROMETHEUS). This attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "HTTP",
+        "aliases": null
+      },
+      "protocol_port": {
+        "description": "The protocol port number for the listener. This attribute cannot be updated.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sni_container_refs": {
+        "description": "A list of URIs to the key manager service secrets containers with TLS secrets.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "timeout_client_data": {
+        "description": "Client inactivity timeout in milliseconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_member_data": {
+        "description": "Member inactivity timeout in milliseconds.",
+        "type": "int",
         "required": false,
         "choices": null,
         "default": null,
@@ -675,8 +2861,8 @@
         "aliases": null
       },
       "weight": {
-        "description": "The weight of a member determines the portion of requests or connections it services compared to the other members of the pool. For example, a member with a weight of 10 receives five times as many requests as a member with a weight of 2. A value of 0 means the member does not receive new connections but continues to service existing connections. A valid value is from 0 to 256. ",
-        "type": "str",
+        "description": "The weight of a member determines the portion of requests or connections it services compared to the other members of the pool. For example, a member with a weight of 10 receives five times as many requests as a member with a weight of 2. A value of 0 means the member does not receive new connections but continues to service existing connections. A valid value is from 0 to 256. Octavia's default for I(weight) is C(1).",
+        "type": "int",
         "required": false,
         "choices": null,
         "default": null,
@@ -751,6 +2937,244 @@
     },
     "deprecated": null
   },
+  "openstack.cloud.loadbalancer": {
+    "short_description": "Manage Octavia load-balancer in an OpenStack cloud",
+    "description": "Add, update or remove Octavia load-balancer from OpenStack cloud.",
+    "options": {
+      "assign_floating_ip": {
+        "description": "Allocate floating ip address and associate with the VIP automatically. Deprecated, use M(openstack.cloud.floating_ip) instead.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "auto_public_ip"
+        ]
+      },
+      "delete_floating_ip": {
+        "description": "When I(state) is C(present) and I(delete_floating_ip) is C(true), then any floating ip address associated with the VIP will be deleted. When I(state) is C(absent) and I(delete_floating_ip) is C(true), then any floating ip address associated with the VIP will be deleted along with the load balancer. Deprecated, use M(openstack.cloud.floating_ip) instead.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "delete_public_ip"
+        ]
+      },
+      "description": {
+        "description": "A human-readable description for the load-balancer.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "flavor": {
+        "description": "The flavor of the load balancer. This attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "floating_ip_address": {
+        "description": "Floating ip address aka public ip address associated with the VIP. Deprecated, use M(openstack.cloud.floating_ip) instead.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "public_ip_address"
+        ]
+      },
+      "floating_ip_network": {
+        "description": "Name or ID of a Neutron external network where floating ip address will be created on. Deprecated, use M(openstack.cloud.floating_ip) instead.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "public_network"
+        ]
+      },
+      "name": {
+        "description": "The name of the load balancer. This attribute cannot be updated.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "vip_address": {
+        "description": "IP address of the load balancer virtual IP. This attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vip_network": {
+        "description": "The name or id of the network for the virtual IP of the load balancer. One of I(vip_network), I(vip_subnet), or I(vip_port) must be specified for creation. This attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vip_port": {
+        "description": "The name or id of the load balancer virtual IP port. One of One of I(vip_network), I(vip_subnet), or I(vip_port) must be specified for creation. This attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vip_subnet": {
+        "description": "The name or id of the subnet for the virtual IP of the load balancer. One of I(vip_network), I(vip_subnet), or I(vip_port) must be specified for creation. This attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.network": {
+    "short_description": "Creates/removes networks from OpenStack",
+    "description": "Add, update or remove network from OpenStack.",
+    "options": {
+      "name": {
+        "description": "Name to be assigned to the network.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "shared": {
+        "description": "Whether this network is shared or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "admin_state_up": {
+        "description": "Whether the state should be marked as up or down.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "external": {
+        "description": "Whether this network is externally accessible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_default": {
+        "description": "Whether this network is default network or not. This is only effective with external networks.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_vlan_transparent": {
+        "description": "Whether this network is vlan_transparent or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicate desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "provider_physical_network": {
+        "description": "The physical network where this network object is implemented.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "provider_network_type": {
+        "description": "The type of physical network that maps to this network resource.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "provider_segmentation_id": {
+        "description": "An isolated segment on the physical network. The I(network_type) attribute defines the segmentation model. For example, if the I(network_type) value is vlan, this ID is a vlan identifier. If the I(network_type) value is gre, this ID is a gre key.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project": {
+        "description": "Project name or ID containing the network (name admin-only)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port_security_enabled": {
+        "description": "Whether port security is enabled on the network or not. Network will use OpenStack defaults if this option is not utilised.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mtu": {
+        "description": "The maximum transmission unit (MTU) value to address fragmentation. Network will use OpenStack defaults if this option is not provided.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "mtu_size"
+        ]
+      },
+      "dns_domain": {
+        "description": "The DNS domain value to set. Network will use Openstack defaults if this option is not provided.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
   "openstack.cloud.networks_info": {
     "short_description": "Retrieve information about one or more OpenStack networks.",
     "description": "Retrieve information about one or more networks from OpenStack.",
@@ -779,11 +3203,193 @@
     "description": "Fetch RBAC policies against a network, security group or a QoS Policy for one or more projects.",
     "options": {
       "action": {
-        "description": "Action for the RBAC policy. Can be either of the following options C(access_as_shared) or C(access_as_external). Logically AND",
+        "description": "Action for the RBAC policy. Can be either of the following options C(access_as_shared) or C(access_as_external). Logically AND'ed with other filters.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "access_as_shared",
+          "access_as_external"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "object_id": {
+        "description": "The object ID (the subject of the policy) to which the RBAC rules applies. This is an ID of a network, security group or a qos policy. Mutually exclusive with the C(object_type).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "object_type": {
+        "description": "Type of the object that this RBAC policy affects. Can be one of the following object types C(network), C(security_group) or C(qos_policy). Mutually exclusive with the C(object_id).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "network",
+          "security_group",
+          "qos_policy"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "policy_id": {
+        "description": "The RBAC policy ID. If C(policy_id) is not provided, all available policies will be fetched. If C(policy_id) provided, all other filters are ignored.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project": {
+        "description": "ID or name of the project to which C(object_id) belongs to. Filters the RBAC rules based on the project name. Logically AND'ed with other filters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "project_id"
+        ]
+      },
+      "target_project_id": {
+        "description": "The ID of the project this RBAC will be enforced. Filters the RBAC rules based on the target project id. Logically AND'ed with other filters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.neutron_rbac_policy": {
+    "short_description": "Create or delete a Neutron RBAC policy.",
+    "description": "Create, update or delete a policy to apply a RBAC rule against a network, security group or QoS Policy.",
+    "options": {
+      "action": {
+        "description": "Action for the RBAC policy. Can be either of the following options C(access_as_shared) or C(access_as_external). Cannot be changed when updating an existing policy. Required when creating a RBAC policy rule, ignored when deleting a policy.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "access_as_shared",
+          "access_as_external"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "The RBAC policy ID. Required when deleting or updating an existing RBAC policy rule, ignored otherwise. If a I(id) was provided but a policy with this ID cannot be found, an error will be raised.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "policy_id"
+        ]
+      },
+      "object_id": {
+        "description": "The object ID (the subject of the policy) to which the RBAC rule applies. Cannot be changed when updating an existing policy. Required when creating a RBAC policy rule, ignored when deleting a policy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "object_type": {
+        "description": "Type of the object that this RBAC policy affects. Can be one of the following object types C(network), C(security_group) or C(qos_policy). Cannot be changed when updating an existing policy. Required when creating a RBAC policy rule, ignored when deleting a policy.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "network",
+          "security_group",
+          "qos_policy"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "project_id": {
+        "description": "The ID of the project to which C(object_id) belongs to. Cannot be changed when updating an existing policy. Required when creating a RBAC policy rule, ignored when deleting a policy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_project_id": {
+        "description": "The ID of the project to which access to be allowed or revoked aka disallowed. Required when creating or updating a RBAC policy rule, ignored when deleting a policy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_all_project": {
+        "description": "Whether all projects are targted for access. If this option set to true, C(target_project_id) is ignored.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "false",
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the RBAC rule should be C(present) or C(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.object": {
+    "short_description": "Create or delete Swift objects in OpenStack clouds",
+    "description": "Create or delete Swift objects in OpenStack clouds",
+    "options": {
+      "container": {
+        "description": "The name (and ID) of the container in which to create the object in. This container will not be created if it does not exist already.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "data": {
+        "description": "The content to upload to the object. Mutually exclusive with I(filename). This attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filename": {
+        "description": "The path to the local file whose contents will be uploaded. Mutually exclusive with I(data).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name (and ID) of the object.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the object should be C(present) or C(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -802,7 +3408,79 @@
         "aliases": null
       },
       "delete_metadata_keys": {
-        "description": "Keys from I(metadata) to be deleted. ",
+        "description": "Keys from I(metadata) to be deleted. I(metadata) has precedence over I(delete_metadata_keys): If any key is present in both options, then it will be created or updated, not deleted. Metadata keys are case-insensitive.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "keys"
+        ]
+      },
+      "metadata": {
+        "description": "Key value pairs to be set as metadata on the container. Both custom and system metadata can be set. Custom metadata are keys and values defined by the user. I(metadata) is the same as setting properties in openstackclient with C(openstack container set --property ...). Metadata keys are case-insensitive.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name (and ID) of a Swift container.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "container"
+        ]
+      },
+      "read_ACL": {
+        "description": "The ACL that grants read access. For example, use C(.r:*,.rlistings) for public access and C('') for private access.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "write_ACL": {
+        "description": "The ACL that grants write access.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the object should be C(present) or C(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.object_containers_info": {
+    "short_description": "Fetch container info from the OpenStack Swift service.",
+    "description": "Fetch container info from the OpenStack Swift service.",
+    "options": {
+      "name": {
+        "description": "Name of the container",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "container"
+        ]
+      },
+      "prefix": {
+        "description": "Filter containers by prefix",
         "type": "str",
         "required": false,
         "choices": null,
@@ -817,11 +3495,252 @@
     "description": "Add, Update or Remove ports from an OpenStack cloud.",
     "options": {
       "allowed_address_pairs": {
-        "description": "",
+        "description": "Allowed address pairs list. Allowed address pairs are supported with dictionary structure. e.g.  allowed_address_pairs: - ip_address: 10.1.0.12 mac_address: ab:cd:ef:12:34:56 - ip_address: ... The port will change during update if not all suboptions are specified, e.g. when ip_address is given but mac_address is not.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "binding_profile": {
+        "description": "Binding profile dict that the port should be created with.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "binding_vnic_type": {
+        "description": "The type of the port that should be created",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "normal",
+          "direct",
+          "direct-physical",
+          "macvtap",
+          "baremetal",
+          "virtio-forwarder"
+        ],
+        "default": null,
+        "aliases": [
+          "vnic_type"
+        ]
+      },
+      "description": {
+        "description": "Description of the port.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "device_id": {
+        "description": "Device ID of device using this port.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "device_owner": {
+        "description": "The ID of the entity that uses this port.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dns_domain": {
+        "description": "The dns domain of the port ( only with dns-integration enabled )",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dns_name": {
+        "description": "The dns name of the port ( only with dns-integration enabled )",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extra_dhcp_opts": {
+        "description": "Extra dhcp options to be assigned to this port. Extra options are supported with dictionary structure. Note that options cannot be removed only updated. e.g.  extra_dhcp_opts: - ip_version: 4 opt_name: bootfile-name opt_value: pxelinux.0 - opt_name: ... The port will change during update if not all suboptions are specified, e.g. when opt_name is given but ip_version is not.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fixed_ips": {
+        "description": "Desired IP and/or subnet for this port.  Subnet is referenced by subnet_id and IP is referenced by ip_address. The port will change during update if not all suboptions are specified, e.g. when ip_address is given but subnet_id is not.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_admin_state_up": {
+        "description": "Sets admin state.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "admin_state_up"
+        ]
+      },
+      "mac_address": {
+        "description": "MAC address of this port.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name that has to be given to the port. This port attribute cannot be updated.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network": {
+        "description": "ID or name of the network this port belongs to. Required when creating a new port. Must be a name when creating a port. This port attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "no_security_groups": {
+        "description": "Do not associate a security group with this port. Deprecated. Use I(security_groups): C([]) instead of I(no_security_groups): C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "false",
+        "aliases": null
+      },
+      "is_port_security_enabled": {
+        "description": "Whether to enable or disable the port security on the network.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "port_security_enabled"
+        ]
+      },
+      "security_groups": {
+        "description": "Security group(s) ID(s) or name(s) associated with the port.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.port_info": {
+    "short_description": "Retrieve information about ports within OpenStack.",
+    "description": "Retrieve information about ports from OpenStack.",
+    "options": {
+      "name": {
+        "description": "Unique name or ID of a port.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "port"
+        ]
+      },
+      "filters": {
+        "description": "A dictionary of meta data to use for further filtering. Elements of this dictionary will be matched passed to the API as query parameter filters.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.project": {
+    "short_description": "Manage OpenStack Identity (Keystone) projects",
+    "description": "Create, update or delete a OpenStack Identity (Keystone) project.",
+    "options": {
+      "name": {
+        "description": "Name for the project. This attribute cannot be updated.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description for the project.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain": {
+        "description": "Domain name or id to create the project in if the cloud supports domains.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "domain_id"
+        ]
+      },
+      "extra_specs": {
+        "description": "Additional properties to be associated with this project.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "properties"
+        ]
+      },
+      "is_enabled": {
+        "description": "Whether this project is enabled or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "enabled"
+        ]
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -863,9 +3782,388 @@
     "description": "Manage OpenStack Quotas. Quotas can be created, updated or deleted using this module. A quota will be updated if matches an existing project and is present.",
     "options": {
       "backup_gigabytes": {
-        "description": "Maximum size of backups in GB",
+        "description": "Maximum size of backups in GB's.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backups": {
+        "description": "Maximum number of backups allowed.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cores": {
+        "description": "Maximum number of CPU's per project.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fixed_ips": {
+        "description": "Number of fixed IP's to allow. Available until Nova API version 2.35.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "floating_ips": {
+        "description": "Number of floating IP's to allow.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "compute_floating_ips",
+          "floatingip",
+          "network_floating_ips"
+        ]
+      },
+      "gigabytes": {
+        "description": "Maximum volume storage allowed for project.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "groups": {
+        "description": "Number of groups that are allowed for the project",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "health_monitors": {
+        "description": "Maximum number of health monitors that can be created.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "injected_file_content_bytes": {
+        "description": "Maximum file size in bytes. Available until Nova API version 2.56.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "injected_file_size"
+        ]
+      },
+      "injected_files": {
+        "description": "Number of injected files to allow. Available until Nova API version 2.56.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "injected_file_path_bytes": {
+        "description": "Maximum path size. Available until Nova API version 2.56.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "injected_path_size"
+        ]
+      },
+      "instances": {
+        "description": "Maximum number of instances allowed.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "key_pairs": {
+        "description": "Number of key pairs to allow.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "l7_policies": {
+        "description": "The maximum amount of L7 policies you can create.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "listeners": {
+        "description": "The maximum number of listeners you can create.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "load_balancers": {
+        "description": "The maximum amount of load balancers you can create",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "loadbalancer"
+        ]
+      },
+      "metadata_items": {
+        "description": "Number of metadata items allowed per instance.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "members": {
+        "description": "Number of members allowed for loadbalancer.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the OpenStack Project to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "networks": {
+        "description": "Number of networks to allow.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "network"
+        ]
+      },
+      "per_volume_gigabytes": {
+        "description": "Maximum size in GB's of individual volumes.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pools": {
+        "description": "The maximum number of pools you can create",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "pool"
+        ]
+      },
+      "ports": {
+        "description": "Number of Network ports to allow, this needs to be greater than the instances limit.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "port"
+        ]
+      },
+      "ram": {
+        "description": "Maximum amount of ram in MB to allow.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rbac_policies": {
+        "description": "Number of policies to allow.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "rbac_policy"
+        ]
+      },
+      "routers": {
+        "description": "Number of routers to allow.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "router"
+        ]
+      },
+      "security_group_rules": {
+        "description": "Number of rules per security group to allow.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "security_group_rule"
+        ]
+      },
+      "security_groups": {
+        "description": "Number of security groups to allow.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "security_group"
+        ]
+      },
+      "server_group_members": {
+        "description": "Number of server group members to allow.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_groups": {
+        "description": "Number of server groups to allow.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshots": {
+        "description": "Number of snapshots to allow.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "A value of C(present) sets the quota and a value of C(absent) resets the quota to defaults.",
         "type": "str",
         "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "subnets": {
+        "description": "Number of subnets to allow.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "subnet"
+        ]
+      },
+      "subnet_pools": {
+        "description": "Number of subnet pools to allow.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "subnetpool"
+        ]
+      },
+      "volumes": {
+        "description": "Number of volumes to allow.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.recordset": {
+    "short_description": "Manage OpenStack DNS recordsets",
+    "description": "Manage OpenStack DNS recordsets. Recordsets can be created, deleted or updated. Only the I(records), I(description), and I(ttl) values can be updated.",
+    "options": {
+      "description": {
+        "description": "Description of the recordset",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the recordset. It must be ended with name of dns zone.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "records": {
+        "description": "List of recordset definitions. Required when I(state=present).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "recordset_type": {
+        "description": "Recordset type Required when I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "a",
+          "aaaa",
+          "mx",
+          "cname",
+          "txt",
+          "ns",
+          "srv",
+          "ptr",
+          "caa"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "ttl": {
+        "description": "TTL (Time To Live) value in seconds",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "zone": {
+        "description": "Name or ID of the zone which manages the recordset",
+        "type": "str",
+        "required": true,
         "choices": null,
         "default": null,
         "aliases": null
@@ -878,11 +4176,62 @@
     "description": "Create, update and delete a OpenStack cloud resource.",
     "options": {
       "attributes": {
-        "description": "",
-        "type": "str",
+        "description": "Resource attributes which are defined in openstacksdk's resource classes. I(attributes) is a set of key-value pairs where each key is a attribute name such as C(id) and value holds its corresponding attribute value such C(ddad2d86-02a6-444d-80ae-1cc2fb023784). Define attribute keys C(id) or C(name) or any set of attribute keys which uniquely identify a resource. This module fails if multiple resources match the given set of attributes. For a complete list of attributes open any resource class inside openstacksdk such as file C(openstack/compute/v2/server.py) in U(https://opendev.org/openstack/openstacksdk/) for server attributes.",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "non_updateable_attributes": {
+        "description": "List of attribute names which cannot be updated. When I(non_updateable_attributes) is not specified, then all attributes in I(attributes) will be compared to an existing resource during updates. When both I(updateable_attributes) and I(non_updateable_attributes) are specified, then only attributes which are listed in I(updateable_attributes) but not in I(non_updateable_attributes) will will be considered during updates.",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "service": {
+        "description": "OpenStack service which this resource is part of. Examples are C(block_storage), C(compute) or C(network). I(service) must be a C(lowercase) name of a OpenStack service as used in openstacksdk. For a list of available services visit U(https://opendev.org/openstack/openstacksdk): Most subdirectories in the C(openstack) directory correspond to a OpenStack service, except C(cloud), C(common) and other auxiliary directories.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the resource should be C(present) or C(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "type": {
+        "description": "Typename of the resource. Examples are C(ip), C(network), C(router) or C(server). I(type) must be a C(lowercase) name of a openstacksdk resource class. Resource classes are defined in openstacksdk's service folders. For example, visit U(https://opendev.org/openstack/openstacksdk), change to C(openstack) directory, change to any service directory such as C(compute), choose a api version directory such as C(v2) and find all available resource classes such as C(Server) inside C(*.py) files.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "updateable_attributes": {
+        "description": "List of attribute names which can be updated. When I(updateable_attributes) is not specified, then all attributes in I(attributes) will be compared to an existing resource during updates. When both I(updateable_attributes) and I(non_updateable_attributes) are specified, then only attributes which are listed in I(updateable_attributes) but not in I(non_updateable_attributes) will will be considered during updates.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Whether Ansible should wait until the resource has reached its target I(state). Only a subset of OpenStack resources report a status. Resources which do not support status processing will block indefinitely if I(wait) is set to C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },
@@ -893,9 +4242,25 @@
     "description": "List OpenStack cloud resources.",
     "options": {
       "service": {
-        "description": "OpenStack service which this resource is part of. Examples are C(block_storage), C(compute) or C(network). ",
+        "description": "OpenStack service which this resource is part of. Examples are C(block_storage), C(compute) or C(network). I(service) must be a C(lowercase) name of a OpenStack service as used in openstacksdk. For a list of available services visit U(https://opendev.org/openstack/openstacksdk): Most subdirectories in the C(openstack) directory correspond to a OpenStack service, except C(cloud), C(common) and other auxiliary directories.",
         "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parameters": {
+        "description": "Query parameters passed to OpenStack API for results filtering. I(attributes) is a set of key-value pairs where each key is a attribute name such as C(id) and value holds its corresponding attribute value such C(ddad2d86-02a6-444d-80ae-1cc2fb023784). For a complete list of valid query parameters open any resource class inside openstacksdk such as file C(openstack/compute/v2/server.py) in U(https://opendev.org/openstack/openstacksdk/) and consult variable C(_query_mapping).",
+        "type": "dict",
         "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Typename of the resource. Examples are C(ip), C(network), C(router) or C(server). I(type) must be a C(lowercase) name of a openstacksdk resource class. Resource classes are defined in openstacksdk's service folders. For example, visit U(https://opendev.org/openstack/openstacksdk), change to C(openstack) directory, change to any service directory such as C(compute), choose a api version directory such as C(v2) and find all available resource classes such as C(Server) inside C(*.py) files.",
+        "type": "str",
+        "required": true,
         "choices": null,
         "default": null,
         "aliases": null
@@ -908,11 +4273,178 @@
     "description": "Grant and revoke roles in either project or domain context for OpenStack identity (Keystone) users and groups.",
     "options": {
       "domain": {
-        "description": "Name or ID of the domain to scope the role association to. Valid only with keystone version 3. Required if I(project) is not specified. When I(project) is specified, then I(domain) will not be used for scoping the role association, only for finding resources. Deprecated for finding resources, please use I(group_domain), I(project_domain), I(role_domain), or I(user_domain). ",
+        "description": "Name or ID of the domain to scope the role association to. Valid only with keystone version 3. Required if I(project) is not specified. When I(project) is specified, then I(domain) will not be used for scoping the role association, only for finding resources. Deprecated for finding resources, please use I(group_domain), I(project_domain), I(role_domain), or I(user_domain). When scoping the role association, I(project) has precedence over I(domain) and I(domain) has precedence over I(system): When I(project) is specified, then I(domain) and I(system) are not used for role association. When I(domain) is specified, then I(system) will not be used for role association.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "group": {
+        "description": "Name or ID for the group. Valid only with keystone version 3. If I(group) is not specified, then I(user) is required. Both may not be specified at the same time. You can supply I(group_domain) or the deprecated usage of I(domain) to find group resources.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group_domain": {
+        "description": "Name or ID for the domain. Valid only with keystone version 3. Only valid for finding group resources.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project": {
+        "description": "Name or ID of the project to scope the role association to. If you are using keystone version 2, then this value is required. When I(project) is specified, then I(domain) will not be used for scoping the role association, only for finding resources. Prefer I(group_domain) over I(domain). When scoping the role association, I(project) has precedence over I(domain) and I(domain) has precedence over I(system): When I(project) is specified, then I(domain) and I(system) are not used for role association. When I(domain) is specified, then I(system) will not be used for role association.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project_domain": {
+        "description": "Name or ID for the domain. Valid only with keystone version 3. Only valid for finding project resources.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role": {
+        "description": "Name or ID for the role.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role_domain": {
+        "description": "Name or ID for the domain. Valid only with keystone version 3. Only valid for finding role resources.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the roles be present or absent on the user.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "system": {
+        "description": "Name of system to scope the role association to. Valid only with keystone version 3. Required if I(project) and I(domain) are not specified. When scoping the role association, I(project) has precedence over I(domain) and I(domain) has precedence over I(system): When I(project) is specified, then I(domain) and I(system) are not used for role association. When I(domain) is specified, then I(system) will not be used for role association.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user": {
+        "description": "Name or ID for the user. If I(user) is not specified, then I(group) is required. Both may not be specified at the same time.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_domain": {
+        "description": "Name or ID for the domain. Valid only with keystone version 3. Only valid for finding user resources.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.router": {
+    "short_description": "Create or delete routers from OpenStack",
+    "description": "Create or Delete routers from OpenStack. Although Neutron allows routers to share the same name, this module enforces name uniqueness to be more user friendly.",
+    "options": {
+      "enable_snat": {
+        "description": "Enable Source NAT (SNAT) attribute.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "external_fixed_ips": {
+        "description": "The IP address parameters for the external gateway network. Each is a dictionary with the subnet name or ID (subnet) and the IP address to assign on the subnet (ip_address). If no IP is specified, one is automatically assigned from that subnet.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "external_gateway_info": {
+        "description": "Information about the router's external gateway",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interfaces": {
+        "description": "List of subnets to attach to the router internal interface. Default gateway associated with the subnet will be automatically attached with the router's internal interface. In order to provide an ip address different from the default gateway,parameters are passed as dictionary with keys as network name or ID (I(net)), subnet name or ID (I(subnet)) and the IP of port (I(portip)) from the network. User defined portip is often required when a multiple router need to be connected to a single subnet for which the default gateway has been already used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_admin_state_up": {
+        "description": "Desired admin state of the created or existing router.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "true",
+        "aliases": [
+          "admin_state_up"
+        ]
+      },
+      "name": {
+        "description": "Name to be give to the router. This router attribute cannot be updated.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network": {
+        "description": "Unique name or ID of the external gateway network. Required if I(external_fixed_ips) or I(enable_snat) are provided. This router attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project": {
+        "description": "Unique name or ID of the project. This router attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicate desired state of the resource",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -970,8 +4502,27 @@
         "aliases": null
       },
       "security_group_rules": {
-        "description": "List of security group rules. When I(security_group_rules) is not defined, Neutron might create this security group with a default set of rules. Security group rules which are listed in I(security_group_rules) but not defined in this security group will be created. When I(security_group_rules) is not set, existing security group rules which are not listed in I(security_group_rules) will be deleted. When updating a security group, one has to explicitly list rules from Neutron",
+        "description": "List of security group rules. When I(security_group_rules) is not defined, Neutron might create this security group with a default set of rules. Security group rules which are listed in I(security_group_rules) but not defined in this security group will be created. When I(security_group_rules) is not set, existing security group rules which are not listed in I(security_group_rules) will be deleted. When updating a security group, one has to explicitly list rules from Neutron's defaults in I(security_group_rules) if those rules should be kept. Rules which are not listed in I(security_group_rules) will be deleted.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
         "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "stateful": {
+        "description": "Should the resource be stateful or stateless.",
+        "type": "bool",
         "required": false,
         "choices": null,
         "default": null,
@@ -1051,6 +4602,225 @@
     },
     "deprecated": null
   },
+  "openstack.cloud.security_group_rule": {
+    "short_description": "Manage security group rules in OpenStack network (Neutron)",
+    "description": "Add or remove security group rule to/from OpenStack network (Neutron) service. Use I(security_group_rules) in M(openstack.cloud.security_group) to define a set of security group rules. It will be much faster than using this module when creating or removing several security group rules because the latter will do individual calls to OpenStack network (Neutron) API for each security group rule.",
+    "options": {
+      "description": {
+        "description": "Description of the security group rule.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "direction": {
+        "description": "The direction in which the security group rule is applied. Not all providers support C(egress).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "egress",
+          "ingress"
+        ],
+        "default": "ingress",
+        "aliases": null
+      },
+      "ether_type": {
+        "description": "Must be IPv4 or IPv6, and addresses represented in CIDR must match the ingress or egress rules. Not all providers support IPv6.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "IPv4",
+          "IPv6"
+        ],
+        "default": "IPv4",
+        "aliases": [
+          "ethertype"
+        ]
+      },
+      "port_range_max": {
+        "description": "The maximum port number in the range that is matched by the security group rule. If the protocol is TCP, UDP, DCCP, SCTP or UDP-Lite this value must be greater than or equal to the I(port_range_min) attribute value. If the protocol is ICMP, this value must be an ICMP code.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port_range_min": {
+        "description": "The minimum port number in the range that is matched by the security group rule. If the protocol is TCP, UDP, DCCP, SCTP or UDP-Lite this value must be less than or equal to the port_range_max attribute value. If the protocol is ICMP, this value must be an ICMP type.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project": {
+        "description": "Unique name or ID of the project.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol": {
+        "description": "The IP protocol can be represented by a string, an integer, or null. Valid string or integer values are C(any) or C(0), C(ah) or C(51), C(dccp) or C(33), C(egp) or C(8), C(esp) or C(50), C(gre) or C(47), C(icmp) or C(1), C(icmpv6) or C(58), C(igmp) or C(2), C(ipip) or C(4), C(ipv6-encap) or C(41), C(ipv6-frag) or C(44), C(ipv6-icmp) or C(58), C(ipv6-nonxt) or C(59), C(ipv6-opts) or C(60), C(ipv6-route) or C(43), C(ospf) or C(89), C(pgm) or C(113), C(rsvp) or C(46), C(sctp) or C(132), C(tcp) or C(6), C(udp) or C(17), C(udplite) or C(136), C(vrrp) or C(112). Additionally, any integer value between C([0-255]) is also valid. The string any (or integer 0) means all IP protocols. See the constants in neutron_lib.constants for the most up-to-date list of supported strings.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remote_group": {
+        "description": "Name or ID of the security group to link. Mutually exclusive with I(remote_ip_prefix).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remote_ip_prefix": {
+        "description": "Source IP address(es) in CIDR notation. When a netmask such as C(/32) is missing from I(remote_ip_prefix), then this module will fail on updates with OpenStack error message C(Security group rule already exists.). Mutually exclusive with I(remote_group).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "security_group": {
+        "description": "Name or ID of the security group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.security_group_rule_info": {
+    "short_description": "Fetch OpenStack network (Neutron) security group rules",
+    "description": "Fetch security group rules from OpenStack network (Neutron) API.",
+    "options": {
+      "description": {
+        "description": "Filter the list result by the human-readable description of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "direction": {
+        "description": "Filter the security group rule list result by the direction in which the security group rule is applied.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "egress",
+          "ingress"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "ether_type": {
+        "description": "Filter the security group rule list result by the ether_type of network traffic. The value must be IPv4 or IPv6.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "IPv4",
+          "IPv6"
+        ],
+        "default": null,
+        "aliases": [
+          "ethertype"
+        ]
+      },
+      "id": {
+        "description": "Filter the list result by the ID of the security group rule.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "rule"
+        ]
+      },
+      "port_range_min": {
+        "description": "Starting port",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port_range_max": {
+        "description": "Ending port",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project": {
+        "description": "Unique name or ID of the project.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol": {
+        "description": "Filter the security group rule list result by the IP protocol.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remote_group": {
+        "description": "Filter the security group rule list result by the name or ID of the remote group that associates with this security group rule.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remote_ip_prefix": {
+        "description": "Source IP address(es) in CIDR notation (exclusive with remote_group)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "revision_number": {
+        "description": "Filter the list result by the revision number of the resource.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "security_group": {
+        "description": "Name or ID of the security group",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
   "openstack.cloud.server": {
     "short_description": "Create/Delete Compute Instances from OpenStack",
     "description": "Create or Remove compute instances from OpenStack.",
@@ -1060,16 +4830,486 @@
         "type": "bool",
         "required": false,
         "choices": null,
+        "default": "true",
+        "aliases": [
+          "auto_floating_ip",
+          "public_ip"
+        ]
+      },
+      "availability_zone": {
+        "description": "Availability zone in which to create the server. This server attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "boot_from_volume": {
+        "description": "Should the instance boot from a persistent volume created based on the image given. Mutually exclusive with boot_volume. This server attribute cannot be updated.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "false",
+        "aliases": null
+      },
+      "boot_volume": {
+        "description": "Volume name or id to use as the volume to boot from. Implies boot_from_volume. Mutually exclusive with image and boot_from_volume. This server attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "root_volume"
+        ]
+      },
+      "config_drive": {
+        "description": "Whether to boot the server with config drive enabled. This server attribute cannot be updated.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "false",
+        "aliases": null
+      },
+      "delete_ips": {
+        "description": "When I(state) is C(absent) and this option is true, any floating IP address associated with this server will be deleted along with it. Floating IP support is unstable in this module, use with caution.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "false",
+        "aliases": [
+          "delete_fip"
+        ]
+      },
+      "description": {
+        "description": "Description of the server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "flavor": {
+        "description": "The name or id of the flavor in which the new instance has to be created. Exactly one of I(flavor) and I(flavor_ram) must be defined when I(state=present). This server attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "flavor_include": {
+        "description": "Text to use to filter flavor names, for the case, such as Rackspace, where there are multiple flavors that have the same ram count. flavor_include is a positive match filter - it must exist in the flavor name. This server attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "flavor_ram": {
+        "description": "The minimum amount of ram in MB that the flavor in which the new instance has to be created must have. Exactly one of I(flavor) and I(flavor_ram) must be defined when I(state=present). This server attribute cannot be updated.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "floating_ip_pools": {
+        "description": "Name of floating IP pool from which to choose a floating IP. Requires I(wait) to be C(True) during server creation. Floating IP support is unstable in this module, use with caution. Options I(auto_ip), I(floating_ip_pools) and I(floating_ips) interact in non-obvious ways and undocumentable depth. For explicit and safe attaching and detaching of floating ip addresses use module I(openstack.cloud.resource) instead.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "floating_ips": {
+        "description": "list of valid floating IPs that pre-exist to assign to this node. Requires I(wait) to be C(True) during server creation. Floating IP support is unstable in this module, use with caution. Options I(auto_ip), I(floating_ip_pools) and I(floating_ips) interact in non-obvious ways and undocumentable depth. For explicit and safe attaching and detaching of floating ip addresses use module I(openstack.cloud.resource) instead.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image": {
+        "description": "The name or id of the base image to boot. Required when I(boot_from_volume=true). This server attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image_exclude": {
+        "description": "Text to use to filter image names, for the case, such as HP, where there are multiple image names matching the common identifying portions. image_exclude is a negative match filter - it is text that may not exist in the image name. This server attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "(deprecated)",
+        "aliases": null
+      },
+      "key_name": {
+        "description": "The key pair name to be used when creating a instance. This server attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "metadata": {
+        "description": "A list of key value pairs that should be provided as a metadata to the new instance or a string containing a list of key-value pairs. Example:  metadata: \"key1=value1,key2=value2\"",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "meta"
+        ]
+      },
+      "name": {
+        "description": "Name that has to be given to the instance. It is also possible to specify the ID of the instance instead of its name if I(state) is I(absent). This server attribute cannot be updated.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network": {
+        "description": "Name or ID of a network to attach this instance to. A simpler version of the I(nics) parameter, only one of I(network) or I(nics) should be supplied. This server attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nics": {
+        "description": "A list of networks to which the instance's interface should be attached. Networks may be referenced by net-id/net-name/port-id or port-name. Also this accepts a string containing a list of (net/port)-(id/name) Example: C(nics: \"net-id=uuid-1,port-name=myport\") Only one of I(network) or I(nics) should be supplied. This server attribute cannot be updated.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "reuse_ips": {
+        "description": "When I(auto_ip) is true and this option is true, the I(auto_ip) code will attempt to re-use unassigned floating ips in the project before creating a new one. It is important to note that it is impossible to safely do this concurrently, so if your use case involves concurrent server creation, it is highly recommended to set this to false and to delete the floating ip associated with a server when the server is deleted using I(delete_ips). Floating IP support is unstable in this module, use with caution. This server attribute cannot be updated.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "true",
+        "aliases": null
+      },
+      "scheduler_hints": {
+        "description": "Arbitrary key/value pairs to the scheduler for custom use. This server attribute cannot be updated.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "security_groups": {
+        "description": "Names or IDs of the security groups to which the instance should be added. On server creation, if I(security_groups) is omitted, the API creates the server in the default security group. Requested security groups are not applied to pre-existing ports.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be C(present) or C(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A list of tags should be added to instance",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "terminate_volume": {
+        "description": "If C(true), delete volume when deleting the instance and if it has been booted from volume(s). This server attribute cannot be updated.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "false",
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The amount of time the module should wait for the instance to get into active state.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 180,
+        "aliases": null
+      },
+      "userdata": {
+        "description": "Opaque blob of data which is made available to the instance. This server attribute cannot be updated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "volume_size": {
+        "description": "The size of the volume to create in GB if booting from volume based on an image. This server attribute cannot be updated.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "volumes": {
+        "description": "A list of preexisting volumes names or ids to attach to the instance This server attribute cannot be updated.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "wait": {
+        "description": "If the module should wait for the instance to be created.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "true",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.server_action": {
+    "short_description": "Perform actions on OpenStack compute (Nova) instances",
+    "description": "Perform actions on OpenStack compute (Nova) instances aka servers.",
+    "options": {
+      "action": {
+        "description": "Action to perform. By default, only server owners and administrators are allowed to perform actions C(pause), C(unpause), C(suspend), C(resume), C(lock), C(unlock) and C(shelve_offload).",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "lock",
+          "pause",
+          "reboot_hard",
+          "reboot_soft",
+          "rebuild",
+          "resume",
+          "shelve",
+          "shelve_offload",
+          "start",
+          "stop",
+          "suspend",
+          "unlock",
+          "unpause",
+          "unshelve"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "admin_password": {
+        "description": "Admin password for server to rebuild.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "all_projects": {
+        "description": "Whether to search for server in all projects or the current project only.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "image": {
+        "description": "Image name or ID the server should be rebuilt with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Server name or ID.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "server"
+        ]
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.server_group": {
+    "short_description": "Manage OpenStack server groups",
+    "description": "Add or remove server groups from OpenStack.",
+    "options": {
+      "state": {
+        "description": "Indicate desired state of the resource. When I(state) is C(present), then I(policy) is required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Server group name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy": {
+        "description": "Represents the current name of the policy.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "anti-affinity",
+          "affinity",
+          "soft-anti-affinity",
+          "soft-affinity"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "rules": {
+        "description": "Rules to be applied to the policy. Currently, only the C(max_server_per_host) rule is supported for the C(anti-affinity) policy.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
         "default": null,
         "aliases": null
       }
     },
     "deprecated": null
   },
+  "openstack.cloud.server_info": {
+    "short_description": "Retrieve information about one or more compute instances",
+    "description": "Retrieve information about server instances from OpenStack.",
+    "options": {
+      "name": {
+        "description": "restrict results to servers with names or UUID matching this glob expression such as web*.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "server"
+        ]
+      },
+      "detailed": {
+        "description": "when true, return additional detail about servers at the expense of additional API calls.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "false",
+        "aliases": null
+      },
+      "filters": {
+        "description": "Used for further filtering of results. Either a string containing a\nJMESPath expression or a dictionary of meta data. Elements of the latter\nmay, themselves, be dictionaries.\n",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "all_projects": {
+        "description": "Whether to list servers from all projects or just the current auth scoped project.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "false",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.server_metadata": {
+    "short_description": "Add/Update/Delete Metadata in Compute Instances from OpenStack",
+    "description": "Add, Update or Remove metadata in compute instances from OpenStack.",
+    "options": {
+      "name": {
+        "description": "Name of the instance to update the metadata",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "server"
+        ]
+      },
+      "metadata": {
+        "description": "A list of key value pairs that should be provided as a metadata to the instance or a string containing a list of key-value pairs. Eg:  meta: \"key1=value1,key2=value2\" Note that when I(state) is C(true), metadata already existing on the server will not be cleared.",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "meta"
+        ]
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
   "openstack.cloud.server_volume": {
-    "short_description": "Attach/Detach Volumes from OpenStack VM",
-    "description": "",
-    "options": {},
+    "short_description": "Attach/Detach Volumes from OpenStack VM's",
+    "description": "Attach or Detach volumes from OpenStack VM's",
+    "options": {
+      "device": {
+        "description": "Device you want to attach. Defaults to auto finding a device name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server": {
+        "description": "Name or ID of server you want to attach a volume to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "volume": {
+        "description": "Name or id of volume you want to attach to a server",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "openstack.cloud.share_type": {
@@ -1109,11 +5349,22 @@
         "aliases": null
       },
       "driver_handles_share_servers": {
-        "description": "Boolean flag indicating whether share servers are managed by the driver. Required for share type creation. This is automatically added to extra_specs as",
-        "type": "str",
+        "description": "Boolean flag indicating whether share servers are managed by the driver. Required for share type creation. This is automatically added to extra_specs as 'driver_handles_share_servers'.",
+        "type": "bool",
         "required": false,
         "choices": null,
-        "default": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicate desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -1134,13 +5385,457 @@
     },
     "deprecated": null
   },
+  "openstack.cloud.stack": {
+    "short_description": "Add/Remove Heat Stack",
+    "description": "Add or Remove a Stack to an OpenStack Heat",
+    "options": {
+      "environment": {
+        "description": "List of environment files that should be used for the stack creation",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "A name for the stack. The value must be unique within a project. The name must start with an ASCII letter and can contain ASCII letters, digits, underscores, periods, and hyphens. Specifically, the name must match the C(^[a-zA-Z][a-zA-Z0-9_.-]{0,254}$) regular expression. When you delete or abandon a stack, its name will not become available for reuse until the deletion completes successfully.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parameters": {
+        "description": "Dictionary of parameters for the stack creation",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "rollback": {
+        "description": "Rollback stack creation",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicate desired state of the resource",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "One or more simple string tags to associate with the stack. To associate multiple tags with a stack, separate the tags with commas. For example, C(tag1,tag2).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "tag"
+        ]
+      },
+      "template": {
+        "description": "Path of the template file to use for the stack creation",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Maximum number of seconds to wait for the stack creation",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3600,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.stack_info": {
+    "short_description": "Retrieve information about Heat stacks",
+    "description": "Get information about Heat stack in OpenStack",
+    "options": {
+      "name": {
+        "description": "Name of the stack.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "owner": {
+        "description": "Name or ID of the parent stack.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "owner_id"
+        ]
+      },
+      "project": {
+        "description": "Name or ID of the project.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "project_id"
+        ]
+      },
+      "status": {
+        "description": "Status of the stack such as C(available)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.subnet": {
+    "short_description": "Add/Remove subnet to an OpenStack network",
+    "description": "Add or Remove a subnet to an OpenStack network",
+    "options": {
+      "state": {
+        "description": "Indicate desired state of the resource",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "allocation_pool_start": {
+        "description": "From the subnet pool the starting address from which the IP should be allocated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allocation_pool_end": {
+        "description": "From the subnet pool the last IP that should be assigned to the virtual machines.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allocation_pools": {
+        "description": "List of allocation pools to assign to the subnet. Each element consists of a 'start' and 'end' value.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cidr": {
+        "description": "The CIDR representation of the subnet that should be assigned to the subnet. Required when I(state) is 'present' and a subnetpool is not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the subnet",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disable_gateway_ip": {
+        "description": "The gateway IP would not be assigned for this subnet",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "false",
+        "aliases": [
+          "no_gateway_ip"
+        ]
+      },
+      "dns_nameservers": {
+        "description": "List of DNS nameservers for this subnet.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extra_attrs": {
+        "description": "Dictionary with extra key/value pairs passed to the API",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": [
+          "extra_specs"
+        ]
+      },
+      "host_routes": {
+        "description": "A list of host route dictionaries for the subnet.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gateway_ip": {
+        "description": "The ip that would be assigned to the gateway for this subnet",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip_version": {
+        "description": "The IP version of the subnet 4 or 6",
+        "type": "int",
+        "required": false,
+        "choices": [
+          4,
+          6
+        ],
+        "default": 4,
+        "aliases": null
+      },
+      "is_dhcp_enabled": {
+        "description": "Whether DHCP should be enabled for this subnet.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "true",
+        "aliases": [
+          "enable_dhcp"
+        ]
+      },
+      "ipv6_ra_mode": {
+        "description": "IPv6 router advertisement mode",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "dhcpv6-stateful",
+          "dhcpv6-stateless",
+          "slaac"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "ipv6_address_mode": {
+        "description": "IPv6 address mode",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "dhcpv6-stateful",
+          "dhcpv6-stateless",
+          "slaac"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the subnet that should be created. Although Neutron allows for non-unique subnet names, this module enforces subnet name uniqueness.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network": {
+        "description": "Name or id of the network to which the subnet should be attached Required when I(state) is 'present'",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "network_name"
+        ]
+      },
+      "project": {
+        "description": "Project name or ID containing the subnet (name admin-only)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "prefix_length": {
+        "description": "The prefix length to use for subnet allocation from a subnet pool",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_default_subnet_pool": {
+        "description": "Use the default subnetpool for I(ip_version) to obtain a CIDR.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "use_default_subnetpool"
+        ]
+      },
+      "subnet_pool": {
+        "description": "The subnet pool name or ID from which to obtain a CIDR",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.subnet_pool": {
+    "short_description": "Create, update or delete a subnet pool from OpenStack",
+    "description": "Create, update or delete a subnet pool from OpenStack.",
+    "options": {
+      "address_scope": {
+        "description": "ID or name of the address scope associated with this subnet pool.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_prefix_length": {
+        "description": "The prefix length to allocate when the cidr or prefixlen attributes are omitted when creating a subnet.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_quota": {
+        "description": "A per-project quota on the prefix space that can be allocated from the subnet pool for project subnets.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The subnet pool description.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extra_specs": {
+        "description": "Dictionary with extra key/value pairs passed to the API.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_default": {
+        "description": "Whether this subnet pool is the default.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_shared": {
+        "description": "Whether this subnet pool is shared or not. This attribute cannot be updated.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "shared"
+        ]
+      },
+      "maximum_prefix_length": {
+        "description": "The maximum prefix length that can be allocated from the subnet pool.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "minimum_prefix_length": {
+        "description": "The minimum prefix length that can be allocated from the subnet pool.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name to be give to the subnet pool. This attribute cannot be updated.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "prefixes": {
+        "description": "Subnet pool prefixes in CIDR notation.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project": {
+        "description": "Name or ID of the project.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the subnet pool should be C(present) or C(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
   "openstack.cloud.subnets_info": {
     "short_description": "Retrieve information about one or more OpenStack subnets.",
     "description": "Retrieve information about one or more subnets from OpenStack.",
     "options": {
       "name": {
-        "description": "Name or ID of the subnet. Alias",
+        "description": "Name or ID of the subnet. Alias 'subnet' added in version 2.8.",
         "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "subnet"
+        ]
+      },
+      "filters": {
+        "description": "A dictionary of meta data to use for further filtering.  Elements of this dictionary may be additional dictionaries.",
+        "type": "dict",
         "required": false,
         "choices": null,
         "default": null,
@@ -1258,7 +5953,158 @@
         ]
       },
       "is_multiattach": {
-        "description": "Whether volume will be sharable or not. To enable this volume to attach to more than one server, set I(is_multiattach) to C(true). Note that support for multiattach volumes depends on the volume type being used. ",
+        "description": "Whether volume will be sharable or not. To enable this volume to attach to more than one server, set I(is_multiattach) to C(true). Note that support for multiattach volumes depends on the volume type being used. Cinder's default for I(is_multiattach) is C(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "metadata": {
+        "description": "Metadata for the volume",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of volume",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "display_name"
+        ]
+      },
+      "scheduler_hints": {
+        "description": "Scheduler hints passed to volume API in form of dict",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "size": {
+        "description": "Size of volume in GB. This parameter is required when the I(state) parameter is 'present'.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot": {
+        "description": "Volume snapshot name or id to create from Mutually exclusive with I(image) and I(volume)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "snapshot_id"
+        ]
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "volume": {
+        "description": "Volume name or id to create from Mutually exclusive with I(image) and I(snapshot)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "volume_type": {
+        "description": "Volume type for volume",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.volume_backup": {
+    "short_description": "Add/Delete Volume backup",
+    "description": "Add or Remove Volume Backup in OpenStack.",
+    "options": {
+      "description": {
+        "description": "String describing the backup",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "display_description"
+        ]
+      },
+      "force": {
+        "description": "Indicates whether to backup, even if the volume is attached.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "is_incremental": {
+        "description": "The backup mode",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "incremental"
+        ]
+      },
+      "metadata": {
+        "description": "Metadata for the backup",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name that has to be given to the backup",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "display_name"
+        ]
+      },
+      "snapshot": {
+        "description": "Name or ID of the Snapshot to take backup of.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the resource be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "volume": {
+        "description": "Name or ID of the volume. Required when I(state) is C(present).",
         "type": "str",
         "required": false,
         "choices": null,
@@ -1394,7 +6240,23 @@
         "aliases": null
       },
       "host": {
-        "description": "Cinder host on which the existing volume resides Takes the form",
+        "description": "Cinder host on which the existing volume resides Takes the form \"host@backend-name#pool\" Required when I(state) is C(present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_name": {
+        "description": "Name of existing volume",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_id": {
+        "description": "Identifier of existing volume",
         "type": "str",
         "required": false,
         "choices": null,
@@ -1421,6 +6283,266 @@
         "type": "str",
         "required": false,
         "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.volume_snapshot": {
+    "short_description": "Create/Delete Cinder Volume Snapshots",
+    "description": "Create or Delete cinder block storage volume snapshots",
+    "options": {
+      "description": {
+        "description": "String describing the snapshot",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "display_description"
+        ]
+      },
+      "force": {
+        "description": "Allows or disallows snapshot of a volume to be created, when the volume is attached to an instance.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "false",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the snapshot",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "display_name"
+        ]
+      },
+      "state": {
+        "description": "Should the snapshot be C(present) or C(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "volume": {
+        "description": "Volume name or ID to create the snapshot from. Required when I(state) is C(present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.volume_snapshot_info": {
+    "short_description": "Get volume snapshots",
+    "description": "Get Volume Snapshot info from the Openstack cloud.",
+    "options": {
+      "details": {
+        "description": "More detailed output",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "status": {
+        "description": "Specifies the snapshot status.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "available",
+          "backing-up",
+          "creating",
+          "deleted",
+          "deleting",
+          "error",
+          "error_deleting",
+          "restoring",
+          "unmanaging"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "volume": {
+        "description": "Name or ID of the volume.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.volume_type": {
+    "short_description": "Manage OpenStack volume type",
+    "description": "Add, remove or update volume types in OpenStack.",
+    "options": {
+      "name": {
+        "description": "Volume type name or id.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the volume type.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extra_specs": {
+        "description": "List of volume type properties",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_public": {
+        "description": "Make volume type accessible to the public. Can be set only during creation",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicate desired state of the resource. When I(state) is C(present), then I(is_public) is required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.volume_type_access": {
+    "short_description": "Manage access to OpenStack block-storage volume type",
+    "description": "Add or remove access to OpenStack block-storage volume type",
+    "options": {
+      "name": {
+        "description": "Name or ID of the block-storage volume type.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project": {
+        "description": "ID or Name of project to grant. Allow I(project) to access private volume type (name or ID).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project_domain": {
+        "description": "Domain the project belongs to (name or ID). This can be used in case collisions between project names exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicate whether project should have access to volume type or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "openstack.cloud.volume_type_encryption": {
+    "short_description": "Manage OpenStack volume type encryption",
+    "description": "Add, remove or update volume type encryption in OpenStack.",
+    "options": {
+      "volume_type": {
+        "description": "Volume type name or id.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Indicate desired state of the resource. When I(state) is C(present), then I(encryption options) are required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "encryption_provider": {
+        "description": "class that provides encryption support for the volume type admin only",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "encryption_cipher": {
+        "description": "encryption algorithm or mode admin only",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "encryption_control_location": {
+        "description": "Set the notional service where the encryption is performed admin only",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "front-end",
+          "back-end"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "encryption_key_size": {
+        "description": "Set the size of the encryption key of this volume type admin only",
+        "type": "int",
+        "required": false,
+        "choices": [
+          128,
+          256,
+          512
+        ],
         "default": null,
         "aliases": null
       }

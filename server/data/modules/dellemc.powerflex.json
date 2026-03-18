@@ -1,134 +1,2473 @@
 {
   "dellemc.powerflex.device": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage device on Dell PowerFlex",
+    "description": "Managing device on PowerFlex storage system includes adding new device, getting details of device, and removing a device.",
+    "options": {
+      "current_pathname": {
+        "description": "Full path of the device to be added. Required while adding a device.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "device_name": {
+        "description": "Device name. Mutually exclusive with I(device_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "device_id": {
+        "description": "Device ID. Mutually exclusive with I(device_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sds_name": {
+        "description": "The name of the SDS. Required while adding a device. Mutually exclusive with I(sds_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sds_id": {
+        "description": "The ID of the SDS. Required while adding a device. Mutually exclusive with I(sds_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_pool_name": {
+        "description": "Storage Pool name. Used while adding a storage device. Mutually exclusive with I(storage_pool_id), I(acceleration_pool_id) and I(acceleration_pool_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_pool_id": {
+        "description": "Storage Pool ID. Used while adding a storage device. Media type supported are C(SSD) and C(HDD). Mutually exclusive with I(storage_pool_name), I(acceleration_pool_id) and I(acceleration_pool_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "acceleration_pool_name": {
+        "description": "Acceleration Pool Name. Used while adding an acceleration device. Media type supported are C(SSD) and C(NVDIMM). Mutually exclusive with I(storage_pool_id), I(storage_pool_name) and I(acceleration_pool_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "acceleration_pool_id": {
+        "description": "Acceleration Pool ID. Used while adding an acceleration device. Media type supported are C(SSD) and C(NVDIMM). Mutually exclusive with I(acceleration_pool_name), I(storage_pool_name) and I(storage_pool_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_name": {
+        "description": "Protection domain name. Used while identifying a storage pool along with I(storage_pool_name). Mutually exclusive with I(protection_domain_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_id": {
+        "description": "Protection domain ID. Used while identifying a storage pool along with I(storage_pool_name). Mutually exclusive with I(protection_domain_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "external_acceleration_type": {
+        "description": "Device external acceleration types. Used while adding a device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Invalid",
+          "None",
+          "Read",
+          "Write",
+          "ReadAndWrite"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "media_type": {
+        "description": "Device media types. Required while adding a device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "HDD",
+          "SSD",
+          "NVDIMM"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the device.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Using the Force flag to add a device. Use this flag, to overwrite existing data on the device. Use this flag with caution, because all data on the device will be destroyed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.device_v2": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Device on Dell PowerFlex",
+    "description": "Managing device on PowerFlex storage system includes adding new device, getting details of device, modifying attributes of device, and removing device. Support only for Powerflex 5.0 versions and above.",
+    "options": {
+      "current_pathname": {
+        "description": "Full path of the device to be added. Required while adding a device.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "device_name": {
+        "description": "Device name. Mutually exclusive with I(device_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "device_id": {
+        "description": "Device ID. Mutually exclusive with I(device_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "device_group_name": {
+        "description": "The name of the device group. Required while adding a device. Mutually exclusive with I(device_group_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "device_group_id": {
+        "description": "The ID of the device group. Required while adding a device. Mutually exclusive with I(device_group_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_node_name": {
+        "description": "The name of the storage node. Required while adding a device. Mutually exclusive with I(storage_node_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_node_id": {
+        "description": "The ID of the storage node. Required while adding a device. Mutually exclusive with I(storage_node_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_device_name": {
+        "description": "New name of the device.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "capacity_limit_gb": {
+        "description": "Device capacity limit in GB.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "media_type": {
+        "description": "Device media types. Required while adding a device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "SSD",
+          "PMEM"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "clear_error": {
+        "description": "Using the flag to clear error on a device. If the error continues to exist, the device will return to an error state as soon as it is accessed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "force": {
+        "description": "Using the Force flag to add a device. Using the flag to clear device error state without checking. Use this flag with caution, because all data on the device will be destroyed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.fault_set": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Fault Sets on Dell PowerFlex",
+    "description": "Managing fault sets on PowerFlex storage system includes creating, getting details, renaming and deleting a fault set.",
+    "options": {
+      "fault_set_name": {
+        "description": "Name of the Fault Set. Mutually exclusive with I(fault_set_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fault_set_id": {
+        "description": "ID of the Fault Set. Mutually exclusive with I(fault_set_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_name": {
+        "description": "Name of protection domain. Mutually exclusive with I(protection_domain_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_id": {
+        "description": "ID of the protection domain. Mutually exclusive with I(protection_domain_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fault_set_new_name": {
+        "description": "New name of the fault set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the Fault Set.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.info": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Gathering information about Dell PowerFlex",
+    "description": "Gathering information about Dell PowerFlex storage system includes getting the api details, list of volumes, SDSs, SDCs, storage pools, protection domains, snapshot policies, and devices. Gathering information about Dell PowerFlex Manager includes getting the list of managed devices, deployments, service templates and firmware repository.",
+    "options": {
+      "gather_subset": {
+        "description": "List of string variables to specify the PowerFlex storage system entities for which information is required. Volumes - C(vol). Storage pools - C(storage_pool). Protection domains - C(protection_domain). SDCs - C(sdc). SDSs - C(sds). Snapshot policies - C(snapshot_policy). Devices - C(device). Replication consistency groups - C(rcg). Replication pairs - C(replication_pair). Fault Sets - C(fault_set). Service templates - C(service_template). Managed devices - C(managed_device). Deployments - C(deployment). FirmwareRepository - C(firmware_repository). NVMe host - C(nvme_host) NVMe Storage Data Target  - C(sdt).",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "vol",
+          "storage_pool",
+          "protection_domain",
+          "sdc",
+          "sds",
+          "snapshot_policy",
+          "device",
+          "rcg",
+          "replication_pair",
+          "fault_set",
+          "service_template",
+          "managed_device",
+          "deployment",
+          "firmware_repository",
+          "nvme_host",
+          "sdt"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "filters": {
+        "description": "List of filters to support filtered output for storage entities. Each filter is a list of I(filter_key), I(filter_operator), I(filter_value). Supports passing of multiple filters.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "limit": {
+        "description": "Page limit. Supported for I(gather_subset) keys C(service_template), C(managed_device), C(deployment), C(firmware_repository).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 50,
+        "aliases": null
+      },
+      "offset": {
+        "description": "Pagination offset. Supported for I(gather_subset) keys C(service_template), C(managed_device), C(deployment), C(firmware_repository).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "sort": {
+        "description": "Sort the returned components based on specified field. Supported for I(gather_subset) keys C(service_template), C(managed_device), C(deployment), C(firmware_repository). The supported sort keys for the I(gather_subset) can be referred from PowerFlex Manager API documentation in U(https://developer.dell.com).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "include_devices": {
+        "description": "Include devices in response. Applicable when I(gather_subset) is C(deployment).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "include_template": {
+        "description": "Include service templates in response. Applicable when I(gather_subset) is C(deployment).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "full": {
+        "description": "Specify if response is full or brief. Applicable when I(gather_subset) is C(deployment), C(service_template). For C(deployment) specify to use full templates including resources in response.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "include_attachments": {
+        "description": "Include attachments. Applicable when I(gather_subset) is C(service_template).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "include_related": {
+        "description": "Include related entities. Applicable when I(gather_subset) is C(firmware_repository).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "include_bundles": {
+        "description": "Include software bundle entities. Applicable when I(gather_subset) is C(firmware_repository).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "include_components": {
+        "description": "Include software component entities. Applicable when I(gather_subset) is C(firmware_repository).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.info_v2": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Gathering information about Dell PowerFlex",
+    "description": "Gathering information about Dell PowerFlex storage system includes getting the api details, list of devices, NVMe host, protection domains, SDCs, SDT, snapshot policies, storage pools, volumes. Gathering information about Dell PowerFlex Manager includes getting the list of deployments, firmware repository, managed devices, service templates. Support only for Powerflex 5.0 versions and above.",
+    "options": {
+      "gather_subset": {
+        "description": "List of string variables to specify the PowerFlex storage system entities for which information is required. Devices - C(device). Deployments - C(deployment). FirmwareRepository - C(firmware_repository). Managed devices - C(managed_device). NVMe host - C(nvme_host) NVMe Storage Data Target - C(sdt). Protection domains - C(protection_domain). SDCs - C(sdc). Service templates - C(service_template). Snapshot policies - C(snapshot_policy). Storage pools - C(storage_pool). Volumes - C(vol).",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "deployment",
+          "device",
+          "firmware_repository",
+          "managed_device",
+          "nvme_host",
+          "protection_domain",
+          "sdc",
+          "sdt",
+          "service_template",
+          "snapshot_policy",
+          "storage_pool",
+          "vol"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "filters": {
+        "description": "List of filters to support filtered output for storage entities. Each filter is a dictionary with keys I(filter_key), I(filter_operator), I(filter_value). Supports passing of multiple filters.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "limit": {
+        "description": "Page limit. Supported for I(gather_subset) keys C(service_template), C(managed_device), C(deployment), C(firmware_repository).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 50,
+        "aliases": null
+      },
+      "offset": {
+        "description": "Pagination offset. Supported for I(gather_subset) keys C(service_template), C(managed_device), C(deployment), C(firmware_repository).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "sort": {
+        "description": "Sort the returned components based on specified field. Supported for I(gather_subset) keys C(service_template), C(managed_device), C(deployment), C(firmware_repository). The supported sort keys for the I(gather_subset) can be referred from PowerFlex Manager API documentation in U(https://developer.dell.com).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "include_devices": {
+        "description": "Include devices in response. Applicable when I(gather_subset) is C(deployment).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "include_template": {
+        "description": "Include service templates in response. Applicable when I(gather_subset) is C(deployment).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "full": {
+        "description": "Specify if response is full or brief. Applicable when I(gather_subset) is C(deployment), C(service_template). For C(deployment) specify to use full templates including resources in response.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "include_attachments": {
+        "description": "Include attachments. Applicable when I(gather_subset) is C(service_template).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "include_bundles": {
+        "description": "Include software bundle entities. Applicable when I(gather_subset) is C(firmware_repository).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.mdm_cluster": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage MDM cluster on Dell PowerFlex",
+    "description": "Managing MDM cluster and MDMs on PowerFlex storage system includes adding/removing standby MDM, modify MDM name and virtual interface. It also includes getting details of MDM cluster, modify MDM cluster ownership, cluster mode, and performance profile.",
+    "options": {
+      "mdm_name": {
+        "description": "The name of the MDM. It is unique across the PowerFlex array. Mutually exclusive with I(mdm_id). If mdm_name passed in add standby operation, then same name will be assigned to the new standby mdm.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mdm_id": {
+        "description": "The ID of the MDM. Mutually exclusive with I(mdm_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mdm_new_name": {
+        "description": "To rename the MDM.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "standby_mdm": {
+        "description": "Specifies add standby MDM parameters.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_primary": {
+        "description": "Set I(is_primary) as C(true) to change MDM cluster ownership from the current master MDM to different MDM. Set I(is_primary) as C(false), will return MDM cluster details. New owner MDM must be an MDM with a manager role.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_mode": {
+        "description": "Mode of the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "OneNode",
+          "ThreeNodes",
+          "FiveNodes"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "mdm": {
+        "description": "Specifies parameters to add/remove MDMs to/from the MDM cluster.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mdm_state": {
+        "description": "Mapping state of MDM.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present-in-cluster",
+          "absent-in-cluster"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "virtual_ip_interfaces": {
+        "description": "List of interfaces to be used for virtual IPs. The order of interfaces must be matched with virtual IPs assigned to the cluster. Interfaces of the primary and secondary type MDMs are allowed to modify. The I(virtual_ip_interfaces) is mutually exclusive with I(clear_interfaces).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "clear_interfaces": {
+        "description": "Clear all virtual IP interfaces. The I(clear_interfaces) is mutually exclusive with I(virtual_ip_interfaces).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "performance_profile": {
+        "description": "Apply performance profile to cluster MDMs.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Compact",
+          "HighPerformance"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the MDM cluster.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.nvme_host": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage NVMe hosts on Dell PowerFlex",
+    "description": "Managing NVMe hosts on PowerFlex storage system includes creating, getting details of NVMe hosts , modifying and deleting NVMe hosts.",
+    "options": {
+      "max_num_paths": {
+        "description": "Maximum number of paths per volume. Used to create or modify the NVMe host.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_num_sys_ports": {
+        "description": "Maximum number of ports per protection domain. Used to create or modify the NVMe host.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nqn": {
+        "description": "NQN of the NVMe host. Used to create, get or modify the NVMe host. To retrieve NQN of NVMe host, use command :command:`cat /etc/nvme/hostnqn`",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nvme_host_name": {
+        "description": "Name of the NVMe host. Specify either I(nvme_host_name), I(nqn) for create, get or rename operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nvme_host_new_name": {
+        "description": "New name of the NVMe host. Used to rename the NVMe host. Only used for updates. Ignored during creation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the NVMe host.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.protection_domain": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Protection Domain on Dell PowerFlex",
+    "description": "Managing Protection Domain on PowerFlex storage system includes creating, modifying attributes, deleting and getting details of Protection Domain.",
+    "options": {
+      "protection_domain_name": {
+        "description": "The name of the protection domain. Mandatory for create operation. It is unique across the PowerFlex array. Mutually exclusive with I(protection_domain_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_id": {
+        "description": "The ID of the protection domain. Except for create operation, all other operations can be performed using protection_domain_id. Mutually exclusive with I(protection_domain_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_new_name": {
+        "description": "Used to rename the protection domain.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_active": {
+        "description": "Used to activate or deactivate the protection domain.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network_limits": {
+        "description": "Network bandwidth limit used by all SDS in protection domain.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rf_cache_limits": {
+        "description": "Used to set the RFcache parameters of the protection domain.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the protection domain.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.protection_domain_v2": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Managing protection domain on Dell PowerFlex 5.x",
+    "description": "Dell PowerFlex protection domain module includes getting the details of protection domain, creating a new protection domain, and modifying the attribute of a protection domain.",
+    "options": {
+      "protection_domain_name": {
+        "description": "The name of the protection domain. Mandatory for create operation. It is unique across the PowerFlex array. Mutually exclusive with I(protection_domain_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_id": {
+        "description": "The ID of the protection domain. Except for create operation, all other operations can be performed using protection_domain_id. Mutually exclusive with I(protection_domain_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_new_name": {
+        "description": "Used to rename the protection domain.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_active": {
+        "description": "Used to indicate the state of the protection domain and to activate or deactivate it. When set to C(true), the protection domain will be in active state. When set to C(false), the protection domain will be in inactive state.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the protection domain. Can be 'present' or 'absent'.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.replication_consistency_group": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage replication consistency groups on Dell PowerFlex",
+    "description": "Managing replication consistency groups on PowerFlex storage system includes getting details, creating, modifying, creating snapshots, pause, resume, freeze, unfreeze, activate, failover, reverse, restore, sync, switchover, inactivate and deleting a replication consistency group.",
+    "options": {
+      "rcg_name": {
+        "description": "The name of the replication consistency group. It is unique across the PowerFlex array. Mutually exclusive with I(rcg_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rcg_id": {
+        "description": "The ID of the replication consistency group. Mutually exclusive with I(rcg_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "create_snapshot": {
+        "description": "Whether to create the snapshot of the replication consistency group.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rpo": {
+        "description": "Desired RPO in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_id": {
+        "description": "Protection domain id. Mutually exclusive with I(protection_domain_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_name": {
+        "description": "Protection domain name. Mutually exclusive with I(protection_domain_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "activity_mode": {
+        "description": "Activity mode of RCG. This parameter is supported for version 3.6 and above.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Active",
+          "Inactive"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "rcg_state": {
+        "description": "Specify an action for RCG. Failover the RCG. Reverse the RCG. Restore the RCG. Switchover the RCG. Pause or resume the RCG. Freeze or unfreeze the RCG. Synchronize the RCG.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "failover",
+          "reverse",
+          "restore",
+          "switchover",
+          "sync",
+          "pause",
+          "resume",
+          "freeze",
+          "unfreeze"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Force switchover the RCG.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pause_mode": {
+        "description": "Pause mode. It is required if pause is set as true.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "StopDataTransfer",
+          "OnlyTrackChanges"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "target_volume_access_mode": {
+        "description": "Target volume access mode.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ReadOnly",
+          "NoAccess"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "is_consistent": {
+        "description": "Consistency of RCG.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_rcg_name": {
+        "description": "Name of RCG to rename to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remote_peer": {
+        "description": "Remote peer system.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the replication consistency group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.replication_pair": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage replication pairs on Dell PowerFlex",
+    "description": "Managing replication pairs on PowerFlex storage system includes getting details, creating, pause, resume initial copy and deleting a replication pair.",
+    "options": {
+      "pair_id": {
+        "description": "The ID of the replication pair. Mutually exclusive with I(pair_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pair_name": {
+        "description": "The name of the replication pair. Mutually exclusive with I(pair_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rcg_name": {
+        "description": "The name of the replication consistency group. Mutually exclusive with I(rcg_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rcg_id": {
+        "description": "The ID of the replication consistency group. Mutually exclusive with I(rcg_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pause": {
+        "description": "Pause or resume the initial copy of replication pair.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pairs": {
+        "description": "List of replication pairs to add to rcg.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remote_peer": {
+        "description": "Remote peer system.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the replication pair.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.resource_group": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage resource group deployments on Dell PowerFlex.",
+    "description": "Managing resource group deployments on PowerFlex storage system includes deploying, editing, adding nodes and deleting a resource group deployment.",
+    "options": {
+      "resource_group_name": {
+        "description": "The name of the resource group. This is a required field to deploy a resource group. Either I(resource_group_id) or I(resource_group_name) must be specified to perform resource group operations. Mutually exclusive with I(resource_group_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resource_group_id": {
+        "description": "The ID of the resource group. Either I(resource_group_id) or I(resource_group_name) must be specified to perform resource group operations. Mutually exclusive with I(resource_group_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_name": {
+        "description": "The name of the published template. Either I(template_id) or I(template_name) must be specified to deploy a resource group. Mutually exclusive with I(template_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_id": {
+        "description": "The ID of the published template. Either I(template_id) or I(template_name) must be specified to deploy a resource group. Mutually exclusive with I(template_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "firmware_repository_id": {
+        "description": "The ID of the firmware repository if not using the appliance default catalog. Mutually exclusive with I(firmware_repository_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "firmware_repository_name": {
+        "description": "The name of the firmware repository if not using the appliance default catalog. Mutually exclusive with I(firmware_repository_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_resource_group_name": {
+        "description": "New name of the resource group to rename to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The description of the resource group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scaleup": {
+        "description": "Whether to scale up the resource group. Specify as true to add nodes to the resource group.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "clone_node": {
+        "description": "Resource to duplicate during scaleup, if more than one nodes are available in the resource group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "node_count": {
+        "description": "Number of nodes to clone during scaleup.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "validate": {
+        "description": "Specify as true to validate the deployment of resource group.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "schedule_date": {
+        "description": "Scheduled date for the resource group deployment. Specify in YYYY-MM-DD HH:MM:SS.sss or YYYY-MM-DD format.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the resource group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.sdc": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage SDCs on Dell PowerFlex",
+    "description": "Managing SDCs on PowerFlex storage system includes getting details of SDC and renaming SDC.",
+    "options": {
+      "sdc_name": {
+        "description": "Name of the SDC. Specify either I(sdc_name), I(sdc_id) or I(sdc_ip) for get/rename operation. Mutually exclusive with I(sdc_id) and I(sdc_ip).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sdc_id": {
+        "description": "ID of the SDC. Specify either I(sdc_name), I(sdc_id) or I(sdc_ip) for get/rename operation. Mutually exclusive with I(sdc_name) and I(sdc_ip).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sdc_ip": {
+        "description": "IP of the SDC. Specify either I(sdc_name), I(sdc_id) or I(sdc_ip) for get/rename operation. Mutually exclusive with I(sdc_id) and I(sdc_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sdc_new_name": {
+        "description": "New name of the SDC. Used to rename the SDC.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "performance_profile": {
+        "description": "Define the performance profile as I(Compact) or I(HighPerformance). The high performance profile configures a predefined set of parameters for very high performance use cases.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Compact",
+          "HighPerformance"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the SDC.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.sds": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage SDS on Dell PowerFlex",
+    "description": "Managing SDS on PowerFlex storage system includes creating new SDS, getting details of SDS, adding/removing IP to/from SDS, modifying attributes of SDS, and deleting SDS.",
+    "options": {
+      "sds_name": {
+        "description": "The name of the SDS. Mandatory for create operation. It is unique across the PowerFlex array. Mutually exclusive with I(sds_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sds_id": {
+        "description": "The ID of the SDS. Except create operation, all other operations can be performed using I(sds_id). Mutually exclusive with I(sds_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_name": {
+        "description": "The name of the protection domain. Mutually exclusive with I(protection_domain_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_id": {
+        "description": "The ID of the protection domain. Mutually exclusive with I(protection_domain_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sds_ip_list": {
+        "description": "Dictionary of IPs and their roles for the SDS. At least one IP-role is mandatory while creating a SDS. IP-roles can be updated as well.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sds_ip_state": {
+        "description": "State of IP with respect to the SDS.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present-in-sds",
+          "absent-in-sds"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "rfcache_enabled": {
+        "description": "Whether to enable the Read Flash cache.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rmcache_enabled": {
+        "description": "Whether to enable the Read RAM cache.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rmcache_size": {
+        "description": "Read RAM cache size (in MB). Minimum size is 128 MB. Maximum size is 3911 MB.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sds_new_name": {
+        "description": "SDS new name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "performance_profile": {
+        "description": "Performance profile to apply to the SDS. The HighPerformance profile configures a predefined set of parameters for very high performance use cases. Default value by API is C(HighPerformance).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Compact",
+          "HighPerformance"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "fault_set_name": {
+        "description": "Name of the fault set. Mutually exclusive with I(fault_set_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fault_set_id": {
+        "description": "Unique identifier of the fault set. Mutually exclusive with I(fault_set_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the SDS.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.sdt": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage SDT (also called NVMe Target) on Dell PowerFlex",
+    "description": "Managing SDT (also called NVMe Target) on PowerFlex storage system includes creating new SDT, getting details of SDT, managing IP or role of SDT, modifying attributes of SDT, and deleting SDT. Support only for Powerflex 4.5 versions and above.",
+    "options": {
+      "discovery_port": {
+        "description": "Discovery port of the SDT.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "maintenance_mode": {
+        "description": "Maintenance mode state of the SDT.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "active",
+          "inactive"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "nvme_port": {
+        "description": "NVMe port of the SDT.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_name": {
+        "description": "The name of the protection domain.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sdt_ip_list": {
+        "description": "Dictionary of IPs and their roles for the SDT. At least one IP-role is mandatory while creating a SDT. IP-roles can be updated as well.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sdt_name": {
+        "description": "The name of the SDT. Mandatory for all operations. It is unique across the PowerFlex array.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sdt_new_name": {
+        "description": "SDT new name, can only be used for renaming the SDT. Only used for updates. Ignored during creation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the SDT.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "storage_port": {
+        "description": "Storage port of the SDT.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.snapshot": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Snapshots on Dell PowerFlex",
+    "description": "Managing snapshots on PowerFlex Storage System includes creating, getting details, mapping/unmapping to/from SDC, modifying the attributes and deleting snapshot.",
+    "options": {
+      "snapshot_name": {
+        "description": "The name of the snapshot. Mandatory for create operation. Specify either I(snapshot_name) or I(snapshot_id) (but not both) for any operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_id": {
+        "description": "The ID of the Snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vol_name": {
+        "description": "The name of the volume for which snapshot will be taken. Specify either I(vol_name) or I(vol_id) while creating snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vol_id": {
+        "description": "The ID of the volume.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "read_only": {
+        "description": "Specifies whether mapping of the created snapshot volume will have read-write access or limited to read-only access. If C(true), snapshot is created with read-only access. If C(false), snapshot is created with read-write access.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "size": {
+        "description": "The size of the snapshot.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cap_unit": {
+        "description": "The unit of the volume size. It defaults to C(GB), if not specified.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "GB",
+          "TB"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_new_name": {
+        "description": "New name of the snapshot. Used to rename the snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_multiple_mappings": {
+        "description": "Specifies whether to allow multiple mappings or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "desired_retention": {
+        "description": "The retention value for the Snapshot. If the desired_retention is not mentioned during creation, snapshot will be created with unlimited retention. Maximum supported desired retention is 31 days.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "retention_unit": {
+        "description": "The unit for retention. It defaults to C(hours), if not specified.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "hours",
+          "days"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "sdc": {
+        "description": "Specifies SDC parameters.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sdc_state": {
+        "description": "Mapping state of the SDC.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "mapped",
+          "unmapped"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "remove_mode": {
+        "description": "Removal mode for the snapshot. It defaults to C(ONLY_ME), if not specified.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ONLY_ME",
+          "INCLUDING_DESCENDANTS"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the snapshot.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.snapshot_policy": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage snapshot policies on Dell PowerFlex",
+    "description": "Managing snapshot policies on PowerFlex storage system includes creating, getting details, modifying attributes, adding a source volume, removing a source volume and deleting a snapshot policy.",
+    "options": {
+      "snapshot_policy_name": {
+        "description": "The name of the snapshot policy. It is unique across the PowerFlex array. Mutually exclusive with I(snapshot_policy_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_policy_id": {
+        "description": "The unique identifier of the snapshot policy. Except create operation, all other operations can be performed using I(snapshot_policy_id). Mutually exclusive with I(snapshot_policy_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auto_snapshot_creation_cadence": {
+        "description": "The auto snapshot creation cadence of the snapshot policy.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "num_of_retained_snapshots_per_level": {
+        "description": "Number of retained snapshots per level.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_name": {
+        "description": "New name of the snapshot policy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "access_mode": {
+        "description": "Access mode of the snapshot policy. READ_ONLY access_mode is allowed only since PowerFlex 5.0.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "READ_WRITE",
+          "READ_ONLY"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "secure_snapshots": {
+        "description": "Whether to secure snapshots or not. Used only in the create operation.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_volume": {
+        "description": "The source volume details to be added or removed.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pause": {
+        "description": "Whether to pause or resume the snapshot policy.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the snapshot policy.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.snapshot_v2": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Snapshots on Dell PowerFlex",
+    "description": "Managing snapshots on PowerFlex Storage System includes creating, getting details, modifying the attributes and deleting snapshot.",
+    "options": {
+      "snapshot_name": {
+        "description": "The name of the snapshot. Mandatory for create operation. Specify either I(snapshot_name) or I(snapshot_id) (but not both) for any operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_id": {
+        "description": "The ID of the Snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vol_name": {
+        "description": "The name of the volume for which snapshot will be taken. Specify either I(vol_name) or I(vol_id) while creating snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vol_id": {
+        "description": "The ID of the volume.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_new_name": {
+        "description": "New name of the snapshot. Used to rename the snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "desired_retention": {
+        "description": "The retention value for the Snapshot. If the desired_retention is not mentioned during creation, snapshot will be created with unlimited retention. Maximum supported desired retention is 31 days.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "retention_unit": {
+        "description": "The unit for retention. It defaults to C(hours), if not specified.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "hours",
+          "days"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "remove_mode": {
+        "description": "Removal mode for the snapshot. It defaults to C(ONLY_ME), if not specified.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ONLY_ME",
+          "INCLUDING_DESCENDANTS"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.storagepool": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Managing Dell PowerFlex storage pool",
+    "description": "Dell PowerFlex storage pool module includes getting the details of storage pool, creating a new storage pool, and modifying the attribute of a storage pool.",
+    "options": {
+      "storage_pool_name": {
+        "description": "The name of the storage pool. If more than one storage pool is found with the same name then protection domain id/name is required to perform the task. Mutually exclusive with I(storage_pool_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_pool_id": {
+        "description": "The id of the storage pool. It is auto generated, hence should not be provided during creation of a storage pool. Mutually exclusive with I(storage_pool_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_name": {
+        "description": "The name of the protection domain. During creation of a pool, either protection domain name or id must be mentioned. Mutually exclusive with I(protection_domain_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_id": {
+        "description": "The id of the protection domain. During creation of a pool, either protection domain name or id must be mentioned. Mutually exclusive with I(protection_domain_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "media_type": {
+        "description": "Type of devices in the storage pool.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "HDD",
+          "SSD",
+          "TRANSITIONAL"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "storage_pool_new_name": {
+        "description": "New name for the storage pool can be provided. This parameter is used for renaming the storage pool.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_rfcache": {
+        "description": "Enable/Disable RFcache on a specific storage pool.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_rmcache": {
+        "description": "Enable/Disable RMcache on a specific storage pool.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_zero_padding": {
+        "description": "Enable/Disable zero padding on a specific storage pool.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rep_cap_max_ratio": {
+        "description": "Set replication journal capacity of a storage pool.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_rebalance": {
+        "description": "Enable/Disable rebalance on a specific storage pool.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "spare_percentage": {
+        "description": "Set the spare percentage of a specific storage pool.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rmcache_write_handling_mode": {
+        "description": "Set RM cache write handling mode of a storage pool. I(Passthrough) Writes skip the cache and are stored in storage only. I(Cached) Writes are stored in both cache and storage (the default). Caching is only performed for IOs whose size is a multiple of 4k bytes.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Cached",
+          "Passthrough"
+        ],
+        "default": "Cached",
+        "aliases": null
+      },
+      "enable_rebuild": {
+        "description": "Enable/Disable rebuild of a specific storage pool.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_fragmentation": {
+        "description": "Enable/Disable fragmentation of a specific storage pool.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parallel_rebuild_rebalance_limit": {
+        "description": "Set rebuild/rebalance parallelism limit of a storage pool.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "persistent_checksum": {
+        "description": "Enable/Disable persistent checksum of a specific storage pool.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protected_maintenance_mode_io_priority_policy": {
+        "description": "Set protected maintenance mode I/O priority policy of a storage pool.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vtree_migration_io_priority_policy": {
+        "description": "Set the I/O priority policy for V-Tree migration for a specific Storage Pool.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rebalance_io_priority_policy": {
+        "description": "Set the rebalance I/O priority policy for a Storage Pool.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cap_alert_thresholds": {
+        "description": "Set the threshold for triggering capacity usage alerts. Alerts thresholds are calculated from each Storage Pool capacity after deducting the defined amount of spare capacity.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the storage pool.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.storagepool_v2": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Managing storage pool on Dell PowerFlex 5.x",
+    "description": "Dell PowerFlex storage pool module includes getting the details of storage pool, creating a new storage pool, and modifying the attribute of a storage pool.",
+    "options": {
+      "storage_pool_name": {
+        "description": "The name of the storage pool. If more than one storage pool is found with the same name then protection domain id/name is required to perform the task. Mutually exclusive with I(storage_pool_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_pool_id": {
+        "description": "The id of the storage pool. It is auto generated, hence should not be provided during creation of a storage pool. Mutually exclusive with I(storage_pool_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_pool_new_name": {
+        "description": "New name for the storage pool can be provided. This parameter is used for renaming the storage pool.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_name": {
+        "description": "The name of the protection domain. During creation of a pool, either protection domain name or id must be mentioned. Mutually exclusive with I(protection_domain_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_id": {
+        "description": "The id of the protection domain. During creation of a pool, either protection domain name or id must be mentioned. Mutually exclusive with I(protection_domain_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "device_group_id": {
+        "description": "The ID of the device group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "device_group_name": {
+        "description": "The name of the device group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cap_alert_thresholds": {
+        "description": "The capacity alert thresholds.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "compression_method": {
+        "description": "The compression method.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "None",
+          "Normal"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "over_provisioning_factor": {
+        "description": "The over-provisioning factor.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "physical_size_gb": {
+        "description": "The physical size in GB. If 'use_all_available_capacity' is set to true, this parameter cannot be specified. If 'use_all_available_capacity' is set to false, this parameter is required.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_all_available_capacity": {
+        "description": "Whether to use all available capacity for storage pool. When set to true, the 'physical_size_gb' parameter cannot be specified. When set to false, the 'physical_size_gb' parameter is required.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_scheme": {
+        "description": "The protection scheme.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "TwoPlusTwo",
+          "EightPlusTwo"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the storage pool. Can be 'present' or 'absent'.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.volume": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage volumes on Dell PowerFlex",
+    "description": "Managing volumes on PowerFlex storage system includes creating, getting details, modifying attributes and deleting volume. It also includes adding/removing snapshot policy, mapping/unmapping volume to/from SDC and listing associated snapshots.",
+    "options": {
+      "vol_name": {
+        "description": "The name of the volume. Mandatory for create operation. It is unique across the PowerFlex array. Mutually exclusive with I(vol_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vol_id": {
+        "description": "The ID of the volume. Except create operation, all other operations can be performed using I(vol_id). Mutually exclusive with I(vol_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_pool_name": {
+        "description": "The name of the storage pool. Either name or the id of the storage pool is required for creating a volume. During creation, if storage pool name is provided then either protection domain name or id must be mentioned along with it. Mutually exclusive with I(storage_pool_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_pool_id": {
+        "description": "The ID of the storage pool. Either name or the id of the storage pool is required for creating a volume. Mutually exclusive with I(storage_pool_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_name": {
+        "description": "The name of the protection domain. During creation of a volume, if more than one storage pool exists with the same name then either protection domain name or id must be mentioned along with it. Mutually exclusive with I(protection_domain_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_id": {
+        "description": "The ID of the protection domain. During creation of a volume, if more than one storage pool exists with the same name then either protection domain name or id must be mentioned along with it. Mutually exclusive with I(protection_domain_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vol_type": {
+        "description": "Type of volume provisioning.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "THICK_PROVISIONED",
+          "THIN_PROVISIONED"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "compression_type": {
+        "description": "Type of the compression method.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "NORMAL",
+          "NONE"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "use_rmcache": {
+        "description": "Whether to use RM Cache or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_policy_name": {
+        "description": "Name of the snapshot policy. To remove/detach snapshot policy, empty I(snapshot_policy_id)/I(snapshot_policy_name) is to be passed along with I(auto_snap_remove_type).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_policy_id": {
+        "description": "ID of the snapshot policy. To remove/detach snapshot policy, empty I(snapshot_policy_id)/I(snapshot_policy_name) is to be passed along with I(auto_snap_remove_type).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auto_snap_remove_type": {
+        "description": "Whether to remove or detach the snapshot policy. To remove/detach snapshot policy, empty I(snapshot_policy_id)/I(snapshot_policy_name) is to be passed along with I(auto_snap_remove_type). If the snapshot policy name/id is passed empty then I(auto_snap_remove_type) is defaulted to C(detach).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "remove",
+          "detach"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "size": {
+        "description": "The size of the volume. Size of the volume will be assigned as higher multiple of 8 GB.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cap_unit": {
+        "description": "The unit of the volume size. It defaults to 'GB'.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "GB",
+          "TB"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "vol_new_name": {
+        "description": "New name of the volume. Used to rename the volume.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_multiple_mappings": {
+        "description": "Specifies whether to allow or not allow multiple mappings. If the volume is mapped to one SDC then for every new mapping I(allow_multiple_mappings) has to be passed as true.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sdc": {
+        "description": "Specifies SDC parameters.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sdc_state": {
+        "description": "Mapping state of the SDC.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "mapped",
+          "unmapped"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "delete_snapshots": {
+        "description": "If C(true), the volume and all its dependent snapshots will be deleted. If C(false), only the volume will be deleted. It can be specified only when the I(state) is C(absent). It defaults to C(false), if not specified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the volume.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.powerflex.volume_v2": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage volumes on Dell PowerFlex",
+    "description": "Managing volumes on PowerFlex storage system includes creating, getting details, modifying attributes and deleting volume. It also includes adding/removing snapshot policy, mapping/unmapping volume to/from SDC and listing associated snapshots.",
+    "options": {
+      "vol_name": {
+        "description": "The name of the volume. Mandatory for create operation. It is unique across the PowerFlex array. Mutually exclusive with I(vol_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vol_id": {
+        "description": "The ID of the volume. Except create operation, all other operations can be performed using I(vol_id). Mutually exclusive with I(vol_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_pool_name": {
+        "description": "The name of the storage pool. Either name or the id of the storage pool is required for creating a volume. During creation, if storage pool name is provided then either protection domain name or id must be mentioned along with it. Mutually exclusive with I(storage_pool_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_pool_id": {
+        "description": "The ID of the storage pool. Either name or the id of the storage pool is required for creating a volume. Mutually exclusive with I(storage_pool_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_name": {
+        "description": "The name of the protection domain. During creation of a volume, if more than one storage pool exists with the same name then either protection domain name or id must be mentioned along with it. Mutually exclusive with I(protection_domain_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protection_domain_id": {
+        "description": "The ID of the protection domain. During creation of a volume, if more than one storage pool exists with the same name then either protection domain name or id must be mentioned along with it. Mutually exclusive with I(protection_domain_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vol_type": {
+        "description": "Type of volume provisioning.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "THICK_PROVISIONED",
+          "THIN_PROVISIONED"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_policy_name": {
+        "description": "Name of the snapshot policy. To remove/detach snapshot policy, empty I(snapshot_policy_id)/I(snapshot_policy_name) is to be passed along with I(auto_snap_remove_type).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_policy_id": {
+        "description": "ID of the snapshot policy. To remove/detach snapshot policy, empty I(snapshot_policy_id)/I(snapshot_policy_name) is to be passed along with I(auto_snap_remove_type).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auto_snap_remove_type": {
+        "description": "Whether to remove or detach the snapshot policy. To remove/detach snapshot policy, empty I(snapshot_policy_id)/I(snapshot_policy_name) is to be passed along with I(auto_snap_remove_type). If the snapshot policy name/id is passed empty then I(auto_snap_remove_type) is defaulted to C(detach).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "remove",
+          "detach"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "size": {
+        "description": "The size of the volume. Size of the volume will be assigned as higher multiple of 8 GB.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cap_unit": {
+        "description": "The unit of the volume size. It defaults to 'GB'.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "GB",
+          "TB"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "vol_new_name": {
+        "description": "New name of the volume. Used to rename the volume.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "refresh_src_vol_id": {
+        "description": "ID of the source volume/snapshot to refresh from. Either the name or the id of the source volume/snapshot is required Mutually exclusive with I(refresh_src_vol_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "refresh_src_vol_name": {
+        "description": "Name of the source volume/snapshot to refresh from. Either the name or the id of the source volume/snapshot is required Mutually exclusive with I(refresh_src_vol_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "restore_src_vol_id": {
+        "description": "ID of the source volume/snapshot to restore from. Either the name or the id of the source volume/snapshot is required Mutually exclusive with I(restore_src_vol_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "restore_src_vol_name": {
+        "description": "Name of the source volume/snapshot to restore from. Either the name or the id of the source volume/snapshot is required Mutually exclusive with I(restore_src_vol_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_multiple_mappings": {
+        "description": "Specifies whether to allow or not allow multiple mappings. If the volume is mapped to one SDC then for every new mapping I(allow_multiple_mappings) has to be passed as true.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sdc": {
+        "description": "Specifies SDC parameters.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sdc_state": {
+        "description": "Mapping state of the SDC.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "mapped",
+          "unmapped"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "delete_snapshots": {
+        "description": "If C(true), the volume and all its dependent snapshots will be deleted. If C(false), only the volume will be deleted. It can be specified only when the I(state) is C(absent). It defaults to C(false), if not specified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the volume.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

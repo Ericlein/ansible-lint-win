@@ -1,326 +1,4085 @@
 {
   "purestorage.flashblade.purefb_ad": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashBlade Active Directory Account",
+    "description": "Add or delete FlashBlade Active Directory Account FlashBlade allows the creation of one AD computer account, or joining of an existing AD computer account.",
+    "options": {
+      "name": {
+        "description": "Name of the AD account",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "existing": {
+        "description": "Does the account I(name) already exist in the AD environment",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the AD sccount is deleted or not Test state will perform a test against the suppied account name Rotate will force a keytab rotation for the specified account",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "test",
+          "rotate"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "computer": {
+        "description": "The common name of the computer account to be created in the Active Directory domain. If not specified, defaults to the name of the Active Directory configuration.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain": {
+        "description": "The Active Directory domain to join",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "A user capable of creating a computer account within the domain",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password string for I(username)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "encryption": {
+        "description": "The encryption types that will be supported for use by clients for Kerberos authentication",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "aes256-sha1",
+          "aes128-sha1",
+          "aes256-cts-hmac-sha1-96",
+          "aes128-cts-hmac-sha1-96",
+          "arcfour-hma"
+        ],
+        "default": "aes256-sha1",
+        "aliases": null
+      },
+      "join_ou": {
+        "description": "Location where the Computer account will be created. e.g. OU=Arrays,OU=Storage. If left empty, defaults to B(CN=Computers).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "directory_servers": {
+        "description": "A list of directory servers that will be used for lookups related to user authorization Accepted server formats are IP address and DNS name All specified servers must be registered to the domain appropriately in the array configured DNS and will only be communicated with over the secure LDAP (LDAPS) protocol. If not specified, servers are resolved for the domain in DNS The specified list can have a maximum length of 5. If more are provided only the first 5 are used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kerberos_servers": {
+        "description": "A list of key distribution servers to use for Kerberos protocol Accepted server formats are IP address and DNS name All specified servers must be registered to the domain appropriately in the array configured DNS. If not specified, servers are resolved for the domain in DNS. The specified list can have a maximum length of 5. If more are provided only the first 5 are used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service_principals": {
+        "description": "A list of SPNs for registering services with the domain. The service must be provided with the FQDN. See examples below. If not specified B(Computer Name.Domain) is used",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "global_catalog_servers": {
+        "description": "A list of global catalog servers that will be used for lookups related to user authorization. Accepted server formats are IP address and DNS name with optional @domain suffix. If the suffix is ommited, the joined domain is assumed. All specified servers must be registered to the domain appropriately in the arrays configured DNS and will only be communicated with over the secure LDAP (LDAPS) protocol.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service": {
+        "description": "Service protocol for Active Directory principals This parameter is now IGNORED. Refer to FlashBlade User Guide for more details Use the I(service_principals) parameter instead to correctly define the service type to be used for each principal.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "nfs",
+          "cifs",
+          "HOST",
+          ""
+        ],
+        "default": "",
+        "aliases": null
+      },
+      "server": {
+        "description": "Name of the local array server into which the AD account is added Do not provide if the AD account is to connect to the default server",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "local_only": {
+        "description": "Do a local-only delete of an active directory account",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_admin": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Everpure FlashBlade Global Admin settings",
+    "description": "Set global admin settings for the FlashBlade",
+    "options": {
+      "max_login": {
+        "description": "Maximum number of failed logins before account is locked",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "min_password": {
+        "description": "Minimum user password length Range between 1 and 100",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "lockout": {
+        "description": "Account lockout duration, in seconds, after max_login exceeded Range between 1 second and 90 days (7776000 seconds)",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_alert": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Everpure FlashBlade alert email settings",
+    "description": "Configure alert email configuration for Everpure FlashArrays. Add or delete an individual syslog server to the existing list of serves.",
+    "options": {
+      "state": {
+        "description": "Create, delete or test alert email",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "test"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "address": {
+        "description": "Email address (valid format required)",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Set specified email address to be enabled or disabled",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "severity": {
+        "description": "The minimum severity that an alert must have in order for emails to be sent to the array's alert watchers",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "info",
+          "warning",
+          "critical"
+        ],
+        "default": "info",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_apiclient": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashBlade API Clients",
+    "description": "Enable or disable FlashBlade API Clients",
+    "options": {
+      "name": {
+        "description": "Name of the API Client",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the API client should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "role": {
+        "description": "The maximum role allowed for ID Tokens issued by this API client",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "readonly",
+          "ops_admin",
+          "storage_admin",
+          "array_admin"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "issuer": {
+        "description": "The name of the identity provider that will be issuing ID Tokens for this API client If not specified, defaults to the API client name, I(name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "public_key": {
+        "description": "The API clients PEM formatted (Base64 encoded) RSA public key. Include the I(—–BEGIN PUBLIC KEY—–) and I(—–END PUBLIC KEY—–) lines",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "token_ttl": {
+        "description": "Time To Live length in seconds for the exchanged access token Range is 1 second to 1 day (86400 seconds)",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 86400,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "State of the API Client Key",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_banner": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Everpure FlashBlade GUI and SSH MOTD message",
+    "description": "Configure MOTD for Everpure FlashBlades. This will be shown during an SSH or GUI login to the system. Multiple line messages can be achieved using \\\\n.",
+    "options": {
+      "state": {
+        "description": "Set ot delete the MOTD",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "banner": {
+        "description": "Banner text, or MOTD, to use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "Welcome to the machine...",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_bladename": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Everpure FlashBlade name",
+    "description": "Configure name of Everpure FlashBlades. Ideal for Day 0 initial configuration.",
+    "options": {
+      "state": {
+        "description": "Set the FlashBlade name",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the FlashBlade. Must conform to correct naming schema.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_bucket": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Object Store Buckets on a  Everpure FlashBlade.",
+    "description": "This module managess object store (s3) buckets on Everpure FlashBlade.",
+    "options": {
+      "name": {
+        "description": "Bucket Name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "account": {
+        "description": "Object Store Account for Bucket.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "versioning": {
+        "description": "State of S3 bucket versioning",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "suspended",
+          "absent"
+        ],
+        "default": "absent",
+        "aliases": null
+      },
+      "state": {
+        "description": "Create, delete or modifies a bucket.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "eradicate": {
+        "description": "Define whether to eradicate the bucket on delete or leave in trash.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "mode": {
+        "description": "The type of bucket to be created. Also referred to a VSO Mode. I(multi-site-writable) type can only be used after feature is enabled by Pure Technical Support",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "classic",
+          "multi-site-writable"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "quota": {
+        "description": "The effective quota limit applied against the size of the bucket. User byte quota in B, K, M, G, T or P units. Range must be between 1 byte and 9.22 exabytes. Setting to 0 will allow the bucket size to be unlimited.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hard_limit": {
+        "description": "Whether the I(quota) value is enforced or not. If not provided the object store account default value will be used.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "retention_lock": {
+        "description": "Set retention lock level for the bucket Once set to I(ratcheted) can only be lowered by Pure Technical Services",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ratcheted",
+          "unlocked"
+        ],
+        "default": "unlocked",
+        "aliases": null
+      },
+      "retention_mode": {
+        "description": "The retention mode used to apply locks on new objects if none is specified by the S3 client I(safemode) is available if global Per-Bucket Safemode config is enabled Use \"\" to clear Once set to I(compliance) this can only be changed by contacting Pure Technical Services",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "compliance",
+          "governance",
+          "safemode",
+          ""
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "object_lock_enabled": {
+        "description": "If set to true, then S3 APIs relating to object lock may be used",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "freeze_locked_objects": {
+        "description": "If set to true, a locked object will be read-only and no new versions of the object may be created due to modifications After enabling, can be disabled only by contacting Pure Technical Services",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "default_retention": {
+        "description": "The retention period, in days, used to apply locks on new objects if none is specified by the S3 client Valid values between 1 and 365000 Use \"\" to clear",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "block_new_public_policies": {
+        "description": "If set to true, adding bucket policies that grant public access to a bucket is not allowed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "block_public_access": {
+        "description": "If set to true, access to a bucket with a public policy is restricted to only authenticated users within the account that bucket belongs to.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "eradication_mode": {
+        "description": "The eradication mode of the bucket.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "permission-based",
+          "retention-based"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "manual_eradication": {
+        "description": "The manual eradication status of the bucket. If false, the bucket cannot be eradicated after it has been destroyed, unless it is empty. If true, the bucket can be eradicated.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "eradication_delay": {
+        "description": "Minimum eradication delay in days. Automatically eradicate destroyed buckets after the delay time passes unless automatic eradication is delayed due to other configuration values. Valid values are integer days from 1 to 30. Default is 1.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_bucket_access": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashBlade bucket access policies",
+    "description": "Manage object store bucket policies. This modules allows the management of both bucket access and cross-origin resource sharing policies and their associated rules.",
+    "options": {
+      "state": {
+        "description": "Create or delete policy or rule.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "policy_type": {
+        "description": "Type of policy",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "access",
+          "cors"
+        ],
+        "default": "access",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of Object Store bucket the policy applies to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rule": {
+        "description": "Name of the rule in the Bucket Policy Required if I(state) is I(present)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "effect": {
+        "description": "Allow S3 requests that match all of the I(actions) item selected. Rules are additive.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "allow",
+          "deny"
+        ],
+        "default": "allow",
+        "aliases": null
+      },
+      "actions": {
+        "description": "List of permissions to grant. System-wide policy rules cannot be deleted or modified Currently only s3:GetObject is allowed",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "s3:*",
+          "s3:AbortMultipartUpload",
+          "s3:BypassGovernanceRetention",
+          "s3:CreateBucket",
+          "s3:DeleteBucket",
+          "s3:DeleteObject",
+          "s3:DeleteObjectVersion",
+          "s3:ExtendSafemodeRetentionPeriod",
+          "s3:GetBucketAcl",
+          "s3:GetBucketLocation",
+          "s3:GetBucketVersioning",
+          "s3:GetLifecycleConfiguration",
+          "s3:GetObject",
+          "s3:GetObjectAcl",
+          "s3:GetObjectLegalHold",
+          "s3:GetObjectLockConfiguration",
+          "s3:GetObjectRetention",
+          "s3:GetObjectTagging",
+          "s3:GetObjectVersion",
+          "s3:GetObjectVersionTagging",
+          "s3:ListAllMyBuckets",
+          "s3:ListBucket",
+          "s3:ListBucketMultipartUploads",
+          "s3:ListBucketVersions",
+          "s3:ListMultipartUploadParts",
+          "s3:PutBucketVersioning",
+          "s3:PutLifecycleConfiguration",
+          "s3:PutObject",
+          "s3:PutObjectLegalHold",
+          "s3:PutObjectLockConfiguration",
+          "s3:PutObjectRetention",
+          "s3:ResolveSafemodeConflicts"
+        ],
+        "default": [
+          "s3:GetObject"
+        ],
+        "aliases": null
+      },
+      "methods": {
+        "description": "A list of HTTP methods that are permitted for cross-origin requests to access a bucket. The only currently supported combination of allowed methods is all methods.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "GET",
+          "PUT",
+          "HEAD",
+          "POST",
+          "DELETE"
+        ],
+        "default": [
+          "GET",
+          "PUT",
+          "HEAD",
+          "POST",
+          "DELETE"
+        ],
+        "aliases": null
+      },
+      "headers": {
+        "description": "A list of headers that are permitted to be included in cross-origin requests to access a bucket. The only currently supported allowed header is '*'.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [
+          "*"
+        ],
+        "aliases": null
+      },
+      "origins": {
+        "description": "A list of origins (domains) that are permitted to make cross-origin requests to access a bucket. The only currently supported allowed origin is '*'.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [
+          "*"
+        ],
+        "aliases": null
+      },
+      "resources": {
+        "description": "The list of resources which this rule applies to. The only currently supported resource is all objects in a bucket to which the parent policy belongs.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [
+          "*"
+        ],
+        "aliases": null
+      },
+      "principals": {
+        "description": "Defines if the rule will apply to all object store users regardless of their origin or principal.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_bucket_replica": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage bucket replica links between Everpure FlashBlades",
+    "description": "This module manages bucket replica links between Everpure FlashBlades.",
+    "options": {
+      "name": {
+        "description": "Local Bucket Name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Creates or modifies a bucket replica link",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "target": {
+        "description": "Remote array or target name to create replica on.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_bucket": {
+        "description": "Name of target bucket name If not supplied, will default to I(name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "paused": {
+        "description": "State of the bucket replica link",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "credential": {
+        "description": "Name of remote credential name to use.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cascading": {
+        "description": "Objects replicated to this bucket via a replica link from another array will also be replicated by this link to the remote bucket",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_certgrp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashBlade Certifcate Groups",
+    "description": "Manage certifcate groups for FlashBlades",
+    "options": {
+      "state": {
+        "description": "Create or delete certifcate group",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the certificate group",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "certificates": {
+        "description": "List of certifcates to add to a policy on creation",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_certs": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashBlade SSL Certificates",
+    "description": "Create, delete, import and export FlashBlade SSL Certificates",
+    "options": {
+      "name": {
+        "description": "Name of the SSL Certificate",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "management",
+        "aliases": null
+      },
+      "state": {
+        "description": "Action for the module to perform I(present) will create or re-create an SSL certificate I(absent) will delete an existing SSL certificate I(sign) will construct a Certificate Signing request (CSR) I(export) will export the exisitng SSL certificate I(import) will import a CA provided certificate.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "import",
+          "export",
+          "sign"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "country": {
+        "description": "The two-letter ISO code for the country where your organization is located",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "province": {
+        "description": "The full name of the state or province where your organization is located",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "locality": {
+        "description": "The full name of the city where your organization is located",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "The full and exact legal name of your organization. The organization name should not be abbreviated and should include suffixes such as Inc, Corp, or LLC.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "org_unit": {
+        "description": "The department within your organization that is managing the certificate",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "common_name": {
+        "description": "The fully qualified domain name (FQDN) of the current system For example, the common name for https://pureblade.example.com is pureblade.example.com, or *.example.com for a wildcard certificate This can also be the management IP address of the system or the shortname of the current system. Maximum of 64 characters If not provided this will default to the shortname of the system",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "email": {
+        "description": "The email address used to contact your organization",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "key_size": {
+        "description": "The key size in bits if you generate a new private key",
+        "type": "int",
+        "required": false,
+        "choices": [
+          1024,
+          2048,
+          4096
+        ],
+        "default": 2048,
+        "aliases": null
+      },
+      "days": {
+        "description": "The number of valid days for the self-signed certificate being generated If not specified, the self-signed certificate expires after 3650 days.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3650,
+        "aliases": null
+      },
+      "generate": {
+        "description": "Generate a new private key. If not selected, the certificate will use the existing key",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "certificate": {
+        "description": "Required for I(import) A valid signed certicate in PEM format (Base64 encoded) Includes the \"-----BEGIN CERTIFICATE-----\" and \"-----END CERTIFICATE-----\" lines Does not exceed 3000 characters in length",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "contents"
+        ]
+      },
+      "intermediate_cert": {
+        "description": "Intermeadiate certificate provided by the CA",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "intermeadiate_cert"
+        ]
+      },
+      "key": {
+        "description": "If the Certificate Signed Request (CSR) was not constructed on the system or the private key has changed since construction the CSR, provide a new private key here",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "private_key"
+        ]
+      },
+      "passphrase": {
+        "description": "Passphrase if the private key is encrypted",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "export_file": {
+        "description": "Name of file to contain Certificate Signing Request when `status sign` Name of file to export the current SSL Certificate when `status export` File will be overwritten if it already exists",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "key_algorithm": {
+        "description": "The key algorithm used to generate the certificate. This field can only be specified when creating a new self-signed certificate",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "rsa",
+          "ec",
+          "ed448",
+          "ed25519"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_connect": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage replication connections between two FlashBlades",
+    "description": "Manage replication connections to specified remote FlashBlade system",
+    "options": {
+      "state": {
+        "description": "Create or delete replication connection",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "encrypted": {
+        "description": "Define if replication connection is encrypted",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "target_url": {
+        "description": "Management IP address of target FlashBlade system",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_api": {
+        "description": "API token for target FlashBlade system",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_repl": {
+        "description": "Replication IP address of target FlashBlade system If not set at time of connection creation, will default to all the replication addresses available on the target array at the time of connection creation.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_limit": {
+        "description": "Default maximum bandwidth threshold for outbound traffic in bytes. B, K, M, or G units. See examples. Must be 0 or between 5MB and 28GB Once exceeded, bandwidth throttling occurs",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "window_limit": {
+        "description": "Maximum bandwidth threshold for outbound traffic during the specified time range in bytes. B, K, M, or G units. See examples. Must be 0 or between 5MB and 28GB Once exceeded, bandwidth throttling occurs",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "window_start": {
+        "description": "The window start time. The time must be set to the hour.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "window_end": {
+        "description": "The window end time. The time must be set to the hour.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_dns": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure FlashBlade DNS settings",
+    "description": "Set or erase configuration for the DNS settings. Nameservers provided will overwrite any existing nameservers.",
+    "options": {
+      "name": {
+        "description": "Name of the DNS configuration. Default value only supported for management service",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "management",
+        "aliases": null
+      },
+      "state": {
+        "description": "Set or delete directory service configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "domain": {
+        "description": "Domain suffix to be appended when performing DNS lookups.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nameservers": {
+        "description": "List of up to 3 unique DNS server IP addresses. These can be IPv4 or IPv6 - No validation is done of the addresses is performed.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source": {
+        "description": "A virtual network interface (vip) The network interfaces must have a I(service) value of I(data)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service": {
+        "description": "The service utilizing the DNS configuration. Only aplicable when creating a new DNS configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "management",
+          "data"
+        ],
+        "default": "data",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_ds": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure FlashBlade Directory Service",
+    "description": "Create, modify or erase directory services configurations. There is no facility to SSL certificates at this time. Use the FlashBlade GUI for this additional configuration work. If updating a directory service and i(bind_password) is provided this will always cause a change, even if the password given isn't different from the current. This makes this part of the module non-idempotent..",
+    "options": {
+      "state": {
+        "description": "Create, delete or test directory service configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "test"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "dstype": {
+        "description": "The type of directory service to work on",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "management",
+          "nfs",
+          "smb"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "enable": {
+        "description": "Whether to enable or disable directory service support.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "uri": {
+        "description": "A list of up to 30 URIs of the directory servers. Each URI must include the scheme ldap:// or ldaps:// (for LDAP over SSL), a hostname, and a domain name or IP address. For example, ldap://ad.company.com configures the directory service with the hostname \"ad\" in the domain \"company.com\" while specifying the unencrypted LDAP protocol.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "base_dn": {
+        "description": "Sets the base of the Distinguished Name (DN) of the directory service groups. The base should consist of only Domain Components (DCs). The base_dn will populate with a default value when a URI is entered by parsing domain components from the URI. The base DN should specify DC= for each domain component and multiple DCs should be separated by commas.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bind_password": {
+        "description": "Sets the password of the bind_user user name account.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force_bind_password": {
+        "description": "Will force the bind password to be reset even if the bind user password is unchanged. If set to I(false) and I(bind_user) is unchanged the password will not be reset.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "bind_user": {
+        "description": "Sets the user name that can be used to bind to and query the directory. For Active Directory, enter the username - often referred to as sAMAccountName or User Logon Name - of the account that is used to perform directory lookups. For OpenLDAP, enter the full DN of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nis_servers": {
+        "description": "A list of up to 30 IP addresses or FQDNs for NIS servers. This cannot be used in conjunction with LDAP configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nis_domain": {
+        "description": "The NIS domain to search This cannot be used in conjunction with LDAP configurations.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "join_ou": {
+        "description": "The optional organizational unit (OU) where the machine account for the directory service will be created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nfs_server": {
+        "description": "Name of the internal server Only required if I(nfs) is the I(dstype)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_dsrole": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure FlashBlade  Management Directory Service Roles",
+    "description": "Set or erase directory services role configurations.",
+    "options": {
+      "state": {
+        "description": "Create or delete directory service role",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "role": {
+        "description": "The directory service role to work on",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "array_admin",
+          "ops_admin",
+          "readonly",
+          "storage_admin"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "group_base": {
+        "description": "Specifies where the configured group is located in the directory tree. This field consists of Organizational Units (OUs) that combine with the base DN attribute and the configured group CNs to complete the full Distinguished Name of the groups. The group base should specify OU= for each OU and multiple OUs should be separated by commas. The order of OUs is important and should get larger in scope from left to right. Each OU should not exceed 64 characters in length.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group": {
+        "description": "Sets the common Name (CN) of the configured directory service group containing users for the FlashBlade. This name should be just the Common Name of the group without the CN= specifier. Common Names should not exceed 64 characters in length.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_eula": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Sign Everpure FlashBlade EULA",
+    "description": "Sign the FlashBlade EULA for Day 0 config, or change signatory.",
+    "options": {
+      "company": {
+        "description": "Full legal name of the entity. The value must be between 1 and 64 characters in length.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Full legal name of the individual at the company who has the authority to accept the terms of the agreement. The value must be between 1 and 64 characters in length.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "title": {
+        "description": "Individual's job title at the company. The value must be between 1 and 64 characters in length.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_export": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage filesystem exports on Everpure FlashBlade`",
+    "description": "This module manages filesystem exports on Everpure FlashBlade.",
+    "options": {
+      "name": {
+        "description": "Export Name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server": {
+        "description": "Name of server to assign export to",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "_array_server",
+        "aliases": null
+      },
+      "filesystem": {
+        "description": "Filesystem to create the export for.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Create, delete or modifies a filesystem export.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "type": {
+        "description": "Type of filesystem export",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "NFS",
+          "SMB"
+        ],
+        "default": "NFS",
+        "aliases": null
+      },
+      "export_policy": {
+        "description": "Name of NFS export policy to assign to the export",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "share_policy": {
+        "description": "Name of SMB share policy to assign to the export",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "client_policy": {
+        "description": "Name of SMB client policy to assign to the export",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rename": {
+        "description": "New name for export",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_fleet": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Fusion Fleet",
+    "description": "Create/Modify/Delete Fusion fleet and members",
+    "options": {
+      "name": {
+        "description": "Name of the fleet. If not provided local array will be used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether to add or remove member from a fleet. Create a new fleet if one does not exist. This will use the current array as the first member. Fleet deletion can only occiur when the current array is the only fleet member.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "create"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "member_url": {
+        "description": "Management IP address/FQDN of array to add to fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "member_api": {
+        "description": "API token for target array",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rename": {
+        "description": "new name for fleet",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_fs": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage filesystemon Everpure FlashBlade`",
+    "description": "This module manages filesystems on Everpure FlashBlade.",
+    "options": {
+      "name": {
+        "description": "Filesystem Name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Create, delete or modifies a filesystem.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "eradicate": {
+        "description": "Define whether to eradicate the filesystem on delete or leave in trash.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "size": {
+        "description": "Volume size in M, G, T or P units. See examples. If size is not set at filesystem creation time the filesystem size becomes unlimited.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nfsv3": {
+        "description": "Define whether to NFSv3 protocol is enabled for the filesystem.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "nfsv4": {
+        "description": "Define whether to NFSv4.1 protocol is enabled for the filesystem.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "nfs_rules": {
+        "description": "Define the NFS rules in operation. If not set at filesystem creation time it defaults to I(*(rw,no_root_squash)) Supported binary options are ro/rw, secure/insecure, fileid_32bit/no_fileid_32bit, root_squash/no_root_squash, all_squash/no_all_squash and atime/noatime Supported non-binary options are anonuid=#, anongid=#, sec=(sys|krb5) Superceeded by I(export_policy) if provided",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "smb": {
+        "description": "Define whether to SMB protocol is enabled for the filesystem.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "smb_aclmode": {
+        "description": "Specify the ACL mode for the SMB protocol. Deprecated from Purity//FB 3.1.1. Use I(access_control) instead.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "shared",
+          "native"
+        ],
+        "default": "shared",
+        "aliases": null
+      },
+      "http": {
+        "description": "Define whether to HTTP/HTTPS protocol is enabled for the filesystem.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "snapshot": {
+        "description": "Define whether a snapshot directory is enabled for the filesystem.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "writable": {
+        "description": "Define if a filesystem is writable.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "promote": {
+        "description": "Promote/demote a filesystem. Can only demote the file-system if it is in a replica-link relationship.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fastremove": {
+        "description": "Define whether the fast remove directory is enabled for the filesystem.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "hard_limit": {
+        "description": "Define whether the capacity for a filesystem is a hard limit. CAUTION This will cause the filesystem to go Read-Only if the capacity has already exceeded the logical size of the filesystem.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "user_quota": {
+        "description": "Default quota in M, G, T or P units for a user under this file system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group_quota": {
+        "description": "Default quota in M, G, T or P units for a group under this file system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy": {
+        "description": "Filesystem policy to assign to or remove from a filesystem.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy_state": {
+        "description": "Add or delete a policy from a filesystem",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "delete_link": {
+        "description": "Define if the filesystem can be deleted even if it has a replica link",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "discard_snaps": {
+        "description": "Allow a filesystem to be demoted.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "access_control": {
+        "description": "The access control style that is utilized for client actions such as setting file and directory ACLs.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "nfs",
+          "smb",
+          "shared",
+          "independent",
+          "mode-bits"
+        ],
+        "default": "shared",
+        "aliases": null
+      },
+      "safeguard_acls": {
+        "description": "Safeguards ACLs on a filesystem. Performs different roles depending on the filesystem protocol enabled. See Purity//FB documentation for detailed description.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "export_policy": {
+        "description": "Name of NFS export policy to assign to filesystem Overrides I(nfs_rules)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "share_policy": {
+        "description": "Name of SMB share policy to assign to filesystem Only valid with REST 2.10 or higher Remove policy with empty string",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "client_policy": {
+        "description": "Name of SMB client policy to assign to filesystem Only valid with REST 2.10 or higher Remove policy with empty string",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "continuous_availability": {
+        "description": "Defines if the file system will be continuously available during disruptive scenarios such as network disruption, blades failover, etc",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "group_ownership": {
+        "description": "The group ownership for new files and directories in a file system",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "creator",
+          "parent-directory"
+        ],
+        "default": "creator",
+        "aliases": null
+      },
+      "ignore_usage": {
+        "description": "Allow update operations that lead to a hard_limit_enabled file system with usage over its limiting value",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "cancel_in_progress": {
+        "description": "Whether to cancel any existing storage class transitons that are in progress if the file system is requested to changed to another storage class",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "storage_class": {
+        "description": "Name of storage class in Fusion fleet file system is associated with",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_fs_replica": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage filesystem replica links between Everpure FlashBlades",
+    "description": "This module manages filesystem replica links between Everpure FlashBlades.",
+    "options": {
+      "name": {
+        "description": "Local Filesystem Name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Creates or modifies a filesystem replica link",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "target_array": {
+        "description": "Remote array name to create replica on.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_fs": {
+        "description": "Name of target filesystem name If not supplied, will default to I(name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy": {
+        "description": "Name of filesystem snapshot policy to apply to the replica link.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "in_progress": {
+        "description": "Confirmation that you wish to delete a filesystem replica link This may cancel any in-progress replication transfers)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_groupquota": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage filesystem group quotas",
+    "description": "This module manages group quotas for filesystems on Everpure FlashBlade.",
+    "options": {
+      "name": {
+        "description": "Filesystem Name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Create, delete or modifies a quota.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "quota": {
+        "description": "Group quota in M, G, T or P units. This cannot be 0. This value will override the file system's default group quota.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gid": {
+        "description": "The group id on which the quota is enforced. Cannot be combined with I(gname)",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gname": {
+        "description": "The group name on which the quota is enforced. Cannot be combined with I(gid)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_hardware": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashBlade Hardware",
+    "description": "Enable or disable FlashBlade visual identification lights and set connector parameters",
+    "options": {
+      "name": {
+        "description": "Name of hardware component",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "State of the component identification LED",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "speed": {
+        "description": "If the component specified is a connector, set the configured speed of each lane in the connector in gigabits-per-second",
+        "type": "int",
+        "required": false,
+        "choices": [
+          10,
+          25,
+          40
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "ports": {
+        "description": "If the component specificed is a connector, the number of configured ports in the connector",
+        "type": "int",
+        "required": false,
+        "choices": [
+          1,
+          4
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_info": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Collect information from Everpure FlashBlade",
+    "description": "Collect information from a Everpure FlashBlade running the Purity//FB operating system. By default, the module will collect basic information including hosts, host groups, protection groups and volume counts. Additional information can be collected based on the configured set of arguements.",
+    "options": {
+      "gather_subset": {
+        "description": "When supplied, this argument will define the information to be collected. Possible values for this include all, minimum, config, performance, capacity, network, subnets, lags, filesystems, snapshots, buckets, replication, policies, arrays, accounts, admins, ad, kerberos, drives, servers and fleet.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": "minimum",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_inventory": {
-    "short_description": "",
-    "description": "",
+    "short_description": "Collect information from Everpure FlashBlade",
+    "description": "Collect information from a Everpure FlashBlade running the Purity//FB operating system. By default, the module will collect basic information including hosts, host groups, protection groups and volume counts. Additional information can be collected based on the configured set of arguements.",
     "options": {},
     "deprecated": null
   },
   "purestorage.flashblade.purefb_keytabs": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashBlade Kerberos Keytabs",
+    "description": "Manage Kerberos Keytabs for FlashBlades",
+    "options": {
+      "state": {
+        "description": "Manage Kerberos Keytabs",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "import",
+          "export",
+          "rotate"
+        ],
+        "default": "import",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Keytab Must include prefix and suffix",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "prefix": {
+        "description": "Only required for I(import) or I(rotate) Prefix to use for naming the files slots Specifying a file entry prefix is required because a single keytab file can contain multiple keytab entries in multiple slots. If not provided for I(import) the current AD Account name will be used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "keytab_file": {
+        "description": "Name of file holding Keytab",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filetype": {
+        "description": "Format of the keytab file",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "binary",
+          "base64"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_kmip": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashBlade KMIP server objects",
+    "description": "Manage FlashBlade KMIP Server objects",
+    "options": {
+      "name": {
+        "description": "Name of the KMIP server object",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "certificate": {
+        "description": "Name of existing certifcate used to verify FlashBlade authenticity to the KMIP server. Use the I(purestorage.flashblade.purefb_certs) module to create certificates.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Action for the module to perform",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "test"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "ca_certificate": {
+        "description": "The text of the CA certificate for the KMIP server. Includes the \"-----BEGIN CERTIFICATE-----\" and \"-----END CERTIFICATE-----\" lines Does not exceed 3000 characters in length",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uris": {
+        "description": "A list of URIs for the configured KMIP servers.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_lag": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashBlade Link Aggregation Groups",
+    "description": "Maintain FlashBlade Link Aggregation Groups",
+    "options": {
+      "name": {
+        "description": "Name of the Link Aggregation Group",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "uplink",
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the LAG should be added or deleted",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "ports": {
+        "description": "Name of network ports assigned to the LAG Format should be CHx.ETHy, where CHx is the chassis number and ETHy is the ethernet port number. Matched port pairs from each Fabric Module in the Chassis will be used. To modify required ports for a LAG specify only the ports required by the LAG. Any ports currently used by the LAG not specified will be disconnected from the LAG.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_lifecycle": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashBlade object lifecycles",
+    "description": "Manage lifecycles for object buckets",
+    "options": {
+      "state": {
+        "description": "Create or delete lifecycle rule",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "bucket": {
+        "description": "Bucket the lifecycle rule applies to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the lifecycle rule",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "State of lifecycle rule",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "keep_previous_for": {
+        "description": "Time after which previous versions will be marked expired. Enter as days (d) or weeks (w). Range is 1 - 2147483647 days.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "keep_for"
+        ]
+      },
+      "keep_current_for": {
+        "description": "Time after which current versions will be marked expired. Enter as days (d) or weeks (w). Range is 1 - 2147483647 days.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "keep_current_until": {
+        "description": "Date after which current versions will be marked expired. Enter as date in form YYYY-MM-DD. B(Note:) setting a date in the past will delete ALL objects with the value of I(prefix) as they are created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "abort_uploads_after": {
+        "description": "Duration of time after which incomplete multipart uploads will be aborted. Enter as days (d) or weeks (w). Range is 1 - 2147483647 days.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "prefix": {
+        "description": "Object key prefix identifying one or more objects in the bucket",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_messages": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "List FlashBlade Alert Messages",
+    "description": "List Alert messages based on filters provided",
+    "options": {
+      "severity": {
+        "description": "severity of the alerts to show",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "all",
+          "critical",
+          "warning",
+          "info"
+        ],
+        "default": [
+          "all"
+        ],
+        "aliases": null
+      },
+      "state": {
+        "description": "State of alerts to show",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "all",
+          "open",
+          "closed"
+        ],
+        "default": "open",
+        "aliases": null
+      },
+      "flagged": {
+        "description": "Show alerts that have been acknowledged or not",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "history": {
+        "description": "Historical time period to show alerts for, from present time Allowed time period are hour(h), day(d), week(w) and year(y)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "1w",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_network": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage network interfaces in a Everpure FlashBlade",
+    "description": "This module manages network interfaces on Everpure FlashBlade. When creating a network interface a subnet must already exist with a network prefix that covers the IP address of the interface being created.",
+    "options": {
+      "name": {
+        "description": "Interface Name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Create, delete or modifies a network interface.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "address": {
+        "description": "IP address of interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "services": {
+        "description": "Define which services are configured for the interfaces.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "data",
+          "replication"
+        ],
+        "default": "data",
+        "aliases": null
+      },
+      "itype": {
+        "description": "Type of interface.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "vip"
+        ],
+        "default": "vip",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_ntp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Everpure FlashBlade NTP settings",
+    "description": "Set or erase NTP configuration for Everpure FlashBlades.",
+    "options": {
+      "state": {
+        "description": "Create or delete NTP servers configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "ntp_servers": {
+        "description": "A list of up to 4 alternate NTP servers. These may include IPv4, IPv6 or FQDNs. Invalid IP addresses will cause the module to fail. No validation is performed for FQDNs. If more than 4 servers are provided, only the first 4 unique nameservers will be used. if no servers are given a default of I(0.pool.ntp.org) will be used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_phonehome": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Enable or Disable Everpure FlashBlade Phone Home",
+    "description": "Enablke or Disable Remote Phone Home for a Everpure FlashBlade.",
+    "options": {
+      "state": {
+        "description": "Define state of phone home",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "test"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_pingtrace": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Employ the internal FlashBlade ping and trace mechanisms",
+    "description": "Ping or trace a destination",
+    "options": {
+      "action": {
+        "description": "Which action is required, ping or trace",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ping",
+          "trace"
+        ],
+        "default": "ping",
+        "aliases": null
+      },
+      "count": {
+        "description": "Used by ping to specify the number of packets to send",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "resolve": {
+        "description": "Specify whether or not to map IP addresses to host names",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "latency": {
+        "description": "Specify whether or not to print the full user-to-user latency",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "packet_size": {
+        "description": "Used by ping to specify the number of data bytes to send per packet",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 56,
+        "aliases": null
+      },
+      "destination": {
+        "description": "IP addtress or hostname used to run ping or trace against.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "method": {
+        "description": "Used by trace to specify the method to use for operations",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "icmp",
+          "tcp",
+          "udp"
+        ],
+        "default": "udp",
+        "aliases": null
+      },
+      "fragment": {
+        "description": "Used by trace to specify whether or not to fragment packets",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "discover_mtu": {
+        "description": "Used by trace to specify whether or not to discover the MTU along the path being traced",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "port": {
+        "description": "Used by trace to specify a destination port",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source": {
+        "description": "IP address or hostname used by ping and trace to specify where to start to run the specified operation If not specified will use all available sources",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "component": {
+        "description": "Used by ping and trace to specify where to run the operation. Valid values are controllers and blades from hardware list. If not specified defaults to all available controllers and selected blades",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_policy": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashBlade policies",
+    "description": "Manage policies for filesystem, file replica links and object store access. To update an existing snapshot policy rule, you must first delete the original rule and then add the new rule to replace it. Purity's best-fit will try to ensure that any required snapshots deleted on the deletion of the first rule will be recovered as long replacement rule is added before the snapshot eradication period is exceeded (usuually 24 hours).",
+    "options": {
+      "state": {
+        "description": "Create or delete policy. Copy is applicable only to Object Store Access Policies Rules",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "copy"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "target": {
+        "description": "Name of policy to copy rule to",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_rule": {
+        "description": "Name of the rule to copy the exisitng rule to. If not defined the existing rule name is used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy_type": {
+        "description": "Type of policy",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "snapshot",
+          "access",
+          "nfs",
+          "smb_share",
+          "smb_client",
+          "network",
+          "worm"
+        ],
+        "default": "snapshot",
+        "aliases": null
+      },
+      "account": {
+        "description": "Name of Object Store account policy applies to. B(Special Case) I(pure policy) is used for the system-wide S3 policies",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rule": {
+        "description": "Name of the rule for the Object Store Access Policy Rules in system wide policies cannot be deleted or modified",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "effect": {
+        "description": "Allow S3 requests that match all of the I(actions) item selected. Rules are additive.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "allow",
+          "deny"
+        ],
+        "default": "allow",
+        "aliases": null
+      },
+      "actions": {
+        "description": "List of permissions to grant. System-wide policy rules cannot be deleted or modified",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "s3:*",
+          "s3:AbortMultipartUpload",
+          "s3:BypassGovernanceRetention",
+          "s3:CreateBucket",
+          "s3:DeleteBucket",
+          "s3:DeleteObject",
+          "s3:DeleteObjectVersion",
+          "s3:ExtendSafemodeRetentionPeriod",
+          "s3:GetBucketAcl",
+          "s3:GetBucketLocation",
+          "s3:GetBucketVersioning",
+          "s3:GetLifecycleConfiguration",
+          "s3:GetObject",
+          "s3:GetObjectAcl",
+          "s3:GetObjectLegalHold",
+          "s3:GetObjectLockConfiguration",
+          "s3:GetObjectRetention",
+          "s3:GetObjectTagging",
+          "s3:GetObjectVersion",
+          "s3:GetObjectVersionTagging",
+          "s3:ListAllMyBuckets",
+          "s3:ListBucket",
+          "s3:ListBucketMultipartUploads",
+          "s3:ListBucketVersions",
+          "s3:ListMultipartUploadParts",
+          "s3:PutBucketVersioning",
+          "s3:PutLifecycleConfiguration",
+          "s3:PutObject",
+          "s3:PutObjectLegalHold",
+          "s3:PutObjectLockConfiguration",
+          "s3:PutObjectRetention",
+          "s3:ResolveSafemodeConflicts"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "object_resources": {
+        "description": "List of bucket names and object paths, with a wildcard (*) to specify objects in a bucket; e.g., bucket1, bucket1/*, bucket2, bucket2/*. System-wide policy rules cannot be deleted or modified",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_ips": {
+        "description": "List of IPs and subnets from which this rule should allow requests; e.g., 10.20.30.40, 10.20.30.0/24, 2001:DB8:1234:5678::/64. System-wide policy rules cannot be deleted or modified",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "s3_prefixes": {
+        "description": "List of 'folders' (object key prefixes) for which object listings may be requested. System-wide policy rules cannot be deleted or modified",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "s3_delimiters": {
+        "description": "List of delimiter characters allowed in object list requests. Grants permissions to list 'folder names' (prefixes ending in a delimiter) instead of object keys. System-wide policy rules cannot be deleted or modified",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ignore_enforcement": {
+        "description": "Certain combinations of actions and other rule elements are inherently ignored if specified together in a rule. If set to true, operations which attempt to set these combinations will fail. If set to false, such operations will instead be allowed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "user": {
+        "description": "User in the I(account) that the policy is granted to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force_delete": {
+        "description": "Force the deletion of a Object Store Access Policy is this has attached users. WARNING This can have undesired side-effects. System-wide policies cannot be deleted",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the policy",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "State of policy",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "every": {
+        "description": "Interval between snapshots in seconds Range available 300 - 31536000 (equates to 5m to 365d)",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "keep_for": {
+        "description": "How long to keep snapshots for Range available 300 - 31536000 (equates to 5m to 365d) Must not be set less than I(every)",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "at": {
+        "description": "Provide a time in 12-hour AM/PM format, eg. 11AM",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timezone": {
+        "description": "Time Zone used for the I(at) parameter If not provided, the module will attempt to get the current local timezone from the server",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filesystem": {
+        "description": "List of filesystems to add to a policy on creation To amend policy members use the I(purestorage.flashblade.purefb_fs) module",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "replica_link": {
+        "description": "List of filesystem replica links to add to a policy on creation To amend policy members use the I(purestorage.flashblade.purefb_fs_replica) module",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "access": {
+        "description": "Specifies access control for the export policy rule",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "root-squash",
+          "all-squash",
+          "no-squash"
+        ],
+        "default": "root-squash",
+        "aliases": null
+      },
+      "anonuid": {
+        "description": "Any user whose UID is affected by an I(access) of `root_squash` or `all_squash` will have their UID mapped to anonuid. The default is null, which means 65534. Use \"\" to clear.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "anongid": {
+        "description": "Any user whose GID is affected by an I(access) of `root_squash` or `all_squash` will have their GID mapped to anongid. The default anongid is null, which means 65534. Use \"\" to clear.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "atime": {
+        "description": "After a read operation has occurred, the inode access time is updated only if any of the following conditions is true; the previous access time is less than the inode modify time, the previous access time is less than the inode change time, or the previous access time is more than 24 hours ago. If set to false, disables the update of inode access times after read operations.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "client": {
+        "description": "Specifies the clients that will be permitted to access the export. Accepted notation is a single IP address, subnet in CIDR notation, netgroup, or anonymous (*).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fileid_32bit": {
+        "description": "Whether the file id is 32 bits or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "permission": {
+        "description": "Specifies which read-write client access permissions are allowed for the export.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "rw",
+          "ro"
+        ],
+        "default": "ro",
+        "aliases": null
+      },
+      "secure": {
+        "description": "If true, this prevents NFS access to client connections coming from non-reserved ports. If false, allows NFS access to client connections coming from non-reserved ports. Applies to NFSv3, NFSv4.1, and auxiliary protocols MOUNT and NLM.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "security": {
+        "description": "The security flavors to use for accessing files on this mount point. If the server does not support the requested flavor, the mount operation fails. I(sys) trusts the client to specify users identity. I(krb) provides cryptographic proof of a users identity in each RPC request. I(krb5i) adds integrity checking to krb5, to ensure the data has not been tampered with. I(krb5p) adds integrity checking and encryption to krb5.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "sys",
+          "krb5",
+          "krb5i",
+          "krb5p"
+        ],
+        "default": "sys",
+        "aliases": null
+      },
+      "before_rule": {
+        "description": "The index of the client rule to insert or move a client rule before.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rename": {
+        "description": "New name for policy Only applies to NFS and SMB policies",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destroy_snapshots": {
+        "description": "This parameter must be set to true in order to modify a policy such that local or remote snapshots would be destroyed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "principal": {
+        "description": "The user or group who is the subject of this rule, and their domain",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "change": {
+        "description": "The state of the SMB share principals Change access permission. Setting to \"\" will clear the current setting",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "allow",
+          "deny",
+          ""
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "read": {
+        "description": "The state of the SMB share principals Read access permission. Setting to \"\" will clear the current setting",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "allow",
+          "deny",
+          ""
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "full_control": {
+        "description": "The state of the SMB share principals Full Control access permission. Setting to \"\" will clear the current setting",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "allow",
+          "deny",
+          ""
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "smb_encryption": {
+        "description": "The status of SMB encryption in a client policy rule",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disabled",
+          "optional",
+          "required"
+        ],
+        "default": "optional",
+        "aliases": null
+      },
+      "desc": {
+        "description": "A description of an object store policy, optionally specified when the policy is created. Cannot be modified for an existing policy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "interfaces": {
+        "description": "Specifies which product interfaces the network access policy rule applies to, whether it is permitting or denying access.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "management-ssh",
+          "management-rest-api",
+          "management-web-ui",
+          "snmp",
+          "local-network-superuser-password-access"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "max_retention": {
+        "description": "The maximum retention period of the WORM file system. Between 1 second and 100 years. Cannot be less than the I(min_retention). Valid values are weeks (w), days(d), hours(h), minutes(m) and seconds(s).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "min_retention": {
+        "description": "The minimum retention period of the WORM file system. Between 1 second and 100 years. Cannot be greater than the I(max_retention). Valid values are weeks (w), days(d), hours(h), minutes(m) and seconds(s).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_retention": {
+        "description": "The retention period used for committing files to WORM status. Will be applied if no access time is provided, or the access time is less than the current server time. Between I(min_retention) and I(max_retention) periods. Valid values are weeks (w), days(d), hours(h), minutes(m) and seconds(s).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "retention_lock": {
+        "description": "State of policy attributes after creation. If set to I(locked) then values of the policy attributes are not allowed to change. If set to I(locked) then values of the policy attributes can be changed. Changing from I(unlocked) to I(locked) is allowed, but to change from I(locked) to I(unlocked) will require support from Everpure Technical Services.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "locked",
+          "unlocked"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_proxy": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure FlashBlade phonehome HTTPs proxy settings",
+    "description": "Set or erase configuration for the phonehome proxy settings.",
+    "options": {
+      "state": {
+        "description": "Set or delete proxy configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "host": {
+        "description": "The proxy host name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "The proxy TCP/IP port number.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "secure": {
+        "description": "Use http or https as the proxy protocol. True uses https, false uses http.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_ra": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Enable or Disable Everpure FlashBlade Remote Assist",
+    "description": "Enablke or Disable Remote Assist for a Everpure FlashBlade.",
+    "options": {
+      "state": {
+        "description": "Define state of remote assist When set to I(enable) the RA port can be exposed using the I(debug) module.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "test"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "duration": {
+        "description": "Specifies the duration of the remote-assist session in hours It determines the length of time the session will remain active after it's initiated.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 24,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_remote_cred": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Create, modify and delete FlashBlade object store remote credentials",
+    "description": "Create, modify and delete object store remote credentials You must have a correctly configured remote array or target This module is B(not) idempotent when updating existing remote credentials",
+    "options": {
+      "state": {
+        "description": "Define state of remote credential",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the credential",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "access_key": {
+        "description": "Access Key ID of the S3 target",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "secret": {
+        "description": "Secret Access Key for the S3 or Azure target",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target": {
+        "description": "Define whether to initialize the S3 bucket",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_s3acc": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Create or delete FlashBlade Object Store accounts",
+    "description": "Create or delete object store accounts on a Pure Stoage FlashBlade.",
+    "options": {
+      "state": {
+        "description": "Create or delete object store account",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of object store account",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "quota": {
+        "description": "The effective quota limit to be applied against the size of the account in bytes. Values can be entered as K, M, T or P If set to '' (empty string), the account is unlimited in size.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hard_limit": {
+        "description": "If set to true, the account size, as defined by I(quota_limit), is used as a hard limit quota. If set to false, a hard limit quota will not be applied to the account, but soft quota alerts will still be sent if the account has a value set for I(quota_limit).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_quota": {
+        "description": "The value of this field will be used to configure the I(quota_limit) field of newly created buckets associated with this object store account, if the bucket creation does not specify its own value. Values can be entered as K, M, T or P If set to '' (empty string), the bucket default is unlimited in size.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_hard_limit": {
+        "description": "The value of this field will be used to configure the I(hard_limit) field of newly created buckets associated with this object store account, if the bucket creation does not specify its own value.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "block_new_public_policies": {
+        "description": "If set to true, adding bucket policies that grant public access to a bucket is not allowed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "block_public_access": {
+        "description": "If set to true, access to a bucket with a public policy is restricted to only authenticated users within the account that bucket belongs to.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_s3user": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Create or delete FlashBlade Object Store account users",
+    "description": "Create or delete object store account users on a Pure Stoage FlashBlade.",
+    "options": {
+      "state": {
+        "description": "Create or delete object store account user Remove a specified access key for a user",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "remove_key",
+          "keystate"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of object store user",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "account": {
+        "description": "The name of object store account associated with user",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "access_key": {
+        "description": "Create secret access key. Key can be exposed using the I(debug) module If enabled this will override I(imported_key)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "multiple_keys": {
+        "description": "Allow multiple access keys to be created for the user.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "key_name": {
+        "description": "Access key to be modified",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "remove_key"
+        ]
+      },
+      "enable_key": {
+        "description": "Is the access key enabled?",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "imported_key": {
+        "description": "Access key of imported credentials",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "imported_secret": {
+        "description": "Access key secret for access key to import",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy": {
+        "description": "User Access Policies to be assigned to user on creation To amend policies use the I(purestorage.flashblade.purefb_userpolicy) module If not specified, I(pure\\:policy/full-access) will be added",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_saml": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashBlade SAML2 service and identity providers",
+    "description": "Enable or disable FlashBlade SAML2 providers",
+    "options": {
+      "name": {
+        "description": "Name of the SAML2 identity provider (IdP)",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the API client should exist or not, or test.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "test"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "url": {
+        "description": "The URL of the identity provider",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "entity_id": {
+        "description": "A globally unique name for the identity provider",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "array_url": {
+        "description": "The URL of the FlashBlade",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "metadata_url": {
+        "description": "The URL of the identity provider metadata",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Defines the enabled state of the identity provider",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "encrypt_asserts": {
+        "description": "If set to true, SAML assertions will be encrypted by the identity provider",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "sign_request": {
+        "description": "If set to true, SAML requests will be signed by the service provider.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "x509_cert": {
+        "description": "The X509 certificate that the service provider uses to verify the SAML response signature from the identity provider",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "decryption_credential": {
+        "description": "The credential used by the service provider to decrypt encrypted SAML assertions from the identity provider",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "signing_credential": {
+        "description": "The credential used by the service provider to sign SAML requests",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_server": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashBlade servers",
+    "description": "Add, update or delete FlashBlade servers",
+    "options": {
+      "name": {
+        "description": "Name of the server",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the Object Store Virtual Host should be added or deleted",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "dns": {
+        "description": "The DNS configuration to be used for this server",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "directory_service": {
+        "description": "The directory service configuration to be used for this server",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_smtp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure SMTP for Everpure FlashBlade",
+    "description": "Configure SMTP for a Everpure FlashBlade. Whilst there can be no relay host, a sender domain must be configured.",
+    "options": {
+      "host": {
+        "description": "Relay server name",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain": {
+        "description": "Domain name for alert messages",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "encryption": {
+        "description": "Enforces an encryption mode when sending alert email messages. Use \"\" to clear.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "starttls",
+          ""
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_snap": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage filesystem snapshots on Everpure FlashBlades",
+    "description": "Create or delete volumes and filesystem snapshots on Everpure FlashBlades. Restoring a filesystem from a snapshot is only supported using the latest snapshot.",
+    "options": {
+      "name": {
+        "description": "The name of the source filesystem.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "suffix": {
+        "description": "Suffix of snapshot name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the filesystem snapshot should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "restore"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "target": {
+        "description": "Name of target to replicate snapshot to. This is only applicable when I(now) is B(true)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "targets"
+        ]
+      },
+      "now": {
+        "description": "Whether to initiate a snapshot replication immeadiately",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "eradicate": {
+        "description": "Define whether to eradicate the snapshot on delete or leave in trash.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "latest_replica": {
+        "description": "Used when destroying a snapshot. If false, and the snapshot is the latest replicated snapshot, then destroy will fail. If true or the snapshot is not the latest replicated snapshot, then destroy will be successful.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_snmp_agent": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure the FlashBlade SNMP Agent",
+    "description": "Configure the management SNMP Agent on a Everpure FlashBlade. This module is not idempotent and will always modify the existing management SNMP agent due to hidden parameters that cannot be compared to the play parameters.",
+    "options": {
+      "auth_passphrase": {
+        "description": "SNMPv3 only. Passphrase of 8 - 32 characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auth_protocol": {
+        "description": "SNMP v3 only. Hash algorithm to use",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "MD5",
+          "SHA"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "community": {
+        "description": "SNMP v2c only. Manager community ID. Between 1 and 32 characters long.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user": {
+        "description": "SNMP v3 only. User ID recognized by the specified SNMP agent. Must be between 1 and 32 characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "version": {
+        "description": "Version of SNMP protocol to use for the agent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "v2c",
+          "v3"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "privacy_passphrase": {
+        "description": "SNMPv3 only. Passphrase to encrypt SNMP messages. Must be between 8 and 63 non-space ASCII characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privacy_protocol": {
+        "description": "SNMP v3 only. Encryption protocol to use",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "AES",
+          "DES"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_snmp_mgr": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure FlashBlade SNMP Managers",
+    "description": "Manage SNMP managers on a Everpure FlashBlade. This module is not idempotent and will always modify an existing SNMP manager due to hidden parameters that cannot be compared to the play parameters.",
+    "options": {
+      "name": {
+        "description": "Name of SNMP Manager",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Create, delete or test SNMP manager",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "test"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "auth_passphrase": {
+        "description": "SNMPv3 only. Passphrase of 8 - 32 characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auth_protocol": {
+        "description": "SNMP v3 only. Hash algorithm to use",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "MD5",
+          "SHA"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "community": {
+        "description": "SNMP v2c only. Manager community ID. Between 1 and 32 characters long.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "IPv4 or IPv6 address or FQDN to send trap messages to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user": {
+        "description": "SNMP v3 only. User ID recognized by the specified SNMP manager. Must be between 1 and 32 characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "version": {
+        "description": "Version of SNMP protocol to use for the manager.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "v2c",
+          "v3"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "notification": {
+        "description": "Action to perform on event.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "inform",
+          "trap"
+        ],
+        "default": "trap",
+        "aliases": null
+      },
+      "privacy_passphrase": {
+        "description": "SNMPv3 only. Passphrase to encrypt SNMP messages. Must be between 8 and 63 non-space ASCII characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privacy_protocol": {
+        "description": "SNMP v3 only. Encryption protocol to use",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "AES",
+          "DES"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_subnet": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage network subnets in a Everpure FlashBlade",
+    "description": "This module manages network subnets on Everpure FlashBlade.",
+    "options": {
+      "name": {
+        "description": "Subnet Name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Create, delete or modifies a subnet.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "lag": {
+        "description": "Name of the Link Aggreation Group to use for the subnet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "uplink",
+        "aliases": null
+      },
+      "gateway": {
+        "description": "IPv4 or IPv6 address of subnet gateway.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mtu": {
+        "description": "MTU size of the subnet. Range is 1280 to 9216.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1500,
+        "aliases": null
+      },
+      "prefix": {
+        "description": "IPv4 or IPv6 address associated with the subnet. Supply the prefix length (CIDR) as well as the IP address. Required for subnet creation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vlan": {
+        "description": "VLAN ID of the subnet.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_syslog": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Everpure FlashBlade syslog settings",
+    "description": "Configure syslog configuration for Everpure FlashBlades. Add or delete an individual syslog server to the existing list of serves.",
+    "options": {
+      "name": {
+        "description": "Unique identifier for the syslog server address",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Create update, delete or test syslog servers configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "test"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "protocol": {
+        "description": "Protocol which server uses",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "tcp",
+          "tls",
+          "udp"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Port at which the server is listening. If no port is specified the system will use 514",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "address": {
+        "description": "Syslog server address. This field supports IPv4 or FQDN. An invalid IP addresses will cause the module to fail. No validation is performed for FQDNs.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "services": {
+        "description": "Syslog service type(s)",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "management",
+          "data-audit"
+        ],
+        "default": "management",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_target": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage remote S3-capable targets for a FlashBlade",
+    "description": "Manage remote S3-capable targets for a FlashBlade system Use this for non-FlashBlade targets. Use I(purestorage.flashblade.purefb_connect) for FlashBlade targets.",
+    "options": {
+      "state": {
+        "description": "Create or delete remote target",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of S3-capable target (IP or FQDN)",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "address": {
+        "description": "Address of S3-capable target (IP or FQDN)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_timeout": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Everpure FlashBlade GUI idle timeout",
+    "description": "Configure GUI idle timeout for Everpure FlashBlade. This does not affect existing GUI sessions.",
+    "options": {
+      "state": {
+        "description": "Set or disable the GUI idle timeout",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Minutes for idle timeout.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 30,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_tz": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Everpure FlashBlade timezone",
+    "description": "Configure the timezone for a Everpure FlashBlade.",
+    "options": {
+      "timezone": {
+        "description": "If not provided, the module will attempt to get the current local timezone from the server",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_user": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Create, modify or delete FlashBlade user accounts",
+    "description": "Modify user on a Pure Stoage FlashBlade.",
+    "options": {
+      "state": {
+        "description": "Create, delete or update local user account",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the user account",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role": {
+        "description": "Sets the local user's access level to the system",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "readonly",
+          "ops_admin",
+          "storage_admin",
+          "array_admin"
+        ],
+        "default": "readonly",
+        "aliases": null
+      },
+      "password": {
+        "description": "Password for the local user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "old_password": {
+        "description": "If changing an existing password, you must provide the old password for security",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "api": {
+        "description": "Define whether to create an API token for this user Token can be exposed using the I(debug) module",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The duration of API token validity. Valid values are weeks (w), days(d), hours(h), minutes(m) and seconds(s).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "0",
+        "aliases": null
+      },
+      "public_key": {
+        "description": "The API clients PEM formatted (Base64 encoded) RSA public key. Include the I(—–BEGIN PUBLIC KEY—–) and I(—–END PUBLIC KEY—–) lines",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "clear_lock": {
+        "description": "Clear user lockout flag",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "ad_user": {
+        "description": "Whether the user is in the AD system Not required for local users",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_userpolicy": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashBlade Object Store User Access Policies",
+    "description": "Add or Remove FlashBlade Object Store Access Policies for Account User",
+    "options": {
+      "name": {
+        "description": "Name of the Object Store User The user to have the policy request applied to",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "account": {
+        "description": "Name of the Object Store Account associated with the user",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the Access Policy should be added or deleted Option to list all available policies",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "show"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "policy": {
+        "description": "Policies to added or deleted from the Object Store User Only valid policies can be used use I(list) to see available policies",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_userquota": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage filesystem user quotas",
+    "description": "This module manages user hard quotas for filesystems on Everpure FlashBlade.",
+    "options": {
+      "name": {
+        "description": "Filesystem Name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Create, delete or modifies a quota.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "quota": {
+        "description": "User quota in M, G, T or P units. This cannot be 0. This value will override the file system's default user quota.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uid": {
+        "description": "The user id on which the quota is enforced. Cannot be combined with I(uname)",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uname": {
+        "description": "The user name on which the quota is enforced. Cannot be combined with I(uid)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flashblade.purefb_virtualhost": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashBlade Object Store Virtual Hosts",
+    "description": "Add or delete FlashBlade Object Store Virtual Hosts",
+    "options": {
+      "name": {
+        "description": "Name of the Object Store Virtual Host A hostname or domain by which the array can be addressed for virtual hosted-style S3 requests.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the Object Store Virtual Host should be added or deleted",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

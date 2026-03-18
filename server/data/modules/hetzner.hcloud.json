@@ -44,11 +44,33 @@
         "aliases": null
       },
       "domain_names": {
-        "description": "Domains and subdomains that should be contained in the Certificate issued by Let",
-        "type": "str",
+        "description": "Domains and subdomains that should be contained in the Certificate issued by Let's Encrypt. Required if I(type=managed).",
+        "type": "list",
         "required": false,
         "choices": null,
-        "default": null,
+        "default": [],
+        "aliases": null
+      },
+      "type": {
+        "description": "Choose between uploading a Certificate in PEM format or requesting a managed Let's Encrypt Certificate.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "uploaded",
+          "managed"
+        ],
+        "default": "uploaded",
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the certificate.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -1357,11 +1379,67 @@
         "aliases": null
       },
       "user_data": {
-        "description": "User Data to be passed to the server on creation. C(cloud-init), C(ignition) or similar provisioning tools may retrieve user configuration from the Server",
+        "description": "User Data to be passed to the server on creation. C(cloud-init), C(ignition) or similar provisioning tools may retrieve user configuration from the Server's C(user_data). Used during the server creation or server rebuild.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "rescue_mode": {
+        "description": "Add the Hetzner rescue system type you want the server to be booted into.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "User-defined labels (key-value pairs).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delete_protection": {
+        "description": "Protect the Server for deletion. Needs to be the same as O(rebuild_protection).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rebuild_protection": {
+        "description": "Protect the Server for rebuild. Needs to be the same as O(delete_protection).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "placement_group": {
+        "description": "Hetzner Cloud Placement Group (name or ID) to create the server in.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the server.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "created",
+          "restarted",
+          "started",
+          "stopped",
+          "rebuild"
+        ],
+        "default": "present",
         "aliases": null
       }
     },

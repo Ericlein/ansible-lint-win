@@ -1,80 +1,769 @@
 {
   "community.okd.k8s": {
     "short_description": "Manage OpenShift objects",
-    "description": "",
-    "options": {},
+    "description": "Use the Kubernetes Python client to perform CRUD operations on K8s objects. Pass the object definition from a source file or inline. See examples for reading files and using Jinja templates or vault-encrypted files. Access to the full range of K8s APIs. Use the M(kubernetes.core.k8s_info) module to obtain a list of items about an object of type C(kind). Authenticate using either a config file, certificates, password or token. Supports check mode. Optimized for OKD/OpenShift Kubernetes flavors.",
+    "options": {
+      "state": {
+        "description": "Determines if an object should be created, patched, or deleted. When set to C(present), an object will be created, if it does not already exist. If set to C(absent), an existing object will be deleted. If set to C(present), an existing object will be patched, if its attributes differ from those specified using I(resource_definition) or I(src). C(patched) state is an existing resource that has a given patch applied. If the resource doesn't exist, silently skip it (do not raise an error).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "patched"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "force": {
+        "description": "If set to C(yes), and I(state) is C(present), an existing object will be replaced.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "merge_type": {
+        "description": "Whether to override the default patch merge approach with a specific type. By default, the strategic merge will typically be used. For example, Custom Resource Definitions typically aren't updatable by the usual strategic merge. You may want to use C(merge) if you see \"strategic merge patch format is not supported\" See U(https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/#use-a-json-merge-patch-to-update-a-deployment) If more than one merge_type is given, the merge_types will be tried in order Defaults to C(['strategic-merge', 'merge']), which is ideal for using the same parameters on resource kinds that combine Custom Resources and built-in resources. mutually exclusive with C(apply) I(merge_type=json) has been removed in version 4.0.0. Please use M(kubernetes.core.k8s_json_patch) instead.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "merge",
+          "strategic-merge"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "validate": {
+        "description": "how (if at all) to validate the resource definition against the kubernetes schema. Requires the kubernetes-validate python module",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "append_hash": {
+        "description": "Whether to append a hash to a resource name for immutability purposes Applies only to ConfigMap and Secret resources The parameter will be silently ignored for other resource kinds The full definition of an object is needed to generate the hash - this means that deleting an object created with append_hash will only work if the same object is passed with state=absent (alternatively, just use state=absent with the name including the generated hash and append_hash=no)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "apply": {
+        "description": "C(apply) compares the desired resource definition with the previously supplied resource definition, ignoring properties that are automatically generated C(apply) works better with Services than 'force=yes' mutually exclusive with C(merge_type)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "template": {
+        "description": "Provide a valid YAML template definition file for an object when creating or updating. Value can be provided as string or dictionary. Mutually exclusive with C(src) and C(resource_definition). Template files needs to be present on the Ansible Controller's file system. Additional parameters can be specified using dictionary. Valid additional parameters -  C(newline_sequence) (str): Specify the newline sequence to use for templating files. valid choices are \"\\n\", \"\\r\", \"\\r\\n\". Default value \"\\n\". C(block_start_string) (str): The string marking the beginning of a block. Default value \"{%\". C(block_end_string) (str): The string marking the end of a block. Default value \"%}\". C(variable_start_string) (str): The string marking the beginning of a print statement. Default value \"{{\". C(variable_end_string) (str): The string marking the end of a print statement. Default value \"}}\". C(trim_blocks) (bool): Determine when newlines should be removed from blocks. When set to C(yes) the first newline after a block is removed (block, not variable tag!). Default value is true. C(lstrip_blocks) (bool): Determine when leading spaces and tabs should be stripped. When set to C(yes) leading spaces and tabs are stripped from the start of a line to a block. This functionality requires Jinja 2.7 or newer. Default value is false.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "continue_on_error": {
+        "description": "Whether to continue on creation/deletion errors when multiple resources are defined. This has no effect on the validation step which is controlled by the C(validate.fail_on_error) parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.okd.openshift_adm_groups_sync": {
     "short_description": "Sync OpenShift Groups with records from an external provider.",
-    "description": "",
-    "options": {},
+    "description": "In order to sync/prune OpenShift Group records with those from an external provider, determine which Groups you wish to sync and where their records live. Analogous to `oc adm prune groups` and `oc adm group sync`. LDAP sync configuration file syntax can be found here U(https://docs.openshift.com/container-platform/4.9/authentication/ldap-syncing.html). The bindPassword attribute of the LDAP sync configuration is expected to be a string, please use ansible-vault encryption to secure this information.",
+    "options": {
+      "state": {
+        "description": "Determines if the group should be sync when set to C(present) or pruned when set to C(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "type": {
+        "description": "which groups allow and deny list entries refer to.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ldap",
+          "openshift"
+        ],
+        "default": "ldap",
+        "aliases": null
+      },
+      "sync_config": {
+        "description": "Provide a valid YAML definition of an LDAP sync configuration.",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "config",
+          "src"
+        ]
+      },
+      "deny_groups": {
+        "description": "Denied groups, could be openshift group name or LDAP group dn value. When parameter C(type) is set to I(ldap) this should contains only LDAP group definition like I(cn=developers,ou=groups,ou=rfc2307,dc=ansible,dc=redhat). The elements specified in this list will override the ones specified in C(allow_groups).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "allow_groups": {
+        "description": "Allowed groups, could be openshift group name or LDAP group dn value. When parameter C(type) is set to I(ldap) this should contains only LDAP group definition like I(cn=developers,ou=groups,ou=rfc2307,dc=ansible,dc=redhat).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.okd.openshift_adm_migrate_template_instances": {
     "short_description": "Update TemplateInstances to point to the latest group-version-kinds",
-    "description": "",
-    "options": {},
+    "description": "Update TemplateInstances to point to the latest group-version-kinds. Analogous to C(oc adm migrate template-instances).",
+    "options": {
+      "namespace": {
+        "description": "The namespace that the template can be found in. If no namespace if specified, migrate objects in all namespaces.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.okd.openshift_adm_prune_auth": {
     "short_description": "Removes references to the specified roles, clusterroles, users, and groups",
-    "description": "",
-    "options": {},
+    "description": "This module allow administrators to remove references to the specified roles, clusterroles, users, and groups. Analogous to C(oc adm prune auth).",
+    "options": {
+      "resource": {
+        "description": "The specified resource to remove.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "roles",
+          "clusterroles",
+          "users",
+          "groups"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Use to specify an object name to remove. Mutually exclusive with option I(label_selectors). If neither I(name) nor I(label_selectors) are specified, prune all resources in the namespace.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "namespace": {
+        "description": "Use to specify an object namespace. Ignored when I(resource) is set to C(clusterroles).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label_selectors": {
+        "description": "Selector (label query) to filter on. Mutually exclusive with option I(name).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.okd.openshift_adm_prune_builds": {
     "short_description": "Prune old completed and failed builds",
-    "description": "",
-    "options": {},
+    "description": "This module allow administrators to delete old completed and failed builds. Analogous to C(oc adm prune builds).",
+    "options": {
+      "namespace": {
+        "description": "Use to specify namespace for builds to be deleted.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "keep_younger_than": {
+        "description": "Specify the minimum age (in minutes) of a Build for it to be considered a candidate for pruning.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "orphans": {
+        "description": "If C(true), prune all builds whose associated BuildConfig no longer exists and whose status is complete, failed, error, or cancelled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.okd.openshift_adm_prune_deployments": {
     "short_description": "Remove old completed and failed deployment configs",
-    "description": "",
-    "options": {},
+    "description": "This module allow administrators to remove old completed and failed deployment configs. Analogous to C(oc adm prune deployments).",
+    "options": {
+      "namespace": {
+        "description": "Use to specify namespace for deployments to be deleted.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "keep_younger_than": {
+        "description": "Specify the minimum age (in minutes) of a deployment for it to be considered a candidate for pruning.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "orphans": {
+        "description": "If C(true), prune all deployments where the associated DeploymentConfig no longer exists, the status is complete or failed, and the replica size is C(0).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.okd.openshift_adm_prune_images": {
     "short_description": "Remove unreferenced images",
-    "description": "",
-    "options": {},
+    "description": "This module allow administrators to remove references images. Note that if the C(namespace) is specified, only references images on Image stream for the corresponding namespace will be candidate for prune if only they are not used or references in another Image stream from another namespace. Analogous to C(oc adm prune images).",
+    "options": {
+      "namespace": {
+        "description": "Use to specify namespace for objects.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "all_images": {
+        "description": "Include images that were imported from external registries as candidates for pruning. If pruned, all the mirrored objects associated with them will also be removed from the integrated registry.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "keep_younger_than": {
+        "description": "Specify the minimum age (in minutes) of an image and its referrers for it to be considered a candidate for pruning.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "prune_over_size_limit": {
+        "description": "Specify if images which are exceeding LimitRanges specified in the same namespace, should be considered for pruning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "registry_url": {
+        "description": "The address to use when contacting the registry, instead of using the default value. This is useful if you can't resolve or reach the default registry but you do have an alternative route that works. Particular transport protocol can be enforced using '<scheme>://' prefix.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "registry_ca_cert": {
+        "description": "Path to a CA certificate used to contact registry. The full certificate chain must be provided to avoid certificate validation errors.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "registry_validate_certs": {
+        "description": "Whether or not to verify the API server's SSL certificates. Can also be specified via K8S_AUTH_VERIFY_SSL environment variable.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "prune_registry": {
+        "description": "If set to I(False), the prune operation will clean up image API objects, but none of the associated content in the registry is removed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "ignore_invalid_refs": {
+        "description": "If set to I(True), the pruning process will ignore all errors while parsing image references. This means that the pruning process will ignore the intended connection between the object and the referenced image. As a result an image may be incorrectly deleted as unused.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.okd.openshift_auth": {
     "short_description": "Authenticate to OpenShift clusters which require an explicit login step",
-    "description": "",
-    "options": {},
+    "description": "This module handles authenticating to OpenShift clusters requiring I(explicit) authentication procedures, meaning ones where a client logs in (obtains an authentication token), performs API operations using said token and then logs out (revokes the token). On the other hand a popular configuration for username+password authentication is one utilizing HTTP Basic Auth, which does not involve any additional login/logout steps (instead login credentials can be attached to each and every API call performed) and as such is handled directly by the C(k8s) module (and other resource–specific modules) by utilizing the C(host), C(username) and C(password) parameters. Please consult your preferred module's documentation for more details.",
+    "options": {
+      "state": {
+        "description": "If set to I(present) connect to the API server using the URL specified in C(host) and attempt to log in. If set to I(absent) attempt to log out by revoking the authentication token specified in C(api_key).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "host": {
+        "description": "Provide a URL for accessing the API server.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Provide a username for authenticating with the API server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Provide a password for authenticating with the API server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ca_cert": {
+        "description": "Path to a CA certificate file used to verify connection to the API server. The full certificate chain must be provided to avoid certificate validation errors.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ssl_ca_cert"
+        ]
+      },
+      "validate_certs": {
+        "description": "Whether or not to verify the API server's SSL certificates.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": [
+          "verify_ssl"
+        ]
+      },
+      "api_key": {
+        "description": "When C(state) is set to I(absent), this specifies the token to revoke.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.okd.openshift_build": {
     "short_description": "Start a new build or Cancel running, pending, or new builds.",
-    "description": "",
-    "options": {},
+    "description": "This module starts a new build from the provided build config or build name. This module also cancel a new, pending or running build by requesting a graceful shutdown of the build. There may be a delay between requesting the build and the time the build is terminated. This can also restart a new build when the current is cancelled. Analogous to C(oc cancel-build) and C(oc start-build).",
+    "options": {
+      "state": {
+        "description": "Determines if a Build should be started ,cancelled or restarted. When set to C(restarted) a new build will be created after the current build is cancelled.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "started",
+          "cancelled",
+          "restarted"
+        ],
+        "default": "started",
+        "aliases": null
+      },
+      "build_name": {
+        "description": "Specify the name of a build which should be re-run. Mutually exclusive with parameter I(build_config_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "build_config_name": {
+        "description": "Specify the name of a build config from which a new build will be run. Mutually exclusive with parameter I(build_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "namespace": {
+        "description": "Specify the namespace for the build or the build config.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "build_args": {
+        "description": "Specify a list of key-value pair to pass to Docker during the build.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "commit": {
+        "description": "Specify the source code commit identifier the build should use; requires a build based on a Git repository.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "env_vars": {
+        "description": "Specify a list of key-value pair for an environment variable to set for the build container.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "incremental": {
+        "description": "Overrides the incremental setting in a source-strategy build, ignored if not specified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "no_cache": {
+        "description": "Overrides the noCache setting in a docker-strategy build, ignored if not specified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "When C(state=started), specify whether to wait for a build to complete and exit with a non-zero return code if the build fails. When I(state=cancelled), specify whether to wait for a build phase to be Cancelled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_sleep": {
+        "description": "Number of seconds to sleep between checks. Ignored if C(wait=false).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How long in seconds to wait for a build to complete. Ignored if C(wait=false).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 120,
+        "aliases": null
+      },
+      "build_phases": {
+        "description": "List of state for build to cancel. Ignored when C(state=started).",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "New",
+          "Pending",
+          "Running"
+        ],
+        "default": [],
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.okd.openshift_import_image": {
     "short_description": "Import the latest image information from a tag in a container image registry.",
-    "description": "",
-    "options": {},
+    "description": "Image streams allow you to control which images are rolled out to your builds and applications. This module fetches the latest version of an image from a remote repository and updates the image stream tag if it does not match the previous value. Running the module multiple times will not create duplicate entries. When importing an image, only the image metadata is copied, not the image contents. Analogous to C(oc import-image).",
+    "options": {
+      "namespace": {
+        "description": "Use to specify namespace for image stream to create/update.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Image stream to import tag into. This can be provided as a list of images streams or a single value.",
+        "type": "raw",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "all": {
+        "description": "If set to I(true), import all tags from the provided source on creation or if C(source) is specified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "validate_registry_certs": {
+        "description": "If set to I(true), allow importing from registries that have invalid HTTPS certificates. or are hosted via HTTP. This parameter will take precedence over the insecure annotation.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "reference_policy": {
+        "description": "Allow to request pullthrough for external image when set to I(local).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "source",
+          "local"
+        ],
+        "default": "source",
+        "aliases": null
+      },
+      "scheduled": {
+        "description": "Set each imported Docker image to be periodically imported from a remote repository.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "source": {
+        "description": "A Docker image repository to import images from. Should be provided as 'registry.io/repo/image'",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.okd.openshift_process": {
     "short_description": "Process an OpenShift template.openshift.io/v1 Template",
-    "description": "",
-    "options": {},
+    "description": "Processes a specified OpenShift template with the provided template. Templates can be provided inline, from a file, or specified by name and namespace in the cluster. Analogous to `oc process`. For CRUD operations on Template resources themselves, see the community.okd.k8s module.",
+    "options": {
+      "name": {
+        "description": "The name of the Template to process. The Template must be present in the cluster. When provided, I(namespace) is required. Mutually exclusive with I(resource_definition) or I(src)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "namespace": {
+        "description": "The namespace that the template can be found in.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "namespace_target": {
+        "description": "The namespace that resources should be created, updated, or deleted in. Only used when I(state) is present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parameters": {
+        "description": "A set of key: value pairs that will be used to set/override values in the Template. Corresponds to the `--param` argument to oc process.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parameter_file": {
+        "description": "A path to a file containing template parameter values to override/set values in the Template. Corresponds to the `--param-file` argument to oc process.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Determines what to do with the rendered Template. The state I(rendered) will render the Template based on the provided parameters, and return the rendered objects in the I(resources) field. These can then be referenced in future tasks. The state I(present) will cause the resources in the rendered Template to be created if they do not already exist, and patched if they do. The state I(absent) will delete the resources in the rendered Template.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "rendered"
+        ],
+        "default": "rendered",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.okd.openshift_registry_info": {
     "short_description": "Display information about the integrated registry.",
-    "description": "",
-    "options": {},
+    "description": "This module exposes information about the integrated registry. Use C(check) to verify your local client can access the registry. If the adminstrator has not configured a public hostname for the registry then this command may fail when run outside of the server. Analogous to C(oc registry info).",
+    "options": {
+      "check": {
+        "description": "Attempt to contact the integrated registry using local client.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.okd.openshift_route": {
     "short_description": "Expose a Service as an OpenShift Route.",
-    "description": "",
-    "options": {},
+    "description": "Looks up a Service and creates a new Route based on it. Analogous to `oc expose` and `oc create route` for creating Routes, but does not support creating Services. For creating Services from other resources, see kubernetes.core.k8s.",
+    "options": {
+      "service": {
+        "description": "The name of the service to expose. Required when I(state) is not absent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "svc"
+        ]
+      },
+      "namespace": {
+        "description": "The namespace of the resource being targeted. The Route will be created in this namespace as well.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "Specify the labels to apply to the created Route. A set of key: value pairs.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "annotations": {
+        "description": "Specify the Route Annotations. A set of key: value pairs.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The desired name of the Route to be created. Defaults to the value of I(service)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hostname": {
+        "description": "The hostname for the Route.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "The path for the Route",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wildcard_policy": {
+        "description": "The wildcard policy for the hostname. Currently only Subdomain is supported. If not provided, the default of None will be used.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Subdomain"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Name or number of the port the Route will route traffic to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tls": {
+        "description": "TLS configuration for the newly created route. Only used when I(termination) is set.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "termination": {
+        "description": "The termination type of the Route. If left empty no termination type will be set, and the route will be insecure. When set to insecure I(tls) will be ignored.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "edge",
+          "passthrough",
+          "reencrypt",
+          "insecure"
+        ],
+        "default": "insecure",
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

@@ -10,6 +10,30 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "running_config": {
+        "description": "The module, by default, will connect to the remote device and retrieve the current running-config to use as a base for comparing against the contents of source. There are times when it is not desirable to have the task get the current running-config for every task in a playbook.  The I(running_config) argument allows the implementer to pass in the configuration to use as the base config for comparison.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -209,6 +233,14 @@
         "type": "list",
         "required": false,
         "choices": null,
+        "default": "!config",
+        "aliases": null
+      },
+      "gather_network_resources": {
+        "description": "When supplied, this argument will restrict the facts collected to a given subset. Possible values for this argument include all and the resources like interfaces, vlans etc. Can specify a list of values to include a larger subset. Values can also be used with an initial C(!) to specify that a specific subset should not be collected. Values can also be used with an initial C(!) to specify that a specific subset should not be collected. Valid subsets are 'all', 'acls', 'ogs'.",
+        "type": "list",
+        "required": false,
+        "choices": null,
         "default": null,
         "aliases": null
       }
@@ -225,6 +257,30 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "The module, by default, will connect to the remote device and retrieve the current running-config to use as a base for comparing against the contents of source. There are times when it is not desirable to have the task get the current running-config for every task in a playbook.  The I(running_config) argument allows the implementer to pass in the configuration to use as the base config for comparison. This value of this option should be the output received from device by executing command.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },

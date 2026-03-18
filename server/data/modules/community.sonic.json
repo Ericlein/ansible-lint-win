@@ -1,26 +1,153 @@
 {
   "community.sonic.get_entry": {
     "short_description": "Get table/entry from SONiC configuration database",
-    "description": "",
-    "options": {},
+    "description": "Manage VLANs in SONiC",
+    "options": {
+      "table": {
+        "description": "The table to lookup",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "key": {
+        "description": "The key to look up in table",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.sonic.sonic_interface_port": {
     "short_description": "Configure a SONiC interface port",
-    "description": "",
-    "options": {},
+    "description": "Manage all settings related to interface ports in SONiC",
+    "options": {
+      "interface": {
+        "description": "The interface name to operate on. Alias naming is supported.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Update the interface description to this string",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "speed": {
+        "description": "Human readable format for the interface speed",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fec": {
+        "description": "The FEC mode to use.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "none",
+          "rs",
+          "fc",
+          "auto"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Admin status for the interface",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.sonic.vlan": {
     "short_description": "Configure a SONiC VLANs",
-    "description": "",
-    "options": {},
+    "description": "Manage VLANs in SONiC",
+    "options": {
+      "vlanid": {
+        "description": "The VLAN ID to configure",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the VLAN should be present or absent",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "dhcp_servers": {
+        "description": "DHCP servers to relay DHCP packets to",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.sonic.vlan_member": {
     "short_description": "Configure a SONiC VLAN port memberships",
-    "description": "",
-    "options": {},
+    "description": "Manage VLAN port memberships in SONiC",
+    "options": {
+      "vlanid": {
+        "description": "The VLAN to manage the interface membership for",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the interface should be attached to the VLAN or not",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "interface": {
+        "description": "The interface to attach to the VLAN",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tagged": {
+        "description": "Whether the VLAN should be tagged for the interface or not, required when I(state=present)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

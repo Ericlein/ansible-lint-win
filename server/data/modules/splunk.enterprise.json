@@ -2,25 +2,250 @@
   "splunk.enterprise.splunk_universal_forwarder_linux": {
     "short_description": "Manage Splunk Universal Forwarder installations on RHEL systems",
     "description": "This module manages Splunk Universal Forwarder installations on RHEL 8, 9, and 10 systems with RPM package. Downloads the Splunk Universal Forwarder RPM and verifies its integrity using SHA512 checksums. Supports idempotent installation and removal of the forwarder. Automatically configures user credentials and starts the forwarder on first installation. If the forwarder is already installed, only upgrades are allowed. To downgrade the forwarder, you can use 2 tasks - absent then present. Password is set on first installation only, On subsequent tasks the user/password has to be provided.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "Whether the Splunk Universal Forwarder should be installed or removed. V(present) ensures the forwarder is installed and configured. V(absent) ensures the forwarder is removed from the system and all configuration is removed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "version": {
+        "description": "Version of Splunk Universal Forwarder to install (e.g., V(9.4.7)). Required when O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "release_id": {
+        "description": "Release id corresponding to the Splunk Universal Forwarder version (e.g., V(2a9293b80994)). The release id can be found on the Splunk download page for each version. Combined with O(version) to form the RPM filename (e.g., V(9.4.7-2a9293b80994)). Required when O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Username for the Splunk admin account. Required when O(state=present). User Will be craeted on scratch installation. Required to retrieve information on subsequent tasks.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password for the Splunk admin account. Required when O(state=present). Will be set to this value on scratch installation. Required to retrieve information on subsequent tasks.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cpu": {
+        "description": "CPU architecture for the Splunk Universal Forwarder package. V(64-bit) for x86_64 architecture. V(ARM) for aarch64 architecture.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "64-bit",
+          "ARM"
+        ],
+        "default": "64-bit",
+        "aliases": null
+      },
+      "forward_servers": {
+        "description": "List of Splunk Enterprise servers to forward data to. Each entry must be in V(<host>:<port>) format (e.g., V(splunk-indexer.example.com:9997)). The default Splunk receiving port is typically V(9997). When specified, configures the forwarder to send data to these servers, Sets the forward-servers exactly to this list. When list is empty, The current configured forward-servers will be removed, and the configuration will be empty.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "deployment_server": {
+        "description": "The Splunk Deployment Server to register with. Must be in V(<host>:<port>) format (e.g., V(deployment-server.example.com:8089)). The default Splunk deployment server port is V(8089). When specified, configures the forwarder to poll this deployment server for apps and configurations. When set to an empty string, removes the deployment server configuration and restarts the forwarder service.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "splunk.enterprise.splunk_universal_forwarder_linux_info": {
     "short_description": "Gather information about Splunk Universal Forwarder installations on RHEL systems",
     "description": "This module gathers information about Splunk Universal Forwarder installations on RHEL 8, 9, and 10 systems. Returns installation state, version, release id, CPU architecture, forward servers, and deployment server configuration.",
-    "options": {},
+    "options": {
+      "username": {
+        "description": "Username for the Splunk admin account. Required to retrieve forward_servers information.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password for the Splunk admin account. Required to retrieve forward_servers information.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "splunk.enterprise.win_splunk_universal_forwarder": {
     "short_description": "Install and bootstrap Splunk Universal Forwarder on Windows",
     "description": "Downloads the Splunk Universal Forwarder MSI for a requested version and installs it silently. Seeds initial credentials via C(user-seed.conf) and configures deployment/forward servers using C(splunk.exe) authenticated via environment variables. Supports upgrades to newer versions (downgrade is not supported). Configures forward servers and deployment server.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "Whether the Splunk Universal Forwarder should be installed or removed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "purge": {
+        "description": "When C(state=absent), purge Splunk UF files/config directories and temp directory after uninstall. This will remove both the installation directory and the temp directory (default C(C:\\splunktemp)) with all downloaded files. Be careful with this option, as it will remove all files and the temp folder even if it was present before the module run.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "version": {
+        "description": "Splunk Universal Forwarder version to install or upgrade to (for example C(10.0.2)). If a lower version than currently installed is specified, the module will fail with a downgrade error. If the same version is already installed, only configuration changes will be applied. If a higher version is specified, an upgrade will be performed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "release_id": {
+        "description": "Release identifier used in the download filename (for example C(e2d18b4767e9) for C(10.0.2)). This is the suffix between the version and platform in the MSI filename. Example: C(splunkforwarder-<version>-<hash>-windows-x64.msi).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "temp_dir": {
+        "description": "Directory on the Windows host to store the downloaded MSI and installation logs.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "C:\\splunktemp",
+        "aliases": null
+      },
+      "install_dir": {
+        "description": "Installation directory for Splunk Universal Forwarder. Also used for version detection and running C(splunk.exe) commands. IMPORTANT: This parameter cannot be changed after installation. The install directory is set during initial installation and cannot be moved via MSI upgrade. If you installed Splunk to a non-default directory, you MUST provide the same C(install_dir) value. This is required for all subsequent runs (upgrades, configuration changes, etc.). The module needs to know the correct installation directory to detect the installed version and execute commands.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": "C:\\Program Files\\SplunkUniversalForwarder",
+        "aliases": null
+      },
+      "splunk_username": {
+        "description": "Initial Splunk admin username to write to C(user-seed.conf) and to authenticate C(splunk.exe) commands via environment variables. Required when C(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "splunk_password": {
+        "description": "Initial Splunk admin password to write to C(user-seed.conf) and to authenticate C(splunk.exe) commands via environment variables. Required when C(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "forward_servers": {
+        "description": "Desired list of forward servers in C(ip:port) format or hostname:port format. To clear all configured forward servers, use an explicit empty list C(forward_servers{{':'}} []). If omitted entirely, forward servers are not modified. Example: ['10.1.1.1:9997', 'domain.test.com:9997']",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "deployment_server": {
+        "description": "Deployment server in C(ip:port) format or hostname:port format. To clear the configured deployment server, use the special value C(\"NONE\"). When clearing, the module will remove C(deploymentclient.conf) and restart Splunk. If omitted entirely, the deployment server configuration is not modified. Example: '10.1.1.1:8089' or 'domain.test.com:8089'",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service_account_type": {
+        "description": "Type of service account to use for running the Splunk Universal Forwarder service. C(local_system) uses the Local System account (USE_LOCAL_SYSTEM=1). C(virtual_service_account) uses a virtual service account (default MSI behavior without USE_LOCAL_SYSTEM). This option is recommended for production environments. When using C(virtual_service_account), there might be inconsistencies while installing. Failures might occur; recommendation is to run with retry logic. C(domain_user) uses a specific domain or local user account (requires C(service_logon_username) and C(service_logon_password)).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "local_system",
+          "virtual_service_account",
+          "domain_user"
+        ],
+        "default": "local_system",
+        "aliases": null
+      },
+      "service_logon_username": {
+        "description": "Username for the service account (in format C(domain\\username) or C(.\\username) for local accounts). Required when C(service_account_type=domain_user). This parameter specifies the user account that the SplunkForwarder service will run as.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service_logon_password": {
+        "description": "Password for the service account. Required when C(service_account_type=domain_user).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "splunk.enterprise.win_splunk_universal_forwarder_info": {
     "short_description": "Gather information about Splunk Universal Forwarder on Windows",
     "description": "Retrieves information about the installed Splunk Universal Forwarder. Returns installation state, version, release ID, forward servers, deployment server, and installation directory. Uses C(splunk.exe) commands authenticated via environment variables to retrieve configuration details.",
-    "options": {},
+    "options": {
+      "username": {
+        "description": "Username for the Splunk admin account. Required to retrieve forward_servers and deployment_server information.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password for the Splunk admin account. Required to retrieve forward_servers and deployment_server information.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "install_dir": {
+        "description": "Installation directory of Splunk Universal Forwarder. Used for version detection and running C(splunk.exe) commands. If Splunk was installed to a non-default directory, you MUST provide the same install_dir value.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": "C:\\Program Files\\SplunkUniversalForwarder",
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

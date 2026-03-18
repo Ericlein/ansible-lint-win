@@ -1,212 +1,3207 @@
 {
   "infoblox.nios_modules.nios_a_record": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS A records",
+    "description": "Adds and/or removes instances of A record objects from Infoblox NIOS servers.  This module manages NIOS C(record:a) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Specifies the fully qualified hostname to add or remove from the system. Users can also update the name as it is possible to pass a dict containing I(new_name), I(old_name). See examples.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "view": {
+        "description": "Sets the DNS view to associate this A record with.  The DNS view must already be configured on the system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": [
+          "dns_view"
+        ]
+      },
+      "ipv4addr": {
+        "description": "Configures the IPv4 address for this A record. Users can dynamically allocate ipv4 address to A record by passing dictionary containing, I(nios_next_ip) and I(CIDR network range). Also update ipv4 address statically to A record by passing dictionary containing, I(old_ipv4addr) and I(new_ipv4addr). See example.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ipv4"
+        ]
+      },
+      "ttl": {
+        "description": "Configures the TTL to be associated with this A record.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_aaaa_record": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS AAAA records",
+    "description": "Adds and/or removes instances of AAAA record objects from Infoblox NIOS servers.  This module manages NIOS C(record:aaaa) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Specifies the fully qualified hostname to add or remove from the system. User can also update the name as it is possible to pass a dict containing I(new_name), I(old_name). See examples",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "view": {
+        "description": "Sets the DNS view to associate this AAAA record with.  The DNS view must already be configured on the system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": [
+          "dns_view"
+        ]
+      },
+      "ipv6addr": {
+        "description": "Configures the IPv6 address for this AAAA record.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ipv6"
+        ]
+      },
+      "ttl": {
+        "description": "Configures the TTL to be associated with this AAAA record.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_adminuser": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS Adminuser",
+    "description": "Adds and/or removes instances of adminuser objects from Infoblox NIOS servers. This module manages NIOS C(adminuser) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Specifies the adminuser name to add or remove from the system. Users can also update the name as it is possible to pass a dict containing I(new_name), I(old_name). See examples.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "admin_groups": {
+        "description": "The names of the Admin Groups to which this Admin User belongs. Currently, this is limited to only one Admin Group.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "The password for the administrator to use when logging in.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auth_method": {
+        "description": "Authentication method for the admin user.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "KEYPAIR",
+          "KEYPAIR_PASSWORD"
+        ],
+        "default": "KEYPAIR",
+        "aliases": null
+      },
+      "auth_type": {
+        "description": "Authentication type for the admin user.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "LOCAL",
+          "REMOTE",
+          "SAML",
+          "SAML_LOCAL"
+        ],
+        "default": "LOCAL",
+        "aliases": null
+      },
+      "ca_certificate_issuer": {
+        "description": "The CA certificate that is used for user lookup during authentication.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "client_certificate_serial_number": {
+        "description": "The serial number of the client certificate.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disable": {
+        "description": "Determines whether the admin user is disabled or not. When this is set to False, the admin user is enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "email": {
+        "description": "Email address of the admin user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_certificate_authentication": {
+        "description": "Determines whether the user is allowed to log in only with the certificate. Regular username/password authentication will be disabled for this user.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "time_zone": {
+        "description": "The time zone for this admin user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "UTC",
+        "aliases": null
+      },
+      "use_time_zone": {
+        "description": "Use flag for I(time_zone).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "ssh_keys": {
+        "description": "List of SSH keys for the admin user.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "use_ssh_keys": {
+        "description": "Enable/disable the ssh keypair authentication.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_cname_record": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS CNAME records",
+    "description": "Adds and/or removes instances of CNAME record objects from Infoblox NIOS servers.  This module manages NIOS C(record:cname) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Specifies the fully qualified hostname to add or remove from the system. User can also update the name as it is possible to pass a dict containing I(new_name), I(old_name). See examples",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "view": {
+        "description": "Sets the DNS view to associate this CNAME record with.  The DNS view must already be configured on the system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": [
+          "dns_view"
+        ]
+      },
+      "canonical": {
+        "description": "Configures the canonical name for this CNAME record.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "cname"
+        ]
+      },
+      "ttl": {
+        "description": "Configures the TTL to be associated with this CNAME record.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_dns_view": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS DNS views",
+    "description": "Adds and/or removes instances of DNS view objects from Infoblox NIOS servers.  This module manages NIOS C(view) objects using the Infoblox WAPI interface over REST. Updates instances of DNS view object from Infoblox NIOS servers.",
+    "options": {
+      "name": {
+        "description": "Specifies the fully qualified hostname to add or remove from the system. User can also update the hostname as it is possible to pass a dict containing I(new_name), I(old_name). See examples.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "view"
+        ]
+      },
+      "network_view": {
+        "description": "Specifies the name of the network view to assign the configured DNS view to.  The network view must already be configured on the target system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_dtc_lbdn": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS DTC LBDN",
+    "description": "Adds and/or removes instances of DTC Load Balanced Domain Name (LBDN) objects from Infoblox NIOS servers. This module manages NIOS C(dtc:lbdn) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Specifies the display name of the DTC LBDN, not DNS related.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lb_method": {
+        "description": "Configures the load balancing method. Used to select pool.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "GLOBAL_AVAILABILITY",
+          "RATIO",
+          "ROUND_ROBIN",
+          "TOPOLOGY"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "topology": {
+        "description": "Configures the topology rules for the C(TOPOLOGY) load balancing method. Required only when I(lb_method) is set to C(TOPOLOGY).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auth_zones": {
+        "description": "List of linked authoritative zones. When using I(auth_zones), you must specify at least one I(patterns). Each zone can be specified as a string (FQDN) or as a dict with 'fqdn' and optional 'view' keys. When provided as a string, the first matching zone in any view will be used. When zones with the same name exist in different views, use the dict format to specify which view to use. Example ['example.com'] or [{'fqdn': 'example.com', 'view': 'custom'}]",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "patterns": {
+        "description": "Specify LBDN wildcards for pattern match.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "types": {
+        "description": "Specifies the list of resource record types supported by LBDN. This option will work properly only if you set the C(wapi_version) variable on your C(provider) variable to a number higher than \"2.6\".",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "A",
+          "AAAA",
+          "CNAME",
+          "NAPTR",
+          "SRV"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "pools": {
+        "description": "The pools used for load balancing.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ttl": {
+        "description": "The Time To Live (TTL) value for the DTC LBDN. A 32-bit unsigned integer that represents the duration, in seconds, for which the record is valid (cached). Zero indicates that the record should not be cached.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_dtc_monitor_http": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS DTC HTTP monitors",
+    "description": "Adds and/or removes instances of DTC HTTP monitor objects from Infoblox NIOS servers. This module manages C(dtc:monitor:http) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Configures the display name for this DTC monitor. Values with leading or trailing white space are not valid for this field.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Configures the port value for HTTP requests.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 80,
+        "aliases": null
+      },
+      "ciphers": {
+        "description": "Configures an optional cipher list for the secure HTTP/S connection.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "client_cert": {
+        "description": "Configures an optional client certificate, supplied in a secure HTTP/S mode if present.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_check": {
+        "description": "Configures the content check type",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "EXTRACT",
+          "MATCH",
+          "NONE"
+        ],
+        "default": "NONE",
+        "aliases": null
+      },
+      "content_check_input": {
+        "description": "Configures the portion of the response to use as input for content check.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ALL",
+          "BODY",
+          "HEADERS"
+        ],
+        "default": "ALL",
+        "aliases": null
+      },
+      "content_check_op": {
+        "description": "Configures the content check success criteria operator.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "EQ",
+          "GEQ",
+          "LEQ",
+          "NEQ"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "content_check_regex": {
+        "description": "Configures the content check regular expression. Values with leading or trailing white space are not valid for this field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_extract_group": {
+        "description": "Configures the content extraction sub-expression to extract.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "content_extract_type": {
+        "description": "Configures the content extraction expected type for the extracted data.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "INTEGER",
+          "STRING"
+        ],
+        "default": "STRING",
+        "aliases": null
+      },
+      "content_extract_value": {
+        "description": "Configures the content extraction value to compare with the extracted result. Values with leading or trailing white space are not valid for this field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "request": {
+        "description": "Configures the HTTP request to send",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "GET /",
+        "aliases": null
+      },
+      "result": {
+        "description": "Configures the type of the expected result",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ANY",
+          "CODE_IS",
+          "CODE_IS_NOT"
+        ],
+        "default": "ANY",
+        "aliases": null
+      },
+      "result_code": {
+        "description": "Configures the expected return code",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 200,
+        "aliases": null
+      },
+      "enable_sni": {
+        "description": "Configures whether or not Server Name Indication (SNI) for the HTTPS monitor is enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "secure": {
+        "description": "Configures the security status of the connection.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "validate_cert": {
+        "description": "Configures whether the validation of the remote server's certificate is enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "interval": {
+        "description": "Configures the interval for HTTP health check.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "retry_down": {
+        "description": "Configures the value of how many times the server should appear as down to be treated as dead after it was alive.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "retry_up": {
+        "description": "Configures the value of how many times the server should appear as up to be treated as alive after it was dead.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Configures the timeout for HTTP health check in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 15,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_dtc_monitor_icmp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS DTC ICMP monitors",
+    "description": "Adds and/or removes instances of DTC ICMP monitor objects from Infoblox NIOS servers. This module manages C(dtc:monitor:icmp) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Configures the display name for this DTC monitor. Values with leading or trailing white space are not valid for this field.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interval": {
+        "description": "Configures the interval for ICMP health check.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "retry_down": {
+        "description": "Configures the value of how many times the server should appear as down to be treated as dead after it was alive.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "retry_up": {
+        "description": "Configures the value of how many times the server should appear as up to be treated as alive after it was dead.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Configures the timeout for ICMP health check in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 15,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_dtc_monitor_pdp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS DTC PDP monitors",
+    "description": "Adds and/or removes instances of DTC PDP monitor objects from Infoblox NIOS servers. This module manages C(dtc:monitor:pdp) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Configures the display name for this DTC monitor. Values with leading or trailing white space are not valid for this field.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Configures the port value for PDP requests.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 2123,
+        "aliases": null
+      },
+      "interval": {
+        "description": "Configures the interval for PDP health check.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "retry_down": {
+        "description": "Configures the value of how many times the server should appear as down to be treated as dead after it was alive.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "retry_up": {
+        "description": "Configures the value of how many times the server should appear as up to be treated as alive after it was dead.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Configures the timeout for PDP health check in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 15,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_dtc_monitor_sip": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS DTC SIP monitors",
+    "description": "Adds and/or removes instances of DTC SIP monitor objects from Infoblox NIOS servers. This module manages C(dtc:monitor:sip) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Configures the display name for this DTC monitor. Values with leading or trailing white space are not valid for this field.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Configures the port value for SIP requests.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5060,
+        "aliases": null
+      },
+      "ciphers": {
+        "description": "Configures an optional cipher list for the secure TLS/SIPS connection.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "client_cert": {
+        "description": "Configures an optional client certificate, supplied in TLS or SIPS mode if present.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "request": {
+        "description": "Configures the SIP request to send",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "result": {
+        "description": "Configures the type of the expected result",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ANY",
+          "CODE_IS",
+          "CODE_IS_NOT"
+        ],
+        "default": "ANY",
+        "aliases": null
+      },
+      "result_code": {
+        "description": "Configures the expected return code",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 200,
+        "aliases": null
+      },
+      "transport": {
+        "description": "Configures the transport layer protocol to use for the SIP check",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "SIPS",
+          "TCP",
+          "TLS",
+          "UDP"
+        ],
+        "default": "TCP",
+        "aliases": null
+      },
+      "validate_cert": {
+        "description": "Configures whether the validation of the remote server's certificate is enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "interval": {
+        "description": "Configures the interval for SIP health check.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "retry_down": {
+        "description": "Configures the value of how many times the server should appear as down to be treated as dead after it was alive.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "retry_up": {
+        "description": "Configures the value of how many times the server should appear as up to be treated as alive after it was dead.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Configures the timeout for SIP health check in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 15,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_dtc_monitor_snmp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS DTC SNMP monitors",
+    "description": "Adds and/or removes instances of DTC SNMP monitor objects from Infoblox NIOS servers. This module manages C(dtc:monitor:snmp) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Configures the display name for this DTC monitor. Values with leading or trailing white space are not valid for this field.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Configures the port value for SNMP requests.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 161,
+        "aliases": null
+      },
+      "version": {
+        "description": "Configures the SNMP protocol version for the SNMP health check.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "V1",
+          "V2C",
+          "V3"
+        ],
+        "default": "V2C",
+        "aliases": null
+      },
+      "community": {
+        "description": "Configures the SNMP community string for SNMP authentication.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "public",
+        "aliases": null
+      },
+      "user": {
+        "description": "Configures the SNMPv3 user setting.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Configures the SNMPv3 context. Values with leading or trailing white space are not valid for this field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "engine_id": {
+        "description": "Configures the SNMPv3 engine identifier. Values with leading or trailing white space are not valid for this field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "oids": {
+        "description": "Configures the list of OIDs for SNMP monitoring.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interval": {
+        "description": "Configures the interval for SNMP health check.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "retry_down": {
+        "description": "Configures the value of how many times the server should appear as down to be treated as dead after it was alive.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "retry_up": {
+        "description": "Configures the value of how many times the server should appear as up to be treated as alive after it was dead.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Configures the timeout for SNMP health check in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 15,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_dtc_monitor_tcp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS DTC TCP monitors",
+    "description": "Adds and/or removes instances of DTC TCP monitor objects from Infoblox NIOS servers. This module manages C(dtc:monitor:tcp) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Configures the display name for this DTC monitor. Values with leading or trailing white space are not valid for this field.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Configures the port value for TCP requests. The field is required on creation.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interval": {
+        "description": "Configures the interval for TCP health check.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "retry_down": {
+        "description": "Configures the value of how many times the server should appear as down to be treated as dead after it was alive.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "retry_up": {
+        "description": "Configures the value of how many times the server should appear as up to be treated as alive after it was dead.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Configures the timeout for TCP health check in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 15,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_dtc_pool": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS DTC Pool",
+    "description": "Adds and/or removes instances of DTC Pool objects from Infoblox NIOS servers. This module manages NIOS C(dtc:pool) objects using the Infoblox WAPI interface over REST. A DTC pool is a collection of IDNS resources (virtual servers).",
+    "options": {
+      "name": {
+        "description": "Specifies the DTC Pool display name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lb_preferred_method": {
+        "description": "Configures the preferred load balancing method. Use this to select a method type from the pool.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "ALL_AVAILABLE",
+          "DYNAMIC_RATIO",
+          "GLOBAL_AVAILABILITY",
+          "RATIO",
+          "ROUND_ROBIN",
+          "TOPOLOGY"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "lb_preferred_topology": {
+        "description": "Configures the topology rules for the C(TOPOLOGY) load balancing method. Required only when I(lb_preferred_method) is set to C(TOPOLOGY).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "servers": {
+        "description": "Configure the DTC Servers related to the pool",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "monitors": {
+        "description": "Specifies the health monitors related to pool. The format of this parameter is required due to an API limitation. This option only works if you set the C(wapi_version) variable on your C(provider) variable to a number higher than \"2.6\".",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_dtc_server": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS DTC Server",
+    "description": "Adds and/or removes instances of DTC Server objects from Infoblox NIOS servers. This module manages NIOS C(dtc:server) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Specifies the DTC Server display name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "Configures the IP address (A response) or FQDN (CNAME response) of the server",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disable": {
+        "description": "Determines whether the DTC Server is disabled or not. When this is set to False, the fixed address is enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_dtc_topology": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS DTC Topology",
+    "description": "Adds and/or removes instances of DTC Topology objects from Infoblox NIOS topologies. This module manages NIOS C(dtc:topology) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Specifies the DTC Topology display name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rules": {
+        "description": "Configures the topology rules",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS topology.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_extensible_attribute": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS extensible attribute definition",
+    "description": "Adds and/or removes a extensible attribute definition objects from Infoblox NIOS servers.  This module manages NIOS C(extensibleattributedef) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object. The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_value": {
+        "description": "Configures the default value which is pre populated in the GUI when this attribute is used. Email, URL and string types the value is a with a maximum of 256 characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "list_values": {
+        "description": "Configures a list of preset values associated with the instance of this object. Only applicable when the attribute type is set to ENUM.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max": {
+        "description": "Configures the maximum value to be associated with the instance of this object. When provided for an extensible attribute of type STRING the value represents the maximum number of characters the string can contain. When provided for an extensible attribute of type INTEGER the value represents the maximum integer value permitted.Not applicable for other attributes types.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "min": {
+        "description": "Configures the minimum value to be associated with the instance of this object. When provided for an extensible attribute of type STRING the value represents the minimum number of characters the string can contain. When provided for an extensible attribute of type INTEGER the value represents the minimum integer value permitted. Not applicable for other attributes types.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Configures the intended name of the instance of the object on the NIOS server.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Configures the intended type for this attribute object definition on the NIOS server.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "DATE",
+          "EMAIL",
+          "ENUM",
+          "INTEGER",
+          "STRING",
+          "URL"
+        ],
+        "default": "STRING",
+        "aliases": null
+      },
+      "flags": {
+        "description": "This field contains extensible attribute flags. The possible values are (A)udited, (C)loud API, Cloud (G)master, (I)nheritable, (L)isted, (M)andatory value, MGM (P)rivate, (R)ead Only, (S)ort enum values, Multiple (V)alues. If there are two or more flags in the field, you must list them according to the order they are listed above. For example, \"CR\" is a valid value for the \"flags\" field because C = Cloud API is listed before R = Read only. However, the value \"RC\" is invalid because the order for the \"flags\" field is broken.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_fixed_address": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS DHCP Fixed Address",
+    "description": "A fixed address is a specific IP address that a DHCP server always assigns when a lease request comes from a particular MAC address of the client. A fix address reservation is a specific IP address that a DHCP server reserves and never assigns to a client. Supports both IPV4 and IPV6 internet protocols.",
+    "options": {
+      "name": {
+        "description": "Specifies the hostname with which fixed DHCP ip-address is stored for respective mac.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipaddr": {
+        "description": "IPV4/V6 address of the fixed address.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mac": {
+        "description": "The MAC address of the IPv4 interface. For a fix address reservation specify mac address as 00:00:00:00:00:00",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "duid": {
+        "description": "The DUID address of the IPv6 interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network": {
+        "description": "Specifies the network range in which ipaddr exists.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "network"
+        ]
+      },
+      "network_view": {
+        "description": "Configures the name of the network view to associate with this configured instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "options": {
+        "description": "Configures the set of DHCP options to be included as part of the configured network instance.  This argument accepts a list of values (see suboptions).  When configuring suboptions at least one of C(name) or C(num) must be specified.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_host_record": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS host records",
+    "description": "Adds and/or removes instances of host record objects from Infoblox NIOS servers.  This module manages NIOS C(record:host) objects using the Infoblox WAPI interface over REST. Updates instances of host record object from Infoblox NIOS servers.",
+    "options": {
+      "name": {
+        "description": "Specifies the fully qualified hostname to add or remove from the system. User can also update the hostname as it is possible to pass a dict containing I(new_name), I(old_name). See examples.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "view": {
+        "description": "Sets the DNS view to associate this host record with.  The DNS view must already be configured on the system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": [
+          "dns_view"
+        ]
+      },
+      "configure_for_dns": {
+        "description": "Sets the DNS to particular parent. If user needs to bypass DNS user can make the value to false.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": [
+          "dns"
+        ]
+      },
+      "use_dns_ea_inheritance": {
+        "description": "When use_dns_ea_inheritance is True, the EA is inherited from associated zone. The default value is False.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "ipv4addrs": {
+        "description": "Configures the IPv4 addresses for this host record.  This argument accepts a list of values (see suboptions).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ipv4"
+        ]
+      },
+      "ipv6addrs": {
+        "description": "Configures the IPv6 addresses for the host record.  This argument accepts a list of values (see options).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ipv6"
+        ]
+      },
+      "aliases": {
+        "description": "Configures an optional list of additional aliases to add to the host record. These are equivalent to CNAMEs but held within a host record. Must be in list format.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ttl": {
+        "description": "Configures the TTL to be associated with this host record.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_member": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS members",
+    "description": "Adds and/or removes Infoblox NIOS servers.  This module manages NIOS C(member) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "host_name": {
+        "description": "Specifies the host name of the member to either add or remove from the NIOS instance. Users can also update the name as it is possible to pass a dict containing I(new_name), I(old_name). See examples.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "vip_setting": {
+        "description": "Configures the network settings for the grid member.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipv6_setting": {
+        "description": "Configures the IPv6 settings for the grid member.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "config_addr_type": {
+        "description": "Address configuration type (IPV4/IPV6/BOTH).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "IPV4",
+        "aliases": null
+      },
+      "comment": {
+        "description": "A descriptive comment of the Grid member.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Extensible attributes associated with the object.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_ha": {
+        "description": "If set to True, the member has two physical nodes (HA pair).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "router_id": {
+        "description": "Virtual router identifier. Provide this ID if \"ha_enabled\" is set to \"true\". This is a unique VRID number (from 1 to 255) for the local subnet.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lan2_enabled": {
+        "description": "When set to \"true\", the LAN2 port is enabled as an independent port or as a port for failover purposes.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "lan2_port_setting": {
+        "description": "Settings for the Grid member LAN2 port if 'lan2_enabled' is set to \"true\".",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "platform": {
+        "description": "Configures the Hardware Platform.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "INFOBLOX",
+        "aliases": null
+      },
+      "node_info": {
+        "description": "Configures the node information list with detailed status report on the operations of the Grid Member.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mgmt_port_setting": {
+        "description": "Settings for the member MGMT port.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "upgrade_group": {
+        "description": "The name of the upgrade group to which this Grid member belongs.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "Default",
+        "aliases": null
+      },
+      "use_syslog_proxy_setting": {
+        "description": "Use flag for external_syslog_server_enable , syslog_servers, syslog_proxy_setting, syslog_size.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "external_syslog_server_enable": {
+        "description": "Determines if external syslog servers should be enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "syslog_servers": {
+        "description": "The list of external syslog servers.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pre_provisioning": {
+        "description": "Pre-provisioning information.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "create_token": {
+        "description": "Flag for initiating a create token request for pre-provisioned members.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "master_candidate": {
+        "description": "Configures the instance of this object to be enabled as a Grid Master Candidate or a regular member node. True enables the member as a Master Candidate",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_mx_record": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS MX records",
+    "description": "Adds and/or removes instances of MX record objects from Infoblox NIOS servers.  This module manages NIOS C(record:mx) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Specifies the fully qualified hostname to add or remove from the system. Users can also update the name as it is possible to pass a dict containing I(new_name), I(old_name). See examples.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "view": {
+        "description": "Sets the DNS view to associate this a record with.  The DNS view must already be configured on the system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": [
+          "dns_view"
+        ]
+      },
+      "mail_exchanger": {
+        "description": "Configures the mail exchanger FQDN for this MX record.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "mx"
+        ]
+      },
+      "preference": {
+        "description": "Configures the preference (0-65535) for this MX record.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ttl": {
+        "description": "Configures the TTL to be associated with this host record.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_naptr_record": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS NAPTR records",
+    "description": "Adds and/or removes instances of NAPTR record objects from Infoblox NIOS servers.  This module manages NIOS C(record:naptr) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Specifies the fully qualified hostname to add or remove from the system.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "view": {
+        "description": "Sets the DNS view to associate this a record with. The DNS view must already be configured on the system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": [
+          "dns_view"
+        ]
+      },
+      "order": {
+        "description": "Configures the order (0-65535) for this NAPTR record. This parameter specifies the order in which the NAPTR rules are applied when multiple rules are present.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "preference": {
+        "description": "Configures the preference (0-65535) for this NAPTR record. The preference field determines the order NAPTR records are processed when multiple records with the same order parameter are present.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "replacement": {
+        "description": "Configures the replacement field for this NAPTR record. For nonterminal NAPTR records, this field specifies the next domain name to look up.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "services": {
+        "description": "Configures the services field (128 characters maximum) for this NAPTR record. The services field contains protocol and service identifiers, such as \"http+E2U\" or \"SIPS+D2T\".",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "flags": {
+        "description": "Configures the flags field for this NAPTR record. These control the interpretation of the fields for an NAPTR record object. Supported values for the flags field are \"U\", \"S\", \"P\" and \"A\".",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "regexp": {
+        "description": "Configures the regexp field for this NAPTR record. This is the regular expression-based rewriting rule of the NAPTR record. This should be a POSIX compliant regular expression, including the substitution rule and flags. Refer to RFC 2915 for the field syntax details.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ttl": {
+        "description": "Configures the TTL to be associated with this NAPTR record.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_network": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS network object",
+    "description": "Adds and/or removes instances of network objects from Infoblox NIOS servers.  This module manages NIOS C(network) objects using the Infoblox WAPI interface over REST. Supports both IPV4 and IPV6 internet protocols.",
+    "options": {
+      "network": {
+        "description": "Specifies the network to add or remove from the system.  The value should use CIDR notation.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name",
+          "cidr"
+        ]
+      },
+      "network_view": {
+        "description": "Configures the name of the network view to associate with this configured instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "options": {
+        "description": "Configures the set of DHCP options to be included as part of the configured network instance.  This argument accepts a list of values (see suboptions).  When configuring suboptions at least one of C(name) or C(num) must be specified.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "template": {
+        "description": "If set on creation, the network is created according to the values specified in the selected template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vlans": {
+        "description": "Configures the set of vlans to be included as part of the configured network instance.  This argument accepts a list of values (see suboptions).  When configuring suboptions at least one of C(name) or C(id) must be specified.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "container": {
+        "description": "If set to true it'll create the network container to be added or removed from the system.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "members": {
+        "description": "Configures the Nios Menber assignment for the configured network instance. This argument accepts a list of member names (see suboptions). When omitted a default value of an empty list is used. If the field 'container' is set to true this field is ignored.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "use_logic_filter_rules": {
+        "description": "If set to true it'll override the logic filter list applied at an upper level.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "logic_filter_rules": {
+        "description": "Configures the logic filter rules to be applied to the network object. This argument accepts a list of logic filter rules (see suboptions). When omitted a default value of an empty list is used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_network_view": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS network views",
+    "description": "Adds and/or removes instances of network view objects from Infoblox NIOS servers.  This module manages NIOS C(networkview) objects using the Infoblox WAPI interface over REST. Updates instances of network view object from Infoblox NIOS servers.",
+    "options": {
+      "name": {
+        "description": "Specifies the fully qualified hostname to add or remove from the system. User can also update the hostname as it is possible to pass a dict containing I(new_name), I(old_name). See examples.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "network_view"
+        ]
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_nsgroup": {
     "short_description": "Configure Infoblox DNS Nameserver Authoritative Groups",
-    "description": "",
-    "options": {},
+    "description": "Adds and/or removes nameserver groups of type \"Authoritative\" form Infoblox NIOS servers. This module manages NIOS C(nsgroup) objects using the Infoblox. WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Specifies the name of the NIOS nameserver group to be managed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "grid_primary": {
+        "description": "This host is to be used as primary server in this nameserver group. It must be a grid member. This option is required when setting I(use_external_primaries) to C(false).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "grid_secondaries": {
+        "description": "Configures the list of grid member hosts that act as secondary nameservers. This option is required when setting I(use_external_primaries) to C(true).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_grid_default": {
+        "description": "If set to C(True) this nsgroup will become the default nameserver group for new zones.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "use_external_primary": {
+        "description": "This flag controls whether the group is using an external primary nameserver. Note that modification of this field requires passing values for I(grid_secondaries) and I(external_primaries).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "external_primaries": {
+        "description": "Configures a list of external nameservers (non-members of the grid). This option is required when setting I(use_external_primaries) to C(true).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "external_secondaries": {
+        "description": "Allows to provide a list of external secondary nameservers, that are not members of the grid.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_nsgroup_delegation": {
     "short_description": "Configure Infoblox DNS Nameserver Delegation Groups",
-    "description": "",
-    "options": {},
+    "description": "Adds and/or removes nameserver groups of type \"Delegation\" form Infoblox NIOS servers. This module manages NIOS C(nsgroup:delegation) objects using the Infoblox. WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Specifies the name of the NIOS nameserver group to be managed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delegate_to": {
+        "description": "Specifies the list of name servers to be used",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_nsgroup_forwardingmember": {
     "short_description": "Configure Infoblox DNS Nameserver Forwarding Member Groups",
-    "description": "",
-    "options": {},
+    "description": "Adds and/or removes nameserver groups of type \"Forwarding Member\" from Infoblox NIOS servers. This module manages NIOS C(nsgroup:forwardstubserver) objects using the Infoblox. WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Specifies the name of the NIOS nameserver group to be managed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "forwarding_servers": {
+        "description": "Specifies the list of forwarding member servers to be used",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_nsgroup_forwardstubserver": {
     "short_description": "Configure Infoblox DNS Nameserver Forward/Stub Server Groups",
-    "description": "",
-    "options": {},
+    "description": "Adds and/or removes nameserver groups of type \"Forward/Stub Server\" form Infoblox NIOS servers. This module manages NIOS C(nsgroup:forwardstubserver) objects using the Infoblox. WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Specifies the name of the NIOS nameserver group to be managed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "external_servers": {
+        "description": "Specifies the list of name servers to be used",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_nsgroup_stubmember": {
     "short_description": "Configure Infoblox DNS Nameserver Stub Member Groups",
-    "description": "",
-    "options": {},
+    "description": "Adds and/or removes nameserver groups of type \"Stub Member\" form Infoblox NIOS servers. This module manages NIOS C(nsgroup:stubmember) objects using the Infoblox. WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Specifies the name of the NIOS nameserver group to be managed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stub_members": {
+        "description": "Specifies the list of members to be used",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_ptr_record": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS PTR records",
+    "description": "Adds and/or removes instances of PTR record objects from Infoblox NIOS servers.  This module manages NIOS C(record:ptr) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "The name of the DNS PTR record in FQDN format to add or remove from the system. The field is required only for an PTR object in Forward Mapping Zone.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "view": {
+        "description": "Sets the DNS view to associate this a record with. The DNS view must already be configured on the system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": [
+          "dns_view"
+        ]
+      },
+      "ipv4addr": {
+        "description": "The IPv4 Address of the record. Mutually exclusive with the ipv6addr.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ipv4"
+        ]
+      },
+      "ipv6addr": {
+        "description": "The IPv6 Address of the record. Mutually exclusive with the ipv4addr.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ipv6"
+        ]
+      },
+      "ptrdname": {
+        "description": "The domain name of the DNS PTR record in FQDN format.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ttl": {
+        "description": "Time To Live (TTL) value for the record. A 32-bit unsigned integer that represents the duration, in seconds, that the record is valid (cached). Zero indicates that the record should not be cached.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance. Maximum 256 characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_range": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS network range object",
+    "description": "Adds and/or removes instances of range objects from Infoblox NIOS servers.  This module manages NIOS DHCP range objects using the Infoblox WAPI interface over REST. Supports both IPV4 and IPV6 internet protocols.",
+    "options": {
+      "network": {
+        "description": "Specifies the network to add or remove DHCP range to.  The value should use CIDR notation.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "cidr"
+        ]
+      },
+      "network_view": {
+        "description": "Configures the name of the network view to associate with this configured instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "options": {
+        "description": "Configures the set of DHCP options to be included as part of the configured network instance.  This argument accepts a list of values (see suboptions).  When configuring suboptions at least one of C(name) or C(num) must be specified.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "start_addr": {
+        "description": "Configures IP address this object instance is to begin from. If 'new_start_addr' is defined during a create operation this value is overridden with the value of 'new_start_addr'",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "start",
+          "first_addr",
+          "first"
+        ]
+      },
+      "new_start_addr": {
+        "description": "Configures IP address to update this object instance to begin from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "new_start",
+          "new_first_addr",
+          "new_first"
+        ]
+      },
+      "end_addr": {
+        "description": "Configures IP address this object instance is to end at. If 'new_end_addr' is defined during a create operation this value is overridden with the value of 'new_end_addr'",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "end",
+          "last_addr",
+          "last"
+        ]
+      },
+      "new_end_addr": {
+        "description": "Configures IP address to update this object instance to end at.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "new_end",
+          "new_last_addr",
+          "new_last"
+        ]
+      },
+      "member": {
+        "description": "The hostname of the Nios member which will be configured to server this object instance. Can not be configured when 'ms_server' or 'failover_association' are configured.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "failover_association": {
+        "description": "The name of the DHCP failover association which will be configured to server this object instance. A failover of MS or Nios members can be configured. Can not be configured when 'ms_server' or 'member' are configured.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ms_server": {
+        "description": "The hostname of the MS member which will be configured to server this object instance. Can not be configured when 'member' or 'failover_association' are configured.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_association_type": {
+        "description": "Configured the type of server association that will be assigned to serve this object instance. This value is not required and will be set as needed automatically during module execution.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "NONE",
+          "FAILOVER",
+          "MEMBER",
+          "FAILOVER_MS",
+          "MS_SERVER"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "disable": {
+        "description": "Determines whether a range is disabled or not. When this is set to False, the range is enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "name": {
+        "description": "Congifured the name of the Microsoft scope for the instance of the object on the NIOS server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_restartservices": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Restart grid services.",
+    "description": "Restart grid services. When invoked without any options, will restart ALL services on the default restart group IF NEEDED.",
+    "options": {
+      "groups": {
+        "description": "The list of the Service Restart Groups to restart.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "members": {
+        "description": "The list of the Grid Members to restart.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mode": {
+        "description": "The restart method in case of grid restart.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "GROUPED",
+          "SEQUENTIAL",
+          "SIMULTANEOUS"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "restart_option": {
+        "description": "Controls whether services are restarted unconditionally or when needed",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "RESTART_IF_NEEDED",
+          "FORCE_RESTART"
+        ],
+        "default": "RESTART_IF_NEEDED",
+        "aliases": null
+      },
+      "services": {
+        "description": "The list of services the restart applicable to.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "ALL",
+          "DNS",
+          "DHCP",
+          "DHCPV4",
+          "DHCPV6"
+        ],
+        "default": "ALL",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_srv_record": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS SRV records",
+    "description": "Adds and/or removes instances of SRV record objects from Infoblox NIOS servers.  This module manages NIOS C(record:srv) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Specifies the fully qualified hostname to add or remove from the system. Users can also update the name as it is possible to pass a dict containing I(new_name), I(old_name). See examples.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "view": {
+        "description": "Sets the DNS view to associate this a record with.  The DNS view must already be configured on the system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": [
+          "dns_view"
+        ]
+      },
+      "port": {
+        "description": "Configures the port (0-65535) of this SRV record.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "priority": {
+        "description": "Configures the priority (0-65535) for this SRV record.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target": {
+        "description": "Configures the target FQDN for this SRV record.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "weight": {
+        "description": "Configures the weight (0-65535) for this SRV record.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ttl": {
+        "description": "Configures the TTL to be associated with this host record.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_txt_record": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS txt records",
+    "description": "Adds and/or removes instances of txt record objects from Infoblox NIOS servers.  This module manages NIOS C(record:txt) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "name": {
+        "description": "Specifies the fully qualified hostname to add or remove from the system. Users can also update the name as it is possible to pass a dict containing I(new_name), I(old_name). See examples.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "view": {
+        "description": "Sets the DNS view to associate this tst record with.  The DNS view must already be configured on the system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": [
+          "dns_view"
+        ]
+      },
+      "text": {
+        "description": "Text associated with the record. It can contain up to 255 bytes per substring, up to a total of 512 bytes. To enter leading, trailing, or embedded spaces in the text, add quotes around the text to preserve the spaces.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ttl": {
+        "description": "Configures the TTL to be associated with this txt record.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_vlan": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS VLANs",
+    "description": "Adds and/or removes instances of vlan  objects from Infoblox NIOS servers.  This module manages NIOS C(vlan) objects using the Infoblox WAPI interface over REST. Updates instances of vlan object from Infoblox NIOS servers.",
+    "options": {
+      "name": {
+        "description": "Specifies the vlan name to add or remove from the system.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "Specifies the vlan id to add or remove from the system.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parent": {
+        "description": "Specifies the vlan parent to add or remove from the system. Can be either a C(vlanview) or C(vlanrange) name. Fetches the required _ref object automatically. If not specified defaults to vlan view C(default).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "contact": {
+        "description": "Contact information for person/team managing or using VLAN.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "department": {
+        "description": "Department where VLAN is used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "description": {
+        "description": "Description for the VLAN object, may be potentially used for longer VLAN names.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "reserved": {
+        "description": "When set VLAN can only be assigned to IPAM object manually.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "infoblox.nios_modules.nios_zone": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Infoblox NIOS DNS zones",
+    "description": "Adds and/or removes instances of DNS zone objects from Infoblox NIOS servers.  This module manages NIOS C(zone_auth) objects using the Infoblox WAPI interface over REST.",
+    "options": {
+      "fqdn": {
+        "description": "Specifies the qualified domain name to either add or remove from the NIOS instance based on the configured C(state) value.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "view": {
+        "description": "Configures the DNS view name for the configured resource.  The specified DNS zone must already exist on the running NIOS instance prior to configuring zones.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": [
+          "dns_view"
+        ]
+      },
+      "grid_primary": {
+        "description": "Configures the grid primary servers for this zone.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "grid_secondaries": {
+        "description": "Configures the grid secondary servers for this zone.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ns_group": {
+        "description": "Configures the name server group for this zone. Name server group is mutually exclusive with grid primary and grid secondaries.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "restart_if_needed": {
+        "description": "If set to true, causes the NIOS DNS service to restart and load the new zone configuration.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "zone_format": {
+        "description": "Create an authorative Reverse-Mapping Zone which is an area of network space for which one or more name servers-primary and secondary-have the responsibility to respond to address-to-name queries. It supports reverse-mapping zones for both IPv4 and IPv6 addresses.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "FORWARD",
+        "aliases": null
+      },
+      "extattrs": {
+        "description": "Allows for the configuration of Extensible Attributes on the instance of the object.  This argument accepts a set of key / value pairs for configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Configures a text string comment to be associated with the instance of this object.  The provided text string will be configured on the object instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the intended state of the instance of the object on the NIOS server.  When this value is set to C(present), the object is configured on the device and when this value is set to C(absent) the value is removed (if necessary) from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

@@ -2,43 +2,270 @@
   "community.healthchecksio.badges_info": {
     "short_description": "Get the project badges",
     "description": "Returns a map of all tags in the project, with badge URLs for each tag.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "C(present) will return the integrations.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.healthchecksio.channels_info": {
     "short_description": "Get a list of integrations",
     "description": "Returns a list of integrations belonging to the project.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "C(present) will return the integrations.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.healthchecksio.checks": {
     "short_description": "Create, delete, update, and pause checks",
     "description": "Creates a new check and returns its ping URL. For C(state=absent), will delete the check with the given C(uuid). For C(state=pause), will pause the check with the given C(uuid). All request parameters are optional and will use their default values if omitted. To create a Simple check, specify the C(timeout) parameter. To create a Cron check, specify the C(schedule) and C(tz) parameters.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "C(present) will create or update a check. C(absent) will delete a check. C(pause) will pause a check.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "pause"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name for the new check.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "tags": {
+        "description": "Tags for the check.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "desc": {
+        "description": "Description of the check.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "timeout": {
+        "description": "A number of seconds, the expected period of this check. Minimum 60 (one minute), maximum 2592000 (30 days).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "grace": {
+        "description": "A number of seconds, the grace period for this check.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3600,
+        "aliases": null
+      },
+      "schedule": {
+        "description": "A cron expression defining this check's schedule. If you specify both timeout and schedule parameters, Healthchecks.io will create a Cron check and ignore the timeout value.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tz": {
+        "description": "Server's timezone. This setting only has an effect in combination with the schedule parameter.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "manual_resume": {
+        "description": "Controls whether a paused check automatically resumes when pinged (the default) or not. If set to false, a paused check will leave the paused state when it receives a ping. If set to true, a paused check will ignore pings and stay paused until you manually resume it from the web dashboard.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "methods": {
+        "description": "Specifies the allowed HTTP methods for making ping requests. Must be one of the two values \"\" (an empty string) or \"POST\". Set this field to \"\" (an empty string) to allow HEAD, GET, and POST requests. Set this field to \"POST\" to allow only POST requests.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "channels": {
+        "description": "By default, this API call assigns no integrations to the newly created check. Set this field to a special value \"*\" to automatically assign all existing integrations. To assign specific integrations, use a comma-separated list of integration UUIDs.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "unique": {
+        "description": "Enables \"upsert\" functionality. Before creating a check, Healthchecks.io looks for existing checks, filtered by fields listed in unique. The accepted values for the unique field are C(name), C(tags), C(timeout), and C(grace).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "uuid": {
+        "description": "Check uuid to delete when state is C(absent) or C(pause).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.healthchecksio.checks_flips_info": {
     "short_description": "Get a list of check flips",
-    "description": "Get a list of check",
-    "options": {},
+    "description": "Get a list of check's status changes. Returns a list of \"flips\" this check has experienced. A flip is a change of status (from \"down\" to \"up,\" or from \"up\" to \"down\").",
+    "options": {
+      "state": {
+        "description": "C(present) will return the check pings.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "uuid": {
+        "description": "If specified, returns this specific check.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.healthchecksio.checks_info": {
     "short_description": "Get a list of checks",
     "description": "Returns a list of checks belonging to the user, optionally filtered by one or more tags.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "C(present) will return the check(s).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "Filters the checks and returns only the checks that are tagged with the specified value.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "If specified, returns this specific check.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.healthchecksio.checks_pings_info": {
     "short_description": "Get a list of check pings",
-    "description": "Returns a list of pings this check has received. This endpoint returns pings in reverse order (most recent first). The total number of returned pings depends on the account",
-    "options": {},
+    "description": "Returns a list of pings this check has received. This endpoint returns pings in reverse order (most recent first). The total number of returned pings depends on the account's billing plan (100 for free accounts, 1000 for paid accounts).",
+    "options": {
+      "state": {
+        "description": "C(present) will return the check pings.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "uuid": {
+        "description": "If specified, returns this specific check.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.healthchecksio.ping": {
     "short_description": "Signal success, fail, and start events",
     "description": "With the Pinging API, you can signal success, fail, and start events from your systems.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "C(present) will send a signal.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "uuid": {
+        "description": "Check uuid to delete when state is C(absent) or C(pause).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "signal": {
+        "description": "Type of signal to send, C(success), C(fail) or C(start).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "success",
+          "fail",
+          "start"
+        ],
+        "default": "success",
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

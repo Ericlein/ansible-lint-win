@@ -1,68 +1,1032 @@
 {
   "community.proxysql.proxysql_backend_servers": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Adds or removes mysql hosts from proxysql admin interface",
+    "description": "The M(community.proxysql.proxysql_backend_servers) module adds or removes mysql hosts using the proxysql admin interface.",
+    "options": {
+      "hostgroup_id": {
+        "description": "The hostgroup in which this mysqld instance is included. An instance can be part of one or more hostgroups.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "hostname": {
+        "description": "The ip address at which the mysqld instance can be contacted.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "The port at which the mysqld instance can be contacted.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3306,
+        "aliases": null
+      },
+      "status": {
+        "description": "ONLINE - Backend server is fully operational. OFFLINE_SOFT - When a server is put into C(OFFLINE_SOFT) mode, connections are kept in use until the current transaction is completed. This allows to gracefully detach a backend. OFFLINE_HARD - When a server is put into C(OFFLINE_HARD) mode, the existing connections are dropped, while new incoming connections aren't accepted either.\nIf omitted the proxysql database default for I(status) is C(ONLINE).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ONLINE",
+          "OFFLINE_SOFT",
+          "OFFLINE_HARD"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "weight": {
+        "description": "The bigger the weight of a server relative to other weights, the higher the probability of the server being chosen from the hostgroup. If omitted the proxysql database default for I(weight) is 1.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "compression": {
+        "description": "If the value of I(compression) is greater than 0, new connections to that server will use compression. If omitted the proxysql database default for I(compression) is 0.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_connections": {
+        "description": "The maximum number of connections ProxySQL will open to this backend server. If omitted the proxysql database default for I(max_connections) is 1000.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_replication_lag": {
+        "description": "If greater than 0, ProxySQL will regularly monitor replication lag. If replication lag goes above I(max_replication_lag), proxysql will temporarily shun the server until replication catches up. If omitted the proxysql database default for I(max_replication_lag) is 0.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_ssl": {
+        "description": "If I(use_ssl) is set to C(True), connections to this server will be made using SSL connections. If omitted the proxysql database default for I(use_ssl) is C(False).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_latency_ms": {
+        "description": "Ping time is monitored regularly. If a host has a ping time greater than I(max_latency_ms) it is excluded from the connection pool (although the server stays ONLINE). If omitted the proxysql database default for I(max_latency_ms) is 0.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Text field that can be used for any purposed defined by the user. Could be a description of what the host stores, a reminder of when the host was added or disabled, or a JSON processed by some checker script.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "state": {
+        "description": "When C(present) - adds the host, when C(absent) - removes the host.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxysql.proxysql_galera_hostgroups": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manages galera hostgroups using the proxysql admin interface",
+    "description": "Unlike regular async replication, Galera hostgroup are NOT defined in mysql_replication_hostgroups table. Instead there is a separate table that is specifically designed for Galera hostgroups. The reason for this is that more advanced topology support is needed in order to accommodate the deployment options available for Galera (e.g. controlled number of writers, cluster level replication thresholds etc.)",
+    "options": {
+      "writer_hostgroup": {
+        "description": "Id of the hostgroup that will contain all the Galera nodes that are active writers.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup_writer_hostgroup": {
+        "description": "Id of the hostgroup that will contain all the Galera nodes that are standby writers.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "reader_hostgroup": {
+        "description": "Id of the hostgroup that will contain all the Galera nodes that are readers.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "offline_hostgroup": {
+        "description": "Id of the hostgroup all failed nodes will be moved to.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "active": {
+        "description": "Enabled (1) or disabled (0) defined hostgroup configuration.",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          1
+        ],
+        "default": 1,
+        "aliases": null
+      },
+      "max_writers": {
+        "description": "number of Read-Write instances populated in the writer hostgroup",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "writer_is_also_reader": {
+        "description": "writer_is_also_reader - 0 nodes with `read_only=0` will be placed either in the writer_hostgroup and in the backup_writer_hostgroup after a topology change, these will be excluded from the reader_hostgroup writer_is_also_reader - 1 nodes with `read_only=0` will be placed in the writer_hostgroup or backup_writer_hostgroup and are all also placed in reader_hostgroup after a topology change writer_is_also_reader - 2 Only the nodes with `read_only=0` which are placed in the in the backup_writer_hostgroup are also placed in the reader_hostgroup after a topology change i.e. the nodes with `read_only=0` exceeding the defined `max_writers`.",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          1,
+          2
+        ],
+        "default": 0,
+        "aliases": null
+      },
+      "max_transactions_behind": {
+        "description": "maximum number of writesets behind the cluster that ProxySQL should allow before shunning the node to prevent stale reads",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Text field that can be used for any purposes defined by the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "state": {
+        "description": "When C(present) - adds the galera hostgroup, when C(absent) - removes the galera hostgroup.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxysql.proxysql_global_variables": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Gets or sets the proxysql global variables",
+    "description": "The M(community.proxysql.proxysql_global_variables) module gets or sets the proxysql global variables.",
+    "options": {
+      "variable": {
+        "description": "Defines which variable should be returned, or if I(value) is specified which variable should be updated.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "value": {
+        "description": "Defines a value the variable specified using I(variable) should be set to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxysql.proxysql_info": {
-    "short_description": "",
-    "description": "",
+    "short_description": "Gathers information about proxysql server",
+    "description": "Gathers information about proxysql server. Caution. The number of tables that returns, depends on the underlying proyxsql server version.",
     "options": {},
     "deprecated": null
   },
   "community.proxysql.proxysql_manage_config": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Writes the proxysql configuration settings between layers",
+    "description": "The M(community.proxysql.proxysql_global_variables) module writes the proxysql configuration settings between layers. Currently this module will always report a changed state, so should typically be used with WHEN however this will change in a future version when the CHECKSUM table commands are available for all tables in proxysql.",
+    "options": {
+      "action": {
+        "description": "The supplied I(action) combines with the supplied I(direction) to provide the semantics of how we want to move the I(config_settings) between the I(config_layers).",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "LOAD",
+          "SAVE"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "config_settings": {
+        "description": "The I(config_settings) specifies which configuration we're writing.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "MYSQL USERS",
+          "MYSQL SERVERS",
+          "MYSQL QUERY RULES",
+          "MYSQL VARIABLES",
+          "ADMIN VARIABLES",
+          "SCHEDULER"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "direction": {
+        "description": "FROM - denotes we're reading values FROM the supplied I(config_layer) and writing to the next layer. TO - denotes we're reading from the previous layer and writing TO the supplied I(config_layer).\"",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "FROM",
+          "TO"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "config_layer": {
+        "description": "RUNTIME - represents the in-memory data structures of ProxySQL used by the threads that are handling the requests. MEMORY - (sometimes also referred as main) represents the in-memory SQLite3 database. DISK - represents the on-disk SQLite3 database. CONFIG - is the classical config file. You can only LOAD FROM the config file.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "MEMORY",
+          "DISK",
+          "RUNTIME",
+          "CONFIG"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxysql.proxysql_mysql_hostgroup_attributes": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manages hostgroup attributes using the ProxySQL admin interface",
+    "description": "Each row in mysql_hostgroup_attributes provides a per-hostgroup override of a specific hostgroup. This extension table allows for hostgroup-specific configurations, like `max_num_online_servers`, which change the behaviour of the given hostgroup in ways that are not otherwise possible.",
+    "options": {
+      "hostgroup_id": {
+        "description": "ID of the hostgroup",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "When C(present) - adds the hostgroup attributes, when C(absent) - removes the hostgroup attributes.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "max_num_online_servers": {
+        "description": "Prevents new connections when the number of ONLINE servers in the hostgroup exceeds this number.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1000000,
+        "aliases": null
+      },
+      "autocommit": {
+        "description": "Not yet implemented (as per ProxySQL documentation).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": -1,
+        "aliases": null
+      },
+      "free_connections_pct": {
+        "description": "The percentage of open idle connections for each server in a hostgroup.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "init_connect": {
+        "description": "Semicolon-delimited string of SQL statements to be executed for each back-end connection when initialized.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "multiplex": {
+        "description": "Enables or disables multiplexing for the specific hostgroup",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "connection_warming": {
+        "description": "Whether ProxySQL will opening new connections until the expected number of warm connections is reached",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "throttle_connections_per_sec": {
+        "description": "Maximum number of new connections that can be opened per second.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1000000,
+        "aliases": null
+      },
+      "ignore_session_variables": {
+        "description": "Not yet implemented (as per ProxySQL documentation).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "hostgroup_settings": {
+        "description": "Override certain global configurations.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "servers_defaults": {
+        "description": "Provide default values for discovered servers.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "comment": {
+        "description": "Text field that can be used for any purposes defined by the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxysql.proxysql_mysql_users": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Adds or removes mysql users from proxysql admin interface",
+    "description": "The M(community.proxysql.proxysql_mysql_users) module adds or removes mysql users using the proxysql admin interface.",
+    "options": {
+      "username": {
+        "description": "Name of the user connecting to the mysqld or ProxySQL instance.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password of the user connecting to the mysqld or ProxySQL instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "encrypt_password": {
+        "description": "Encrypt a cleartext password passed in the I(password) option, using the method defined in I(encryption_method).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "encryption_method": {
+        "description": "Encryption method used when I(encrypt_password) is set to C(True).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "mysql_native_password",
+          "caching_sha2_password"
+        ],
+        "default": "mysql_native_password",
+        "aliases": null
+      },
+      "salt": {
+        "description": "Salt used when I(encryption_method) is set to C(caching_sha2_password). If omitted the I(salt) is a randomly generated string and will change value in ProxySQL database on each execution.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "active": {
+        "description": "A user with I(active) set to C(False) will be tracked in the database, but will be never loaded in the in-memory data structures. If omitted the proxysql database default for I(active) is C(True).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_ssl": {
+        "description": "If I(use_ssl) is set to C(True), connections by this user will be made using SSL connections. If omitted the proxysql database default for I(use_ssl) is C(False).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_hostgroup": {
+        "description": "If there is no matching rule for the queries sent by this user, the traffic it generates is sent to the specified hostgroup. If omitted the proxysql database default for I(use_ssl) is 0.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_schema": {
+        "description": "The schema to which the connection should change to by default.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "transaction_persistent": {
+        "description": "If this is set for the user with which the MySQL client is connecting to ProxySQL (thus a \"frontend\" user), transactions started within a hostgroup will remain within that hostgroup regardless of any other rules. If omitted the proxysql database default for I(transaction_persistent) is C(False).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fast_forward": {
+        "description": "If I(fast_forward) is set to C(True), I(fast_forward) will bypass the query processing layer (rewriting, caching) and pass through the query directly as is to the backend server. If omitted the proxysql database default for I(fast_forward) is C(False).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backend": {
+        "description": "If I(backend) is set to C(True), this (username, password) pair is used for authenticating to the ProxySQL instance.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "frontend": {
+        "description": "If I(frontend) is set to C(True), this (username, password) pair is used for authenticating to the mysqld servers against any hostgroup.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "max_connections": {
+        "description": "The maximum number of connections ProxySQL will open to the backend for this user. If omitted the proxysql database default for I(max_connections) is 10000.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "When C(present) - adds the user, when C(absent) - removes the user.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxysql.proxysql_query_rules": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Modifies query rules using the proxysql admin interface",
+    "description": "The M(community.proxysql.proxysql_query_rules) module modifies query rules using the proxysql admin interface.",
+    "options": {
+      "rule_id": {
+        "description": "The unique id of the rule. Rules are processed in rule_id order.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "active": {
+        "description": "A rule with I(active) set to C(False) will be tracked in the database, but will be never loaded in the in-memory data structures.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Filtering criteria matching username.  If I(username) is non-NULL, a query will match only if the connection is made with the correct username.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "schemaname": {
+        "description": "Filtering criteria matching schemaname. If I(schemaname) is non-NULL, a query will match only if the connection uses schemaname as its default schema.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "flagIN": {
+        "description": "Used in combination with I(flagOUT) and I(apply) to create chains of rules.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "client_addr": {
+        "description": "Match traffic from a specific source.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "proxy_addr": {
+        "description": "Match incoming traffic on a specific local IP.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "proxy_port": {
+        "description": "Match incoming traffic on a specific local port.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "digest": {
+        "description": "Match queries with a specific digest, as returned by stats_mysql_query_digest.digest.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "match_digest": {
+        "description": "Regular expression that matches the query digest. The dialect of regular expressions used is that of re2 - U(https://github.com/google/re2).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "match_pattern": {
+        "description": "Regular expression that matches the query text. The dialect of regular expressions used is that of re2 - U(https://github.com/google/re2).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "negate_match_pattern": {
+        "description": "If I(negate_match_pattern) is set to C(True), only queries not matching the query text will be considered as a match. This acts as a NOT operator in front of the regular expression matching against match_pattern.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "re_modifiers": {
+        "description": "Comma separated list of options to modify the behavior of the RE engine. With C(CASELESS) the match is case insensitive. With C(GLOBAL) the replace is global (replaces all matches and not just the first). For backward compatibility, only C(CASELESS) is the enabled by default.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "flagOUT": {
+        "description": "Used in combination with I(flagIN) and apply to create chains of rules. When set, I(flagOUT) signifies the I(flagIN) to be used in the next chain of rules.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "replace_pattern": {
+        "description": "This is the pattern with which to replace the matched pattern. Note that this is optional, and when omitted, the query processor will only cache, route, or set other parameters without rewriting.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_hostgroup": {
+        "description": "Route matched queries to this hostgroup. This happens unless there is a started transaction and the logged in user has I(transaction_persistent) set to C(True) (see M(community.proxysql.proxysql_mysql_users)).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cache_ttl": {
+        "description": "The number of milliseconds for which to cache the result of the query. Note in ProxySQL 1.1 I(cache_ttl) was in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cache_empty_result": {
+        "description": "Controls if resultset without rows will be cached or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "multiplex": {
+        "description": "If C(0), multiplex will be disabled. If C(1), try to enable multiplex. There can be other conditions preventing this (for example, user variables or transactions). If C(2), multiplexing is not disabled for just the current query. By default, does not change multiplexing policies.",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          1,
+          2
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The maximum timeout in milliseconds with which the matched or rewritten query should be executed. If a query run for longer than the specific threshold, the query is automatically killed. If timeout is not specified, the global variable mysql-default_query_timeout applies.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "retries": {
+        "description": "The maximum number of times a query needs to be re-executed in case of detected failure during the execution of the query. If retries is not specified, the global variable mysql-query_retries_on_failure applies.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delay": {
+        "description": "Number of milliseconds to delay the execution of the query. This is essentially a throttling mechanism and QoS, and allows a way to give priority to queries over others. This value is added to the mysql-default_query_delay global variable that applies to all queries.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "next_query_flagIN": {
+        "description": "When is set, its value will become the I(flagIN) value for the next queries.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mirror_flagOUT": {
+        "description": "Enables query mirroring. If set I(mirror_flagOUT) can be used to evaluates the mirrored query against the specified chain of rules.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mirror_hostgroup": {
+        "description": "Enables query mirroring. If set I(mirror_hostgroup) can be used to mirror queries to the same or different hostgroup.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "OK_msg": {
+        "description": "The specified message will be returned for a query that uses the defined rule.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "error_msg": {
+        "description": "Query will be blocked, and the specified error_msg will be returned to the client.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "log": {
+        "description": "Query will be logged.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "apply": {
+        "description": "Used in combination with I(flagIN) and I(flagOUT) to create chains of rules. Setting apply to True signifies the last rule to be applied.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Free form text field, usable for a descriptive comment of the query rule.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "When C(present) - adds the rule, when C(absent) - removes the rule.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "force_delete": {
+        "description": "By default we avoid deleting more than one schedule in a single batch, however if you need this behaviour and you are not concerned about the schedules deleted, you can set I(force_delete) to C(True).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxysql.proxysql_query_rules_fast_routing": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Modifies query rules for fast routing policies using the proxysql admin interface",
+    "description": "The M(community.proxysql.proxysql_query_rules_fast_routing) module modifies query rules for fast routing policies and attributes using the proxysql admin interface.",
+    "options": {
+      "username": {
+        "description": "Filtering criteria matching username, a query will match only if the connection is made with the correct username.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "schemaname": {
+        "description": "Filtering criteria matching schemaname, a query will match only if the connection uses schemaname as its default schema.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "flagIN": {
+        "description": "Evaluated in the same way as I(flagIN) is in B(mysql_query_rules) and correlates to the I(flagOUT/apply) specified in the B(mysql_query_rules) table. (see M(community.proxysql.proxysql_query_rules)).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "destination_hostgroup": {
+        "description": "Route matched queries to this hostgroup. This happens unless there is a started transaction and the logged in user has I(transaction_persistent) set to C(True) (refer to M(community.proxysql.proxysql_mysql_users)).",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Free form text field, usable for a descriptive comment of the query rule.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "state": {
+        "description": "When C(present), adds the rule. When C(absent), removes the rule.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "force_delete": {
+        "description": "By default, we avoid deleting more than one schedule in a single batch; however, if you need this behaviour and you are not concerned about the schedules deleted, you can set I(force_delete) to C(True).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxysql.proxysql_replication_hostgroups": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manages replication hostgroups using the proxysql admin interface",
+    "description": "Each row in mysql_replication_hostgroups represent a pair of writer_hostgroup and reader_hostgroup. ProxySQL will monitor the value of read_only for all the servers in specified hostgroups, and based on the value of read_only will assign the server to the writer or reader hostgroups.",
+    "options": {
+      "writer_hostgroup": {
+        "description": "Id of the writer hostgroup.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "reader_hostgroup": {
+        "description": "Id of the reader hostgroup.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Text field that can be used for any purposes defined by the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "state": {
+        "description": "When C(present) - adds the replication hostgroup, when C(absent) - removes the replication hostgroup.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "check_type": {
+        "description": "Which check type to use when detecting that the node is a standby. Requires proxysql >= 2.0.1. Otherwise it has no effect. C(read_only|innodb_read_only) and C(read_only&innodb_read_only) requires proxysql >= 2.0.8.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "read_only",
+          "innodb_read_only",
+          "super_read_only",
+          "read_only|innodb_read_only",
+          "read_only&innodb_read_only"
+        ],
+        "default": "read_only",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.proxysql.proxysql_scheduler": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Adds or removes schedules from proxysql admin interface",
+    "description": "The M(community.proxysql.proxysql_scheduler) module adds or removes schedules using the proxysql admin interface.",
+    "options": {
+      "active": {
+        "description": "A schedule with I(active) set to C(False) will be tracked in the database, but will be never loaded in the in-memory data structures.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "interval_ms": {
+        "description": "How often (in millisecond) the job will be started. The minimum value for I(interval_ms) is 100 milliseconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10000,
+        "aliases": null
+      },
+      "filename": {
+        "description": "Full path of the executable to be executed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "arg1": {
+        "description": "Argument that can be passed to the job.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "arg2": {
+        "description": "Argument that can be passed to the job.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "arg3": {
+        "description": "Argument that can be passed to the job.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "arg4": {
+        "description": "Argument that can be passed to the job.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "arg5": {
+        "description": "Argument that can be passed to the job.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Text field that can be used for any purposed defined by the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "When C(present) - adds the schedule, when C(absent) - removes the schedule.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "force_delete": {
+        "description": "By default we avoid deleting more than one schedule in a single batch, however if you need this behaviour and you are not concerned about the schedules deleted, you can set I(force_delete) to C(True).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

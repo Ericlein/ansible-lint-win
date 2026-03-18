@@ -156,7 +156,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -167,6 +167,30 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "user_data": {
+        "description": "The Base64-encoded user data to make available to the launched EC2 instances.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -209,11 +233,81 @@
         "aliases": null
       },
       "identifier": {
-        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by",
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by '|'. For more details, visit U(https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "lifecycle_hook_name": {
+        "description": "The name of the lifecycle hook.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lifecycle_transition": {
+        "description": "The instance state to which you want to attach the lifecycle hook.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_metadata": {
+        "description": "Additional information that is included any time Amazon EC2 Auto Scaling sends a message to the notification target.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_target_arn": {
+        "description": "The Amazon Resource Name (ARN) of the notification target that Amazon EC2 Auto Scaling uses to notify you when an instance is in the transition state for the lifecycle hook. You can specify an Amazon SQS queue or an Amazon SNS topic. The notification message includes the following information: lifecycle action token, user account ID, Auto Scaling group name, lifecycle hook name, instance ID, lifecycle transition, and notification metadata.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role_arn": {
+        "description": "The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target, for example, an Amazon SNS topic or an Amazon SQS queue.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -272,7 +366,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -283,6 +377,22 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -357,7 +467,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -368,6 +478,32 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -395,10 +531,82 @@
       },
       "framework_controls": {
         "description": "Contains detailed information about all of the controls of a framework. Each framework must contain at least one control.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "framework_description": {
+        "description": "An optional description of the framework with a maximum 1,024 characters.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "framework_name": {
+        "description": "The unique name of a framework. This name is between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "framework_tags": {
+        "description": "A key-value pair to associate with a resource.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -426,10 +634,90 @@
       },
       "report_delivery_channel": {
         "description": "A structure that contains information about where and how to deliver your reports, specifically your Amazon S3 bucket name, S3 key prefix, and the formats of your reports.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "report_plan_arn": {
+        "description": "An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "report_plan_description": {
+        "description": "An optional description of the report plan with a maximum of 1,024 characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "report_plan_name": {
+        "description": "The unique name of the report plan. The name must be between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "report_plan_tags": {
+        "description": "A key-value pair to associate with a resource.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "report_setting": {
+        "description": "Identifies the report template for the report. Reports are built using a report template.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -512,7 +800,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -523,6 +811,40 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "termination_protection_enabled": {
+        "description": "Indicates whether the event data store is protected from termination.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -653,7 +975,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -664,6 +986,40 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "trail_name": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -762,7 +1118,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -773,6 +1129,22 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -855,7 +1227,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -866,6 +1238,40 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "statistics_configurations": {
+        "description": "This structure specifies a list of additional statistics to stream, and the metrics to stream those additional statistics for. All metrics that match the combination of metric name and namespace will be streamed with the extended statistics, no matter their dimensions.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -940,7 +1346,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -951,6 +1357,54 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "stream_specification": {
+        "description": "Not Provived.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "table_name": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "time_to_live_specification": {
+        "description": "Not Provived.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
+        "aliases": null
+      },
+      "write_provisioned_throughput_settings": {
+        "description": "Not Provived.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
         "aliases": null
       }
     },
@@ -1001,7 +1455,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -1012,6 +1466,40 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "strategy": {
+        "description": "The placement strategy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -1089,7 +1577,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -1100,6 +1588,32 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -1142,7 +1656,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -1153,6 +1667,32 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -1227,7 +1767,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -1238,6 +1778,32 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -1283,7 +1849,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -1294,6 +1860,22 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -1320,11 +1902,57 @@
         "aliases": null
       },
       "identifier": {
-        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by",
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by '|'. For more details, visit U(https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "service": {
+        "description": "The short name or full Amazon Resource Name (ARN) of the service to create the task set in.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "task_set_id": {
+        "description": "The ID or full Amazon Resource Name (ARN) of the task set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -1375,11 +2003,87 @@
         "aliases": null
       },
       "identifier": {
-        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by",
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by '|'. For more details, visit U(https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "preserve_on_delete": {
+        "description": "PreserveOnDelete parameter value.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "resolve_conflicts": {
+        "description": "Resolve parameter value conflicts.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "NONE",
+          "OVERWRITE",
+          "PRESERVE"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "service_account_role_arn": {
+        "description": "IAM role to bind to the add-ons service account.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -1462,7 +2166,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -1473,6 +2177,40 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "version": {
+        "description": "The desired Kubernetes version for your cluster. If you dont specify a value here, the latest version available in Amazon EKS is used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -1507,11 +2245,83 @@
         "aliases": null
       },
       "identifier": {
-        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by",
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by '|'. For more details, visit U(https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "pod_execution_role_arn": {
+        "description": "The IAM policy arn for pods.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "selectors": {
+        "description": "Not Provived.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "subnets": {
+        "description": "Not Provived.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -1554,7 +2364,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -1565,6 +2375,22 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -1655,7 +2481,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -1666,6 +2492,32 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -1732,7 +2584,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -1743,6 +2595,32 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -1769,7 +2647,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -1780,6 +2658,30 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "target_key_id": {
+        "description": "Identifies the AWS KMS key to which the alias refers. Specify the key ID or the Amazon Resource Name (ARN) of the AWS KMS key. You cannot specify another alias. For help finding the key ID and ARN, see Finding the Key ID and ARN in the AWS Key Management Service Developer Guide.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -1854,7 +2756,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -1865,6 +2767,32 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -1915,7 +2843,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -1926,6 +2854,22 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -2114,7 +3058,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -2125,6 +3069,38 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "topics": {
+        "description": "(Kafka) A list of Kafka topics.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tumbling_window_in_seconds": {
+        "description": "(Streams) Tumbling window (non-overlapping time window) duration to perform aggregations.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -2317,7 +3293,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -2329,6 +3305,56 @@
         ],
         "default": "present",
         "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "timeout": {
+        "description": "The amount of time that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tracing_config": {
+        "description": "Set Mode to Active to sample and trace a subset of incoming requests with AWS X-Ray.The functions AWS X-Ray tracing configuration. To sample and record incoming requests, set Mode to Active.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vpc_config": {
+        "description": "For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC.The VPC security groups and subnets that are attached to a Lambda function. When you connect a function to a VPC, Lambda creates an elastic network interface for each combination of security group and subnet in the functions VPC configuration. The function can only access resources and the internet through that VPC.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
+        "aliases": null
       }
     },
     "deprecated": null
@@ -2338,11 +3364,113 @@
     "description": "Create and manage log groups.",
     "options": {
       "data_protection_policy": {
-        "description": "The body of the policy document you want to use for this topic. You can only add one policy per topic. The policy must be in JSON string format. ",
+        "description": "The body of the policy document you want to use for this topic. You can only add one policy per topic. The policy must be in JSON string format. Length Constraints: Maximum length of 30720.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "kms_key_id": {
+        "description": "The Amazon Resource Name (ARN) of the CMK to use when encrypting log data.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "log_group_name": {
+        "description": "The name of the log group. If you dont specify a name, AWS CloudFormation generates a unique ID for the log group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "retention_in_days": {
+        "description": "The number of days to retain the log events in the specified log group. Possible values are: C(1), C(3), C(5), C(7), C(14), C(30), C(60), C(90), C(120), C(150), C(180), C(365), C(400), C(545), C(731), C(1827), and C(3653).",
+        "type": "int",
+        "required": false,
+        "choices": [
+          1,
+          3,
+          5,
+          7,
+          14,
+          30,
+          60,
+          90,
+          120,
+          150,
+          180,
+          365,
+          400,
+          545,
+          731,
+          1827,
+          2192,
+          2557,
+          2922,
+          3288,
+          3653
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -2377,11 +3505,57 @@
         "aliases": null
       },
       "identifier": {
-        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by",
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by '|'. For more details, visit U(https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "log_group_name": {
+        "description": "Existing log group that you want to associate with this filter.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "metric_transformations": {
+        "description": "A collection of information that defines how metric data gets emitted.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -2432,7 +3606,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -2443,6 +3617,22 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -2477,7 +3667,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -2488,6 +3678,22 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -2522,7 +3728,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -2533,6 +3739,40 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "user_names": {
+        "description": "List of users associated to this acl.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -2575,13 +3815,214 @@
         "aliases": null
       },
       "data_tiering": {
-        "description": "",
+        "description": "Enables data tiering. Data tiering is only supported for clusters using the r6gd node type. This parameter must be set when using r6gd nodes.",
         "type": "str",
         "required": false,
         "choices": [
-          null
+          "false",
+          "true"
         ],
         "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "An optional description of the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "engine_version": {
+        "description": "The Redis engine version used by the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "final_snapshot_name": {
+        "description": "The user-supplied name of a final cluster snapshot. This is the unique name that identifies the snapshot. MemoryDB creates the snapshot, and then deletes the cluster immediately afterward.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "kms_key_id": {
+        "description": "The ID of the KMS key used to encrypt the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "maintenance_window": {
+        "description": "Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "node_type": {
+        "description": "The compute and memory capacity of the nodes in the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "num_replicas_per_shard": {
+        "description": "The number of replicas to apply to each shard. The limit is 5.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "num_shards": {
+        "description": "The number of shards the cluster will contain.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parameter_group_name": {
+        "description": "The name of the parameter group associated with the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "security_group_ids": {
+        "description": "One or more Amazon VPC security groups associated with this cluster.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_arns": {
+        "description": "A list of Amazon Resource Names (ARN) that uniquely identify the RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new cluster. The Amazon S3 object name in the ARN cannot contain any commas.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_name": {
+        "description": "The name of a snapshot from which to restore data into the new cluster. The snapshot status changes to restoring while the new cluster is being created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_retention_limit": {
+        "description": "The number of days for which MemoryDB retains automatic snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_window": {
+        "description": "The daily time range (in UTC) during which MemoryDB begins taking a daily snapshot of your cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sns_topic_arn": {
+        "description": "The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sns_topic_status": {
+        "description": "The status of the Amazon SNS notification topic. Notifications are sent only if the status is enabled.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "subnet_group_name": {
+        "description": "The name of the subnet group to be used for the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "tls_enabled": {
+        "description": "A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -2640,7 +4081,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -2651,6 +4092,32 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -2685,7 +4152,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -2696,6 +4163,48 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "subnet_group_name": {
+        "description": "The name of the subnet group. This value must be unique as it also serves as the subnet group identifier.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subnet_ids": {
+        "description": "A list of VPC subnet IDs for the subnet group.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -2738,7 +4247,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -2749,6 +4258,40 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "user_name": {
+        "description": "The name of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -2807,7 +4350,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -2818,6 +4361,32 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -2916,11 +4485,507 @@
         "aliases": null
       },
       "custom_iam_instance_profile": {
-        "description": "The instance profile associated with the underlying Amazon EC2 instance of an RDS Custom DB instance. The instance profile must meet the following requirements:. ",
+        "description": "The instance profile associated with the underlying Amazon EC2 instance of an RDS Custom DB instance. The instance profile must meet the following requirements:. * The profile must exist in your account. * The profile must have an IAM role that Amazon EC2 has permissions to assume. * The instance profile name and the associated IAM role name must start with the prefix AWSRDSCustom . For the list of permissions required for the IAM role, see Configure IAM and your VPC in the Amazon RDS User Guide . This setting is required for RDS Custom.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "db_cluster_identifier": {
+        "description": "The identifier of the DB cluster that the instance will belong to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "db_cluster_snapshot_identifier": {
+        "description": "The identifier for the RDS for MySQL Multi-AZ DB cluster snapshot to restore from. For more information on Multi-AZ DB clusters, see Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide . Constraints:. * Must match the identifier of an existing Multi-AZ DB cluster snapshot. * Cant be specified when DBSnapshotIdentifier is specified. * Must be specified when DBSnapshotIdentifier isnt specified. * If you are restoring from a shared manual Multi-AZ DB cluster snapshot, the DBClusterSnapshotIdentifier must be the ARN of the shared snapshot. * Cant be the identifier of an Aurora DB cluster snapshot. * Cant be the identifier of an RDS for PostgreSQL Multi-AZ DB cluster snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "db_instance_class": {
+        "description": "The compute and memory capacity of the DB instance, for example, db.m4.large. Not all DB instance classes are available in all AWS Regions, or for all database engines.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "db_instance_identifier": {
+        "description": "A name for the DB instance. If you specify a name, AWS CloudFormation converts it to lowercase. If you dont specify a name, AWS CloudFormation generates a unique physical ID and uses that ID for the DB instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "db_name": {
+        "description": "The meaning of this parameter differs according to the database engine you use.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "db_parameter_group_name": {
+        "description": "The name of an existing DB parameter group or a reference to an AWS::RDS::DBParameterGroup resource created in the template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "db_security_groups": {
+        "description": "A list of the DB security groups to assign to the DB instance. The list can include both the name of existing DB security groups or references to AWS::RDS::DBSecurityGroup resources created in the template.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "db_snapshot_identifier": {
+        "description": "The name or Amazon Resource Name (ARN) of the DB snapshot thats used to restore the DB instance. If youre restoring from a shared manual DB snapshot, you must specify the ARN of the snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "db_subnet_group_name": {
+        "description": "A DB subnet group to associate with the DB instance. If you update this value, the new subnet group must be a subnet group in a new VPC.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delete_automated_backups": {
+        "description": "A value that indicates whether to remove automated backups immediately after the DB instance is deleted. This parameter isnt case-sensitive. The default is to remove automated backups immediately after the DB instance is deleted.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "deletion_protection": {
+        "description": "A value that indicates whether the DB instance has deletion protection enabled. The database cant be deleted when deletion protection is enabled. By default, deletion protection is disabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain": {
+        "description": "The Active Directory directory ID to create the DB instance in. Currently, only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances can be created in an Active Directory Domain.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_iam_role_name": {
+        "description": "Specify the name of the IAM role to be used when making API calls to the Directory Service.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_cloudwatch_logs_exports": {
+        "description": "The list of log types that need to be enabled for exporting to CloudWatch Logs. The values in the list depend on the DB engine being used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_iam_database_authentication": {
+        "description": "A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_performance_insights": {
+        "description": "A value that indicates whether to enable Performance Insights for the DB instance.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "endpoint": {
+        "description": "Specifies the connection endpoint.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "engine": {
+        "description": "The name of the database engine that you want to use for this DB instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "engine_version": {
+        "description": "The version number of the database engine to use.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "iops": {
+        "description": "The number of I/O operations per second (IOPS) that the database provisions.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kms_key_id": {
+        "description": "The ARN of the AWS Key Management Service (AWS KMS) master key thats used to encrypt the DB instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "license_model": {
+        "description": "License model information for this DB instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "manage_master_user_password": {
+        "description": "A value that indicates whether to manage the master user password with AWS Secrets Manager.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "master_user_password": {
+        "description": "The password for the master user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "master_user_secret": {
+        "description": "Contains the secret managed by RDS in AWS Secrets Manager for the master user password.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "master_username": {
+        "description": "The master user name for the DB instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_allocated_storage": {
+        "description": "The upper limit to which Amazon RDS can automatically scale the storage of the DB instance.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "monitoring_interval": {
+        "description": "The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "monitoring_role_arn": {
+        "description": "The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon CloudWatch Logs.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "multi_az": {
+        "description": "Specifies whether the database instance is a multiple Availability Zone deployment.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nchar_character_set_name": {
+        "description": "The name of the NCHAR character set for the Oracle DB instance. This parameter doesnt apply to RDS Custom.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network_type": {
+        "description": "The network type of the DB cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "option_group_name": {
+        "description": "Indicates that the DB instance should be associated with the specified option group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "performance_insights_kms_key_id": {
+        "description": "The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "performance_insights_retention_period": {
+        "description": "The amount of time, in days, to retain Performance Insights data. Valid values are 7 or 731 (2 years).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "preferred_backup_window": {
+        "description": "The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "preferred_maintenance_window": {
+        "description": "he weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "processor_features": {
+        "description": "The number of CPU cores and the number of threads per core for the DB instance class of the DB instance.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "promotion_tier": {
+        "description": "A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "publicly_accessible": {
+        "description": "Indicates whether the DB instance is an internet-facing instance. If you specify true, AWS CloudFormation creates an instance with a publicly resolvable DNS name, which resolves to a public IP address. If you specify false, AWS CloudFormation creates an internal instance with a DNS name that resolves to a private IP address.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "replica_mode": {
+        "description": "The open mode of an Oracle read replica. The default is open-read-only.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "restore_time": {
+        "description": "The date and time to restore from.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_db_instance_automated_backups_arn": {
+        "description": "The Amazon Resource Name (ARN) of the replicated automated backups from which to restore.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_db_instance_identifier": {
+        "description": "If you want to create a Read Replica DB instance, specify the ID of the source DB instance. Each DB instance can have a limited number of Read Replicas.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_dbi_resource_id": {
+        "description": "The resource ID of the source DB instance from which to restore.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_region": {
+        "description": "The ID of the region that contains the source DB instance for the Read Replica.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "storage_encrypted": {
+        "description": "A value that indicates whether the DB instance is encrypted. By default, it isnt encrypted.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_throughput": {
+        "description": "Specifies the storage throughput for the DB instance.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_type": {
+        "description": "Specifies the storage type to be associated with the DB instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "tde_credential_arn": {
+        "description": "The ARN from the key store with which to associate the instance for TDE encryption.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tde_credential_password": {
+        "description": "The password for the given ARN from the key store in order to access the device.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timezone": {
+        "description": "The time zone of the DB instance. The time zone parameter is currently supported only by Microsoft SQL Server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_default_processor_features": {
+        "description": "A value that indicates whether the DB instance class of the DB instance uses its default processor features.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_latest_restorable_time": {
+        "description": "A value that indicates whether the DB instance is restored from the latest backup time. By default, the DB instance isnt restored from the latest backup time.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vpc_security_groups": {
+        "description": "A list of the VPC security group IDs to assign to the DB instance. The list can include both the physical IDs of existing VPC security groups and references to AWS::EC2::SecurityGroup resources created in the template.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -3007,7 +5072,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -3019,14 +5084,145 @@
         ],
         "default": "present",
         "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "vpc_security_group_ids": {
+        "description": "VPC security group IDs to associate with the new proxy.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vpc_subnet_ids": {
+        "description": "VPC subnet IDs to associate with the new proxy.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
+        "aliases": null
       }
     },
     "deprecated": null
   },
   "amazon.cloud.rds_db_proxy_endpoint": {
     "short_description": "Creates and manages a DB proxy endpoint",
-    "description": "Creates and manages a DB proxy endpoint. You can use custom proxy endpoints to access a proxy through a different VPC than the proxy",
-    "options": {},
+    "description": "Creates and manages a DB proxy endpoint. You can use custom proxy endpoints to access a proxy through a different VPC than the proxy's default VPC.",
+    "options": {
+      "db_proxy_endpoint_name": {
+        "description": "The identifier for the DB proxy endpoint. This name must be unique for all DB proxy endpoints owned by your AWS account in the specified AWS Region.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "db_proxy_name": {
+        "description": "The identifier for the proxy. This name must be unique for all proxies owned by your AWS account in the specified AWS Region.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "vpc_security_group_ids": {
+        "description": "VPC security group IDs to associate with the new DB proxy endpoint.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vpc_subnet_ids": {
+        "description": "VPC subnet IDs to associate with the new DB proxy endpoint.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "amazon.cloud.rds_db_subnet_group": {
@@ -3066,7 +5262,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -3077,6 +5273,40 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "subnet_ids": {
+        "description": "Not Provived.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -3095,7 +5325,7 @@
         "aliases": null
       },
       "engine": {
-        "description": "The name of the database engine to be used for this DB cluster. ",
+        "description": "The name of the database engine to be used for this DB cluster. Valid Values: aurora (for MySQL 5.6-compatible Aurora), aurora-mysql (for MySQL 5.7-compatible Aurora). If you specify the SourceDBClusterIdentifier property, dont specify this property. The value is inherited from the cluster.",
         "type": "str",
         "required": false,
         "choices": [
@@ -3104,6 +5334,76 @@
           "aurora-postgresql"
         ],
         "default": null,
+        "aliases": null
+      },
+      "engine_version": {
+        "description": "The version number of the database engine to use. If you specify the SourceDBClusterIdentifier property, dont specify this property. The value is inherited from the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "global_cluster_identifier": {
+        "description": "The cluster identifier of the new global database cluster. This parameter is stored as a lowercase string.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_db_cluster_identifier": {
+        "description": "The Amazon Resource Name (ARN) to use as the primary cluster of the global database. This parameter is optional. This parameter is stored as a lowercase string.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "storage_encrypted": {
+        "description": "The storage encryption setting for the new global database cluster. If you specify the SourceDBClusterIdentifier property, dont specify this property. The value is inherited from the cluster.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -3170,7 +5470,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -3181,6 +5481,32 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -3215,11 +5541,403 @@
         "aliases": null
       },
       "availability_zone": {
-        "description": "The EC2 Availability Zone (AZ) in which you want Amazon Redshift to provision the cluster. ",
+        "description": "The EC2 Availability Zone (AZ) in which you want Amazon Redshift to provision the cluster. Default: A random, system-chosen Availability Zone in the region that is specified by the endpoint.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "availability_zone_relocation": {
+        "description": "The option to enable relocation for an Amazon Redshift cluster between Availability Zones after the cluster modification is complete.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "availability_zone_relocation_status": {
+        "description": "The availability zone relocation status of the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "classic": {
+        "description": "A boolean value indicating whether the resize operation is using the classic resize process. If you dont provide this parameter or set the value to false , the resize type is elastic.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_identifier": {
+        "description": "A unique identifier for the cluster. You use this identifier to refer to the cluster for any subsequent cluster operations such as deleting or modifying. All alphabetical characters must be lower case, no hypens at the end, no two consecutive hyphens. Cluster name should be unique for all clusters within an AWS account.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_parameter_group_name": {
+        "description": "The name of the parameter group to be associated with this cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_security_groups": {
+        "description": "A list of security groups to be associated with this cluster.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_subnet_group_name": {
+        "description": "The name of a cluster subnet group to be associated with this cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_type": {
+        "description": "The type of the cluster. When cluster type is specified as single-node, the NumberOfNodes parameter is not required and if multi-node, the NumberOfNodes parameter is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_version": {
+        "description": "The version of the Amazon Redshift engine software that you want to deploy on the cluster.The version selected runs on all the nodes in the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "db_name": {
+        "description": "The name of the first database to be created when the cluster is created. To create additional databases after the cluster is created, connect to the cluster with a SQL client and use SQL commands to create a database.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "defer_maintenance": {
+        "description": "A boolean indicating whether to enable the deferred maintenance window.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "defer_maintenance_duration": {
+        "description": "An integer indicating the duration of the maintenance window in days. If you specify a duration, you cant specify an end time. The duration must be 45 days or less.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "defer_maintenance_end_time": {
+        "description": "A timestamp indicating end time for the deferred maintenance window. If you specify an end time, you cant specify a duration.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "defer_maintenance_start_time": {
+        "description": "A timestamp indicating the start time for the deferred maintenance window.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_region": {
+        "description": "The destination AWS Region that you want to copy snapshots to. Constraints: Must be the name of a valid AWS Region. For more information, see Regions and Endpoints in the Amazon Web Services ) General Reference.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "elastic_ip": {
+        "description": "The Elastic IP (EIP) address for the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "encrypted": {
+        "description": "If true, the data in the cluster is encrypted at rest.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "endpoint": {
+        "description": "Not Provived.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enhanced_vpc_routing": {
+        "description": "An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true , enhanced VPC routing is enabled. Default: false.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "hsm_client_certificate_identifier": {
+        "description": "Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hsm_configuration_identifier": {
+        "description": "Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iam_roles": {
+        "description": "A list of AWS Identity and Access Management (IAM) roles that can be used by the cluster to access other AWS services. You must supply the IAM roles in their Amazon Resource Name (ARN) format. You can supply up to 50 IAM roles in a single request.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kms_key_id": {
+        "description": "The AWS Key Management Service (KMS) key ID of the encryption key that you want to use to encrypt data in the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "logging_properties": {
+        "description": "Not Provived.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "maintenance_track_name": {
+        "description": "The name for the maintenance track that you want to assign for the cluster. This name change is asynchronous. The new track name stays in the PendingModifiedValues for the cluster until the next maintenance window. When the maintenance track changes, the cluster is switched to the latest cluster release available for the maintenance track. At this point, the maintenance track name is applied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "manual_snapshot_retention_period": {
+        "description": "The number of days to retain newly copied snapshots in the destination AWS Region after they are copied from the source AWS Region. If the value is -1, the manual snapshot is retained indefinitely. The value must be either -1 or an integer between 1 and 3,653.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "master_user_password": {
+        "description": "The password associated with the master user account for the cluster that is being created. Password must be between 8 and 64 characters in length, should have at least one uppercase letter.Must contain at least one lowercase letter.Must contain one number.Can be any printable ASCII character.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "master_username": {
+        "description": "The user name associated with the master user account for the cluster that is being created. The user name cant be PUBLIC and first character must be a letter.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "node_type": {
+        "description": "The node type to be provisioned for the cluster.Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge | ra3.4xlarge | ra3.16xlarge.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "number_of_nodes": {
+        "description": "The number of compute nodes in the cluster. This parameter is required when the ClusterType parameter is specified as multi-node.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "owner_account": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "preferred_maintenance_window": {
+        "description": "The weekly time range (in UTC) during which automated cluster maintenance can occur.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "publicly_accessible": {
+        "description": "If true, the cluster can be accessed from a public network.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "resource_action": {
+        "description": "The Redshift operation to be performed. Resource Action supports pause-cluster, resume-cluster APIs.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "revision_target": {
+        "description": "The identifier of the database revision. You can retrieve this value from the response to the DescribeClusterDbRevisions request.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rotate_encryption_key": {
+        "description": "A boolean indicating if we want to rotate Encryption Keys.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_cluster_identifier": {
+        "description": "The name of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_copy_grant_name": {
+        "description": "The name of the snapshot copy grant to use when snapshots of an AWS KMS-encrypted cluster are copied to the destination region.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_copy_manual": {
+        "description": "Indicates whether to apply the snapshot retention period to newly copied manual snapshots instead of automated snapshots.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_copy_retention_period": {
+        "description": "The number of days to retain automated snapshots in the destination region after they are copied from the source region. Default is 7. Constraints: Must be at least 1 and no more than 35.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_identifier": {
+        "description": "The name of the snapshot from which to create the new cluster. This parameter isnt case sensitive.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "vpc_security_group_ids": {
+        "description": "A list of Virtual Private Cloud (VPC) security groups to be associated with the cluster.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -3262,7 +5980,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -3273,6 +5991,54 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "subnet_group_name": {
+        "description": "The subnet group name where Amazon Redshift chooses to deploy the endpoint.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vpc_endpoint": {
+        "description": "The connection endpoint for connecting to an Amazon Redshift cluster through the proxy.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vpc_security_group_ids": {
+        "description": "A list of vpc security group ids to apply to the created endpoint access.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vpc_security_groups": {
+        "description": "Describes the members of a VPC security group.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -3307,11 +6073,49 @@
         "aliases": null
       },
       "identifier": {
-        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by",
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by '|'. For more details, visit U(https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "vpc_ids": {
+        "description": "The virtual private cloud (VPC) identifiers to grant or revoke access to.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -3401,7 +6205,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -3412,6 +6216,40 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "subscription_name": {
+        "description": "The name of the Amazon Redshift event notification subscription.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -3486,7 +6324,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -3497,6 +6335,30 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "target_action": {
+        "description": "A JSON format string of the Amazon Redshift API operation with input parameters.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -3523,7 +6385,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -3534,6 +6396,22 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -3560,11 +6438,68 @@
         "aliases": null
       },
       "identifier": {
-        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by",
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by '|'. For more details, visit U(https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "key_management_service_arn": {
+        "description": "The Amazon resource name (ARN) for a customer managed key (CMK) in AWS Key Management Service (KMS). The KeyManagementServiceArn must be unique for each key signing key (KSK) in a single hosted zone.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "An alphanumeric string used to identify a key signing key (KSK). Name must be unique for each key signing key in the same hosted zone.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "status": {
+        "description": "A string specifying the initial status of the key signing key (KSK). You can set the value to ACTIVE or INACTIVE.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ACTIVE",
+          "INACTIVE"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -3616,10 +6551,56 @@
       },
       "policy_status": {
         "description": "Not Provived.",
-        "type": "str",
+        "type": "dict",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "public_access_block_configuration": {
+        "description": "The PublicAccessBlock configuration that you want to apply to this Access Point. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see U(https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) The Meaning of Public in the Amazon Simple Storage Service Developer Guide.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "vpc_configuration": {
+        "description": "If you include this field, Amazon S3 restricts access to this Access Point to requests from the specified Virtual Private Cloud (VPC).The Virtual Private Cloud (VPC) configuration for a bucket access point.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -3696,7 +6677,151 @@
       },
       "intelligent_tiering_configurations": {
         "description": "Specifies the S3 Intelligent-Tiering configuration for an Amazon S3 bucket.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inventory_configurations": {
+        "description": "The inventory configuration for an Amazon S3 bucket.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lifecycle_configuration": {
+        "description": "Rules that define how Amazon S3 manages objects during their lifetime.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "logging_configuration": {
+        "description": "Settings that define where logs are stored.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "metrics_configurations": {
+        "description": "Settings that define a metrics configuration for the CloudWatch request metrics from the bucket.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_configuration": {
+        "description": "Configuration that defines how Amazon S3 handles bucket notifications.Describes the notification configuration for an Amazon S3 bucket.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "object_lock_configuration": {
+        "description": "Places an Object Lock configuration on the specified bucket.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "object_lock_enabled": {
+        "description": "Indicates whether this bucket has an Object Lock configuration enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ownership_controls": {
+        "description": "Specifies the container element for object ownership rules.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "public_access_block_configuration": {
+        "description": "Configuration that defines how Amazon S3 handles public access.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "replication_configuration": {
+        "description": "Configuration for replicating objects in an S3 bucket.A container for replication rules. You can add up to 1,000 rules. The maximum size of a replication configuration is 2 MB.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "versioning_configuration": {
+        "description": "Describes the versioning state of an Amazon S3 bucket.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
+        "aliases": null
+      },
+      "website_configuration": {
+        "description": "Specifies website configuration parameters for an Amazon S3 bucket.",
+        "type": "dict",
         "required": false,
         "choices": null,
         "default": null,
@@ -3727,10 +6852,48 @@
       },
       "public_access_block_configuration": {
         "description": "The PublicAccessBlock configuration that you want to apply to this Multi Region Access Point. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see U(https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) The Meaning of Public in the Amazon Simple Storage Service Developer Guide.",
-        "type": "str",
+        "type": "dict",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "regions": {
+        "description": "The name of the bucket that represents of the region belonging to this Multi Region Access Point.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -3765,7 +6928,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -3776,6 +6939,22 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -3810,7 +6989,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -3821,6 +7000,22 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -3855,7 +7050,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -3866,6 +7061,22 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -3958,7 +7169,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -3969,6 +7180,59 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "target_type": {
+        "description": "Specify a target type to define the kinds of resources the document can run on.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_method": {
+        "description": "Update method - when set to Replace, the update will replace the existing document; when set to NewVersion, the update will create a new version.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "NewVersion",
+          "Replace"
+        ],
+        "default": "Replace",
+        "aliases": null
+      },
+      "version_name": {
+        "description": "An optional field specifying the version of the artifact you are creating with the document. This value is unique across all versions of a document, and cannot be changed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -4027,7 +7291,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -4039,14 +7303,181 @@
         ],
         "default": "present",
         "aliases": null
+      },
+      "sync_format": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sync_name": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sync_source": {
+        "description": "Not Provived.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sync_type": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
+        "aliases": null
       }
     },
     "deprecated": null
   },
   "amazon.cloud.wafv2_ip_set": {
     "short_description": "Creates and manages and IP set",
-    "description": "Creates and manages and IP set to identify web requests that originate from specific IP addresses or ranges of IP addresses. For example, if you",
-    "options": {},
+    "description": "Creates and manages and IP set to identify web requests that originate from specific IP addresses or ranges of IP addresses. For example, if you're receiving a lot of requests from a ranges of IP addresses, you can configure AWS WAF to block them using an IP set that lists those IP addresses. For more information see U(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-wafv2-ipset.html).",
+    "options": {
+      "addresses": {
+        "description": "IP address.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the entity.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Cancel IN_PROGRESS and PENDING resource requestes. Because you can only perform a single operation on a given resource at a time, there might be cases where you need to cancel the current resource operation to make the resource available so that another operation may be performed on it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "id": {
+        "description": "Id of the IPSet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "identifier": {
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by '|'. For more details, visit U(https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ip_address_version": {
+        "description": "Type of addresses in the IPSet, use C(IPV4) for C(IPV4) IP addresses, C(IPV6) for C(IPV6) address.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "IPV4",
+          "IPV6"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the IPSet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "scope": {
+        "description": "Use C(CLOUDFRONT) for CloudFront IPSet, use C(REGIONAL) for Application Load Balancer and API Gateway.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "CLOUDFRONT",
+          "REGIONAL"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "amazon.cloud.wafv2_logging_configuration": {
@@ -4094,7 +7525,7 @@
         "aliases": null
       },
       "state": {
-        "description": "Goal state for resource. I(state=present) creates the resource if it doesn",
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
         "type": "str",
         "required": false,
         "choices": [
@@ -4105,6 +7536,22 @@
           "get"
         ],
         "default": "present",
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -4139,11 +7586,86 @@
         "aliases": null
       },
       "identifier": {
-        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by",
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by '|'. For more details, visit U(https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the RegexPatternSet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_tags": {
+        "description": "Remove tags not listed in I(tags).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "regular_expression_list": {
+        "description": "Not Provived.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scope": {
+        "description": "Use CLOUDFRONT for CloudFront RegexPatternSet, use REGIONAL for Application Load Balancer and API Gateway.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "CLOUDFRONT",
+          "REGIONAL"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tags": {
+        "description": "A dict of tags to apply to the resource. To remove all tags set I(tags={}) and I(purge_tags=true).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
         "aliases": null
       }
     },
@@ -4162,7 +7684,53 @@
         "aliases": null
       },
       "identifier": {
-        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by",
+        "description": "For compound primary identifiers, to specify the primary identifier as a string, list each in the order that they are specified in the identifier list definition, separated by '|'. For more details, visit U(https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resource_arn": {
+        "description": "Not Provived.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Goal state for resource. I(state=present) creates the resource if it doesn't exist, or updates to the provided state if the resource already exists. I(state=absent) ensures an existing instance is deleted. I(state=list) get all the existing resources. I(state=describe) or I(state=get) retrieves information on an existing resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "list",
+          "describe",
+          "get"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for operation to complete before returning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait_timeout": {
+        "description": "How many seconds to wait for an operation to complete before timing out.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 320,
+        "aliases": null
+      },
+      "web_acl_arn": {
+        "description": "Not Provived.",
         "type": "str",
         "required": false,
         "choices": null,

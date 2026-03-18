@@ -20,7 +20,43 @@
         "aliases": null
       },
       "api_path": {
-        "description": "",
+        "description": "The path of the service which a record is to be created, updated or deleted from. Mutually exclusive with C(resource). Require one of C(resource) or C(api_path).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "action": {
+        "description": "The action to perform.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "post",
+          "patch",
+          "delete"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "query_params": {
+        "description": "Query parameters that may be used on POST or PATCH request.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "data": {
+        "description": "The data that we want to update or create the resource with. Mutually exclusive with I(template). Only relevant if I(action==patch) or I(action==post). A Dict consists of resource's column names as keys (such as description, number, priority, and so on) and the patching values as values (the value we want to change the column to). When updating a resource's record, if no datum is specified for a specific column, the value of that column will remain intact. When creating a resource's record, if no datum is specified for a specific column, the default value of the column will be used.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "template": {
+        "description": "Provide a valid YAML template definition file for creating or updating a record. Provides built-in template processing capabilities as an alternative to its data parameter. Mutually exclusive with I(data). If template starts with C(\"/\"), it is assumed you have specified absolute path to the file. Otherwise, it is assumed you have specified relative path to the file. Template file needs to be present on the Ansible Controller's system. Otherwise, an error is raised.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -43,11 +79,71 @@
         "aliases": null
       },
       "api_path": {
-        "description": "",
+        "description": "The path of the service which a record is to be created, updated or deleted from. Mutually exclusive with C(resource). Require one of C(resource) or C(api_path).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "sysparm_query": {
+        "description": "An encoded query string used to filter the results. List of all possible operators and a guide on how to map them to form a query may be found at U(https://docs.servicenow.com/bundle/tokyo-platform-user-interface/page/use/common-ui-elements/reference/r_OpAvailableFiltersQueries.html). and U(https://developer.servicenow.com/dev.do#!/reference/api/tokyo/rest/c_TableAPI) under 'sysparm_query'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "display_value": {
+        "description": "Return field display values C(true), actual values C(false), or both C(all). Default value is set to C(false).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "true",
+          "false",
+          "all"
+        ],
+        "default": "false",
+        "aliases": null
+      },
+      "exclude_reference_link": {
+        "description": "C(true) to exclude Table API links for reference fields. The default is C(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "columns": {
+        "description": "List of fields/columns to return in the response.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "query_category": {
+        "description": "Name of the query category to use for queries.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "query_no_domain": {
+        "description": "If set to C(true) to access data across domains if authorized. Default is set to C(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "no_count": {
+        "description": "Do not execute a select count(*) on table. Default is set to C(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },
@@ -55,8 +151,25 @@
   },
   "servicenow.itsm.attachment_info": {
     "short_description": "a module that users can use to download attachment using sys_id",
-    "description": "Download attachment using attachment",
-    "options": {},
+    "description": "Download attachment using attachment's sys_id.",
+    "options": {
+      "dest": {
+        "description": "Specifies the path in which the attachment will be downloaded to. The file will be downloaded to all of the hosts from the inventory. All the directories on the path should already exist. If the file at the destination path already exists, it will be overwritten.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sys_id": {
+        "description": "Attachment's sys_id.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "servicenow.itsm.attachment_upload": {
@@ -82,10 +195,409 @@
     },
     "deprecated": null
   },
+  "servicenow.itsm.catalog_request": {
+    "short_description": "Manage ServiceNow catalog requests",
+    "description": "Create, delete or update a ServiceNow catalog request (sc_request). For more information, refer to the ServiceNow service catalog documentation at U(https://docs.servicenow.com/bundle/utah-servicenow-platform/page/product/service-catalog/concept/c_ServiceCatalogProcess.html).",
+    "options": {
+      "state": {
+        "description": "The state of the catalog request. If I(state) value is C(present), the record is created or updated. If I(state) value is C(absent), the record is deleted. Default choices are C(present) and C(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "request_state": {
+        "description": "The current state of the catalog request. Default choices are C(draft), C(submitted), C(in_process), C(delivered), C(cancelled), C(closed_incomplete), C(closed_complete), C(closed_cancelled).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "draft",
+          "submitted",
+          "in_process",
+          "delivered",
+          "cancelled",
+          "closed_incomplete",
+          "closed_complete",
+          "closed_cancelled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "requested_for": {
+        "description": "User who the catalog item is being requested for. Expected value is user login name (user_name field).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "requested_by": {
+        "description": "User who requested the catalog item. Expected value is user login name (user_name field).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "assignment_group": {
+        "description": "The name of the group that the catalog request is assigned to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "assigned_to": {
+        "description": "User assigned to handle this catalog request. Expected value is user login name (user_name field).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "priority": {
+        "description": "Priority of the catalog request. Default choices are C(1), C(2), C(3), C(4), C(5). Priority 1 is the highest, 5 is the lowest priority.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "urgency": {
+        "description": "Urgency of the catalog request. Default choices are C(1), C(2), C(3). Urgency 1 is the highest, 3 is the lowest urgency.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "1",
+          "2",
+          "3"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "impact": {
+        "description": "Impact of the catalog request. Default choices are C(1), C(2), C(3). Impact 1 is the highest, 3 is the lowest impact.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "1",
+          "2",
+          "3"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "short_description": {
+        "description": "Brief summary of the catalog request.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Detailed description of the catalog request.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comments": {
+        "description": "Additional comments for the catalog request.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "work_notes": {
+        "description": "Work notes for the catalog request (internal notes).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "due_date": {
+        "description": "Expected due date for the catalog request. Expected format is YYYY-MM-DD.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delivery_plan": {
+        "description": "Delivery plan for the catalog request.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delivery_task": {
+        "description": "Delivery task for the catalog request.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stage": {
+        "description": "Current stage of the catalog request. Default choices are C(request_approved), C(fulfillment), C(delivery), C(completed).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "request_approved",
+          "fulfillment",
+          "delivery",
+          "completed"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "approval": {
+        "description": "Approval status of the catalog request. Default choices are C(requested), C(approved), C(rejected), C(not_requested).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "requested",
+          "approved",
+          "rejected",
+          "not_requested"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "other": {
+        "description": "Optional remaining parameters. For more information on optional parameters, refer to the ServiceNow catalog request documentation.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
   "servicenow.itsm.catalog_request_info": {
     "short_description": "List ServiceNow catalog requests",
     "description": "Retrieve information about ServiceNow catalog requests (sc_request). For more information, refer to the ServiceNow service catalog documentation at U(https://docs.servicenow.com/bundle/utah-servicenow-platform/page/product/service-catalog/concept/c_ServiceCatalogProcess.html).",
     "options": {},
+    "deprecated": null
+  },
+  "servicenow.itsm.catalog_request_task": {
+    "short_description": "Manage ServiceNow catalog request tasks",
+    "description": "Create, delete or update a ServiceNow catalog request task (sc_task). For more information, refer to the ServiceNow service catalog documentation at U(https://docs.servicenow.com/bundle/utah-servicenow-platform/page/product/service-catalog/concept/c_ServiceCatalogProcess.html).",
+    "options": {
+      "state": {
+        "description": "The state of the catalog request task. If I(state) value is C(present), the record is created or updated. If I(state) value is C(absent), the record is deleted. Default choices are C(present) and C(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "task_state": {
+        "description": "The current state of the catalog request task. Default choices are C(pending), C(open), C(work_in_progress), C(closed_complete), C(closed_incomplete), C(closed_skipped).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "pending",
+          "open",
+          "work_in_progress",
+          "closed_complete",
+          "closed_incomplete",
+          "closed_skipped"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "request": {
+        "description": "The catalog request (sc_request) this task belongs to. Can be specified as sys_id or number of the catalog request.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "requested_for": {
+        "description": "User who the catalog item is being requested for. Expected value is user login name (user_name field).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "requested_by": {
+        "description": "User who requested the catalog item. Expected value is user login name (user_name field).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "assignment_group": {
+        "description": "The name of the group that the catalog request task is assigned to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "assigned_to": {
+        "description": "User assigned to handle this catalog request task. Expected value is user login name (user_name field).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "priority": {
+        "description": "Priority of the catalog request task. Default choices are C(1), C(2), C(3), C(4), C(5). Priority 1 is the highest, 5 is the lowest priority.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "urgency": {
+        "description": "Urgency of the catalog request task. Default choices are C(1), C(2), C(3). Urgency 1 is the highest, 3 is the lowest urgency.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "1",
+          "2",
+          "3"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "impact": {
+        "description": "Impact of the catalog request task. Default choices are C(1), C(2), C(3). Impact 1 is the highest, 3 is the lowest impact.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "1",
+          "2",
+          "3"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "short_description": {
+        "description": "Brief summary of the catalog request task.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Detailed description of the catalog request task.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comments": {
+        "description": "Additional comments for the catalog request task.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "work_notes": {
+        "description": "Work notes for the catalog request task (internal notes). This field is not idempotent. Any value set here will be added to the existing work notes on the task. This field is always empty in the record returned by the module.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "due_date": {
+        "description": "Expected due date for the catalog request task. Expected format is YYYY-MM-DD.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "close_notes": {
+        "description": "Notes added when closing the catalog request task.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "order": {
+        "description": "Order/sequence number for task execution.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "approval": {
+        "description": "Approval status of the catalog request task. Default choices are C(requested), C(approved), C(rejected), C(not requested).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "requested",
+          "approved",
+          "rejected",
+          "not requested"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "delivery_plan": {
+        "description": "Delivery plan for the catalog request task.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delivery_task": {
+        "description": "Delivery task reference for the catalog request task.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "other": {
+        "description": "Optional remaining parameters. For more information on optional parameters, refer to the ServiceNow catalog request task documentation.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "servicenow.itsm.catalog_request_task_info": {
@@ -143,8 +655,108 @@
         "aliases": null
       },
       "assignment_group_id": {
-        "description": "",
+        "description": "The sys_id of the group that the change request is assigned to. Required if I(state) value is C(assess) or C(authorize) or C(scheduled) or C(implement) or C(review) or C(closed). Mutually exclusive with C(assignment_group).",
         "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "category": {
+        "description": "The category of the change request. Default choices are C(hardware), C(software), C(service), C(system_software), C(aplication_software), C(network), C(telecom), C(documentation), C(other). One can override them by setting I(change_request_mapping.category). Hard-coded choices for C(category) were removed in 2.5.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "priority": {
+        "description": "Priority is based on impact and urgency, and it identifies how quickly the service desk should address the task. Default choices are C(critical), C(high), C(moderate), C(low). One can override them by setting I(change_request_mapping.priority).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "risk": {
+        "description": "The risk level for the change. Default choices are C(high), C(moderate), C(low). One can override them by setting I(change_request_mapping.risk).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "impact": {
+        "description": "Impact is a measure of the effect of an incident, problem, or change on business processes. Default choices are C(high), C(medium), C(low). One can override them by setting I(change_request_mapping.impact).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "urgency": {
+        "description": "The extent to which resolution of an change request can bear delay. Default choices are C(high), C(medium), C(low). One can override them by setting I(change_request_mapping.urgency).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "short_description": {
+        "description": "A summary of the change request.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A detailed description of the change request.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "close_code": {
+        "description": "Provide information on how the change request was resolved. The change request must have this parameter set prior to transitioning to the C(closed) state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "successful",
+          "successful_issues",
+          "unsuccessful"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "close_notes": {
+        "description": "Resolution notes added by the user who closed the change request. The change request must have this parameter set prior to transitioning to the C(closed) state.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "on_hold": {
+        "description": "A change request can be put on hold when I(state) is not in the C(new), C(canceled), or C(closed).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hold_reason": {
+        "description": "Reason why change request is on hold. Required if change request's I(on_hold) value will be C(true).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "other": {
+        "description": "Optional remaining parameters. For more information on optional parameters, refer to the ServiceNow change request documentation at U(https://docs.servicenow.com/bundle/tokyo-it-service-management/page/product/change-management/task/t_CreateAChange.html).",
+        "type": "dict",
         "required": false,
         "choices": null,
         "default": null,
@@ -233,8 +845,84 @@
         "aliases": null
       },
       "assignment_group_id": {
-        "description": "",
+        "description": "The id of the group that the change task is assigned to. Mutually exclusive with C(assignment_group).",
         "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "short_description": {
+        "description": "A summary of the task. This field has to be set either in the record or here.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A detailed description of the task. This field has to be set either in the record or here.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "on_hold": {
+        "description": "A change task cannot be put on hold when I(state) is C(pending), C(canceled), or C(closed) (module fails and does nothing). Provide an On hold reason if a change task is placed on hold.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hold_reason": {
+        "description": "Reason why change task is on hold. Required if change task's I(on_hold) value will be C(true).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "planned_start_date": {
+        "description": "The date you plan to begin working on the task.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "planned_end_date": {
+        "description": "The date the change task is planned to be completed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "close_code": {
+        "description": "Provide information on how the change task was resolved. The change task must have this parameter set prior to transitioning to the C(closed) state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "successful",
+          "successful_issues",
+          "unsuccessful"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "close_notes": {
+        "description": "Resolution notes added by the user who closed the change task. The change task must have this parameter set prior to transitioning to the C(closed) state.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "other": {
+        "description": "Optional remaining parameters. For more information on optional parameters, refer to the ServiceNow change task documentation at U(https://docs.servicenow.com/bundle/tokyo-it-service-management/page/product/change-management/task/create-a-change-task.html).",
+        "type": "dict",
         "required": false,
         "choices": null,
         "default": null,
@@ -431,8 +1119,8 @@
         "aliases": null
       },
       "return_fields": {
-        "description": "A list of fields to return. If defined you need to add",
-        "type": "str",
+        "description": "A list of fields to return. If defined you need to add \"attachments\" as a field to return if you wish also get related attachments data. If C(return_fields) is not defined, all fields and also attachments will be returned.",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,

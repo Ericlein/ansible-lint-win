@@ -49,6 +49,30 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section access-list). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "merged",
+          "overridden",
+          "replaced",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -85,6 +109,137 @@
           "absent"
         ],
         "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_bgp_address_family": {
+    "short_description": "Manages BGP address family resource module",
+    "description": "This module configures and manages the attributes of BGP AF on Arista EOS platforms.",
+    "options": {
+      "config": {
+        "description": "Configurations for BGP address family.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section bgp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "merged",
+          "overridden",
+          "replaced",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_bgp_global": {
+    "short_description": "Manages BGP global resource module",
+    "description": "This module configures and manages the attributes of BGP global on Arista EOS platforms.",
+    "options": {
+      "config": {
+        "description": "A list of configurations for BGP global.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section bgp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in. State I(purged) removes all the BGP configurations from the target device. Use caution with this state.('no router bgp <x>') State I(deleted) only removes BGP attributes that this modules manages and does not negate the BGP process completely. Thereby, preserving address-family related configurations under BGP context. Running states I(deleted) and I(replaced) will result in an error if there are address-family configuration lines present under vrf context that is is to be removed. Please use the  M(arista.eos.eos_bgp_address_family) module for prior cleanup. Refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "merged",
+          "overridden",
+          "purged",
+          "replaced",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_command": {
+    "short_description": "Run arbitrary commands on an Arista EOS device",
+    "description": "Sends an arbitrary set of commands to an EOS node and returns the results read from the device.  This module includes an argument that will cause the module to wait for a specific condition before returning or timing out if the condition is not met.",
+    "options": {
+      "commands": {
+        "description": "The commands to send to the remote EOS device. The resulting output from the command is returned.  If the I(wait_for) argument is provided, the module is not returned until the condition is satisfied or the number of I(retries) has been exceeded. Commands may be represented either as simple strings or as dictionaries as described below. Refer to the Examples setion for some common uses.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait_for": {
+        "description": "Specifies what to evaluate from the output of the command and what conditionals to apply.  This argument will cause the task to wait for a particular conditional to be true before moving forward.   If the conditional is not true by the configured retries, the task fails. Note - With I(wait_for) the value in C(result['stdout']) can be accessed using C(result), that is to access C(result['stdout'][0]) use C(result[0]) See examples.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "waitfor"
+        ]
+      },
+      "match": {
+        "description": "The I(match) argument is used in conjunction with the I(wait_for) argument to specify the match policy.  Valid values are C(all) or C(any).  If the value is set to C(all) then all conditionals in the I(wait_for) must be satisfied.  If the value is set to C(any) then only one of the values must be satisfied.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "any",
+          "all"
+        ],
+        "default": "all",
+        "aliases": null
+      },
+      "retries": {
+        "description": "Specifies the number of retries a command should be tried before it is considered failed.  The command is run on the target device every retry and evaluated against the I(wait_for) conditionals.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "interval": {
+        "description": "Configures the interval in seconds to wait between retries of the command.  If the command does not pass the specified conditional, the interval indicates how to long to wait before trying the command again.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
         "aliases": null
       }
     },
@@ -223,8 +378,16 @@
         "aliases": null
       },
       "intended_config": {
-        "description": "The C(intended_config) provides the master configuration that the node should conform to and is used to check the final running-config against.   This argument will not modify any settings on the remote device and is strictly used to check the compliance of the current device",
+        "description": "The C(intended_config) provides the master configuration that the node should conform to and is used to check the final running-config against.   This argument will not modify any settings on the remote device and is strictly used to check the compliance of the current device's configuration against.  When specifying this argument, the task should also modify the C(diff_against) value and set it to I(intended). The configuration lines for this value should be similar to how it will appear if present in the running-configuration of the device including the indentation to ensure correct diff.",
         "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup_options": {
+        "description": "This is a dict object containing configurable options related to backup file path. The value of this option is read only when C(backup) is set to I(true), if C(backup) is set to I(no) this option will be silently ignored.",
+        "type": "dict",
         "required": false,
         "choices": null,
         "default": null,
@@ -348,7 +511,23 @@
         "type": "list",
         "required": false,
         "choices": null,
+        "default": "min",
+        "aliases": null
+      },
+      "gather_network_resources": {
+        "description": "When supplied, this argument will restrict the facts collected to a given subset. Possible values for this argument include all and the resources like interfaces, vlans etc. Can specify a list of values to include a larger subset. Values can also be used with an initial C(!) to specify that a specific subset should not be collected. Values can also be used with an initial C(!) to specify that a specific subset should not be collected. Valid subsets are 'all', 'interfaces', 'l2_interfaces', 'l3_interfaces', 'lacp', 'lacp_interfaces', 'lag_interfaces', 'lldp_global', 'lldp_interfaces', 'vlans', 'acls'.",
+        "type": "list",
+        "required": false,
+        "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "available_network_resources": {
+        "description": "When 'True' a list of network resources for which resource modules are available will be provided.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },
@@ -364,6 +543,30 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section hostname). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in. The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The states I(merged), I(replaced) and I(overridden) have identical behaviour for this module. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | section ^hostname) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "merged",
+          "overridden",
+          "replaced",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -382,11 +585,27 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "parsed",
+          "rendered",
+          "gathered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -403,6 +622,30 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "parsed",
+          "rendered",
+          "gathered"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -410,7 +653,40 @@
   "arista.eos.eos_l3_interfaces": {
     "short_description": "L3 interfaces resource module",
     "description": "This module provides declarative management of Layer 3 interfaces on Arista EOS devices.",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "A dictionary of Layer 3 interface options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "parsed",
+          "gathered",
+          "rendered"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "arista.eos.eos_lacp": {
@@ -426,11 +702,26 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ^lacp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ^lacp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "deleted",
+          "parsed",
+          "rendered",
+          "gathered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -449,11 +740,27 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ^interfaces). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ^interfaces). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "parsed",
+          "rendered",
+          "gathered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -469,6 +776,30 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section interfaces). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -507,11 +838,26 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section lldp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section lldp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "deleted",
+          "rendered",
+          "gathered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -530,11 +876,144 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "parsed",
+          "gathered",
+          "rendered"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_logging_global": {
+    "short_description": "Manages logging resource module",
+    "description": "This module configures and manages the attributes of  logging on Arista EOS platforms.",
+    "options": {
+      "config": {
+        "description": "A dictionary of logging options",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section access-list). The states I(replaced) and I(overridden) have identical behaviour for this module. The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "merged",
+          "overridden",
+          "replaced",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_ntp_global": {
+    "short_description": "Manages ntp resource module",
+    "description": "This module configures and manages the attributes of  ntp on Arista EOS platforms.",
+    "options": {
+      "config": {
+        "description": "A dictionary of ntp options",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ntp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in. The states I(replaced) and I(overridden) have identical behaviour for this module. Please refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "merged",
+          "overridden",
+          "replaced",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_ospf_interfaces": {
+    "short_description": "OSPF Interfaces Resource Module.",
+    "description": "This module manages OSPF configuration of interfaces on devices running Arista EOS.",
+    "options": {
+      "config": {
+        "description": "A list of OSPF configuration for interfaces.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "parsed",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -553,11 +1032,144 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ospf). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ospf). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "merged",
+          "overridden",
+          "replaced",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_ospfv3": {
+    "short_description": "OSPFv3 resource module",
+    "description": "This module configures and manages the attributes of ospfv3 on Arista EOS platforms.",
+    "options": {
+      "config": {
+        "description": "A list of configurations for ospfv3.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section ospfv3). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "merged",
+          "overridden",
+          "replaced",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_prefix_lists": {
+    "short_description": "Manages Prefix lists resource module",
+    "description": "This module configures and manages the attributes of Prefix lists on Arista EOS platforms.",
+    "options": {
+      "config": {
+        "description": "A list of dictionary of prefix-list options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section access-list). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "merged",
+          "overridden",
+          "replaced",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "arista.eos.eos_route_maps": {
+    "short_description": "Manages Route Maps resource module",
+    "description": "This module configures and manages the attributes of Route Mapd on Arista EOS platforms.",
+    "options": {
+      "config": {
+        "description": "A list of route-map options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section route-map). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "merged",
+          "overridden",
+          "replaced",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -574,6 +1186,30 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running_config | section snmp_server). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in. The states I(replaced) and I(overridden) have identical behaviour for this module. Please refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "merged",
+          "overridden",
+          "replaced",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -588,6 +1224,30 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | grep routes). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "merged",
+          "overridden",
+          "replaced",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -640,11 +1300,14 @@
         "aliases": null
       },
       "state": {
-        "description": "State of the configuration values in the device",
+        "description": "State of the configuration values in the device's current active configuration.  When set to I(present), the values should be configured in the device active configuration and when set to I(absent) the values should not be in the device active configuration",
         "type": "str",
         "required": false,
-        "choices": null,
-        "default": null,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -759,11 +1422,27 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section vlan). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section vlan). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -856,11 +1535,28 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config vrf). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config vrf). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config vrf). connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "parsed",
+          "gathered",
+          "deleted",
+          "merged",
+          "replaced",
+          "rendered",
+          "overridden",
+          "purged"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },

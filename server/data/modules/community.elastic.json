@@ -2,91 +2,882 @@
   "community.elastic.elastic_bulk": {
     "short_description": "Perform actions with documents using the Bulk API.",
     "description": "Perform actions with documents using the Bulk API.",
-    "options": {},
+    "options": {
+      "actions": {
+        "description": "Include json inline to insert, update or delete documents. Acceptable subkeys are create, index, update & delete.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "src": {
+        "description": "Path to a json file containing documents to bulk insert.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "index": {
+        "description": "The index to copy documents to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chunk_size": {
+        "description": "Bulk insert batch size.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1000,
+        "aliases": null
+      },
+      "stats_only": {
+        "description": "Report number of successful/failed operations instead of just number of successful and a list of error responses",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.elastic.elastic_cluster_health": {
     "short_description": "Validate cluster health.",
     "description": "Validate cluster health. Optionally wait for an expected status.",
-    "options": {},
+    "options": {
+      "fail_on_exception": {
+        "description": "Fail immediately on exception rather than retrying.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "level": {
+        "description": "Controls the details level of the health information returned",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "cluster",
+          "indices",
+          "shards"
+        ],
+        "default": "cluster",
+        "aliases": null
+      },
+      "local": {
+        "description": "If true, the request retrieves information from the local node only. Defaults to false, which means information is retrieved from the master node.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "poll": {
+        "description": "The maximum number of times to query for the replicaset status before the set converges or we fail.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3,
+        "aliases": null
+      },
+      "interval": {
+        "description": "The number of seconds to wait between polling executions.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "wait_for": {
+        "description": "Wait for the specific variable to reach a specific figure. Provide the name of the variable returned by cluster health API. https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-health.html",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "status",
+          "number_of_nodes",
+          "number_of_data_nodes",
+          "active_primary_shards",
+          "active_shards",
+          "relocating_shards",
+          "initializing_shards",
+          "unassigned_shards",
+          "delayed_unassigned_shards",
+          "number_of_pending_tasks",
+          "number_of_in_flight_fetch",
+          "task_max_waiting_in_queue_millis",
+          "active_shards_percent_as_number"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "to_be": {
+        "description": "Used in conjunction with wait_for. Expected value of the wait_for variable",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "status": {
+        "description": "Expected status of the cluster changes to the one provided or better, i.e. green > yellow > red.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "green",
+          "yellow",
+          "red"
+        ],
+        "default": "green",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.elastic.elastic_cluster_settings": {
     "short_description": "Manage Elastic Search Cluster Settings",
     "description": "Manage Elastic Search Cluster Settings",
-    "options": {},
+    "options": {
+      "persistent": {
+        "description": "Whether to make a setting update persistent or transient. If security is enabled you need the manage cluster privilege.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "settings": {
+        "description": "The Elastic search settings to update. Supply as a dict key/values.",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.elastic.elastic_index": {
     "short_description": "Manage Elasticsearch indexes.",
     "description": "Manage Elasticsearch indexes. Create indexes and drop indexes. Perform some index maintenance operations. Create indexes with settings and mapping documents. No support for settings or mapping document updates. check_mode only relevant to present and absent states.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "The state of the index.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "closed",
+          "opened",
+          "clear_cache",
+          "flush",
+          "flush_synced",
+          "refresh",
+          "stats",
+          "upgrade"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The index name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "settings": {
+        "description": "Index settings document.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "mappings": {
+        "description": "Index mappings document.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "wait_for_active_shards": {
+        "description": "A number controlling to how many active shards to wait for. all to wait for all shards in the cluster to be active, or 0 to not wait.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "0",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.elastic.elastic_index_info": {
     "short_description": "Returns info about Elasticsearch indexes.",
     "description": "Returns info about Elasticsearch indexes.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The index name to get information about.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait_for_active_shards": {
+        "description": "A number controlling to how many active shards to wait for. all to wait for all shards in the cluster to be active, or 0 to not wait.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "0",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.elastic.elastic_index_lifecycle": {
     "short_description": "Manage Elasticsearch Index Lifecyles.",
     "description": "Manage Elasticsearch Index Lifecyles. Create, update and delete Index Lifecycle Polcies.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "The state of the ILM Policy.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The ILM Policy name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy": {
+        "description": "The ILM Policy Document.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "wait_for_active_shards": {
+        "description": "A number controlling to how many active shards to wait for. all to wait for all shards in the cluster to be active, or 0 to not wait.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "0",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.elastic.elastic_keystore": {
     "short_description": "Manage entries in the Elasticsearch keystore",
-    "description": "",
-    "options": {},
+    "description": "Add and remove entries in the Elasticsearch keystore. Existing entries will not be decrypted, so the module will only compares based on the name.",
+    "options": {
+      "name": {
+        "description": "Keystore value to add or remove.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "value": {
+        "description": "Data to be stored inside the entry. Required if state=present.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the entry should exist or not, taking action if the state is different from what is stated.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "force": {
+        "description": "When used with state=present, existing entries with the same name will be replaced.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "create_keystore": {
+        "description": "Whether to create the keystore if one doesn't already exist.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.elastic.elastic_pipeline": {
     "short_description": "Manage Elasticsearch Pipelines.",
     "description": "Manage Elasticsearch user roles.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The name of the pipeline.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "pipeline_id"
+        ]
+      },
+      "description": {
+        "description": "When true, deferrable validations are not run.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "processors": {
+        "description": "Array of processors used to pre-process documents before indexing. Processors are executed in the order provided.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "version": {
+        "description": "Optional version number used by external systems to manage ingest pipelines.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the pipeline",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.elastic.elastic_reindex": {
     "short_description": "Copies documents from a source to a destination.",
     "description": "Copies documents from a source to a destination. The source and destination can be any pre-existing index, index alias, or data stream.",
-    "options": {},
+    "options": {
+      "source": {
+        "description": "The index to copy documents from.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dest": {
+        "description": "The index to copy documents to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait_for_completion": {
+        "description": "Wait for the command to cpmplete before continuing.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.elastic.elastic_role": {
     "short_description": "Manage Elasticsearch user roles.",
     "description": "Manage Elasticsearch user roles.",
-    "options": {},
+    "options": {
+      "applications": {
+        "description": "A list of application privilege entries.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster": {
+        "description": "A list of cluster privileges. The cluster level actions that users with this role can execute.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "global_v": {
+        "description": "An object defining global privileges. A global privilege is a form of cluster privilege that is request-aware.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "indices": {
+        "description": "A list of indices permissions entries.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "metadata": {
+        "description": "Arbitrary metadata that you want to associate with the role.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "run_as": {
+        "description": "A list of users that the owners of this role can impersonate.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The desired state of the user.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the role",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.elastic.elastic_rollup": {
     "short_description": "Manage Elasticsearch Rollup Jobs.",
     "description": "Manage Elasticsearch Rollup Jobs.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The name of the rollup job",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "index_pattern": {
+        "description": "The index pattern to roll up.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rollup_index": {
+        "description": "The index that contains the rollup results.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cron": {
+        "description": "A cron string which defines the intervals when the rollup job should be executed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "page_size": {
+        "description": "The number of bucket results that are processed on each iteration of the rollup indexer.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1000,
+        "aliases": null
+      },
+      "groups": {
+        "description": "Defines the grouping fields and aggregations that are defined for this rollup job.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "metrics": {
+        "description": "Defines the metrics to collect for each grouping tuple.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the rollup job",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "started",
+          "stopped"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.elastic.elastic_snapshot": {
     "short_description": "Manage Elasticsearch Snapshots.",
     "description": "Manage Elasticsearch Snapshots. Create, delete and restore snapshots.",
-    "options": {},
+    "options": {
+      "indices": {
+        "description": "A list of indexes to include in the the snapshot. By default, a snapshot includes all data streams and indices in the cluster. If this argument is provided, the snapshot only includes the specified data streams and clusters.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ignore_unavailable": {
+        "description": "If false, the request returns an error for any data stream or index that is missing or closed. If true, the request ignores data streams and indices in indices that are missing or closed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "repository": {
+        "description": "Snapshot repository name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The desired state of the snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "restore"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "metadata": {
+        "description": "Attaches arbitrary metadata to the snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "partial": {
+        "description": "If false, the entire snapshot will fail if one or more indices included in the snapshot do not have all primary shards available.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.elastic.elastic_snapshot_repository": {
     "short_description": "Manage Elasticsearch Snapshot Repositories.",
     "description": "Manage Elasticsearch Snapshot Repositories. Create and delete repostories. At present no update functionality.",
-    "options": {},
+    "options": {
+      "location": {
+        "description": "Location of the shared filesystem used to store and retrieve snapshots. This location must be registered in the path.repo setting on all master and data nodes in the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Repository type can include fs, source and url",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "fs",
+        "aliases": null
+      },
+      "state": {
+        "description": "The desired state of the user.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the repository.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "verify": {
+        "description": "If true, the request verifies the repository is functional on all master and data nodes in the cluster. If false, this verification is skipped",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.elastic.elastic_transform": {
     "short_description": "Manage Elasticsearch Transform Jobs.",
     "description": "Manage Elasticsearch Transform Jobs.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The name of the transform job",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "transform_id"
+        ]
+      },
+      "defer_validation": {
+        "description": "When true, deferrable validations are not run.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "description": {
+        "description": "A description of the transform job.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dest": {
+        "description": "The destination for the transform.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "frequency": {
+        "description": "The interval between checks for changes in the source indices when the transform is running continuously. Also determines the retry interval in the event of transient failures while the transform is searching or indexing.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "1m",
+        "aliases": null
+      },
+      "latest": {
+        "description": "The latest method transforms the data by finding the latest document for each unique key.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pivot": {
+        "description": "The pivot method transforms the data by aggregating and grouping it. These objects define the group by fields and the aggregation to reduce the data.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "settings": {
+        "description": "Defines optional transform settings.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source": {
+        "description": "The source of the data for the transform.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sync": {
+        "description": "Defines the properties transforms require to run continuously.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the transform job",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "started",
+          "stopped"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.elastic.elastic_user": {
     "short_description": "Manage Elasticsearch users.",
     "description": "Manage Elasticsearchusers.",
-    "options": {},
+    "options": {
+      "enabled": {
+        "description": "Specifies whether the user is enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "email": {
+        "description": "The email of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "full_name": {
+        "description": "The full name of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "metadata": {
+        "description": "Arbitrary metadata that you want to associate with the user.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "password": {
+        "description": "The user's password.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "roles": {
+        "description": "A set of roles the user has.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "run_as": {
+        "description": "LIst of users that this user can impersonate.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The desired state of the user.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "update_password": {
+        "description": "C(always) will always update passwords and cause the module to return changed. C(on_create) will only set the password for newly created users.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "always",
+          "on_create"
+        ],
+        "default": "always",
+        "aliases": null
+      },
+      "name": {
+        "description": "Username of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

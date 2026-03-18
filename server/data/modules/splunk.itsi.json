@@ -2,67 +2,779 @@
   "splunk.itsi.itsi_add_episode_comments": {
     "short_description": "Add comments to Splunk ITSI episodes",
     "description": "Add comments to existing episodes in Splunk IT Service Intelligence (ITSI). Comments are associated with a specific episode and can provide context or status updates. Every invocation creates a new comment; comments cannot be updated or deleted via the API.",
-    "options": {},
+    "options": {
+      "episode_key": {
+        "description": "The episode _key to add a comment to. This is the C(_key) field from an episode, as returned by M(splunk.itsi.itsi_episode_details_info).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "The text content of the comment to add to the episode. Can contain any text describing actions taken, status updates, or other relevant information.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_group": {
+        "description": "Whether this comment is for an episode group. Should be set to C(true) for ITSI episodes (notable event groups).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "splunk.itsi.itsi_aggregation_policy": {
     "short_description": "Manage Splunk ITSI aggregation policies",
     "description": "Create, update, and delete aggregation policies in Splunk IT Service Intelligence (ITSI). An aggregation policy determines how notable events are grouped together into episodes. Uses the ITSI Event Management Interface REST API for CRUD operations. For querying/listing policies, use the C(itsi_aggregation_policy_info) module.",
-    "options": {},
+    "options": {
+      "title": {
+        "description": "The title/name of the aggregation policy. Required when creating a new policy (C(state=present) without C(policy_id)). Optional when updating an existing policy (C(state=present) with C(policy_id)). Note that multiple policies can have the same title.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy_id": {
+        "description": "The aggregation policy ID/key (unique identifier). For C(state=present) with C(policy_id), looks up the policy and updates only changed fields (idempotent). For C(state=present) without C(policy_id), a new policy is always created (C(title) required). For C(state=absent), required to identify which policy to delete.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the aggregation policy. C(present) ensures the aggregation policy exists with specified configuration. C(absent) ensures the aggregation policy is deleted.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the aggregation policy purpose and functionality.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disabled": {
+        "description": "Whether the aggregation policy is disabled. Use C(false) to enable, C(true) to disable.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filter_criteria": {
+        "description": "Filter criteria that determines which notable events this policy applies to. Dictionary with 'condition' (AND/OR) and 'items' array.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "breaking_criteria": {
+        "description": "Breaking criteria that determines when to create a new episode. Dictionary with 'condition' (AND/OR) and 'items' array.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group_severity": {
+        "description": "Default severity level for episodes created by this policy. Common values are 'info', 'low', 'medium', 'high', 'critical'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group_status": {
+        "description": "Default status for episodes created by this policy. Common values are 'new', 'in_progress', 'pending', 'resolved', 'closed'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group_assignee": {
+        "description": "Default assignee for episodes created by this policy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group_title": {
+        "description": "Template for episode titles created by this policy. Can use field substitution like '%title%', '%description%'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group_description": {
+        "description": "Template for episode descriptions created by this policy. Can use field substitution like '%title%', '%description%'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "split_by_field": {
+        "description": "Field to split episodes by (creates separate episodes per unique value).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "priority": {
+        "description": "Priority level of the aggregation policy (1-10).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rules": {
+        "description": "List of action rules to execute when episodes are created. Each rule is a dictionary with activation criteria and actions.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "additional_fields": {
+        "description": "Dictionary of additional fields to set on the aggregation policy. Allows setting any valid policy field not covered by specific parameters.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "splunk.itsi.itsi_aggregation_policy_info": {
     "short_description": "Get information about Splunk ITSI aggregation policies",
     "description": "Retrieve information about aggregation policies in Splunk IT Service Intelligence (ITSI). Query by policy_id for a specific policy, by title for all matching policies, or list all policies. This is a read-only module that does not modify any policies. Uses the ITSI Event Management Interface REST API.",
-    "options": {},
+    "options": {
+      "policy_id": {
+        "description": "The aggregation policy ID/key (unique identifier). Provides direct lookup by unique ID. Returns a single-element list in C(aggregation_policies).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "title": {
+        "description": "The title/name of the aggregation policy to search for. Note that multiple policies can have the same title. Returns all matching policies in C(aggregation_policies) list.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fields": {
+        "description": "Comma-separated list of field names to include in response. Useful for retrieving only specific fields.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filter_data": {
+        "description": "MongoDB-style JSON filter for listing aggregation policies. Only applies when listing multiple items (no title or policy_id specified).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "limit": {
+        "description": "Maximum number of aggregation policies to return when listing. Only applies when listing multiple items.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "splunk.itsi.itsi_correlation_search": {
     "short_description": "Manage Splunk ITSI correlation searches",
     "description": "Create, update, and delete correlation searches in Splunk IT Service Intelligence (ITSI). A correlation search is a recurring search that generates a notable event when search results meet specific conditions. Multi-KPI alerts are a type of correlation search. Uses the ITSI Event Management Interface REST API for full CRUD operations. For querying correlation searches, use the C(itsi_correlation_search_info) module.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The name/title of the correlation search. Required for create operations. Used for lookup when correlation_search_id is not provided.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "correlation_search_id": {
+        "description": "The correlation search ID for direct lookup. This is the internal identifier (often the saved search name). Takes precedence over name parameter for update/delete operations. For new correlation searches, this becomes the search name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the correlation search. C(present) ensures the correlation search exists with specified configuration. C(absent) ensures the correlation search is deleted.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "search": {
+        "description": "The SPL search query for the correlation search. Required when creating new correlation searches.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disabled": {
+        "description": "Whether the correlation search is disabled. Use C(false) to enable, C(true) to disable.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cron_schedule": {
+        "description": "Cron schedule for the correlation search execution. Standard cron format (e.g., \"*/5 * * * *\" for every 5 minutes).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "earliest_time": {
+        "description": "Earliest time for the search window (e.g., \"-15m\", \"-1h\").",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "latest_time": {
+        "description": "Latest time for the search window (e.g., \"now\", \"-5m\").",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the correlation search purpose and functionality.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "actions": {
+        "description": "Comma-separated list of actions to trigger. Required for correlation searches to appear in the ITSI GUI.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "itsi_event_generator",
+        "aliases": null
+      },
+      "additional_fields": {
+        "description": "Dictionary of additional fields to set on the correlation search. Allows setting any valid correlation search field not covered by specific parameters.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "splunk.itsi.itsi_correlation_search_info": {
     "short_description": "Query Splunk ITSI correlation searches",
     "description": "Retrieve information about correlation searches in Splunk IT Service Intelligence (ITSI). Query a specific correlation search by ID or name, or list all correlation searches. This is a read-only info module that does not make any changes. Uses the ITSI Event Management Interface REST API.",
-    "options": {},
+    "options": {
+      "correlation_search_id": {
+        "description": "The correlation search ID for direct lookup. This is the internal identifier (often the saved search name without spaces). Takes precedence over name parameter.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The display name/title of the correlation search. Used for lookup when correlation_search_id is not provided.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fields": {
+        "description": "Comma-separated list of field names to include in response. Useful for retrieving only specific fields.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filter_data": {
+        "description": "MongoDB-style JSON filter for listing correlation searches. Only applies when listing multiple items (no name or correlation_search_id specified).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "count": {
+        "description": "Maximum number of correlation searches to return when listing. Only applies when listing multiple items.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "splunk.itsi.itsi_episode_details_info": {
     "short_description": "Read Splunk ITSI notable_event_group (episodes)",
     "description": "Reads a single episode by _key, lists episodes, or returns only a count using the ITSI Event Management Interface. Requires ansible_connection=httpapi and ansible_network_os=splunk.itsi.itsi_api_client.\n",
-    "options": {},
+    "options": {
+      "episode_id": {
+        "description": "ITSI notable_event_group _key. When provided, fetches a single episode.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "limit": {
+        "description": "Max entries to return when listing (ITSI parameter 'limit'). 0 means no limit param is sent.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "skip": {
+        "description": "Number of entries to skip from the start (ITSI parameter 'skip').",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fields": {
+        "description": "Comma-separated list of field names to include (ITSI parameter 'fields').",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filter_data": {
+        "description": "MongoDB-style JSON string to filter results (ITSI parameter 'filter_data'). Example: '{\"status\":\"2\"}'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sort_key": {
+        "description": "Field name to sort by (ITSI parameter 'sort_key').",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sort_dir": {
+        "description": "Sort direction (ITSI parameter 'sort_dir'). Use 1 for ascending, 0 for descending.",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          1
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "count_only": {
+        "description": "If true, call the '/count' endpoint and return only a numeric count.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "splunk.itsi.itsi_glass_table": {
     "short_description": "Manage Splunk ITSI Glass Table objects via itoa_interface",
     "description": "Create, update, or delete Splunk ITSI Glass Table objects using the itoa_interface REST API. Glass table titles are NOT unique; multiple glass tables can share the same title. The glass table C(_key) is the unique identifier. Provide C(glass_table_id) to update or delete. When C(glass_table_id) is omitted with C(state=present), a new glass table is always created. Uses the splunk.itsi.itsi_api_client httpapi plugin for authentication and transport. For more information on glass tables see U(https://help.splunk.com/en/splunk-it-service-intelligence/splunk-it-service-intelligence/visualize-and-assess-service-health/4.19/glass-tables/overview-of-the-glass-table-editor-in-itsi).",
-    "options": {},
+    "options": {
+      "glass_table_id": {
+        "description": "The glass table C(_key) for update or delete operations. Required for C(state=absent). When provided with C(state=present), the module updates the existing glass table. When omitted with C(state=present), a new glass table is created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "title": {
+        "description": "The title of the glass table. Required when creating a new glass table (C(state=present) without C(glass_table_id)). Glass table titles are not unique; duplicates are allowed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description text for the glass table.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "definition": {
+        "description": "Raw JSON definition object for the glass table. Contains the full layout, visualizations, data sources, and inputs configuration. The module validates this value against the Splunk Dashboard Studio JSON Schema and checks referential integrity (e.g. layout items reference existing visualizations, data source IDs are valid) before sending it to the API. The user is responsible for all fields within the definition, including C(definition.title) and C(definition.description) if desired. Required when creating a new glass table (C(state=present) without C(glass_table_id)).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sharing": {
+        "description": "Controls the sharing level of the glass table via C(acl.sharing). C(user) makes the glass table private to the owner. C(app) makes the glass table available at the app level.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "user",
+          "app"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the glass table. C(present) ensures the glass table exists with the specified configuration. C(absent) ensures the glass table is deleted.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "splunk.itsi.itsi_glass_table_info": {
     "short_description": "Read Splunk ITSI glass table objects via itoa_interface",
     "description": "Reads a single glass table by C(_key) or lists glass tables with optional server-side filtering, pagination, and sorting. Uses the splunk.itsi.itsi_api_client httpapi plugin for authentication and transport.",
-    "options": {},
+    "options": {
+      "glass_table_id": {
+        "description": "The glass table C(_key). When provided, fetches a single glass table and returns it as a one-element list.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filter": {
+        "description": "MongoDB-style filter for listing glass tables. Accepts a dict or a JSON string. Only applies when C(glass_table_id) is not provided. Example: C({\"title\": \"My Table\"}).",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fields": {
+        "description": "Comma-separated list of field names to include in the response.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "count": {
+        "description": "Maximum number of glass tables to return (page size). Only applies when listing (no C(glass_table_id)).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "offset": {
+        "description": "Number of results to skip from the start. Only applies when listing (no C(glass_table_id)).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sort_key": {
+        "description": "Field name to sort results by. Only applies when listing (no C(glass_table_id)).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sort_dir": {
+        "description": "Sort direction: C(asc) for ascending, C(desc) for descending. Only applies when listing (no C(glass_table_id)).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "asc",
+          "desc"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "splunk.itsi.itsi_service": {
     "short_description": "Manage Splunk ITSI Service objects via itoa_interface",
-    "description": "",
-    "options": {},
+    "description": "Create, update, or delete Splunk ITSI Service objects using the itoa_interface REST API.\nIdempotent by comparing stable fields on the service: title, enabled, description, sec_grp,\nbase_service_template_id, service_tags, entity_rules, plus any keys provided in \"extra\".\nUses the splunk.itsi.itsi_api_client httpapi plugin for authentication and transport.\n",
+    "options": {
+      "service_id": {
+        "description": "ITSI service _key. When provided, used as the primary identifier.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Exact service title (service.title). Required if service_id is not provided.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Enable/disable the service (true/false or 1/0).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Service description (free text).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sec_grp": {
+        "description": "ITSI team (security group) key to assign the service to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "entity_rules": {
+        "description": "List of entity rule objects defining which entities belong to this service. Each rule has rule_condition (AND/OR) and rule_items array with field, field_type, rule_type (matches/is/contains), and value. Mutually exclusive with base_service_template_id - you cannot specify both. To customize entity_rules on a templated service, first create with the template, then update with entity_rules (without the template field).\n",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service_tags": {
+        "description": "List of user-assigned tags for this service. Comparison is order-insensitive. Note: template_tags (inherited from service template) are managed by ITSI and cannot be set through this module.\n",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "base_service_template_id": {
+        "description": "Service template identifier to base this service on. You can pass either the template ID (_key) or the template title. If a non-UUID value is provided, the module will look up an ITSI base service template (object_type=base_service_template) by exact title and use its _key as base_service_template_id. Note: For ITSI default/built-in service templates (e.g., \"Cloud KPIs - AWS EBS (SAI)\"), use the template title rather than the ID, as default template IDs are not stable across ITSI installations. Only applied during creation; ignored on updates (read-only after creation). Mutually exclusive with entity_rules - you cannot specify both. The template's configuration (including entity_rules, KPIs) is inherited during creation.\n",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extra": {
+        "description": "Additional JSON fields to include in payload (merged on top of managed fields). Keys present in extra will override first-class options on conflicts.\n",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "splunk.itsi.itsi_service_info": {
     "short_description": "Gather facts about Splunk ITSI Service objects via itoa_interface",
-    "description": "",
-    "options": {},
+    "description": "Read service documents from the Splunk ITSI REST API (itoa_interface). You can fetch by key, fetch by exact title, or list with server-side filters. Uses the splunk.itsi.itsi_api_client httpapi plugin for transport and auth.",
+    "options": {
+      "service_id": {
+        "description": "Exact ITSI service _key to fetch.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "title": {
+        "description": "Exact service title to match. If both service_id and title are provided, service_id wins.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Optional filter on enabled state.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sec_grp": {
+        "description": "Optional team (security group) filter. Exact match.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filter": {
+        "description": "Raw server-side filter object merged with simple filters when possible. Use this for advanced queries such as regex title matches.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fields": {
+        "description": "Projection of fields to return. List of field names.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "count": {
+        "description": "Page size for listings. Ignored for fetch by key or title.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "offset": {
+        "description": "Offset for listings.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "splunk.itsi.itsi_update_episode_details": {
     "short_description": "Update specific fields of Splunk ITSI episodes",
     "description": "Update specific fields of existing episodes in Splunk IT Service Intelligence (ITSI). Uses partial data updates to modify only the specified fields without affecting other episode data. Supports common episode fields like severity, status, owner, and instruction.",
-    "options": {},
+    "options": {
+      "episode_id": {
+        "description": "The episode ID (_key field) to update. This should be the _key field from an episode, such as returned by notable_event_group_info.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "severity": {
+        "description": "Update the severity level of the episode. Common values are 1 (Info), 2 (Normal), 3 (Low), 4 (Medium), 5 (High), 6 (Critical).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "status": {
+        "description": "Update the status of the episode. Common values are 1 (New), 2 (In Progress), 3 (Pending), 4 (Resolved), 5 (Closed).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "owner": {
+        "description": "Update the owner/assignee of the episode. Can be a username or 'unassigned' to clear assignment.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "instruction": {
+        "description": "Update the instruction field of the episode. Contains guidance or notes about how to handle the episode. Set to C(all_instruction) to reset the instruction in the ITSI UI, effectively clearing it so the episode shows no instruction provided.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fields": {
+        "description": "Dictionary of additional fields to update. Allows updating any valid episode field not covered by specific parameters. Field names should match ITSI episode schema.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

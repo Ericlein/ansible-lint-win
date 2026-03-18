@@ -30,6 +30,18 @@ function fallbackCompletions(lines: string[], position: Position, items: Complet
   const line = lines[position.line] || '';
   const indent = line.search(/\S/);
   const trimmed = line.trimStart();
+  const textBeforeCursor = line.substring(0, position.character);
+
+  // If cursor is after "key: " (value position), only offer value completions
+  const valueMatch = textBeforeCursor.match(/^\s*-?\s*([\w.]+)\s*:\s+/);
+  if (valueMatch) {
+    addValueCompletions(items, valueMatch[1], null);
+    return;
+  }
+
+  // Extract the word being typed (prefix) for filtering
+  const prefixMatch = textBeforeCursor.match(/(?:^|\s|-\s*)([\w.]*)$/);
+  const prefix = prefixMatch ? prefixMatch[1] : '';
 
   // Determine context by scanning upward
   const context = detectContextFromLines(lines, position.line);
@@ -39,7 +51,7 @@ function fallbackCompletions(lines: string[], position: Position, items: Complet
       // We're at a task level — offer task keywords + modules
       const existingKeys = context.existingKeys || [];
       addKeywordCompletions(items, taskKeywords, existingKeys);
-      addModuleCompletions(items, existingKeys);
+      addModuleCompletions(items, existingKeys, prefix);
       break;
     }
     case 'module-option': {
@@ -59,13 +71,13 @@ function fallbackCompletions(lines: string[], position: Position, items: Complet
     default: {
       // Offer everything as a last resort
       addKeywordCompletions(items, taskKeywords, []);
-      addModuleCompletions(items, []);
+      addModuleCompletions(items, [], prefix);
       break;
     }
   }
 }
 
-interface LineContext {
+export interface LineContext {
   type: 'play-key' | 'task-key' | 'module-option' | 'block-key' | 'unknown';
   moduleName?: string;
   existingKeys?: string[];
@@ -74,7 +86,7 @@ interface LineContext {
 const TASK_LIST_KEYS = new Set(['tasks', 'pre_tasks', 'post_tasks', 'handlers']);
 const BLOCK_TASK_KEYS = new Set(['block', 'rescue', 'always']);
 
-function detectContextFromLines(lines: string[], lineNum: number): LineContext {
+export function detectContextFromLines(lines: string[], lineNum: number): LineContext {
   const currentLine = lines[lineNum] || '';
   const currentIndent = currentLine.search(/\S/);
   const effectiveIndent = currentIndent === -1 ? currentLine.length : currentIndent;
@@ -185,7 +197,7 @@ function detectContextFromLines(lines: string[], lineNum: number): LineContext {
 function addKeywordCompletions(
   items: CompletionItem[],
   keywords: Record<string, any>,
-  existingKeys: string[]
+  existingKeys: string[],
 ): void {
   const existing = new Set(existingKeys);
   for (const [key, def] of Object.entries(keywords)) {
@@ -202,23 +214,39 @@ function addKeywordCompletions(
   }
 }
 
-function addModuleCompletions(items: CompletionItem[], existingKeys: string[]): void {
+function addModuleCompletions(items: CompletionItem[], existingKeys: string[], prefix: string): void {
   const existing = new Set(existingKeys);
   // Check if a module is already present
   for (const key of existing) {
     if (modulesByFQCN.has(key) || modulesByShortName.has(key)) return;
   }
 
+  const lowerPrefix = prefix.toLowerCase();
+
   for (const [fqcn, mod] of modulesByFQCN) {
     const shortName = fqcn.split('.').pop()!;
+    // Pre-filter: only include modules where short name starts with prefix
+    // or the typed text contains a dot (user is typing FQCN like "ansible.builtin.")
+    if (lowerPrefix) {
+      if (lowerPrefix.includes('.')) {
+        if (!fqcn.toLowerCase().startsWith(lowerPrefix)) continue;
+      } else {
+        if (!shortName.toLowerCase().startsWith(lowerPrefix)) continue;
+      }
+    }
+    // Prioritize ansible.builtin modules, then by collection name
+    const priority = fqcn.startsWith('ansible.builtin.') ? '2a' : '2z';
+    // Use short name as label so Zed matches against the typed word.
+    // textEdit with explicit range ensures only the typed text is replaced,
+    // preserving indentation.
+    const displayLabel = lowerPrefix.includes('.') ? fqcn : shortName;
     items.push({
-      label: fqcn,
+      label: displayLabel,
       kind: CompletionItemKind.Module,
-      detail: mod.short_description,
+      detail: `${fqcn} — ${mod.short_description}`,
       documentation: mod.description,
-      sortText: `2_${fqcn}`,
-      filterText: `${fqcn} ${shortName}`,
-      insertText: `${fqcn}:\n  `,
+      sortText: `${priority}_${fqcn}`,
+      insertText: `${fqcn}: `,
       insertTextFormat: InsertTextFormat.PlainText,
     });
   }
@@ -227,7 +255,7 @@ function addModuleCompletions(items: CompletionItem[], existingKeys: string[]): 
 function addModuleOptionCompletions(
   items: CompletionItem[],
   mod: ModuleDefinition,
-  existingKeys: string[]
+  existingKeys: string[],
 ): void {
   const existing = new Set(existingKeys);
   for (const [key, opt] of Object.entries(mod.options)) {

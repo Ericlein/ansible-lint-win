@@ -1,110 +1,2171 @@
 {
   "dellemc.unity.cifsserver": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage CIFS server on Unity storage system",
+    "description": "Managing the CIFS server on the Unity storage system includes creating CIFS server, getting CIFS server details and deleting CIFS server.",
+    "options": {
+      "nas_server_name": {
+        "description": "Name of the NAS server on which CIFS server will be hosted.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nas_server_id": {
+        "description": "ID of the NAS server on which CIFS server will be hosted.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "netbios_name": {
+        "description": "The computer name of the SMB server in Windows network.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "workgroup": {
+        "description": "Standalone SMB server workgroup.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "local_password": {
+        "description": "Standalone SMB server administrator password.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain": {
+        "description": "The domain name where the SMB server is registered in Active Directory.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_username": {
+        "description": "Active Directory domain user name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_password": {
+        "description": "Active Directory domain password.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cifs_server_name": {
+        "description": "The name of the CIFS server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cifs_server_id": {
+        "description": "The ID of the CIFS server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interfaces": {
+        "description": "List of file IP interfaces that service CIFS protocol of SMB server.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "unjoin_cifs_server_account": {
+        "description": "Keep SMB server account unjoined in Active Directory after deletion. C(false) specifies keep SMB server account joined after deletion. C(true) specifies unjoin SMB server account from Active Directory before deletion.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the CIFS server should exist or not.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.unity.consistencygroup": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage consistency groups on Unity storage system",
+    "description": "Managing the consistency group on the Unity storage system includes creating new consistency group, adding volumes to consistency group, removing volumes from consistency group, mapping hosts to consistency group, unmapping hosts from consistency group, renaming consistency group, modifying attributes of consistency group, enabling replication in consistency group, disabling replication in consistency group and deleting consistency group.",
+    "options": {
+      "cg_name": {
+        "description": "The name of the consistency group. It is mandatory for the create operation. Specify either I(cg_name) or I(cg_id) (but not both) for any operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cg_id": {
+        "description": "The ID of the consistency group. It can be used only for get, modify, add/remove volumes, or delete operations.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "volumes": {
+        "description": "This is a list of volumes. Either the volume ID or name must be provided for adding/removing existing volumes from consistency group. If I(volumes) are given, then I(vol_state) should also be specified. Volumes cannot be added/removed from consistency group, if the consistency group or the volume has snapshots.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vol_state": {
+        "description": "String variable, describes the state of volumes inside consistency group. If I(volumes) are given, then I(vol_state) should also be specified.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present-in-group",
+          "absent-in-group"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "new_cg_name": {
+        "description": "The new name of the consistency group, used in rename operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the consistency group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snap_schedule": {
+        "description": "Snapshot schedule assigned to the consistency group. Specifying an empty string \"\" removes the existing snapshot schedule from consistency group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tiering_policy": {
+        "description": "Tiering policy choices for how the storage resource data will be distributed among the tiers available in the pool.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "AUTOTIER_HIGH",
+          "AUTOTIER",
+          "HIGHEST",
+          "LOWEST"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "hosts": {
+        "description": "This is a list of hosts. Either the host ID or name must be provided for mapping/unmapping hosts for a consistency group. If I(hosts) are given, then I(mapping_state) should also be specified. Hosts cannot be mapped to a consistency group, if the consistency group has no volumes. When a consistency group is being mapped to the host, users should not use the volume module to map the volumes in the consistency group to hosts.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mapping_state": {
+        "description": "String variable, describes the state of hosts inside the consistency group. If I(hosts) are given, then I(mapping_state) should also be specified.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "mapped",
+          "unmapped"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "replication_params": {
+        "description": "Settings required for enabling replication.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "replication_state": {
+        "description": "State of the replication.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enable",
+          "disable"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the consistency group should exist or not.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.unity.filesystem": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage filesystem on Unity storage system",
+    "description": "Managing filesystem on Unity storage system includes Create new filesystem, Modify snapschedule attribute of filesystem, Modify filesystem attributes, Display filesystem details, Display filesystem snapshots, Display filesystem snapschedule, Delete snapschedule associated with the filesystem, Delete filesystem, Create new filesystem with quota configuration, Enable, modify and disable replication.",
+    "options": {
+      "filesystem_name": {
+        "description": "The name of the filesystem. Mandatory only for the create operation. All the operations are supported through I(filesystem_name). It is mutually exclusive with I(filesystem_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filesystem_id": {
+        "description": "The id of the filesystem. It can be used only for get, modify, or delete operations. It is mutually exclusive with I(filesystem_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool_name": {
+        "description": "This is the name of the pool where the filesystem will be created. Either the I(pool_name) or I(pool_id) must be provided to create a new filesystem.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool_id": {
+        "description": "This is the ID of the pool where the filesystem will be created. Either the I(pool_name) or I(pool_id) must be provided to create a new filesystem.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "size": {
+        "description": "The size of the filesystem.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cap_unit": {
+        "description": "The unit of the filesystem size. It defaults to C(GB), if not specified.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "GB",
+          "TB"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "nas_server_name": {
+        "description": "Name of the NAS server on which filesystem will be hosted.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nas_server_id": {
+        "description": "ID of the NAS server on which filesystem will be hosted.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "supported_protocols": {
+        "description": "Protocols supported by the file system. It will be overridden by NAS server configuration if NAS Server is C(Multiprotocol).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "NFS",
+          "CIFS",
+          "MULTIPROTOCOL"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description about the filesystem. Description can be removed by passing empty string (\"\").",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "smb_properties": {
+        "description": "Advance settings for SMB. It contains optional candidate variables.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "data_reduction": {
+        "description": "Boolean variable, specifies whether or not to enable compression. Compression is supported only for thin filesystem.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_thin": {
+        "description": "Boolean variable, specifies whether or not it is a thin filesystem.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "access_policy": {
+        "description": "Access policy of a filesystem.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "NATIVE",
+          "UNIX",
+          "WINDOWS"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "locking_policy": {
+        "description": "File system locking policies. These policy choices control whether the NFSv4 range locks must be honored.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ADVISORY",
+          "MANDATORY"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "tiering_policy": {
+        "description": "Tiering policy choices for how the storage resource data will be distributed among the tiers available in the pool.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "AUTOTIER_HIGH",
+          "AUTOTIER",
+          "HIGHEST",
+          "LOWEST"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "quota_config": {
+        "description": "Configuration for quota management. It contains optional parameters.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State variable to determine whether filesystem will exist or not.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "snap_schedule_name": {
+        "description": "This is the name of an existing snapshot schedule which is to be associated with the filesystem. This is mutually exclusive with I(snapshot_schedule_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snap_schedule_id": {
+        "description": "This is the id of an existing snapshot schedule which is to be associated with the filesystem. This is mutually exclusive with I(snapshot_schedule_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "replication_params": {
+        "description": "Settings required for enabling or modifying replication.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "replication_state": {
+        "description": "State of the replication.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enable",
+          "disable"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.unity.filesystem_snapshot": {
     "short_description": "Manage filesystem snapshot on the Unity storage system",
     "description": "Managing Filesystem Snapshot on the Unity storage system includes create filesystem snapshot, get filesystem snapshot, modify filesystem snapshot and delete filesystem snapshot.",
-    "options": {},
-    "deprecated": null
-  },
-  "dellemc.unity.host": {
-    "short_description": "",
-    "description": "",
-    "options": {},
-    "deprecated": null
-  },
-  "dellemc.unity.info": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "options": {
+      "snapshot_name": {
+        "description": "The name of the filesystem snapshot. Mandatory parameter for creating a filesystem snapshot. For all other operations either I(snapshot_name) or I(snapshot_id) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_id": {
+        "description": "During creation snapshot_id is auto generated. For all other operations either I(snapshot_id) or I(snapshot_name) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filesystem_name": {
+        "description": "The name of the Filesystem for which snapshot is created. For creation of filesystem snapshot either I(filesystem_name) or I(filesystem_id) is required. Not required for other operations.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filesystem_id": {
+        "description": "The ID of the Filesystem for which snapshot is created. For creation of filesystem snapshot either I(filesystem_id) or I(filesystem_name) is required. Not required for other operations.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nas_server_name": {
+        "description": "The name of the NAS server in which the Filesystem is created. For creation of filesystem snapshot either I(nas_server_name) or I(nas_server_id) is required. Not required for other operations.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nas_server_id": {
+        "description": "The ID of the NAS server in which the Filesystem is created. For creation of filesystem snapshot either I(filesystem_id) or I(filesystem_name) is required. Not required for other operations.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auto_delete": {
+        "description": "This option specifies whether or not the filesystem snapshot will be automatically deleted. If set to C(true), the filesystem snapshot will expire based on the pool auto deletion policy. If set to C(false), the filesystem snapshot will not be auto deleted based on the pool auto deletion policy. Option I(auto_delete) can not be set to C(true), if I(expiry_time) is specified. If during creation neither I(auto_delete) nor I(expiry_time) is mentioned then the filesystem snapshot will be created keeping I(auto_delete) as C(true). Once the I(expiry_time) is set, then the filesystem snapshot cannot be assigned to the auto delete policy.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "expiry_time": {
+        "description": "This option is for specifying the date and time after which the filesystem snapshot will expire. The time is to be mentioned in UTC timezone. The format is \"MM/DD/YYYY HH:MM\". Year must be in 4 digits.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The additional information about the filesystem snapshot can be provided using this option. The description can be removed by passing an empty string.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fs_access_type": {
+        "description": "Access type of the filesystem snapshot. Required only during creation of filesystem snapshot. If not given, snapshot's access type will be C(Checkpoint).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Checkpoint",
+          "Protocol"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state option is used to mention the existence of the filesystem snapshot.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.unity.interface": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Interfaces on Unity storage system",
+    "description": "Managing the Interfaces on the Unity storage system includes adding Interfaces to NAS Server, getting details of interface and deleting configured interfaces.",
+    "options": {
+      "nas_server_name": {
+        "description": "Name of the NAS server for which interface will be configured.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nas_server_id": {
+        "description": "ID of the NAS server for which interface will be configured.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ethernet_port_name": {
+        "description": "Name of the ethernet port.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ethernet_port_id": {
+        "description": "ID of the ethernet port.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role": {
+        "description": "Indicates whether interface is configured as production or backup.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "PRODUCTION",
+          "BACKUP"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "interface_ip": {
+        "description": "IP of network interface.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "netmask": {
+        "description": "Netmask of network interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "prefix_length": {
+        "description": "Prefix length is mutually exclusive with I(netmask).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gateway": {
+        "description": "Gateway of network interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vlan_id": {
+        "description": "Vlan id of the interface.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the interface should exist or not.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.unity.nasserver": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage NAS servers on Unity storage system",
+    "description": "Managing NAS servers on Unity storage system includes get, modification to the NAS servers.",
+    "options": {
+      "nas_server_id": {
+        "description": "The ID of the NAS server. Either I(nas_server_name) or I(nas_server_id) is required to perform the task. The parameters I(nas_server_name) and I(nas_server_id) are mutually exclusive.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nas_server_name": {
+        "description": "The Name of the NAS server. Either I(nas_server_name) or I(nas_server_id)  is required to perform the task. The parameters I(nas_server_name) and I(nas_server_id) are mutually exclusive.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nas_server_new_name": {
+        "description": "The new name of the NAS server. It can be mentioned during modification of the NAS server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_replication_destination": {
+        "description": "It specifies whether the NAS server is a replication destination. It can be mentioned during modification of the NAS server.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_backup_only": {
+        "description": "It specifies whether the NAS server is used as backup only. It can be mentioned during modification of the NAS server.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_multiprotocol_enabled": {
+        "description": "This parameter indicates whether multiprotocol sharing mode is enabled. It can be mentioned during modification of the NAS server.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_unmapped_user": {
+        "description": "This flag is used to mandatorily disable access in case of any user mapping failure. If C(true), then enable access in case of any user mapping failure. If C(false), then disable access in case of any user mapping failure. It can be mentioned during modification of the NAS server.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_windows_user": {
+        "description": "Default windows user name used for granting access in the case of Unix to Windows user mapping failure. It can be mentioned during modification of the NAS server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_unix_user": {
+        "description": "Default Unix user name used for granting access in the case of Windows to Unix user mapping failure. It can be mentioned during modification of the NAS server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_windows_to_unix_username_mapping": {
+        "description": "This parameter indicates whether a Unix to/from Windows user name mapping is enabled. It can be mentioned during modification of the NAS server.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_packet_reflect_enabled": {
+        "description": "If the packet has to be reflected, then this parameter has to be set to C(true). It can be mentioned during modification of the NAS server.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "current_unix_directory_service": {
+        "description": "This is the directory service used for querying identity information for UNIX (such as UIDs, GIDs, net groups). It can be mentioned during modification of the NAS server.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "NONE",
+          "NIS",
+          "LOCAL",
+          "LDAP",
+          "LOCAL_THEN_NIS",
+          "LOCAL_THEN_LDAP"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "replication_params": {
+        "description": "Settings required for enabling replication.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "replication_state": {
+        "description": "State of the replication.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enable",
+          "disable"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "replication_reuse_resource": {
+        "description": "This parameter indicates if existing NAS Server is to be used for replication.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define the state of NAS server on the array. The value present indicates that NAS server should exist on the system after the task is executed. In this release deletion of NAS server is not supported. Hence, if state is set to C(absent) for any existing NAS server then error will be thrown. For any non-existing NAS server, if state is set to C(absent) then it will return None.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.unity.nfs": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage NFS export on Unity storage system",
+    "description": "Managing NFS export on Unity storage system includes- Create new NFS export, Modify NFS export attributes, Display NFS export details, Delete NFS export.",
+    "options": {
+      "nfs_export_name": {
+        "description": "Name of the nfs export. Mandatory for create operation. Specify either I(nfs_export_name) or I(nfs_export_id) (but not both) for any operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nfs_export_id": {
+        "description": "ID of the nfs export. This is a unique ID generated by Unity storage system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filesystem_name": {
+        "description": "Name of the filesystem for which NFS export will be created. Either filesystem or snapshot is required for creation of the NFS. If I(filesystem_name) is specified, then I(nas_server) is required to uniquely identify the filesystem. If filesystem parameter is provided, then snapshot cannot be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filesystem_id": {
+        "description": "ID of the filesystem. This is a unique ID generated by Unity storage system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_name": {
+        "description": "Name of the snapshot for which NFS export will be created. Either filesystem or snapshot is required for creation of the NFS export. If snapshot parameter is provided, then filesystem cannot be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_id": {
+        "description": "ID of the snapshot. This is a unique ID generated by Unity storage system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nas_server_name": {
+        "description": "Name of the NAS server on which filesystem will be hosted.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nas_server_id": {
+        "description": "ID of the NAS server on which filesystem will be hosted.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "Local path to export relative to the NAS server root. With NFS, each export of a file_system or file_snap must have a unique local path. Mandatory while creating NFS export.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the NFS export. Optional parameter when creating a NFS export. To modify description, pass the new value in I(description) field. To remove description, pass the empty value in I(description) field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_state": {
+        "description": "Define whether the hosts can access the NFS export. Required when adding or removing access of hosts from the export.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present-in-export",
+          "absent-in-export"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "anonymous_uid": {
+        "description": "Specifies the user ID of the anonymous account. If not specified at the time of creation, it will be set to 4294967294.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "anonymous_gid": {
+        "description": "Specifies the group ID of the anonymous account. If not specified at the time of creation, it will be set to 4294967294.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State variable to determine whether NFS export will exist or not.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "default_access": {
+        "description": "Default access level for all hosts that can access the NFS export. For hosts that need different access than the default, they can be configured by adding to the list. If I(default_access) is not mentioned during creation, then NFS export will be created with C(NO_ACCESS).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "NO_ACCESS",
+          "READ_ONLY",
+          "READ_WRITE",
+          "ROOT",
+          "READ_ONLY_ROOT"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "min_security": {
+        "description": "NFS enforced security type for users accessing a NFS export. If not specified at the time of creation, it will be set to C(SYS).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "SYS",
+          "KERBEROS",
+          "KERBEROS_WITH_INTEGRITY",
+          "KERBEROS_WITH_ENCRYPTION"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "adv_host_mgmt_enabled": {
+        "description": "If C(false), allows you to specify hosts without first having to register them. Mandatory while adding access hosts.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "no_access_hosts": {
+        "description": "Hosts with no access to the NFS export. List of dictionaries. Each dictionary will have any of the keys from I(host_name), I(host_id), I(subnet), I(netgroup), I(domain) and I(ip_address). If I(adv_host_mgmt_enabled) is C(true) then the accepted keys are I(host_name), I(host_id) and I(ip_address). If I(adv_host_mgmt_enabled) is C(false) then the accepted keys are I(host_name), I(subnet), I(netgroup), I(domain) and I(ip_address).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "read_only_hosts": {
+        "description": "Hosts with read-only access to the NFS export. List of dictionaries. Each dictionary will have any of the keys from I(host_name), I(host_id), I(subnet), I(netgroup), I(domain) and I(ip_address). If I(adv_host_mgmt_enabled) is C(true) then the accepted keys are I(host_name), I(host_id) and I(ip_address). If I(adv_host_mgmt_enabled) is C(false) then the accepted keys are I(host_name), I(subnet), I(netgroup), I(domain) and I(ip_address).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "read_only_root_hosts": {
+        "description": "Hosts with read-only for root user access to the NFS export. List of dictionaries. Each dictionary will have any of the keys from I(host_name), I(host_id), I(subnet), I(netgroup), I(domain) and I(ip_address). If I(adv_host_mgmt_enabled) is C(true) then the accepted keys are I(host_name), I(host_id) and I(ip_address). If I(adv_host_mgmt_enabled) is C(false) then the accepted keys are I(host_name), I(subnet), I(netgroup), I(domain) and I(ip_address).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "read_write_hosts": {
+        "description": "Hosts with read and write access to the NFS export. List of dictionaries. Each dictionary will have any of the keys from I(host_name), I(host_id), I(subnet), I(netgroup), I(domain) and I(ip_address). If I(adv_host_mgmt_enabled) is C(true) then the accepted keys are I(host_name), I(host_id) and I(ip_address). If I(adv_host_mgmt_enabled) is C(false) then the accepted keys are I(host_name), I(subnet), I(netgroup), I(domain) and I(ip_address).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "read_write_root_hosts": {
+        "description": "Hosts with read and write for root user access to the NFS export. List of dictionaries. Each dictionary will have any of the keys from I(host_name), I(host_id), I(subnet), I(netgroup), I(domain) and I(ip_address). If I(adv_host_mgmt_enabled) is C(true) then the accepted keys are I(host_name), I(host_id) and I(ip_address). If I(adv_host_mgmt_enabled) is C(false) then the accepted keys are I(host_name), I(subnet), I(netgroup), I(domain) and I(ip_address).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.unity.nfsserver": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage NFS server on Unity storage system",
+    "description": "Managing the NFS server on the Unity storage system includes creating NFS server, getting NFS server details and deleting NFS server attributes.",
+    "options": {
+      "nas_server_name": {
+        "description": "Name of the NAS server on which NFS server will be hosted.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nas_server_id": {
+        "description": "ID of the NAS server on which NFS server will be hosted.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nfs_server_id": {
+        "description": "ID of the NFS server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_name": {
+        "description": "Host name of the NFS server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nfs_v4_enabled": {
+        "description": "Indicates whether the NFSv4 is enabled on the NAS server.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_secure_enabled": {
+        "description": "Indicates whether the secure NFS is enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kerberos_domain_controller_type": {
+        "description": "Type of Kerberos Domain Controller used for secure NFS service.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "CUSTOM",
+          "UNIX",
+          "WINDOWS"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "kerberos_domain_controller_username": {
+        "description": "Kerberos Domain Controller administrator username.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kerberos_domain_controller_password": {
+        "description": "Kerberos Domain Controller administrator password.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_extended_credentials_enabled": {
+        "description": "Indicates whether support for more than 16 unix groups in a Unix credential.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remove_spn_from_kerberos": {
+        "description": "Indicates whether to remove the SPN from Kerberos Domain Controller.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the NFS server should exist or not.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.unity.replication_session": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage replication session on Unity storage system",
+    "description": "Managing replication session on Unity storage system includes getting details, pause, resume, sync, failover, failback and deleting the replication session.",
+    "options": {
+      "session_id": {
+        "description": "ID of replication session.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "session_name": {
+        "description": "Name of replication session.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pause": {
+        "description": "Pause or resume replication session.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sync": {
+        "description": "Sync a replication session.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "failover_with_sync": {
+        "description": "If C(true), Sync the source and destination resources before failing over the asynchronous replication session or keep them in sync after failing over the synchronous replication session. If C(false), Failover a replication session.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "failback": {
+        "description": "Failback a replication session.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force_full_copy": {
+        "description": "Indicates whether to sync back all data from the destination SP to the source SP during the failback session. Needed during resume operation when replication session goes out of sync due to a fault.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Skip pre-checks on file system(s) replication sessions of a NAS server when a replication failover is issued from the source NAS server.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State variable to determine whether replication session will exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.unity.smbshare": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage SMB shares on Unity storage system",
+    "description": "Managing SMB Shares on Unity storage system includes create, get, modify, and delete the smb shares.",
+    "options": {
+      "share_name": {
+        "description": "Name of the SMB share. Required during creation of the SMB share. For all other operations either I(share_name) or I(share_id) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "share_id": {
+        "description": "ID of the SMB share. Should not be specified during creation. Id is auto generated. For all other operations either I(share_name) or I(share_id) is required. If I(share_id) is used then no need to pass nas_server/filesystem/snapshot/path.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "Local path to the file system/Snapshot or any existing sub-folder of the file system/Snapshot that is shared over the network. Path is relative to the root of the filesystem. Required for creation of the SMB share.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filesystem_id": {
+        "description": "The ID of the File System. Either I(filesystem_name) or I(filesystem_id) is required for creation of the SMB share for filesystem. If I(filesystem_name) is specified, then I(nas_server_name)/I(nas_server_id) is required to uniquely identify the filesystem. Options I(filesystem_name) and I(filesystem_id) are mutually exclusive parameters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_id": {
+        "description": "The ID of the Filesystem Snapshot. Either I(snapshot_name) or I(snapshot_id) is required for creation of the SMB share for a snapshot. If I(snapshot_name) is specified, then I(nas_server_name)/I(nas_server_id) is required to uniquely identify the snapshot. Options I(snapshot_name) and I(snapshot_id) are mutually exclusive parameters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nas_server_id": {
+        "description": "The ID of the NAS Server. It is not required if I(share_id) is used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filesystem_name": {
+        "description": "The Name of the File System. Either I(filesystem_name) or I(filesystem_id) is required for creation of the SMB share for filesystem. If I(filesystem_name) is specified, then I(nas_server_name)/I(nas_server_id) is required to uniquely identify the filesystem. Options I(filesystem_name) and I(filesytem_id) are mutually exclusive parameters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_name": {
+        "description": "The Name of the Filesystem Snapshot. Either I(snapshot_name) or I(snapshot_id) is required for creation of the SMB share for a snapshot. If I(snapshot_name) is specified, then I(nas_server_name)/I(nas_server_id) is required to uniquely identify the snapshot. Options I(snapshot_name) and I(snapshot_id) are mutually exclusive parameters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nas_server_name": {
+        "description": "The Name of the NAS Server. It is not required if I(share_id) is used. Options I(nas_server_name) and I(nas_server_id) are mutually exclusive parameters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description for the SMB share. Optional parameter when creating a share. To modify, pass the new value in description field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_abe_enabled": {
+        "description": "Indicates whether Access-based Enumeration (ABE) for SMB share is enabled. During creation, if not mentioned then default is C(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_branch_cache_enabled": {
+        "description": "Indicates whether Branch Cache optimization for SMB share is enabled. During creation, if not mentioned then default is C(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_continuous_availability_enabled": {
+        "description": "Indicates whether continuous availability for SMB 3.0 is enabled. During creation, if not mentioned then default is C(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_encryption_enabled": {
+        "description": "Indicates whether encryption for SMB 3.0 is enabled at the shared folder level. During creation, if not mentioned then default is C(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "offline_availability": {
+        "description": "Defines valid states of Offline Availability. C(MANUAL)- Only specified files will be available offline. C(DOCUMENTS)- All files that users open will be available offline. C(PROGRAMS)- Program will preferably run from the offline cache even when connected to the network. All files that users open will be available offline. C(NONE)- Prevents clients from storing documents and programs in offline cache.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "MANUAL",
+          "DOCUMENTS",
+          "PROGRAMS",
+          "NONE"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "umask": {
+        "description": "The default UNIX umask for new files created on the SMB Share.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the SMB share should exist or not. Value C(present) indicates that the share should exist on the system. Value C(absent) indicates that the share should not exist on the system.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.unity.snapshot": {
     "short_description": "Manage snapshots on the Unity storage system",
     "description": "Managing snapshots on the Unity storage system includes create snapshot, delete snapshot, update snapshot, get snapshot, map host and unmap host.",
-    "options": {},
+    "options": {
+      "snapshot_name": {
+        "description": "The name of the snapshot. Mandatory parameter for creating a snapshot. For all other operations either I(snapshot_name) or I(snapshot_id) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vol_name": {
+        "description": "The name of the volume for which snapshot is created. For creation of a snapshot either I(vol_name) or I(cg_name) is required. Not required for other operations.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cg_name": {
+        "description": "The name of the Consistency Group for which snapshot is created. For creation of a snapshot either I(vol_name) or I(cg_name) is required. Not required for other operations.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_id": {
+        "description": "The id of the snapshot. For all operations other than creation either I(snapshot_name) or I(snapshot_id) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auto_delete": {
+        "description": "This option specifies whether the snapshot is auto deleted or not. If set to C(true), snapshot will expire based on the pool auto deletion policy. If set to (false), snapshot will not be auto deleted based on the pool auto deletion policy. Option I(auto_delete) can not be set to C(true), if I(expiry_time) is specified. If during creation neither I(auto_delete) nor I(expiry_time) is mentioned then snapshot will be created keeping I(auto_delete) as C(true). Once the I(expiry_time) is set then snapshot cannot be assigned to the auto delete policy.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "expiry_time": {
+        "description": "This option is for specifying the date and time after which the snapshot will expire. The time is to be mentioned in UTC timezone. The format is \"MM/DD/YYYY HH:MM\". Year must be in 4 digits.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The additional information about the snapshot can be provided using this option.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_snapshot_name": {
+        "description": "New name for the snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The I(state) option is used to mention the existence of the snapshot.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "host_name": {
+        "description": "The name of the host. Either I(host_name) or I(host_id) is required to map or unmap a snapshot from a host. Snapshot can be attached to multiple hosts.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_id": {
+        "description": "The id of the host. Either I(host_name) or I(host_id) is required to map or unmap a snapshot from a host. Snapshot can be attached to multiple hosts.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_state": {
+        "description": "The I(host_state) option is used to mention the existence of the host for snapshot. It is required when a snapshot is mapped or unmapped from host.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "mapped",
+          "unmapped"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.unity.snapshotschedule": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage snapshot schedules on Unity storage system",
+    "description": "Managing snapshot schedules on Unity storage system includes creating new snapshot schedule, getting details of snapshot schedule, modifying attributes of snapshot schedule, and deleting snapshot schedule.",
+    "options": {
+      "name": {
+        "description": "The name of the snapshot schedule. Name is mandatory for a create operation. Specify either I(name) or I(id) (but not both) for any operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "The ID of the snapshot schedule.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Type of the rule to be included in snapshot schedule. Type is mandatory for any create or modify operation. Once the snapshot schedule is created with one type it can be modified.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "every_n_hours",
+          "every_day",
+          "every_n_days",
+          "every_week",
+          "every_month"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "interval": {
+        "description": "Number of hours between snapshots. Applicable only when rule type is C(every_n_hours).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hours_of_day": {
+        "description": "Hours of the day when the snapshot will be taken. Applicable only when rule type is C(every_day).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "day_interval": {
+        "description": "Number of days between snapshots. Applicable only when rule type is C(every_n_days).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "days_of_week": {
+        "description": "Days of the week for which the snapshot schedule rule applies. Applicable only when rule type is C(every_week).",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "SUNDAY",
+          "MONDAY",
+          "TUESDAY",
+          "WEDNESDAY",
+          "THURSDAY",
+          "FRIDAY",
+          "SATURDAY"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "day_of_month": {
+        "description": "Day of the month for which the snapshot schedule rule applies. Applicable only when rule type is C(every_month). Value should be [1, 31].",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hour": {
+        "description": "The hour when the snapshot will be taken. Applicable for C(every_n_days), C(every_week), C(every_month) rule types. For create operation, if I(hour) parameter is not specified, value will be taken as C(0). Value should be [0, 23].",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "minute": {
+        "description": "Minute offset from the hour when the snapshot will be taken. Applicable for all rule types. For a create operation, if I(minute) parameter is not specified, value will be taken as C(0). Value should be [0, 59].",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "desired_retention": {
+        "description": "The number of days/hours for which snapshot will be retained. When I(auto_delete) is C(true), I(desired_retention) cannot be specified. Maximum desired retention supported is 31 days or 744 hours.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "retention_unit": {
+        "description": "The retention unit for the snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "hours",
+          "days"
+        ],
+        "default": "hours",
+        "aliases": null
+      },
+      "auto_delete": {
+        "description": "Indicates whether the system can automatically delete the snapshot.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the snapshot schedule should exist or not.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.unity.storagepool": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage storage pool on Unity",
+    "description": "Managing storage pool on Unity storage system contains the operations Get details of storage pool, Create a storage pool, Modify storage pool.",
+    "options": {
+      "pool_name": {
+        "description": "Name of the storage pool, unique in the storage system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool_id": {
+        "description": "Unique identifier of the pool instance.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_pool_name": {
+        "description": "New name of the storage pool, unique in the storage system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool_description": {
+        "description": "The description of the storage pool.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fast_cache": {
+        "description": "Indicates whether the fast cache is enabled for the storage pool. C(Enabled) - FAST Cache is enabled for the pool. C(Disabled) - FAST Cache is disabled for the pool.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "fast_vp": {
+        "description": "Indicates whether to enable scheduled data relocations for the pool. C(Enabled) - Enabled scheduled data relocations for the pool. C(Disabled) - Disabled scheduled data relocations for the pool.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "raid_groups": {
+        "description": "Parameters to create RAID group from the disks and add it to the pool.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "alert_threshold": {
+        "description": "Threshold at which the system will generate alerts about the free space in the pool, specified as a percentage. Minimum threshold limit is 50. Maximum threshold limit is 84.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_harvest_enabled": {
+        "description": "Enable/Disable automatic deletion of snapshots based on pool space usage.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool_harvest_high_threshold": {
+        "description": "Max threshold for space used in pool beyond which the system automatically starts deleting snapshots in the pool. Applies when the automatic deletion of snapshots based on pool space usage is enabled for the system and pool. Minimum pool harvest high threshold value is 1. Maximum pool harvest high threshold value is 99.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool_harvest_low_threshold": {
+        "description": "Min threshold for space used in pool below which the system automatically stops deletion of snapshots in the pool. Applies when the automatic deletion of snapshots based on pool space usage is enabled for the system and pool. Minimum pool harvest low threshold value is 0. Maximum pool harvest low threshold value is 98.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_snap_harvest_enabled": {
+        "description": "Enable/Disable automatic deletion of snapshots based on pool space usage.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snap_harvest_high_threshold": {
+        "description": "Max threshold for space used in snapshot beyond which the system automatically starts deleting snapshots in the pool. Applies when the automatic deletion of snapshots based on pool space usage is enabled for the pool. Minimum snap harvest high threshold value is 1. Maximum snap harvest high threshold value is 99.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snap_harvest_low_threshold": {
+        "description": "Min threshold for space used in snapshot below which the system will stop automatically deleting snapshots in the pool. Applies when the automatic deletion of snapshots based on pool space usage is enabled for the pool. Minimum snap harvest low threshold value is 0. Maximum snap harvest low threshold value is 98.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool_type": {
+        "description": "Indicates storage pool type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "TRADITIONAL",
+          "DYNAMIC"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the storage pool should exist or not. C(Present) - indicates that the storage pool should exist on the system. C(Absent) - indicates that the storage pool should not exist on the system.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.unity.tree_quota": {
     "short_description": "Manage quota tree on the Unity storage system",
     "description": "Managing Quota tree on the Unity storage system includes Create quota tree, Get quota tree, Modify quota tree and Delete quota tree.",
-    "options": {},
+    "options": {
+      "filesystem_name": {
+        "description": "The name of the filesystem for which quota tree is created. For creation or modification of a quota tree either I(filesystem_name) or I(filesystem_id) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filesystem_id": {
+        "description": "The ID of the filesystem for which the quota tree is created. For creation of a quota tree either I(filesystem_id) or I(filesystem_name) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nas_server_name": {
+        "description": "The name of the NAS server in which the filesystem is created. For creation of a quota tree either I(nas_server_name) or I(nas_server_id) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nas_server_id": {
+        "description": "The ID of the NAS server in which the filesystem is created. For creation of a quota tree either I(filesystem_id) or I(filesystem_name) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tree_quota_id": {
+        "description": "The ID of the quota tree. Either I(tree_quota_id) or I(path) to quota tree is required to view/modify/delete quota tree.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "The path to the quota tree. Either I(tree_quota_id) or I(path) to quota tree is required to create/view/modify/delete a quota tree. Path must start with a forward slash '/'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hard_limit": {
+        "description": "Hard limitation for a quota tree on the total space available. If exceeded, users in quota tree cannot write data. Value C(0) implies no limit. One of the values of I(soft_limit) and I(hard_limit) can be C(0), however, both cannot be both C(0) during creation of a quota tree.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "soft_limit": {
+        "description": "Soft limitation for a quota tree on the total space available. If exceeded, notification will be sent to users in the quota tree for the grace period mentioned, beyond which users cannot use space. Value C(0) implies no limit. Both I(soft_limit) and I(hard_limit) cannot be C(0) during creation of quota tree.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cap_unit": {
+        "description": "Unit of I(soft_limit) and I(hard_limit) size. It defaults to C(GB) if not specified.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "MB",
+          "GB",
+          "TB"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of a quota tree.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state option is used to mention the existence of the filesystem quota tree.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.unity.user_quota": {
     "short_description": "Manage user quota on the Unity storage system",
     "description": "Managing User Quota on the Unity storage system includes Create user quota, Get user quota, Modify user quota, Delete user quota, Create user quota for quota tree, Modify user quota for quota tree and Delete user quota for quota tree.",
-    "options": {},
+    "options": {
+      "filesystem_name": {
+        "description": "The name of the filesystem for which the user quota is created. For creation of a user quota either I(filesystem_name) or I(filesystem_id) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filesystem_id": {
+        "description": "The ID of the filesystem for which the user quota is created. For creation of a user quota either I(filesystem_id) or I(filesystem_name) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nas_server_name": {
+        "description": "The name of the NAS server in which the filesystem is created. For creation of a user quota either I(nas_server_name) or I(nas_server_id) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nas_server_id": {
+        "description": "The ID of the NAS server in which the filesystem is created. For creation of a user quota either I(filesystem_id) or I(filesystem_name) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hard_limit": {
+        "description": "Hard limitation for a user on the total space available. If exceeded, user cannot write data. Value C(0) implies no limit. One of the values of I(soft_limit) and I(hard_limit) can be C(0), however, both cannot be C(0) during creation or modification of user quota.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "soft_limit": {
+        "description": "Soft limitation for a user on the total space available. If exceeded, notification will be sent to the user for the grace period mentioned, beyond which the user cannot use space. Value C(0) implies no limit. Both I(soft_limit) and I(hard_limit) cannot be C(0) during creation or modification of user quota.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cap_unit": {
+        "description": "Unit of I(soft_limit) and I(hard_limit) size. It defaults to C(GB) if not specified.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "MB",
+          "GB",
+          "TB"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "user_type": {
+        "description": "Type of user creating a user quota. Mandatory while creating or modifying user quota.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Unix",
+          "Windows"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "win_domain": {
+        "description": "Fully qualified or short domain name for Windows user type. Mandatory when I(user_type) is C(Windows).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_name": {
+        "description": "User name of the user quota when I(user_type) is C(Windows) or C(Unix). Option I(user_name) must be specified along with I(win_domain) when I(user_type) is C(Windows).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uid": {
+        "description": "User ID of the user quota.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_quota_id": {
+        "description": "User quota ID generated after creation of a user quota.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tree_quota_id": {
+        "description": "The ID of the quota tree. Either I(tree_quota_id) or I(path) to quota tree is required to create/modify/delete user quota for a quota tree.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "The path to the quota tree. Either I(tree_quota_id) or I(path) to quota tree is required to create/modify/delete user quota for a quota tree. Path must start with a forward slash '/'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The I(state) option is used to mention the existence of the user quota.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.unity.volume": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage volume on Unity storage system",
+    "description": "Managing volume on Unity storage system includes- Create new volume, Modify volume attributes, Map Volume to host, Unmap volume to host, Display volume details, Delete volume.",
+    "options": {
+      "vol_name": {
+        "description": "The name of the volume. Mandatory only for create operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vol_id": {
+        "description": "The id of the volume. It can be used only for get, modify, map/unmap host, or delete operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool_name": {
+        "description": "This is the name of the pool where the volume will be created. Either the I(pool_name) or I(pool_id) must be provided to create a new volume.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool_id": {
+        "description": "This is the id of the pool where the volume will be created. Either the I(pool_name) or I(pool_id) must be provided to create a new volume.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "size": {
+        "description": "The size of the volume.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cap_unit": {
+        "description": "The unit of the volume size. It defaults to C(GB), if not specified.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "GB",
+          "TB"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description about the volume. Description can be removed by passing empty string (\"\").",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snap_schedule": {
+        "description": "Snapshot schedule assigned to the volume. Add/Remove/Modify the snapshot schedule for the volume.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "compression": {
+        "description": "Boolean variable, Specifies whether or not to enable compression. Compression is supported only for thin volumes.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "advanced_dedup": {
+        "description": "Boolean variable, Indicates whether or not to enable advanced deduplication. Compression should be enabled to enable advanced deduplication. It can only be enabled on the all flash high end platforms. Deduplicated data will remain as is even after advanced deduplication is disabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_thin": {
+        "description": "Boolean variable, Specifies whether or not it is a thin volume. The value is set as C(true) by default if not specified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sp": {
+        "description": "Storage Processor for this volume.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "SPA",
+          "SPB"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "io_limit_policy": {
+        "description": "IO limit policy associated with this volume. Once it is set, it cannot be removed through ansible module but it can be changed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_name": {
+        "description": "Name of the host to be mapped/unmapped with this volume. Either I(host_name) or I(host_id) can be specified in one task along with I(mapping_state).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_id": {
+        "description": "ID of the host to be mapped/unmapped with this volume. Either I(host_name) or I(host_id) can be specified in one task along with I(mapping_state).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hlu": {
+        "description": "Host Lun Unit to be mapped/unmapped with this volume. It is an optional parameter, hlu can be specified along with I(host_name) or I(host_id) and I(mapping_state). If I(hlu) is not specified, unity will choose it automatically. The maximum value supported is C(255).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mapping_state": {
+        "description": "State of host access for volume.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "mapped",
+          "unmapped"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "new_vol_name": {
+        "description": "New name of the volume for rename operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tiering_policy": {
+        "description": "Tiering policy choices for how the storage resource data will be distributed among the tiers available in the pool.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "AUTOTIER_HIGH",
+          "AUTOTIER",
+          "HIGHEST",
+          "LOWEST"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State variable to determine whether volume will exist or not.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "hosts": {
+        "description": "Name of hosts for mapping to a volume.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

@@ -1,116 +1,1392 @@
 {
   "netapp.storagegrid.na_sg_grid_account": {
     "short_description": "NetApp StorageGRID manage accounts.",
-    "description": "",
-    "options": {},
+    "description": "Create, Update, Delete Tenant Accounts on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "Whether the specified account should exist or not. Required for all operations.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the tenant. Required for create or modify operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Additional identifying information for the tenant account.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "account_id": {
+        "description": "Account Id of the tenant. May be used for modify or delete operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol": {
+        "description": "Object Storage protocol used by the tenancy. Required for create operation.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "s3",
+          "swift"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "management": {
+        "description": "Whether the tenant can login to the StorageGRID tenant portal.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "use_own_identity_source": {
+        "description": "Whether the tenant account should configure its own identity source.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_platform_services": {
+        "description": "Allows tenant to use platform services features such as CloudMirror.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_select_object_content": {
+        "description": "Allows tenant to use the S3 SelectObjectContent API to filter and retrieve object data.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_compliance_mode": {
+        "description": "Whether a tenant can use compliance mode for object lock and retention. Requires storageGRID 11.9 or later.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_retention_days": {
+        "description": "The maximum retention period in days allowed for new objects in compliance or governance mode. Requires storageGRID 11.9 or later.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "root_access_group": {
+        "description": "Existing federated group to have initial Root Access permissions for the tenant. Must begin with C(federated-group/)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "quota_size": {
+        "description": "Quota to apply to the tenant specified in I(quota_size_unit). If you intend to have no limits, assign C(0).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "quota_size_unit": {
+        "description": "The unit used to interpret the size parameter.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "bytes",
+          "b",
+          "kb",
+          "mb",
+          "gb",
+          "tb",
+          "pb",
+          "eb",
+          "zb",
+          "yb"
+        ],
+        "default": "gb",
+        "aliases": null
+      },
+      "password": {
+        "description": "Root password for tenant account. Requires root privilege.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_password": {
+        "description": "Choose when to update the tenant password. When set to C(always), the tenant password will always be updated. When set to C(on_create) the tenant password will only be set upon a new user creation.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "on_create",
+          "always"
+        ],
+        "default": "on_create",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_alert_receiver": {
     "short_description": "NetApp StorageGRID manage alert receiver.",
-    "description": "",
-    "options": {},
+    "description": "Create, update, or delete alert receivers on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "Whether the alert receiver should be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "type": {
+        "description": "The type of notification receiver.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "email"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "enable": {
+        "description": "Whether alert notifications are sent to this receiver.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "smtp_host": {
+        "description": "The IP address or hostname of the SMTP server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "smtp_port": {
+        "description": "The port to use to communicate with the SMTP server.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Use C(smtp_username) instead. This parameter has been deprecated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Use C(smtp_password) instead. This parameter has been deprecated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "smtp_username": {
+        "description": "Username for the SMTP server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "smtp_password": {
+        "description": "Password for the SMTP server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "from_email": {
+        "description": "Sender email address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "to_emails": {
+        "description": "List of recipient email addresses.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "minimum_severity": {
+        "description": "Minimum severity level for triggering an alert.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "minor",
+          "major",
+          "critical"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "ca_cert": {
+        "description": "CA certificate used to verify the identity of the SMTP server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "client_cert": {
+        "description": "Client certificate for the SMTP server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "client_key": {
+        "description": "The PEM-encoded private key for the client certificate.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_audit_destination": {
     "short_description": "Configure audit log destinations on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Configure audit log destinations on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "The audit destination should be present.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "defaults": {
+        "description": "The defaults will be used to configure audit destinations on all nodes which are not in the nodes array.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nodes": {
+        "description": "Optional per-node configuration stanzas in the nodes array override the default configuration.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_autosupport": {
     "short_description": "Configure autosupport on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Configure autosupport on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "The alert receiver should be present.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "aod_enable": {
+        "description": "Enable or disable sending Autosupport on Demand.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "available_updates_enable": {
+        "description": "Whether to check for software updates.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "event_enable": {
+        "description": "Enable event-triggered AutoSupport messages.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cert_enable": {
+        "description": "Enable AutoSupport certificate validation.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destinations": {
+        "description": "AutoSupport destinations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "transport": {
+        "description": "Protocol used for AutoSupport messages. If you use HTTP, use a proxy to forward the data as HTTPS. NetApp's AutoSupport servers will reject HTTP messages.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "SMTP",
+          "HTTP",
+          "HTTPS"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "weekly_enable": {
+        "description": "Enable weekly AutoSupport messages.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_certificate": {
     "short_description": "Manage the Storage API and Grid Management certificates on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Set and update the Storage API and Grid Management certificates on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "Whether the specified certificate should be set.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "type": {
+        "description": "Which certificate to update.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "storage-api",
+          "management"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "server_certificate": {
+        "description": "X.509 server certificate in PEM-encoding.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ca_bundle": {
+        "description": "Intermediate CA certificate bundle in concatenated PEM-encoding. Omit if there is no intermediate CA.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "private_key": {
+        "description": "Certificate private key in PEM-encoding. Required if I(server_certificate) is specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_client_certificate": {
     "short_description": "Manage Client Certificates on StorageGRID",
-    "description": "",
-    "options": {},
+    "description": "Create, Update, Delete Client Certificates on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "Whether the specified certificate should exist.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "certificate_id": {
+        "description": "ID of the client certificate.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "display_name": {
+        "description": "A display name for the client certificate configuration. This parameter can be modified if I(certificate_id) is also specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "public_key": {
+        "description": "X.509 client certificate in PEM-encoding.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_prometheus": {
+        "description": "Whether the external monitoring tool can access Prometheus metrics.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_dns": {
     "short_description": "NetApp StorageGRID manage external DNS servers for the grid.",
-    "description": "",
-    "options": {},
+    "description": "Update NetApp StorageGRID DNS addresses.",
+    "options": {
+      "state": {
+        "description": "Whether the specified DNS address should exist or not. Required for all operations.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "dns_servers": {
+        "description": "List of comma separated DNS Addresses to be updated or delete.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_domain_name": {
     "short_description": "Configure endpoint domain name on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Configure endpoint domain name on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "The endpoint domain name should be present.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "domain_name": {
+        "description": "List of domain names to be configured.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_ec_profile": {
     "short_description": "Manage EC profiles on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Interact with EC profiles on NetApp StorageGRID.",
+    "options": {
+      "name": {
+        "description": "The EC Profile's name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool_id": {
+        "description": "The Storage Pool ID of the selected scheme",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scheme_id": {
+        "description": "The selected scheme for the EC profile",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the specified policy should be created or deactivated. State \"absent\" only deactivates the EC profile. Deactivated EC profiles cannot be activated",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "validate_certs": {
+        "description": "Should https certificates be validated?",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_firewall": {
     "short_description": "NetApp StorageGRID manage node firewall.",
-    "description": "",
-    "options": {},
+    "description": "Create, update, or delete node firewall on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "Whether the firewall should be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "id": {
+        "description": "The node UUID or the default list ID.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "blocked_udp_ports": {
+        "description": "List of UDP ports to block for external communication.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "blocked_tcp_ports": {
+        "description": "List of TCP ports to block for external communication.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privileged_ips": {
+        "description": "A list of privileged IP addresses, or subnets in CIDR notation. Addresses in this list can access ports which are blocked for external communication.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "grid_internal_access": {
+        "description": "Whether to allow internal port access to the grid.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_gateway": {
     "short_description": "Manage Load balancer (gateway) endpoints on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Create or Update Load Balancer Endpoints on StorageGRID. This module is idempotent if I(private_key) is not specified. The module will match an existing config based on I(port) and I(display_name). If multiple load balancer endpoints exist utilizing the same port and display name, use I(gateway_id) to select the intended endpoint.",
+    "options": {
+      "state": {
+        "description": "Whether the specified load balancer endpoint should be configured.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "gateway_id": {
+        "description": "ID of the load balancer endpoint.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "display_name": {
+        "description": "A display name for the configuration. This parameter can be modified if I(gateway_id) is also specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "The TCP port to serve traffic on. This parameter cannot be modified after the load balancer endpoint has been created.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "secure": {
+        "description": "Whether the load balancer endpoint serves HTTP or HTTPS traffic. This parameter cannot be modified after the load balancer endpoint has been created.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "enable_ipv4": {
+        "description": "Indicates whether to listen for connections on IPv4.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "enable_ipv6": {
+        "description": "Indicates whether to listen for connections on IPv6.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "binding_mode": {
+        "description": "Binding mode to restrict accessibility of the load balancer endpoint. A binding mode other than I(global) requires StorageGRID 11.5 or greater.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "global",
+          "ha-groups",
+          "node-interfaces"
+        ],
+        "default": "global",
+        "aliases": null
+      },
+      "ha_groups": {
+        "description": "A set of StorageGRID HA Groups by name or UUID to bind the load balancer endpoint to. Option is ignored unless I(binding_mode=ha-groups).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "node_interfaces": {
+        "description": "A set of StorageGRID node interfaces to bind the load balancer endpoint to.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "node_type": {
+        "description": "A list of node types to bind to. This Load Balancer Endpoint will listen on all nodes of this type. The adminNode type includes both primary and non-primary admin nodes.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "adminNode",
+          "apiGatewayNode"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "enable_tenant_manager": {
+        "description": "Whether to use the port bind for tenant manager traffic.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enable_grid_manager": {
+        "description": "Whether to use the port bind for grid manager traffic.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_service_type": {
+        "description": "The type of service to proxy through the load balancer.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "s3",
+          "swift",
+          "management"
+        ],
+        "default": "s3",
+        "aliases": null
+      },
+      "closed_on_untrusted_client_network": {
+        "description": "Whether to close the port on an untrusted Client Network.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_certificate": {
+        "description": "X.509 server certificate in PEM-encoding. Omit if using default certificates.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "private_key": {
+        "description": "Certficate private key in PEM-encoding. Required if I(server_certificate) is not empty.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ca_bundle": {
+        "description": "Intermediate CA certificate bundle in concatenated PEM-encoding. Omit when there is no intermediate CA.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_group": {
     "short_description": "NetApp StorageGRID manage groups.",
-    "description": "",
-    "options": {},
+    "description": "Create, Update, Delete Administration Groups within NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "Whether the specified group should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "display_name": {
+        "description": "Name of the group. Required for create operation",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "unique_name": {
+        "description": "Unique Name for the group. Must begin with C(group/) or C(federated-group/) Required for create, modify or delete operation.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "read_only": {
+        "description": "Users can view settings and features but cannot make changes or perform operations.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "management_policy": {
+        "description": "Management access controls granted to the group within the tenancy.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_ha_group": {
     "short_description": "Manage high availability (HA) group configuration on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Create, Update, Delete HA Groups on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "Whether the specified HA Group should exist.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the HA Group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ha_group_id": {
+        "description": "HA Group ID. May be used for modify or delete operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the HA Group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gateway_cidr": {
+        "description": "The C(gateway_cidr) field specifies the gateway IP address and prefix length of the VIP subnet in CIDR notation. i.e. C(IP_address/prefix_length). This must match the subnet CIDR if any interface in the HA group already has an IP address configured. The IP address may be specified as the network address of the subnet, or as the gateway IP address within the subnet if clients will access the VIP address from a different subnet. For example C(10.193.150.0/25) or C(10.193.150.1/25).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "virtual_ips": {
+        "description": "A list of virtual IP addresses.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interfaces": {
+        "description": "A set of StorageGRID node interface pairs. The primary interface is specified first, followed by the other interface pairs in failover order.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_hotfix": {
     "short_description": "Apply hotfixes on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Apply hotfix on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "The hotfix will start applying if present. If absent, it remove all nodes from the hotfix queue.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "passphrase": {
+        "description": "The provisioning passphrase.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "the type of software update to deploy.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "hotfix"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "file_path": {
+        "description": "The path to the software update file.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The time in seconds to wait for the software update to complete.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 20,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_identity_federation": {
     "short_description": "NetApp StorageGRID manage Grid identity federation.",
-    "description": "",
-    "options": {},
+    "description": "Configure Grid Identity Federation within NetApp StorageGRID. If module is run with I(check_mode), a connectivity test will be performed using the supplied values without changing the configuration. This module is idempotent if I(password) is not specified.",
+    "options": {
+      "state": {
+        "description": "Whether identity federation should be enabled or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "username": {
+        "description": "The username to bind to the LDAP server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "The password associated with the username.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hostname": {
+        "description": "The hostname or IP address of the LDAP server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "The port used to connect to the LDAP server. Typically 389 for LDAP, or 636 for LDAPS.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "base_group_dn": {
+        "description": "The Distinguished Name of the LDAP subtree to search for groups.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "base_user_dn": {
+        "description": "The Distinguished Name of the LDAP subtree to search for users.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_service_type": {
+        "description": "The type of LDAP server.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Active Directory",
+          "OpenLDAP",
+          "Other"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "The type of identity source. Default is C(ldap).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "ldap",
+        "aliases": null
+      },
+      "ldap_user_id_attribute": {
+        "description": "The LDAP attribute which contains the unique user name of a user. Should be configured if I(ldap_service_type=Other).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_user_uuid_attribute": {
+        "description": "The LDAP attribute which contains the permanent unique identity of a user. Should be configured if I(ldap_service_type=Other).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_group_id_attribute": {
+        "description": "The LDAP attribute which contains the group for a user. Should be configured if I(ldap_service_type=Other).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_group_uuid_attribute": {
+        "description": "The LDAP attribute which contains the group's permanent unique identity. Should be configured if I(ldap_service_type=Other).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tls": {
+        "description": "Whether Transport Layer Security is used to connect to the LDAP server.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "STARTTLS",
+          "LDAPS",
+          "Disabled"
+        ],
+        "default": "STARTTLS",
+        "aliases": null
+      },
+      "ca_cert": {
+        "description": "Custom certificate used to connect to the LDAP server. If a custom certificate is not supplied, the operating system CA certificate will be used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_ilm_policy": {
     "short_description": "Manage ILM policies on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Interact with ILM policies on NetApp StorageGRID.",
+    "options": {
+      "default_rule": {
+        "description": "The rule ID of the defailt rule in the policy. This tile ID must be included in rules If compliance is enabled, this must be the compliance-compatible rule",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The unique name of the policy",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "reason": {
+        "description": "Policy description",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rules": {
+        "description": "A list of ILM rule IDs, in the order in which they will be evaluated This list must include the default rule If compliance is enabled, the default rule for objects in non-compliant buckets should be before the compliance-compatible default rule",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the specified policy should exist.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "validate_certs": {
+        "description": "Should https certificates be validated?",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_ilm_policy_tag": {
     "short_description": "Manage ILM policy tags on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Interact with ILM policy tags on NetApp StorageGRID.",
+    "options": {
+      "name": {
+        "description": "The unique name of this tag. Assigning an ILM policy to this tag applies the policy only to buckets tagged with NTAP-SG-ILM-BUCKET as the key and this name as the value (case-insensitive). Visible to tenants, do not include sensitive information.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The description of this policy tag. Visible to tenants, do not include sensitive information.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy_id": {
+        "description": "The ID of the ILM policy that will use this tag.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the specified ILM policy tag should be created or deleted.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "validate_certs": {
+        "description": "Should https certificates be validated?",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_ilm_pool": {
     "short_description": "Manage ILM pools on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Interact with ILM pools on NetApp StorageGRID.",
+    "options": {
+      "name": {
+        "description": "The name of the storage pool Must be unique",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disks": {
+        "description": "A list of the sites and storage grades in the storage pool",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "archives": {
+        "description": "A list of the sites that use the Archive Nodes storage grade",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the specified pool should be created or deleted.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "validate_certs": {
+        "description": "Should https certificates be validated?",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_ilm_rule": {
     "short_description": "Manage ILM rules on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Interact with ILM rules on NetApp StorageGRID.",
+    "options": {
+      "bucket_filter": {
+        "description": "S3 or Swift bucket(s) to which the ILM rule applies. If omitted, matches all objects in any specified tenant accounts",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A short description of the ILM rule to indicate its purpose",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filters": {
+        "description": "Filtering criteria used to determine if the ILM rule shall be applied to the evaluated object. An ILM rule without filters applies to all objects",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "ingest_behavior": {
+        "description": "How objects matching this rule are stored on ingest. dual-commit creates interim copies and applies the rule later. strict and balanced immediately create the copies specified in the rule's day 0 instructions. balanced uses dual-commit if following the rule instructions is not possible.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "strict",
+          "balanced",
+          "dual-commit"
+        ],
+        "default": "balanced",
+        "aliases": null
+      },
+      "name": {
+        "description": "Displayed name of the ILM rule. A representative and unique name for the ILM rule. Immutable once the ILM rule is created",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "placements": {
+        "description": "Specifies where and how object data that matches the ILM rule is stored",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "reference_time": {
+        "description": "Indicates the time from which the ILM rule is applied",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ingestTime",
+          "lastAccessTime",
+          "noncurrentTime",
+          "userDefinedCreationTime"
+        ],
+        "default": "ingestTime",
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the specified rule should exist.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "tenant_account_id": {
+        "description": "One or more S3 or Swift tenant account IDs to which the ILM rule applies If omitted, applies to all objects",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "validate_certs": {
+        "description": "Should https certificates be validated?",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_info": {
@@ -138,116 +1414,1217 @@
   },
   "netapp.storagegrid.na_sg_grid_login": {
     "short_description": "Login to StorageGRID grid/tenant.",
-    "description": "",
-    "options": {},
+    "description": "This module generates authentication token to get login into grid/tenant module.",
+    "options": {
+      "validate_certs": {
+        "description": "Should https certificates be validated?",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "hostname": {
+        "description": "The ip or fqdn of the admin node for the grid.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "api_url"
+        ]
+      },
+      "username": {
+        "description": "The username of the user authenticating.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "The password of the user authenticating.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tenant_id": {
+        "description": "The uuid of the tenant to log into tenant manager.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_metrics": {
     "short_description": "NetApp StorageGRID grab metrics.",
-    "description": "",
-    "options": {},
+    "description": "Get metrics on NetApp StorageGRID.",
+    "options": {
+      "query": {
+        "description": "Prometheus query string to execute.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "time": {
+        "description": "Evaluation time for the query. If not provided, default current time(date-time) is used. Use it as C(start_time) for query over range of time.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "start_time"
+        ]
+      },
+      "end_time": {
+        "description": "End time for the query range.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "step": {
+        "description": "Step width/interval duration for the query range.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Timeout duration for the query execution.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_ntp": {
     "short_description": "NetApp StorageGRID manage external NTP servers for the grid.",
-    "description": "",
-    "options": {},
+    "description": "Update NTP server on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "Whether the specified user should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "ntp_servers": {
+        "description": "List of comma separated NTP server address.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "passphrase": {
+        "description": "passphrase for GRID.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_proxy_settings": {
     "short_description": "NetApp StorageGRID manage proxy settings for the grid.",
-    "description": "",
-    "options": {},
+    "description": "Update NetApp StorageGRID Proxy settings configuration.",
+    "options": {
+      "state": {
+        "description": "Proxy settings should be present.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "enable": {
+        "description": "Enable use of the Admin Node proxy.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_name": {
+        "description": "The IP address or hostname of the Admin Node proxy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_port": {
+        "description": "Port for the Admin Node proxy.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Username for the Admin Node proxy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password for the Admin Node proxy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ca_bundle": {
+        "description": "CA certificate bundle in concatenated PEM-encoding for TLS enabled connection; null when TLS is disabled.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "proxy": {
+        "description": "The address of the Storage Node proxy to use for external requests. Can be either protocol://hostname:port or protocol://ip:port, where protocol is one of http or socks5.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_recovery_package": {
     "short_description": "Retrieve the recovery package from StorageGRID",
-    "description": "",
-    "options": {},
+    "description": "Create recovery package on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "Whether the recovery package should be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "passphrase": {
+        "description": "the password used during maintenance procedures to make changes to the grid topology.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_regions": {
     "short_description": "NetApp StorageGRID manage Regions for the grid.",
-    "description": "",
-    "options": {},
+    "description": "Create and Update Regions configured for the NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "Whether the specified regions should be present.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "regions": {
+        "description": "List of the regions.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_self_signed_certificate": {
     "short_description": "Generate self signed certificate on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Generate self signed certificate on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "The self signed certificate should be present.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "subject": {
+        "description": "The distinguished name of this certificate's entity. If the subject does not contain a CN value, the CN is set to /CN=[first domain or IP] if a domain or IP is present. Otherwise, it is set to /CN=StorageGRID or /CN StorageGRID client, based on the extendedKeyUsage for the generated certificate.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "valid_days": {
+        "description": "The number of days the certificate is valid.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 730,
+        "aliases": null
+      },
+      "domains": {
+        "description": "Domain name identities in addition to or in place of the identity in the subject field. If the subject common name is not set, the first domain name in the list is used as the common name. It is optional when C(certificate_type) is C(clientAuth).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ips": {
+        "description": "IP identities in addition to or in place of the identity in the subject field. If subject common name and domains are not set, the first IP in the list is used as the common name. It is optional when C(certificate_type) is C(clientAuth).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "certificate_type": {
+        "description": "The type of self-signed certificate to be generated.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "clientAuth",
+          "serverAuth"
+        ],
+        "default": "serverAuth",
+        "aliases": null
+      },
+      "key_usage_extension": {
+        "description": "Whether or not the generated certificate includes key usage extensions. This should be set to true unless you are experiencing connection problems with older clients.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_snmp": {
     "short_description": "Configure SNMP agent on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Configure SNMP monitoring on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "The snmp agent should be present.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "enable_snmp": {
+        "description": "Enable or disable SNMP monitoring.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "community_strings": {
+        "description": "List of community strings.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ro_users": {
+        "description": "USM users allowed read-only access.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sys_location": {
+        "description": "SNMP system location.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sys_contact": {
+        "description": "SNMP system contact.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trap_community": {
+        "description": "SNMP trap community.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auth_trap_enable": {
+        "description": "1 - enable SNMP authentication traps. 2 - disable SNMP authentication traps.",
+        "type": "int",
+        "required": false,
+        "choices": [
+          1,
+          2
+        ],
+        "default": 2,
+        "aliases": null
+      },
+      "disable_notifications": {
+        "description": "Disable all SNMP notifications.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "trap_destinations": {
+        "description": "SNMP trap destinations for V1, V2C, and Inform notifications.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "agent_addresses": {
+        "description": "Local binding addresses for the SNMP agent.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "usm_users": {
+        "description": "USM user.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_ssh_security": {
     "short_description": "Configure ssh security on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Configure ssh security on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "The ssh security should be present.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "allow_external_access": {
+        "description": "Whether external SSH access to the grid is allowed.",
+        "type": "bool",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_tenant": {
     "short_description": "NetApp StorageGRID manage tenant accounts.",
-    "description": "",
-    "options": {},
+    "description": "Create, Update, Delete Tenant Accounts on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "Whether the specified account should exist or not. Required for all operations.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the tenant. Required for create or modify operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Additional identifying information for the tenant account.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "account_id": {
+        "description": "Account Id of the tenant. May be used for modify or delete operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol": {
+        "description": "Object Storage protocol used by the tenancy. Required for create operation.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "s3",
+          "swift"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "management": {
+        "description": "Whether the tenant can login to the StorageGRID tenant portal.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "use_own_identity_source": {
+        "description": "Whether the tenant account should configure its own identity source.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_platform_services": {
+        "description": "Allows tenant to use platform services features such as CloudMirror.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_select_object_content": {
+        "description": "Allows tenant to use the S3 SelectObjectContent API to filter and retrieve object data.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_compliance_mode": {
+        "description": "Whether a tenant can use compliance mode for object lock and retention. Requires storageGRID 11.9 or later.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_retention_days": {
+        "description": "The maximum retention period in days allowed for new objects in compliance or governance mode. Requires storageGRID 11.9 or later.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "root_access_group": {
+        "description": "Existing federated group to have initial Root Access permissions for the tenant. Must begin with C(federated-group/)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "quota_size": {
+        "description": "Quota to apply to the tenant specified in I(quota_size_unit). If you intend to have no limits, assign C(0).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "quota_size_unit": {
+        "description": "The unit used to interpret the size parameter.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "bytes",
+          "b",
+          "kb",
+          "mb",
+          "gb",
+          "tb",
+          "pb",
+          "eb",
+          "zb",
+          "yb"
+        ],
+        "default": "gb",
+        "aliases": null
+      },
+      "tenant_password": {
+        "description": "Root password for tenant account. Requires root privilege.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_password": {
+        "description": "Choose when to update the tenant password. When set to C(always), the tenant password will always be updated. When set to C(on_create) the tenant password will only be set upon a new user creation.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "on_create",
+          "always"
+        ],
+        "default": "on_create",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_traffic_classes": {
     "short_description": "Manage Traffic Classification Policy configuration on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Create, Update, Delete Traffic Classification Policies on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "Whether the specified Traffic Classification Policy should exist.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Traffic Classification Policy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy_id": {
+        "description": "Traffic Classification Policy ID. May be used for modify or delete operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the Traffic Classification Policy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "matchers": {
+        "description": "A set of parameters to match. The traffic class will match requests where any of these matchers match.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "limits": {
+        "description": "Optional limits to impose on client requests matched by this traffic class. Only one of each limit type can be specified.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_untrusted_client_network": {
     "short_description": "Configure untrusted Client Network on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Configure untrusted Client Network on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "The untrusted Client Network should be present.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "default_node": {
+        "description": "The default setting for the Client Network on nodes added to the grid.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "trusted",
+          "untrusted"
+        ],
+        "default": "trusted",
+        "aliases": null
+      },
+      "untrusted_nodes_id": {
+        "description": "List of nodes IDs that have untrusted Client Networks.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "untrusted_nodes_name": {
+        "description": "List of nodes name that have untrusted Client Networks.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_user": {
     "short_description": "NetApp StorageGRID manage users.",
-    "description": "",
-    "options": {},
+    "description": "Create, Update, Delete Administrative Users within NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "Whether the specified user should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "full_name": {
+        "description": "Full Name of the user. Required for create operation",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "unique_name": {
+        "description": "Unique Name for the user. Must begin with C(user/) or C(federated-user/) Required for create, modify or delete operation.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "member_of": {
+        "description": "List of C(unique_groups) that the user is a member of.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Set a password for a local user. Does not apply to federated users. Requires root privilege.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_password": {
+        "description": "Choose when to update the password. When set to C(always), the password will always be updated. When set to C(on_create), the password will only be set upon a new user creation.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "on_create",
+          "always"
+        ],
+        "default": "on_create",
+        "aliases": null
+      },
+      "disable": {
+        "description": "Disable the user from signing in. Does not apply to federated users.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_grid_vlan_interface": {
     "short_description": "Configure VLAN interface on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Configure VLAN interface on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "Whether the vlan interface should be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "vlan_id": {
+        "description": "The numeric ID of the VLAN used for VLAN tagging.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description for this VLAN interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interfaces": {
+        "description": "List of node interface pairs.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_org_bucket": {
     "short_description": "Manage buckets on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Create S3 buckets on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "Whether the specified bucket should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the bucket.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "region": {
+        "description": "Set a region for the bucket.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "compliance": {
+        "description": "Configure compliance settings for an S3 bucket. Cannot be specified along with I(s3_object_lock_enabled).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "capacity_limit": {
+        "description": "The maximum number of GB available for this buckets's objects. Represents a logical amount (object size), not a physical amount (size on disk). Requires storageGRID 11.9 or later.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "s3_object_lock_enabled": {
+        "description": "Enable S3 Object Lock on the bucket. S3 Object Lock requires StorageGRID 11.5 or greater.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bucket_versioning_enabled": {
+        "description": "Enable versioning on the bucket. This API requires StorageGRID 11.6 or greater.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_org_cloud_mirror_replication": {
     "short_description": "Manage Cloud Mirror Replication on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Manage Cloud Mirror Replication on StorageGRID.",
+    "options": {
+      "state": {
+        "description": "The Cloud Mirror Replication should be present.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "bucket_name": {
+        "description": "The name of the bucket for which to configure Cloud Mirror Replication.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "xmlns": {
+        "description": "The XML namespace for the replication configuration.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rule": {
+        "description": "The replication rule configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_org_container": {
     "short_description": "Manage buckets on StorageGRID.",
-    "description": "",
-    "options": {},
+    "description": "Create S3 buckets on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "Whether the specified bucket should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the bucket.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "region": {
+        "description": "Set a region for the bucket.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "compliance": {
+        "description": "Configure compliance settings for an S3 bucket. Cannot be specified along with I(s3_object_lock_enabled).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "capacity_limit": {
+        "description": "The maximum number of GB available for this buckets's objects. Represents a logical amount (object size), not a physical amount (size on disk). Requires storageGRID 11.9 or later.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "s3_object_lock_enabled": {
+        "description": "Enable S3 Object Lock on the bucket. S3 Object Lock requires StorageGRID 11.5 or greater.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bucket_versioning_enabled": {
+        "description": "Enable versioning on the bucket. This API requires StorageGRID 11.6 or greater.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "consistency": {
+        "description": "The consistency control affects the availability of objects for client requests.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "all",
+          "strong-global",
+          "strong-site",
+          "read-after-new-write",
+          "available"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "policy": {
+        "description": "Configure bucket policy.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_org_group": {
     "short_description": "NetApp StorageGRID manage groups within a tenancy.",
-    "description": "",
-    "options": {},
+    "description": "Create, Update, Delete Groups within NetApp StorageGRID tenant.",
+    "options": {
+      "state": {
+        "description": "Whether the specified group should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "unique_name": {
+        "description": "Unique Name for the group. Must begin with C(group/) or C(federated-group/). Required for create, modify or delete operation.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "display_name": {
+        "description": "Name of the group. Required for create operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "read_only": {
+        "description": "Users can view settings and features but cannot make changes or perform operations.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "management_policy": {
+        "description": "Management access controls granted to the group within the tenancy.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "s3_policy": {
+        "description": "StorageGRID S3 Group Policy.",
+        "type": "json",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_org_identity_federation": {
     "short_description": "NetApp StorageGRID manage Tenant identity federation.",
-    "description": "",
-    "options": {},
+    "description": "Configure Tenant Identity Federation within NetApp StorageGRID. If module is run with C(check_mode), a connectivity test will be performed using the supplied values without changing the configuration. This module is idempotent if I(password) is not specified.",
+    "options": {
+      "state": {
+        "description": "Whether identity federation should be enabled or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "username": {
+        "description": "The username to bind to the LDAP server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "The password associated with the username.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hostname": {
+        "description": "The hostname or IP address of the LDAP server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "The port used to connect to the LDAP server. Typically 389 for LDAP, or 636 for LDAPS.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "base_group_dn": {
+        "description": "The Distinguished Name of the LDAP subtree to search for groups.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "base_user_dn": {
+        "description": "The Distinguished Name of the LDAP subtree to search for users.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_service_type": {
+        "description": "The type of LDAP server.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Active Directory",
+          "OpenLDAP",
+          "Other"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "The type of identity source. Default is 'ldap'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "ldap",
+        "aliases": null
+      },
+      "ldap_user_id_attribute": {
+        "description": "The LDAP attribute which contains the unique user name of a user. Should be configured if I(ldap_service_type=Other).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_user_uuid_attribute": {
+        "description": "The LDAP attribute which contains the permanent unique identity of a user. Should be configured if I(ldap_service_type=Other).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_group_id_attribute": {
+        "description": "The LDAP attribute which contains the group for a user. Should be configured if I(ldap_service_type=Other).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_group_uuid_attribute": {
+        "description": "The LDAP attribute which contains the group's permanent unique identity. Should be configured if I(ldap_service_type=Other).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tls": {
+        "description": "Whether Transport Layer Security is used to connect to the LDAP server.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "STARTTLS",
+          "LDAPS",
+          "Disabled"
+        ],
+        "default": "STARTTLS",
+        "aliases": null
+      },
+      "ca_cert": {
+        "description": "Custom certificate used to connect to the LDAP server. If a custom certificate is not supplied, the operating system CA certificate will be used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_org_info": {
@@ -259,6 +2636,14 @@
         "type": "list",
         "required": false,
         "choices": null,
+        "default": "all",
+        "aliases": null
+      },
+      "parameters": {
+        "description": "Allows for any rest option to be passed in.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
         "default": null,
         "aliases": null
       }
@@ -267,20 +2652,136 @@
   },
   "netapp.storagegrid.na_sg_org_user": {
     "short_description": "NetApp StorageGRID manage users within a tenancy.",
-    "description": "",
-    "options": {},
+    "description": "Create, Update, Delete Users within a NetApp StorageGRID tenant.",
+    "options": {
+      "state": {
+        "description": "Whether the specified user should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "full_name": {
+        "description": "Full Name of the user. Required for create operation",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "unique_name": {
+        "description": "Unique Name for the user. Must begin with C(user/) or C(federated-user/). Required for create, modify or delete operation.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "member_of": {
+        "description": "List of unique_groups that the user is a member of.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Set a password for a local user. Does not apply to federated users. Requires root privilege.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_password": {
+        "description": "Choose when to update the password. When set to C(always), the password will always be updated. When set to C(on_create), the password will only be set upon a new user creation.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "on_create",
+          "always"
+        ],
+        "default": "on_create",
+        "aliases": null
+      },
+      "disable": {
+        "description": "Disable the user from signing in. Does not apply to federated users.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_org_user_s3_key": {
     "short_description": "Creates NetApp StorageGRID User S3 keys.",
-    "description": "",
-    "options": {},
+    "description": "Create, Delete Users S3 keys on NetApp StorageGRID.",
+    "options": {
+      "state": {
+        "description": "Whether the specified account should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "unique_user_name": {
+        "description": "Unique user name owning the S3 Key.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "expires": {
+        "description": "Date-Time string for the key to expire.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "access_key": {
+        "description": "Access Key or S3 credential pair identifier. Required for delete operation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "netapp.storagegrid.na_sg_pge_info": {
     "short_description": "NetApp StorageGRID node PGE information gatherer.",
-    "description": "",
-    "options": {},
+    "description": "Gather various information about StorageGRID node Pre-Grid Environment (PGE) configuration.",
+    "options": {
+      "gather_subset": {
+        "description": "When supplied, this argument will restrict the information collected to a given subset. Either the info name or the REST API can be given. Possible values for this argument include C(pge_storage_configuration_networking) or C(pge/storage-configuration/networking) C(pge_bmc_config) or C(pge/bmc-config) C(pge_install_status) or C(pge/install-status) C(pge_networks) or C(pge/networks) C(pge_link_config) or C(pge/link-config) C(pge_dns) or C(pge/dns) C(pge_system_info) or C(pge/system-info) C(pge_system_config) or C(pge/system-config) C(pge_admin_connection) or C(pge/admin-connection) C(pge_ipmi_sensors) or C(pge/ipmi-sensors) C(pge_upgrade_status) or C(pge/upgrade/status) C(pge_debug_dump_addr_show) or C(pge/debug/dump-addr-show) C(pge_debug_dump_routes) or C(pge/debug/dump-routes) C(pge_debug_dump_bonding) or C(pge/debug/dump-bonding) C(pge_debug_dump_netlink) or C(pge/debug/dump-netlink) C(pge_debug_dump_bonding_raw) or C(pge/debug/dump-bonding-raw) C(pge_debug_dump_lldp_attributes) or C(pge/debug/dump-lldp-attributes) Can specify a list of values to include a larger subset.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": "all",
+        "aliases": null
+      },
+      "parameters": {
+        "description": "Allows for any rest option to be passed in.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

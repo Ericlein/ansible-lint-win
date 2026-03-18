@@ -39,9 +39,42 @@
     "deprecated": null
   },
   "cisco.ios.ios_acls": {
-    "short_description": "",
+    "short_description": "Resource module to configure ACLs.",
     "description": "This module configures and manages the named or numbered ACLs on IOS platforms.",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "A list of ACL configuration options.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(sh access-list). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The state I(merged) is the default state which merges the want and have config, but for ACL module as the IOS platform doesn't allow update of ACE over an pre-existing ACE sequence in ACL, same way ACLs resource module will error out for respective scenario and only addition of new ACE over new sequence will be allowed with merge state. The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of commands I(sh running-config | section access-list) for all acls related information and I(sh access-lists | include access list) to obtain configuration specific of an empty acls, the following commands are executed on device. Config data from both the commands should be kept together one after another for the parsers to pick the commands correctly. For state I(parsed) active connection to remote host is not required. The state I(overridden), modify/add the ACLs defined, deleted all other ACLs. The state I(replaced), modify/add only the ACEs of the ACLs defined only. It does not perform any other change on the device. The state I(deleted), deletes only the specified ACLs, or all if not specified.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cisco.ios.ios_banner": {
@@ -67,7 +100,26 @@
         "type": "str",
         "required": false,
         "choices": null,
+        "default": "@",
+        "aliases": null
+      },
+      "text": {
+        "description": "The banner text that should be present in the remote device running configuration.  This argument accepts a multiline string, with no empty lines. Requires I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies whether or not the configuration is present in the current devices active running configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -83,6 +135,30 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS XE device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | section interface) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -101,11 +177,67 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^bfd-template). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^bfd-template). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | section ^bfd-template) executed on device. For state I(parsed) active connection to remote host is not required. The state C(deleted) does not support or guarantee granular deletion of configuration the playbook should act as source of truth, and the desired state of the resouce is what the playbook should reflect. Use C(overridden) or C(replaced) to get extra configuration removed. The state I(purged) removes BFD templates completely using a single top-level C(no bfd-template) command, which removes the entire template definition at once.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "purged",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_bgp_address_family": {
+    "short_description": "Resource module to configure BGP Address family.",
+    "description": "This module configures and manages the attributes of bgp address family on Cisco IOS.",
+    "options": {
+      "config": {
+        "description": "A list of configurations for bgp address family.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(sh running-config | section ^router bgp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | include ip route|ipv6 route) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -122,6 +254,31 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(sh running-config | section ^router bgp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The module have declaratively similar behavior for replaced and overridden state. The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | section ^router bgp) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "purged",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -131,11 +288,48 @@
     "description": "Sends arbitrary commands to an ios node and returns the results read from the device. This module includes an argument that will cause the module to wait for a specific condition before returning or timing out if the condition is not met. This module does not support running commands in configuration mode. Please use L(ios_config,https://docs.ansible.com/ansible/latest/collections/cisco/ios/ios_config_module.html#ansible-collections-cisco-ios-ios-config-module) to configure IOS devices.",
     "options": {
       "commands": {
-        "description": "List of commands to send to the remote ios device over the configured provider. The resulting output from the command is returned. If the I(wait_for) argument is provided, the module is not returned until the condition is satisfied or the number of retries has expired. If a command sent to the device requires answering a prompt, it is possible to pass a dict containing I(command), I(answer) and I(prompt). Common answers are",
-        "type": "str",
+        "description": "List of commands to send to the remote ios device over the configured provider. The resulting output from the command is returned. If the I(wait_for) argument is provided, the module is not returned until the condition is satisfied or the number of retries has expired. If a command sent to the device requires answering a prompt, it is possible to pass a dict containing I(command), I(answer) and I(prompt). Common answers are 'y' or \"\\\\r\" (carriage return, must be double quotes). See examples.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait_for": {
+        "description": "List of conditions to evaluate against the output of the command. The task will wait for each condition to be true before moving forward. If the conditional is not true within the configured number of retries, the task fails. See examples.",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": [
+          "waitfor"
+        ]
+      },
+      "match": {
+        "description": "The I(match) argument is used in conjunction with the I(wait_for) argument to specify the match policy.  Valid values are C(all) or C(any).  If the value is set to C(all) then all conditionals in the wait_for must be satisfied.  If the value is set to C(any) then only one of the values must be satisfied.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "any",
+          "all"
+        ],
+        "default": "all",
+        "aliases": null
+      },
+      "retries": {
+        "description": "Specifies the number of retries a command should by tried before it is considered failed. The command is run on the target device every retry and evaluated against the I(wait_for) conditions.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 9,
+        "aliases": null
+      },
+      "interval": {
+        "description": "Configures the interval in seconds to wait between retries of the command. If the command does not pass the specified conditions, the interval indicates how long to wait before trying the command again.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
         "aliases": null
       }
     },
@@ -216,6 +410,81 @@
         "type": "str",
         "required": false,
         "choices": null,
+        "default": "@",
+        "aliases": null
+      },
+      "backup": {
+        "description": "This argument will cause the module to create a full backup of the current C(running-config) from the remote device before any changes are made. If the C(backup_options) value is not given, the backup file is written to the C(backup) folder in the playbook root directory or role root directory, if playbook is part of an ansible role. If the directory does not exist, it is created.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "The module, by default, will connect to the remote device and retrieve the current running-config to use as a base for comparing against the contents of source. There are times when it is not desirable to have the task get the current running-config for every task in a playbook.  The I(running_config) argument allows the implementer to pass in the configuration to use as the base config for comparison. The configuration lines for this option should be similar to how it will appear if present in the running-configuration of the device including the indentation to ensure idempotency and correct diff.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "config"
+        ]
+      },
+      "defaults": {
+        "description": "This argument specifies whether or not to collect all defaults when getting the remote device running config.  When enabled, the module will get the current config by issuing the command C(show running-config all).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "save_when": {
+        "description": "When changes are made to the device running-configuration, the changes are not copied to non-volatile storage by default.  Using this argument will change that before.  If the argument is set to I(always), then the running-config will always be copied to the startup-config and the I(modified) flag will always be set to True.  If the argument is set to I(modified), then the running-config will only be copied to the startup-config if it has changed since the last save to startup-config.  If the argument is set to I(never), the running-config will never be copied to the startup-config.  If the argument is set to I(changed), then the running-config will only be copied to the startup-config if the task has made a change. I(changed) was added in Ansible 2.5.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "always",
+          "never",
+          "modified",
+          "changed"
+        ],
+        "default": "never",
+        "aliases": null
+      },
+      "diff_against": {
+        "description": "When using the C(ansible-playbook --diff) command line argument the module can generate diffs against different sources. When this option is configure as I(startup), the module will return the diff of the running-config against the startup-config. When this option is configured as I(intended), the module will return the diff of the running-config against the configuration provided in the C(intended_config) argument. When this option is configured as I(running), the module will return the before and after diff of the running-config with respect to any changes made to the device configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "running",
+          "startup",
+          "intended"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "diff_ignore_lines": {
+        "description": "Use this argument to specify one or more lines that should be ignored during the diff.  This is used for lines in the configuration that are automatically updated by the system.  This argument takes a list of regular expressions or exact line matches.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "intended_config": {
+        "description": "The C(intended_config) provides the master configuration that the node should conform to and is used to check the final running-config against. This argument will not modify any settings on the remote device and is strictly used to check the compliance of the current device's configuration against.  When specifying this argument, the task should also modify the C(diff_against) value and set it to I(intended). The configuration lines for this value should be similar to how it will appear if present in the running-configuration of the device including the indentation to ensure correct diff.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup_options": {
+        "description": "This is a dict object containing configurable options related to backup file path. The value of this option is read only when C(backup) is set to I(yes), if C(backup) is set to I(no) this option will be silently ignored.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
         "default": null,
         "aliases": null
       }
@@ -232,6 +501,31 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^l2vpn). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | section ^l2vpn) executed on device. For state I(parsed) active connection to remote host is not required. The state I(purged) negates virtual/logical interfaces that are specified in task from running-config.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "purged",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -250,11 +544,27 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(sh running-config nve | section ^l2vpn evpn$). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(sh running-config nve | section ^l2vpn evpn$). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -273,11 +583,27 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(sh running-config nve | section ^l2vpn evpn$). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(sh running-config nve | section ^l2vpn evpn$). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -289,10 +615,26 @@
     "options": {
       "gather_subset": {
         "description": "When supplied, this argument restricts the facts collected to a given subset. Possible values for this argument include C(all), C(min), C(default), C(hardware), C(config), and C(interfaces). Specify a list of values to include a larger subset. Use a value with an initial C(!) to collect all facts except that subset.",
-        "type": "str",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": "min",
+        "aliases": null
+      },
+      "gather_network_resources": {
+        "description": "When supplied, this argument will restrict the facts collected to a given subset. Possible values for this argument include all and the resources like interfaces, vlans etc. Can specify a list of values to include a larger subset. Values can also be used with an initial C(!) to specify that a specific subset should not be collected. Valid subsets are 'hsrp_interfaces', 'bgp_global', 'l3_interfaces', 'lag_interfaces', 'ntp_global', 'acls', 'hostname', 'interfaces', 'lldp_interfaces', 'logging_global', 'ospf_interfaces', 'ospfv2', 'prefix_lists', 'static_routes', 'acl_interfaces', 'all', 'bgp_address_family', 'l2_interfaces', 'lacp', 'lacp_interfaces', 'lldp_global', 'ospfv3', 'snmp_server', 'vlans', 'service'.",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "available_network_resources": {
+        "description": "When 'True' a list of network resources for which resource modules are available will be provided.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },
@@ -311,11 +653,27 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^hostname). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^hostname). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The states I(merged), I(replaced) and I(overridden) have identical behaviour for this module. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | section ^hostname) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -331,6 +689,30 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | section ^interface) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -349,11 +731,28 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | include ip route|ipv6 route) executed on device. For state I(parsed) active connection to remote host is not required. The state I(purged) negates virtual/logical interfaces that are specified in task from running-config.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "purged",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -369,6 +768,30 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | include ip route|ipv6 route) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -387,11 +810,27 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | section ^interface) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -410,11 +849,27 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show lacp sys-id). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show lacp sys-id). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The module have declaratively similar behavior for replaced and overridden state. The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | include ip route|ipv6 route) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "parsed",
+          "gathered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -433,11 +888,27 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | include ip route|ipv6 route) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -454,6 +925,30 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | include ip route|ipv6 route) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "parsed",
+          "gathered"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -468,6 +963,30 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^lldp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The module have declaratively similar behavior for replaced and overridden state. The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | include ip route|ipv6 route) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -484,6 +1003,30 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(sh lldp interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | include ip route|ipv6 route) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -498,6 +1041,30 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | include logging). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in With state I(replaced), for the listed logging configurations, that are in running-config and can have multiple set of commands but not in the task are negated. With state I(overridden), all configurations that are in running-config but not in the task are negated. Please refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "parsed",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -516,11 +1083,27 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^ntp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^ntp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The states I(replaced) and I(overridden) have identical behaviour for this module. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | section ^ntp) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -537,6 +1120,30 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(sh running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | section ^interface) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -552,6 +1159,30 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(sh running-config | section ^router ospf). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | include ip route|ipv6 route) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "parsed",
+          "rendered"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -566,6 +1197,30 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(sh running-config | section ^router ospfv3). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | include ip route|ipv6 route) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "parsed",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -672,31 +1327,157 @@
     },
     "deprecated": null
   },
+  "cisco.ios.ios_prefix_lists": {
+    "short_description": "Resource module to configure prefix lists.",
+    "description": "This module configures and manages the attributes of prefix list on Cisco IOS.",
+    "options": {
+      "config": {
+        "description": "A list of configurations for Prefix lists.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(sh bgp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(merged) is the default state which merges the want and have config, but for Prefix-List module as the IOS platform doesn't allow update of Prefix-List over an pre-existing Prefix-List, same way Prefix-Lists resource module will error out for respective scenario and only addition of new Prefix-List over new sequence will be allowed with merge state. The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(sh running-config | section ^ip prefix-list|^ipv6 prefix-list) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "parsed",
+          "rendered"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_route_maps": {
+    "short_description": "Resource module to configure route maps.",
+    "description": "This module configures and manages the attributes of Route maps on Cisco IOS.",
+    "options": {
+      "config": {
+        "description": "A list of configurations for Route maps.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(sh running-config | section ^route-map). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(sh running-config | section ^route-map) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "parsed",
+          "rendered"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
   "cisco.ios.ios_service": {
     "short_description": "Resource module to configure service.",
     "description": "This module configures and manages service attributes on IOS platforms",
     "options": {
       "config": {
         "description": "A dictionary of service configuration",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^service|^no service). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in. The module have declaratively similar behavior for replaced and overridden state. Refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
     "deprecated": null
   },
   "cisco.ios.ios_snmp_server": {
-    "short_description": "",
+    "short_description": "Resource module to configure snmp server.",
     "description": "This module provides declarative management of SNMP server on Cisco IOS devices.",
     "options": {
       "config": {
         "description": "A dictionary of SNMP server configuration",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | include snmp-server). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in. Refer to examples for more details. The states I(replaced) and I(overridden) have identical behaviour for this module.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "parsed",
+          "gathered",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -712,6 +1493,30 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | include ip route|ipv6 route). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | include ip route|ipv6 route) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -770,11 +1575,14 @@
         "aliases": null
       },
       "state": {
-        "description": "State of the configuration values in the device",
+        "description": "State of the configuration values in the device's current active configuration.  When set to I(present), the values should be configured in the device active configuration and when set to I(absent) the values should not be in the device active configuration",
         "type": "str",
         "required": false,
-        "choices": null,
-        "default": null,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -794,6 +1602,105 @@
           "users",
           "collection"
         ]
+      },
+      "name": {
+        "description": "The username to be configured on the Cisco IOS device. This argument accepts a string value and is mutually exclusive with the C(aggregate) argument. Please note that this option is not same as C(provider username).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "configured_password": {
+        "description": "The password to be configured on the Cisco IOS device. The password needs to be provided in clear and it will be encrypted on the device. Please note that this option is not same as C(provider password).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_password": {
+        "description": "Since passwords are encrypted in the device running config, this argument will instruct the module when to change the password.  When set to C(always), the password will always be updated in the device and when set to C(on_create) the password will be updated only if the username is created.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "on_create",
+          "always"
+        ],
+        "default": "always",
+        "aliases": null
+      },
+      "password_type": {
+        "description": "This argument determines whether a 'password' or 'secret' will be configured.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "secret",
+          "password"
+        ],
+        "default": "secret",
+        "aliases": null
+      },
+      "hashed_password": {
+        "description": "This option allows configuring hashed passwords on Cisco IOS devices.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privilege": {
+        "description": "The C(privilege) argument configures the privilege level of the user when logged into the system. This argument accepts integer values in the range of 1 to 15.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "view": {
+        "description": "Configures the view for the username in the device running configuration. The argument accepts a string value defining the view name. This argument does not check if the view has been configured on the device.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "role"
+        ]
+      },
+      "sshkey": {
+        "description": "Specifies one or more SSH public key(s) to configure for the given username. This argument accepts a valid SSH key value.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nopassword": {
+        "description": "Defines the username without assigning a password. This will allow the user to login to the system without being authenticated by a password.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge": {
+        "description": "Instructs the module to consider the resource definition absolute. It will remove any previously configured usernames on the device with the exception of the `admin` user (the current defined set of users).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the state of the username definition as it relates to the device operational configuration. When set to I(present), the username(s) should be configured in the device active configuration and when set to I(absent) the username(s) should not be in the device active configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -804,6 +1711,193 @@
     "options": {
       "config": {
         "description": "A dictionary of VLANs options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show vlan). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of commands I(show vlan) and I(show running-config | sec ^vlan configuration .+) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "purged",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_vrf": {
+    "short_description": "Module to configure VRF definitions.",
+    "description": "This module provides declarative management of VRF definitions on Cisco IOS devices.  It allows playbooks to manage individual or the entire VRF collection.  It also supports purging VRF definitions from the configuration that are not explicitly defined.",
+    "options": {
+      "vrfs": {
+        "description": "The set of VRF definition objects to be configured on the remote IOS device.  Ths list entries can either be the VRF name or a hash of VRF definitions and attributes.  This argument is mutually exclusive with the C(name) argument.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the VRF definition to be managed on the remote IOS device.  The VRF definition name is an ASCII string name used to uniquely identify the VRF.  This argument is mutually exclusive with the C(vrfs) argument",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Provides a short description of the VRF definition in the current active configuration.  The VRF definition value accepts alphanumeric characters used to provide additional information about the VRF.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "address_family": {
+        "description": "The list of address families with MDT parameters to be configured on the remote IOS device.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rd": {
+        "description": "The router-distinguisher value uniquely identifies the VRF to routing processes on the remote IOS system.  The RD value takes the form of C(A:B) where C(A) and C(B) are both numeric values.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interfaces": {
+        "description": "Identifies the set of interfaces that should be configured in the VRF.  Interfaces must be routed interfaces in order to be placed into a VRF.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "associated_interfaces": {
+        "description": "This is a intent option and checks the operational state of the for given vrf C(name) for associated interfaces. If the value in the C(associated_interfaces) does not match with the operational state of vrf interfaces on device it will result in failure.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delay": {
+        "description": "Time in seconds to wait before checking for the operational state on remote device.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "purge": {
+        "description": "Instructs the module to consider the VRF definition absolute.  It will remove any previously configured VRFs on the device.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Configures the state of the VRF definition as it relates to the device operational configuration.  When set to I(present), the VRF should be configured in the device active configuration and when set to I(absent) the VRF should not be in the device active configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "route_both": {
+        "description": "Adds an export and import list of extended route target communities to the VRF.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "route_export": {
+        "description": "Adds an export list of extended route target communities to the VRF.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "route_import": {
+        "description": "Adds an import list of extended route target communities to the VRF.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "route_both_ipv4": {
+        "description": "Adds an export and import list of extended route target communities in address-family configuration submode to the VRF.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "route_export_ipv4": {
+        "description": "Adds an export list of extended route target communities in address-family configuration submode to the VRF.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "route_import_ipv4": {
+        "description": "Adds an import list of extended route target communities in address-family configuration submode to the VRF.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "route_both_ipv6": {
+        "description": "Adds an export and import list of extended route target communities in address-family configuration submode to the VRF.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "route_export_ipv6": {
+        "description": "Adds an export list of extended route target communities in address-family configuration submode to the VRF.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "route_import_ipv6": {
+        "description": "Adds an import list of extended route target communities in address-family configuration submode to the VRF.",
         "type": "list",
         "required": false,
         "choices": null,
@@ -826,11 +1920,28 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^vrf). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^vrf). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | section vrf). connection to remote host is not required. The state I(deleted) only removes the VRF attributes that this module manages and does not negate the VRF completely. Thereby, preserving address-family related configurations under VRF context. The state I(purged) removes all the VRF definitions from the target device. Use caution with this state. Refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "parsed",
+          "gathered",
+          "deleted",
+          "merged",
+          "replaced",
+          "rendered",
+          "overridden",
+          "purged"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -839,7 +1950,79 @@
   "cisco.ios.ios_vrf_interfaces": {
     "short_description": "Manages VRF configuration on interfaces.",
     "description": "Manages Virtual Routing and Forwarding (VRF) configuration on interfaces of Cisco IOS devices.",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "A list of interface VRF configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ios.ios_vxlan_vtep": {
+    "short_description": "Resource module to configure VXLAN VTEP interface.",
+    "description": "This module provides declarative management of VXLAN VTEP interface on Cisco IOS network devices.",
+    "options": {
+      "config": {
+        "description": "A dictionary of VXLAN VTEP interface option",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^interface nve). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

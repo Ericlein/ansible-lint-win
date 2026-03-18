@@ -75,11 +75,11 @@
         "aliases": null
       },
       "check_all": {
-        "description": "By default if any one of the prompts mentioned in C(prompt) option is matched it won",
-        "type": "str",
+        "description": "By default if any one of the prompts mentioned in C(prompt) option is matched it won't check for other prompts. This boolean flag, that when set to I(True) will check for all the prompts mentioned in C(prompt) option in the given order. If the option is set to I(True) all the prompts should be received from remote host if not it will result in timeout.",
+        "type": "bool",
         "required": false,
         "choices": null,
-        "default": null,
+        "default": false,
         "aliases": null
       }
     },
@@ -221,15 +221,83 @@
     "deprecated": null
   },
   "ansible.netcommon.grpc_config": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Fetch configuration/state data from gRPC enabled target hosts.",
+    "description": "gRPC is a high performance, open-source universal RPC framework. This module allows the user to append configs to an existing configuration in a gRPC enabled devices.",
+    "options": {
+      "config": {
+        "description": "This option specifies the string which acts as a filter to restrict the portions of the data to be retrieved from the target host device. If this option is not specified the entire configuration or state data is returned in response provided it is supported by target host.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "action to be performed",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup": {
+        "description": "This argument will cause the module to create a full backup of the current C(running-config) from the remote device before any changes are made. If the C(backup_options) value is not given, the backup file is written to the C(backup) folder in the playbook root directory or role root directory, if playbook is part of an ansible role. If the directory does not exist, it is created.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "backup_options": {
+        "description": "This is a dict object containing configurable options related to backup file path. The value of this option is read only when C(backup) is set to I(yes), if C(backup) is set to I(no) this option will be silently ignored.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ansible.netcommon.grpc_get": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Fetch configuration/state data from gRPC enabled target hosts.",
+    "description": "gRPC is a high performance, open-source universal RPC framework. This module allows the user to fetch configuration and state data from gRPC enabled devices.",
+    "options": {
+      "section": {
+        "description": "This option specifies the string which acts as a filter to restrict the portions of the data to be retrieved from the target host device. If this option is not specified the entire configuration or state data is returned in response provided it is supported by target host.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "filter"
+        ]
+      },
+      "command": {
+        "description": "The option specifies the command to be executed on the target host and return the response in result. This option is supported if the gRPC target host supports executing CLI command over the gRPC connection.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "display": {
+        "description": "Encoding scheme to use when serializing output from the device. The encoding scheme value depends on the capability of the gRPC server running on the target host. The values can be I(json), I(text) etc.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "data_type": {
+        "description": "The type of data that should be fetched from the target host. The value depends on the capability of the gRPC server running on target host. The values can be I(config), I(oper) etc. based on what is supported by the gRPC server. By default it will return both configuration and operational state data in response.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ansible.netcommon.net_get": {
@@ -370,8 +438,154 @@
     "description": "Netconf is a network management protocol developed and standardized by the IETF. It is documented in RFC 6241. This module allows the user to send a configuration XML file to a netconf device, and detects if there was a configuration change.",
     "options": {
       "content": {
-        "description": "The configuration data as defined by the device",
+        "description": "The configuration data as defined by the device's data models, the value can be either in xml string format or text format or python dictionary representation of JSON format. In case of json string format it will be converted to the corresponding xml string using xmltodict library before pushing onto the remote host. In case the value of this option isn I(text) format the format should be supported by remote Netconf server. If the value of C(content) option is in I(xml) format in that case the xml value should have I(config) as root tag.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "xml"
+        ]
+      },
+      "target": {
+        "description": "Name of the configuration datastore to be edited. - auto, uses candidate and fallback to running - candidate, edit <candidate/> datastore and then commit - running, edit <running/> datastore directly",
         "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "candidate",
+          "running"
+        ],
+        "default": "auto",
+        "aliases": [
+          "datastore"
+        ]
+      },
+      "source_datastore": {
+        "description": "Name of the configuration datastore to use as the source to copy the configuration to the datastore mentioned by C(target) option. The values can be either I(running), I(candidate), I(startup) or a remote URL",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "source"
+        ]
+      },
+      "format": {
+        "description": "The format of the configuration provided as value of C(content). In case of json string format it will be converted to the corresponding xml string using xmltodict library before pushing onto the remote host. In case of I(text) format of the configuration should be supported by remote Netconf server. If the value of C(format) options is not given it tries to guess the data format of C(content) option as one of I(xml) or I(json) or I(text). If the data format is not identified it is set to I(xml) by default.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "xml",
+          "text",
+          "json"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "lock": {
+        "description": "Instructs the module to explicitly lock the datastore specified as C(target). By setting the option value I(always) is will explicitly lock the datastore mentioned in C(target) option. It the value is I(never) it will not lock the C(target) datastore. The value I(if-supported) lock the C(target) datastore only if it is supported by the remote Netconf server.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "never",
+          "always",
+          "if-supported"
+        ],
+        "default": "always",
+        "aliases": null
+      },
+      "default_operation": {
+        "description": "The default operation for <edit-config> rpc, valid values are I(merge), I(replace) and I(none). If the default value is merge, the configuration data in the C(content) option is merged at the corresponding level in the C(target) datastore. If the value is replace the data in the C(content) option completely replaces the configuration in the C(target) datastore. If the value is none the C(target) datastore is unaffected by the configuration in the config option, unless and until the incoming configuration data uses the C(operation) operation to request a different operation.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merge",
+          "replace",
+          "none"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "confirm": {
+        "description": "This argument will configure a timeout value for the commit to be confirmed before it is automatically rolled back. If the C(confirm_commit) argument is set to False, this argument is silently ignored. If the value of this argument is set to 0, the commit is confirmed immediately. The remote host MUST support :candidate and :confirmed-commit capability for this option to .",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "confirm_commit": {
+        "description": "This argument will execute commit operation on remote device. It can be used to confirm a previous commit.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "error_option": {
+        "description": "This option controls the netconf server action after an error occurs while editing the configuration. If I(error_option=stop-on-error), abort the config edit on first error. If I(error_option=continue-on-error), continue to process configuration data on error. The error is recorded and negative response is generated if any errors occur. If I(error_option=rollback-on-error), rollback to the original configuration if any error occurs. This requires the remote Netconf server to support the I(error_option=rollback-on-error) capability.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "stop-on-error",
+          "continue-on-error",
+          "rollback-on-error"
+        ],
+        "default": "stop-on-error",
+        "aliases": null
+      },
+      "save": {
+        "description": "The C(save) argument instructs the module to save the configuration in C(target) datastore to the startup-config if changed and if :startup capability is supported by Netconf server.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "backup": {
+        "description": "This argument will cause the module to create a full backup of the current C(running-config) from the remote device before any changes are made. If the C(backup_options) value is not given, the backup file is written to the C(backup) folder in the playbook root directory or role root directory, if playbook is part of an ansible role. If the directory does not exist, it is created.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "delete": {
+        "description": "It instructs the module to delete the configuration from value mentioned in C(target) datastore.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "commit": {
+        "description": "This boolean flag controls if the configuration changes should be committed or not after editing the candidate datastore. This option is supported only if remote Netconf server supports :candidate capability. If the value is set to I(False) commit won't be issued after edit-config operation and user needs to handle commit or discard-changes explicitly.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "validate": {
+        "description": "This boolean flag if set validates the content of datastore given in C(target) option. For this option to work remote Netconf server should support :validate capability.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "backup_options": {
+        "description": "This is a dict object containing configurable options related to backup file path. The value of this option is read only when C(backup) is set to I(yes), if C(backup) is set to I(no) this option will be silently ignored.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "get_filter": {
+        "description": "This argument specifies the XML string which acts as a filter to restrict the portions of the data retrieved from the remote device when comparing the before and after state of the device following calls to edit_config. When not specified, the entire configuration or state data is returned for comparison depending on the value of C(source) option. The C(get_filter) value can be either XML string or XPath or JSON string or native python dictionary, if the filter is in XPath format the NETCONF server running on remote host should support xpath capability else it will result in an error.",
+        "type": "raw",
         "required": false,
         "choices": null,
         "default": null,
@@ -504,7 +718,15 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the host device by executing the cli command to get the resource configuration on host. The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the host device by executing the cli command to get the resource configuration on host. The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in. For supported values refer the individual resource module platform documentation.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -668,7 +890,39 @@
         "type": "str",
         "required": false,
         "choices": null,
-        "default": null,
+        "default": "login: ",
+        "aliases": null
+      },
+      "password_prompt": {
+        "description": "Login or username prompt to expect",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "Password: ",
+        "aliases": null
+      },
+      "pause": {
+        "description": "Seconds to pause between each command issued",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "send_newline": {
+        "description": "Sends a newline character upon successful connection to start the terminal session.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "crlf": {
+        "description": "Sends a CRLF (Carrage Return) instead of just a LF (Line Feed).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },

@@ -1,0 +1,250 @@
+{
+  "netapp.aws.aws_netapp_cvs_active_directory": {
+    "short_description": "NetApp AWS CloudVolumes Service Manage Active Directory.",
+    "description": "Create, Update, Delete ActiveDirectory on AWS Cloud Volumes Service.",
+    "options": {
+      "state": {
+        "description": "Whether the specified ActiveDirectory should exist or not.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "region": {
+        "description": "The region to which the Active Directory credentials are associated.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain": {
+        "description": "Name of the Active Directory domain",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "DNS": {
+        "description": "DNS server address for the Active Directory domain Required when C(state=present) Required when C(state=present), to modify ActiveDirectory properties.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "netBIOS": {
+        "description": "NetBIOS name of the server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Username of the Active Directory domain administrator",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password of the Active Directory domain administrator Required when C(state=present), to modify ActiveDirectory properties",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "netapp.aws.aws_netapp_cvs_filesystems": {
+    "short_description": "NetApp AWS Cloud Volumes Service Manage FileSystem.",
+    "description": "Create, Update, Delete fileSystem on AWS Cloud Volumes Service.",
+    "options": {
+      "state": {
+        "description": "Whether the specified fileSystem should exist or not.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "region": {
+        "description": "The region to which the filesystem belongs to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "creationToken": {
+        "description": "Name of the filesystem",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "quotaInBytes": {
+        "description": "Size of the filesystem Required for create",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "serviceLevel": {
+        "description": "Service Level of a filesystem.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "standard",
+          "premium",
+          "extreme"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "exportPolicy": {
+        "description": "The policy rules to export the filesystem",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "netapp.aws.aws_netapp_cvs_pool": {
+    "short_description": "NetApp AWS Cloud Volumes Service Manage Pools.",
+    "description": "Create, Update, Delete Pool on AWS Cloud Volumes Service.",
+    "options": {
+      "state": {
+        "description": "Whether the specified pool should exist or not.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "region": {
+        "description": "The region to which the Pool is associated.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "pool name ( The human readable name of the Pool ) name can be used for create, update and delete operations",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "serviceLevel": {
+        "description": "The service level of the Pool can be used with pool create, update operations",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "basic",
+          "standard",
+          "extreme"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "sizeInBytes": {
+        "description": "Size of the Pool in bytes can be used with pool create, update operations minimum value is 4000000000000 bytes",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vendorID": {
+        "description": "A vendor ID for the Pool. E.g. an ID allocated by a vendor service for the Pool. can be used with pool create, update operations must be unique",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "from_name": {
+        "description": "rename the existing pool name ( The human readable name of the Pool ) I(from_name) is the existing name, and I(name) the new name can be used with update operation",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "netapp.aws.aws_netapp_cvs_snapshots": {
+    "short_description": "NetApp AWS Cloud Volumes Service Manage Snapshots.",
+    "description": "Create, Update, Delete Snapshot on AWS Cloud Volumes Service.",
+    "options": {
+      "state": {
+        "description": "Whether the specified snapshot should exist or not.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "region": {
+        "description": "The region to which the snapshot belongs to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the snapshot",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fileSystemId": {
+        "description": "Name or Id of the filesystem. Required for create operation",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "from_name": {
+        "description": "ID or Name of the snapshot to rename. Required to create an snapshot called 'name' by renaming 'from_name'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  }
+}

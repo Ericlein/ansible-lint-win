@@ -1,14 +1,272 @@
 {
+  "community.rabbitmq.rabbitmq_binding": {
+    "short_description": "Manage rabbitMQ bindings",
+    "description": "This module uses rabbitMQ REST APIs to create / delete bindings.",
+    "options": {
+      "state": {
+        "description": "Whether the bindings should be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "source exchange to create binding on.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "src",
+          "source"
+        ]
+      },
+      "destination": {
+        "description": "destination exchange or queue for the binding.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "dst",
+          "dest"
+        ]
+      },
+      "destination_type": {
+        "description": "Either queue or exchange.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "queue",
+          "exchange"
+        ],
+        "default": null,
+        "aliases": [
+          "type",
+          "dest_type"
+        ]
+      },
+      "routing_key": {
+        "description": "routing key for the binding.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "#",
+        "aliases": null
+      },
+      "arguments": {
+        "description": "extra arguments for exchange. If defined this argument is a key/value dictionary",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.rabbitmq.rabbitmq_exchange": {
+    "short_description": "Manage rabbitMQ exchange",
+    "description": "This module uses rabbitMQ Rest API to create/delete exchanges",
+    "options": {
+      "name": {
+        "description": "Name of the exchange to create.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the exchange should be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "durable": {
+        "description": "Whether exchange is durable or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "exchange_type": {
+        "description": "Type for the exchange. If using I(x-delayed-message), I(x-random), I(x-consistent-hash) or I(x-recent-history) the respective plugin on the RabbitMQ server must be enabled.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "fanout",
+          "direct",
+          "headers",
+          "topic",
+          "x-delayed-message",
+          "x-random",
+          "x-consistent-hash",
+          "x-recent-history"
+        ],
+        "default": "direct",
+        "aliases": [
+          "type"
+        ]
+      },
+      "auto_delete": {
+        "description": "If the exchange should delete itself after all queues/exchanges unbound from it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "internal": {
+        "description": "Exchange is available only for other exchanges.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "arguments": {
+        "description": "Extra arguments for exchange. If defined this argument is a key/value dictionary.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
   "community.rabbitmq.rabbitmq_feature_flag": {
     "short_description": "Enables feature flag",
     "description": "Allows to enable specified feature flag.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Feature flag name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "node": {
+        "description": "Erlang node name of the target rabbit node.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "rabbit",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.rabbitmq.rabbitmq_global_parameter": {
     "short_description": "Manage RabbitMQ global parameters",
     "description": "Manage dynamic, cluster-wide global parameters for RabbitMQ",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the global parameter being set",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "value": {
+        "description": "Value of the global parameter, as a JSON term",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "node": {
+        "description": "erlang node name of the rabbit we wish to configure",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "rabbit",
+        "aliases": null
+      },
+      "state": {
+        "description": "Specify if global parameter is to be added or removed",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.rabbitmq.rabbitmq_parameter": {
+    "short_description": "Manage RabbitMQ parameters",
+    "description": "Manage dynamic, cluster-wide parameters for RabbitMQ",
+    "options": {
+      "component": {
+        "description": "Name of the component of which the parameter is being set",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the parameter being set",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "value": {
+        "description": "Value of the parameter, as a JSON term",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vhost": {
+        "description": "vhost to apply access privileges.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "/",
+        "aliases": null
+      },
+      "node": {
+        "description": "erlang node name of the rabbit we wish to configure",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "rabbit",
+        "aliases": null
+      },
+      "state": {
+        "description": "Specify if parameter is to be added or removed",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.rabbitmq.rabbitmq_plugin": {
@@ -122,6 +380,92 @@
         "type": "str",
         "required": false,
         "choices": null,
+        "default": "0",
+        "aliases": null
+      },
+      "node": {
+        "description": "Erlang node name of the rabbit we wish to configure.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "rabbit",
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the policy.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "login_user": {
+        "description": "RabbitMQ user for connection.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_password": {
+        "description": "RabbitMQ password for connection.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_host": {
+        "description": "RabbitMQ host for connection.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_port": {
+        "description": "RabbitMQ management API port.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "15672",
+        "aliases": null
+      },
+      "login_protocol": {
+        "description": "RabbitMQ management API protocol.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "http",
+          "https"
+        ],
+        "default": "http",
+        "aliases": null
+      },
+      "ca_cert": {
+        "description": "CA certificate to verify SSL connection to management API.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "client_cert": {
+        "description": "Client certificate to send on SSL connections to management API.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "client_key": {
+        "description": "Private key matching the client certificate.",
+        "type": "path",
+        "required": false,
+        "choices": null,
         "default": null,
         "aliases": null
       }
@@ -184,7 +528,113 @@
         "aliases": null
       },
       "vhost": {
-        "description": "The virtual host to target. If default vhost is required, use C(",
+        "description": "The virtual host to target. If default vhost is required, use C('%2F').",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "queue": {
+        "description": "The queue to publish a message to.  If no queue is specified, RabbitMQ will return a random queue name. A C(queue) cannot be provided if an C(exchange) is specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "exchange": {
+        "description": "The exchange to publish a message to. An C(exchange) cannot be provided if a C(queue) is specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "routing_key": {
+        "description": "The routing key.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "body": {
+        "description": "The body of the message. A C(body) cannot be provided if a C(src) is specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "src": {
+        "description": "A file to upload to the queue.  Automatic mime type detection is attempted if content_type is not defined (left as default). A C(src) cannot be provided if a C(body) is specified. The filename is added to the headers of the posted message to RabbitMQ. Key being the C(filename), value is the filename.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "file"
+        ]
+      },
+      "content_type": {
+        "description": "The content type of the body.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "text/plain",
+        "aliases": null
+      },
+      "durable": {
+        "description": "Set the queue to be durable.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "exclusive": {
+        "description": "Set the queue to be exclusive.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "auto_delete": {
+        "description": "Set the queue to auto delete.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "headers": {
+        "description": "A dictionary of headers to post with the message.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "cafile": {
+        "description": "CA file used during connection to the RabbitMQ server over SSL. If this option is specified, also I(certfile) and I(keyfile) must be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "certfile": {
+        "description": "Client certificate to establish SSL connection. If this option is specified, also I(cafile) and I(keyfile) must be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "keyfile": {
+        "description": "Client key to establish SSL connection. If this option is specified, also I(cafile) and I(certfile) must be specified.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -194,10 +644,131 @@
     },
     "deprecated": null
   },
+  "community.rabbitmq.rabbitmq_queue": {
+    "short_description": "Manage rabbitMQ queues",
+    "description": "This module uses rabbitMQ Rest API to create/delete queues. Due to limitations in the API, it cannot modify existing queues.",
+    "options": {
+      "name": {
+        "description": "Name of the queue.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the queue should be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "durable": {
+        "description": "whether queue is durable or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "auto_delete": {
+        "description": "if the queue should delete itself after all queues/queues unbound from it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "message_ttl": {
+        "description": "How long a message can live in queue before it is discarded (milliseconds).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auto_expires": {
+        "description": "How long a queue can be unused before it is automatically deleted (milliseconds).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_length": {
+        "description": "How many messages can the queue contain before it starts rejecting.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dead_letter_exchange": {
+        "description": "Optional name of an exchange to which messages will be republished if they are rejected or expire.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dead_letter_routing_key": {
+        "description": "Optional replacement routing key to use when a message is dead-lettered. Original routing key will be used if unset.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_priority": {
+        "description": "Maximum number of priority levels for the queue to support. If not set, the queue will not support message priorities. Larger numbers indicate higher priority.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "arguments": {
+        "description": "extra arguments for queue. If defined this argument is a key/value dictionary Arguments here take precedence over parameters. If both are defined, the argument will be used.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
   "community.rabbitmq.rabbitmq_upgrade": {
     "short_description": "Execute rabbitmq-upgrade commands",
     "description": "Allows to execute rabbitmq-upgrade commands",
-    "options": {},
+    "options": {
+      "action": {
+        "description": "Specify action to be executed.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "await_online_quorum_plus_one",
+          "await_online_synchronized_mirror",
+          "post_upgrade",
+          "drain",
+          "revive"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "node": {
+        "description": "Erlang node name of the target rabbit node.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "rabbit",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.rabbitmq.rabbitmq_user": {
@@ -260,6 +831,103 @@
         "type": "str",
         "required": false,
         "choices": null,
+        "default": "^$",
+        "aliases": null
+      },
+      "write_priv": {
+        "description": "Regular expression to restrict configure actions on a resource for the specified vhost. By default all actions are restricted. This option will be ignored when permissions option is used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "^$",
+        "aliases": null
+      },
+      "read_priv": {
+        "description": "Regular expression to restrict configure actions on a resource for the specified vhost. By default all actions are restricted. This option will be ignored when permissions option is used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "^$",
+        "aliases": null
+      },
+      "topic_permissions": {
+        "description": "A list of dicts, each dict contains vhost, exchange, read_priv and write_priv, and represents a topic permission rule for that vhost. By default vhost is C(/) and exchange is C(amq.topic). Supported since RabbitMQ 3.7.0. If RabbitMQ is older and topic_permissions are set, the module will fail.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "force": {
+        "description": "Deletes and recreates the user.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specify if user is to be added or removed",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "update_password": {
+        "description": "C(on_create) will only set the password for newly created users.  C(always) will update passwords if they differ.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "on_create",
+          "always"
+        ],
+        "default": "on_create",
+        "aliases": null
+      },
+      "login_protocol": {
+        "description": "Specify which TCP/IP protocol will be used.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "http",
+          "https"
+        ],
+        "default": "http",
+        "aliases": null
+      },
+      "login_host": {
+        "description": "Hostname of API.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_port": {
+        "description": "login_port of access from API.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "15672",
+        "aliases": null
+      },
+      "login_user": {
+        "description": "Administrator's username the management API.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_password": {
+        "description": "Login password of the management API.",
+        "type": "str",
+        "required": false,
+        "choices": null,
         "default": null,
         "aliases": null
       }
@@ -269,7 +937,54 @@
   "community.rabbitmq.rabbitmq_user_limits": {
     "short_description": "Manage RabbitMQ user limits",
     "description": "Manage the state of user limits in RabbitMQ. Supported since RabbitMQ version 3.8.10.",
-    "options": {},
+    "options": {
+      "user": {
+        "description": "Name of user to manage limits for.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "username",
+          "name"
+        ]
+      },
+      "max_connections": {
+        "description": "Max number of concurrent client connections. Negative value means \"no limit\". Ignored when the I(state) is C(absent).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": -1,
+        "aliases": null
+      },
+      "max_channels": {
+        "description": "Max number of channels. Negative value means \"no limit\". Ignored when the I(state) is C(absent).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": -1,
+        "aliases": null
+      },
+      "node": {
+        "description": "Name of the RabbitMQ Erlang node to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specify whether the limits are to be set or cleared. If set to C(absent), the limits of both I(max_connections) and I(max_channels) will be cleared.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.rabbitmq.rabbitmq_vhost": {
@@ -322,6 +1037,65 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "login_password": {
+        "description": "RabbitMQ password for connection.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_host": {
+        "description": "RabbitMQ host for connection.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_port": {
+        "description": "RabbitMQ management API port.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "15672",
+        "aliases": null
+      },
+      "login_protocol": {
+        "description": "RabbitMQ management API protocol.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "http",
+          "https"
+        ],
+        "default": "http",
+        "aliases": null
+      },
+      "ca_cert": {
+        "description": "CA certificate to verify SSL connection to management API.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "client_cert": {
+        "description": "Client certificate to send on SSL connections to management API.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "client_key": {
+        "description": "Private key matching the client certificate.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
       }
     },
     "deprecated": null
@@ -331,11 +1105,46 @@
     "description": "This module sets/clears certain limits on a virtual host. The configurable limits are I(max_connections) and I(max-queues).",
     "options": {
       "max_connections": {
-        "description": "Max number of concurrent client connections. Negative value means",
+        "description": "Max number of concurrent client connections. Negative value means \"no limit\". Ignored when the I(state) is C(absent).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": -1,
+        "aliases": null
+      },
+      "max_queues": {
+        "description": "Max number of queues. Negative value means \"no limit\". Ignored when the I(state) is C(absent).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": -1,
+        "aliases": null
+      },
+      "node": {
+        "description": "Name of the RabbitMQ Erlang node to manage.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specify whether the limits are to be set or cleared. If set to C(absent), the limits of both I(max_connections) and I(max-queues) will be cleared.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "vhost": {
+        "description": "Name of the virtual host to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "/",
         "aliases": null
       }
     },

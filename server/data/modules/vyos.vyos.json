@@ -36,6 +36,46 @@
     },
     "deprecated": null
   },
+  "vyos.vyos.vyos_bgp_address_family": {
+    "short_description": "BGP Address Family resource module",
+    "description": "This module manages BGP address family configuration of interfaces on devices running VYOS. Tested against VyOS 1.3.8, 1.4.2, the upcoming 1.5, and the rolling release of spring 2025 The provided examples of commands are valid for VyOS 1.4+",
+    "options": {
+      "config": {
+        "description": "A dict of BGP global configuration for interfaces.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the VYOS device by executing the command B(show configuration command | match bgp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "deleted",
+          "gathered",
+          "parsed",
+          "rendered",
+          "purged",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
   "vyos.vyos.vyos_bgp_global": {
     "short_description": "BGP global resource module",
     "description": "This module manages BGP global configuration of interfaces on devices running VYOS. Tested against VyOS 1.3.8, 1.4.2, the upcoming 1.5, and the rolling release of spring 2025 The provided examples of commands are valid for VyOS 1.4+",
@@ -43,6 +83,30 @@
       "config": {
         "description": "A dict of BGP global configuration for interfaces.",
         "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in. State I(purged) removes all the BGP configurations from the target device. Use caution with this state.('delete protocols bgp <x>') State I(deleted) only removes BGP attributes that this modules manages and does not negate the BGP process completely. Thereby, preserving address-family related configurations under BGP context. Running states I(deleted) and I(replaced) will result in an error if there are address-family configuration lines present under neighbor context that is is to be removed. Please use the  M(vyos.vyos.vyos_bgp_address_family) module for prior cleanup. Refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "merged",
+          "purged",
+          "replaced",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the EOS device by executing the command B(show running-config | section bgp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
         "required": false,
         "choices": null,
         "default": null,
@@ -56,11 +120,48 @@
     "description": "The command module allows running one or more commands on remote devices running VyOS.  This module can also be introspected to validate key parameters before returning successfully.  If the conditional statements are not met in the wait period, the task fails. Certain C(show) commands in VyOS produce many lines of output and use a custom pager that can cause this module to hang.  If the value of the environment variable C(ANSIBLE_VYOS_TERMINAL_LENGTH) is not set, the default number of 10000 is used.",
     "options": {
       "commands": {
-        "description": "The ordered set of commands to execute on the remote device running VyOS.  The output from the command execution is returned to the playbook.  If the I(wait_for) argument is provided, the module is not returned until the condition is satisfied or the number of retries has been exceeded. If a command sent to the device requires answering a prompt, it is possible to pass a dict containing command, answer and prompt. Common answers are",
-        "type": "str",
+        "description": "The ordered set of commands to execute on the remote device running VyOS.  The output from the command execution is returned to the playbook.  If the I(wait_for) argument is provided, the module is not returned until the condition is satisfied or the number of retries has been exceeded. If a command sent to the device requires answering a prompt, it is possible to pass a dict containing command, answer and prompt. Common answers are 'y' or \"\\\\r\" (carriage return, must be double quotes). Refer below examples.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait_for": {
+        "description": "Specifies what to evaluate from the output of the command and what conditionals to apply.  This argument will cause the task to wait for a particular conditional to be true before moving forward.  If the conditional is not true by the configured I(retries), the task fails. See examples.",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": [
+          "waitfor"
+        ]
+      },
+      "match": {
+        "description": "The I(match) argument is used in conjunction with the I(wait_for) argument to specify the match policy. Valid values are C(all) or C(any).  If the value is set to C(all) then all conditionals in the wait_for must be satisfied.  If the value is set to C(any) then only one of the values must be satisfied.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "any",
+          "all"
+        ],
+        "default": "all",
+        "aliases": null
+      },
+      "retries": {
+        "description": "Specifies the number of retries a command should be tried before it is considered failed. The command is run on the target device every retry and evaluated against the I(wait_for) conditionals. The commands are run once when I(retries) is set to C(0).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 9,
+        "aliases": null
+      },
+      "interval": {
+        "description": "Configures the interval in seconds to wait between I(retries) of the command. If the command does not pass the specified conditions, the interval indicates how long to wait before trying the command again.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
         "aliases": null
       }
     },
@@ -166,10 +267,26 @@
     "options": {
       "gather_subset": {
         "description": "When supplied, this argument will restrict the facts collected to a given subset.  Possible values for this argument include C(all), C(default), C(config), C(neighbors) and C(min). Can specify a list of values to include a larger subset. Values can also be used with an initial C(!) to specify that a specific subset should not be collected.",
-        "type": "str",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": "min",
+        "aliases": null
+      },
+      "gather_network_resources": {
+        "description": "When supplied, this argument will restrict the facts collected to a given subset. Possible values for this argument include all and the resources like interfaces. Can specify a list of values to include a larger subset. Values can also be used with an initial C(!) to specify that a specific subset should not be collected. Valid subsets are 'all', 'interfaces', 'l3_interfaces', 'lag_interfaces', 'lldp_global', 'lldp_interfaces', 'static_routes', 'firewall_rules', 'firewall_global', 'firewall_interfaces', 'ospfv3', 'ospfv2'.",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "available_network_resources": {
+        "description": "When 'True' a list of network resources for which resource modules are available will be provided.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },
@@ -178,19 +295,117 @@
   "vyos.vyos.vyos_firewall_global": {
     "short_description": "Firewall global resource module",
     "description": "This module manage global policies or configurations for firewall on VyOS devices.",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "A dictionary of Firewall global configuration options.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "The module, by default, will connect to the remote device and retrieve the current running-config to use as a base for comparing against the contents of source. There are times when it is not desirable to have the task get the current running-config for every task in a playbook.  The I(running_config) argument allows the implementer to pass in the configuration to use as the base config for comparison. This value of this option should be the output received from device by executing command C(show configuration commands | grep 'firewall')\n",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vyos.vyos.vyos_firewall_interfaces": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Firewall interfaces resource module",
+    "description": "Manage firewall rules of interfaces on VyOS network devices. (1.3-)",
+    "options": {
+      "config": {
+        "description": "A list of firewall rules options for interfaces.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "The module, by default, will connect to the remote device and retrieve the current running-config to use as a base for comparing against the contents of source. There are times when it is not desirable to have the task get the current running-config for every task in a playbook.  The I(running_config) argument allows the implementer to pass in the configuration to use as the base config for comparison. This value of this option should be the output received from device by executing command C(show configuration commands | grep 'firewall').",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "parsed",
+          "rendered",
+          "gathered"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vyos.vyos.vyos_firewall_rules": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Firewall rules resource module",
+    "description": "This module manages firewall rule-set attributes on VyOS devices",
+    "options": {
+      "config": {
+        "description": "A dictionary of Firewall rule-set options.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the VyOS device by executing the command B(show configuration commands | grep firewall). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vyos.vyos.vyos_hostname": {
@@ -206,44 +421,224 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the vyos device by executing the command B(",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the vyos device by executing the command B(\"show configuration commands | grep host-name\"). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The states I(merged), I(replaced) and I(overridden) have identical behaviour for this module. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show configuration commands | grep host-name) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "parsed",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
     "deprecated": null
   },
   "vyos.vyos.vyos_interfaces": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manages interface attributes of VyOS network devices.",
+    "description": "This module manages the interface attributes on VyOS network devices. This module supports managing base attributes of Ethernet, Bonding, VXLAN, Loopback and Virtual Tunnel Interfaces.",
+    "options": {
+      "config": {
+        "description": "The provided interface configuration.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the VyOS device by executing the command B(show configuration commands | grep interfaces). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vyos.vyos.vyos_l3_interfaces": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Layer 3 interfaces resource module.",
+    "description": "This module manages the L3 interface attributes on VyOS network devices.",
+    "options": {
+      "config": {
+        "description": "The provided L3 interfaces configuration.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the VyOS device by executing the command B(show configuration commands | grep -e eth[2,3]). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vyos.vyos.vyos_lag_interfaces": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "LAG interfaces resource module",
+    "description": "This module manages attributes of link aggregation groups on VyOS network devices.",
+    "options": {
+      "config": {
+        "description": "A list of link aggregation group configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the VyOS device by executing the command B(show configuration commands | grep bond). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "parsed",
+          "gathered",
+          "rendered"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vyos.vyos.vyos_lldp_global": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "LLDP global resource module",
+    "description": "This module manages link layer discovery protocol (LLDP) attributes on VyOS devices.",
+    "options": {
+      "config": {
+        "description": "The provided link layer discovery protocol (LLDP) configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the VyOS device by executing the command B(show configuration commands | grep lldp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vyos.vyos.vyos_lldp_interfaces": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "LLDP interfaces resource module",
+    "description": "This module manages attributes of lldp interfaces on VyOS network devices.",
+    "options": {
+      "config": {
+        "description": "A list of LLDP interfaces configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the VyOS device by executing the command B(show configuration commands | grep lldp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "parsed",
+          "gathered"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vyos.vyos.vyos_logging_global": {
@@ -259,11 +654,27 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the VYOS device by executing the command B(show configuration commands | grep syslog). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the VYOS device by executing the command B(show configuration commands | grep syslog). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(replaced) and I(overridden) have identical behaviour for this module. Refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "parsed",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -272,19 +683,155 @@
   "vyos.vyos.vyos_ntp_global": {
     "short_description": "NTP global resource module",
     "description": "This module manages ntp configuration on devices running Vyos",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "List of configurations for ntp module",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the VYOS device by executing the command B(show configuration commands | grep ntp). The states I(replaced) and I(overridden) have identical behaviour for this module. The state I(parsed) reads the configuration from C(show configuration commands | grep ntp) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "merged",
+          "overridden",
+          "replaced",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_ospf_interfaces": {
+    "short_description": "OSPF Interfaces Resource Module.",
+    "description": "This module manages OSPF configuration of interfaces on devices running VYOS. The provided examples of commands are valid for VyOS 1.4+",
+    "options": {
+      "config": {
+        "description": "A list of OSPF configuration for interfaces.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the VYOS device by executing the command B(show configuration commands |  match \"set interfaces\"). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "parsed",
+          "rendered"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vyos.vyos.vyos_ospfv2": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "OSPFv2 resource module",
+    "description": "This resource module configures and manages attributes of OSPFv2 routes on VyOS network devices.",
+    "options": {
+      "config": {
+        "description": "A provided OSPFv2 route configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the VyOS device by executing the command B(show configuration commands | grep ospf). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "deleted",
+          "parsed",
+          "gathered",
+          "rendered"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vyos.vyos.vyos_ospfv3": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "OSPFv3 resource module",
+    "description": "This resource module configures and manages attributes of OSPFv3 routes on VyOS network devices.",
+    "options": {
+      "config": {
+        "description": "A provided OSPFv3 route configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the VyOS device by executing the command B(show configuration commands | grep ospfv3). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "deleted",
+          "parsed",
+          "gathered",
+          "rendered"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vyos.vyos.vyos_ping": {
@@ -353,22 +900,160 @@
     },
     "deprecated": null
   },
+  "vyos.vyos.vyos_prefix_lists": {
+    "short_description": "Prefix-Lists resource module for VyOS",
+    "description": "This module manages prefix-lists configuration on devices running VyOS",
+    "options": {
+      "config": {
+        "description": "A list of prefix-list options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the VyOS device by executing the command B(show configuration commands | grep prefix-list). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
   "vyos.vyos.vyos_route_maps": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Route Map resource module",
+    "description": "This module manages route map configurations on devices running VYOS.",
+    "options": {
+      "config": {
+        "description": "A list of route-map configuration.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the VYOS device by executing the command B(show configuration commands | grep route-map). The state I(parsed) reads the configuration from C(show configuration commands | grep route-map) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "merged",
+          "overridden",
+          "replaced",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vyos.vyos.vyos_snmp_server": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manages snmp_server resource module",
+    "description": "This module manages the snmp server attributes of Vyos network devices",
+    "options": {
+      "config": {
+        "description": "SNMP server configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "The state the configuration should be left in. The states I(replaced) and I(overridden) have identical behaviour for this module. Please refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "parsed",
+          "rendered"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vyos.vyos.vyos_static_routes": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Static routes resource module",
+    "description": "This module manages attributes of static routes on VyOS network devices.",
+    "options": {
+      "config": {
+        "description": "A provided static route configuration.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the VyOS device by executing the command B(show configuration commands | grep static route). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vyos.vyos.vyos_system": {
@@ -588,6 +1273,45 @@
           "absent"
         ],
         "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "vyos.vyos.vyos_vrf": {
+    "short_description": "VRF resource module",
+    "description": "This module manages vrf configuration on devices running Vyos",
+    "options": {
+      "config": {
+        "description": "List of vrf configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the VYOS device by executing the command B(show configuration commands |  match \"set vrf\"). The states I(replaced) and I(overridden) have identical behaviour for this module. The state I(parsed) reads the configuration from C(show configuration commands |  match \"set vrf\") option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "merged",
+          "overridden",
+          "replaced",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },

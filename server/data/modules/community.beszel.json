@@ -1,20 +1,192 @@
 {
   "community.beszel.system": {
     "short_description": "Manage Beszel systems.",
-    "description": "",
-    "options": {},
+    "description": "Create, update and delete Beszel systems.",
+    "options": {
+      "url": {
+        "description": "URL of the Beszel hub.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Username used to authenticate to Beszel hub.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password used to authenticate to Beszel hub.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Number of seconds to wait for the Beszel hub to respond.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 120,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Beszel system.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "IP address, FQDN or hostname of the Beszel system. Required when state is present.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Port of the Beszel system.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 45876,
+        "aliases": null
+      },
+      "users": {
+        "description": "List of users to add to the Beszel system. If not provided, the current user specified in the username option will be added to the system.\n",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the Beszel system.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.beszel.system_info": {
     "short_description": "Get information about Beszel systems.",
-    "description": "",
-    "options": {},
+    "description": "Get information about registered Beszel systems.",
+    "options": {
+      "url": {
+        "description": "URL of the Beszel hub.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Username used to authenticate to Beszel hub.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password used to authenticate to Beszel hub.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Number of seconds to wait for the Beszel hub to respond.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 120,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Beszel system. If not provided, all systems will be returned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.beszel.universal_token": {
     "short_description": "Enable or disable the universal token for the Beszel hub.",
-    "description": "",
-    "options": {},
+    "description": "Enable or disable the universal token for the Beszel hub.",
+    "options": {
+      "url": {
+        "description": "URL of the Beszel hub.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Username used to authenticate to Beszel hub.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password used to authenticate to Beszel hub.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Number of seconds to wait for the Beszel hub to respond.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 120,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the universal token.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "enabled",
+        "aliases": null
+      },
+      "persistence": {
+        "description": "Persistence mode of the universal token.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ephemeral",
+          "permanent"
+        ],
+        "default": "ephemeral",
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

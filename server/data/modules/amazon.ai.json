@@ -1,56 +1,655 @@
 {
   "amazon.ai.bedrock_agent": {
     "short_description": "Manage Amazon Bedrock Agents",
-    "description": "",
-    "options": {},
+    "description": "This module creates, updates, and deletes Amazon Bedrock Agents.",
+    "options": {
+      "state": {
+        "description": "The state of the agent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "agent_name": {
+        "description": "Specifies a new name for the agent.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_agent_name": {
+        "description": "The new name to assign to the agent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "orchestration_type": {
+        "description": "Specifies the type of orchestration strategy for the agent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "DEFAULT",
+          "CUSTOM_ORCHESTRATION"
+        ],
+        "default": "DEFAULT",
+        "aliases": null
+      },
+      "foundation_model": {
+        "description": "ARN or name of a Bedrock model. Required when O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "instruction": {
+        "description": "The instructions for the agent. Required when O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "agent_resource_role_arn": {
+        "description": "The ARN of the IAM role for the agent. Required when O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "agent_collaboration": {
+        "description": "The agent's collaboration role.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "SUPERVISOR",
+          "SUPERVISOR_ROUTER",
+          "DISABLED"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "prompt_override_configuration": {
+        "description": "A dictionary to define custom prompt configurations for the agent. Supports fields to customize prompts at various stages of the agent's processing.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Any tags that you want to attach to the agent. Tags cannot be modified. They are only applied when a new Amazon Bedrock Agent is created.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      },
+      "wait_timeout": {
+        "description": "Specifies the maximum amount of time, in seconds, that the module should wait for the requested operation on the Bedrock Agent to complete before timing out. This applies to operations that may take time to reach a stable state, such as creating, or updating an agent. During this period, the module will poll the agent's status at regular intervals to detect when the operation has completed. If the agent does not reach the desired state within this timeout, the module will fail. Increasing this value may be useful for slower or heavily loaded environments, while decreasing it can make the module fail faster when quick feedback is desired.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 600,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "amazon.ai.bedrock_agent_action_group": {
     "short_description": "Manage Amazon Bedrock Agent Action Groups",
-    "description": "",
-    "options": {},
+    "description": "This module creates, updates, and deletes an action group for a Bedrock Agent.",
+    "options": {
+      "state": {
+        "description": "The state of the action group. To delete an action group, ensure that the O(action_group_state=DISABLED).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "agent_name": {
+        "description": "The name of the Bedrock Agent.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "agent_version": {
+        "description": "The version of the agent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "DRAFT",
+        "aliases": null
+      },
+      "action_group_name": {
+        "description": "The name of the action group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_action_group_name": {
+        "description": "Specifies a new name for the action group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "action_group_state": {
+        "description": "Specifies whether the action group is available for the agent to invoke or not when sending an InvokeAgent request.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ENABLED",
+          "DISABLED"
+        ],
+        "default": "ENABLED",
+        "aliases": null
+      },
+      "description": {
+        "description": "A description of the action group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lambda_arn": {
+        "description": "The ARN of the Lambda function for the action group. Required when O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "api_schema": {
+        "description": "The OpenAPI schema. Required when O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "amazon.ai.bedrock_agent_action_group_info": {
-    "short_description": "Gather information about a Bedrock Agent",
-    "description": "",
-    "options": {},
+    "short_description": "Gather information about a Bedrock Agent's Action Groups",
+    "description": "This module can retrieve details for a specific action group by ID or name, or list all action groups for a given agent.",
+    "options": {
+      "agent_name": {
+        "description": "The name of the agent.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "agent_version": {
+        "description": "The version of the agent to query.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "DRAFT",
+        "aliases": null
+      },
+      "action_group_name": {
+        "description": "The name of the action group to retrieve.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "amazon.ai.bedrock_agent_alias": {
     "short_description": "Manage Amazon Bedrock Agent Aliases",
-    "description": "",
-    "options": {},
+    "description": "This module creates and deletes an alias for a Bedrock Agent.",
+    "options": {
+      "state": {
+        "description": "The state of the agent alias.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "agent_name": {
+        "description": "The name of the Bedrock Agent.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "alias_name": {
+        "description": "The name of the alias.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A description of the alias of the agent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "routing_configuration": {
+        "description": "Contains details about the routing configuration of the alias.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Any tags that you want to attach to the alias.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "resource_tags"
+        ]
+      }
+    },
     "deprecated": null
   },
   "amazon.ai.bedrock_agent_alias_info": {
-    "short_description": "Gather information about a Bedrock Agent",
-    "description": "",
-    "options": {},
+    "short_description": "Gather information about a Bedrock Agent's Aliases",
+    "description": "This module can retrieve details for a specific alias or lists all aliases for a given Bedrock Agent, identified by its name.",
+    "options": {
+      "agent_name": {
+        "description": "The name of the agent.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "alias_name": {
+        "description": "The name of the agent alias.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "amazon.ai.bedrock_agent_info": {
     "short_description": "Gather information about Bedrock Agents",
-    "description": "",
-    "options": {},
+    "description": "This module gets details for a single Bedrock Agent or lists all agents.",
+    "options": {
+      "agent_name": {
+        "description": "The unique identifier of the agent to retrieve. If not provided, the module will list all agents.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "agent_version": {
+        "description": "Agent's version.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "DRAFT",
+        "aliases": null
+      },
+      "list_action_groups": {
+        "description": "If V(true), lists all action groups for the specified agent.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "list_aliases": {
+        "description": "If V(true), lists all aliases for the specified agent.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "amazon.ai.bedrock_foundation_models_info": {
     "short_description": "List or get details for Amazon Bedrock foundation models",
-    "description": "",
-    "options": {},
+    "description": "This module lists or gets details for Amazon Bedrock foundation models It supports filtering the results by provider, customization type, output modality, and inference type.",
+    "options": {
+      "model_id": {
+        "description": "The model ID of the specific foundation model to retrieve. When this option is provided, all other filtering options are ignored.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "by_provider": {
+        "description": "Return models belonging to the model provider that you specify.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "by_customization_type": {
+        "description": "Return models that support the customization type that you specify.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "FINE_TUNING",
+          "CONTINUED_PRE_TRAINING",
+          "DISTILLATION"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "by_output_modality": {
+        "description": "Return models that support the output modality that you specify.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "TEXT",
+          "IMAGE",
+          "EMBEDDING"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "by_inference_type": {
+        "description": "Return models that support the inference type that you specify.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ON_DEMAND",
+          "PROVISIONED"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "amazon.ai.bedrock_invoke_agent": {
     "short_description": "Invoke an Amazon Bedrock agent with a prompt",
-    "description": "",
-    "options": {},
+    "description": "This module interacts with a deployed Amazon Bedrock agent by sending it a user prompt. It creates a new session if one is not provided and processes the streaming response to return a complete answer.",
+    "options": {
+      "agent_id": {
+        "description": "The unique identifier of the Bedrock agent to invoke.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "agent_alias_id": {
+        "description": "The unique identifier of the agent's alias.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "input_text": {
+        "description": "The text prompt or question to send to the agent.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "session_id": {
+        "description": "The session ID for the conversation. If not provided, a new unique session ID is generated.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "end_session": {
+        "description": "Specifies whether to end the session with the agent after this invocation.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "enable_trace": {
+        "description": "Specifies whether to turn on the trace to follow the agent's reasoning process.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "session_state": {
+        "description": "A dictionary containing session state information, such as conversation history or attributes. This maps directly to the sessionState parameter in the InvokeAgent API.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "amazon.ai.bedrock_invoke_model": {
     "short_description": "Run inference using Amazon Bedrock models",
-    "description": "",
-    "options": {},
+    "description": "This module invokes a specified model on Amazon Bedrock with a user-provided request body. The request body is passed as raw bytes or JSON (dict), depending on the model requirements. The module supports customizing request and response MIME types.",
+    "options": {
+      "model_id": {
+        "description": "The ID of the Bedrock model to invoke.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "body": {
+        "description": "The request body to send to the model. Must be a JSON object, string, or plain text depending on the model.",
+        "type": "raw",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_type": {
+        "description": "Desired MIME type of the response.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "application/json",
+        "aliases": null
+      },
+      "accept": {
+        "description": "The desired MIME type of the inference response.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "application/json",
+        "aliases": null
+      },
+      "trace": {
+        "description": "Specifies whether to enable or disable Bedrock tracing.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ENABLED",
+          "DISABLED",
+          "ENABLED_FULL"
+        ],
+        "default": "DISABLED",
+        "aliases": null
+      },
+      "guardrail_identifier": {
+        "description": "The unique identifier of the guardrail to use. This option requires boto3 >= 1.35.8.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "guardrail_version": {
+        "description": "The version number for the guardrail. Can also be 'DRAFT'. O(guardrail_version) is required when O(guardrail_identifier) is specified. This option requires boto3 >= 1.35.8.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "performance_config_latency": {
+        "description": "Model performance settings for the request, optimizing for latency. This option requires boto3 >= 1.35.8.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "standard",
+          "optimized"
+        ],
+        "default": "standard",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.ai.devopsguru_insight_info": {
+    "short_description": "Fetch information about Amazon DevOps Guru insights",
+    "description": "Fetch information about Amazon DevOps Guru insights.",
+    "options": {
+      "status_filter": {
+        "description": "A dict of filters to apply. You can specify which insights are returned by their start time and status (ONGOING, CLOSED, or ANY). See U(https://docs.aws.amazon.com/devops-guru/latest/APIReference/API_ListInsightsStatusFilter.html).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "filter"
+        ]
+      },
+      "account_id": {
+        "description": "The ID of the Amazon Web Services account.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "insight_id": {
+        "description": "The ID of the insight.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "include_anomalies": {
+        "description": "Dictionary for getting insight's anomalies.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "include_recommendations": {
+        "description": "Dictionary for getting insight's recommendations.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "amazon.ai.devopsguru_resource_collection": {
+    "short_description": "Manage DevOps Guru resource collections",
+    "description": "Manage DevOps Guru resource collections.",
+    "options": {
+      "state": {
+        "description": "Specifies if the resource collection in the request is added or deleted to the resource collection.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "cloudformation_stack_names": {
+        "description": "An array of the names of the Amazon Web Services CloudFormation stacks to update. You can specify up to 500 Amazon Web Services CloudFormation stacks. Required when O(state=present).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "stack_names"
+        ]
+      },
+      "tags": {
+        "description": "Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. Required when O(state=present).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_channel_config": {
+        "description": "A NotificationChannelConfig that specifies what type of notification channel to add. The one supported notification channel is Amazon Simple Notification Service (Amazon SNS).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_channel_id": {
+        "description": "The ID of the notification channnel to remove when O(state=absent).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remove_notification_channel": {
+        "description": "Wether to remove or not the O(notification_channel_id). O(remove_notification_channel) and O(notification_channel_id) are required together.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "amazon.ai.devopsguru_resource_collection_info": {
@@ -62,7 +661,9 @@
         "type": "str",
         "required": true,
         "choices": [
-          null
+          "AWS_CLOUD_FORMATION",
+          "AWS_SERVICE",
+          "AWS_TAGS"
         ],
         "default": null,
         "aliases": null

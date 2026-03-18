@@ -1,14 +1,73 @@
 {
   "dellemc.enterprise_sonic.sonic": {
     "short_description": "A dummy module for the sonic action plugin",
-    "description": "",
-    "options": {},
+    "description": "This is the corresponding module for the `sonic` action plugin. It is provided to comply with the Ansible requirement that a module  must exist for every plugin and is not executed directly.",
+    "options": {
+      "config": {
+        "description": "Dummy configuration",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "dellemc.enterprise_sonic.sonic_aaa": {
+    "short_description": "Manage AAA configuration on SONiC",
+    "description": "This module provides configuration management of AAA for devices running SONiC.",
+    "options": {
+      "config": {
+        "description": "AAA configuration For all lists in the module, the list items should be specified in order of desired priority. List items specified first have the highest priority.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "overridden",
+          "replaced"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_acl_interfaces": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage access control list (ACL) to interface binding on SONiC",
+    "description": "This module provides configuration management of applying access control lists (ACL) to interfaces in devices running SONiC. ACL needs to be created earlier in the device.",
+    "options": {
+      "config": {
+        "description": "Specifies interface access-group configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion. I(merged) - Merges provided interface access-group configuration with on-device configuration. I(replaced) - Replaces on-device access-group configuration of the specified interfaces with provided configuration. I(overridden) - Overrides all on-device interface access-group configurations with the provided configuration. I(deleted) - Deletes on-device interface access-group configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_api": {
@@ -16,9 +75,39 @@
     "description": "Manages REST operations on devices running Enterprise SONiC Distribution by Dell Technologies. This module provides an implementation for working with SONiC REST operations in a deterministic way.",
     "options": {
       "url": {
-        "description": "The HTTP path of the request after",
-        "type": "str",
+        "description": "The HTTP path of the request after 'restconf/'.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "body": {
+        "description": "The body of the HTTP request/response to the web service which contains the payload.",
+        "type": "raw",
         "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "method": {
+        "description": "The HTTP method of the request or response. Must be a valid method accepted by the service that handles the request.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "GET",
+          "PUT",
+          "POST",
+          "PATCH",
+          "DELETE"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "status_code": {
+        "description": "A list of valid, numeric, HTTP status codes that signifies the success of a request.",
+        "type": "list",
+        "required": true,
         "choices": null,
         "default": null,
         "aliases": null
@@ -27,15 +116,59 @@
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_ars": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage adaptive routing and switching (ARS) configuration on SONiC",
+    "description": "This module provides configuration management of ARS for devices running SONiC",
+    "options": {
+      "config": {
+        "description": "ARS configuration",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_bfd": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage BFD configuration on SONiC",
+    "description": "This module provides configuration management of BFD for devices running SONiC",
+    "options": {
+      "config": {
+        "description": "Specifies BFD configurations",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_bgp": {
@@ -48,6 +181,19 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the BGP process that is configured on the device. In case of merged, the input configuration is merged with the existing BGP configuration on the device. In case of deleted, the existing BGP configuration is removed from the device. In case of replaced, the existing configuration of the specified BGP AS will be replaced with provided configuration. In case of overridden, the existing BGP configuration will be overridden with the provided configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -64,6 +210,19 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the BGP_AF process configured on the device. In case of merged, the input configuration is merged with the existing BGP_AF configuration on the device. In case of deleted, the existing BGP_AF configuration is removed from the device. In case of replaced, the existing BGP_AF of specified BGP AS will be replaced with provided configuration. In case of overridden, the existing BGP_AF configuration will be overridden with the provided configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "overridden",
+          "replaced"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -73,11 +232,24 @@
     "description": "This module provides configuration management of BGP bgp_as_paths for devices running Enterprise SONiC Distribution by Dell Technologies.",
     "options": {
       "config": {
-        "description": "A list of",
-        "type": "str",
+        "description": "A list of 'bgp_as_paths' configurations.",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -88,11 +260,24 @@
     "description": "This module provides configuration management of BGP bgp_communities for device running Enterprise SONiC Distribution by Dell Technologies.",
     "options": {
       "config": {
-        "description": "A list of",
-        "type": "str",
+        "description": "A list of 'bgp_communities' configurations.",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -103,11 +288,24 @@
     "description": "This module provides configuration management of BGP extcommunity-list for devices running Enterprise SONiC Distribution by Dell Technologies.",
     "options": {
       "config": {
-        "description": "A list of",
-        "type": "str",
+        "description": "A list of 'bgp_extcommunity_list' configurations.",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -124,6 +322,19 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the BGP process that is configured on the device. In case of merged, the input configuration is merged with the existing BGP configuration on the device. In case of deleted, the existing BGP configuration is removed from the device. In case of replaced, the existing BGP configuration will be replaced with the input BGP configuration on the device. In case of overridden, the existing BGP configuration will be overriden with the input BGP configuration on the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -139,14 +350,49 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the BGP process that is configured on the device. In case of merged, the input configuration is merged with the existing BGP configuration on the device. In case of deleted, the existing BGP configuration is removed from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_br_l2pt": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage L2PT configurations on SONiC",
+    "description": "This module provides configuration management of L2PT parameters in devices running SONiC.",
+    "options": {
+      "config": {
+        "description": "A list of L2PT configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_command": {
@@ -154,8 +400,159 @@
     "description": "Runs commands on remote devices running Enterprise SONiC Distribution by Dell Technologies. Sends arbitrary commands to an Enterprise SONiC node and returns the results that are read from the device. This module includes an argument that causes the module to wait for a specific condition before returning or time out if the condition is not met. This module does not support running commands in configuration mode. To configure SONiC devices, use M(dellemc.enterprise_sonic.sonic_config).",
     "options": {
       "commands": {
-        "description": "List of commands to send to the remote Enterprise SONiC devices over the configured provider. The resulting output from the command is returned. If the I(wait_for) argument is provided, the module is not returned until the condition is satisfied or the number of retries has expired. If a command sent to the device requires answering a prompt, it is possible to pass a dict containing I(command), I(answer) and I(prompt). Common answers are",
+        "description": "List of commands to send to the remote Enterprise SONiC devices over the configured provider. The resulting output from the command is returned. If the I(wait_for) argument is provided, the module is not returned until the condition is satisfied or the number of retries has expired. If a command sent to the device requires answering a prompt, it is possible to pass a dict containing I(command), I(answer) and I(prompt). Common answers are 'yes' or \"\\\\r\" (carriage return, must be double quotes). See examples.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait_for": {
+        "description": "List of conditions to evaluate against the output of the command. The task waits for each condition to be true before moving forward. If the conditional is not true within the configured number of retries, the task fails. See examples.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "match": {
+        "description": "The I(match) argument is used in conjunction with the I(wait_for) argument to specify the match policy.  Valid values are C(all) or C(any). If the value is set to C(all) then all conditionals in the wait_for must be satisfied. If the value is set to C(any) then only one of the values must be satisfied.",
         "type": "str",
+        "required": false,
+        "choices": [
+          "all",
+          "any"
+        ],
+        "default": "all",
+        "aliases": null
+      },
+      "retries": {
+        "description": "Specifies the number of retries a command should be run before it is considered failed. The command is run on the target device every retry and evaluated against the I(wait_for) conditions.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "interval": {
+        "description": "Configures the interval in seconds to wait between retries of the command. If the command does not pass the specified conditions, the interval indicates how long to wait before trying the command again.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "dellemc.enterprise_sonic.sonic_config": {
+    "short_description": "Manages configuration sections on devices running Enterprise SONiC",
+    "description": "Manages configuration sections of Enterprise SONiC Distribution by Dell Technologies. SONiC configurations use a simple block indent file syntax for segmenting configuration into sections. This module provides an implementation for working with SONiC configuration sections in a deterministic way.",
+    "options": {
+      "lines": {
+        "description": "The ordered set of commands that should be configured in the section. The commands must be the exact same commands as found in the device running-configuration. Be sure to note the configuration command syntax as some commands are automatically modified by the device configuration parser. This argument is mutually exclusive with I(src).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "commands"
+        ]
+      },
+      "parents": {
+        "description": "The ordered set of parents that uniquely identify the section or hierarchy the commands should be checked against. If the parents argument is omitted, the commands are checked against the set of top level or global commands.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "src": {
+        "description": "Specifies the source path to the file that contains the configuration or configuration template to load. The path to the source file can either be the full path on the Ansible control host, or a relative path from the playbook or role root directory. This argument is mutually exclusive with I(lines).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "before": {
+        "description": "The ordered set of commands to push on to the command stack if a change needs to be made. This allows the playbook designer the opportunity to perform configuration commands prior to pushing any changes without affecting how the set of commands are matched against the system.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "after": {
+        "description": "The ordered set of commands to append to the end of the command stack if a change needs to be made. Just like with I(before), this allows the playbook designer to append a set of commands to be executed after the command set.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "save": {
+        "description": "The C(save) argument instructs the module to save the running- configuration to the startup-configuration at the conclusion of the module running. If check mode is specified, this argument is ignored.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "false",
+        "aliases": null
+      },
+      "match": {
+        "description": "Instructs the module on the way to perform the matching of the set of commands against the current device configuration. If match is set to I(line), commands are matched line by line. If match is set to I(strict), command lines are matched with respect to position. If match is set to I(exact), command lines must be an equal match. If match is set to I(none), the module does not attempt to compare the source configuration with the running-configuration on the remote device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "line",
+          "strict",
+          "exact",
+          "none"
+        ],
+        "default": "line",
+        "aliases": null
+      },
+      "replace": {
+        "description": "Instructs the module how to perform a configuration on the device. If the replace argument is set to I(line), then the modified lines are pushed to the device in configuration mode. If the replace argument is set to I(block), then the entire command block is pushed to the device in configuration mode if any line is not correct.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "line",
+          "block"
+        ],
+        "default": "line",
+        "aliases": null
+      },
+      "update": {
+        "description": "The I(update) argument controls how the configuration statements are processed on the remote device. Valid choices for the I(update) argument are I(merge) and I(check). When you set this argument to I(merge), the configuration changes merge with the current device running-configuration. When you set this argument to I(check), the configuration updates are determined but not configured on the remote device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merge",
+          "check"
+        ],
+        "default": "merge",
+        "aliases": null
+      },
+      "config": {
+        "description": "The module, by default, connects to the remote device and retrieves the current running-configuration to use as a base for comparing against the contents of source. There are times when it is not desirable to have the task get the current running-configuration for every task in a playbook. The I(config) argument allows the implementer to pass in the configuration to use as the base configuration for comparison.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup": {
+        "description": "This argument causes the module to create a full backup of the current C(running-configuration) from the remote device before any changes are made. If the C(backup_options) value is not given, the backup file is written to the C(backup) folder in the playbook root directory. If the directory does not exist, it is created.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "backup_options": {
+        "description": "This is a dictionary object containing configurable options related to backup file path. The value of this option is read only when C(backup) is set to I(yes), if C(backup) is set to I(no) this option is ignored.",
+        "type": "dict",
         "required": false,
         "choices": null,
         "default": null,
@@ -165,27 +562,115 @@
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_copp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage CoPP configuration on SONiC",
+    "description": "This module provides configuration management of CoPP for devices running SONiC",
+    "options": {
+      "config": {
+        "description": "Specifies CoPP configurations",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_dcbx": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage DCBx configurations on SONiC",
+    "description": "This module provides configuration management of DCBx parameters in devices running SONiC.",
+    "options": {
+      "config": {
+        "description": "The set of DCBx attribute configurations",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state specifies the type of configuration update to be performed on the device. If the state is \"merged\", merge specified attributes with existing configured attributes. For \"deleted\", delete the specified attributes from existing configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_dhcp_relay": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage DHCP and DHCPv6 relay configurations on SONiC",
+    "description": "This module provides configuration management of DHCP and DHCPv6 relay parameters on Layer 3 interfaces of devices running SONiC. Layer 3 interface and VRF name need to be created earlier in the device.",
+    "options": {
+      "config": {
+        "description": "Specifies the DHCP and DHCPv6 relay configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion. C(merged) - Merges provided DHCP and DHCPv6 relay configuration with on-device configuration. C(deleted) - Deletes on-device DHCP and DHCPv6 relay configuration. C(replaced) - Replaces on-device DHCP and DHCPv6 relay configuration of the specified interfaces with provided configuration. C(overridden) - Overrides all on-device DHCP and DHCPv6 relay configurations with the provided configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_dhcp_snooping": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage DHCP Snooping on SONiC",
+    "description": "This module provides configuration management of DHCP snooping for devices running SONiC.",
+    "options": {
+      "config": {
+        "description": "The DHCP snooping configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "overridden",
+          "replaced"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_drop_counter": {
@@ -227,6 +712,47 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "dellemc.enterprise_sonic.sonic_evpn_esi_multihome": {
+    "short_description": "Manage EVPN ESI multihoming configuration on SONiC",
+    "description": "This module provides configuration management of EVPN ESI multihoming for devices running SONiC",
+    "options": {
+      "config": {
+        "description": "EVPN ESI multihoming configuration",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -236,10 +762,104 @@
     "description": "Collects facts from devices running Enterprise SONiC Distribution by Dell Technologies. This module places the facts gathered in the fact tree keyed by the respective resource name. The facts module always collects a base set of facts from the device and can enable or disable collection of additional facts.",
     "options": {
       "gather_subset": {
-        "description": "When supplied, this argument restricts the facts collected to a given subset. Possible values for this argument include all, min, hardware, config, legacy, and interfaces. Can specify a list of values to include a larger subset. Values can also be used with an initial",
-        "type": "str",
+        "description": "When supplied, this argument restricts the facts collected to a given subset. Possible values for this argument include all, min, hardware, config, legacy, and interfaces. Can specify a list of values to include a larger subset. Values can also be used with an initial '!' to specify that a specific subset should not be collected.",
+        "type": "list",
         "required": false,
         "choices": null,
+        "default": "!config",
+        "aliases": null
+      },
+      "gather_network_resources": {
+        "description": "When supplied, this argument restricts the facts collected to a given subset. Possible values for this argument include all and the resources like 'all', 'interfaces', 'vlans', 'lag_interfaces', 'l2_interfaces', 'l3_interfaces'. Can specify a list of values to include a larger subset. Values can also be used with an initial '!' to specify that a specific subset should not be collected.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "all",
+          "vlans",
+          "interfaces",
+          "l2_interfaces",
+          "l3_interfaces",
+          "ipv6_router_advertisement",
+          "lag_interfaces",
+          "bgp",
+          "bgp_af",
+          "bgp_neighbors",
+          "bgp_neighbors_af",
+          "bgp_as_paths",
+          "bgp_communities",
+          "bgp_ext_communities",
+          "ospfv2_interfaces",
+          "ospfv2",
+          "ospfv3",
+          "ospfv3_area",
+          "ospfv3_interfaces",
+          "mclag",
+          "prefix_lists",
+          "vlan_mapping",
+          "vrfs",
+          "vrrp",
+          "vxlans",
+          "users",
+          "system",
+          "port_breakout",
+          "pms",
+          "aaa",
+          "ldap",
+          "tacacs_server",
+          "radius_server",
+          "static_routes",
+          "ntp",
+          "logging",
+          "pki",
+          "ip_neighbor",
+          "ip_neighbor_interfaces",
+          "port_group",
+          "dhcp_relay",
+          "acl_interfaces",
+          "l2_acls",
+          "l3_acls",
+          "lldp_global",
+          "ptp_default_ds",
+          "mac",
+          "bfd",
+          "copp",
+          "route_maps",
+          "lldp_interfaces",
+          "stp",
+          "poe",
+          "dhcp_snooping",
+          "sflow",
+          "fips",
+          "roce",
+          "qos_buffer",
+          "qos_pfc",
+          "qos_maps",
+          "qos_scheduler",
+          "qos_wred",
+          "qos_interfaces",
+          "pim_global",
+          "pim_interfaces",
+          "login_lockout",
+          "mgmt_servers",
+          "ospf_area",
+          "ssh",
+          "lst",
+          "ptp_port_ds",
+          "fbs_classifiers",
+          "fbs_groups",
+          "fbs_policies",
+          "ars",
+          "network_policy",
+          "br_l2pt",
+          "dcbx",
+          "mirroring",
+          "mfa",
+          "drop_counter",
+          "evpn_esi_multihome",
+          "ssh_server",
+          "ecmp_load_share",
+          "fbs_interfaces"
+        ],
         "default": null,
         "aliases": null
       }
@@ -249,19 +869,170 @@
   "dellemc.enterprise_sonic.sonic_fbs_classifiers": {
     "short_description": "Manage flow based services (FBS) classifiers configuration on SONiC",
     "description": "This module provides configuration management of FBS classifiers for devices running SONiC",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "FBS classifiers configuration I(match_acl) and I(match_hdr_fields) are mutually exclusive.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "dellemc.enterprise_sonic.sonic_fbs_groups": {
+    "short_description": "Manage flow based services (FBS) groups configuration on SONiC",
+    "description": "This module provides configuration management of FBS groups for devices running SONiC",
+    "options": {
+      "config": {
+        "description": "FBS groups configuration",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "dellemc.enterprise_sonic.sonic_fbs_interfaces": {
+    "short_description": "Manage flow based services (FBS) interfaces configuration on SONiC",
+    "description": "This module provides configuration management of FBS interfaces for devices running SONiC",
+    "options": {
+      "config": {
+        "description": "FBS interfaces configuration",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "dellemc.enterprise_sonic.sonic_fbs_policies": {
+    "short_description": "Manage flow based services (FBS) policies configuration on SONiC",
+    "description": "This module provides configuration management of FBS policies for devices running SONiC",
+    "options": {
+      "config": {
+        "description": "FBS policies configuration",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_fips": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FIPS configurations on SONiC",
+    "description": "This module provides FIPS configuration management to specify the security requirements for cryptographic modules in devices running SONiC.",
+    "options": {
+      "config": {
+        "description": "The mode of FIPS configuration with specifications of security requirements for cryptographic modules.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state specifies the type of configuration update to be performed on the device. If the state is \"merged\", merge specified attributes with existing configured attributes. For \"deleted\", delete the specified attributes from existing configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_image_management": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage installation of Enterprise SONiC image, software patch and firmware updater",
+    "description": "Manage installation of Enterprise SONiC image, software patch and firmware updater.",
+    "options": {
+      "image": {
+        "description": "Manage installation of Enterprise SONiC image.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "patch": {
+        "description": "Manage installation of software patch.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "firmware": {
+        "description": "Manage installation of Firmware updater",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_interfaces": {
@@ -275,6 +1046,19 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -282,25 +1066,113 @@
   "dellemc.enterprise_sonic.sonic_ip_neighbor": {
     "short_description": "Manage IP neighbor global configuration on SONiC.",
     "description": "This module provides configuration management of IP neighbor global for devices running SONiC.",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "Specifies IP neighbor global configurations.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_ip_neighbor_interfaces": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage interface-specific IP neighbor configurations on SONiC",
+    "description": "This module provides configuration management of interface-specific IP neighbor parameters for devices running SONiC.",
+    "options": {
+      "config": {
+        "description": "Specifies interface-specific IP neighbor configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion. C(merged) - Merges provided interface-specific IP neighbor configuration with on-device configuration. C(replaced) - Replaces on-device IP neighbor configuration of the specified interfaces with provided configuration. C(overridden) - Overrides all on-device interface-specific IP neighbor configurations with the provided configuration. C(deleted) - Deletes on-device interface-specific IP neighbor configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_ipv6_router_advertisement": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage interface-specific IPv6 Router Advertisement configurations on SONiC",
+    "description": "This module provides configuration management of interface-specific IPv6 Router Advertisement parameters for devices running SONiC. This functionality is referred to as 'ipv6 nd' in Enterprise SONiC CLI.",
+    "options": {
+      "config": {
+        "description": "Specifies interface-specific IPv6 Router Advertisement configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion. C(merged) - Merges provided interface-specific IPv6 router advertisement configuration with on-device configuration. C(replaced) - Replaces on-device IPv6 router advertisement configuration of the specified interfaces with provided configuration. C(overridden) - Overrides all on-device interface-specific IPv6 router advertisement configurations with the provided configuration. C(deleted) - Deletes on-device interface-specific IPv6 router advertisement configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_l2_acls": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Layer 2 access control lists (ACL) configurations on SONiC",
+    "description": "This module provides configuration management of Layer 2 access control lists (ACL) in devices running SONiC.",
+    "options": {
+      "config": {
+        "description": "Specifies Layer 2 ACL configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion. C(merged) - Merges provided L2 ACL configuration with on-device configuration. C(replaced) - Replaces on-device configuration of the specified L2 ACLs with provided configuration. C(overridden) - Overrides all on-device L2 ACL configurations with the provided configuration. C(deleted) - Deletes on-device L2 ACL configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_l2_interfaces": {
@@ -314,14 +1186,49 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "state": {
+        "description": "The state that the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_l3_acls": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Layer 3 access control lists (ACL) configurations on SONiC",
+    "description": "This module provides configuration management of Layer 3 access control lists (ACL) in devices running SONiC.",
+    "options": {
+      "config": {
+        "description": "Specifies Layer 3 ACL configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion. C(merged) - Merges provided L3 ACL configuration with on-device configuration. C(replaced) - Replaces on-device configuration of the specified L3 ACLs with provided configuration. C(overridden) - Overrides all on-device L3 ACL configurations with the provided configuration. C(deleted) - Deletes on-device L3 ACL configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_l3_interfaces": {
@@ -334,6 +1241,19 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -368,39 +1288,197 @@
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_ldap": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure global LDAP server settings on SONiC.",
+    "description": "This module provides configuration management of global LDAP server parameters on devices running SONiC. Configure VRF instance before configuring VRF to be used for LDAP server connection.",
+    "options": {
+      "config": {
+        "description": "Specifies the LDAP server related configuration.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the LDAP server configured on the device. In case of merged, the input configuration will be merged with the existing LDAP server configuration on the device. In case of deleted, the existing LDAP server configuration will be removed from the device. In case of overridden, all the existing LDAP server configuration will be deleted and the specified input configuration will be installed. In case of replaced, the existing LDAP server configuration on the device will be replaced by the configuration in the playbook for each LDAP server group configured by the playbook.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_lldp_global": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Global LLDP configurations on SONiC",
+    "description": "This module provides configuration management of global LLDP parameters for use on LLDP enabled Layer 2 interfaces of devices running SONiC. It is intended for use in conjunction with LLDP Layer 2 interface configuration applied on participating interfaces.",
+    "options": {
+      "config": {
+        "description": "The set of link layer discovery protocol global attribute configurations",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state specifies the type of configuration update to be performed on the device. If the state is \"merged\", merge specified attributes with existing configured attributes. For \"deleted\", delete the specified attributes from existing configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_lldp_interfaces": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Inteface LLDP configurations on SONiC",
+    "description": "This module provides configuration management of interface LLDP parameters in devices running SONiC. It is intended for use in conjunction with global LLDP.",
+    "options": {
+      "config": {
+        "description": "The set of link layer discovery protocol interface attribute configurations",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state specifies the type of configuration update to be performed on the device. If the state is \"merged\", merge specified attributes with existing configured attributes. For \"deleted\", delete the specified attributes from existing configuration. For \"replaced\", replaces lldp interface configuration of the specified interfaces with provided configuration. For \"overridden\", overrides all on-device lldp interface configurations with the provided configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_logging": {
     "short_description": "Manage logging configuration on SONiC.",
     "description": "This module provides configuration management of logging for devices running SONiC.",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "Specifies logging related configurations.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_login_lockout": {
     "short_description": "Manage Global Login Lockout configurations on SONiC",
     "description": "This module provides configuration management of login lockout parameters. Login Lockout feature is to lock out the user account for user-lockout-period after the max-retry failed attempts. Console exempt option can be enabled to skip the login lockout validations for console users.",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "The set of login lockout attribute configurations",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the login attributes configured on the device. If the state is \"merged\", merge specified attributes with existing configured login attributes. For \"deleted\", delete the specified login attributes from existing configuration. For \"overridden\", Overrides all on-device login lockout configurations with the provided configuration. For \"replaced\", Replaces on-device login lockout configurations with the provided configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "overridden",
+          "replaced"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "dellemc.enterprise_sonic.sonic_lst": {
+    "short_description": "Manage link state tracking (LST) configuration on SONiC",
+    "description": "This module provides configuration management of LST for devices running SONiC",
+    "options": {
+      "config": {
+        "description": "LST configuration",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_mac": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage MAC configuration on SONiC",
+    "description": "This module provides configuration management of MAC for devices running SONiC",
+    "options": {
+      "config": {
+        "description": "A list of MAC configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_mclag": {
@@ -434,7 +1512,29 @@
   "dellemc.enterprise_sonic.sonic_mfa": {
     "short_description": "Manage Multi-factor authentication (MFA) configurations on SONiC.",
     "description": "This module provides configuration management of MFA parameters for devices running SONiC. Pre-configured host cert is required for MFA security profile, and ca-cert for RSA/CAC-PIV security profiles.",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "Specifies MFA configurations.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion. C(merged) - Merges provided MFA configuration with on-device configuration. C(replaced) - Replaces on-device MFA configuration with provided configuration. C(overridden) - Overrides all on-device MFA configurations with the provided configuration. C(deleted) - Deletes on-device MFA configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_mgmt_servers": {
@@ -466,183 +1566,920 @@
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_mirroring": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage port mirroring configuration on SONiC.",
+    "description": "This module provides configuration management for port mirroring on devices running SONiC.",
+    "options": {
+      "config": {
+        "description": "Specifies port mirroring configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the mirroring configured on the device. In case of merged, the input configuration will be merged with the existing configuration on the device. In case of deleted, the input configuration will be removed from the device. In case of overridden, all existing mirroring configuration will be deleted and the specified input configuration will be added. In case of replaced, the existing mirroring configuration on the device will be replaced by the new specified configuration for each affected mirroring session.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "dellemc.enterprise_sonic.sonic_network_policy": {
+    "short_description": "Manage network policy configuration on SONiC",
+    "description": "This module provides configuration management of network policy for devices running SONiC",
+    "options": {
+      "config": {
+        "description": "List of network policy configurations",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_ntp": {
     "short_description": "Manage NTP configuration on SONiC.",
     "description": "This module provides configuration management of NTP for devices running SONiC.",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "Specifies NTP related configurations.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_ospf_area": {
-    "short_description": "",
+    "short_description": "configure OSPF area settings on SONiC",
     "description": "This module provides configuration for the area settings of OSPF running on SONiC switches",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "Specifies configuration for OSPFv2 areas",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the type of configuration update to be performed on the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_ospfv2": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure global OSPFv2 protocol settings on SONiC.",
+    "description": "This module provides configuration management of global OSPFv2 parameters on devices running SONiC. Configure VRF instance before configuring OSPF in a VRF.",
+    "options": {
+      "config": {
+        "description": "Specifies the OSPFv2 related configuration. I(non_passive_interfaces) and I(passive_interfaces) are mutually exclusive. When I(default_passive=True), I(passive_interfaces) cannot be configured. When I(default_passive=False), I(non_passive_interfaces) cannot be configured.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the OSPFv2 process configured on the device. In case of merged, the input configuration will be merged with the existing OSPFv2 configuration on the device. In case of deleted, the existing OSPFv2 configuration will be removed from the device. In case of overridden, all the existing OSPFv2 configuration will be deleted and the specified input configuration will be installed. In case of replaced, the existing OSPFv2 configuration on the device will be replaced by the configuration in the playbook for each VRF group configured by the playbook.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_ospfv2_interfaces": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure OSPFv2 interface mode protocol settings on SONiC.",
+    "description": "This module provides configuration management of OSPFv2 interface mode parameters on devices running SONiC. Configure VRF instance before configuring OSPF in a VRF. Configure OSPF instance before configuring OSPF in interfaces.",
+    "options": {
+      "config": {
+        "description": "Specifies the OSPFv2 interface configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the OSPFv2 interfaces configured on the device. In case of merged, the input configuration will be merged with the existing OSPFv2 interfaces configuration on the device. In case of deleted, the existing OSPFv2 interfaces configuration will be removed from the device. In case of overridden, all the existing OSPFv2 interfaces configuration will be deleted and the specified input configuration will be installed. In case of replaced, the existing OSPFv2 interface configuration on the device will be replaced by the configuration in the playbook for each interface group configured by the playbook.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_ospfv3": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure global OSPFv3 protocol settings on SONiC.",
+    "description": "This module provides configuration management of global OSPFv3 parameters on devices running SONiC. Configure VRF instance before configuring OSPFv3 in a VRF.",
+    "options": {
+      "config": {
+        "description": "Specifies the OSPFv3 related configuration.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the OSPFv3 process configured on the device. In case of merged, the input configuration will be merged with the existing OSPFv3 configuration on the device. In case of deleted, the specified existing OSPFv3 configuration will be removed from the device. In case of overridden, all the existing OSPFv3 configuration will be deleted and the specified input configuration will be installed. In case of replaced, the existing OSPFv3 configuration on the device will be replaced by the configuration in the playbook for each VRF group configured by the playbook.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_ospfv3_area": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure OSPFv3 area settings on SONiC.",
+    "description": "This module provides configuration for the area settings of OSPFv3 running on SONiC switches. Configure global/VRF OSPFv3 instance before configuring OSPFv3 areas. Configure OSPFv3 instance before configuring OSPFv3 areas.",
+    "options": {
+      "config": {
+        "description": "Specifies configuration for OSPFv3 areas. I(stub) and I(nssa) are mutually exclusive. If I(area_id=0 or 0.0.0.0), I(stub/nssa) should not be specified.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the type of configuration update to be performed on the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_ospfv3_interfaces": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure OSPFv3 interface mode protocol settings on SONiC.",
+    "description": "This module provides configuration management of OSPFv3 interface mode parameters on devices running SONiC. Configure VRF instance before configuring OSPFv3 in a VRF. Configure global/VRF OSPFv3 instance before configuring OSPFv3 in interfaces.",
+    "options": {
+      "config": {
+        "description": "Specifies the OSPFv3 interface mode related configuration.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the OSPFv3 interfaces configured on the device. In case of merged, the input configuration will be merged with the existing OSPFv3 interfaces configuration on the device. In case of deleted, the specified existing OSPFv3 interfaces configuration will be removed from the device. In case of overridden, all the existing OSPFv3 interfaces configuration will be deleted and the specified input configuration will be installed. In case of replaced, the existing OSPFv3 interface configuration on the device will be replaced by the configuration in the playbook for each interface group configured by the playbook.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_pim_global": {
     "short_description": "Manage global PIM configurations on SONiC",
     "description": "This module provides configuration management of global PIM parameters for devices running SONiC. VRF and prefix-list need to be created earlier in the device.",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "Specifies global PIM configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion. C(merged) - Merges provided global PIM configuration with on-device configuration. C(replaced) - Replaces on-device PIM configuration of the specified VRFs with provided configuration. C(overridden) - Overrides all on-device global PIM configurations with the provided configuration. C(deleted) - Deletes on-device global PIM configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_pim_interfaces": {
     "short_description": "Manage interface-specific PIM configurations on SONiC",
     "description": "This module provides configuration management of interface-specific PIM parameters for devices running SONiC. BFD profiles need to be created earlier in the device.",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "Specifies interface-specific PIM configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion. C(merged) - Merges provided interface-specific PIM configuration with on-device configuration. C(replaced) - Replaces on-device PIM configuration of the specified interfaces with provided configuration. C(overridden) - Overrides all on-device interface-specific PIM configurations with the provided configuration. C(deleted) - Deletes on-device interface-specific PIM configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_pki": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manages PKI attributes of Enterprise Sonic",
+    "description": "Manages PKI attributes of Enterprise Sonic",
+    "options": {
+      "config": {
+        "description": "The provided configuration",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_pms": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure interface mode port security settings on SONiC.",
+    "description": "This module provides configuration management of port security interface mode parameters on devices running SONiC. Configure switchport before configuring port security in interfaces.",
+    "options": {
+      "config": {
+        "description": "Specifies the port security interface configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the port security related interfaces configured on the device. In case of merged, the input configuration will be merged with the existing port security interfaces related configuration on the device. In case of deleted, the existing OSPFv2 interfaces configuration will be removed from the device. In case of overridden, all the existing OSPFv2 interfaces configuration will be deleted and the specified input configuration will be installed. In case of replaced, the existing interface configuration on the device will be replaced by the configuration in the playbook for each interface group configured by the playbook.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_poe": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage PoE configuration on SONiC",
+    "description": "This module provides configuration management of PoE at global and card level for devices running SONiC",
+    "options": {
+      "config": {
+        "description": "Specifies PoE configurations",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "dellemc.enterprise_sonic.sonic_port_breakout": {
+    "short_description": "Configure port breakout settings on physical interfaces",
+    "description": "This module provides configuration management of port breakout parameters on devices running Enterprise SONiC.",
+    "options": {
+      "config": {
+        "description": "Specifies the port breakout related configuration.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the port breakout configured on the device. In case of merged, the input mode configuration will be merged with the existing port breakout configuration on the device. In case of deleted, the existing port breakout mode configuration will be removed from the device. In case of replaced, on-device port breakout configuration of the specified interfaces is replaced with provided configuration. In case of overridden, all on-device port breakout configurations are overridden with the provided configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_port_group": {
     "short_description": "Manages port group configuration on SONiC.",
     "description": "This module provides configuration management of port group for devices running SONiC.",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "A list of port group configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_prefix_lists": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "prefix list configuration handling for SONiC",
+    "description": "This module provides configuration management for prefix list parameters on devices running SONiC.",
+    "options": {
+      "config": {
+        "description": "Specifies a list of prefix set configuration dictionaries",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the type of configuration update to be performed on the device. For \"merged\", merge specified attributes with existing configured attributes. For \"deleted\", delete the specified attributes from existing configuration. For \"replaced\", replace the specified existing configuration with the provided configuration. For \"overridden\", override the existing configuration with the provided configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_ptp_default_ds": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage global PTP configurations on SONiC",
+    "description": "This module provides configuration management of global PTP parameters for devices running SONiC. The device should have timing chip support.",
+    "options": {
+      "config": {
+        "description": "Specifies global PTP clock configurations.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion. C(merged) - Merges provided PTP configuration with on-device configuration. C(replaced) - Replaces on-device PTP configuration with provided configuration. C(overridden) - Overrides all on-device PTP configurations with the provided configuration. C(deleted) - Deletes on-device PTP configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_ptp_port_ds": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage port specific PTP configurations on SONiC",
+    "description": "This module provides configuration management of port-specific PTP parameters for devices running SONiC.",
+    "options": {
+      "config": {
+        "description": "Specifies port-specific PTP configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion. C(merged) - Merges provided interface-specific PTP configuration with on-device configuration. C(replaced) - Replaces on-device PTP configuration of the specified interfaces with provided configuration. C(overridden) - Overrides all on-device interface-specific PTP configurations with the provided configuration. C(deleted) - Deletes on-device interface-specific PTP configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_qos_buffer": {
     "short_description": "Manage QoS buffer configuration on SONiC",
     "description": "This module provides configuration management of QoS buffer for devices running SONiC",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "QoS buffer configuration",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion Replaced and overridden states are not supported for this module due to configuration constraints",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_qos_interfaces": {
     "short_description": "Manage QoS interfaces configuration on SONiC",
     "description": "This module provides configuration management of QoS interfaces for devices running SONiC",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "QoS interfaces configuration",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion Replaced and overridden states are not supported for this module due to configuration constraints",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_qos_maps": {
     "short_description": "Manage QoS maps configuration on SONiC",
     "description": "This module provides configuration management of QoS maps for devices running SONiC",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "QoS maps configuration",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "overridden",
+          "replaced"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_qos_pfc": {
     "short_description": "Manage QoS PFC configuration on SONiC",
     "description": "This module provides configuration management of QoS PFC for devices running SONiC",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "QoS PFC configuration",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "overridden",
+          "replaced"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_qos_scheduler": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage QoS scheduler configuration on SONiC",
+    "description": "This module provides configuration management of QoS scheduler for devices running SONiC",
+    "options": {
+      "config": {
+        "description": "QoS scheduler configuration",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_qos_wred": {
     "short_description": "Manage QoS WRED profiles configuration on SONiC",
     "description": "This module provides configuration management of QoS WRED profiles for devices running SONiC",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "QoS WRED profile configuration",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "overridden",
+          "replaced"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "dellemc.enterprise_sonic.sonic_radius_server": {
+    "short_description": "Manage RADIUS server configuration on SONiC",
+    "description": "This module provides configuration management of radius server for  devices running Enterprise SONiC.",
+    "options": {
+      "config": {
+        "description": "Specifies the radius server related configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the radius server configured on the device. In case of merged, the input mode configuration will be merged with the existing radius server configuration on the device. In case of deleted the existing radius server mode configuration will be removed from the device. In case of replaced, the existing radius server configuration will be replaced with provided configuration. In case of overridden, the existing radius server configuration will be overridden with the provided configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_roce": {
     "short_description": "Manage RoCE QoS configuration on SONiC",
     "description": "This module provides configuration management of RoCE(v2) QoS for devices running SONiC",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "RoCE QoS configuration",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_route_maps": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "route map configuration handling for SONiC",
+    "description": "This module provides configuration management for route map parameters on devices running SONiC.",
+    "options": {
+      "config": {
+        "description": "Specifies a list of route map configuration dictionaries",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the type of configuration update to be performed on the device. For C(merged), merge specified attributes with existing configured attributes. For C(deleted), delete the specified attributes from existing configuration. For C(replaced), replace each modified list or dictionary with the specified items. For C(overridden), replace all current configuration for this resource module with the specified configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_sflow": {
-    "short_description": "",
+    "short_description": "configure sflow settings on SONiC",
     "description": "This module provides configuration for sflow sampling on devices running SONiC",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "Defines configuration and operational state data related to data plane traffic sampling based on sflow.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the type of configuration update to be performed on the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_ssh": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage SSH configurations on SONiC",
+    "description": "This module provides SSH configuration management to specify the algorithms used for SSH connection in devices running SONiC.",
+    "options": {
+      "config": {
+        "description": "SSH clients and servers use the following configurations for SSH connections.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state specifies the type of configuration update to be performed on the device. If the state is \"merged\", merge specified attributes with existing configured attributes. For \"deleted\", delete the specified attributes from existing configuration. For \"replaced\", replace on-device SSH configuration with the specified configuration. For \"overridden\", override on-device SSH configurations with the specified configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_ssh_server": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage SSH server configurations on SONiC",
+    "description": "This module provides SSH server configuration management to specify the algorithms used for SSH connection in devices running SONiC.",
+    "options": {
+      "config": {
+        "description": "SSH servers use the following configurations for SSH connections.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_static_routes": {
     "short_description": "Manage static routes configuration on SONiC",
     "description": "This module provides configuration management of static routes for devices running SONiC",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "Manages 'static_routes' configurations",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "overridden",
+          "replaced"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_stp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage STP configuration on SONiC",
+    "description": "This module provides configuration management of STP for devices running SONiC",
+    "options": {
+      "config": {
+        "description": "Specifies STP configurations I(mstp), I(pvst) and I(rapid_pvst) are mutually exclusive.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_system": {
@@ -655,6 +2492,47 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the system parameters configured on the device. In case of merged, the input configuration will be merged with the existing system configuration on the device. In case of deleted the existing system configuration will be removed from the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "dellemc.enterprise_sonic.sonic_tacacs_server": {
+    "short_description": "Manage TACACS server and its parameters",
+    "description": "This module provides configuration management of tacacs server parameters on devices running Enterprise SONiC.",
+    "options": {
+      "config": {
+        "description": "Specifies the tacacs server related configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the tacacs server configured on the device. In case of merged, the input mode configuration will be merged with the existing tacacs server configuration on the device. In case of deleted the existing tacacs server mode configuration will be removed from the device. In case of replaced, the existing tacacs server configuration will be replaced with provided configuration. In case of overridden, the existing tacacs server configuration will be overridden with the provided configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -671,14 +2549,49 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the users configured on the device. In case of merged, the input configuration will be merged with the existing users configuration on the device. In case of deleted the existing users configuration will be removed from the device. In case of replaced, the existing specified user configuration will be replaced with provided configuration. In case of overridden, the existing users configuration will be overridden with the provided configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "overridden",
+          "replaced"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_vlan_mapping": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure vlan mappings on SONiC.",
+    "description": "This module provides configuration management for vlan mappings on devices running SONiC. Vlan mappings only available on TD3 and TD4 devices. For TD4 devices must enable vlan mapping first (can enable in config-switch-resource).",
+    "options": {
+      "config": {
+        "description": "Specifies the vlan mapping related configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the vlan mappings configured on the device. In case of merged, the input configuration will be merged with the existing vlan mappings on the device. In case of deleted, the existing vlan mapping configuration will be removed from the device. In case of overridden, all existing vlan mappings will be deleted and the specified input configuration will be add. In case of replaced, the existing vlan mappings on the device will be replaced by the configuration for each vlan mapping.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_vlans": {
@@ -692,20 +2605,77 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "state": {
+        "description": "The state that the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_vrfs": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage VRFs and associate VRFs to interfaces such as, Eth, LAG, VLAN, and loopback",
+    "description": "Manages VRF and VRF interface attributes in Enterprise SONiC Distribution by Dell Technologies.",
+    "options": {
+      "config": {
+        "description": "A list of VRF configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_vrrp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure VRRP protocol settings on SONiC.",
+    "description": "This module provides configuration management of VRRP protocol settings on devices running SONiC Configure interface IP address before configuring VRRP Configure interface VRF forwarding before configuring VRRP in a VRF",
+    "options": {
+      "config": {
+        "description": "Specifies the VRRP related configuration.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies the operation to be performed on the VRRP process configured on the device. In case of merged, the input configuration will be merged with the existing VRRP configuration on the device. In case of deleted, the existing VRRP configuration will be removed from the device. In case of overridden, all existing VRRP configuration will be deleted and the specified input configuration will be installed. In case of replaced, the existing VRRP configuration on the device will be replaced by the configuration in the playbook for each VRRP interface/group configured by the playbook.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "deleted",
+          "replaced",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "dellemc.enterprise_sonic.sonic_vxlans": {

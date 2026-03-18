@@ -2,7 +2,138 @@
   "community.zabbix.zabbix_action": {
     "short_description": "Create/Delete/Update Zabbix actions",
     "description": "This module allows you to create, modify and delete Zabbix actions.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the action",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "event_source": {
+        "description": "Type of events that the action will handle. Required when C(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "trigger",
+          "discovery",
+          "auto_registration",
+          "internal"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the action. On C(present), it will create an action if it does not exist or update the action if the associated data is different. On C(absent), it will remove the action if it exists.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "status": {
+        "description": "Status of the action.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "enabled",
+        "aliases": null
+      },
+      "pause_in_maintenance": {
+        "description": "Whether to pause escalation during maintenance periods or not. Can be used when I(event_source=trigger).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "notify_if_canceled": {
+        "description": "Weather to notify when escalation is canceled. Can be used when I(event_source=trigger).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "esc_period": {
+        "description": "Default operation step duration. Must be greater than 60 seconds. Accepts seconds, time unit with suffix and user macro since => Zabbix 3.4 Required when C(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "conditions": {
+        "description": "List of conditions to use for filtering results. For more information about suboptions of this option please check out Zabbix API documentation U(https://www.zabbix.com/documentation/5.0/manual/api/reference/action/object#action_filter_condition)",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "eval_type": {
+        "description": "Filter condition evaluation method. Defaults to C(andor) if conditions are less then 2 or if I(formula) is not specified. Defaults to C(custom_expression) when formula is specified.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "andor",
+          "and",
+          "or",
+          "custom_expression"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "formula": {
+        "description": "User-defined expression to be used for evaluating conditions with a custom expression. The expression must contain IDs that reference each condition by its formulaid. The IDs used in the expression must exactly match the ones defined in the I(conditions). No condition can remain unused or omitted. Required when I(eval_type=custom_expression). Use sequential IDs that start at \"A\". If non-sequential IDs are used, Zabbix re-indexes them. This makes each module run notice the difference in IDs and update the action.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "operations": {
+        "description": "List of action operations",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "recovery_operations": {
+        "description": "List of recovery operations. C(Suboptions) are the same as for I(operations).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "acknowledge_operations": {
+        "description": "List of acknowledge operations. Action acknowledge operations are known as update operations since Zabbix 4.0. C(Suboptions) are the same as for I(operations).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "update_operations"
+        ]
+      },
+      "pause_symptoms": {
+        "description": "Whether to pause escalation if event is a symptom event. I(supported) if C(event_source) is set to C(trigger) Works only with >= Zabbix 7.0",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_api_info": {
@@ -14,145 +145,2478 @@
   "community.zabbix.zabbix_authentication": {
     "short_description": "Update Zabbix authentication",
     "description": "This module allows you to modify Zabbix authentication setting.",
-    "options": {},
+    "options": {
+      "authentication_type": {
+        "description": "Choose default authentication type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "internal",
+          "ldap"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "http_auth_enabled": {
+        "description": "HTTP authentication will be enabled if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "http_login_form": {
+        "description": "Choose default login form.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "zabbix_login_form",
+          "http_login_form"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "http_strip_domains": {
+        "description": "A list of domain names that should be removed from the username.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "http_case_sensitive": {
+        "description": "Case sensitive login for HTTP authentication will be enabled if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_configured": {
+        "description": "LDAP authentication will be enabled if C(true). Works only with Zabbix = 6.0 and is silently ignored in higher versions.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_auth_enabled": {
+        "description": "LDAP authentication will be enabled if C(true). This parameter is available since Zabbix 6.4.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_host": {
+        "description": "LDAP server name. e.g. C(ldap://ldap.zabbix.com) This setting is required if current value of I(ldap_configured) is C(false). Works only with Zabbix <= 6.0 and is silently ignored in higher versions. Please use community.zabbix.zabbix_user_directory module instead of this parameter with Zabbix >= 7.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_port": {
+        "description": "A port number of LDAP server. This setting is required if current value of I(ldap_configured) is C(false). Works only with Zabbix <= 6.0 and is silently ignored in higher versions. Please use community.zabbix.zabbix_user_directory module instead of this parameter with Zabbix >= 7.0.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_base_dn": {
+        "description": "Base DN of LDAP. This setting is required if current value of I(ldap_configured) is C(false). Works only with Zabbix <= 6.0 and is silently ignored in higher versions. Please use community.zabbix.zabbix_user_directory module instead of this parameter with Zabbix >= 7.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_search_attribute": {
+        "description": "Search attribute of LDAP. This setting is required if current value of I(ldap_configured) is C(false). Works only with Zabbix <= 6.0 and is silently ignored in higher versions. Please use community.zabbix.zabbix_user_directory module instead of this parameter with Zabbix >= 7.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_bind_dn": {
+        "description": "Bind DN of LDAP. Works only with Zabbix <= 6.0 and is silently ignored in higher versions. Please use community.zabbix.zabbix_user_directory module instead of this parameter with Zabbix >= 7.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_case_sensitive": {
+        "description": "case sensitive login for LDAP authentication will be enabled if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_bind_password": {
+        "description": "Bind password of LDAP. Works only with Zabbix <= 6.0 and is silently ignored in higher versions. Please use community.zabbix.zabbix_user_directory module instead of this parameter with Zabbix >= 7.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_userdirectory": {
+        "description": "LDAP authentication default user directory name for user groups with gui_access set to LDAP or System default. Required to be set when C(ldap_configured) / C(ldap_auth_enabled) is set to 1.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ldap_jit_status": {
+        "description": "Status of LDAP provisioning. This parameter is available since Zabbix 6.4.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "jit_provision_interval": {
+        "description": "Time interval between JIT provision requests for logged-in user. Accepts seconds and time unit with suffix with month and year support (3600s,60m,1h,1d,1M,1y). Minimum value 1h. Available only for LDAP provisioning. This parameter is available since Zabbix 6.4.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "1h",
+        "aliases": null
+      },
+      "disabled_usrgroup": {
+        "description": "User group name to assign the deprovisioned user to. The user group must be disabled and cannot be enabled or deleted when configured. Required if C(ldap_jit_status) for C(saml_jit_status) enabled. This parameter is available since Zabbix 6.4.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "saml_auth_enabled": {
+        "description": "SAML authentication will be enabled if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "saml_idp_entityid": {
+        "description": "SAML identify provider's entity ID. This setting is required if current value of I(saml_auth_enabled) is C(false). Works only with Zabbix = 6.0 and is silently ignored in higher versions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "saml_sso_url": {
+        "description": "URL for single sign on service of SAML. This setting is required if current value of I(saml_auth_enabled) is C(false). Works only with Zabbix = 6.0 and is silently ignored in higher versions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "saml_slo_url": {
+        "description": "URL for SAML single logout service. Works only with Zabbix = 6.0 and is silently ignored in higher versions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "saml_username_attribute": {
+        "description": "User name attribute of SAML. This setting is required if current value of I(saml_auth_enabled) is C(false). Works only with Zabbix = 6.0 and is silently ignored in higher versions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "saml_sp_entityid": {
+        "description": "Entity ID of SAML service provider. This setting is required if current value of I(saml_auth_enabled) is C(false). Works only with Zabbix = 6.0 and is silently ignored in higher versions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "saml_nameid_format": {
+        "description": "Name identifier format of SAML service provider. Works only with Zabbix = 6.0 and is silently ignored in higher versions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "saml_sign_messages": {
+        "description": "SAML sign messages will be enabled if C(true). Works only with Zabbix = 6.0 and is silently ignored in higher versions.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "saml_sign_assertions": {
+        "description": "SAML sign assertions will be enabled if C(true). Works only with Zabbix = 6.0 and is silently ignored in higher versions.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "saml_sign_authn_requests": {
+        "description": "SAML sign AuthN requests will be enabled if C(true). Works only with Zabbix = 6.0 and is silently ignored in higher versions.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "saml_sign_logout_requests": {
+        "description": "SAML sign logout requests will be enabled if C(true). Works only with Zabbix = 6.0 and is silently ignored in higher versions.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "saml_sign_logout_responses": {
+        "description": "SAML sign logout responses will be enabled if C(true). Works only with Zabbix = 6.0 and is silently ignored in higher versions.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "saml_encrypt_nameid": {
+        "description": "SAML encrypt name ID will be enabled if C(true). Works only with Zabbix = 6.0 and is silently ignored in higher versions.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "saml_encrypt_assertions": {
+        "description": "SAML encrypt assertions will be enabled if C(true). Works only with Zabbix = 6.0 and is silently ignored in higher versions.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "saml_case_sensitive": {
+        "description": "Case sensitive login for SAML authentication will be enabled if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "saml_jit_status": {
+        "description": "Status of SAML provisioning. This parameter is available since Zabbix 6.4.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "passwd_min_length": {
+        "description": "Minimal length of password. Choose from 1-70. This parameter is available since Zabbix 6.0.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "passwd_check_rules": {
+        "description": "Checking password rules. Select multiple from C(contain_uppercase_and_lowercase_letters), C(contain_digits). C(contain_special_characters) and C(avoid_easy_to_guess). This parameter is available since Zabbix 6.0.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_autoregister": {
     "short_description": "Update Zabbix autoregistration",
     "description": "This module allows you to modify Zabbix autoregistration.",
-    "options": {},
+    "options": {
+      "tls_accept": {
+        "description": "Type of allowed incoming connections for autoregistration. Choose from C(unsecure), C(tls_with_psk) or both.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tls_psk_identity": {
+        "description": "TLS connection uses this PSK identity string. The PSK identity string will be transmitted unencrypted over the network. Therefore, you should not put any sensitive information here. This setting requires I(tls_accept=tls_with_psk) if current value of I(tls_accept) is C(unsecure).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tls_psk": {
+        "description": "TLS connection uses this PSK value. This setting requires I(tls_accept=tls_with_psk) if current value of I(tls_accept) is C(unsecure).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_configuration": {
     "short_description": "Import Zabbix configuration",
     "description": "This module allows you to import Zabbix configuration data. If the Zabix configuration.importcompare API returns non-empty list, this module returns changed is true.",
-    "options": {},
+    "options": {
+      "content_json": {
+        "description": "The content of the JSON file to be imported. Mutually exclusive with I(content_xml) and I(content_yaml).",
+        "type": "json",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_xml": {
+        "description": "The content of the XML file to be imported. Mutually exclusive with I(content_json) and I(content_yaml).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_yaml": {
+        "description": "The content of the YAML file to be imported. Mutually exclusive with I(content_json) and I(content_xml).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rules": {
+        "description": "The rules for importing the configuration. Please refer to rules of the Zabbix configuration.import API documentation for more details. https://www.zabbix.com/documentation/current/en/manual/api/reference/configuration/import",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_connector": {
     "short_description": "Create/Delete/Update Zabbix connectors",
     "description": "This module allows you to create, modify and delete Zabbix connectors.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the connector.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "url": {
+        "description": "URL of the receiver used by the connector.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "data_type": {
+        "description": "Type of data being streamed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "item_values",
+          "events"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "item_value_types": {
+        "description": "Parameter introduced in Zabbix 7.0 List of value types to stream. Each element should be one of C(all), C(all+bin), C(numeric_float), C(character), C(log), C(numeric_unsigned), C(text) or C(binary). C(all) represents all types except binary I((default)). C(all+bin) represents all types, binary included.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_records": {
+        "description": "Maximum number of records sent in one message.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_senders": {
+        "description": "Number of sender processes used by the connector.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_attempts": {
+        "description": "Maximum number of attempts.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "attempt_interval": {
+        "description": "Parameter introduced in Zabbix 7.0 Interval between attempts in seconds (value between 0 and 10).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Message sending timeout in seconds (value between 1 and 60).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "http_proxy": {
+        "description": "HTTP(S) proxy used by the connector.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auth_type": {
+        "description": "HTTP authentication method used by the connector.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "none",
+          "basic",
+          "ntlm",
+          "kerberos",
+          "digest",
+          "bearer"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Username to authenticate the connector with the receiver. Supported only if C(auth_type) is one of C(basic), C(ntlm), C(kerberos) or C(digest).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password to authenticate the connector with the receiver. Supported only if C(auth_type) is one of C(basic), C(ntlm), C(kerberos) or C(digest).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "token": {
+        "description": "Bearer token to authenticate the connector with the receiver. Required when C(auth_type=bearer).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "verify_peer": {
+        "description": "Whether the connector should verify the receiver's certificate.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "verify_host": {
+        "description": "Whether the connector should verify the receiver's hostname against the certificate's CN or SAN fields.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl_cert_file": {
+        "description": "Public SSL key file path for client authentication.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl_key_file": {
+        "description": "Private SSL key file path for client authentication.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl_key_password": {
+        "description": "Password of the private SSL key file.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the connector.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Whether the connector is enabled. (mapped to the I(status) property of the connector object in the Zabbix API)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags_eval_type": {
+        "description": "Tag filter evaluation method.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "and/or",
+          "or"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "List of tags to filter streamed data.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the connector. On C(present), it will create a connector if it does not exist or update the connector if the associated data is different. On C(absent), it will remove the connector if it exists.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_correlation": {
     "short_description": "Create/update/delete Zabbix correlation",
     "description": "This module allows you to create, update and delete Zabbix correlation.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of this correlation",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of this correlation",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "operations": {
+        "description": "A operations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filter": {
+        "description": "A filter.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "status": {
+        "description": "Status of the correlation.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "enabled",
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the correlation.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_discovery_rule": {
     "short_description": "Create/delete/update Zabbix discovery rules",
     "description": "Create discovery rule. Delete existing discovery rule. Update existing discovery rule with new options.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "Create or delete discovery rules.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the discovery rule.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iprange": {
+        "description": "One or several IP ranges to check separated by commas.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dchecks": {
+        "description": "List of dictionaries of discovery check objects. For more information, review discovery check object documentation at U(https://www.zabbix.com/documentation/current/manual/api/reference/dcheck/object)",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "dcheck"
+        ]
+      },
+      "delay": {
+        "description": "Execution interval of the discovery rule. Accepts seconds, time unit with suffix and user macro.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "1h",
+        "aliases": null
+      },
+      "proxy": {
+        "description": "Name of the proxy used for discovery.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "status": {
+        "description": "Whether the discovery rule is enabled. Possible values: enabled (default) disabled",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "enabled",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_discoveryrule": {
     "short_description": "Create/delete Zabbix low-level discovery (LLD) rules",
     "description": "Create discoveryrules if they do not exist. Delete existing discoveryrules if they exist.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "Create or delete discovery rule.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of discovery rule to create or delete.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_name": {
+        "description": "Name of host to add discovery rule to. Required when I(template_name) is not used. Mutually exclusive with I(template_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_name": {
+        "description": "Name of template to add discovery rule to. Required when I(host_name) is not used. Mutually exclusive with I(host_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "params": {
+        "description": "Parameters to create/update discovery rule with. Required if state is \"present\". Parameters as defined at https://www.zabbix.com/documentation/current/en/manual/api/reference/discoveryrule/object Additionally supported parameters are below",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_globalmacro": {
     "short_description": "Create/update/delete Zabbix Global macros",
     "description": "manages Zabbix Global macros, it can create, update or delete them. For macro_type Secret the value field cannot be validated and will always be overwritten due to the secret nature of the Text.",
-    "options": {},
+    "options": {
+      "macro_name": {
+        "description": "Name of the global macro in zabbix native format C({$MACRO}) or simple format C(MACRO).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "macro_value": {
+        "description": "Value of the global macro. Required if I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "macro_type": {
+        "description": "Type of the global macro Text or Secret Text. Required if I(state=present). text secret - Secret Text Works only with Zabbix >= 5.0 and will default to Text in lower versions vault - Vault Secret Works only with Zabbix >= 5.2 and will default to Text in lower versions",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "text",
+          "secret",
+          "vault"
+        ],
+        "default": "text",
+        "aliases": null
+      },
+      "macro_description": {
+        "description": "Text Description of the global macro.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the macro. On C(present), it will create if macro does not exist or update the macro if the associated data is different. On C(absent) will remove a macro if it exists.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "force": {
+        "description": "Only updates an existing macro if set to C(yes).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_group": {
     "short_description": "Create/delete Zabbix host groups",
     "description": "Create host groups if they do not exist. Delete existing host groups if they exist.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "Create or delete host group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "host_groups": {
+        "description": "List of host groups to create or delete.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "host_group"
+        ]
+      },
+      "propagate": {
+        "description": "List of settings will be propagated. This module propagates permissions and/or tag_filters after creating missing host groups. This parameter is for Zabbix >= 7.0.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_group_events_info": {
     "short_description": "Get all triggers about a Zabbix group",
     "description": "This module allows you to check the state of triggers of all hosts in a Zabbix hostgroup.",
-    "options": {},
+    "options": {
+      "hostgroup_name": {
+        "description": "Name of the hostgroup in Zabbix.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trigger_severity": {
+        "description": "Zabbix severity for search filter",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "not_classified",
+          "information",
+          "warning",
+          "average",
+          "high",
+          "disaster"
+        ],
+        "default": "average",
+        "aliases": null
+      },
+      "tags": {
+        "description": "list of tags to filter by",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_group_info": {
     "short_description": "Gather information about Zabbix hostgroup",
     "description": "This module allows you to search for Zabbix hostgroup entries. This module was called C(zabbix_group_facts) before Ansible 2.9. The usage did not change.",
-    "options": {},
+    "options": {
+      "hostgroup_name": {
+        "description": "Name of the hostgroup in Zabbix. hostgroup is the unique identifier used and cannot be updated using this module.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "all_hostgroups": {
+        "description": "return info about all hostgroups.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_host": {
     "short_description": "Create/update/delete Zabbix hosts",
     "description": "This module allows you to create, modify and delete Zabbix host entries and associated group and template data.",
-    "options": {},
+    "options": {
+      "host_name": {
+        "description": "Name of the host in Zabbix. I(host_name) is the unique identifier used and cannot be updated using this module.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "visible_name": {
+        "description": "Visible name of the host in Zabbix.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the host in Zabbix.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_groups": {
+        "description": "List of host groups the host is part of. Make sure the Zabbix user used for Ansible can read these groups.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "link_templates": {
+        "description": "List of templates linked to the host.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inventory_mode": {
+        "description": "Configure the inventory mode.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "automatic",
+          "manual",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "inventory_zabbix": {
+        "description": "Add Facts for a zabbix inventory (e.g. Tag) (see example below). Please review the interface documentation for more information on the supported properties U(https://www.zabbix.com/documentation/current/en/manual/api/reference/host/object#host-inventory)",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "status": {
+        "description": "Monitoring status of the host.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "enabled",
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the host. On C(present), it will create if host does not exist or update the host if the associated data is different. On C(absent) will remove a host if it exists.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "monitored_by": {
+        "description": "Parameter introduced in Zabbix 7.0. Source that is used to monitor the host.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "zabbix_server",
+          "proxy",
+          "proxy_group"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "proxy": {
+        "description": "The name of the Zabbix proxy to be used. Required if C(monitored_by) is \"proxy\"",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "proxy_group": {
+        "description": "Parameter introduced in Zabbix 7.0. Proxy group that is used to monitor the host. Required if C(monitored_by) is \"proxy_group\"",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interfaces": {
+        "description": "List of interfaces to be created for the host (see example below). For more information, review host interface documentation at U(https://www.zabbix.com/documentation/current/en/manual/api/reference/hostinterface/object#host-interface)",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "tls_connect": {
+        "description": "Specifies what encryption to use for outgoing connections. Possible values, 1 (no encryption), 2 (PSK), 4 (certificate).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tls_accept": {
+        "description": "Specifies what types of connections are allowed for incoming connections. The tls_accept parameter accepts values of 1 to 7 Possible values, 1 (no encryption), 2 (PSK), 4 (certificate). Values can be combined.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tls_psk_identity": {
+        "description": "It is a unique name by which this specific PSK is referred to by Zabbix components Do not put sensitive information in the PSK identity string, it is transmitted over the network unencrypted. Works only with >= Zabbix 3.0 Using this parameter with Zabbix >= 5.4 makes this module non-idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tls_psk": {
+        "description": "PSK value is a hard to guess string of hexadecimal digits. The preshared key, at least 32 hex digits. Required if either I(tls_connect) or I(tls_accept) has PSK enabled. Using this parameter makes this module non-idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ca_cert": {
+        "description": "Required certificate issuer.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "tls_issuer"
+        ]
+      },
+      "tls_subject": {
+        "description": "Required certificate subject.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipmi_authtype": {
+        "description": "IPMI authentication algorithm. Please review the Host object documentation for more information on the supported properties https://www.zabbix.com/documentation/3.4/manual/api/reference/host/object Possible values are, C(0) (none), C(1) (MD2), C(2) (MD5), C(4) (straight), C(5) (OEM), C(6) (RMCP+), with -1 being the API default. Please note that the Zabbix API will treat absent settings as default when updating any of the I(ipmi_)-options; this means that if you attempt to set any of the four options individually, the rest will be reset to default values.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipmi_privilege": {
+        "description": "IPMI privilege level. Please review the Host object documentation for more information on the supported properties https://www.zabbix.com/documentation/3.4/manual/api/reference/host/object Possible values are C(1) (callback), C(2) (user), C(3) (operator), C(4) (admin), C(5) (OEM), with C(2) being the API default. also see the last note in the I(ipmi_authtype) documentation",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipmi_username": {
+        "description": "IPMI username. also see the last note in the I(ipmi_authtype) documentation",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipmi_password": {
+        "description": "IPMI password. also see the last note in the I(ipmi_authtype) documentation",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Overwrite the host configuration, even if already present.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "macros": {
+        "description": "List of user macros to assign to the zabbix host. Providing I(macros=[]) with I(force=yes) will clean all of the existing user macros from the host.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "user_macros"
+        ]
+      },
+      "tags": {
+        "description": "List of host tags to assign to the zabbix host. Providing I(tags=[]) with I(force=yes) will clean all of the tags from the host.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "host_tags"
+        ]
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_host_events_info": {
     "short_description": "Get all triggers about a Zabbix host",
-    "description": "This module allows you to see if a Zabbix host have no active alert to make actions on it. For this case use module Ansible",
-    "options": {},
+    "description": "This module allows you to see if a Zabbix host have no active alert to make actions on it. For this case use module Ansible \"fail\" to exclude host in trouble. Length of \"triggers_ok\" allow if template's triggers exist for Zabbix Host",
+    "options": {
+      "host_identifier": {
+        "description": "Identifier of Zabbix Host",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_id_type": {
+        "description": "Type of host_identifier",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "hostname",
+          "visible_name",
+          "hostid"
+        ],
+        "default": "hostname",
+        "aliases": null
+      },
+      "trigger_severity": {
+        "description": "Zabbix severity for search filter",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "not_classified",
+          "information",
+          "warning",
+          "average",
+          "high",
+          "disaster"
+        ],
+        "default": "average",
+        "aliases": null
+      },
+      "tags": {
+        "description": "list of tags to filter by",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_host_events_update": {
     "short_description": "update the status of event(s).",
     "description": "Updates the status of event(s).",
-    "options": {},
+    "options": {
+      "params": {
+        "description": "Parameters to update event(s) with. Parameters as defined at https://www.zabbix.com/documentation/current/en/manual/api/reference/event/acknowledge Additionally supported parameters are below",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_host_info": {
     "short_description": "Gather information about Zabbix host",
     "description": "This module allows you to search for Zabbix host entries. This module was called C(zabbix_host_facts) before Ansible 2.9. The usage did not change.",
-    "options": {},
+    "options": {
+      "host_name": {
+        "description": "Name of the host in Zabbix. host_name is the unique identifier used and cannot be updated using this module. Required when I(host_ip) is not used. If neither host_name nor host_ip specified then all the hosts configured in Zabbix returned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "host_ip": {
+        "description": "Host interface IP of the host in Zabbix. Required when I(host_name) is not used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "exact_match": {
+        "description": "Find the exact match",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "remove_duplicate": {
+        "description": "Remove duplicate host from host result",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "host_inventory": {
+        "description": "List of host inventory keys to display in result. Whole host inventory is retrieved if keys are not specified.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_hostmacro": {
     "short_description": "Create/update/delete Zabbix host macros",
     "description": "manages Zabbix host macros, it can create, update or delete them.",
-    "options": {},
+    "options": {
+      "host_name": {
+        "description": "Name of the host.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "macro_name": {
+        "description": "Name of the host macro in zabbix native format C({$MACRO}) or simple format C(MACRO).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "macro_value": {
+        "description": "Value of the host macro. Required if I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "macro_type": {
+        "description": "Type of the host macro. text (default)",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "text",
+          "secret",
+          "vault"
+        ],
+        "default": "text",
+        "aliases": null
+      },
+      "macro_description": {
+        "description": "Text Description of the global macro.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the macro. On C(present), it will create if macro does not exist or update the macro if the associated data is different. On C(absent) will remove a macro if it exists.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "force": {
+        "description": "Only updates an existing macro if set to C(yes).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_housekeeping": {
     "short_description": "Update Zabbix housekeeping",
     "description": "This module allows you to modify Zabbix housekeeping setting.",
-    "options": {},
+    "options": {
+      "hk_events_mode": {
+        "description": "Internal housekeeping for events and alerts will be enabled if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hk_events_trigger": {
+        "description": "Storage period of trigger data (e.g. 365d).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hk_events_service": {
+        "description": "Storage period of service data (e.g. 365d).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hk_events_internal": {
+        "description": "Storage period of internal data (e.g. 365d).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hk_events_discovery": {
+        "description": "Storage period of network discovery (e.g. 365d).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hk_events_autoreg": {
+        "description": "Storage period of autoregistration data (e.g. 365d).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hk_services_mode": {
+        "description": "Internal housekeeping for services will be enabled if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hk_services": {
+        "description": "Storage period of services data (e.g. 365d).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hk_audit_mode": {
+        "description": "Internal housekeeping for audit will be enabled if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hk_audit": {
+        "description": "Storage period of audit data (e.g. 365d).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hk_sessions_mode": {
+        "description": "Internal housekeeping for sessions will be enabled if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hk_sessions": {
+        "description": "Storage period of sessions data (e.g. 365d).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hk_history_mode": {
+        "description": "Internal housekeeping for history will be enabled if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hk_history_global": {
+        "description": "Overriding history period of each items will be enabled if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hk_history": {
+        "description": "Storage priod of history data (e.g. 365d).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hk_trends_mode": {
+        "description": "Internal housekeeping for trends will be enabled if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hk_trends_global": {
+        "description": "Overriding trend period of each items will be enabled if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hk_trends": {
+        "description": "Storage priod of trends data (e.g. 365d).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "compression_status": {
+        "description": "TimescaleDB compression for history and trends will be enabled if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "compress_older": {
+        "description": "Compress history and trends records older than this period if I(compression_status=true).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_item": {
     "short_description": "Create/delete Zabbix items",
     "description": "Create items if they do not exist. Delete existing items if they exist.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "Create or delete item.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of item to create or delete.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_name": {
+        "description": "Name of host to add item to. Required when I(template_name) is not used. Mutually exclusive with I(template_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_name": {
+        "description": "Name of template to add item to. Required when I(host_name) is not used. Mutually exclusive with I(host_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "params": {
+        "description": "Parameters to create/update item with. Required if state is \"present\". Parameters as defined at https://www.zabbix.com/documentation/current/en/manual/api/reference/item/object Additionally supported parameters are below",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_itemprototype": {
     "short_description": "Create/delete Zabbix item prototypes",
     "description": "Create item prototypes if they do not exist. Delete existing item prototypes if they exist.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "Create or delete item prototype.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of item prototype to create or delete.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_name": {
+        "description": "Name of host to add item prototype to. Required when I(template_name) is not used. Mutually exclusive with I(template_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_name": {
+        "description": "Name of template to add item prototype to. Required when I(host_name) is not used. Mutually exclusive with I(host_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "discoveryrule_name": {
+        "description": "Name of the LLD rule that the item belongs to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "params": {
+        "description": "Parameters to create/update item prototype with. Required if state is \"present\". Parameters as defined at https://www.zabbix.com/documentation/current/en/manual/api/reference/itemprototype/object Additionally supported parameters are below",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_maintenance": {
     "short_description": "Create Zabbix maintenance windows",
     "description": "This module will let you create Zabbix maintenance windows.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "Create or remove a maintenance window. Maintenance window to remove is identified by name.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "host_names": {
+        "description": "Hosts to manage maintenance window for. B(Required) option when I(state=present) and I(host_groups) is not used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "host_name"
+        ]
+      },
+      "host_groups": {
+        "description": "Host groups to manage maintenance window for. B(Required) option when I(state=present) and I(host_names) is not used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "host_group"
+        ]
+      },
+      "append": {
+        "description": "Whether to append hosts and host groups to the existing maintenance.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "minutes": {
+        "description": "Length of maintenance window in minutes. Will default to 10 minutes if not explicitly set This argument has been B(DEPRECATED) and replaced by the I(time_periods) argument and will be removed in 4.0.0 B(Use of this argument only allows for the creation of a single one-time maintenance window.)",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Unique name of maintenance window.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "desc": {
+        "description": "Short description of maintenance window.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "Created by Ansible",
+        "aliases": [
+          "description"
+        ]
+      },
+      "collect_data": {
+        "description": "Type of maintenance. With data collection, or without.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "visible_name": {
+        "description": "Type of zabbix host name to use for identifying hosts to include in the maintenance. I(visible_name=yes) to search by visible name,  I(visible_name=no) to search by technical name.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "active_since": {
+        "description": "Time when the maintenance becomes active. The given value will be rounded down to minutes. Uses `datetime.datetime.now() if not specified. NOTE - This time will not update across multiple runs unless explicitly set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "active_till": {
+        "description": "Time when the maintenance stops being active. The given value will be rounded down to minutes. Gets calculated from I(minutes) if not specified when using I(minutes) only. When using I(time_periods) defaults to one year from I(active_since)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "tags": {
+        "description": "List of tags to assign to the hosts in maintenance. Requires I(collect_data=yes).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "time_periods": {
+        "description": "List scheduled outages within the maintenance period. This argument replaces the I(minutes) argument.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "time_period"
+        ]
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_map": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Create/update/delete Zabbix maps",
+    "description": "This module allows you to create, modify and delete Zabbix map entries, using Graphviz binaries and text description written in DOT language. Nodes of the graph will become map elements and edges will become links between map elements. See U(https://en.wikipedia.org/wiki/DOT_(graph_description_language)) and U(https://www.graphviz.org/) for details. Inspired by U(http://blog.zabbix.com/maps-for-the-lazy/). The following extra node attributes are supported: C(zbx_host) contains name of the host in Zabbix. Use this if desired type of map element is C(host). C(zbx_group) contains name of the host group in Zabbix. Use this if desired type of map element is C(host group). C(zbx_sysmap) contains name of the map in Zabbix. Use this if desired type of map element is C(map). C(zbx_label) contains label of map element. C(zbx_image) contains name of the image used to display the element in default state. C(zbx_image_disabled) contains name of the image used to display disabled map element. C(zbx_image_maintenance) contains name of the image used to display map element in maintenance. C(zbx_image_problem) contains name of the image used to display map element with problems. C(zbx_url) contains map element URL in C(name:url) format. More than one URL could be specified by adding a postfix (e.g., C(zbx_url1), C(zbx_url2)). The following extra link attributes are supported: C(zbx_draw_style) contains link line draw style. Possible values: C(line), C(bold), C(dotted), C(dashed). C(zbx_trigger) contains name of the trigger used as a link indicator in C(host_name:trigger_name) format. More than one trigger could be specified by adding a postfix (e.g., C(zbx_trigger1), C(zbx_trigger2)). C(zbx_trigger_color) contains indicator color specified either as CSS3 name or as a hexadecimal code starting with C(#). C(zbx_trigger_draw_style) contains indicator draw style. Possible values are the same as for C(zbx_draw_style).",
+    "options": {
+      "name": {
+        "description": "Name of the map.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "map_name"
+        ]
+      },
+      "data": {
+        "description": "Graph written in DOT language.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "dot_data"
+        ]
+      },
+      "state": {
+        "description": "State of the map. On C(present), it will create if map does not exist or update the map if the associated data is different. On C(absent) will remove the map if it exists.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "width": {
+        "description": "Width of the map.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 800,
+        "aliases": null
+      },
+      "height": {
+        "description": "Height of the map.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 600,
+        "aliases": null
+      },
+      "margin": {
+        "description": "Size of white space between map's borders and its elements.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 40,
+        "aliases": null
+      },
+      "expand_problem": {
+        "description": "Whether the problem trigger will be displayed for elements with a single problem.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "highlight": {
+        "description": "Whether icon highlighting is enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "label_type": {
+        "description": "Map element label type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "label",
+          "ip",
+          "name",
+          "status",
+          "nothing",
+          "custom"
+        ],
+        "default": "name",
+        "aliases": null
+      },
+      "default_image": {
+        "description": "Name of the Zabbix image used to display the element if this element doesn't have the C(zbx_image) attribute defined.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "image"
+        ]
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_mediatype": {
     "short_description": "Create/Update/Delete Zabbix media types",
     "description": "This module allows you to create, modify and delete Zabbix media types.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the media type.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the media type.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the mediatype. On C(present), it will create a mediatype if it does not exist or update the mediatype if the associated data is different. On C(absent), it will remove the mediatype if it exists.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "type": {
+        "description": "Type of the media type. Media types I(jabber) and I(ez_texting) works only with Zabbix versions 4.2 or older.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "email",
+          "script",
+          "sms",
+          "webhook",
+          "jabber",
+          "ez_texting"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "status": {
+        "description": "Whether the media type is enabled or no.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "enabled",
+        "aliases": null
+      },
+      "max_sessions": {
+        "description": "The maximum number of alerts that can be processed in parallel. Possible value is 1 when I(type=sms) and 0-100 otherwise.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "max_attempts": {
+        "description": "The maximum number of attempts to send an alert. Possible range is 0-10.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3,
+        "aliases": null
+      },
+      "attempt_interval": {
+        "description": "The interval between retry attempts. Possible range is 0-1h.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "10s",
+        "aliases": null
+      },
+      "script_name": {
+        "description": "The name of the executed script. Required when I(type=script).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "script_params": {
+        "description": "List of script parameters. Required when I(type=script).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gsm_modem": {
+        "description": "Serial device name of the gsm modem. Required when I(type=sms).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Username or Jabber identifier. Required when I(type=jabber) or I(type=ez_texting). Required when I(type=email) and I(smtp_authentication=true).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Authentication password. Required when I(type=jabber) or I(type=ez_texting). Required when I(type=email) and I(smtp_authentication=true).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "smtp_server": {
+        "description": "SMTP server host. Required when I(type=email).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "localhost",
+        "aliases": null
+      },
+      "smtp_server_port": {
+        "description": "SMTP server port. Required when I(type=email).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 25,
+        "aliases": null
+      },
+      "smtp_helo": {
+        "description": "SMTP HELO. Required when I(type=email).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "localhost",
+        "aliases": null
+      },
+      "smtp_email": {
+        "description": "Email address from which notifications will be sent. Required when I(type=email).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "smtp_authentication": {
+        "description": "Whether SMTP authentication with username and password should be enabled or not. If set to C(true), C(username) and C(password) should be specified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "smtp_security": {
+        "description": "SMTP connection security level to use.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "None",
+          "STARTTLS",
+          "SSL/TLS"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "smtp_verify_host": {
+        "description": "SSL verify host for SMTP. Can be specified when I(smtp_security=STARTTLS) or I(smtp_security=SSL/TLS)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "smtp_verify_peer": {
+        "description": "SSL verify peer for SMTP. Can be specified when I(smtp_security=STARTTLS) or I(smtp_security=SSL/TLS)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "message_format": {
+        "description": "Can be used when I(type=email).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "plaintext",
+          "html"
+        ],
+        "default": "html",
+        "aliases": [
+          "content_type"
+        ]
+      },
+      "message_text_limit": {
+        "description": "The message text limit. Required when I(type=ez_texting). 160 characters for USA and 136 characters for Canada.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "USA",
+          "Canada"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "webhook_script": {
+        "description": "Required when I(type=webhook). JavaScript code that will perform webhook operation. This code has access to all parameters in I(webhook_params). It may perform HTTP GET, POST, PUT and DELETE requests and has control over HTTP headers and request body. It may return OK status along with an optional list of tags and tag values or an error string.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webhook_timeout": {
+        "description": "Can be used when I(type=webhook). Execution timeout for JavaScript code in I(webhook_script). Possible values are 1-60s.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "30s",
+        "aliases": null
+      },
+      "process_tags": {
+        "description": "Can be used when I(type=webhook). Process returned JSON property values as tags. These tags are added to the already existing (if any) problem event tags in Zabbix.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "event_menu": {
+        "description": "Can be used when I(type=webhook). Includes entry in Event menu with link to created external ticket.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "event_menu_url": {
+        "description": "Requred when I(event_menu=true). Event menu entry underlying URL.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "event_menu_name": {
+        "description": "Requred when I(event_menu=true). Event menu entry name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webhook_params": {
+        "description": "Can be used when I(type=webhook). Webhook variables that are passed to webhook script when executed.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "message_templates": {
+        "description": "Default notification messages for the event types.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_mfa": {
     "short_description": "Create/update/delete Zabbix MFA method",
     "description": "This module allows you to create, update and delete Zabbix MFA method.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of this MFA method",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "method_type": {
+        "description": "A type of this MFA method",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "totp",
+          "duo_universal_prompt"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "hash_function": {
+        "description": "Type of the hash function for generating TOTP codes. Required when C(method_type=totp).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "sha-1",
+          "sha-256",
+          "sha-512"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "code_length": {
+        "description": "Verification code length. Required when C(method_type=totp).",
+        "type": "int",
+        "required": false,
+        "choices": [
+          6,
+          8
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "api_hostname": {
+        "description": "API hostname provided by the Duo authentication service. Required when C(method_type=duo_universal_prompt).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "clientid": {
+        "description": "Client ID provided by the Duo authentication service. Required when C(method_type=duo_universal_prompt).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "client_secret": {
+        "description": "Client secret provided by the Duo authentication service. Required when C(method_type=duo_universal_prompt).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of this MFA.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_proxy": {
     "short_description": "Create/delete/get/update Zabbix proxies",
     "description": "This module allows you to create, modify, get and delete Zabbix proxy entries.",
-    "options": {},
+    "options": {
+      "proxy_name": {
+        "description": "Name of the proxy in Zabbix.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "proxy_address": {
+        "description": "Deprecated for Zabbix version >= 7.0. Comma-delimited list of IP/CIDR addresses or DNS names to accept active proxy requests from. Requires I(status=active).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the proxy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "status": {
+        "description": "Deprecated for Zabbix version >= 7.0. Type of proxy. (4 - active, 5 - passive)",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "active",
+          "passive"
+        ],
+        "default": "active",
+        "aliases": null
+      },
+      "tls_connect": {
+        "description": "Connections to proxy.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "no_encryption",
+          "PSK",
+          "certificate"
+        ],
+        "default": "no_encryption",
+        "aliases": null
+      },
+      "tls_accept": {
+        "description": "Connections from proxy.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "no_encryption",
+          "PSK",
+          "certificate"
+        ],
+        "default": "no_encryption",
+        "aliases": null
+      },
+      "ca_cert": {
+        "description": "Certificate issuer.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "tls_issuer"
+        ]
+      },
+      "tls_subject": {
+        "description": "Certificate subject.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tls_psk_identity": {
+        "description": "PSK identity. Required if either I(tls_connect) or I(tls_accept) has PSK enabled.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tls_psk": {
+        "description": "The preshared key, at least 32 hex digits. Required if either I(tls_connect) or I(tls_accept) has PSK enabled.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the proxy. On C(present), it will create if proxy does not exist or update the proxy if the associated data is different. On C(absent) will remove a proxy if it exists.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "interface": {
+        "description": "Deprecated for Zabbix version >= 7.0. Dictionary with params for the interface when proxy is in passive mode. For more information, review proxy interface documentation at U(https://www.zabbix.com/documentation/current/en/manual/api/reference/proxy/object#proxy-interface).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "address": {
+        "description": "Parameter introduced in Zabbix 7.0. IP address or DNS name to connect to. Required if the Zabbix proxy operating mode is passive",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Parameter introduced in Zabbix 7.0. Port number to connect to. supported if the Zabbix proxy operating mode is passive.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "10051",
+        "aliases": null
+      },
+      "proxy_group": {
+        "description": "Parameter introduced in Zabbix 7.0. Proxy group name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "local_address": {
+        "description": "Parameter introduced in Zabbix 7.0. Address for active agents. IP address or DNS name to connect to. Required if proxy_groupid is not 0",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "local_port": {
+        "description": "Parameter introduced in Zabbix 7.0. Local proxy port number to connect to. Supported if proxy_groupid is not 0",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "10051",
+        "aliases": null
+      },
+      "allowed_addresses": {
+        "description": "Parameter introduced in Zabbix 7.0. Comma-delimited IP addresses or DNS names of active Zabbix proxy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "operating_mode": {
+        "description": "Parameter introduced in Zabbix 7.0. Type of proxy.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "active",
+          "passive"
+        ],
+        "default": "active",
+        "aliases": null
+      },
+      "custom_timeouts": {
+        "description": "Parameter introduced in Zabbix 7.0. Whether to override global item timeouts on the proxy level. 0 - use global settings; 1 - override timeouts.",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          1
+        ],
+        "default": 0,
+        "aliases": null
+      },
+      "timeout_zabbix_agent": {
+        "description": "Parameter introduced in Zabbix 7.0. Spend no more than this number of seconds on Zabbix agent checks processing. Accepts seconds or time unit with suffix (e.g., 30s, 1m). Possible values range: 1-600s. Rired if if C(custom_timeouts) is set to 1.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_simple_check": {
+        "description": "Parameter introduced in Zabbix 7.0. Spend no more than this number of seconds on simple checks processing. Accepts seconds or time unit with suffix (e.g., 30s, 1m). Possible values range: 1-600s. Required if if C(custom_timeouts) is set to 1.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_snmp_agent": {
+        "description": "Parameter introduced in Zabbix 7.0. Spend no more than this number of seconds on SNMP agent checks processing. Accepts seconds or time unit with suffix (e.g., 30s, 1m). Possible values range: 1-600s. Required if if C(custom_timeouts) is set to 1.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_external_check": {
+        "description": "Parameter introduced in Zabbix 7.0. Spend no more than this number of seconds on external checks processing. Accepts seconds or time unit with suffix (e.g., 30s, 1m). Possible values range: 1-600s. Required if if C(custom_timeouts) is set to 1.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_db_monitor": {
+        "description": "Parameter introduced in Zabbix 7.0. Spend no more than this number of seconds on DB checks processing. Accepts seconds or time unit with suffix (e.g., 30s, 1m). Possible values range: 1-600s. Required if if C(custom_timeouts) is set to 1.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_http_agent": {
+        "description": "Parameter introduced in Zabbix 7.0. Spend no more than this number of seconds on HTTPagent checks processing. Accepts seconds or time unit with suffix (e.g., 30s, 1m). Possible values range: 1-600s. Required if if C(custom_timeouts) is set to 1.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_ssh_agent": {
+        "description": "Parameter introduced in Zabbix 7.0. Spend no more than this number of seconds on SSH checks processing. Accepts seconds or time unit with suffix (e.g., 30s, 1m). Possible values range: 1-600s. Required if if C(custom_timeouts) is set to 1.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_telnet_agent": {
+        "description": "Parameter introduced in Zabbix 7.0. Spend no more than this number of seconds on Telnet checks processing. Accepts seconds or time unit with suffix (e.g., 30s, 1m). Possible values range: 1-600s. Required if if C(custom_timeouts) is set to 1.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_script": {
+        "description": "Parameter introduced in Zabbix 7.0. Spend no more than this number of seconds on script type checks processing. Accepts seconds or time unit with suffix (e.g., 30s, 1m). Possible values range: 1-600s. Required if if C(custom_timeouts) is set to 1.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_browser": {
+        "description": "Parameter introduced in Zabbix 7.0. Spend no more than this number of seconds on browser type checks processing. Accepts seconds or time unit with suffix (e.g., 30s, 1m). Possible values range: 1-600s. Required if if C(custom_timeouts) is set to 1.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_proxy_group": {
@@ -184,7 +2648,356 @@
         "aliases": null
       },
       "min_online": {
-        "description": "Minimum number of online proxies required for the group to be online. ",
+        "description": "Minimum number of online proxies required for the group to be online. Possible values range: 1-1000.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "1",
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the proxy group. On C(present), it will create if proxy group does not exist or update it if the associated data is different. On C(absent) will remove the proxy group if it exists.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.zabbix.zabbix_proxy_info": {
+    "short_description": "Gather information about Zabbix proxy",
+    "description": "This module allows you to obtain detailed information about configured zabbix proxies.",
+    "options": {
+      "proxy_name": {
+        "description": "Name of the Zabbix proxy.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "proxy_hosts": {
+        "description": "Also return list of hosts monitored by the proxy.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.zabbix.zabbix_regexp": {
+    "short_description": "Create/update/delete Zabbix regular expression",
+    "description": "This module allows you to create, update and delete Zabbix regular expression.",
+    "options": {
+      "name": {
+        "description": "Name of this regular expression",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "test_string": {
+        "description": "A test string for this regular expression",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "expressions": {
+        "description": "List of expressions. The regular expression returns true when all expressions return true. Required when C(state=present).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the regular expression.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.zabbix.zabbix_regexp_info": {
+    "short_description": "Retrieve Zabbix regular expression",
+    "description": "This module allows you to retrieve Zabbix regular expression.",
+    "options": {
+      "name": {
+        "description": "Name of this regular expression",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.zabbix.zabbix_script": {
+    "short_description": "Create/update/delete Zabbix scripts",
+    "description": "This module allows you to create, update and delete scripts.",
+    "options": {
+      "name": {
+        "description": "Name of the script.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "script_type": {
+        "description": "Script type. Required when state is 'present'. A value of 'url' is only available in 7.0 or later",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "script",
+          "ipmi",
+          "ssh",
+          "telnet",
+          "webhook",
+          "url"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "url": {
+        "description": "The URL for quick access Required if script_type is C(url) Only available if script_type is C(url)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_window": {
+        "description": "Should URL be opened in a new window? Only available if script_type is C(url)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "command": {
+        "description": "Command to run. Required when state is 'present'",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scope": {
+        "description": "Script scope.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "action_operation",
+          "manual_host_action",
+          "manual_event_action"
+        ],
+        "default": "action_operation",
+        "aliases": null
+      },
+      "execute_on": {
+        "description": "Where to run the script. Used if type is C(script).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "zabbix_agent",
+          "zabbix_server",
+          "zabbix_server_proxy"
+        ],
+        "default": "zabbix_server_proxy",
+        "aliases": null
+      },
+      "menu_path": {
+        "description": "Folders separated by slash that form a menu like navigation in frontend when clicked on host or event. Used if scope is C(manual_host_action) or C(manual_event_action).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "authtype": {
+        "description": "Authentication method used for SSH script type. Used if type is C(ssh).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "password",
+          "public_key"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "User name used for authentication. Used if type is C(ssh) or C(telnet)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password used for SSH scripts with password authentication and Telnet scripts. Used if type is C(ssh) and authtype is C(password) or type is C(telnet).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "publickey": {
+        "description": "Name of the public key file used for SSH scripts with public key authentication. Used if type is C(ssh) and authtype is C(public_key).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privatekey": {
+        "description": "Name of the private key file used for SSH scripts with public key authentication. Used if type is C(ssh) and authtype is C(public_key).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Port number used for SSH and Telnet scripts. Used if type is C(ssh) or C(telnet).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_group": {
+        "description": "host group name that the script can be run on. If set to \"all\", the script will be available on all host groups.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "all",
+        "aliases": null
+      },
+      "user_group": {
+        "description": "user group name that will be allowed to run the script. If set to \"all\", the script will be available for all user groups. Used if scope is C(manual_host_action) or C(manual_event_action).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "all",
+        "aliases": null
+      },
+      "host_access": {
+        "description": "Host permissions needed to run the script. Used if scope is C(manual_host_action) or C(manual_event_action).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "read",
+          "write"
+        ],
+        "default": "read",
+        "aliases": null
+      },
+      "confirmation": {
+        "description": "Confirmation pop up text. The pop up will appear when trying to run the script from the Zabbix frontend. Used if scope is C(manual_host_action) or C(manual_event_action).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "script_timeout": {
+        "description": "Webhook script execution timeout in seconds. Time suffixes are supported, e.g. 30s, 1m. Required if type is C(webhook). Possible values: 1-60s.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "30s",
+        "aliases": null
+      },
+      "parameters": {
+        "description": "Array of webhook input parameters. Used if type is C(webhook).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the script.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the script.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "user_input_enabled": {
+        "description": "Allow advanced user input configuration Available for Zabbix >= 7.0.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "user_input_prompt": {
+        "description": "Prompt to display when user input is enabled Required when user_input_enabled is C(True) Available for Zabbix >= 7.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_input_type": {
+        "description": "Choosing 'regex' allows the use of a regular expression Choosing 'dropdown' allows a pre-defined list of choices Required if user_input_enabled is C(true) Available for Zabbix >= 7.0.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "regex",
+          "dropdown"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "user_input_regex": {
+        "description": "A regular expression to validate user input Required if user_input_type is C(regex) Available for Zabbix >= 7.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_input_list": {
+        "description": "A list of possible choices for the user. Required if user_input_type is C(dropdown). NOTE the first option will be the default. Available for Zabbix >= 7.0.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_input_default_input": {
+        "description": "Default user input Available if user_input_type is C(regex) Available for Zabbix >= 7.0.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -194,118 +3007,1814 @@
     },
     "deprecated": null
   },
-  "community.zabbix.zabbix_proxy_info": {
-    "short_description": "Gather information about Zabbix proxy",
-    "description": "This module allows you to obtain detailed information about configured zabbix proxies.",
-    "options": {},
-    "deprecated": null
-  },
-  "community.zabbix.zabbix_regexp": {
-    "short_description": "Create/update/delete Zabbix regular expression",
-    "description": "This module allows you to create, update and delete Zabbix regular expression.",
-    "options": {},
-    "deprecated": null
-  },
-  "community.zabbix.zabbix_regexp_info": {
-    "short_description": "Retrieve Zabbix regular expression",
-    "description": "This module allows you to retrieve Zabbix regular expression.",
-    "options": {},
-    "deprecated": null
-  },
-  "community.zabbix.zabbix_script": {
-    "short_description": "Create/update/delete Zabbix scripts",
-    "description": "This module allows you to create, update and delete scripts.",
-    "options": {},
-    "deprecated": null
-  },
   "community.zabbix.zabbix_service": {
     "short_description": "Create/update/delete Zabbix service",
     "description": "Create/update/delete Zabbix service.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of Zabbix service",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "algorithm": {
+        "description": "Status calculation rule. Only applicable if child services exists.  - C(status_to_ok), set status to OK with  - C(most_crit_if_all_children), most critical if all children have problems  - C(most_crit_of_child_serv), most critical of child services with",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "status_to_ok",
+          "most_crit_if_all_children",
+          "most_crit_of_child_serv"
+        ],
+        "default": "status_to_ok",
+        "aliases": null
+      },
+      "state": {
+        "description": "State: present - create/update service; absent - delete service.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "sortorder": {
+        "description": "Position of the service used for sorting.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "weight": {
+        "description": "Service weight.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "0",
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the service.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Service tags to be created for the service.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "problem_tags": {
+        "description": "Problem tags to be created for the service.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parents": {
+        "description": "Parent services to be linked to the service.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "children": {
+        "description": "Child services to be linked to the service.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "propagation_rule": {
+        "description": "Status propagation value. Must be set together with propagation_rule. C(as_is) propagate service status as is - without any changes C(increase) increase the propagated status by a given propagation_value (by 1 to 5 severities) C(decrease) decrease the propagated status by a given propagation_value (by 1 to 5 severities) C(ignore) ignore this service - the status is not propagated to the parent service at all C(fixed) set fixed service status using a given propagation_value Required with C(propagation_value)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "as_is",
+        "aliases": null
+      },
+      "propagation_value": {
+        "description": "Status propagation value. Must be set together with propagation_rule. Possible values when I(propagation_rule=as_is or ignore):  - C(not_classified) Possible values when I(propagation_rule=increase or decrease):  - C(information)  - C(warning)  - C(average)  - C(high)  - C(disaster) Possible values when I(propagation_rule=fixed):  - C(ok)  - C(not_classified)  - C(information)  - C(warning)  - C(average)  - C(high)  - C(disaster) Required with C(propagation_rule)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "not_classified",
+        "aliases": null
+      },
+      "status_rules": {
+        "description": "Status rules for the service.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_service_info": {
     "short_description": "Gather information about Zabbix service",
     "description": "This module allows you to obtain detailed information about configured zabbix service.",
-    "options": {},
+    "options": {
+      "service_name": {
+        "description": "Name of the Zabbix service.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_settings": {
     "short_description": "Update Zabbix global settings.",
     "description": "This module allows you to update Zabbix global settings.",
-    "options": {},
+    "options": {
+      "default_lang": {
+        "description": "Default language for users.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_timezone": {
+        "description": "Default time zone for users. Please set C(system) if you want to use system time zone.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_theme": {
+        "description": "Default theme for users.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "blue-theme",
+          "dark-theme",
+          "hc-light",
+          "hc-dark"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "search_limit": {
+        "description": "A number of search and filter results limit.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_overview_table_size": {
+        "description": "Max number of columns and rows in overview tables",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_in_table": {
+        "description": "Max count of elements to show inside table cell",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_check_interval": {
+        "description": "The Zabbix shows \"Zabbix server is down\" warning if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "work_period": {
+        "description": "Working time setting. U(https://www.zabbix.com/documentation/current/en/manual/appendix/time_period)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "show_technical_errors": {
+        "description": "The Zabbix shows PHP and SQL technical errors to users who are non-Super admin or belong to user groups with debug mode not enabled if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "history_period": {
+        "description": "Max period of displaying history data. Accepts seconds and time unit with suffix (e.g. 24h).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "period_default": {
+        "description": "Default period value for time filter. Accepts seconds and time unit with suffix (e.g. 1h).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_period": {
+        "description": "Max period for time filter. Accepts seconds and time unit with suffix (e.g. 1y).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "severity_color_0": {
+        "description": "A custom color for not classified severity. Please set hexadecimal color code (e.g. 00FF00).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "severity_color_1": {
+        "description": "A custom color for information severity. Please set hexadecimal color code (e.g. 00FF00).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "severity_color_2": {
+        "description": "A custom color for warning severity. Please set hexadecimal color code (e.g. 00FF00).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "severity_color_3": {
+        "description": "A custom color for average severity. Please set hexadecimal color code (e.g. 00FF00).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "severity_color_4": {
+        "description": "A custom color for high severity. Please set hexadecimal color code (e.g. 00FF00).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "severity_color_5": {
+        "description": "A custom color for disaster severity. Please set hexadecimal color code (e.g. 00FF00).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "severity_name_0": {
+        "description": "A custom name for not classified severity.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "severity_name_1": {
+        "description": "A custom name for information severity.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "severity_name_2": {
+        "description": "A custom name for warning severity.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "severity_name_3": {
+        "description": "A custom name for average severity.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "severity_name_4": {
+        "description": "A custom name for high severity.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "severity_name_5": {
+        "description": "A custom name for disaster severity.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "custom_color": {
+        "description": "Custom event color settings will be activated if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ok_period": {
+        "description": "A time of period for displaying OK triggers. Accepts seconds and time unit with suffix (e.g. 5m).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "blink_period": {
+        "description": "A time of period for blinking status changed triggers. Accepts seconds and time unit with suffix (e.g. 5m).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "problem_unack_color": {
+        "description": "A custom color for unacknowledged PROBLEM events. This setting will be activated if I(custom_color=true). Please set hexadecimal color code (e.g. 00FF00).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "problem_ack_color": {
+        "description": "A custom color for acknowledged PROBLEM events. This setting will be activated if I(custom_color=true). Please set hexadecimal color code (e.g. 00FF00).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ok_unack_color": {
+        "description": "A custom color for unacknowledged RESOLVED events. This setting will be activated if I(custom_color=true). Please set hexadecimal color code (e.g. 00FF00).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ok_ack_color": {
+        "description": "A custom color for acknowledged RESOLVED events. This setting will be activated if I(custom_color=true). Please set hexadecimal color code (e.g. 00FF00).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "problem_unack_style": {
+        "description": "Unacknowledged PROBLEM events blink if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "problem_ack_style": {
+        "description": "Acknowledged PROBLEM events blink if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ok_unack_style": {
+        "description": "Unacknowledged RESOLVED events blink if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ok_ack_style": {
+        "description": "Acknowledged RESOLVED events blink if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "frontend_url": {
+        "description": "A URL of frontend. This parameter is used for url parameter of settings API.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "discovery_group": {
+        "description": "A hostgroup which discovered hosts will belong to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_inventory_mode": {
+        "description": "A default value for host inventory mode.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disabled",
+          "manual",
+          "automatic"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "alert_usrgrp": {
+        "description": "A name of user group which user belongs to receive an alerm message when database down.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snmptrap_logging": {
+        "description": "Logging unmatched SNMP traps will be ebabled if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_attempts": {
+        "description": "A number of login attempts you can try with non blocked.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_block": {
+        "description": "A time of interval to reset login attempts when the user is blocked. Accepts seconds and time unit with suffix (e.g. 5m).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "validate_uri_schemes": {
+        "description": "Validate URI schemes if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uri_valid_schemes": {
+        "description": "A list of valid URI scheme.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "x_frame_options": {
+        "description": "A text of X-Frame-Options of HTTP header.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iframe_sandboxing_enabled": {
+        "description": "The Zabbix uses iframe sandboxing if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iframe_sandboxing_exceptions": {
+        "description": "A text of iframe sandboxing exceptions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_zabbix_agent": {
+        "description": "A time of zabbix agent timeout. This parameter is available since Zabbix 7.0",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_simple_check": {
+        "description": "A time of simple check timeout. This parameter is available since Zabbix 7.0",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_snmp_agent": {
+        "description": "A time of SNMP agent timeout. This parameter is available since Zabbix 7.0",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_external_check": {
+        "description": "A time of external check timeout. This parameter is available since Zabbix 7.0",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_db_monitor": {
+        "description": "A time of db monitor timeout. This parameter is available since Zabbix 7.0",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_http_agent": {
+        "description": "A time of HTTP agent timeout. This parameter is available since Zabbix 7.0",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_ssh_agent": {
+        "description": "A time of SSH agent timeout. This parameter is available since Zabbix 7.0",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_telnet_agent": {
+        "description": "A time of telnet agent timeout. This parameter is available since Zabbix 7.0",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_script": {
+        "description": "A time of script timeout. This parameter is available since Zabbix 7.0",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout_browser": {
+        "description": "A time of browser timeout. This parameter is available since Zabbix 7.0",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "connect_timeout": {
+        "description": "A time of connection timeout with Zabbix server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "socket_timeout": {
+        "description": "A time of network default timeout.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "media_type_test_timeout": {
+        "description": "A time of network timeout for media type test.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "item_test_timeout": {
+        "description": "A time of network timeout for item tests.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "script_timeout": {
+        "description": "A time of network timeout for script execution.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "report_test_timeout": {
+        "description": "A time of network timeout for scheduled report test.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auditlog_enabled": {
+        "description": "Enable audit logging if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auditlog_mode": {
+        "description": "Enable logging of system actions (changes by low-level discovery, network discovery and autoregistration) if C(true). This parameter is available since Zabbix 7.0",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "geomaps_tile_provider": {
+        "description": "A provider of Geomap tile. Please set C(another) if you want use non default provider",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "OpenStreetMap.Mapnik",
+          "OpenTopoMap",
+          "Stamen.TonerLite",
+          "Stamen.Terrain",
+          "USGS.USTopo",
+          "USGS.USImagery",
+          "another"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "geomaps_tile_url": {
+        "description": "A URL of geomap tile.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "geomaps_max_zoom": {
+        "description": "Max zoom level of geomap.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "geomaps_attribution": {
+        "description": "A text of Geomap attribution.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vault_provider": {
+        "description": "A name of vault provider. This parameter is available since Zabbix 6.2.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "HashiCorp_Vault",
+          "CyberArk_Vault"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_template": {
     "short_description": "Create/update/delete Zabbix template",
     "description": "This module allows you to create, modify and delete Zabbix templates. Multiple templates can be created or modified at once if passing JSON or XML to module.",
-    "options": {},
+    "options": {
+      "template_name": {
+        "description": "Name of Zabbix template. Required when I(template_json) or I(template_xml) are not used. Mutually exclusive with I(template_json) and I(template_xml).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_json": {
+        "description": "JSON dump of templates to import. Multiple templates can be imported this way. Mutually exclusive with I(template_name) and I(template_xml) and I(template_yaml).",
+        "type": "json",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_xml": {
+        "description": "XML dump of templates to import. Multiple templates can be imported this way. Mutually exclusive with I(template_name) and I(template_json) and I(template_yaml).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_yaml": {
+        "description": "Context of exported templates file to import. Multiple templates can be imported this way. Mutually exclusive with I(template_name) and I(template_json) and I(template_xml).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_groups": {
+        "description": "List of template groups to add template to when template is created. Replaces the current template groups the template belongs to if the template is already present. Required when creating a new template with C(state=present) and I(template_name) is used. Not required when updating an existing template.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "link_templates": {
+        "description": "List of template names to be linked to the template. Templates that are not specified and are linked to the existing template will be only unlinked and not cleared from the template.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "clear_templates": {
+        "description": "List of template names to be unlinked and cleared from the template. This option is ignored if template is being created for the first time.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "macros": {
+        "description": "List of user macros to create for the template. Macros that are not specified and are present on the existing template will be replaced. See examples on how to pass macros.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "List of tags to assign to the template. Providing I(tags=[]) with I(force=yes) will clean all of the tags from the template.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Required state of the template. On C(state=present) template will be created/imported or updated depending if it is already present. On C(state=absent) template will be deleted.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_template_info": {
     "short_description": "Gather information about Zabbix template",
     "description": "This module allows you to search for Zabbix template.",
-    "options": {},
+    "options": {
+      "template_name": {
+        "description": "Name of the template in Zabbix.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "format": {
+        "description": "Format to use when dumping template.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "json",
+          "xml",
+          "yaml",
+          "none"
+        ],
+        "default": "json",
+        "aliases": null
+      },
+      "omit_date": {
+        "description": "Removes the date field for the dumped template This parameter will be ignored since Zabbix 6.4.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "all_templategroups": {
+        "description": "return info about all templategroups.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_templategroup": {
     "short_description": "Create/delete Zabbix template groups",
     "description": "Create template groups if they do not exist. Delete existing template groups if they exist.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "Create or delete template group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "template_groups": {
+        "description": "List of template groups to create or delete.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "template_group"
+        ]
+      },
+      "propagate": {
+        "description": "List of settings will be propagated. This module propagates permissions after creating missing template groups. This parameter is for Zabbix >= 7.0.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_token": {
     "short_description": "Create/Update/Generate/Delete Zabbix token.",
     "description": "This module allows you to create, update, generate and delete Zabbix token.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the token.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the token.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Name of user who is the token assinged to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "status": {
+        "description": "Status of the token.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "expires_at": {
+        "description": "A timestamp of the token will be expired. The token will never expire if C(0)",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "generate_token": {
+        "description": "New token string will be generated if C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Create or delete token.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_trigger": {
     "short_description": "Create/delete Zabbix triggers",
     "description": "Create triggers if they do not exist. Delete existing triggers if they exist.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "Create or delete trigger.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of trigger to create or delete. Overrides \"description\" in API docs. Cannot be changed. If a trigger's name needs to be changed, it needs to deleted and recreated",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_name": {
+        "description": "Name of host to add trigger to. Required when I(template_name) is not used. Mutually exclusive with I(template_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_name": {
+        "description": "Name of template to add trigger to. Required when I(host_name) is not used. Mutually exclusive with I(host_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "desc": {
+        "description": "Additional description of the trigger. Overrides \"comments\" in API docs.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "description"
+        ]
+      },
+      "dependencies": {
+        "description": "list of triggers that this trigger is dependent on",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "params": {
+        "description": "Parameters to create/update trigger with. Required if state is \"present\". Parameters as defined at https://www.zabbix.com/documentation/current/en/manual/api/reference/trigger/object Additionally supported parameters are below.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_triggerprototype": {
     "short_description": "Create/delete Zabbix triggerprototypes",
     "description": "Create triggerprototypes if they do not exist. Delete existing triggerprototypes if they exist.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "Create or delete trigger prototype.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of trigger prototype to create or delete. Overrides \"description\" in API docs. Cannot be changed. If a trigger prototype's name needs to be changed, it needs to deleted and recreated",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_name": {
+        "description": "Name of host to add trigger prototype to. Required when I(template_name) is not used. Mutually exclusive with I(template_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_name": {
+        "description": "Name of template to add trigger prototype to. Required when I(host_name) is not used. Mutually exclusive with I(host_name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "desc": {
+        "description": "Additional description of the trigger prototype. Overrides \"comments\" in API docs.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "description"
+        ]
+      },
+      "dependencies": {
+        "description": "list of trigger prototypes that this trigger prototype is dependent on",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "params": {
+        "description": "Parameters to create/update trigger prototype with. Required if state is \"present\". Parameters as defined at https://www.zabbix.com/documentation/current/en/manual/api/reference/triggerprototype/object Additionally supported parameters are below.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_user": {
     "short_description": "Create/update/delete Zabbix users",
     "description": "This module allows you to create, modify and delete Zabbix users.",
-    "options": {},
+    "options": {
+      "username": {
+        "description": "Username. username is the unique identifier used and cannot be updated using this module.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "surname": {
+        "description": "Surname of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "usrgrps": {
+        "description": "User groups to add the user to. Required when I(state=present).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "passwd": {
+        "description": "User's password. Required unless all of the I(usrgrps) are set to use LDAP as frontend access.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "override_passwd": {
+        "description": "Override password for the user. Password will not be updated on subsequent runs without setting this value to yes.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "current_passwd": {
+        "description": "Current password for the user when overriding its password. Required when overriding the logged in user's password. https://www.zabbix.com/documentation/6.4/en/manual/api/reference/user/update",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lang": {
+        "description": "Language code of the user's language.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "en_GB",
+          "en_US",
+          "zh_CN",
+          "cs_CZ",
+          "fr_FR",
+          "he_IL",
+          "it_IT",
+          "ko_KR",
+          "ja_JP",
+          "nb_NO",
+          "pl_PL",
+          "pt_BR",
+          "pt_PT",
+          "ru_RU",
+          "sk_SK",
+          "tr_TR",
+          "uk_UA",
+          "default"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "theme": {
+        "description": "User's theme.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "default",
+          "blue-theme",
+          "dark-theme"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "autologin": {
+        "description": "Whether to enable auto-login. If enable autologin, cannot enable autologout.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "autologout": {
+        "description": "User session life time in seconds. If set to 0, the session will never expire. If enable autologout, cannot enable autologin.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "refresh": {
+        "description": "Automatic refresh period in seconds.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rows_per_page": {
+        "description": "Amount of object rows to show per page.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "after_login_url": {
+        "description": "URL of the page to redirect the user to after logging in.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_medias": {
+        "description": "Set the user's media. If not set, makes no changes to media.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timezone": {
+        "description": "User's time zone. For the full list of supported time zones please refer to U(https://www.php.net/manual/en/timezones.php)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role_name": {
+        "description": "User's role. Default is C(User role) when creating a new user. The default value will be removed at the version 2.0.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the user. On C(present), it will create if user does not exist or update the user if the associated data is different. On C(absent) will remove a user if it exists.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.zabbix.zabbix_user_directory": {
+    "short_description": "Create/update/delete Zabbix user directories",
+    "description": "This module allows you to create, modify and delete Zabbix user directories.",
+    "options": {
+      "name": {
+        "description": "Unique name of the user directory.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "idp_type": {
+        "description": "Type of IdP. Only one user directory of type SAML can exist. This parameter is available since Zabbix 6.4.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ldap",
+          "saml"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "provision_status": {
+        "description": "User directory provisioning status. if I(false) Provisioning of users created by this user directory is disabled if I(true) Provisioning of users created by this user directory is enabled. Additionally, the authentication status of C(ldap_jit_status) or C(saml_jit_status) should be enabled. This parameter is available since Zabbix 6.4.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "user_username": {
+        "description": "LDAP/SAML attribute name to use for users.name field when user is provisioned This parameter is available since Zabbix 6.4.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_lastname": {
+        "description": "LDAP/SAML attribute name to use for users.surname field when user is provisioned This parameter is available since Zabbix 6.4.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_ref_attr": {
+        "description": "LDAP user object attribute name. Will be set instead of the placeholder I(%{ref}) in c(group_filter) string. This parameter is available since Zabbix 6.4.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "User directory description.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "group_membership": {
+        "description": "LDAP property containing groups of user. E.g. I(memberOf) This parameter is available since Zabbix 6.4.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group_basedn": {
+        "description": "LDAP groups path in LDAP tree to search for groups data. Used to configure user membership check in I(openLDAP). Required if group_membership is not set. This parameter is available since Zabbix 6.4.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group_name": {
+        "description": "LDAP/SAML attribute name to get group name for group mapping between Zabbix and IdP. Used to configure user membership check in LDAP. Ignored when provisioning a user if group_membership is set. This parameter is available since Zabbix 6.4.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group_member": {
+        "description": "LDAP tree attribute name containing group name received with C(group_filter) query. Used to configure user membership check in openLDAP. Ignored when provisioning a user if group_membership is set. This parameter is available since Zabbix 6.4.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group_filter": {
+        "description": "LDAP search filter to select groups when searching for specific user groups. Used to configure user membership check in openLDAP. Ignored when provisioning a user if group_membership is set. This parameter is available since Zabbix 6.4.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bind_password": {
+        "description": "LDAP bind password. Can be empty for anonymous binding.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "search_filter": {
+        "description": "LDAP custom filter string when authenticating user in LDAP. Supported search_filter placeholders I(%{attr}) search attribute name (uid, sAMAccountName); I(%{user}) username value.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "(%{attr}=%{user})",
+        "aliases": null
+      },
+      "start_tls": {
+        "description": "LDAP startTLS option. It cannot be used with ldaps:// protocol hosts.",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          1
+        ],
+        "default": 0,
+        "aliases": null
+      },
+      "host": {
+        "description": "LDAP server host name, IP or URI. URI should contain schema, host and port (optional). required if C(idp_type) is set to I(ldap).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "LDAP server port. required if C(idp_type) is set to I(ldap).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "base_dn": {
+        "description": "LDAP base distinguished name string. required if C(idp_type) is set to I(ldap).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "search_attribute": {
+        "description": "LDAP attribute name to identify user by username in Zabbix database. required if C(idp_type) is set to I(ldap).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bind_dn": {
+        "description": "LDAP bind distinguished name string. Can be empty for anonymous binding.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "idp_entityid": {
+        "description": "SAML URI that identifies the IdP in SAML messages. required if C(idp_type) is set to I(saml). This parameter is available since Zabbix 6.4.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sp_entityid": {
+        "description": "SAML SP entity ID. required if C(idp_type) is set to I(saml). This parameter is available since Zabbix 6.4.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sso_url": {
+        "description": "SAML URL of the IdP\"s SAML SSO service, to which Zabbix will send SAML authentication requests. required if C(idp_type) is set to I(saml). This parameter is available since Zabbix 6.4.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "slo_url": {
+        "description": "SAML IdP service endpoint URL to which Zabbix will send SAML logout requests. This parameter is available since Zabbix 6.4.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username_attribute": {
+        "description": "SAML username attribute to be used in comparison with Zabbix user.username value when authenticating. required if C(idp_type) is set to I(saml). This parameter is available since Zabbix 6.4.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nameid_format": {
+        "description": "SAML SP name ID format. This parameter is available since Zabbix 6.4.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scim_status": {
+        "description": "Whether the SCIM provisioning for SAML is enabled or disabled. This parameter is available since Zabbix 6.4.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "encrypt_nameid": {
+        "description": "SAML encrypt name ID. Encrypts if I(true). This parameter is available since Zabbix 6.4.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "encrypt_assertions": {
+        "description": "SAML encrypt assertions. Encrypts if I(true). This parameter is available since Zabbix 6.4.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "sign_messages": {
+        "description": "SAML sign messages. Signs if I(true). This parameter is available since Zabbix 6.4.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "sign_assertions": {
+        "description": "SAML sign assertions. Signs if I(true). This parameter is available since Zabbix 6.4.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "sign_authn_requests": {
+        "description": "SAML sign AuthN requests. Signs if I(true). This parameter is available since Zabbix 6.4.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "sign_logout_requests": {
+        "description": "SAML sign logout requests. Signs if I(true). This parameter is available since Zabbix 6.4.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "sign_logout_responses": {
+        "description": "SAML sign logout responses. Signs if I(true). This parameter is available since Zabbix 6.4.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "provision_media": {
+        "description": "Array of the IdP media type mappings objects. This parameter is available since Zabbix 6.4.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "provision_groups": {
+        "description": "Array of the IdP media type mappings objects. This parameter is available since Zabbix 6.4.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the user directory. On C(present), it will create if user directory does not exist or update it if the associated data is different. On C(absent) will remove the user directory if it exists.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_user_info": {
     "short_description": "Gather information about Zabbix user",
     "description": "This module allows you to search for Zabbix user entries.",
-    "options": {},
+    "options": {
+      "username": {
+        "description": "User name. sername is the unique identifier used and cannot be updated using this module.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_user_role": {
     "short_description": "Adds or removes zabbix roles",
     "description": "This module adds or removes zabbix roles",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "State of the user_role. On C(present), it will create if user_role does not exist or update the user_role if the associated data is different. On C(absent) will remove a user_role if it exists.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the role to be processed",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "User type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "User",
+          "Admin",
+          "Super Admin"
+        ],
+        "default": "User",
+        "aliases": null
+      },
+      "rules": {
+        "description": "Rules set as defined in https://www.zabbix.com/documentation/current/en/manual/api/reference/role/object#role-rules",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_usergroup": {
     "short_description": "Create/delete/update Zabbix user groups",
     "description": "Create user groups if they do not exist. Delete existing user groups if they exist and are empty. Update existing user groups.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the user group to create, update or delete.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "user_group"
+        ]
+      },
+      "gui_access": {
+        "description": "Frontend authentication method of the users in the group. Possible values: default -  use the system default authentication method; internal - use internal authentication; LDAP - use LDAP authentication; disable - disable access to the frontend.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "default",
+          "internal",
+          "LDAP",
+          "disable"
+        ],
+        "default": "default",
+        "aliases": null
+      },
+      "debug_mode": {
+        "description": "Whether debug mode is enabled or disabled.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disabled",
+          "enabled"
+        ],
+        "default": "disabled",
+        "aliases": null
+      },
+      "status": {
+        "description": "Whether the user group is enabled or disabled.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "enabled",
+        "aliases": null
+      },
+      "rights": {
+        "description": "Permissions to assign to the group For <= Zabbix 6.0",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hostgroup_rights": {
+        "description": "Host group permissions to assign to the user group For => Zabbix 7.0",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "templategroup_rights": {
+        "description": "Template group permissions to assign to the user group For => Zabbix 7.0",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tag_filters": {
+        "description": "Tag based permissions to assign to the group",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "userdirectory": {
+        "description": "Authentication user directory when gui_access set to LDAP or System default. For => Zabbix 7.0",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the user group. On C(present), it will create if user group does not exist or update the user group if the associated data is different. On C(absent) will remove a user group if it exists.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_valuemap": {
     "short_description": "Create/update/delete Zabbix value maps",
     "description": "This module allows you to create, modify and delete Zabbix value maps.",
-    "options": {},
+    "options": {
+      "host_name": {
+        "description": "Name of host to add value map to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the value map.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the value map. On C(present), it will create a value map if it does not exist or update the value map if the associated data is different. On C(absent), it will remove the value map if it exists.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "mappings": {
+        "description": "List of value mappings for the value map. Required when I(state=present).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.zabbix.zabbix_valuemap_info": {
     "short_description": "Gather information about Zabbix valuemap",
     "description": "This module allows you to search for Zabbix valuemap entries.",
-    "options": {},
+    "options": {
+      "host_name": {
+        "description": "Name of the Zabbix host.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Zabbix valuemap.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

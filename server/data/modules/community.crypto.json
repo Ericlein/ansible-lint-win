@@ -1,98 +1,896 @@
 {
   "community.crypto.acme_account": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Create, modify or delete ACME accounts",
+    "description": "Allows to create, modify or delete accounts with a CA supporting the L(ACME protocol,https://tools.ietf.org/html/rfc8555), such as L(Let's Encrypt,https://letsencrypt.org/). This module only works with the ACME v2 protocol.",
+    "options": {
+      "state": {
+        "description": "The state of the account, to be identified by its account key. If the state is V(absent), the account will either not exist or be deactivated. If the state is V(changed_key), the account must exist. The account key will be changed; no other information will be touched.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent",
+          "changed_key"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "allow_creation": {
+        "description": "Whether account creation is allowed (when state is V(present)).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "contact": {
+        "description": "A list of contact URLs. Email addresses must be prefixed with C(mailto:). See U(https://tools.ietf.org/html/rfc8555#section-7.3) for what is allowed. Must be specified when state is V(present). Will be ignored if state is V(absent) or V(changed_key).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "terms_agreed": {
+        "description": "Boolean indicating whether you agree to the terms of service document. ACME servers can require this to be V(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "new_account_key_src": {
+        "description": "Path to a file containing the ACME account RSA or Elliptic Curve key to change to. Same restrictions apply as to O(account_key_src). Mutually exclusive with O(new_account_key_content). Required if O(new_account_key_content) is not used and O(state) is V(changed_key).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_account_key_content": {
+        "description": "Content of the ACME account RSA or Elliptic Curve key to change to. Same restrictions apply as to O(account_key_content). Mutually exclusive with O(new_account_key_src). Required if O(new_account_key_src) is not used and O(state) is V(changed_key).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_account_key_passphrase": {
+        "description": "Passphrase to use to decode the new account key. B(Note:) this is not supported by the C(openssl) backend, only by the C(cryptography) backend.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "external_account_binding": {
+        "description": "Allows to provide external account binding data during account creation. This is used by CAs like Sectigo, HARICA, or ZeroSSL to bind a new ACME account to an existing CA-specific account, to be able to properly identify a customer. Only used when creating a new account. Can not be specified for ACME v1.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.acme_account_info": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Retrieves information on ACME accounts",
+    "description": "Allows to retrieve information on accounts a CA supporting the L(ACME protocol,https://tools.ietf.org/html/rfc8555), such as L(Let's Encrypt,https://letsencrypt.org/). This module only works with the ACME v2 protocol.",
+    "options": {
+      "retrieve_orders": {
+        "description": "Whether to retrieve the list of order URLs or order objects, if provided by the ACME server. A value of V(ignore) will not fetch the list of orders. If the value is not V(ignore) and the ACME server supports orders, the RV(order_uris) return value is always populated. The RV(orders) return value is only returned if this option is set to V(object_list). Currently, Let's Encrypt does not return orders, so the RV(orders) result will always be empty.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ignore",
+          "url_list",
+          "object_list"
+        ],
+        "default": "ignore",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.acme_ari_info": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Retrieves ACME Renewal Information (ARI) for a certificate",
+    "description": "Allows to retrieve renewal information on a certificate obtained with the L(ACME protocol,https://tools.ietf.org/html/rfc8555). This module only works with the ACME v2 protocol, and requires the ACME server to support the ARI extension (L(RFC 9773, https://www.rfc-editor.org/rfc/rfc9773.html)).",
+    "options": {
+      "certificate_path": {
+        "description": "A path to the X.509 certificate to request information for. Exactly one of O(certificate_path) and O(certificate_content) must be provided.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "certificate_content": {
+        "description": "The content of the X.509 certificate to request information for. Exactly one of O(certificate_path) and O(certificate_content) must be provided.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.acme_certificate": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Create SSL/TLS certificates with the ACME protocol",
+    "description": "Create and renew SSL/TLS certificates with a CA supporting the L(ACME protocol,https://tools.ietf.org/html/rfc8555), such as L(Let's Encrypt,https://letsencrypt.org/). The current implementation supports the V(http-01), V(dns-01) and V(tls-alpn-01) challenges. To use this module, it has to be executed twice. Either as two different tasks in the same run or during two runs. Note that the output of the first run needs to be recorded and passed to the second run as the module argument O(data). Between these two tasks you have to fulfill the required steps for the chosen challenge by whatever means necessary. For V(http-01) that means creating the necessary challenge file on the destination webserver. For V(dns-01) the necessary DNS record has to be created. For V(tls-alpn-01) the necessary certificate has to be created and served. It is I(not) the responsibility of this module to perform these steps. For details on how to fulfill these challenges, you might have to read through L(the main ACME specification,https://tools.ietf.org/html/rfc8555#section-8) and the L(TLS-ALPN-01 specification,https://www.rfc-editor.org/rfc/rfc8737.html#section-3). Also, consider the examples provided for this module. The module includes experimental support for IP identifiers according to the L(RFC 8738,https://www.rfc-editor.org/rfc/rfc8738.html).",
+    "options": {
+      "account_email": {
+        "description": "The email address associated with this account. It will be used for certificate expiration warnings. Note that when O(modify_account) is not set to V(false) and you also used the M(community.crypto.acme_account) module to specify more than one contact for your account, this module will update your account and restrict it to the (at most one) contact email address specified here.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "agreement": {
+        "description": "URI to a terms of service document you agree to when using the ACME v1 service at O(acme_directory). Default is latest gathered from O(acme_directory) URL. This option has no longer any effect. It is deprecated and will be removed from community.crypto 4.0.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "terms_agreed": {
+        "description": "Boolean indicating whether you agree to the terms of service document. ACME servers can require this to be true.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "modify_account": {
+        "description": "Boolean indicating whether the module should create the account if necessary, and update its contact data. Set to V(false) if you want to use the M(community.crypto.acme_account) module to manage your account instead, and to avoid accidental creation of a new account using an old key if you changed the account key with M(community.crypto.acme_account). If set to V(false), O(terms_agreed) and O(account_email) are ignored. The current default V(true) is B(deprecated) and will change to V(false) in community.crypto 4.0.0.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "challenge": {
+        "description": "The challenge to be performed. If set to V(no challenge), no challenge will be used. This is necessary for some private CAs which use External Account Binding and other means of validating certificate assurance. For example, an account could be allowed to issue certificates for C(foo.example.com) without any further validation for a certain period of time.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "http-01",
+          "dns-01",
+          "tls-alpn-01",
+          "no challenge"
+        ],
+        "default": "http-01",
+        "aliases": null
+      },
+      "csr": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "src"
+        ]
+      },
+      "csr_content": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "data": {
+        "description": "The data to validate ongoing challenges. This must be specified for the second run of the module only. The value that must be used here will be provided by a previous use of this module. See the examples for more details. Note that for ACME v2, only the C(order_uri) entry of O(data) will be used. For ACME v1, O(data) must be non-empty to indicate the second stage is active; all needed data will be taken from the CSR. I(Note): the O(data) option was marked as C(no_log) up to Ansible 2.5. From Ansible 2.6 on, it is no longer marked this way as it causes error messages to be come unusable, and O(data) does not contain any information which can be used without having access to the account key or which are not public anyway.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dest": {
+        "description": "The destination file for the certificate. Required if O(fullchain_dest) is not specified.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "cert"
+        ]
+      },
+      "fullchain_dest": {
+        "description": "The destination file for the full chain (that is, a certificate followed by chain of intermediate certificates). Required if O(dest) is not specified.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "fullchain"
+        ]
+      },
+      "chain_dest": {
+        "description": "If specified, the intermediate certificate will be written to this file.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "chain"
+        ]
+      },
+      "remaining_days": {
+        "description": "The number of days the certificate must have left being valid. If RV(cert_days) < O(remaining_days), then it will be renewed. If the certificate is not renewed, module return values will not include RV(challenge_data). To make sure that the certificate is renewed in any case, you can use the O(force) option.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "deactivate_authzs": {
+        "description": "Deactivate authentication objects (authz) after issuing a certificate, or when issuing the certificate failed. Authentication objects are bound to an account key and remain valid for a certain amount of time, and can be used to issue certificates without having to re-authenticate the domain. This can be a security concern.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "force": {
+        "description": "Enforces the execution of the challenge and validation, even if an existing certificate is still valid for more than O(remaining_days). This is especially helpful when having an updated CSR, for example with additional domains for which a new certificate is desired.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "retrieve_all_alternates": {
+        "description": "When set to V(true), will retrieve all alternate trust chains offered by the ACME CA. These will not be written to disk, but will be returned together with the main chain as RV(all_chains). See the documentation for the RV(all_chains) return value for details.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "select_chain": {
+        "description": "Allows to specify criteria by which an (alternate) trust chain can be selected. The list of criteria will be processed one by one until a chain is found matching a criterium. If such a chain is found, it will be used by the module instead of the default chain. If a criterium matches multiple chains, the first one matching will be returned. The order is determined by the ordering of the C(Link) headers returned by the ACME server and might not be deterministic. Every criterium can consist of multiple different conditions, like O(select_chain[].issuer) and O(select_chain[].subject). For the criterium to match a chain, all conditions must apply to the same certificate in the chain. This option can only be used with the C(cryptography) backend.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "include_renewal_cert_id": {
+        "description": "Determines whether to request renewal of an existing certificate according to L(Section 5 of RFC 9773, https://www.rfc-editor.org/rfc/rfc9773.html#section-5). This is only used when the certificate specified in O(dest) or O(fullchain_dest) already exists. Generally you should use V(when_ari_supported) if you know that the ACME service supports a compatible draft (or final version, once it is out) of the ARI extension. V(always) should never be necessary. If you are not sure, or if you receive strange errors on invalid C(replaces) values in order objects, use V(never), which also happens to be the default. ACME servers might refuse to create new orders with C(replaces) for certificates that already have an existing order. This can happen if this module is used to create an order, and then the playbook/role fails in case the challenges cannot be set up. If the playbook/role does not record the order data to continue with the existing order, but tries to create a new one on the next run, creating the new order might fail. If O(order_creation_error_strategy=fail) this will make the module fail. O(order_creation_error_strategy=auto) and O(order_creation_error_strategy=retry_without_replaces_cert_id) will avoid this by leaving away C(replaces) on retries. If O(order_creation_error_strategy=fail), for the above reason, this option should only be set to a value different from V(never) if the role/playbook using it keeps track of order data accross restarts, or if it takes care to deactivate orders whose processing is aborted. Orders can be deactivated with the M(community.crypto.acme_certificate_deactivate_authz) module.",
+        "type": "str",
+        "required": false,
+        "choices": {
+          "never": "Never send the certificate ID of the certificate to renew.",
+          "when_ari_supported": "Only send the certificate ID if the ARI endpoint is found in the ACME directory.",
+          "always": "Will always send the certificate ID of the certificate to renew."
+        },
+        "default": "never",
+        "aliases": null
+      },
+      "profile": {
+        "description": "Chose a specific profile for certificate selection. The available profiles depend on the CA. See L(a blog post by Let's Encrypt, https://letsencrypt.org/2025/01/09/acme-profiles/) and L(draft-aaron-acme-profiles-00, https://datatracker.ietf.org/doc/draft-aaron-acme-profiles/) for more information.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "order_creation_error_strategy": {
+        "description": "Selects the error handling strategy for ACME protocol errors if creating a new ACME order fails.",
+        "type": "str",
+        "required": false,
+        "choices": {
+          "auto": [
+            "An unspecified algorithm that tries to be clever.",
+            "Right now identical to V(retry_without_replaces_cert_id)."
+          ],
+          "always": [
+            "Always retry, until the limit in O(order_creation_max_retries) has been reached."
+          ],
+          "fail": [
+            "Simply fail in case of errors. Do not attempt to retry.",
+            "This has been the default before community.crypto 2.24.0."
+          ],
+          "retry_without_replaces_cert_id": [
+            "If O(include_renewal_cert_id) is present, creating the order will be tried again without C(replaces).",
+            "The only exception is an error of type C(urn:ietf:params:acme:error:alreadyReplaced), that indicates that the certificate was already replaced. This usually means something went wrong and the user should investigate."
+          ]
+        },
+        "default": "auto",
+        "aliases": null
+      },
+      "order_creation_max_retries": {
+        "description": "Depending on the strategy selected in O(order_creation_error_strategy), will retry creating new orders for at most the specified amount of times.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.acme_certificate_deactivate_authz": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Deactivate all authz for an ACME v2 order",
+    "description": "Deactivate all authentication objects (authz) for an ACME v2 order, which effectively deactivates (invalidates) the order itself. Authentication objects are bound to an account key and remain valid for a certain amount of time, and can be used to issue certificates without having to re-authenticate the domain. This can be a security concern. Another reason to use this module is to deactivate an order whose processing failed when using O(community.crypto.acme_certificate#module:include_renewal_cert_id).",
+    "options": {
+      "order_uri": {
+        "description": "The ACME v2 order to deactivate. Can be obtained from RV(community.crypto.acme_certificate#module:order_uri).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.acme_certificate_order_create": {
     "short_description": "Create an ACME v2 order",
-    "description": "Creates an ACME v2 order. This is the first step of obtaining a new certificate with the L(ACME protocol,https://tools.ietf.org/html/rfc8555) from a Certificate Authority such as L(Let",
-    "options": {},
+    "description": "Creates an ACME v2 order. This is the first step of obtaining a new certificate with the L(ACME protocol,https://tools.ietf.org/html/rfc8555) from a Certificate Authority such as L(Let's Encrypt,https://letsencrypt.org/). This module does not support ACME v1, the original version of the ACME protocol before standardization. The current implementation supports the V(http-01), V(dns-01) and V(tls-alpn-01) challenges. This module needs to be used in conjunction with the M(community.crypto.acme_certificate_order_validate) and. M(community.crypto.acme_certificate_order_finalize) module. An order can be effectively deactivated with the M(community.crypto.acme_certificate_deactivate_authz) module. Note that both modules require the output RV(order_uri) of this module. To create or modify ACME accounts, use the M(community.crypto.acme_account) module. This module will I(not) create or update ACME accounts. Between the call of this module and M(community.crypto.acme_certificate_order_finalize), you have to fulfill the required steps for the chosen challenge by whatever means necessary. For V(http-01) that means creating the necessary challenge file on the destination webserver. For V(dns-01) the necessary dns record has to be created. For V(tls-alpn-01) the necessary certificate has to be created and served. It is I(not) the responsibility of this module to perform these steps. For details on how to fulfill these challenges, you might have to read through L(the main ACME specification,https://tools.ietf.org/html/rfc8555#section-8) and the L(TLS-ALPN-01 specification,https://www.rfc-editor.org/rfc/rfc8737.html#section-3). Also, consider the examples provided for this module. The module includes support for IP identifiers according to the L(RFC 8738,https://www.rfc-editor.org/rfc/rfc8738.html) ACME extension.",
+    "options": {
+      "deactivate_authzs": {
+        "description": "Deactivate authentication objects (authz) when issuing the certificate failed. Authentication objects are bound to an account key and remain valid for a certain amount of time, and can be used to issue certificates without having to re-authenticate the domain. This can be a security concern.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "replaces_cert_id": {
+        "description": "If provided, will request the order to replace the certificate identified by this certificate ID according to L(Section 5 of RFC 9773, https://www.rfc-editor.org/rfc/rfc9773.html#section-5). This certificate ID must be computed as specified in L(Section 4.1 of RFC 9773, https://www.rfc-editor.org/rfc/rfc9773.html#section-4.1). It is returned as return value RV(community.crypto.acme_certificate_renewal_info#module:cert_id) of the M(community.crypto.acme_certificate_renewal_info) module. ACME servers might refuse to create new orders that indicate to replace a certificate for which an active replacement order already exists. This can happen if this module is used to create an order, and then the playbook/role fails in case the challenges cannot be set up. If the playbook/role does not record the order data to continue with the existing order, but tries to create a new one on the next run, creating the new order might fail. If O(order_creation_error_strategy=fail) this will make the module fail. O(order_creation_error_strategy=auto) and O(order_creation_error_strategy=retry_without_replaces_cert_id) will avoid this by leaving away C(replaces) on retries. If O(order_creation_error_strategy=fail), for the above reason, this option should only be used if the role/playbook using it keeps track of order data accross restarts, or if it takes care to deactivate orders whose processing is aborted. Orders can be deactivated with the M(community.crypto.acme_certificate_deactivate_authz) module.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "profile": {
+        "description": "Chose a specific profile for certificate selection. The available profiles depend on the CA. See L(a blog post by Let's Encrypt, https://letsencrypt.org/2025/01/09/acme-profiles/) and L(draft-aaron-acme-profiles-00, https://datatracker.ietf.org/doc/draft-aaron-acme-profiles/) for more information.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "order_creation_error_strategy": {
+        "description": "Selects the error handling strategy for ACME protocol errors if creating a new ACME order fails.",
+        "type": "str",
+        "required": false,
+        "choices": {
+          "auto": [
+            "An unspecified algorithm that tries to be clever.",
+            "Right now identical to V(retry_without_replaces_cert_id)."
+          ],
+          "always": [
+            "Always retry, until the limit in O(order_creation_max_retries) has been reached."
+          ],
+          "fail": [
+            "Simply fail in case of errors. Do not attempt to retry."
+          ],
+          "retry_without_replaces_cert_id": [
+            "If O(replaces_cert_id) is present, creating the order will be tried again without C(replaces).",
+            "The only exception is an error of type C(urn:ietf:params:acme:error:alreadyReplaced), that indicates that the certificate was already replaced. This usually means something went wrong and the user should investigate."
+          ]
+        },
+        "default": "auto",
+        "aliases": null
+      },
+      "order_creation_max_retries": {
+        "description": "Depending on the strategy selected in O(order_creation_error_strategy), will retry creating new orders for at most the specified amount of times.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.acme_certificate_order_finalize": {
     "short_description": "Finalize an ACME v2 order",
-    "description": "Finalizes an ACME v2 order and obtains the certificate and certificate chains. This is the final step of obtaining a new certificate with the L(ACME protocol,https://tools.ietf.org/html/rfc8555) from a Certificate Authority such as L(Let",
-    "options": {},
+    "description": "Finalizes an ACME v2 order and obtains the certificate and certificate chains. This is the final step of obtaining a new certificate with the L(ACME protocol,https://tools.ietf.org/html/rfc8555) from a Certificate Authority such as L(Let's Encrypt,https://letsencrypt.org/). This module does not support ACME v1, the original version of the ACME protocol before standardization. This module needs to be used in conjunction with the M(community.crypto.acme_certificate_order_create) and. M(community.crypto.acme_certificate_order_validate) modules.",
+    "options": {
+      "order_uri": {
+        "description": "The order URI provided by RV(community.crypto.acme_certificate_order_create#module:order_uri).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cert_dest": {
+        "description": "The destination file for the certificate.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fullchain_dest": {
+        "description": "The destination file for the full chain (that is, a certificate followed by chain of intermediate certificates).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chain_dest": {
+        "description": "If specified, the intermediate certificate will be written to this file.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "deactivate_authzs": {
+        "description": "Deactivate authentication objects (authz) after issuing a certificate, or when issuing the certificate failed. V(never) never deactivates them. V(always) always deactivates them in cases of errors or when the certificate was issued. V(on_error) only deactivates them in case of errors. V(on_success) only deactivates them in case the certificate was successfully issued. Authentication objects are bound to an account key and remain valid for a certain amount of time, and can be used to issue certificates without having to re-authenticate the domain. This can be a security concern.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "never",
+          "on_error",
+          "on_success",
+          "always"
+        ],
+        "default": "always",
+        "aliases": null
+      },
+      "retrieve_all_alternates": {
+        "description": "When set to V(true), will retrieve all alternate trust chains offered by the ACME CA. These will not be written to disk, but will be returned together with the main chain as RV(all_chains). See the documentation for the RV(all_chains) return value for details.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "select_chain": {
+        "description": "Allows to specify criteria by which an (alternate) trust chain can be selected. The list of criteria will be processed one by one until a chain is found matching a criterium. If such a chain is found, it will be used by the module instead of the default chain. If a criterium matches multiple chains, the first one matching will be returned. The order is determined by the ordering of the C(Link) headers returned by the ACME server and might not be deterministic. Every criterium can consist of multiple different conditions, like O(select_chain[].issuer) and O(select_chain[].subject). For the criterium to match a chain, all conditions must apply to the same certificate in the chain. This option can only be used with the C(cryptography) backend.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.acme_certificate_order_info": {
     "short_description": "Obtain information for an ACME v2 order",
-    "description": "Obtain information for an ACME v2 order. This can be used during the process of obtaining a new certificate with the L(ACME protocol,https://tools.ietf.org/html/rfc8555) from a Certificate Authority such as L(Let",
-    "options": {},
+    "description": "Obtain information for an ACME v2 order. This can be used during the process of obtaining a new certificate with the L(ACME protocol,https://tools.ietf.org/html/rfc8555) from a Certificate Authority such as L(Let's Encrypt,https://letsencrypt.org/). This module does not support ACME v1, the original version of the ACME protocol before standardization. This module needs to be used in conjunction with the M(community.crypto.acme_certificate_order_create), M(community.crypto.acme_certificate_order_validate), and M(community.crypto.acme_certificate_order_finalize) modules.",
+    "options": {
+      "order_uri": {
+        "description": "The order URI provided by RV(community.crypto.acme_certificate_order_create#module:order_uri).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.acme_certificate_order_validate": {
     "short_description": "Validate authorizations of an ACME v2 order",
-    "description": "Validates pending authorizations of an ACME v2 order. This is the second to last step of obtaining a new certificate with the L(ACME protocol,https://tools.ietf.org/html/rfc8555) from a Certificate Authority such as L(Let",
-    "options": {},
+    "description": "Validates pending authorizations of an ACME v2 order. This is the second to last step of obtaining a new certificate with the L(ACME protocol,https://tools.ietf.org/html/rfc8555) from a Certificate Authority such as L(Let's Encrypt,https://letsencrypt.org/). This module does not support ACME v1, the original version of the ACME protocol before standardization. This module needs to be used in conjunction with the M(community.crypto.acme_certificate_order_create) and M(community.crypto.acme_certificate_order_finalize) modules.",
+    "options": {
+      "challenge": {
+        "description": "The challenge to be performed for every pending authorization. Must be provided if there is at least one pending authorization. In case of authorization reuse, or in case of CAs which use External Account Binding and other means of validating certificate assurance, it might not be necessary to provide this option.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "http-01",
+          "dns-01",
+          "tls-alpn-01"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "order_uri": {
+        "description": "The order URI provided by RV(community.crypto.acme_certificate_order_create#module:order_uri).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "deactivate_authzs": {
+        "description": "Deactivate authentication objects (authz) in case an error happens. Authentication objects are bound to an account key and remain valid for a certain amount of time, and can be used to issue certificates without having to re-authenticate the domain. This can be a security concern.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.acme_certificate_renewal_info": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Determine whether a certificate should be renewed or not",
+    "description": "Uses various information to determine whether a certificate should be renewed or not. If available, the ARI extension (ACME Renewal Information, L(RFC 9773, https://www.rfc-editor.org/rfc/rfc9773.html)) is used.",
+    "options": {
+      "certificate_path": {
+        "description": "A path to the X.509 certificate to determine renewal of. In case the certificate does not exist, the module will always return RV(should_renew=true). O(certificate_path) and O(certificate_content) are mutually exclusive.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "certificate_content": {
+        "description": "The content of the X.509 certificate to determine renewal of. O(certificate_path) and O(certificate_content) are mutually exclusive.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_ari": {
+        "description": "Whether to use ARI information, if available. Set this to V(false) if the ACME server implements ARI in a way that is incompatible with this module.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "ari_algorithm": {
+        "description": "If ARI information is used, selects which algorithm is used to determine whether to renew now. V(standard) selects the L(algorithm provided in the the ARI specification, https://www.rfc-editor.org/rfc/rfc9773.html#section-4.2). V(start) returns RV(should_renew=true) once the start of the renewal interval has been reached.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "standard",
+          "start"
+        ],
+        "default": "standard",
+        "aliases": null
+      },
+      "remaining_days": {
+        "description": "The number of days the certificate must have left being valid. For example, if O(remaining_days=20), this check causes RV(should_renew=true) if the certificate is valid for less than 20 days.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remaining_percentage": {
+        "description": "The percentage of the certificate's validity period that should be left. For example, if O(remaining_percentage=0.1), and the certificate's validity period is 90 days, this check causes RV(should_renew=true) if the certificate is valid for less than 9 days. Must be a value between 0 and 1.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "now": {
+        "description": "Use this timestamp instead of the current timestamp to determine whether a certificate should be renewed. Time can be specified either as relative time or as absolute timestamp. Time will always be interpreted as UTC. Valid format is C([+-]timespec | ASN.1 TIME) where timespec can be an integer + C([w | d | h | m | s]) (for example V(+32w1d2h)).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "treat_parsing_error_as_non_existing": {
+        "description": "Determines the behavior when the certificate file exists or its contents are provided, but the certificate cannot be parsed. If V(true), will exit successfully with RV(exists=true), RV(parsable=false), and RV(should_renew=true). If V(false), the module will fail. If the file exists, but cannot be loaded due to I/O errors or permission errors, the module always fails.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.acme_certificate_revoke": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Revoke certificates with the ACME protocol",
+    "description": "Allows to revoke certificates issued by a CA supporting the L(ACME protocol,https://tools.ietf.org/html/rfc8555), such as L(Let's Encrypt,https://letsencrypt.org/).",
+    "options": {
+      "certificate": {
+        "description": "Path to the certificate to revoke.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "account_key_src": {
+        "description": "Path to a file containing the ACME account RSA or Elliptic Curve key. RSA keys can be created with C(openssl rsa ...). Elliptic curve keys can be created with C(openssl ecparam -genkey ...). Any other tool creating private keys in PEM format can be used as well. Mutually exclusive with O(account_key_content). Required if O(account_key_content) is not used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "account_key_content": {
+        "description": "Content of the ACME account RSA or Elliptic Curve key. Note that exactly one of O(account_key_src), O(account_key_content), O(private_key_src), or O(private_key_content) must be specified. I(Warning): the content will be written into a temporary file, which will be deleted by Ansible when the module completes. Since this is an important private key — it can be used to change the account key, or to revoke your certificates without knowing their private keys —, this might not be acceptable. In case C(cryptography) is used, the content is not written into a temporary file. It can still happen that it is written to disk by Ansible in the process of moving the module with its argument to the node where it is executed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "private_key_src": {
+        "description": "Path to the certificate's private key. Note that exactly one of O(account_key_src), O(account_key_content), O(private_key_src), or O(private_key_content) must be specified.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "private_key_content": {
+        "description": "Content of the certificate's private key. Note that exactly one of O(account_key_src), O(account_key_content), O(private_key_src), or O(private_key_content) must be specified. I(Warning): the content will be written into a temporary file, which will be deleted by Ansible when the module completes. Since this is an important private key — it can be used to change the account key, or to revoke your certificates without knowing their private keys —, this might not be acceptable. In case C(cryptography) is used, the content is not written into a temporary file. It can still happen that it is written to disk by Ansible in the process of moving the module with its argument to the node where it is executed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "private_key_passphrase": {
+        "description": "Passphrase to use to decode the certificate's private key. B(Note:) this is not supported by the C(openssl) backend, only by the C(cryptography) backend.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "revoke_reason": {
+        "description": "One of the revocation reasonCodes defined in L(Section 5.3.1 of RFC5280,https://tools.ietf.org/html/rfc5280#section-5.3.1). Possible values are V(0) (unspecified), V(1) (keyCompromise), V(2) (cACompromise), V(3) (affiliationChanged), V(4) (superseded), V(5) (cessationOfOperation), V(6) (certificateHold), V(8) (removeFromCRL), V(9) (privilegeWithdrawn), V(10) (aACompromise).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.acme_challenge_cert_helper": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Prepare certificates required for ACME challenges such as C(tls-alpn-01)",
+    "description": "Prepares certificates for ACME challenges such as C(tls-alpn-01). The raw data is provided by the M(community.crypto.acme_certificate) module, and needs to be converted to a certificate to be used for challenge validation. This module provides a simple way to generate the required certificates.",
+    "options": {
+      "challenge": {
+        "description": "The challenge type.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "tls-alpn-01"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "challenge_data": {
+        "description": "The RV(community.crypto.acme_certificate#module:challenge_data) entry provided by M(community.crypto.acme_certificate) for the challenge.",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "private_key_src": {
+        "description": "Path to a file containing the private key file to use for this challenge certificate. Mutually exclusive with O(private_key_content).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "private_key_content": {
+        "description": "Content of the private key to use for this challenge certificate. Mutually exclusive with O(private_key_src).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "private_key_passphrase": {
+        "description": "Passphrase to use to decode the private key.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.acme_inspect": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Send direct requests to an ACME server",
+    "description": "Allows to send direct requests to an ACME server with the L(ACME protocol,https://tools.ietf.org/html/rfc8555), which is supported by CAs such as L(Let's Encrypt,https://letsencrypt.org/). This module can be used to debug failed certificate request attempts, for example when M(community.crypto.acme_certificate) fails or encounters a problem which you wish to investigate. The module can also be used to directly access features of an ACME servers which are not yet supported by the Ansible ACME modules.",
+    "options": {
+      "url": {
+        "description": "The URL to send the request to. Must be specified if O(method) is not V(directory-only).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "method": {
+        "description": "The method to use to access the given URL on the ACME server. The value V(post) executes an authenticated POST request. The content must be specified in the O(content) option. The value V(get) executes an authenticated POST-as-GET request for ACME v2, and a regular GET request for ACME v1. The value V(directory-only) only retrieves the directory, without doing a request.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "get",
+          "post",
+          "directory-only"
+        ],
+        "default": "get",
+        "aliases": null
+      },
+      "content": {
+        "description": "An encoded JSON object which will be sent as the content if O(method) is V(post). Required when O(method) is V(post), and not allowed otherwise.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fail_on_acme_error": {
+        "description": "If O(method) is V(post) or V(get), make the module fail in case an ACME error is returned.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.certificate_complete_chain": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Complete certificate chain given a set of untrusted and root certificates",
+    "description": "This module completes a given chain of certificates in PEM format by finding intermediate certificates from a given set of certificates, until it finds a root certificate in another given set of certificates. This can for example be used to find the root certificate for a certificate chain returned by M(community.crypto.acme_certificate). Note that this module does I(not) check for validity of the chains. It only checks that issuer and subject match, and that the signature is correct. It ignores validity dates and key usage completely. If you need to verify that a generated chain is valid, please use C(openssl verify ...).",
+    "options": {
+      "input_chain": {
+        "description": "A concatenated set of certificates in PEM format forming a chain. The module will try to complete this chain.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "root_certificates": {
+        "description": "A list of filenames or directories. A filename is assumed to point to a file containing one or more certificates in PEM format. All certificates in this file will be added to the set of root certificates. If a directory name is given, all files in the directory and its subdirectories will be scanned and tried to be parsed as concatenated certificates in PEM format. Symbolic links will be followed.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "intermediate_certificates": {
+        "description": "A list of filenames or directories. A filename is assumed to point to a file containing one or more certificates in PEM format. All certificates in this file will be added to the set of root certificates. If a directory name is given, all files in the directory and its subdirectories will be scanned and tried to be parsed as concatenated certificates in PEM format. Symbolic links will be followed.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.crypto_info": {
-    "short_description": "",
-    "description": "",
+    "short_description": "Retrieve cryptographic capabilities",
+    "description": "Retrieve information on cryptographic capabilities. The current version retrieves information on the L(Python cryptography library, https://cryptography.io/) available to Ansible modules, and on the OpenSSL binary C(openssl) found in the path.",
     "options": {},
     "deprecated": null
   },
   "community.crypto.get_certificate": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Get a certificate from a host:port",
+    "description": "Makes a secure connection and returns information about the presented certificate. The module uses the cryptography Python library.",
+    "options": {
+      "host": {
+        "description": "The host to get the cert for (IP is fine).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ca_cert": {
+        "description": "A PEM file containing one or more root certificates; if present, the cert will be validated against these root certs. Note that this only validates the certificate is signed by the chain; not that the cert is valid for the host presenting it.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "The port to connect to.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_name": {
+        "description": "Server name used for SNI (L(Server Name Indication,https://en.wikipedia.org/wiki/Server_Name_Indication)) when hostname is an IP or is different from server name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "proxy_host": {
+        "description": "Proxy host used when get a certificate.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "proxy_port": {
+        "description": "Proxy port used when get a certificate.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 8080,
+        "aliases": null
+      },
+      "starttls": {
+        "description": "Requests a secure connection for protocols which require clients to initiate encryption. Only available for V(mysql) currently.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "mysql"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The timeout in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "select_crypto_backend": {
+        "description": "Determines which crypto backend to use. The default choice is V(auto), which tries to use C(cryptography) if available. If set to V(cryptography), will try to use the L(cryptography,https://cryptography.io/) library. Note that with community.crypto 3.0.0, all values behave the same. This option will be deprecated in a later version. We recommend to not set it explicitly.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "cryptography"
+        ],
+        "default": "auto",
+        "aliases": null
+      },
+      "ciphers": {
+        "description": "SSL/TLS Ciphers to use for the request. When a list is provided, all ciphers are joined in order with V(:). See the L(OpenSSL Cipher List Format,https://www.openssl.org/docs/manmaster/man1/openssl-ciphers.html#CIPHER-LIST-FORMAT) for more details. The available ciphers is dependent on the Python and OpenSSL/LibreSSL versions.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "asn1_base64": {
+        "description": "Whether to encode the ASN.1 values in the RV(extensions) return value with Base64 or not. The documentation claimed for a long time that the values are Base64 encoded, but they never were. For compatibility this option is set to V(false). The default value was changed from V(false) to V(true) incommunity.crypto 3.0.0.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "tls_ctx_options": {
+        "description": "TLS context options (TLS/SSL OP flags) to use for the request. See the L(List of SSL OP Flags,https://wiki.openssl.org/index.php/List_of_SSL_OP_Flags) for more details. The available TLS context options is dependent on the Python and OpenSSL/LibreSSL versions.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "get_certificate_chain": {
+        "description": "If set to V(true), will obtain the certificate chain next to the certificate itself. The chain as returned by the server can be found in RV(unverified_chain), and the chain that passed validation in RV(verified_chain). B(Note) that this needs B(Python 3.10 or newer). Also note that only Python 3.13 or newer officially supports this. The module uses internal APIs of Python 3.10, 3.11, and 3.12 to achieve the same. It can be that future versions of Python 3.10, 3.11, or 3.12 break this.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.luks_device": {
@@ -143,26 +941,607 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "tpm2_device": {
+        "description": "Used to unlock the container, but can not be used for container creation. A device node path referring to a TPM2 chip (for example V(/dev/tpmrm0)). Alternatively the special value V(auto) may be specified, in order to automatically determine the device node of a currently discovered TPM2 device (of which there must be exactly one). B(Note) that only LUKS2 containers are supported B(Note) that systemd-cryptsetup (v256 or newer) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "passphrase_encoding": {
+        "description": "Determine how passphrases are provided to parameters such as O(passphrase), O(new_passphrase), and O(remove_passphrase).",
+        "type": "str",
+        "required": false,
+        "choices": {
+          "text": [
+            "The passphrase is provided as UTF-8 encoded text."
+          ],
+          "base64": [
+            "The passphrase is provided as Base64 encoded bytes.",
+            "Use the P(ansible.builtin.b64encode#filter) filter to Base64-encode binary data."
+          ]
+        },
+        "default": "text",
+        "aliases": null
+      },
+      "keyslot": {
+        "description": "Adds the O(keyfile) or O(passphrase) to a specific keyslot when creating a new container on O(device). Parameter value is the number of the keyslot. Defines the keyslot whose priority will be changed by O(keyslot_priority) B(Note) that a device of O(type=luks1) supports the keyslot numbers V(0)-V(7) and a device of O(type=luks2) supports the keyslot numbers V(0)-V(31). In order to use the keyslots V(8)-V(31) when creating a new container, setting O(type) to V(luks2) is required.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "keysize": {
+        "description": "Sets the key size only if LUKS container does not exist.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_keyfile": {
+        "description": "Adds additional key to given container on O(device). Needs O(keyfile) or O(passphrase) option for authorization. LUKS container supports up to 8 keyslots. Parameter value is the path to the keyfile with the passphrase. NOTE that adding additional keys is idempotent only since community.crypto 1.4.0. For older versions, a new keyslot will be used even if another keyslot already exists for this keyfile. BEWARE that working with keyfiles in plaintext is dangerous. Make sure that they are protected.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_passphrase": {
+        "description": "Adds additional passphrase to given container on O(device). Needs O(keyfile) or O(passphrase) option for authorization. LUKS container supports up to 8 keyslots. Parameter value is a string with the new passphrase. NOTE that adding additional passphrase is idempotent only since community.crypto 1.4.0. For older versions, a new keyslot will be used even if another keyslot already exists for this passphrase. B(Note) that the passphrase must be UTF-8 encoded text. If you want to use arbitrary binary data, or text using another encoding, use the O(passphrase_encoding) option and provide the passphrase Base64 encoded.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_keyslot": {
+        "description": "Adds the additional O(new_keyfile) or O(new_passphrase) to a specific keyslot on the given O(device). Parameter value is the number of the keyslot. B(Note) that a device of O(type=luks1) supports the keyslot numbers V(0)-V(7) and a device of O(type=luks2) supports the keyslot numbers V(0)-V(31).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_tpm2": {
+        "description": "Adds a TPM2 security chip to given container on O(device). Expects a device node path referring to the TPM2 chip (e.g. V(/dev/tpmrm0)). Alternatively the special value V(auto) may be specified, in order to automatically determine the device node of a currently discovered TPM2 device (of which there must be exactly one). Requires O(new_tpm2_pcrs). B(Note) that O(new_keyslot) does not affect the keyslot for TPM2 enrollment. B(Note) that only LUKS2 containers are supported. B(Note) that systemd-cryptsetup (v248 or newer) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_tpm2_pcrs": {
+        "description": "TPM2 PCRs (Platform Configuration Registers) to bind to. See systemd-cryptenroll documentation for details (C(--tpm2-pcrs) argument).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remove_keyfile": {
+        "description": "Removes given key from the container on O(device). Does not remove the keyfile from filesystem. Parameter value is the path to the keyfile with the passphrase. NOTE that removing keys is idempotent only since community.crypto 1.4.0. For older versions, trying to remove a key which no longer exists results in an error. NOTE that to remove the last key from a LUKS container, the O(force_remove_last_key) option must be set to V(true). BEWARE that working with keyfiles in plaintext is dangerous. Make sure that they are protected.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remove_passphrase": {
+        "description": "Removes given passphrase from the container on O(device). Parameter value is a string with the passphrase to remove. NOTE that removing passphrases is idempotent only since community.crypto 1.4.0. For older versions, trying to remove a passphrase which no longer exists results in an error. NOTE that to remove the last keyslot from a LUKS container, the O(force_remove_last_key) option must be set to V(true). B(Note) that the passphrase must be UTF-8 encoded text. If you want to use arbitrary binary data, or text using another encoding, use the O(passphrase_encoding) option and provide the passphrase Base64 encoded.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remove_tpm2": {
+        "description": "Removes B(all) key slots on O(device) that are unlocked by a TPM2 device. Needs O(keyfile), O(passphrase), or O(tpm2_device) for authorization. B(Note) that systemd-cryptsetup (v248 or newer) is required. B(Note) that you should avoid using O(tpm2_device) to authorize removal of all TPM2 slots to ensure that you can still access the container afterwards.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "remove_keyslot": {
+        "description": "Removes the key in the given slot on O(device). Needs O(keyfile) or O(passphrase) for authorization. B(Note) that a device of O(type=luks1) supports the keyslot numbers V(0)-V(7) and a device of O(type=luks2) supports the keyslot numbers V(0)-V(31). B(Note) that the given O(keyfile) or O(passphrase) must not be in the slot to be removed.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "keyslot_priority": {
+        "description": "Sets the keyslot priority for the keyslot specified by O(keyslot). B(Note) that keyslot priority is only supported for LUKS2 containers.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "prefer",
+          "normal",
+          "ignore"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "force_remove_last_key": {
+        "description": "If set to V(true), allows removing the last key from a container. BEWARE that when the last key has been removed from a container, the container can no longer be opened!",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "label": {
+        "description": "This option allow the user to create a LUKS2 format container with label support, respectively to identify the container by label on later usages. Will only be used on container creation, or when O(device) is not specified. This cannot be specified if O(type) is set to V(luks1).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "With this option user can identify the LUKS container by UUID. Will only be used when O(device) and O(label) are not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "This option allow the user explicit define the format of LUKS container that wants to work with. Options are V(luks1) or V(luks2).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "luks1",
+          "luks2"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "cipher": {
+        "description": "This option allows the user to define the cipher specification string for the LUKS container. Will only be used on container creation. For pre-2.6.10 kernels, use V(aes-plain) as they do not understand the new cipher spec strings. To use ESSIV, use V(aes-cbc-essiv:sha256).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hash": {
+        "description": "This option allows the user to specify the hash function used in LUKS key setup scheme and volume key digest. Will only be used on container creation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pbkdf": {
+        "description": "This option allows the user to configure the Password-Based Key Derivation Function (PBKDF) used. Will only be used on container creation, and when adding keys to an existing container.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sector_size": {
+        "description": "This option allows the user to specify the sector size (in bytes) used for LUKS2 containers. Will only be used on container creation.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "perf_same_cpu_crypt": {
+        "description": "Allows the user to perform encryption using the same CPU that IO was submitted on. The default is to use an unbound workqueue so that encryption work is automatically balanced between available CPUs. Will only be used when opening containers.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "perf_submit_from_crypt_cpus": {
+        "description": "Allows the user to disable offloading writes to a separate thread after encryption. There are some situations where offloading block write IO operations from the encryption threads to a single thread degrades performance significantly. The default is to offload block write IO operations to the same thread. Will only be used when opening containers.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "perf_no_read_workqueue": {
+        "description": "Allows the user to bypass dm-crypt internal workqueue and process read requests synchronously. Will only be used when opening containers.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "perf_no_write_workqueue": {
+        "description": "Allows the user to bypass dm-crypt internal workqueue and process write requests synchronously. Will only be used when opening containers.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "persistent": {
+        "description": "Allows the user to store options into container's metadata persistently and automatically use them next time. Only O(perf_same_cpu_crypt), O(perf_submit_from_crypt_cpus), O(perf_no_read_workqueue), O(perf_no_write_workqueue), and O(allow_discards) can be stored persistently. Will only work with LUKS2 containers. Will only be used when opening containers.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "allow_discards": {
+        "description": "Allow discards (also known as TRIM) requests for device. Will only be used when opening containers.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
       }
     },
     "deprecated": null
   },
   "community.crypto.openssh_cert": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Generate OpenSSH host or user certificates",
+    "description": "Generate and regenerate OpenSSH host or user certificates.",
+    "options": {
+      "state": {
+        "description": "Whether the host or user certificate should exist or not, taking action if the state is different from what is stated.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "type": {
+        "description": "Whether the module should generate a host or a user certificate. Required if O(state) is V(present).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "host",
+          "user"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Should the certificate be regenerated even if it already exists and is valid. Equivalent to O(regenerate=always).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "path": {
+        "description": "Path of the file containing the certificate.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "regenerate": {
+        "description": "When V(never) the task will fail if a certificate already exists at O(path) and is unreadable otherwise a new certificate will only be generated if there is no existing certificate. When V(fail) the task will fail if a certificate already exists at O(path) and does not match the module's options. When V(partial_idempotence) an existing certificate will be regenerated based on O(serial_number), O(signature_algorithm), O(type), O(valid_from), O(valid_to), O(valid_at), and O(principals). O(valid_from) and O(valid_to) can be excluded by O(ignore_timestamps=true). When V(full_idempotence) O(identifier), O(options), O(public_key), and O(signing_key) are also considered when compared against an existing certificate. V(always) is equivalent to O(force=true).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "never",
+          "fail",
+          "partial_idempotence",
+          "full_idempotence",
+          "always"
+        ],
+        "default": "partial_idempotence",
+        "aliases": null
+      },
+      "signature_algorithm": {
+        "description": "As of OpenSSH 8.2 the SHA-1 signature algorithm for RSA keys has been disabled and C(ssh) will refuse host certificates signed with the SHA-1 algorithm. OpenSSH 8.1 made V(rsa-sha2-512) the default algorithm when acting as a CA and signing certificates with a RSA key. However, for OpenSSH versions less than 8.1 the SHA-2 signature algorithms, V(rsa-sha2-256) or V(rsa-sha2-512), must be specified using this option if compatibility with newer C(ssh) clients is required. Conversely if hosts using OpenSSH version 8.2 or greater must remain compatible with C(ssh) clients using OpenSSH less than 7.2, then V(ssh-rsa) can be used when generating host certificates (a corresponding change to the sshd_config to add V(ssh-rsa) to the C(CASignatureAlgorithms) keyword is also required). Using any value for this option with a non-RSA O(signing_key) will cause this module to fail. Note: OpenSSH versions prior to 7.2 do not support SHA-2 signature algorithms for RSA keys and OpenSSH versions prior to 7.3 do not support SHA-2 signature algorithms for certificates. See U(https://www.openssh.com/txt/release-8.2) for more information.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ssh-rsa",
+          "rsa-sha2-256",
+          "rsa-sha2-512"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "signing_key": {
+        "description": "The path to the private openssh key that is used for signing the public key in order to generate the certificate. If the private key is on a PKCS#11 token (O(pkcs11_provider)), set this to the path to the public key instead. Required if O(state) is V(present).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pkcs11_provider": {
+        "description": "To use a signing key that resides on a PKCS#11 token, set this to the name (or full path) of the shared library to use with the token. Usually C(libpkcs11.so). If this is set, O(signing_key) needs to point to a file containing the public key of the CA.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_agent": {
+        "description": "Should the ssh-keygen use a CA key residing in a ssh-agent.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "public_key": {
+        "description": "The path to the public key that will be signed with the signing key in order to generate the certificate. Required if O(state) is V(present).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "valid_from": {
+        "description": "The point in time the certificate is valid from. Time can be specified either as relative time or as absolute timestamp. Time will always be interpreted as UTC. Valid formats are: C([+-]timespec | YYYY-MM-DD | YYYY-MM-DDTHH:MM:SS | YYYY-MM-DD HH:MM:SS | always) where timespec can be an integer + C([w | d | h | m | s]) (for example V(+32w1d2h)). Note that if using relative time this module is NOT idempotent. The value V(always) is only supported for OpenSSH 7.7 and greater, however, the value V(1970-01-01T00:00:01) can be used with earlier versions as an equivalent expression. To ignore this value during comparison with an existing certificate set O(ignore_timestamps=true). Required if O(state) is V(present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "valid_to": {
+        "description": "The point in time the certificate is valid to. Time can be specified either as relative time or as absolute timestamp. Time will always be interpreted as UTC. Valid formats are: C([+-]timespec | YYYY-MM-DD | YYYY-MM-DDTHH:MM:SS | YYYY-MM-DD HH:MM:SS | forever) where timespec can be an integer + C([w | d | h | m | s]) (for example V(+32w1d2h)). Note that if using relative time this module is NOT idempotent. To ignore this value during comparison with an existing certificate set O(ignore_timestamps=true). Required if O(state) is V(present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "valid_at": {
+        "description": "Check if the certificate is valid at a certain point in time. If it is not the certificate will be regenerated. Time will always be interpreted as UTC. Mainly to be used with relative timespec for O(valid_from) and / or O(valid_to). Note that if using relative time this module is NOT idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ignore_timestamps": {
+        "description": "Whether the O(valid_from) and O(valid_to) timestamps should be ignored for idempotency checks. However, the values will still be applied to a new certificate if it meets any other necessary conditions for generation/regeneration.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "principals": {
+        "description": "Certificates may be limited to be valid for a set of principal (user/host) names. By default, generated certificates are valid for all users or hosts.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "options": {
+        "description": "Specify certificate options when signing a key. The option that are valid for user certificates are: V(clear): Clear all enabled permissions. This is useful for clearing the default set of permissions so permissions may be added individually. V(force-command=command): Forces the execution of command instead of any shell or command specified by the user when the certificate is used for authentication. V(no-agent-forwarding): Disable ssh-agent forwarding (permitted by default). V(no-port-forwarding): Disable port forwarding (permitted by default). V(no-pty): Disable PTY allocation (permitted by default). V(no-user-rc): Disable execution of C(~/.ssh/rc) by sshd (permitted by default). V(no-x11-forwarding): Disable X11 forwarding (permitted by default). V(permit-agent-forwarding): Allows ssh-agent forwarding. V(permit-port-forwarding): Allows port forwarding. V(permit-pty): Allows PTY allocation. V(permit-user-rc): Allows execution of C(~/.ssh/rc) by sshd. V(permit-x11-forwarding): Allows X11 forwarding. V(source-address=address_list): Restrict the source addresses from which the certificate is considered valid. The C(address_list) is a comma-separated list of one or more address/netmask pairs in CIDR format. At present, no options are valid for host keys.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "identifier": {
+        "description": "Specify the key identity when signing a public key. The identifier that is logged by the server when the certificate is used for authentication.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "serial_number": {
+        "description": "Specify the certificate serial number. The serial number is logged by the server when the certificate is used for authentication. The certificate serial number may be used in a KeyRevocationList. The serial number may be omitted for checks, but must be specified again for a new certificate. Note: The default value set by ssh-keygen is 0. This option accepts an B(integer). If you want to provide serial numbers as colon-separated hex strings, such as C(11:22:33), you need to convert them to an integer with P(community.crypto.parse_serial#filter).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.openssh_keypair": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Generate OpenSSH private and public keys",
+    "description": "This module allows one to (re)generate OpenSSH private and public keys. It uses ssh-keygen to generate keys. One can generate V(rsa), V(dsa), V(rsa1), V(ed25519) or V(ecdsa) private keys.",
+    "options": {
+      "state": {
+        "description": "Whether the private and public keys should exist or not, taking action if the state is different from what is stated.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "size": {
+        "description": "Specifies the number of bits in the private key to create. For RSA keys, the minimum size is 1024 bits and the default is 4096 bits. Generally, 2048 bits is considered sufficient. DSA keys must be exactly 1024 bits as specified by FIPS 186-2. For ECDSA keys, size determines the key length by selecting from one of three elliptic curve sizes: 256, 384 or 521 bits. Attempting to use bit lengths other than these three values for ECDSA keys will cause this module to fail. Ed25519 keys have a fixed length and the size will be ignored.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "The algorithm used to generate the SSH private key. V(rsa1) is for protocol version 1. V(rsa1) is deprecated and may not be supported by every version of ssh-keygen.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "rsa",
+          "dsa",
+          "rsa1",
+          "ecdsa",
+          "ed25519"
+        ],
+        "default": "rsa",
+        "aliases": null
+      },
+      "force": {
+        "description": "Should the key be regenerated even if it already exists.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "path": {
+        "description": "Name of the files containing the public and private key. The file containing the public key will have the extension C(.pub).",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Provides a new comment to the public key.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "passphrase": {
+        "description": "Passphrase used to decrypt an existing private key or encrypt a newly generated private key. Passphrases are not supported for O(type=rsa1). Can only be used when O(backend=cryptography), or when O(backend=auto) and a required C(cryptography) version is installed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "private_key_format": {
+        "description": "Used when O(backend=cryptography) to select a format for the private key at the provided O(path). When set to V(auto) this module will match the key format of the installed OpenSSH version. For OpenSSH < 7.8 private keys will be in PKCS1 format except ed25519 keys which will be in OpenSSH format. For OpenSSH >= 7.8 all private key types will be in the OpenSSH format. Using this option when O(regenerate=partial_idempotence) or O(regenerate=full_idempotence) will cause a new keypair to be generated if the private key's format does not match the value of O(private_key_format). This module will not however convert existing private keys between formats.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "pkcs1",
+          "pkcs8",
+          "ssh"
+        ],
+        "default": "auto",
+        "aliases": null
+      },
+      "backend": {
+        "description": "Selects between the V(cryptography) library or the OpenSSH binary V(opensshbin). V(auto) will default to V(opensshbin) unless the OpenSSH binary is not installed or when using O(passphrase).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "cryptography",
+          "opensshbin"
+        ],
+        "default": "auto",
+        "aliases": null
+      },
+      "regenerate": {
+        "description": "Allows to configure in which situations the module is allowed to regenerate private keys. The module will always generate a new key if the destination file does not exist. By default, the key will be regenerated when it does not match the module's options, except when the key cannot be read or the passphrase does not match. Please note that this B(changed) for Ansible 2.10. For Ansible 2.9, the behavior was as if V(full_idempotence) is specified. If set to V(never), the module will fail if the key cannot be read or the passphrase is not matching, and will never regenerate an existing key. If set to V(fail), the module will fail if the key does not correspond to the module's options. If set to V(partial_idempotence), the key will be regenerated if it does not conform to the module's options. The key is B(not) regenerated if it cannot be read (broken file), the key is protected by an unknown passphrase, or when they key is not protected by a passphrase, but a passphrase is specified. If set to V(full_idempotence), the key will be regenerated if it does not conform to the module's options. This is also the case if the key cannot be read (broken file), the key is protected by an unknown passphrase, or when they key is not protected by a passphrase, but a passphrase is specified. Make sure you have a B(backup) when using this option! If set to V(always), the module will always regenerate the key. This is equivalent to setting O(force) to V(true). Note that adjusting the comment and the permissions can be changed without regeneration. Therefore, even for V(never), the task can result in changed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "never",
+          "fail",
+          "partial_idempotence",
+          "full_idempotence",
+          "always"
+        ],
+        "default": "partial_idempotence",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.openssl_csr": {
     "short_description": "Generate OpenSSL Certificate Signing Request (CSR)",
-    "description": "Please note that the module regenerates an existing CSR if it does not match the module",
-    "options": {},
+    "description": "Please note that the module regenerates an existing CSR if it does not match the module's options, or if it seems to be corrupt. If you are concerned that this could overwrite your existing CSR, consider using the O(backup) option.",
+    "options": {
+      "state": {
+        "description": "Whether the certificate signing request should exist or not, taking action if the state is different from what is stated.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "force": {
+        "description": "Should the certificate signing request be forced regenerated by this ansible module.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "path": {
+        "description": "The name of the file into which the generated OpenSSL certificate signing request will be written.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup": {
+        "description": "Create a backup file including a timestamp so you can get the original CSR back if you overwrote it with a new one by accident.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "return_content": {
+        "description": "If set to V(true), will return the (current or generated) CSR's content as RV(csr).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "privatekey_content": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name_constraints_permitted": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name_constraints_excluded": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name_constraints_critical": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.openssl_csr_info": {
@@ -184,20 +1563,120 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "select_crypto_backend": {
+        "description": "Determines which crypto backend to use. The default choice is V(auto), which tries to use C(cryptography) if available. If set to V(cryptography), will try to use the L(cryptography,https://cryptography.io/) library. Note that with community.crypto 3.0.0, all values behave the same. This option will be deprecated in a later version. We recommend to not set it explicitly.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "cryptography"
+        ],
+        "default": "auto",
+        "aliases": null
       }
     },
     "deprecated": null
   },
   "community.crypto.openssl_csr_pipe": {
     "short_description": "Generate OpenSSL Certificate Signing Request (CSR)",
-    "description": "Please note that the module regenerates an existing CSR if it does not match the module",
-    "options": {},
+    "description": "Please note that the module regenerates an existing CSR if it does not match the module's options, or if it seems to be corrupt.",
+    "options": {
+      "content": {
+        "description": "The existing CSR.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privatekey_path": {
+        "description": "The path to the private key to use when signing the certificate signing request. Either O(privatekey_path) or O(privatekey_content) must be specified, but not both.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privatekey_content": {
+        "description": "The content of the private key to use when signing the certificate signing request. Either O(privatekey_path) or O(privatekey_content) must be specified, but not both.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.openssl_dhparam": {
     "short_description": "Generate OpenSSL Diffie-Hellman Parameters",
-    "description": "This module allows one to (re)generate OpenSSL DH-params. This module uses file common arguments to specify generated file permissions. Please note that the module regenerates existing DH params if they do not match the module",
-    "options": {},
+    "description": "This module allows one to (re)generate OpenSSL DH-params. This module uses file common arguments to specify generated file permissions. Please note that the module regenerates existing DH params if they do not match the module's options. If you are concerned that this could overwrite your existing DH params, consider using the O(backup) option. The module can use the cryptography Python library, or the C(openssl) executable. By default, it tries to detect which one is available. This can be overridden with the O(select_crypto_backend) option.",
+    "options": {
+      "state": {
+        "description": "Whether the parameters should exist or not, taking action if the state is different from what is stated.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "size": {
+        "description": "Size (in bits) of the generated DH-params.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 4096,
+        "aliases": null
+      },
+      "force": {
+        "description": "Should the parameters be regenerated even it it already exists.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "path": {
+        "description": "Name of the file in which the generated parameters will be saved.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup": {
+        "description": "Create a backup file including a timestamp so you can get the original DH params back if you overwrote them with new ones by accident.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "select_crypto_backend": {
+        "description": "Determines which crypto backend to use. The default choice is V(auto), which tries to use C(cryptography) if available, and falls back to C(openssl). If set to V(openssl), will try to use the OpenSSL C(openssl) executable. If set to V(cryptography), will try to use the L(cryptography,https://cryptography.io/) library.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "cryptography",
+          "openssl"
+        ],
+        "default": "auto",
+        "aliases": null
+      },
+      "return_content": {
+        "description": "If set to V(true), will return the (current or generated) DH parameter's content as RV(dhparams).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.openssl_pkcs12": {
@@ -232,14 +1711,237 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "other_certificates_parse_all": {
+        "description": "If set to V(true), assumes that the files mentioned in O(other_certificates)/O(other_certificates_content) can contain more than one certificate per file/item (or even none per file/item).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "certificate_path": {
+        "description": "The path to read certificates and private keys from. Must be in PEM format. Mutually exclusive with O(certificate_content).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "certificate_content": {
+        "description": "Content of the certificate file in PEM format. Mutually exclusive with O(certificate_path).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Should the file be regenerated even if it already exists.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "friendly_name": {
+        "description": "Specifies the friendly name for the certificate and private key.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "iter_size": {
+        "description": "Number of times to repeat the encryption step. This is B(not considered during idempotency checks). This is only used when O(encryption_level=compatibility2022). When using it, the default is V(50000).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "maciter_size": {
+        "description": "Number of times to repeat the MAC step. This is B(not considered during idempotency checks). This value is B(not used). It is deprecated and will be removed from community.crypto 4.0.0.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "encryption_level": {
+        "description": "Determines the encryption level used. V(auto) uses the default of the selected backend. For C(cryptography), this is what the cryptography library's specific version considers the best available encryption. V(compatibility2022) uses compatibility settings for older software in 2022. This is only supported by the C(cryptography) backend if cryptography >= 38.0.0 is available. B(Note) that this option is B(not used for idempotency).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "compatibility2022"
+        ],
+        "default": "auto",
+        "aliases": null
+      },
+      "passphrase": {
+        "description": "The PKCS#12 password. B(Note:) PKCS12 encryption is typically not secure and should not be used as a security mechanism. If you need to store or send a PKCS12 file safely, you should additionally encrypt it with something else. (L(Source, https://cryptography.io/en/latest/hazmat/primitives/asymmetric/serialization/#cryptography.hazmat.primitives.serialization.pkcs12.serialize_key_and_certificates)).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "Filename to write the PKCS#12 file to.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privatekey_passphrase": {
+        "description": "Passphrase source to decrypt any input private keys with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privatekey_path": {
+        "description": "File to read private key from. Mutually exclusive with O(privatekey_content).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privatekey_content": {
+        "description": "Content of the private key file. Mutually exclusive with O(privatekey_path).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the file should exist or not. All parameters except O(path) are ignored when state is V(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "src": {
+        "description": "PKCS#12 file path to parse.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup": {
+        "description": "Create a backup file including a timestamp so you can get the original output file back if you overwrote it with a new one by accident.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "return_content": {
+        "description": "If set to V(true), will return the (current or generated) PKCS#12's content as RV(pkcs12).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "select_crypto_backend": {
+        "description": "Determines which crypto backend to use. The default choice is V(auto), which tries to use C(cryptography) if available. If set to V(cryptography), will try to use the L(cryptography,https://cryptography.io/) library. The value V(pyopenssl) has been removed for community.crypto 3.0.0. Note that with community.crypto 3.0.0, all remaining values behave the same. This option will be deprecated in a later version. We recommend to not set it explicitly.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "cryptography"
+        ],
+        "default": "auto",
+        "aliases": null
       }
     },
     "deprecated": null
   },
   "community.crypto.openssl_privatekey": {
     "short_description": "Generate OpenSSL private keys",
-    "description": "This module allows one to (re)generate OpenSSL private keys. The default mode for the private key file will be V(0600) if O(mode) is not explicitly set. Please note that the module regenerates private keys if they do not match the module",
-    "options": {},
+    "description": "This module allows one to (re)generate OpenSSL private keys. The default mode for the private key file will be V(0600) if O(mode) is not explicitly set. Please note that the module regenerates private keys if they do not match the module's options. In particular, if you provide another passphrase (or specify none), change the keysize, and so on, the private key will be regenerated. If you are concerned that this could B(overwrite your private key), consider using the O(backup) option.",
+    "options": {
+      "state": {
+        "description": "Whether the private key should exist or not, taking action if the state is different from what is stated.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "force": {
+        "description": "Should the key be regenerated even if it already exists.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "path": {
+        "description": "Name of the file in which the generated TLS/SSL private key will be written. It will have V(0600) mode if O(mode) is not explicitly set.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "format": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "format_mismatch": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup": {
+        "description": "Create a backup file including a timestamp so you can get the original private key back if you overwrote it with a new one by accident.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "return_content": {
+        "description": "If set to V(true), will return the (current or generated) private key's content as RV(privatekey). Note that especially if the private key is not encrypted, you have to make sure that the returned value is treated appropriately and not accidentally written to logs, and so on! Use with care! Use Ansible's C(no_log) task option to avoid the output being shown. See also U(https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-keep-secret-data-in-my-playbook).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "regenerate": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.openssl_privatekey_convert": {
@@ -284,6 +1986,41 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "passphrase": {
+        "description": "The passphrase for the private key.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "return_private_key_data": {
+        "description": "Whether to return private key data. Only set this to V(true) when you want private information about this key to leave the remote machine. B(WARNING:) you have to make sure that private key data is not accidentally logged!",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "check_consistency": {
+        "description": "Whether to check consistency of the private key. In community.crypto < 2.0.0, consistency was always checked. Since community.crypto 2.0.0, the consistency check has been disabled by default to avoid private key material to be transported around and computed with, and only do so when requested explicitly. This can potentially prevent L(side-channel attacks,https://en.wikipedia.org/wiki/Side-channel_attack). Note that consistency checks only work for certain key types, and might depend on the version of the cryptography library. For example, with cryptography 42.0.0 and newer consistency of RSA keys can no longer be checked.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "select_crypto_backend": {
+        "description": "Determines which crypto backend to use. The default choice is V(auto), which tries to use C(cryptography) if available. If set to V(cryptography), will try to use the L(cryptography,https://cryptography.io/) library. Note that with community.crypto 3.0.0, all values behave the same. This option will be deprecated in a later version. We recommend to not set it explicitly.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "cryptography"
+        ],
+        "default": "auto",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -317,7 +2054,7 @@
         "aliases": null
       },
       "regenerate": {
-        "description": "Allows to configure in which situations the module is allowed to regenerate private keys. The module will always generate a new key if the destination file does not exist. By default, the key will be regenerated when it does not match the module",
+        "description": "Allows to configure in which situations the module is allowed to regenerate private keys. The module will always generate a new key if the destination file does not exist. By default, the key will be regenerated when it does not match the module's options, except when the key cannot be read or the passphrase does not match. Please note that this B(changed) for Ansible 2.10. For Ansible 2.9, the behavior was as if V(full_idempotence) is specified. If set to V(never), the module will fail if the key cannot be read or the passphrase is not matching, and will never regenerate an existing key. If set to V(fail), the module will fail if the key does not correspond to the module's options. If set to V(partial_idempotence), the key will be regenerated if it does not conform to the module's options. The key is B(not) regenerated if it cannot be read (broken file), the key is protected by an unknown passphrase, or when they key is not protected by a passphrase, but a passphrase is specified. If set to V(full_idempotence), the key will be regenerated if it does not conform to the module's options. This is also the case if the key cannot be read (broken file), the key is protected by an unknown passphrase, or when they key is not protected by a passphrase, but a passphrase is specified. Make sure you have a B(backup) when using this option! If set to V(always), the module will always regenerate the key. Note that if O(format_mismatch) is set to V(convert) and everything matches except the format, the key will always be converted, except if O(regenerate) is set to V(always).",
         "type": "str",
         "required": false,
         "choices": null,
@@ -383,6 +2120,41 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "privatekey_passphrase": {
+        "description": "The passphrase for the private key.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup": {
+        "description": "Create a backup file including a timestamp so you can get the original public key back if you overwrote it with a different one by accident.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "select_crypto_backend": {
+        "description": "Determines which crypto backend to use. The default choice is V(auto), which tries to use C(cryptography) if available. If set to V(cryptography), will try to use the L(cryptography,https://cryptography.io/) library. Note that with community.crypto 3.0.0, all values behave the same. This option will be deprecated in a later version. We recommend to not set it explicitly.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "cryptography"
+        ],
+        "default": "auto",
+        "aliases": null
+      },
+      "return_content": {
+        "description": "If set to V(true), will return the (current or generated) public key's content as RV(publickey).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },
@@ -524,8 +2296,96 @@
   },
   "community.crypto.x509_certificate": {
     "short_description": "Generate and/or check OpenSSL certificates",
-    "description": "It implements a notion of provider (one of V(selfsigned), V(ownca), and V(acme)) for your certificate. Please note that the module regenerates existing certificate if it does not match the module",
-    "options": {},
+    "description": "It implements a notion of provider (one of V(selfsigned), V(ownca), and V(acme)) for your certificate. Please note that the module regenerates existing certificate if it does not match the module's options, or if it seems to be corrupt. If you are concerned that this could overwrite your existing certificate, consider using the O(backup) option. Note that this module was called C(openssl_certificate) when included directly in Ansible up to version 2.9. When moved to the collection C(community.crypto), it was renamed to M(community.crypto.x509_certificate). From Ansible 2.10 on, it can still be used by the old short name (or by C(ansible.builtin.openssl_certificate)), which redirects to M(community.crypto.x509_certificate). When using FQCNs or when using the L(collections,https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#using-collections-in-a-playbook) keyword, the new name M(community.crypto.x509_certificate) should be used to avoid a deprecation warning.",
+    "options": {
+      "state": {
+        "description": "Whether the certificate should exist or not, taking action if the state is different from what is stated.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "path": {
+        "description": "Remote absolute path where the generated certificate file should be created or is already located.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "provider": {
+        "description": "Name of the provider to use to generate/retrieve the OpenSSL certificate. Please see the examples on how to emulate it with M(community.crypto.x509_certificate_info), M(community.crypto.openssl_csr_info), M(community.crypto.openssl_privatekey_info) and M(ansible.builtin.assert). Required if O(state) is V(present). The V(entrust) provider has been removed from community.crypto 3.0.0 due to sunsetting of the ECS API.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "acme",
+          "ownca",
+          "selfsigned"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "return_content": {
+        "description": "If set to V(true), will return the (current or generated) certificate's content as RV(certificate).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "backup": {
+        "description": "Create a backup file including a timestamp so you can get the original certificate back if you overwrote it with a new one by accident.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "csr_content": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privatekey_content": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "acme_directory": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ownca_content": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ownca_privatekey_content": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.x509_certificate_convert": {
@@ -621,6 +2481,25 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "valid_at": {
+        "description": "A dict of names mapping to time specifications. Every time specified here will be checked whether the certificate is valid at this point. See the RV(valid_at) return value for information on the result. Time can be specified either as relative time or as absolute timestamp. Time will always be interpreted as UTC. Valid format is C([+-]timespec | ASN.1 TIME) where timespec can be an integer + C([w | d | h | m | s]) (for example V(+32w1d2h)), and ASN.1 TIME (in other words, pattern C(YYYYMMDDHHMMSSZ)). Note that all timestamps will be treated as being in UTC.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "select_crypto_backend": {
+        "description": "Determines which crypto backend to use. The default choice is V(auto), which tries to use C(cryptography) if available. If set to V(cryptography), will try to use the L(cryptography,https://cryptography.io/) library. Note that with community.crypto 3.0.0, all values behave the same. This option will be deprecated in a later version. We recommend to not set it explicitly.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "cryptography"
+        ],
+        "default": "auto",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -652,15 +2531,197 @@
     "deprecated": null
   },
   "community.crypto.x509_crl": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Generate Certificate Revocation Lists (CRLs)",
+    "description": "This module allows one to (re)generate or update Certificate Revocation Lists (CRLs). Certificates on the revocation list can be either specified by serial number and (optionally) their issuer, or as a path to a certificate file in PEM format.",
+    "options": {
+      "state": {
+        "description": "Whether the CRL file should exist or not, taking action if the state is different from what is stated.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "crl_mode": {
+        "description": "Defines how to process entries of existing CRLs. If set to V(generate), makes sure that the CRL has the exact set of revoked certificates as specified in O(revoked_certificates). If set to V(update), makes sure that the CRL contains the revoked certificates from O(revoked_certificates), but can also contain other revoked certificates. If the CRL file already exists, all entries from the existing CRL will also be included in the new CRL. When using V(update), you might be interested in setting O(ignore_timestamps) to V(true). The default value is V(generate). This parameter was called O(mode) before community.crypto 2.13.0. It has been renamed to avoid a collision with the common O(mode) parameter for setting the CRL file's access mode.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "generate",
+          "update"
+        ],
+        "default": "generate",
+        "aliases": null
+      },
+      "force": {
+        "description": "Should the CRL be forced to be regenerated.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "backup": {
+        "description": "Create a backup file including a timestamp so you can get the original CRL back if you overwrote it with a new one by accident.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "path": {
+        "description": "Remote absolute path where the generated CRL file should be created or is already located.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "format": {
+        "description": "Whether the CRL file should be in PEM or DER format. If an existing CRL file does match everything but O(format), it will be converted to the correct format instead of regenerated.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "pem",
+          "der"
+        ],
+        "default": "pem",
+        "aliases": null
+      },
+      "privatekey_path": {
+        "description": "Path to the CA's private key to use when signing the CRL. Either O(privatekey_path) or O(privatekey_content) must be specified if O(state) is V(present), but not both.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privatekey_content": {
+        "description": "The content of the CA's private key to use when signing the CRL. Either O(privatekey_path) or O(privatekey_content) must be specified if O(state) is V(present), but not both.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privatekey_passphrase": {
+        "description": "The passphrase for the O(privatekey_path). This is required if the private key is password protected.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "issuer": {
+        "description": "Key/value pairs that will be present in the issuer name field of the CRL. If you need to specify more than one value with the same key, use a list as value. If the order of the components is important, use O(issuer_ordered). One of O(issuer) and O(issuer_ordered) is required if O(state) is V(present). Mutually exclusive with O(issuer_ordered).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "issuer_ordered": {
+        "description": "A list of dictionaries, where every dictionary must contain one key/value pair. This key/value pair will be present in the issuer name field of the CRL. If you want to specify more than one value with the same key in a row, you can use a list as value. One of O(issuer) and O(issuer_ordered) is required if O(state) is V(present). Mutually exclusive with O(issuer).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "last_update": {
+        "description": "The point in time from which this CRL can be trusted. Time can be specified either as relative time or as absolute timestamp. Time will always be interpreted as UTC. Valid format is C([+-]timespec | ASN.1 TIME) where timespec can be an integer + C([w | d | h | m | s]) (for example V(+32w1d2h)). Note that if using relative time this module is NOT idempotent, except when O(ignore_timestamps) is set to V(true).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "+0s",
+        "aliases": null
+      },
+      "next_update": {
+        "description": "The absolute latest point in time by which this O(issuer) is expected to have issued another CRL. Many clients will treat a CRL as expired once O(next_update) occurs. Time can be specified either as relative time or as absolute timestamp. Time will always be interpreted as UTC. Valid format is C([+-]timespec | ASN.1 TIME) where timespec can be an integer + C([w | d | h | m | s]) (for example V(+32w1d2h)). Note that if using relative time this module is NOT idempotent, except when O(ignore_timestamps) is set to V(true). Required if O(state) is V(present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "digest": {
+        "description": "Digest algorithm to be used when signing the CRL.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "sha256",
+        "aliases": null
+      },
+      "serial_numbers": {
+        "description": "This option determines which values will be accepted for O(revoked_certificates[].serial_number). If set to V(integer) (default), serial numbers are assumed to be integers, for example V(66223). (This example value is equivalent to the hex octet string V(01:02:AF)). If set to V(hex-octets), serial numbers are assumed to be colon-separated hex octet strings, for example V(01:02:AF). (This example value is equivalent to the integer V(66223)).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "integer",
+          "hex-octets"
+        ],
+        "default": "integer",
+        "aliases": null
+      },
+      "revoked_certificates": {
+        "description": "List of certificates to be revoked. Required if O(state) is V(present).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ignore_timestamps": {
+        "description": "Whether the timestamps O(last_update), O(next_update) and O(revoked_certificates[].revocation_date) should be ignored for idempotency checks. The timestamp O(revoked_certificates[].invalidity_date) will never be ignored. Use this in combination with relative timestamps for these values to get idempotency.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "return_content": {
+        "description": "If set to V(true), will return the (current or generated) CRL's content as RV(crl).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.crypto.x509_crl_info": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Retrieve information on Certificate Revocation Lists (CRLs)",
+    "description": "This module allows one to retrieve information on Certificate Revocation Lists (CRLs).",
+    "options": {
+      "path": {
+        "description": "Remote absolute path where the generated CRL file should be created or is already located. Either O(path) or O(content) must be specified, but not both.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content": {
+        "description": "Content of the X.509 CRL in PEM format, or Base64-encoded X.509 CRL. Either O(path) or O(content) must be specified, but not both.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "list_revoked_certificates": {
+        "description": "If set to V(false), the list of revoked certificates is not included in the result. This is useful when retrieving information on large CRL files. Enumerating all revoked certificates can take some time, including serializing the result as JSON, sending it to the Ansible controller, and decoding it again.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

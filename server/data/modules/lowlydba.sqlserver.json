@@ -103,6 +103,122 @@
         "type": "str",
         "required": false,
         "choices": null,
+        "default": "hadr_endpoint",
+        "aliases": null
+      },
+      "endpoint_url": {
+        "description": "By default, the property C(Fqdn) of C(Get-DbaEndpoint) is used as I(endpoint_url). Use I(endpoint_url) if a different URL is required due to special network configurations.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup_priority": {
+        "description": "Sets the backup priority availability group replica.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 50,
+        "aliases": null
+      },
+      "failover_mode": {
+        "description": "Whether the replica have Automatic or Manual failover.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Automatic",
+          "Manual"
+        ],
+        "default": "Manual",
+        "aliases": null
+      },
+      "availability_mode": {
+        "description": "Whether the replica should be Asynchronous or Synchronous.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "AsynchronousCommit",
+          "SynchronousCommit"
+        ],
+        "default": "AsynchronousCommit",
+        "aliases": null
+      },
+      "seeding_mode": {
+        "description": "Default seeding mode for the replica. Should remain as the default otherwise manual setup may be required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Automatic",
+          "Manual"
+        ],
+        "default": "Automatic",
+        "aliases": null
+      },
+      "connection_mode_in_primary_role": {
+        "description": "Which connections can be made to the database when it is in the primary role.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "AllowReadIntentConnectionsOnly",
+          "AllowAllConnections"
+        ],
+        "default": "AllowAllConnections",
+        "aliases": null
+      },
+      "connection_mode_in_secondary_role": {
+        "description": "Which connections can be made to the database when it is in the secondary role.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "AllowNoConnections",
+          "AllowReadIntentConnectionsOnly",
+          "AllowAllConnections"
+        ],
+        "default": "AllowNoConnections",
+        "aliases": null
+      },
+      "read_only_routing_connection_url": {
+        "description": "Sets the read only routing connection url for the availability replica.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "read_only_routing_list": {
+        "description": "Sets the read only routing ordered list of replica server names to use when redirecting read-only connections through this availability replica.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_type": {
+        "description": "Cluster type of the Availability Group. Only supported in SQL Server 2017 and above.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Wsfc",
+          "External",
+          "None"
+        ],
+        "default": "Wsfc",
+        "aliases": null
+      },
+      "configure_xe_session": {
+        "description": "Configure the AlwaysOn_health extended events session to start automatically as the SSMS wizard would do.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "session_timeout": {
+        "description": "How many seconds an availability replica waits for a ping response from a connected replica before considering the connection to have failed.",
+        "type": "int",
+        "required": false,
+        "choices": null,
         "default": null,
         "aliases": null
       }
@@ -144,6 +260,207 @@
         "choices": null,
         "default": true,
         "aliases": null
+      },
+      "owner_login": {
+        "description": "The owning login for the database. Will default to the current user if the database is being created and none supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "start_step_id": {
+        "description": "What step number the job should begin with when run.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "schedule": {
+        "description": "The name of the schedule the job should be associated with. Only one schedule per job is supported.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "If I(force=true), any job categories will be created if they don't exist already.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.agent_job_category": {
+    "short_description": "Configures a SQL Agent job category",
+    "description": "Configures a SQL Agent job category. Creates if it does not exist, else does nothing.",
+    "options": {
+      "category": {
+        "description": "Name of the category.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "category_type": {
+        "description": "The type of category.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "LocalJob",
+          "MultiServerJob",
+          "None"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.agent_job_schedule": {
+    "short_description": "Configures a SQL Agent job schedule",
+    "description": "Configures settings for an agent schedule that can be applied to one or more agent jobs.",
+    "options": {
+      "schedule": {
+        "description": "The name of the schedule.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "job": {
+        "description": "The name of the job that has the schedule. Schedules and jobs can also be associated via M(lowlydba.sqlserver.agent_job). See U(https://docs.dbatools.io/New-DbaAgentSchedule) for more detailed usage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Whether the schedule is enabled or disabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "The force option will ignore some errors in the options and assume defaults. It will also remove the any present schedules with the same name for the specific job.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "frequency_type": {
+        "description": "A value indicating when a job is to be executed. If I(force=true) the default will be C(Once).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Once",
+          "OneTime",
+          "Daily",
+          "Weekly",
+          "Monthly",
+          "MonthlyRelative",
+          "AgentStart",
+          "AutoStart",
+          "IdleComputer",
+          "OnIdle"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "frequency_interval": {
+        "description": "The days that a job is executed. Allowed values for I(frequency_type=Daily) - C(EveryDay) or a number between C(1) and C(365) inclusive. Allowed values for I(frequency_type=Weekly) - C(Sunday), C(Monday), C(Tuesday), C(Wednesday), C(Thursday), C(Friday), C(Saturday), C(Weekdays), C(Weekend) or C(EveryDay). Allowed values for I(frequency_type=Monthly) - Numbers C(1) through C(31) for each day of the month. If C(Weekdays), C(Weekend) or C(EveryDay) is used it overwrites any other value that has been passed before. If I(force=true) the default will be C(1).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "frequency_subday_type": {
+        "description": "Specifies the units for the subday I(frequency_interval).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Time",
+          "Seconds",
+          "Minutes",
+          "Hours"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "frequency_subday_interval": {
+        "description": "The number of subday type periods to occur between each execution of a job.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "frequency_relative_interval": {
+        "description": "A job's occurrence of I(frequency_interval) in each month. If I(frequency_interval=32) (C(MonthlyRelative)).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Unused",
+          "First",
+          "Second",
+          "Third",
+          "Fourth",
+          "Last"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "frequency_recurrence_factor": {
+        "description": "The number of weeks or months between the scheduled execution of a job. Required if I(frequency_type=Weekly), I(frequency_type=Monthly) or I(frequency_type=MonthlyRelative).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "start_date": {
+        "description": "The date on which execution of a job can begin. If I(force=true) the start date will be the current day. Format is C(yyyyMMdd).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "end_date": {
+        "description": "The date on which execution of a job can stop. If I(force=true) the end date will be C(99991231), via dbatools. Format is C(yyyyMMdd).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "start_time": {
+        "description": "The time on any day to begin execution of a job. Format C(HHMMSS) (24 hour clock). If I(force=true) the start time will be C(00:00:00).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "end_time": {
+        "description": "The time on any day to end execution of a job. Format C(HHMMSS) (24 hour clock). If (force=true) the start time will be C(23:59:59).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
       }
     },
     "deprecated": null
@@ -178,6 +495,98 @@
       },
       "database": {
         "description": "The name of the database in which to execute a Transact-SQL step.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "master",
+        "aliases": null
+      },
+      "subsystem": {
+        "description": "The subsystem used by the SQL Server Agent service to execute command.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "CmdExec",
+          "Distribution",
+          "LogReader",
+          "Merge",
+          "PowerShell",
+          "QueueReader",
+          "Snapshot",
+          "Ssis",
+          "TransactSql"
+        ],
+        "default": "TransactSql",
+        "aliases": null
+      },
+      "command": {
+        "description": "The commands to be executed by SQLServerAgent service through subsystem.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "on_success_action": {
+        "description": "The action to perform if the step succeeds.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "QuitWithSuccess",
+          "QuitWithFailure",
+          "GoToNextStep",
+          "GoToStep"
+        ],
+        "default": "QuitWithSuccess",
+        "aliases": null
+      },
+      "on_success_step_id": {
+        "description": "The ID of the step in this job to execute if the step succeeds and I(on_success_action=GoToStep).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "on_fail_action": {
+        "description": "The action to perform if the step fails.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "QuitWithSuccess",
+          "QuitWithFailure",
+          "GoToNextStep",
+          "GoToStep"
+        ],
+        "default": "QuitWithFailure",
+        "aliases": null
+      },
+      "on_fail_step_id": {
+        "description": "The ID of the step in this job to execute if the step fails and I(on_fail_action=GoToStep).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "retry_attempts": {
+        "description": "The number of retry attempts to use if this step fails. The default is C(0).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "retry_interval": {
+        "description": "The amount of time in minutes between retry attempts.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "output_file": {
+        "description": "The full path to the output file for the job step. This specifies where the output of the job step will be written.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -272,6 +681,126 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "database_health_trigger": {
+        "description": "Indicates whether the availability group triggers the database health.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_distributed_ag": {
+        "description": "Indicates whether the availability group is distributed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "healthcheck_timeout": {
+        "description": "This setting used to specify the length of time, in milliseconds, that the SQL Server resource DLL should wait for information returned by the C(sp_server_diagnostics) stored procedure before reporting the Always On Failover Cluster Instance (FCI) as unresponsive. Changes that are made to the timeout settings are effective immediately and do not require a restart of the SQL Server resource.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "failure_condition_level": {
+        "description": "Specifies the different conditions that can trigger an automatic failover in Availability Group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "OnAnyQualifiedFailureCondition",
+          "OnCriticalServerErrors",
+          "OnModerateServerErrors",
+          "OnServerDown",
+          "OnServerUnresponsive"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "cluster_type": {
+        "description": "Cluster type of the Availability Group. Only supported in SQL Server 2017 and above.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Wsfc",
+          "External",
+          "None"
+        ],
+        "default": "Wsfc",
+        "aliases": null
+      },
+      "failover_mode": {
+        "description": "Whether the replica have Automatic or Manual failover.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Automatic",
+          "Manual"
+        ],
+        "default": "Automatic",
+        "aliases": null
+      },
+      "availability_mode": {
+        "description": "Whether the replica should be Asynchronous or Synchronous. Only used in creating a new availability group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "AsynchronousCommit",
+          "SynchronousCommit"
+        ],
+        "default": "SynchronousCommit",
+        "aliases": null
+      },
+      "seeding_mode": {
+        "description": "Default seeding mode for the replica. Should remain as the default otherwise manual setup may be required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Automatic",
+          "Manual"
+        ],
+        "default": "Manual",
+        "aliases": null
+      },
+      "automated_backup_preference": {
+        "description": "How to handle backup requests by default.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "None",
+          "Primary",
+          "Secondary",
+          "SecondaryOnly"
+        ],
+        "default": "Secondary",
+        "aliases": null
+      },
+      "allow_null_backup": {
+        "description": "Allow taking a full backup to C(NULL) if one does not exist and I(seeding_mode=Automatic).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Drop and recreate the database on remote servers using fresh backup.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_last_backup": {
+        "description": "Use the last full and log backup of database. A log backup must be the last backup.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
       }
     },
     "deprecated": null
@@ -332,8 +861,371 @@
         "description": "The type of backup to perform.",
         "type": "str",
         "required": false,
+        "choices": [
+          "full",
+          "log",
+          "differential",
+          "diff",
+          "database"
+        ],
+        "default": "database",
+        "aliases": null
+      },
+      "create_folder": {
+        "description": "If set, database is backed up to its own subfolder within the path.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "file_count": {
+        "description": "The number of striped files to create the backup with.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "compress": {
+        "description": "If set, use compression when creating the backup if it is supported by the version and edition.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "checksum": {
+        "description": "If set, the backup checksum will be calculated.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "verify": {
+        "description": "If set, the backup will be verified via C(RESTORE VERIFYONLY)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "max_transfer_size": {
+        "description": "Sets the size of the unit of transfer. Values must be a multiple of 64kb.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "block_size": {
+        "description": "Specifies block size to use.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "0.5kb",
+          "1kb",
+          "2kb",
+          "4kb",
+          "8kb",
+          "16kb",
+          "32kb",
+          "64kb"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "buffer_count": {
+        "description": "Number of I/O buffers to use.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "azure_base_url": {
+        "description": "The URL to the base container of an Azure Storage account to write backups to.",
+        "type": "str",
+        "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "azure_credential": {
+        "description": "The name of the credential on the SQL instance that can write to the I(azure_base_url), only needed if using Storage access keys If using SAS credentials, the command will look for a credential with a name matching the I(azure_base_url).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "no_recovery": {
+        "description": "If set, performs a tail log backup.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "build_path": {
+        "description": "By default this command will not attempt to create missing paths, this switch will change the behaviour so that it will.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "with_format": {
+        "description": "Formats the media as the first step of the backup operation.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "initialize": {
+        "description": "Initializes the media as part of the backup operation.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "timestamp_format": {
+        "description": "By default the command timestamps backups using the format C(yyyyMMddHHmm). Using this option this can be overridden.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ignore_file_checks": {
+        "description": "If set, stops the function from checking path validity.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "encryption_algorithm": {
+        "description": "Specifies the Encryption Algorithm to used.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "AES128",
+          "AES192",
+          "AES256",
+          "TRIPLEDES"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "encryption_certificate": {
+        "description": "The name of the certificate to be used to encrypt the backups.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.credential": {
+    "short_description": "Configures a credential on a SQL server",
+    "description": "Creates, replaces, or removes a credential on a SQL server.",
+    "options": {
+      "identity": {
+        "description": "The Credential Identity.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The Credential name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password used to authenticate the Credential Identity.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mapped_class_type": {
+        "description": "Sets the class associated with the credential.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "CryptographicProvider",
+          "None"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "provider_name": {
+        "description": "Specifies the cryptographic provider name for the Enterprise Key Management Provider.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "If this switch is enabled, the existing credential will be dropped and recreated.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.database": {
+    "short_description": "Creates and configures a database",
+    "description": "Adds a new database to an existing SQL Server instance.",
+    "options": {
+      "database": {
+        "description": "Name of the target database.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "recovery_model": {
+        "description": "Choose the recovery model for the database.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Full",
+          "Simple",
+          "BulkLogged"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "data_file_path": {
+        "description": "Directory where the data files should be placed. Uses SQL Server's default if not supplied. Only used if database is being created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "log_file_path": {
+        "description": "Directory where the log files should be placed. Uses SQL Server's default if not supplied. Only used if database is being created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "owner": {
+        "description": "Database owner login.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "maxdop": {
+        "description": "MAXDOP value for the database.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "secondary_maxdop": {
+        "description": "MAXDOP value for the database when it is a non-primary replica in an availability group.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "compatibility": {
+        "description": "Compatibility mode for the database. Follows the format of C(Version90), C(Version100), and so on. String is validated by C(Set-DbaDbCompatibility).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rcsi": {
+        "description": "Whether or not to enable Read Committed Snapshot Isolation.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "only_accessible": {
+        "description": "Whether or not to enable Read Committed Snapshot Isolation.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "lowlydba.sqlserver.dba_multitool": {
+    "short_description": "Install/update the DBA Multitool suite by John McCall",
+    "description": "A wrapper for C(Install-DbaMultiTool) to fetch the latest version of the scripts, or install from a local cached version.",
+    "options": {
+      "sql_instance": {
+        "description": "The target SQL Server instance or instances. Server version must be SQL Server version 2005 or higher.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "local_file": {
+        "description": "Specifies the path to a local file to install DBA MultiTool from. This should be the zip file as distributed by the maintainers. If this option is not specified, the latest version will be downloaded and installed from https://github.com/LowlyDBA/dba-multitool/.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "branch": {
+        "description": "Specifies an alternate branch of the DBA MultiTool to install.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "master",
+          "development"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "database": {
+        "description": "Name of the target database.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "If this switch is enabled, the DBA MultiTool will be downloaded from the internet even if previously cached.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },
@@ -355,8 +1247,55 @@
         "description": "Specifies the name(s) of the script(s) to run for installation. Wildcards are permitted. This way only part of the First Responder Kit can be installed.",
         "type": "str",
         "required": false,
+        "choices": [
+          "Install-All-Scripts.sql",
+          "Install-Core-Blitz-No-Query-Store.sql",
+          "Install-Core-Blitz-With-Query-Store.sql",
+          "sp_Blitz.sql",
+          "sp_BlitzFirst.sql",
+          "sp_BlitzIndex.sql",
+          "sp_BlitzCache.sql",
+          "sp_BlitzWho.sql",
+          "sp_BlitzQueryStore.sql",
+          "sp_BlitzAnalysis.sql",
+          "sp_BlitzBackups.sql",
+          "sp_BlitzInMemoryOLTP.sql",
+          "sp_BlitzLock.sql",
+          "sp_AllNightLog.sql",
+          "sp_AllNightLog_Setup.sql",
+          "sp_DatabaseRestore.sql",
+          "sp_ineachdb.sql",
+          "SqlServerVersions.sql",
+          "Uninstall.sql"
+        ],
+        "default": "Install-All-Scripts.sql",
+        "aliases": null
+      },
+      "branch": {
+        "description": "Specifies an alternate branch of the First Responder Kit to install.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "main",
+          "dev"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "database": {
+        "description": "Name of the target database.",
+        "type": "str",
+        "required": true,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "If this switch is enabled, the FRK will be downloaded from the internet even if previously cached.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },
@@ -441,6 +1380,67 @@
         "description": "C(SingleTransaction) - wrap all the deployment scripts into a single transaction and rollback whole deployment on error. C(TransactionPerScript) - wrap each script into a separate transaction; rollback single script deployment in case of error. C(NoTransaction) - deploy as is. C(AlwaysRollback) - roll back the transaction.",
         "type": "str",
         "required": false,
+        "choices": [
+          "NoTransaction",
+          "SingleTransaction",
+          "TransactionPerScript",
+          "AlwaysRollback"
+        ],
+        "default": "NoTransaction",
+        "aliases": null
+      },
+      "no_log_version": {
+        "description": "If set, the deployment will not be tracked in the database. That will also mean that all the scripts and all the builds from the package are going to be deployed regardless of any previous deployment history.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "connection_timeout": {
+        "description": "Database server connection timeout in seconds. Only affects connection attempts. Does not affect execution timeout.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 30,
+        "aliases": null
+      },
+      "execution_timeout": {
+        "description": "Script execution timeout. The script will be aborted if the execution takes more than specified number of seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "output_file": {
+        "description": "Log output into specified file.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "create_database": {
+        "description": "Will create an empty database if missing.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "no_recurse": {
+        "description": "Only process the first level of the target path.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "match": {
+        "description": "Runs a regex verification against provided file names using the provided string.",
+        "type": "str",
+        "required": false,
         "choices": null,
         "default": null,
         "aliases": null
@@ -481,20 +1481,187 @@
         "choices": null,
         "default": true,
         "aliases": null
+      },
+      "default_database": {
+        "description": "Default database for the login.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "language": {
+        "description": "Default language for the login. Only used when creating a new login, not when modifying an existing one.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password_must_change": {
+        "description": "Enforces user must change password at next login. When specified will enforce I(password_expiration_enabled) and I(password_policy_enforced) as they are required.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password_policy_enforced": {
+        "description": "Enforces password complexity policy.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password_expiration_enabled": {
+        "description": "Enforces password expiration policy. Requires I(password_policy_enforced=true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sid": {
+        "description": "Provide an explicit Sid that should be used when creating the account.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "skip_password_reset": {
+        "description": "Skips the password reset if the login exists and I(password) is set.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
       }
     },
     "deprecated": null
   },
   "lowlydba.sqlserver.login_role": {
-    "short_description": "Configures a login",
-    "description": "",
-    "options": {},
+    "short_description": "Configures a login's  server roles.",
+    "description": "Adds or removes a login's server role.",
+    "options": {
+      "login": {
+        "description": "Name of the login.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_role": {
+        "description": "The server role for the login to be modified.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "lowlydba.sqlserver.maintenance_solution": {
     "short_description": "Install/update Maintenance Solution by Ola Hallengren",
-    "description": "A wrapper for C(Install-DbaMaintenanceSolution) to fetch the latest version of the Ola Hallengren",
-    "options": {},
+    "description": "A wrapper for C(Install-DbaMaintenanceSolution) to fetch the latest version of the Ola Hallengren's Maintenance Solution, or install from a local cached version.",
+    "options": {
+      "backup_location": {
+        "description": "Location of the backup root directory. If this is not supplied, the default backup directory will be used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cleanup_time": {
+        "description": "Time in hours, after which backup files are deleted.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "output_file_dir": {
+        "description": "Specify the output file directory where the Maintenance Solution will write to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "replace_existing": {
+        "description": "If this switch is enabled, objects already present in the target database will be dropped and recreated.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "log_to_table": {
+        "description": "If this switch is enabled, the Maintenance Solution will be configured to log commands to a table.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "solution": {
+        "description": "Specifies which portion of the Maintenance Solution to install.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "All",
+          "Backup",
+          "IntegrityCheck",
+          "IndexOptimize"
+        ],
+        "default": "All",
+        "aliases": null
+      },
+      "install_jobs": {
+        "description": "If this switch is enabled, the corresponding SQL Agent Jobs will be created.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "install_parallel": {
+        "description": "If this switch is enabled, the C(Queue) and C(QueueDatabase) tables are created, for use when C(@DatabasesInParallel = 'Y') are set in the jobs.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "local_file": {
+        "description": "Specifies the path to a local file to install Ola's solution from. This should be the zip file as distributed by the maintainers. If this option is not specified, the latest version will be downloaded and installed from the L(Maintenance Solution Github,https://github.com/olahallengren/sql-server-maintenance-solution).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "database": {
+        "description": "Name of the target database.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "If this switch is enabled, the Maintenance Solution will be downloaded from the internet even if previously cached.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "lowlydba.sqlserver.memory": {
@@ -659,7 +1826,168 @@
         "aliases": null
       },
       "maintenance_solution_backup": {
-        "description": "Switch to indicate the backup files are in a folder structure as created by Ola Hallengreen",
+        "description": "Switch to indicate the backup files are in a folder structure as created by Ola Hallengreen's maintenance scripts. This allows for faster file parsing.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "ignore_log_backup": {
+        "description": "Indicates to skip restoring any log backups.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "ignore_diff_backup": {
+        "description": "Indicates to skip restoring any differential backups.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "use_destination_default_directories": {
+        "description": "Switch that tells the restore to use the default Data and Log locations on the target server. If they don't exist, the function will try to create them.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "reuse_source_folder_structure": {
+        "description": "By default, databases will be migrated to the destination Sql Server's default data and log directories. You can override this by using C(reuse_source_folder_structure).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_file_prefix": {
+        "description": "This value will be prefixed to B(all) restored files (log and data).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "restored_database_name_prefix": {
+        "description": "A string which will be prefixed to the start of the restore Database's name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "directory_recurse": {
+        "description": "If specified the specified directory will be recursed into (overriding the default behaviour).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "standby_directory": {
+        "description": "If a directory is specified the database(s) will be restored into a standby state, with the standby file placed into this directory (which must exist, and be writable by the target Sql Server instance).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "replace_db_name_in_file": {
+        "description": "If switch set any occurrence of the original database's name in a data or log file will be replace with the name specified in the I(database_name) option.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_file_suffix": {
+        "description": "This value will be suffixed to B(all) restored files (log and data).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "keep_cdc": {
+        "description": "Indicates whether CDC information should be restored as part of the database.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stop_before": {
+        "description": "Switch to indicate the restore should stop before I(stop_mark) occurs, default is to stop when mark is created.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "stop_mark": {
+        "description": "Marked point in the transaction log to stop the restore at.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stop_after_date": {
+        "description": "By default the restore will stop at the first occurence of I(stop_mark) found in the chain, passing a datetime string C(HH:MM:SS MM/DD/YYYY) will cause it to stop the first I(stop_mark) after that datetime.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "no_recovery": {
+        "description": "Indicates if the databases should be recovered after last restore.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "max_transfer_size": {
+        "description": "Sets the size of the unit of transfer. Values must be a multiple of 64kb.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "block_size": {
+        "description": "Specifies block size to use.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "0.5kb",
+          "1kb",
+          "2kb",
+          "4kb",
+          "8kb",
+          "16kb",
+          "32kb",
+          "64kb"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "buffer_count": {
+        "description": "Number of I/O buffers to use.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "azure_credential": {
+        "description": "The name of the SQL Server credential to be used if restoring from an Azure hosted backup using Storage Access Keys.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -684,6 +2012,65 @@
       "type": {
         "description": "Specify the type of resource pool.",
         "type": "str",
+        "required": false,
+        "choices": [
+          "Internal",
+          "External"
+        ],
+        "default": "Internal",
+        "aliases": null
+      },
+      "max_cpu_perc": {
+        "description": "Maximum CPU Percentage able to be used by queries in this resource pool.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "min_cpu_perc": {
+        "description": "Minimum CPU Percentage able to be used by queries in this resource pool.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cap_cpu_perc": {
+        "description": "Cap CPU Percentage able to be used by queries in this resource pool.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_mem_perc": {
+        "description": "Maximum Memory Percentage able to be used by queries in this resource pool.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "min_mem_perc": {
+        "description": "Minimum Memory Percentage able to be used by queries in this resource pool.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_iops_per_vol": {
+        "description": "Maximum IOPS/volume able to be used by queries in this resource pool.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "min_iops_per_vol": {
+        "description": "Minimum IOPS/volume able to be used by queries in this resource pool.",
+        "type": "int",
         "required": false,
         "choices": null,
         "default": null,
@@ -715,6 +2102,61 @@
       "resource_pool_type": {
         "description": "Specify the type of resource pool.",
         "type": "str",
+        "required": false,
+        "choices": [
+          "Internal",
+          "External"
+        ],
+        "default": "Internal",
+        "aliases": null
+      },
+      "group_max_requests": {
+        "description": "Specifies the maximum number of simultaneous requests that are allowed to execute in the workload group.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "importance": {
+        "description": "Specifies the relative importance of a request in the workload group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "max_dop": {
+        "description": "Specifies the maximum degree of parallelism (MAXDOP) for parallel query execution.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "request_max_cpu_time": {
+        "description": "Specifies the maximum amount of CPU time, in seconds, that a request can use.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "request_max_mem_grant_perc": {
+        "description": "Specifies the maximum amount of memory that a single request can take from the pool.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "request_mem_grant_timeout_sec": {
+        "description": "Specifies the maximum time, in seconds, that a query can wait for a memory grant (work buffer memory) to become available.",
+        "type": "int",
         "required": false,
         "choices": null,
         "default": null,
@@ -749,6 +2191,30 @@
         "required": false,
         "choices": null,
         "default": true,
+        "aliases": null
+      },
+      "password_must_change": {
+        "description": "Enforces user must change password at next login. When specified, will enforce I(password_expiration_enabled) and I(password_policy_enforced) as they are required.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password_policy_enforced": {
+        "description": "Enforces password complexity policy.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password_expiration_enabled": {
+        "description": "Enforces password expiration policy. Requires I(password_policy_enforced=true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
         "aliases": null
       }
     },
@@ -958,16 +2424,41 @@
         "type": "str",
         "required": false,
         "choices": null,
-        "default": null,
+        "default": "dbo",
         "aliases": null
       }
     },
     "deprecated": null
   },
   "lowlydba.sqlserver.user_role": {
-    "short_description": "Configures a user",
-    "description": "",
-    "options": {},
+    "short_description": "Configures a user's role in a database.",
+    "description": "Adds or removes a user's role in a database.",
+    "options": {
+      "database": {
+        "description": "Database for the user.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Name of the user.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role": {
+        "description": "The database role for the user to be modified.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

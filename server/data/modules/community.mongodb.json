@@ -2,127 +2,1140 @@
   "community.mongodb.mongodb_atlas_cluster": {
     "short_description": "Manage database clusters in Atlas",
     "description": "The clusters module provides access to your cluster configurations. The module lets you create, edit and delete clusters. L(API Documentation,https://docs.atlas.mongodb.com/reference/api/clusters/)",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the cluster as it appears in Atlas. Once the cluster is created, its name cannot be changed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mongo_db_major_version": {
+        "description": "Version of the cluster to deploy. Atlas always deploys the cluster with the latest stable release of the specified version. You can upgrade to a newer version of MongoDB when you modify a cluster.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "4.2",
+          "4.4",
+          "5.0",
+          "6.0",
+          "7.0"
+        ],
+        "default": null,
+        "aliases": [
+          "mongoDBMajorVersion"
+        ]
+      },
+      "cluster_type": {
+        "description": "Type of the cluster that you want to create.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "REPLICASET",
+          "SHARDED"
+        ],
+        "default": "REPLICASET",
+        "aliases": [
+          "clusterType"
+        ]
+      },
+      "replication_factor": {
+        "description": "Number of replica set members. Each member keeps a copy of your databases, providing high availability and data redundancy.",
+        "type": "int",
+        "required": false,
+        "choices": [
+          3,
+          5,
+          7
+        ],
+        "default": 3,
+        "aliases": [
+          "replicationFactor"
+        ]
+      },
+      "auto_scaling": {
+        "description": "Configure your cluster to automatically scale its storage and cluster tier.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "autoScaling"
+        ]
+      },
+      "provider_settings": {
+        "description": "Configuration for the provisioned servers on which MongoDB runs. The available options are specific to the cloud service provider.",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "providerSettings"
+        ]
+      },
+      "disk_size_gb": {
+        "description": "Capacity, in gigabytes, of the host's root volume. Increase this number to add capacity, up to a maximum possible value of 4096 (i.e., 4 TB). This value must be a positive integer.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "diskSizeGB"
+        ]
+      },
+      "provider_backup_enabled": {
+        "description": "Flag that indicates if the cluster uses Cloud Backups for backups.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "providerBackupEnabled"
+        ]
+      },
+      "pit_enabled": {
+        "description": "Flag that indicates the cluster uses continuous cloud backups.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "pitEnabled"
+        ]
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_atlas_ldap_user": {
     "short_description": "Manage LDAP users in Atlas",
-    "description": "The mongodb_atlas_ldap_user module lets you create LDAP groups on the admin database by mapping LDAP groups to MongoDB roles on your Atlas databases. Each user or group has a set of roles that provide access to the project",
-    "options": {},
+    "description": "The mongodb_atlas_ldap_user module lets you create LDAP groups on the admin database by mapping LDAP groups to MongoDB roles on your Atlas databases. Each user or group has a set of roles that provide access to the project's databases. L(API Documentation,https://docs.atlas.mongodb.com/security-ldaps/)",
+    "options": {
+      "database_name": {
+        "description": "Database against which Atlas authenticates the user.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "admin",
+          "$external"
+        ],
+        "default": "admin",
+        "aliases": [
+          "databaseName"
+        ]
+      },
+      "ldap_auth_type": {
+        "description": "Type of LDAP authorization for the user i.e. USER or GROUP",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "GROUP",
+          "USER"
+        ],
+        "default": "GROUP",
+        "aliases": [
+          "ldapAuthType"
+        ]
+      },
+      "username": {
+        "description": "Username for authenticating to MongoDB.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "roles": {
+        "description": "Array of this user's roles and the databases / collections on which the roles apply. A role must include folliwing elements",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_atlas_user": {
     "short_description": "Manage database users in Atlas",
-    "description": "The mongodb_atlas_user module lets you create, modify and delete the database users in your cluster. Each user has a set of roles that provide access to the project",
-    "options": {},
+    "description": "The mongodb_atlas_user module lets you create, modify and delete the database users in your cluster. Each user has a set of roles that provide access to the project's databases. A user's roles apply to all the clusters in the project if two clusters have a products database and a user has a role granting read access on the products database, the user has that access on both clusters. L(API Documentation,https://docs.atlas.mongodb.com/reference/api/database-users/)",
+    "options": {
+      "database_name": {
+        "description": "Database against which Atlas authenticates the user.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "admin",
+          "$external"
+        ],
+        "default": "admin",
+        "aliases": [
+          "databaseName"
+        ]
+      },
+      "username": {
+        "description": "Username for authenticating to MongoDB.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "User's password.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "roles": {
+        "description": "Array of this user's roles and the databases / collections on which the roles apply. A role must include following elements",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scopes": {
+        "description": "List of clusters and Atlas Data Lakes that this user can access. Atlas grants database users access to all resources by default.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_atlas_whitelist": {
     "short_description": "Manage IP whitelists in Atlas",
-    "description": "The mongodb_atlas_whitelist module manages a Atlas project",
-    "options": {},
+    "description": "The mongodb_atlas_whitelist module manages a Atlas project's IP whitelist. L(API Documentation,https://docs.atlas.mongodb.com/reference/api/whitelist/)",
+    "options": {
+      "cidr_block": {
+        "description": "Whitelist entry in Classless Inter-Domain Routing (CIDR) notation.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "cidrBlock"
+        ]
+      },
+      "comment": {
+        "description": "Optional Comment associated with the whitelist entry.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "created by Ansible",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_balancer": {
     "short_description": "Manages the MongoDB Sharded Cluster Balancer.",
     "description": "Manages the MongoDB Sharded Cluster Balancer. Start or stop the balancer. Adjust the cluster chunksize. Enable or disable autosplit. Add or remove a balancer window.",
-    "options": {},
+    "options": {
+      "autosplit": {
+        "description": "Disable or enable the autosplit flag in the config.settings collection. From MongoDB 6.1 automatic chunk splitting is not performed so this parameter is not valid in this and later versions. See more see [enableAutoSplit](https://www.mongodb.com/docs/manual/reference/method/sh.enableAutoSplit/). This parameter is deprecated and will be removed in a future release.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chunksize": {
+        "description": "Control the size of chunks in the sharded cluster. Value should be given in MB.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Manage the Balancer for the Cluster",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "started",
+          "stopped"
+        ],
+        "default": "started",
+        "aliases": null
+      },
+      "mongos_process": {
+        "description": "Provide a custom name for the mongos process. Most users can ignore this setting.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "mongos",
+        "aliases": null
+      },
+      "window": {
+        "description": "Schedule the balancer window. Provide the following dictionary keys start, stop, state The state key should be \"present\" or \"absent\". The start and stop keys are ignored when state is \"absent\". start and stop should be strings in \"HH:MM\" format indicating the time bounds of the window.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_index": {
     "short_description": "Creates or drops indexes on MongoDB collections.",
     "description": "Creates or drops indexes on MongoDB collections. Supports multiple index options, i.e. unique, sparse and partial. Validates existence of indexes by name only.",
-    "options": {},
+    "options": {
+      "indexes": {
+        "description": "List of indexes to create or drop",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "replica_set": {
+        "description": "Replica set to connect to (automatically connects to primary for writes).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_info": {
     "short_description": "Gather information about MongoDB instance.",
     "description": "Gather information about MongoDB instance.",
-    "options": {},
+    "options": {
+      "filter": {
+        "description": "Limit the collected information by comma separated string or YAML list. Allowable values are C(general), C(databases), C(total_size), C(parameters), C(users), C(roles). By default, collects all subsets. You can use '!' before value (for example, C(!users)) to exclude it from the information. If you pass including and excluding values to the filter, for example, I(filter=!general,users), the excluding values, C(!general) in this case, will be ignored.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_maintenance": {
     "short_description": "Enables or disables maintenance mode for a secondary member.",
     "description": "Enables or disables maintenance mode for a secondary member. Wrapper around the replSetMaintenance command. Performs no actions against a PRIMARY member. When enabled SECONDARY members will not service reads.",
-    "options": {},
+    "options": {
+      "maintenance": {
+        "description": "Enable or disable maintenance mode.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_oplog": {
     "short_description": "Resizes the MongoDB oplog.",
     "description": "Resizes the MongoDB oplog. This module should only be used with MongoDB 3.6 and above. Old MongoDB versions should use an alternative method. Consult U(https://docs.mongodb.com/manual/tutorial/change-oplog-size) for further info.",
-    "options": {},
+    "options": {
+      "oplog_size_mb": {
+        "description": "New size of the oplog in MB.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "compact": {
+        "description": "Runs compact against the oplog.rs collection in the local database to reclaim disk space. Performs no actions against PRIMARY members. The MongoDB user must have the compact role on the local database for this feature to work.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_parameter": {
     "short_description": "Change an administrative parameter on a MongoDB server",
     "description": "Change an administrative parameter on a MongoDB server.",
-    "options": {},
+    "options": {
+      "replica_set": {
+        "description": "Replica set to connect to (automatically connects to primary for writes).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "param": {
+        "description": "MongoDB administrative parameter to modify.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "value": {
+        "description": "MongoDB administrative parameter value to set.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "param_type": {
+        "description": "Define the type of parameter value.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "int",
+          "str"
+        ],
+        "default": "str",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_replicaset": {
     "short_description": "Initialises a MongoDB replicaset.",
     "description": "Initialises a MongoDB replicaset in a new deployment. Validates the replicaset name for existing deployments. Advanced replicaset member (re)configuration possible (see examples). Initialize the replicaset before adding users as per \\ [best practice](https://www.mongodb.com/docs/manual/tutorial/deploy-replica-set-with-keyfile-access-control/).",
-    "options": {},
+    "options": {
+      "replica_set": {
+        "description": "Replicaset name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "rs0",
+        "aliases": null
+      },
+      "members": {
+        "description": "Yaml list consisting of the replicaset members. Csv string will also be accepted i.e. mongodb1:27017,mongodb2:27017,mongodb3:27017. A dictionary can also be used to specify advanced replicaset member options. If a port number is not provided then 27017 is assumed.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "validate": {
+        "description": "Performs some basic validation on the provided replicaset config.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "arbiter_at_index": {
+        "description": "Identifies the position of the member in the array that is an arbiter.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "chaining_allowed": {
+        "description": "When I(settings.chaining_allowed=true), the replicaset allows secondary members to replicate from other secondary members. When I(settings.chaining_allowed=false), secondaries can replicate only from the primary.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "heartbeat_timeout_secs": {
+        "description": "Number of seconds that the replicaset members wait for a successful heartbeat from each other. If a member does not respond in time, other members mark the delinquent member as inaccessible. The setting only applies when using I(protocol_version=0). When using I(protocol_version=1) the relevant setting is I(settings.election_timeout_millis).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "election_timeout_millis": {
+        "description": "The time limit in milliseconds for detecting when a replicaset's primary is unreachable.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10000,
+        "aliases": null
+      },
+      "protocol_version": {
+        "description": "Version of the replicaset election protocol.",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          1
+        ],
+        "default": 1,
+        "aliases": null
+      },
+      "reconfigure": {
+        "description": "This feature is currently experimental. Please test your scenario thoroughly. Consult the integration test file for supported scenarios - \\ [Integration tests](https://github.com/ansible-collections/community.mongodb/tree/master/tests/integration/targets/mongodb_replicaset/tasks). \\ See files prefixed with 330. Whether to perform replicaset reconfiguration actions. Only relevant when the replicaset already exists. Only one member should be removed or added per invocation. Members should be specific as either all strings or all dicts when reconfiguring. Currently no support for replicaset settings document changes. Please always specify ports in the replicaset list when using this feature or some operations may fail.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "force": {
+        "description": "Only relevant when reconfigure = true. Specify true to force the available replica set members to accept the new configuration. Force reconfiguration can result in unexpected or undesired behavior, including rollback of \"majority\" committed writes.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "max_time_ms": {
+        "description": "Specifies a cumulative time limit in milliseconds for processing the replicaset reconfiguration.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "debug": {
+        "description": "Add additonal info for debug.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "cluster_cmd": {
+        "description": "Command the module should use to obtain information about the MongoDB node we are connecting to.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "isMaster",
+          "hello"
+        ],
+        "default": "hello",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_role": {
     "short_description": "Adds or removes a role from a MongoDB database",
     "description": "Adds or removes a role from a MongoDB database. For further information on the required format for \\ the privileges, authenticationRestriction or roles \\ parameters, see the MongoDB Documentation https://www.mongodb.com/docs/manual/reference/command/createRole/",
-    "options": {},
+    "options": {
+      "replica_set": {
+        "description": "Replica set to connect to (automatically connects to primary for writes).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "database": {
+        "description": "The name of the database to add/remove the role from.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "db"
+        ]
+      },
+      "name": {
+        "description": "The name of the role to add or remove.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "user"
+        ]
+      },
+      "privileges": {
+        "description": "The privileges to grant the role. A privilege consists of a resource and permitted actions.\n",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "authenticationRestrictions": {
+        "description": "The authentication restrictions the server enforces on the role. Specifies a list of IP addresses and CIDR ranges users granted this role are allowed to connect to and/or which they can connect from. Provide a list of dictionaries with the following fields: clientSource (list), serverAddress (list). Provide an empty list if you don't want to use the field.\n",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "roles": {
+        "description": "The database user roles should be provided as a dictionary with the db and role keys.\n",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "state": {
+        "description": "The database user state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "debug": {
+        "description": "Enable extra debugging output.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_schema": {
     "short_description": "Manages MongoDB Document Schema Validators.",
     "description": "Manages MongoDB Document Schema Validators. Create, update and remove Validators on a collection. Supports the entire range of jsonSchema keywords. See [jsonSchema Available Keywords](https://docs.mongodb.com/manual/reference/operator/query/jsonSchema/#available-keywords) for details.",
-    "options": {},
+    "options": {
+      "db": {
+        "description": "The database to work with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "collection": {
+        "description": "The collection to work with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "required": {
+        "description": "List of fields that are required.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "properties": {
+        "description": "Individual property specification.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "action": {
+        "description": "The validation action for MongoDB to perform when handling invalid documents.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "error",
+          "warn"
+        ],
+        "default": "error",
+        "aliases": null
+      },
+      "level": {
+        "description": "The validation level MongoDB should apply when updating existing documents.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "strict",
+          "moderate"
+        ],
+        "default": "strict",
+        "aliases": null
+      },
+      "replica_set": {
+        "description": "Replicaset name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the validator.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "debug": {
+        "description": "Enable additional debugging output.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_shard": {
     "short_description": "Add or remove shards from a MongoDB Cluster",
     "description": "Add or remove shards from a MongoDB Cluster.",
-    "options": {},
+    "options": {
+      "shard": {
+        "description": "The shard connection string. Should be supplied in the form <replicaset>/host:port as detailed in U(https://docs.mongodb.com/manual/tutorial/add-shards-to-shard-cluster/). For example rs0/example1.mongodb.com:27017.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sharded_databases": {
+        "description": "Enable sharding on the listed database. Can be supplied as a string or a list of strings. Sharding cannot be disabled on a database. Starting in MongoDB 6.0, the enableSharding command is no longer required to shard a collection and this parameter is ignored.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mongos_process": {
+        "description": "Provide a custom name for the mongos process you are connecting to. Most users can ignore this setting.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "mongos",
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the shard should be present or absent from the Cluster.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_shard_tag": {
     "short_description": "Manage Shard Tags.",
     "description": "Manage Shard Tags.. Add and remove shard tags.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The name of the tag.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "shard": {
+        "description": "The name of the shard to assign or remove the tag from.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the zone.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "mongos_process": {
+        "description": "Provide a custom name for the mongos process. Most users can ignore this setting.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "mongos",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_shard_zone": {
     "short_description": "Manage Shard Zones.",
     "description": "Manage Shard Zones. Add and remove shard zones.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The name of the zone.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "namespace": {
+        "description": "The namespace the zone is assigned to Should be given in the form database.collection.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ranges": {
+        "description": "The ranges assigned to the Zone.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the zone.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "mongos_process": {
+        "description": "Provide a custom name for the mongos process. Most users can ignore this setting.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "mongos",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_shell": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Run commands via the MongoDB shell.",
+    "description": "Run commands via the MongoDB shell. Commands provided with the eval parameter or included in a Javascript file. Attempts to parse returned data into a format that Ansible can use. Module uses the mongosh shell by default. Support for mongo is depreciated.",
+    "options": {
+      "mongo_cmd": {
+        "description": "The MongoDB shell command. auto - Automatically detect which MongoDB shell command used. Use \"mongosh\" if available, else use \"mongo\" command. mongo - This should still work for most cases but you might have problems with json parsinf. Use transform_type of 'raw' is you encounter problems.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "mongosh",
+        "aliases": null
+      },
+      "db": {
+        "description": "The database to run commands against",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "test",
+        "aliases": null
+      },
+      "file": {
+        "description": "Path to a file containing MongoDB commands.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "eval": {
+        "description": "A MongoDB command to run.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nodb": {
+        "description": "Specify a non-default encoding for output.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "norc": {
+        "description": "Prevents the shell from sourcing and evaluating ~/.mongorc.js on start up.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "quiet": {
+        "description": "Silences output from the shell during the connection process..",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "debug": {
+        "description": "show additional debug info.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "transform": {
+        "description": "Transform the output returned to the user. auto - Attempt to automatically decide the best tranformation. split - Split output on a character. json - parse as json. raw - Return the raw output.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "split",
+          "json",
+          "raw"
+        ],
+        "default": "auto",
+        "aliases": null
+      },
+      "split_char": {
+        "description": "Used by the split action in the transform stage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": " ",
+        "aliases": null
+      },
+      "stringify": {
+        "description": "Wraps the command in eval in JSON.stringify(<js cmd>) (mongo) or EJSON.stringify(<js cmd>) (mongosh). Useful for escaping documents that are returned in Extended JSON format. Automatically set to false when using mongo. Automatically set to true when using mongosh. Set explicitly to override automatic selection.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "additional_args": {
+        "description": "Additional arguments to supply to the mongo command. Supply as key-value pairs. If the parameter is a valueless flag supply an empty string as the value.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "idempotent": {
+        "description": "Provides a form of pseudo-idempotency to the module. We perform a hash calculation on the contents of the eval key or the file name provided in the file key. When the command is first execute a filed called <hash>.success will be created. The module will not rerun the command if this file exists and idempotent is set to true.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "omit": {
+        "description": "Parameter to omit from the command line. This should match the parameter name that the MongoDB shell accepts not the module name.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_shutdown": {
     "short_description": "Cleans up all database resources and then terminates the mongod/mongos process.",
     "description": "Cleans up all database resources and then terminates the process.",
-    "options": {},
+    "options": {
+      "force": {
+        "description": "Specify true to force the mongod to shut down. Force shutdown interrupts any ongoing operations on the mongod and may result in unexpected behavior.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The number of seconds the primary should wait for a secondary to catch up.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_status": {
     "short_description": "Validates the status of the replicaset.",
     "description": "Validates the status of the replicaset. The module expects all replicaset nodes to be PRIMARY, SECONDARY or ARBITER. Will wait until a timeout for the replicaset state to converge if required. Can also be used to lookup the current PRIMARY member (see examples).",
-    "options": {},
+    "options": {
+      "replica_set": {
+        "description": "Replicaset name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "rs0",
+        "aliases": null
+      },
+      "poll": {
+        "description": "The maximum number of times to query for the replicaset status before the set converges or we fail.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "interval": {
+        "description": "The number of seconds to wait between polling executions.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 30,
+        "aliases": null
+      },
+      "validate": {
+        "description": "The type of validate to perform on the replicaset. default, Suitable for most purposes. Validate that there are an odd number of servers and one is PRIMARY and the remainder are in a SECONDARY or ARBITER state. votes, Check the number of votes is odd and one is a PRIMARY and the remainder are in a SECONDARY or ARBITER state. Authentication is required here to get the replicaset configuration. minimal, Just checks that one server is in a PRIMARY state with the remainder being SECONDARY or ARBITER.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "default",
+          "votes",
+          "minimal"
+        ],
+        "default": "default",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_stepdown": {
     "short_description": "Step down the MongoDB node from a PRIMARY state.",
     "description": "Step down the MongoDB node from the PRIMARY state if it has that status. Returns OK immediately if the member is already in the SECONDARY or ARBITER states. Will wait until a timeout for the member state to reach SECONDARY or PRIMARY, if the member state is currently STARTUP, RECOVERING, STARTUP2 or ROLLBACK, before taking any needed action.\n",
-    "options": {},
+    "options": {
+      "poll": {
+        "description": "The maximum number of times query for the member status.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "interval": {
+        "description": "The number of seconds to wait between poll executions.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 30,
+        "aliases": null
+      },
+      "stepdown_seconds": {
+        "description": "The number of seconds to step down the primary, during which time the stepdown member is ineligible for becoming primary.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 60,
+        "aliases": null
+      },
+      "secondary_catch_up": {
+        "description": "The secondaryCatchUpPeriodSecs parameter for the stepDown command. The number of seconds that mongod will wait for an electable secondary to catch up to the primary.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "force": {
+        "description": "Optional. A boolean that determines whether the primary steps down if no electable and up-to-date secondary exists within the wait period.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.mongodb.mongodb_user": {
     "short_description": "Adds or removes a user from a MongoDB database",
     "description": "Adds or removes a user from a MongoDB database.",
-    "options": {},
+    "options": {
+      "replica_set": {
+        "description": "Replica set to connect to (automatically connects to primary for writes). Leave empty if you need the localhost exception, e.g. to create the initial user",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "database": {
+        "description": "The name of the database to add/remove the user from.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "db"
+        ]
+      },
+      "name": {
+        "description": "The name of the user to add or remove.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "user"
+        ]
+      },
+      "password": {
+        "description": "The password to use for the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "pass"
+        ]
+      },
+      "roles": {
+        "description": "The database user roles valid values could either be one or more of the following strings: 'read', 'readWrite', 'dbAdmin', 'userAdmin', 'clusterAdmin', 'readAnyDatabase', 'readWriteAnyDatabase', 'userAdminAnyDatabase', 'dbAdminAnyDatabase'\n Or the following dictionary '{ db: DATABASE_NAME, role: ROLE_NAME }'. This param requires pymongo 2.5+. If it is a string, mongodb 2.4+ is also required. If it is a dictionary, mongo 2.6+ is required.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The database user state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "update_password": {
+        "description": "C(always) will always update passwords and cause the module to return changed. C(on_create) will only set the password for newly created users. This must be C(always) to use the localhost exception when adding the first admin user. This option is effectively ignored when using x.509 certs. It is defaulted to 'on_create' to maintain a \\ a specific module behaviour when the login_database is '$external'.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "always",
+          "on_create"
+        ],
+        "default": "always",
+        "aliases": null
+      },
+      "create_for_localhost_exception": {
+        "description": "This is parmeter is only useful for handling special treatment around the localhost exception. If C(login_user) is defined, then the localhost exception is not active and this parameter has no effect. If this file is NOT present (and C(login_user) is not defined), then touch this file after successfully adding the user. If this file is present (and C(login_user) is not defined), then skip this task.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

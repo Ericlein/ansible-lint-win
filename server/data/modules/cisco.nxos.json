@@ -15,11 +15,61 @@
         "aliases": null
       },
       "global_key": {
-        "description": "Global AAA shared secret or keyword",
+        "description": "Global AAA shared secret or keyword 'default'.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "encrypt_type": {
+        "description": "The state of encryption applied to the entered global key. O clear text, 7 encrypted. Type-6 encryption is not supported.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "0",
+          "7"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "deadtime": {
+        "description": "Duration for which a non-reachable AAA server is skipped, in minutes or keyword 'default. Range is 1-1440. Device default is 0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_timeout": {
+        "description": "Global AAA server timeout period, in seconds or keyword 'default. Range is 1-60. Device default is 5.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "directed_request": {
+        "description": "Enables direct authentication requests to AAA server or keyword 'default' Device default is disabled.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled",
+          "default"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Manage the state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "default"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -49,11 +99,65 @@
         "aliases": null
       },
       "key": {
-        "description": "Shared secret for the specified host or keyword",
+        "description": "Shared secret for the specified host or keyword 'default'.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "encrypt_type": {
+        "description": "The state of encryption applied to the entered key. O for clear text, 7 for encrypted. Type-6 encryption is not supported.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "0",
+          "7"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "host_timeout": {
+        "description": "Timeout period for specified host, in seconds or keyword 'default. Range is 1-60.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auth_port": {
+        "description": "Alternate UDP port for RADIUS authentication or keyword 'default'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "acct_port": {
+        "description": "Alternate UDP port for RADIUS accounting or keyword 'default'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tacacs_port": {
+        "description": "Alternate TCP port TACACS Server or keyword 'default'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Manage the state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -64,11 +168,35 @@
     "description": "Add and remove Access Control Lists on interfaces in NX-OS platform",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section '^interface'). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A list of interfaces to be configured with ACLs",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "gathered",
+          "merged",
+          "overridden",
+          "rendered",
+          "replaced",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -79,11 +207,35 @@
     "description": "Manage named IP ACLs on the Cisco NX-OS platform",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section 'ip(v6)* access-list). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A dictionary of ACL options.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "gathered",
+          "merged",
+          "overridden",
+          "rendered",
+          "replaced",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -109,7 +261,26 @@
         "type": "str",
         "required": false,
         "choices": null,
+        "default": "@",
+        "aliases": null
+      },
+      "text": {
+        "description": "The banner text that should be present in the remote device running configuration. This argument accepts a multiline string, with no empty lines. Requires I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specifies whether or not the configuration is present in the current devices active running configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -118,7 +289,120 @@
   "cisco.nxos.nxos_bfd_global": {
     "short_description": "Bidirectional Forwarding Detection (BFD) global-level configuration",
     "description": "Manages Bidirectional Forwarding Detection (BFD) global-level configuration.",
-    "options": {},
+    "options": {
+      "echo_interface": {
+        "description": "Loopback interface used for echo frames. Valid values are loopback interface name or 'deleted'. Not supported on N5K/N6K",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "echo_rx_interval": {
+        "description": "BFD Echo receive interval in milliseconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interval": {
+        "description": "BFD interval timer values. Value must be a dict defining values for keys (tx, min_rx, and multiplier)",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "slow_timer": {
+        "description": "BFD slow rate timer in milliseconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "startup_timer": {
+        "description": "BFD delayed startup timer in seconds. Not supported on N5K/N6K/N7K",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipv4_echo_rx_interval": {
+        "description": "BFD IPv4 session echo receive interval in milliseconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipv4_interval": {
+        "description": "BFD IPv4 interval timer values. Value must be a dict defining values for keys (tx, min_rx, and multiplier).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipv4_slow_timer": {
+        "description": "BFD IPv4 slow rate timer in milliseconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipv6_echo_rx_interval": {
+        "description": "BFD IPv6 session echo receive interval in milliseconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipv6_interval": {
+        "description": "BFD IPv6 interval timer values. Value must be a dict defining values for keys (tx, min_rx, and multiplier).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipv6_slow_timer": {
+        "description": "BFD IPv6 slow rate timer in milliseconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fabricpath_interval": {
+        "description": "BFD fabricpath interval timer values. Value must be a dict defining values for keys (tx, min_rx, and multiplier).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fabricpath_slow_timer": {
+        "description": "BFD fabricpath slow rate timer in milliseconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fabricpath_vlan": {
+        "description": "BFD fabricpath control vlan.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cisco.nxos.nxos_bfd_interfaces": {
@@ -126,11 +410,35 @@
     "description": "Manages attributes of Bidirectional Forwarding Detection (BFD) on the interface.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section '^interface|^feature bfd'). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "The provided configuration",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -141,11 +449,35 @@
     "description": "This module manages BGP Address Family configuration on devices running Cisco NX-OS.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section '^router bgp'). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A list of BGP process configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in. State I(deleted) only removes BGP attributes that this modules manages and does not negate the BGP process completely. Refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "parsed",
+          "gathered",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -156,11 +488,36 @@
     "description": "This module manages global BGP configuration on devices running Cisco NX-OS.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section '^router bgp'). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A list of BGP process configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in. State I(purged) removes all the BGP configurations from the target device. Use caution with this state. State I(deleted) only removes BGP attributes that this modules manages and does not negate the BGP process completely. Thereby, preserving address-family related configurations under BGP context. Running states I(deleted) and I(replaced) will result in an error if there are address-family configuration lines present under a neighbor, or a vrf context that is to be removed. Please use the M(cisco.nxos.nxos_bgp_af) or M(cisco.nxos.nxos_bgp_neighbor_af) modules for prior cleanup. States C(merged) and C(replaced) will result in a failure if BGP is already configured with a different ASN than what is provided in the task. In such cases, please use state C(purged) to remove the existing BGP process and proceed further. States C(replaced) and C(overridden) have the same behaviour for this module. Refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "purged",
+          "parsed",
+          "gathered",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -171,11 +528,35 @@
     "description": "This module manages BGP Neighbor Address Family configuration on devices running Cisco NX-OS.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section '^router bgp'). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "BGP Neighbor AF configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in. State I(deleted) only removes BGP attributes that this modules manages and does not negate the BGP process completely. Refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "parsed",
+          "gathered",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -186,11 +567,35 @@
     "description": "This module manages BGP templates on devices running Cisco NX-OS.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config bgp | section",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config bgp | section 'template'). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A list of BGP templates.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in. Refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "parsed",
+          "gathered",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -201,11 +606,48 @@
     "description": "Sends an arbitrary command to an NXOS node and returns the results read from the device.  This module includes an argument that will cause the module to wait for a specific condition before returning or timing out if the condition is not met.",
     "options": {
       "commands": {
-        "description": "The commands to send to the remote NXOS device.  The resulting output from the command is returned.  If the I(wait_for) argument is provided, the module is not returned until the condition is satisfied or the number of retires as expired. The I(commands) argument also accepts an alternative form that allows for complex values that specify the command to run and the output format to return. This can be done on a command by command basis.  The complex argument supports the keywords C(command) and C(output) where C(command) is the command to run and C(output) is one of",
-        "type": "str",
+        "description": "The commands to send to the remote NXOS device.  The resulting output from the command is returned.  If the I(wait_for) argument is provided, the module is not returned until the condition is satisfied or the number of retires as expired. The I(commands) argument also accepts an alternative form that allows for complex values that specify the command to run and the output format to return. This can be done on a command by command basis.  The complex argument supports the keywords C(command) and C(output) where C(command) is the command to run and C(output) is one of 'text' or 'json'. If a command sent to the device requires answering a prompt, it is possible to pass a dict containing command, answer and prompt. Common answers are 'y' or \"\\\\r\" (carriage return, must be double quotes). See examples.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait_for": {
+        "description": "Specifies what to evaluate from the output of the command and what conditionals to apply.  This argument will cause the task to wait for a particular conditional to be true before moving forward.   If the conditional is not true by the configured retries, the task fails.  See examples.",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": [
+          "waitfor"
+        ]
+      },
+      "match": {
+        "description": "The I(match) argument is used in conjunction with the I(wait_for) argument to specify the match policy.  Valid values are C(all) or C(any).  If the value is set to C(all) then all conditionals in the I(wait_for) must be satisfied.  If the value is set to C(any) then only one of the values must be satisfied.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "any",
+          "all"
+        ],
+        "default": "all",
+        "aliases": null
+      },
+      "retries": {
+        "description": "Specifies the number of retries a command should by tried before it is considered failed. The command is run on the target device every retry and evaluated against the I(wait_for) conditionals. The commands are run once when I(retries) is set to C(0).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 9,
+        "aliases": null
+      },
+      "interval": {
+        "description": "Configures the interval in seconds to wait between retries of the command.  If the command does not pass the specified conditional, the interval indicates how to long to wait before trying the command again.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
         "aliases": null
       }
     },
@@ -350,8 +792,16 @@
         "aliases": null
       },
       "intended_config": {
-        "description": "The C(intended_config) provides the master configuration that the node should conform to and is used to check the final running-config against. This argument will not modify any settings on the remote device and is strictly used to check the compliance of the current device",
+        "description": "The C(intended_config) provides the master configuration that the node should conform to and is used to check the final running-config against. This argument will not modify any settings on the remote device and is strictly used to check the compliance of the current device's configuration against.  When specifying this argument, the task should also modify the C(diff_against) value and set it to I(intended). The configuration lines for this value should be similar to how it will appear if present in the running-configuration of the device including the indentation to ensure correct diff.",
         "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup_options": {
+        "description": "This is a dict object containing configurable options related to backup file path. The value of this option is read only when C(backup) is set to I(True), if C(backup) is set to I(false) this option will be silently ignored.",
+        "type": "dict",
         "required": false,
         "choices": null,
         "default": null,
@@ -420,7 +870,59 @@
   "cisco.nxos.nxos_evpn_vni": {
     "short_description": "Manages Cisco EVPN VXLAN Network Identifier (VNI).",
     "description": "Manages Cisco Ethernet Virtual Private Network (EVPN) VXLAN Network Identifier (VNI) configurations of a Nexus device.",
-    "options": {},
+    "options": {
+      "vni": {
+        "description": "The EVPN VXLAN Network Identifier.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "route_distinguisher": {
+        "description": "The VPN Route Distinguisher (RD). The RD is combined with the IPv4 or IPv6 prefix learned by the PE router to create a globally unique address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "route_target_both": {
+        "description": "Enables/Disables route-target settings for both import and export target communities using a single property.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "route_target_import": {
+        "description": "Sets the route-target 'import' extended communities.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "route_target_export": {
+        "description": "Sets the route-target 'export' extended communities.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Determines whether the config should be present or not on the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cisco.nxos.nxos_facts": {
@@ -429,10 +931,26 @@
     "options": {
       "gather_subset": {
         "description": "When supplied, this argument will gather operational facts only for the given subset. Possible values for this argument include C(all), C(hardware), C(config), C(legacy), C(interfaces), and C(min).  Can specify a list of values to include a larger subset.  Values can also be used with an initial C(!) to specify that a specific subset should not be collected.",
-        "type": "str",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": "min",
+        "aliases": null
+      },
+      "gather_network_resources": {
+        "description": "When supplied, this argument will gather configuration facts only for the given subset. Can specify a list of values to include a larger subset. Values can also be used with an initial C(!) to specify that a specific subset should not be collected. Valid subsets are C(all), C(bfd_interfaces), C(lag_interfaces), C(telemetry), C(vlans), C(lacp), C(lacp_interfaces), C(interfaces), C(l3_interfaces), C(l2_interfaces), C(lldp_global), C(acls), C(acl_interfaces), C(ospfv2), C(ospfv3), C(ospf_interfaces), C(bgp_global), C(bgp_address_family), C(route_maps), C(prefix_lists), C(logging_global), C(ntp_global), C(snmp_server), C(hostname).",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "available_network_resources": {
+        "description": "When set to C(true) a list of network resources for which resource modules are available will be provided.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },
@@ -443,11 +961,35 @@
     "description": "This module manages the interface attributes of NX-OS fc interfaces.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config interface) The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config interface) The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A dictionary of interface options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -504,7 +1046,102 @@
         "type": "str",
         "required": false,
         "choices": null,
+        "default": "bootflash:",
+        "aliases": null
+      },
+      "connect_ssh_port": {
+        "description": "B(Deprecated) This option has been deprecated and will be removed in a release after 2024-06-01. To maintain backwards compatibility, this option will continue to override the value of I(ansible_port) until removed. HORIZONTALLINE SSH server port used for file transfer. Only used when I(file_pull) is C(True).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 22,
+        "aliases": null
+      },
+      "file_pull": {
+        "description": "When (False) file is copied from the Ansible controller to the NXOS device. When (True) file is copied from a remote SCP server to the NXOS device. In this mode, the file copy is initiated from the NXOS device. If the file is already present on the device it will be overwritten and therefore the operation is NOT idempotent.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "file_pull_protocol": {
+        "description": "When file_pull is True, this can be used to define the transfer protocol for copying file from remote to the NXOS device. When (file_pull is False), this is not used.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "scp",
+          "sftp",
+          "ftp",
+          "http",
+          "https",
+          "tftp"
+        ],
+        "default": "scp",
+        "aliases": null
+      },
+      "file_pull_compact": {
+        "description": "When file_pull is True, this is used to compact nxos image files. This option can only be used with nxos image files. When (file_pull is False), this is not used.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "file_pull_kstack": {
+        "description": "When file_pull is True, this can be used to speed up file copies when the nxos running image supports the use-kstack option. When (file_pull is False), this is not used.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "local_file_directory": {
+        "description": "When (file_pull is True) file is copied from a remote SCP server to the NXOS device, and written to this directory on the NXOS device. If the directory does not exist, it will be created under the file_system. This is an optional parameter. When (file_pull is False), this is not used.",
+        "type": "path",
+        "required": false,
+        "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "file_pull_timeout": {
+        "description": "B(Deprecated) This option has been deprecated and will be removed in a release after 2024-06-01. To maintain backwards compatibility, this option will continue to override the value of I(ansible_command_timeout) until removed. HORIZONTALLINE Use this parameter to set timeout in seconds, when transferring large files or when the network is slow. When (file_pull is False), this is not used.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 300,
+        "aliases": null
+      },
+      "remote_scp_server": {
+        "description": "The remote scp server address when file_pull is True. This is required if file_pull is True. When (file_pull is False), this is not used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remote_scp_server_user": {
+        "description": "The remote scp server username when file_pull is True. This is required if file_pull is True. When (file_pull is False), this is not used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remote_scp_server_password": {
+        "description": "The remote scp server password when file_pull is True. This is required if file_pull is True. When (file_pull is False), this is not used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vrf": {
+        "description": "The VRF used to pull the file. Useful when no vrf management is defined. This option is not applicable for MDS switches.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "management",
         "aliases": null
       }
     },
@@ -621,11 +1258,35 @@
     "description": "This module manages hostname configuration on devices running Cisco NX-OS.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section hostname). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section hostname). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A dictionary of hostname configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in. The states I(merged), I(replaced) and I(overridden) have identical behaviour for this module. Refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "parsed",
+          "gathered",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -655,8 +1316,68 @@
         "description": "HSRP version.",
         "type": "str",
         "required": false,
+        "choices": [
+          "1",
+          "2"
+        ],
+        "default": "1",
+        "aliases": null
+      },
+      "priority": {
+        "description": "HSRP priority or keyword 'default'.",
+        "type": "str",
+        "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "preempt": {
+        "description": "Enable/Disable preempt.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "vip": {
+        "description": "HSRP virtual IP address or keyword 'default'",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auth_string": {
+        "description": "Authentication string. If this needs to be hidden(for md5 type), the string should be 7 followed by the key string. Otherwise, it can be 0 followed by key string or just key string (for backward compatibility). For text type, this should be just be a key string. if this is 'default', authentication is removed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auth_type": {
+        "description": "Authentication type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "text",
+          "md5"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Specify desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -667,11 +1388,35 @@
     "description": "Resource module to configure HSRP on interfaces.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section '^interface'). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A dictionary of HSRP configuration options to add to interface",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | section ^interface) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -722,7 +1467,152 @@
   "cisco.nxos.nxos_igmp_interface": {
     "short_description": "Manages IGMP interface configuration.",
     "description": "Manages IGMP interface configuration settings.",
-    "options": {},
+    "options": {
+      "interface": {
+        "description": "The full interface name for IGMP configuration. e.g. I(Ethernet1/2).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "version": {
+        "description": "IGMP version. It can be 2 or 3 or keyword 'default'.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "2",
+          "3",
+          "default"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "startup_query_interval": {
+        "description": "Query interval used when the IGMP process starts up. The range is from 1 to 18000 or keyword 'default'. The default is 31.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "startup_query_count": {
+        "description": "Query count used when the IGMP process starts up. The range is from 1 to 10 or keyword 'default'. The default is 2.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "robustness": {
+        "description": "Sets the robustness variable. Values can range from 1 to 7 or keyword 'default'. The default is 2.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "querier_timeout": {
+        "description": "Sets the querier timeout that the software uses when deciding to take over as the querier. Values can range from 1 to 65535 seconds or keyword 'default'. The default is 255 seconds.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "query_mrt": {
+        "description": "Sets the response time advertised in IGMP queries. Values can range from 1 to 25 seconds or keyword 'default'. The default is 10 seconds.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "query_interval": {
+        "description": "Sets the frequency at which the software sends IGMP host query messages. Values can range from 1 to 18000 seconds or keyword 'default'. The default is 125 seconds.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "last_member_qrt": {
+        "description": "Sets the query interval waited after sending membership reports before the software deletes the group state. Values can range from 1 to 25 seconds or keyword 'default'. The default is 1 second.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "last_member_query_count": {
+        "description": "Sets the number of times that the software sends an IGMP query in response to a host leave message. Values can range from 1 to 5 or keyword 'default'. The default is 2.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group_timeout": {
+        "description": "Sets the group membership timeout for IGMPv2. Values can range from 3 to 65,535 seconds or keyword 'default'. The default is 260 seconds.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "report_llg": {
+        "description": "Configures report-link-local-groups. Enables sending reports for groups in 224.0.0.0/24. Reports are always sent for nonlink local groups. By default, reports are not sent for link local groups.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "immediate_leave": {
+        "description": "Enables the device to remove the group entry from the multicast routing table immediately upon receiving a leave message for the group. Use this command to minimize the leave latency of IGMPv2 group memberships on a given IGMP interface because the device does not send group-specific queries. The default is disabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "oif_routemap": {
+        "description": "Configure a routemap for static outgoing interface (OIF) or keyword 'default'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "oif_ps": {
+        "description": "Configure prefixes and sources for static outgoing interface (OIF). This is a list of dict where each dict has source and prefix defined or just prefix if source is not needed. The specified values will be configured on the device and if any previous prefix/sources exist, they will be removed. Keyword 'default' is also accepted which removes all existing prefix/sources.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "restart": {
+        "description": "Restart IGMP. This is NOT idempotent as this is action only.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Manages desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "default"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cisco.nxos.nxos_igmp_snooping": {
@@ -804,11 +1694,16 @@
         "aliases": null
       },
       "issu": {
-        "description": "Upgrade using In Service Software Upgrade (ISSU). (Supported on N5k, N7k, N9k platforms) Selecting",
+        "description": "Upgrade using In Service Software Upgrade (ISSU). (Supported on N5k, N7k, N9k platforms) Selecting 'required' or 'yes' means that upgrades will only proceed if the switch is capable of ISSU. Selecting 'desired' means that upgrades will use ISSU if possible but will fall back to disruptive upgrade if needed. Selecting 'no' means do not use ISSU. Forced disruptive.",
         "type": "str",
         "required": false,
-        "choices": null,
-        "default": null,
+        "choices": [
+          "required",
+          "desired",
+          "yes",
+          "no"
+        ],
+        "default": "no",
         "aliases": null
       }
     },
@@ -825,6 +1720,31 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section ^interface) The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion The state I(rendered) considers the system default mode for interfaces to be \"Layer 3\" and the system default state for interfaces to be shutdown. The state I(purged) negates virtual interfaces that are specified in task from running-config.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed",
+          "purged"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -836,6 +1756,30 @@
       "config": {
         "description": "A List of Layer-2 interface options",
         "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
         "required": false,
         "choices": null,
         "default": null,
@@ -857,11 +1801,27 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the IOS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | section ^interface) executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "rendered",
+          "gathered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -872,11 +1832,35 @@
     "description": "This module manages Global Link Aggregation Control Protocol (LACP) on NX-OS devices.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | include lacp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | include lacp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "LACP global options.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion. States C(replaced) and C(overridden) have the same behaviour for this module.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -887,11 +1871,35 @@
     "description": "This module manages Link Aggregation Control Protocol (LACP) attributes of NX-OS Interfaces.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A dictionary of LACP interfaces options.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -902,11 +1910,35 @@
     "description": "This module manages attributes of link aggregation groups of NX-OS Interfaces.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A list of link aggregation group configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -917,11 +1949,35 @@
     "description": "This module configures and manages the Link Layer Discovery Protocol(LLDP) attributes on NX-OS platforms.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | include lldp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | include lldp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A list of link layer discovery configurations",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion. States C(replaced) and C(overridden) have the same behaviour for this module.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -929,8 +1985,41 @@
   },
   "cisco.nxos.nxos_lldp_interfaces": {
     "short_description": "LLDP interfaces resource module",
-    "description": "This module manages interfaces",
-    "options": {},
+    "description": "This module manages interfaces' configuration for Link Layer Discovery Protocol (LLDP) on NX-OS platforms.",
+    "options": {
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section ^interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A list of link layer discovery configurations for interfaces.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cisco.nxos.nxos_logging_global": {
@@ -938,11 +2027,35 @@
     "description": "This module manages logging configuration on devices running Cisco NX-OS.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | include logging). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | include logging). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A dictionary of logging configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in. The states I(replaced) and I(overridden) have identical behaviour for this module. Refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "parsed",
+          "gathered",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -953,11 +2066,35 @@
     "description": "This module manages ntp configuration on devices running Cisco NX-OS.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config ntp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config ntp). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A dict of ntp configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in. The states I(replaced) and I(overridden) have identical behaviour for this module. Please refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "parsed",
+          "gathered",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -1064,11 +2201,35 @@
     "description": "This module manages OSPF(v2/v3) configuration of interfaces on devices running Cisco NX-OS.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section \"^interface\"). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A list of OSPF configuration for interfaces.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "parsed",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -1079,11 +2240,35 @@
     "description": "This module manages OSPFv2 configuration on devices running Cisco NX-OS.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section \"^router ospf .*\"). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A list of OSPF process configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "parsed",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -1094,11 +2279,35 @@
     "description": "This module manages OSPFv3 configuration on devices running Cisco NX-OS.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section \"^router ospfv3\"). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A list of OSPFv3 process configuration.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "parsed",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -1107,7 +2316,16 @@
   "cisco.nxos.nxos_overlay_global": {
     "short_description": "Configures anycast gateway MAC of the switch.",
     "description": "Configures anycast gateway MAC of the switch.",
-    "options": {},
+    "options": {
+      "anycast_gateway_mac": {
+        "description": "Anycast gateway mac of the switch.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cisco.nxos.nxos_pim": {
@@ -1115,11 +2333,22 @@
     "description": "Manages configuration of a Protocol Independent Multicast (PIM) instance.",
     "options": {
       "bfd": {
-        "description": "Enables BFD on all PIM interfaces. ",
+        "description": "Enables BFD on all PIM interfaces. Dependency: ''feature bfd''",
         "type": "str",
         "required": false,
-        "choices": null,
+        "choices": [
+          "enable",
+          "disable"
+        ],
         "default": null,
+        "aliases": null
+      },
+      "ssm_range": {
+        "description": "Configure group ranges for Source Specific Multicast (SSM). Valid values are multicast addresses or the keyword C(none) or keyword C(default). C(none) removes all SSM group ranges. C(default) will set ssm_range to the default multicast address. If you set multicast address, please ensure that it is not the same as the C(default), otherwise use the C(default) option.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
         "aliases": null
       }
     },
@@ -1146,11 +2375,124 @@
         "aliases": null
       },
       "bfd": {
-        "description": "Enables BFD for PIM at the interface level. This overrides the bfd variable set at the pim global level. Valid values are",
+        "description": "Enables BFD for PIM at the interface level. This overrides the bfd variable set at the pim global level. Valid values are 'enable', 'disable' or 'default'. Dependency: ''feature bfd''",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enable",
+          "disable",
+          "default"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "dr_prio": {
+        "description": "Configures priority for PIM DR election on interface.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "hello_auth_key": {
+        "description": "Authentication for hellos on this interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hello_interval": {
+        "description": "Hello interval in milliseconds or seconds for this interface. Use the option I(hello_interval_ms) to specify if the given value is in milliseconds or seconds. The default is seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hello_interval_ms": {
+        "description": "Specifies that the hello_interval is in milliseconds. When set to True, this indicates that the user is providing the hello_interval in milliseconds and hence, no conversion is required.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "jp_policy_out": {
+        "description": "Policy for join-prune messages (outbound).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "jp_policy_in": {
+        "description": "Policy for join-prune messages (inbound).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "jp_type_out": {
+        "description": "Type of policy mapped to C(jp_policy_out).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "prefix",
+          "routemap"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "jp_type_in": {
+        "description": "Type of policy mapped to C(jp_policy_in).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "prefix",
+          "routemap"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "border": {
+        "description": "Configures interface to be a boundary of a PIM domain.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "neighbor_policy": {
+        "description": "Configures a neighbor policy for filtering adjacencies.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "neighbor_type": {
+        "description": "Type of policy mapped to neighbor_policy.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "prefix",
+          "routemap"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Manages desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "default"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -1285,11 +2627,35 @@
     "description": "This module manages prefix-lists configuration on devices running Cisco NX-OS.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section '^ip(.*) prefix-list'). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A list of prefix-list configuration.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in. Refer to examples for more details. With state I(replaced), for the listed prefix-lists, sequences that are in running-config but not in the task are negated. With state I(overridden), all prefix-lists that are in running-config but not in the task are negated. Please refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "parsed",
+          "gathered",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -1300,11 +2666,11 @@
     "description": "Reboot a network device.",
     "options": {
       "confirm": {
-        "description": "Safeguard boolean. Set to true if you",
-        "type": "str",
+        "description": "Safeguard boolean. Set to true if you're sure you want to reboot.",
+        "type": "bool",
         "required": false,
         "choices": null,
-        "default": null,
+        "default": false,
         "aliases": null
       }
     },
@@ -1338,11 +2704,35 @@
     "description": "This module manages route maps configuration on devices running Cisco NX-OS.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section '^route-map'). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A list of route-map configuration.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in. With state I(replaced), for the listed route-maps, sequences that are in running-config but not in the task are negated. With state I(overridden), all route-maps that are in running-config but not in the task are negated. Please refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "parsed",
+          "gathered",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -1477,11 +2867,43 @@
         "aliases": null
       },
       "row_id": {
-        "description": "Specifies the tag of each row entry of the show command",
+        "description": "Specifies the tag of each row entry of the show command's XML output, to be used when C(action=add).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "element_key1": {
+        "description": "Specify the tags used to distinguish among row entries, to be used when C(action=add).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "element_key2": {
+        "description": "Specify the tags used to distinguish among row entries, to be used when C(action=add).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "save_snapshot_locally": {
+        "description": "Specify to locally store a new created snapshot, to be used when C(action=create).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "path": {
+        "description": "Specify the path of the file where new created snapshot or snapshots comparison will be stored, to be used when C(action=create) and C(save_snapshot_locally=true) or C(action=compare).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "./",
         "aliases": null
       }
     },
@@ -1492,11 +2914,35 @@
     "description": "This module manages SNMP server configuration on devices running Cisco NX-OS.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section '^snmp-server'). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A dict of SNMP server configuration",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in. The states C(replaced) and C(overridden) have identical behaviour for this module. Please refer to examples for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "parsed",
+          "gathered",
+          "rendered"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -1507,11 +2953,35 @@
     "description": "This module configures and manages the attributes of static routes on Cisco NX-OS platforms.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the following commands in order B(show running-config | include",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the following commands in order B(show running-config | include '^ip(v6)* route') and B(show running-config | section '^vrf context'). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A list of configurations for static routes",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state C(deleted) does not support or guarantee granular deletion of configuration the playbook should act as source of truth, and the desired state of the resouce is what the playbook should reflect. Use C(overridden) or C(replaced) to get extra configuration removed. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | section '^ip(v6)* route') executed on device. For state I(parsed) active connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deleted",
+          "merged",
+          "overridden",
+          "replaced",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -1522,11 +2992,62 @@
     "description": "This module provides declarative management of node system attributes on Cisco NXOS devices.  It provides an option to configure host system parameters or remove those parameters from the device active configuration.",
     "options": {
       "hostname": {
-        "description": "Configure the device hostname parameter. This option takes an ASCII string value or keyword",
+        "description": "Configure the device hostname parameter. This option takes an ASCII string value or keyword 'default'",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "domain_name": {
+        "description": "Configures the default domain name suffix to be used when referencing this node by its FQDN.  This argument accepts either a list of domain names or a list of dicts that configure the domain name and VRF name or keyword 'default'. See examples.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_lookup": {
+        "description": "Enables or disables the DNS lookup feature in Cisco NXOS.  This argument accepts boolean values.  When enabled, the system will try to resolve hostnames using DNS and when disabled, hostnames will not be resolved.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_search": {
+        "description": "Configures a list of domain name suffixes to search when performing DNS name resolution. This argument accepts either a list of domain names or a list of dicts that configure the domain name and VRF name or keyword 'default'. See examples.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name_servers": {
+        "description": "List of DNS name servers by IP address to use to perform name resolution lookups.  This argument accepts either a list of DNS servers or a list of hashes that configure the name server and VRF name or keyword 'default'. See examples.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "system_mtu": {
+        "description": "Specifies the mtu, must be an integer or keyword 'default'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the configuration values in the device's current active configuration.  When set to I(present), the values should be configured in the device active configuration and when set to I(absent) the values should not be in the device active configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -1577,11 +3098,30 @@
         "aliases": null
       },
       "msg_time": {
-        "description": "Message time in seconds for UDLD packets or keyword",
+        "description": "Message time in seconds for UDLD packets or keyword 'default'.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "reset": {
+        "description": "Ability to reset all ports shut down by UDLD. 'state' parameter cannot be 'absent' when this is present.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Manage the state of the resource. When set to 'absent', aggressive and msg_time are set to their default values.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -1720,11 +3260,35 @@
     "description": "This module creates and manages VLAN configurations on Cisco NX-OS.",
     "options": {
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the commands B(show vlans | json-pretty) and B(show running-config | section ^vlan) in order and delimited by a line. The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the commands B(show vlans | json-pretty) and B(show running-config | section ^vlan) in order and delimited by a line. The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "config": {
+        "description": "A dictionary of Vlan options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the configuration after module completion. The state I(overridden) would override the configuration of all the VLANs on the device (including VLAN 1) with the provided configuration in the task. Use caution with this state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -1733,7 +3297,123 @@
   "cisco.nxos.nxos_vpc": {
     "short_description": "Manages global VPC configuration",
     "description": "Manages global VPC configuration",
-    "options": {},
+    "options": {
+      "domain": {
+        "description": "VPC domain",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role_priority": {
+        "description": "Role priority for device. Remember lower is better.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "system_priority": {
+        "description": "System priority device.  Remember they must match between peers.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pkl_src": {
+        "description": "Source IP address used for peer keepalive link",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pkl_dest": {
+        "description": "Destination (remote) IP address used for peer keepalive link pkl_dest is required whenever pkl options are used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pkl_vrf": {
+        "description": "VRF used for peer keepalive link The VRF must exist on the device before using pkl_vrf. (Note) 'default' is an overloaded term: Default vrf context for pkl_vrf is 'management'; 'pkl_vrf: default' refers to the literal 'default' rib.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "peer_gw": {
+        "description": "Enables/Disables peer gateway",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "peer_sw": {
+        "description": "Enables/Disables peer-switch",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auto_recovery": {
+        "description": "Enables/Disables auto recovery on platforms that support disable timers are not modifiable with this attribute mutually exclusive with auto_recovery_reload_delay",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auto_recovery_reload_delay": {
+        "description": "Manages auto-recovery reload-delay timer in seconds mutually exclusive with auto_recovery",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delay_restore": {
+        "description": "manages delay restore command and config value in seconds",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delay_restore_interface_vlan": {
+        "description": "manages delay restore interface-vlan command and config value in seconds not supported on all platforms",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delay_restore_orphan_port": {
+        "description": "manages delay restore orphan-port command and config value in seconds not supported on all platforms",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Manages desired state of the resource",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cisco.nxos.nxos_vpc_interface": {
@@ -1781,7 +3461,144 @@
   "cisco.nxos.nxos_vrf": {
     "short_description": "(deprecated, removed after 2026-07-25) Manages global VRF configuration.",
     "description": "This module provides declarative management of VRFs on CISCO NXOS network devices.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of VRF to be managed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "vrf"
+        ]
+      },
+      "admin_state": {
+        "description": "Administrative state of the VRF.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "up",
+          "down"
+        ],
+        "default": "up",
+        "aliases": null
+      },
+      "vni": {
+        "description": "Specify virtual network identifier. Valid values are Integer or keyword 'default'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rd": {
+        "description": "VPN Route Distinguisher (RD). Valid values are a string in one of the route-distinguisher formats (ASN2:NN, ASN4:NN, or IPV4:NN); the keyword 'auto', or the keyword 'default'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interfaces": {
+        "description": "List of interfaces to check the VRF has been configured correctly or keyword 'default'.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "associated_interfaces": {
+        "description": "This is a intent option and checks the operational state of the for given vrf C(name) for associated interfaces. If the value in the C(associated_interfaces) does not match with the operational state of vrf interfaces on device it will result in failure.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "aggregate": {
+        "description": "List of VRFs definitions.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge": {
+        "description": "Purge VRFs not defined in the I(aggregate) parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "Manages desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the VRF or keyword 'default'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delay": {
+        "description": "Time in seconds to wait before checking for the operational state on remote device. This wait is applicable for operational state arguments.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.nxos.nxos_vrf_address_family": {
+    "short_description": "Resource module to configure VRF address family definitions.",
+    "description": "This module provides declarative management of VRF definitions on Cisco NXOS.",
+    "options": {
+      "config": {
+        "description": "A list of device configurations for VRF address family.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section ^vrf). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | section ^vrf). connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "parsed",
+          "gathered",
+          "deleted",
+          "purged",
+          "merged",
+          "replaced",
+          "rendered",
+          "overridden"
+        ],
+        "default": "merged",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cisco.nxos.nxos_vrf_af": {
@@ -1808,11 +3625,30 @@
         "aliases": null
       },
       "route_target_both_auto_evpn": {
-        "description": "Enable/Disable the EVPN route-target",
-        "type": "str",
+        "description": "Enable/Disable the EVPN route-target 'auto' setting for both import and export target communities.",
+        "type": "bool",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "route_targets": {
+        "description": "Specify the route-targets which should be imported and/or exported under the AF. This argument accepts a list of dicts that specify the route-target, the direction (import|export|both) and state of each route-target. Default direction is C(direction=both). See examples.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Determines whether the config should be present or not on the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -1831,11 +3667,28 @@
         "aliases": null
       },
       "running_config": {
-        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section ^vrf). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module",
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config | section ^vrf). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The states I(rendered), I(gathered) and I(parsed) does not perform any change on the device. The state I(rendered) will transform the configuration in C(config) option to platform specific CLI commands which will be returned in the I(rendered) key within the result. For state I(rendered) active connection to remote host is not required. The state I(gathered) will fetch the running configuration from device and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result. The state I(parsed) reads the configuration from C(running_config) option and transforms it into JSON format as per the resource module parameters and the value is returned in the I(parsed) key within the result. The value of C(running_config) option should be the same format as the output of command I(show running-config | section ^vrf). connection to remote host is not required.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "parsed",
+          "gathered",
+          "deleted",
+          "merged",
+          "replaced",
+          "rendered",
+          "overridden",
+          "purged"
+        ],
+        "default": "merged",
         "aliases": null
       }
     },
@@ -1886,6 +3739,30 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "running_config": {
+        "description": "This option is used only with state I(parsed). The value of this option should be the output received from the NX-OS device by executing the command B(show running-config interface). The state I(parsed) reads the configuration from C(running_config) option and transforms it into Ansible structured data as per the resource module's argspec and the value is then returned in the I(parsed) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "deleted",
+          "gathered",
+          "rendered",
+          "parsed"
+        ],
+        "default": "merged",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -1911,11 +3788,66 @@
         "aliases": null
       },
       "interval": {
-        "description": "Time interval between advertisement or",
+        "description": "Time interval between advertisement or 'default' keyword",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "priority": {
+        "description": "VRRP priority or 'default' keyword",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "preempt": {
+        "description": "Enable/Disable preempt.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vip": {
+        "description": "VRRP virtual IP address or 'default' keyword",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "authentication": {
+        "description": "Clear text authentication string or 'default' keyword",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "admin_state": {
+        "description": "Used to enable or disable the VRRP process.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "shutdown",
+          "no shutdown",
+          "default"
+        ],
+        "default": "shutdown",
+        "aliases": null
+      },
+      "state": {
+        "description": "Specify desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -1939,7 +3871,16 @@
   "cisco.nxos.nxos_vtp_domain": {
     "short_description": "Manages VTP domain configuration.",
     "description": "Manages VTP domain configuration.",
-    "options": {},
+    "options": {
+      "domain": {
+        "description": "VTP domain name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "cisco.nxos.nxos_vtp_password": {
@@ -1977,7 +3918,9 @@
         "type": "str",
         "required": true,
         "choices": [
-          null
+          "1",
+          "2",
+          "3"
         ],
         "default": null,
         "aliases": null
@@ -2006,8 +3949,91 @@
         "aliases": null
       },
       "host_reachability": {
-        "description": "Specify mechanism for host reachability advertisement.  A Boolean value of",
+        "description": "Specify mechanism for host reachability advertisement.  A Boolean value of 'true' indicates that BGP will be used for host reachability advertisement. A Boolean value of 'false' indicates that no protocol is used for host reachability advertisement. Other host reachability advertisement protocols (e.g. OpenFlow, controller, etc.) are not supported.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "shutdown": {
+        "description": "Administratively shutdown the NVE interface.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_interface": {
+        "description": "Specify the loopback interface whose IP address should be used for the NVE interface.",
         "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_interface_hold_down_time": {
+        "description": "Suppresses advertisement of the NVE loopback address until the overlay has converged.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "global_mcast_group_L3": {
+        "description": "Global multicast IP prefix for L3 VNIs or the keyword 'default'. This is available on Nexus 9000 series switches running NX-OS software release 9.2(x) or higher.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "global_mcast_group_L2": {
+        "description": "Global multicast IP prefix for L2 VNIs or the keyword 'default'. This is available on Nexus 9000 series switches running NX-OS software release 9.2(x) or higher.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "global_suppress_arp": {
+        "description": "Enables ARP suppression for all VNIs. This is available on NX-OS 9K series running 9.2.x or higher.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "global_ingress_replication_bgp": {
+        "description": "Configures ingress replication protocol as bgp for all VNIs. This is available on Nexus 9000 series switches running NX-OS software release 9.2(x) or higher.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Determines whether the config should be present or not on the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "multisite_border_gateway_interface": {
+        "description": "Specify the loopback interface whose IP address should be used for the NVE Multisite Border-gateway Interface. This is available on specific Nexus 9000 series switches running NX-OS 7.0(3)I7(x) or higher. Specify \"default\" to remove an existing gateway config.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "advertise_virtual_rmac": {
+        "description": "The advertise_virtual_rmac parameter lets BGP to use the VMAC with VIP as next-hop when advertising type-2 routes. Should be used together with advertise_pip parameter from cisco.nxos.nxos_bgp_address_family module.",
+        "type": "bool",
         "required": false,
         "choices": null,
         "default": null,
@@ -2057,10 +4083,57 @@
         "aliases": null
       },
       "multicast_group": {
-        "description": "The multicast group (range) of the VNI. Valid values are string and keyword",
+        "description": "The multicast group (range) of the VNI. Valid values are string and keyword 'default'.",
         "type": "str",
         "required": false,
         "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "peer_list": {
+        "description": "Set the ingress-replication static peer list. Valid values are an array, a space-separated string of ip addresses, or the keyword 'default'.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "suppress_arp": {
+        "description": "Suppress arp under layer 2 VNI.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "suppress_arp_disable": {
+        "description": "Overrides the global ARP suppression config. This is available on NX-OS 9K series running 9.2.x or higher.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Determines whether the config should be present or not on the device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "multisite_ingress_replication": {
+        "description": "Enables multisite ingress replication.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disable",
+          "enable",
+          "optimized"
+        ],
         "default": null,
         "aliases": null
       }

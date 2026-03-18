@@ -73,27 +73,210 @@
     "deprecated": null
   },
   "community.hrobot.failover_ip": {
-    "short_description": "Manage Hetzner",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Hetzner's failover IPs",
+    "description": "Manage Hetzner's failover IPs.",
+    "options": {
+      "failover_ip": {
+        "description": "The failover IP address.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Defines whether the IP will be routed or not. If set to V(routed), O(value) must be specified.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "routed",
+          "unrouted"
+        ],
+        "default": "routed",
+        "aliases": null
+      },
+      "value": {
+        "description": "The new value for the failover IP address. Required when setting O(state) to V(routed).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Timeout to use when routing or unrouting the failover IP. Note that the API call returns when the failover IP has been successfully routed to the new address, respectively successfully unrouted.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 180,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.hrobot.failover_ip_info": {
-    "short_description": "Retrieve information on Hetzner",
-    "description": "",
-    "options": {},
+    "short_description": "Retrieve information on Hetzner's failover IPs",
+    "description": "Retrieve information on Hetzner's failover IPs.",
+    "options": {
+      "failover_ip": {
+        "description": "The failover IP address.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.hrobot.firewall": {
-    "short_description": "Manage Hetzner",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Hetzner's dedicated server firewall",
+    "description": "Manage Hetzner's dedicated server firewall. Note that idempotency check for TCP flags simply compares strings and does not try to interpret the rules. This might change in the future.",
+    "options": {
+      "server_ip": {
+        "description": "The server's main IP address. Exactly one of O(server_ip) and O(server_number) must be specified. Note that Hetzner deprecated identifying the server's firewall by the server's main IP. Using this option can thus stop working at any time in the future. Use O(server_number) instead.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_number": {
+        "description": "The server's number. Exactly one of O(server_ip) and O(server_number) must be specified.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filter_ipv6": {
+        "description": "Whether to filter IPv6 traffic as well. IPv4 traffic is always filtered, IPv6 traffic filtering needs to be explicitly enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Switch port of firewall.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "main",
+          "kvm"
+        ],
+        "default": "main",
+        "aliases": null
+      },
+      "state": {
+        "description": "Status of the firewall. Firewall is active if state is V(present), and disabled if state is V(absent).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "allowlist_hos": {
+        "description": "Whether Hetzner services have access.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "whitelist_hos"
+        ]
+      },
+      "rules": {
+        "description": "Firewall rules.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_timeout": {
+        "description": "Timeout to use when configuring the firewall. Note that the API call returns before the firewall has been successfully set up.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 30,
+        "aliases": null
+      },
+      "wait_for_configured": {
+        "description": "Whether to wait until the firewall has been successfully configured before determining what to do, and before returning from the module. The API returns status C(in progress) when the firewall is currently being configured. If this happens, the module will try again until the status changes to C(active) or C(disabled). Please note that there is a request limit. If you have to do multiple updates, it can be better to disable waiting, and regularly use M(community.hrobot.firewall_info) to query status.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "wait_delay": {
+        "description": "Delay to wait (in seconds) before checking again whether the firewall has been configured.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Timeout (in seconds) for waiting for firewall to be configured.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 180,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.hrobot.firewall_info": {
-    "short_description": "Manage Hetzner",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Hetzner's dedicated server firewall",
+    "description": "Manage Hetzner's dedicated server firewall.",
+    "options": {
+      "server_ip": {
+        "description": "The server's main IP address. Exactly one of O(server_ip) and O(server_number) must be specified. Note that Hetzner deprecated identifying the server's firewall by the server's main IP. Using this option can thus stop working at any time in the future. Use O(server_number) instead.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_number": {
+        "description": "The server's number. Exactly one of O(server_ip) and O(server_number) must be specified.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait_for_configured": {
+        "description": "Whether to wait until the firewall has been successfully configured before returning from the module. The API returns status C(in progress) when the firewall is currently being configured. If this happens, the module will try again until the status changes to C(active) or C(disabled). Please note that there is a request limit. If you have to do multiple updates, it can be better to disable waiting, and regularly use M(community.hrobot.firewall_info) to query status.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "wait_delay": {
+        "description": "Delay to wait (in seconds) before checking again whether the firewall has been configured.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Timeout (in seconds) for waiting for firewall to be configured.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 180,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.hrobot.reset": {
@@ -109,10 +292,15 @@
         "aliases": null
       },
       "reset_type": {
-        "description": "How to reset the server. V(software) is a software reset. This should be similar to pressing Ctrl+Alt+Del on the keyboard. V(power) is a hardware reset similar to pressing the Power button. An ACPI signal is sent, and if the server is configured correctly, this will trigger a regular shutdown. V(hardware) is a hardware reset similar to pressing the Restart button. The power is cycled for the server. V(manual) is a manual reset. This requests a technician to manually do the shutdown while looking at the screen output. B(Be careful) and only use this when really necessary! ",
+        "description": "How to reset the server. V(software) is a software reset. This should be similar to pressing Ctrl+Alt+Del on the keyboard. V(power) is a hardware reset similar to pressing the Power button. An ACPI signal is sent, and if the server is configured correctly, this will trigger a regular shutdown. V(hardware) is a hardware reset similar to pressing the Restart button. The power is cycled for the server. V(manual) is a manual reset. This requests a technician to manually do the shutdown while looking at the screen output. B(Be careful) and only use this when really necessary! Note that not every server supports every reset method! You can query the supported reset methods by using the RV(community.hrobot.reset_info#module:reset.type) return value of the M(community.hrobot.reset_info) module.",
         "type": "str",
-        "required": false,
-        "choices": null,
+        "required": true,
+        "choices": [
+          "software",
+          "hardware",
+          "power",
+          "manual"
+        ],
         "default": null,
         "aliases": null
       }
@@ -170,8 +358,25 @@
   },
   "community.hrobot.server": {
     "short_description": "Update server information",
-    "description": "Allows to update server information. Right now the API only supports updating the server",
-    "options": {},
+    "description": "Allows to update server information. Right now the API only supports updating the server's name.",
+    "options": {
+      "server_number": {
+        "description": "The server number of the server to update.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_name": {
+        "description": "The server's name. If this option is not provided, it will not be adjusted.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.hrobot.server_info": {
@@ -207,20 +412,121 @@
   },
   "community.hrobot.ssh_key": {
     "short_description": "Add, remove or update SSH key",
-    "description": "Add, remove or update an SSH key stored in Hetzner",
-    "options": {},
+    "description": "Add, remove or update an SSH key stored in Hetzner's Robot.",
+    "options": {
+      "state": {
+        "description": "Whether to make sure a public SSH key is present or absent. V(present) makes sure that the SSH key is available, and potentially updates names for existing SSH public keys. V(absent) makes sure that the SSH key is not available. The fingerprint or public key data is used for matching the key.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The public key's name. Required if O(state=present), and ignored if O(state=absent).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fingerprint": {
+        "description": "The MD5 fingerprint of the public SSH key to remove. One of O(public_key) and O(fingerprint) are required if O(state=absent).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "public_key": {
+        "description": "The public key data in OpenSSH format. Example: V(ssh-rsa AAAAB3NzaC1yc+..). One of O(public_key) and O(fingerprint) are required if O(state=absent). Required if O(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.hrobot.ssh_key_info": {
     "short_description": "Query information on SSH keys",
-    "description": "List information on all your SSH keys stored in Hetzner",
+    "description": "List information on all your SSH keys stored in Hetzner's Robot.",
     "options": {},
     "deprecated": null
   },
   "community.hrobot.storagebox": {
-    "short_description": "Modify a storage box",
-    "description": "",
-    "options": {},
+    "short_description": "Modify a storage box's basic configuration",
+    "description": "Modify a storage box's basic configuration.",
+    "options": {
+      "hetzner_token": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "The ID of the storage box to modify.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the storage box.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "samba": {
+        "description": "Whether the storage box is accessible through SAMBA.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webdav": {
+        "description": "Whether the storage box is accessible through WebDAV.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssh": {
+        "description": "Whether the storage box is accessible through SSH.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "external_reachability": {
+        "description": "Whether the storage box is externally reachable.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "zfs": {
+        "description": "Whether the ZFS directory is visible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.hrobot.storagebox_info": {
@@ -367,9 +673,34 @@
     "deprecated": null
   },
   "community.hrobot.storagebox_snapshot_plan": {
-    "short_description": "Modify a storage box",
-    "description": "",
-    "options": {},
+    "short_description": "Modify a storage box's snapshot plans",
+    "description": "Enable, modify, and disable the snapshot plans of a storage box.",
+    "options": {
+      "hetzner_token": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storagebox_id": {
+        "description": "The ID of the storage box to modify.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "plans": {
+        "description": "The storage plan configurations. Note that right now there must be exactly one element. All date and time parameters are in UTC.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.hrobot.storagebox_snapshot_plan_info": {
@@ -398,7 +729,130 @@
   "community.hrobot.storagebox_subaccount": {
     "short_description": "Create, update, or delete a subaccount for a storage box",
     "description": "Create, update, or delete a subaccount for a storage box.",
-    "options": {},
+    "options": {
+      "hetzner_token": {
+        "description": "",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storagebox_id": {
+        "description": "The ID of the storage box to query.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password_mode": {
+        "description": "Controls how password updates are handled. If C(update-if-provided), the password always updated if provided (default). If C(ignore-if-exists), password is only used during creation. If C(set-to-random), password is reset to a randomly generated one. Note that this is not supported by the new API (when O(hetzner_token) is set). The value has been deprecated in community.hrobot 2.7.0 and will be removed from community.hrobot 3.0.0. When a new subaccount is created, the password is set to the specified one if O(password) is provided, and a random password is set if O(password) is not provided.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "update-if-provided",
+          "ignore-if-exists",
+          "set-to-random"
+        ],
+        "default": "update-if-provided",
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of this subaccount.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "username": {
+        "description": "Username of the subaccount. Required when using O(idempotence=username) for updates or deletion of a subaccount. If O(idempotence=username) and this is not specified, a new subaccount will always be created. If O(idempotence=comment), this option is ignored, as the Hetzner API does not allow to chose or modify the username.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password to use or change. See O(password_mode) for how and when this is used. Will be ignored if O(password_mode=set-to-random).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "homedirectory": {
+        "description": "Home directory of the subaccount. Required only when creating a subaccount (O(state=present)).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "samba": {
+        "description": "Enable or disable Samba.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssh": {
+        "description": "Enable or disable SSH access.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "external_reachability": {
+        "description": "Enable or disable external reachability (from outside Hetzner's networks).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webdav": {
+        "description": "Enable or disable WebDAV.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "readonly": {
+        "description": "Enable or disable read-only mode.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "A custom comment for the subaccount. Is required when using O(idempotence=comment) for updates or deletion of a subaccount.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "idempotence": {
+        "description": "Select which attribute to use to check subaccount existence. If set to C(username), then subaccounts are identified by their username. Note that usernames cannot be specified on creation, so you need to use different module arguments for creation and updating. If set to C(comment), then subaccounts are identified by their comment. If there already exist more than one subaccount with the given comment, the module will fail.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "username",
+          "comment"
+        ],
+        "default": "username",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.hrobot.storagebox_subaccount_info": {
@@ -425,9 +879,69 @@
     "deprecated": null
   },
   "community.hrobot.v_switch": {
-    "short_description": "Manage Hetzner",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Hetzner's vSwitch",
+    "description": "Manage Hetzner's vSwitch.",
+    "options": {
+      "vlan": {
+        "description": "The vSwitch's VLAN ID. Range can be from 4000 to 4091. In order to identify a vSwitch both name and VLAN must match. If not, a new vSwitch will be created.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The vSwitch's name. In order to identify a vSwitch both name and VLAN must match. If not, a new vSwitch will be created.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the vSwitch. VSwitch is created if state is V(present), and deleted if state is V(absent). V(absent) just cancels the vSwitch at the end of the current day. When cancelling, you have to specify O(servers=[]) if you want to actively remove the servers in the vSwitch.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "servers": {
+        "description": "List of server identifiers (server's numeric ID or server's main IPv4 or IPv6). If servers is not specified, servers are not going to be deleted.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Whether to wait until the vSwitch has been successfully configured before determining what to do, and before returning from the module. The API returns status C(in process) when the vSwitch is currently being set up in the servers. If this happens, the module will try again until the status changes to C(ready) or server has been removed from vSwitch. Please note that if you disable wait while deleting and removing servers module will fail with C(VSWITCH_IN_PROCESS) error.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "wait_delay": {
+        "description": "Delay to wait (in seconds) before checking again whether the vSwitch servers has been configured.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Timeout (in seconds) for waiting for vSwitch servers to be configured.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 180,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

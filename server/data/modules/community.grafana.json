@@ -1,14 +1,1187 @@
 {
   "community.grafana.grafana_contact_point": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Grafana Contact Points",
+    "description": "Create/Update/Delete Grafana Contact Points via API.",
+    "options": {
+      "disable_resolve_message": {
+        "description": "Disables the resolve message.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "include_image": {
+        "description": "Whether to include an image in the notification.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the contact point. Required when C(state) is C(present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "org_id": {
+        "description": "The organization ID.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "org_name": {
+        "description": "The name of the organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "provisioning": {
+        "description": "Indicates if provisioning is enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Status of the contact point.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "type": {
+        "description": "The type of the contact point. Required when C(state) is C(present).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "alertmanager",
+          "dingding",
+          "discord",
+          "email",
+          "googlechat",
+          "kafka",
+          "line",
+          "opsgenie",
+          "pagerduty",
+          "pushover",
+          "sensugo",
+          "slack",
+          "teams",
+          "telegram",
+          "threema",
+          "victorops",
+          "webex",
+          "webhook",
+          "wecom"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "uid": {
+        "description": "The unique ID of the contact point. Normally the uid is generated randomly, but it is required for handling the contact point via API.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "alertmanager_password": {
+        "description": "Password for accessing Alertmanager.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "alertmanager_url": {
+        "description": "URL for accessing Alertmanager. Required when C(type) is C(alertmanager).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "alertmanager_username": {
+        "description": "Username for accessing Alertmanager.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dingding_message": {
+        "description": "The message to send via DingDing.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dingding_message_type": {
+        "description": "The type of message to send via DingDing.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dingding_title": {
+        "description": "The title of the DingDing message.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dingding_url": {
+        "description": "The URL for DingDing webhook. Required when C(type) is C(dingding).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "discord_avatar_url": {
+        "description": "The avatar URL for Discord messages.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "discord_message": {
+        "description": "The message to send via Discord.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "discord_title": {
+        "description": "The title of the Discord message.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "discord_url": {
+        "description": "The URL for Discord webhook. Required when C(type) is C(discord).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "discord_use_username": {
+        "description": "Whether to use a custom username in Discord.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "email_addresses": {
+        "description": "List of email addresses to send the message to. Required when C(type) is C(email).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "email_message": {
+        "description": "The content of the email message.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "email_single": {
+        "description": "Whether to send a single email or individual emails.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "email_subject": {
+        "description": "The subject of the email.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "googlechat_url": {
+        "description": "The URL for Google Chat webhook. Required when C(type) is C(webhook).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "googlechat_message": {
+        "description": "The message to send via Google Chat.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "googlechat_title": {
+        "description": "The title of the Google Chat message.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kafka_api_version": {
+        "description": "The API version for Kafka.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "v2",
+        "aliases": null
+      },
+      "kafka_cluster_id": {
+        "description": "The cluster ID for Kafka.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kafka_description": {
+        "description": "The description for the Kafka configuration.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kafka_details": {
+        "description": "Additional details for Kafka.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kafka_password": {
+        "description": "Password for accessing Kafka.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kafka_rest_proxy_url": {
+        "description": "URL for Kafka REST Proxy. Required when C(type) is C(kafka).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kafka_topic": {
+        "description": "Kafka topic to publish to. Required when C(type) is C(kafka).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kafka_username": {
+        "description": "Username for accessing Kafka.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "line_description": {
+        "description": "Description for the Line message.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "line_title": {
+        "description": "Title of the Line message.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "line_token": {
+        "description": "Access token for Line. Required when C(type) is C(line).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "opsgenie_api_key": {
+        "description": "API key for OpsGenie. Required when C(type) is C(opsgenie).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "opsgenie_auto_close": {
+        "description": "Whether to enable auto-closing of alerts in OpsGenie.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "opsgenie_description": {
+        "description": "Description of the OpsGenie alert.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "opsgenie_message": {
+        "description": "Message to send via OpsGenie.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "opsgenie_override_priority": {
+        "description": "Whether to override the priority in OpsGenie.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "opsgenie_responders": {
+        "description": "List of responders for OpsGenie alerts.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "opsgenie_send_tags_as": {
+        "description": "Format for sending tags in OpsGenie.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "opsgenie_url": {
+        "description": "URL for OpsGenie webhook. Required when C(type) is C(pagerduty).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pagerduty_class": {
+        "description": "Class of the PagerDuty alert.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pagerduty_client": {
+        "description": "Client identifier for PagerDuty.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pagerduty_client_url": {
+        "description": "Client URL for PagerDuty.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pagerduty_component": {
+        "description": "Component involved in the PagerDuty alert.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pagerduty_details": {
+        "description": "List of additional details for PagerDuty.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pagerduty_group": {
+        "description": "Group associated with the PagerDuty alert.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pagerduty_integration_key": {
+        "description": "Integration key for PagerDuty. Required when C(type) is C(pagerduty).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pagerduty_severity": {
+        "description": "Severity level of the PagerDuty alert.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "critical",
+          "error",
+          "warning",
+          "info"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "pagerduty_source": {
+        "description": "Source of the PagerDuty alert.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pagerduty_summary": {
+        "description": "Summary of the PagerDuty alert.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pushover_api_token": {
+        "description": "API token for Pushover. Required when C(type) is C(pushover).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pushover_devices": {
+        "description": "List of devices for Pushover notifications.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pushover_expire": {
+        "description": "Expiration time for Pushover notifications.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pushover_message": {
+        "description": "Message to send via Pushover.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pushover_ok_priority": {
+        "description": "Priority for OK messages in Pushover.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pushover_ok_sound": {
+        "description": "Sound for OK messages in Pushover.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pushover_priority": {
+        "description": "Priority for Pushover messages.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pushover_retry": {
+        "description": "Retry interval for Pushover messages.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pushover_sound": {
+        "description": "Sound for Pushover notifications.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pushover_title": {
+        "description": "Title of the Pushover message.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pushover_upload_image": {
+        "description": "Whether to upload an image with Pushover notification.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "pushover_user_key": {
+        "description": "User key for Pushover. Required when C(type) is C(pushover).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sensugo_api_key": {
+        "description": "API key for Sensu Go. Required when C(type) is C(pushover).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sensugo_url": {
+        "description": "URL for Sensu Go. Required when C(type) is C(sensugo).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sensugo_check": {
+        "description": "Check name for Sensu Go.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sensugo_entity": {
+        "description": "Entity name for Sensu Go.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sensugo_handler": {
+        "description": "Handler for Sensu Go.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sensugo_message": {
+        "description": "Message to send via Sensu Go.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sensugo_namespace": {
+        "description": "Namespace for Sensu Go.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "slack_endpoint_url": {
+        "description": "Endpoint URL for Slack webhook.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "slack_icon_emoji": {
+        "description": "Icon emoji for Slack messages.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "slack_icon_url": {
+        "description": "Icon URL for Slack messages.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "slack_mention_channel": {
+        "description": "Channel mention for Slack messages.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "here",
+          "channel"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "slack_mention_groups": {
+        "description": "List of groups to mention in Slack messages.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "slack_mention_users": {
+        "description": "List of users to mention in Slack messages.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "slack_recipient": {
+        "description": "Recipient for Slack messages. Required when C(type) is C(slack).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "slack_text": {
+        "description": "Text content for Slack messages.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "slack_title": {
+        "description": "Title of the Slack message.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "slack_token": {
+        "description": "Token for Slack authentication. Required when C(type) is C(slack).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "slack_url": {
+        "description": "URL for Slack webhook. Required when C(type) is C(slack).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "slack_username": {
+        "description": "Username to use in Slack messages.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "teams_message": {
+        "description": "Message to send via Microsoft Teams.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "teams_section_title": {
+        "description": "Section title for Microsoft Teams messages.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "teams_title": {
+        "description": "Title of the Microsoft Teams message.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "teams_url": {
+        "description": "URL for Microsoft Teams webhook. Required when C(type) is C(teams).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "telegram_chat_id": {
+        "description": "Chat ID for Telegram. Required when C(type) is C(telegram).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "telegram_disable_notifications": {
+        "description": "Whether to disable notifications for Telegram messages.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "telegram_message": {
+        "description": "Message to send via Telegram.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "telegram_parse_mode": {
+        "description": "Parse mode for Telegram messages.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "telegram_protect_content": {
+        "description": "Whether to protect content in Telegram messages.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "telegram_token": {
+        "description": "Token for Telegram authentication. Required when C(type) is C(telegram).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "telegram_web_page_view": {
+        "description": "Whether to enable web page preview in Telegram messages.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "threema_api_secret": {
+        "description": "API secret for Threema. Required when C(type) is C(threema).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "threema_description": {
+        "description": "Description for Threema messages.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "threema_gateway_id": {
+        "description": "Gateway ID for Threema. Required when C(type) is C(threema).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "threema_recipient_id": {
+        "description": "Recipient ID for Threema messages. Required when C(type) is C(threema).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "threema_title": {
+        "description": "Title of the Threema message.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "victorops_description": {
+        "description": "Description for VictorOps messages.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "victorops_message_type": {
+        "description": "Message type for VictorOps.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "CRITICAL",
+          "RECOVERY"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "victorops_title": {
+        "description": "Title of the VictorOps message.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "victorops_url": {
+        "description": "URL for VictorOps webhook. Required when C(type) is C(victorops).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webex_api_url": {
+        "description": "API URL for Webex.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webex_message": {
+        "description": "Message to send via Webex.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webex_room_id": {
+        "description": "Room ID for Webex messages. Required when C(type) is C(webex).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webex_token": {
+        "description": "Token for Webex authentication. Required when C(type) is C(webex).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webhook_authorization_credentials": {
+        "description": "Authorization credentials for webhook.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webhook_authorization_scheme": {
+        "description": "Authorization scheme for webhook.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webhook_http_method": {
+        "description": "HTTP method for webhook.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "POST",
+          "PUT"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "webhook_max_alerts": {
+        "description": "Maximum number of alerts for webhook.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webhook_message": {
+        "description": "Message to send via webhook.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webhook_password": {
+        "description": "Password for webhook authentication.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webhook_title": {
+        "description": "Title of the webhook message.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webhook_url": {
+        "description": "URL for webhook. Required when C(type) is C(webhook).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webhook_username": {
+        "description": "Username for webhook authentication.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wecom_agent_id": {
+        "description": "Agent ID for WeCom. Required when C(type) is C(wecom).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wecom_corp_id": {
+        "description": "Corporate ID for WeCom. Required when C(type) is C(wecom).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wecom_message": {
+        "description": "Message to send via WeCom.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wecom_msg_type": {
+        "description": "Message type for WeCom.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wecom_secret": {
+        "description": "Secret for WeCom authentication. Required when C(type) is C(wecom).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wecom_title": {
+        "description": "Title of the WeCom message.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wecom_to_user": {
+        "description": "List of users to send the WeCom message to.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wecom_url": {
+        "description": "URL for WeCom webhook. Required when C(type) is C(wecom).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.grafana.grafana_dashboard": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Grafana dashboards",
+    "description": "Create, update, delete, export Grafana dashboards via API.",
+    "options": {
+      "org_id": {
+        "description": "The Grafana organization ID where the dashboard will be imported / exported / deleted. Not used when I(grafana_api_key) is set, because the grafana_api_key only belongs to one organization. Mutually exclusive with C(org_name).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "org_name": {
+        "description": "The Grafana organization name where the dashboard will be imported / exported / deleted. Not used when I(grafana_api_key) is set, because the grafana_api_key only belongs to one organization. Mutually exclusive with C(org_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "folder": {
+        "description": "UID of the folder where the dashboard will be created or imported. Required if C(parent_folder) is set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "General",
+        "aliases": null
+      },
+      "parent_folder": {
+        "description": "UID of the parent folder used to scope the search for the specified C(folder). Available with subfolder feature of Grafana 11.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the dashboard.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "export",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "slug": {
+        "description": "Deprecated since Grafana 5. Use grafana dashboard uid instead. slug of the dashboard. It's the friendly url name of the dashboard. When C(state) is C(present), this parameter can override the slug in the meta section of the json file. If you want to import a json dashboard exported directly from the interface (not from the api), you have to specify the slug parameter because there is no meta section in the exported json.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uid": {
+        "description": "Used to identify the dashboard when C(state) is C(export) or C(absent). When C(state) is C(present), this can be used to set the UID during dashboard creation.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "The path to the json file containing the Grafana dashboard to import or export. A http URL is also accepted (since 2.10). Required if C(state) is C(export) or C(present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "dashboard_url"
+        ]
+      },
+      "overwrite": {
+        "description": "Override existing dashboard when state is present.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "dashboard_id": {
+        "description": "Public Grafana.com dashboard id to import",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dashboard_revision": {
+        "description": "Revision of the public grafana dashboard to import",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "1",
+        "aliases": null
+      },
+      "commit_message": {
+        "description": "Set a commit message for the version history. Only used when C(state) is C(present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.grafana.grafana_datasource": {
@@ -81,28 +1254,550 @@
         "type": "str",
         "required": false,
         "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "user": {
+        "description": "The datasource login user for influxdb datasources.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "password": {
+        "description": "The datasource password. Stored as secure data, see C(enforce_secure_data) and notes!",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "basic_auth_user": {
+        "description": "The datasource basic auth user. Setting this option with basic_auth_password will enable basic auth.",
+        "type": "str",
+        "required": false,
+        "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "basic_auth_password": {
+        "description": "The datasource basic auth password, when C(basic auth) is C(true). Stored as secure data, see C(enforce_secure_data) and notes!",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "with_credentials": {
+        "description": "Whether credentials such as cookies or auth headers should be sent with cross-site requests.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "tls_servername": {
+        "description": "A Servername is used to verify the hostname on the returned certificate",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tls_client_cert": {
+        "description": "The client TLS certificate. If C(tls_client_cert) and C(tls_client_key) are set, this will enable TLS authentication. Starts with ----- BEGIN CERTIFICATE ----- Stored as secure data, see C(enforce_secure_data) and notes!",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tls_client_key": {
+        "description": "The client TLS private key Starts with ----- BEGIN RSA PRIVATE KEY ----- Stored as secure data, see C(enforce_secure_data) and notes!",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tls_ca_cert": {
+        "description": "The TLS CA certificate for self signed certificates. Only used when C(tls_client_cert) and C(tls_client_key) are set. Stored as secure data, see C(enforce_secure_data) and notes!",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tls_skip_verify": {
+        "description": "Skip the TLS datasource certificate verification.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "is_default": {
+        "description": "Make this datasource the default one.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "org_id": {
+        "description": "Grafana organization ID in which the datasource should be created. Not used when C(grafana_api_key) is set, because the C(grafana_api_key) only belongs to one organization. Mutually exclusive with C(org_name).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "org_name": {
+        "description": "Grafana organization name in which the datasource should be created. Not used when C(grafana_api_key) is set, because the C(grafana_api_key) only belongs to one organization. Mutually exclusive with C(org_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Status of the datasource",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "es_version": {
+        "description": "Elasticsearch version (for C(ds_type = elasticsearch) only) Version 56 is for elasticsearch 5.6+ where you can specify the C(max_concurrent_shard_requests) option.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "2",
+          "5",
+          "56",
+          "60",
+          "70",
+          "7.7+",
+          "7.10+",
+          "8.0+"
+        ],
+        "default": "7.10+",
+        "aliases": null
+      },
+      "max_concurrent_shard_requests": {
+        "description": "Starting with elasticsearch 5.6, you can specify the max concurrent shard per requests.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 256,
+        "aliases": null
+      },
+      "time_field": {
+        "description": "Name of the time field in elasticsearch ds. For example C(@timestamp).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "@timestamp",
+        "aliases": null
+      },
+      "time_interval": {
+        "description": "Minimum group by interval for C(influxdb), C(elasticsearch) or C(prometheus) datasources. for example C(>10s).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interval": {
+        "description": "For elasticsearch C(ds_type), this is the index pattern used.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "",
+          "Hourly",
+          "Daily",
+          "Weekly",
+          "Monthly",
+          "Yearly"
+        ],
+        "default": "",
+        "aliases": null
+      },
+      "tsdb_version": {
+        "description": "The opentsdb version. Use C(1) for <=2.1, C(2) for ==2.2, C(3) for ==2.3.",
+        "type": "int",
+        "required": false,
+        "choices": [
+          1,
+          2,
+          3
+        ],
+        "default": 1,
+        "aliases": null
+      },
+      "tsdb_resolution": {
+        "description": "The opentsdb time resolution.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "millisecond",
+          "second"
+        ],
+        "default": "second",
+        "aliases": null
+      },
+      "sslmode": {
+        "description": "SSL mode for C(postgres) datasource type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disable",
+          "require",
+          "verify-ca",
+          "verify-full"
+        ],
+        "default": "disable",
+        "aliases": null
+      },
+      "trends": {
+        "description": "Use trends or not for zabbix datasource type.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "alertmanager_implementation": {
+        "description": "The implementation to set for the alertmanager datasource type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "mimir",
+          "cortex",
+          "prometheus"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "alertmanager_handle_grafana_alerts": {
+        "description": "Whether Grafana should send alerts to this alertmanager.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "aws_auth_type": {
+        "description": "Type for AWS authentication for CloudWatch datasource type (authType of grafana api)",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "keys",
+          "credentials",
+          "arn",
+          "default"
+        ],
+        "default": "keys",
+        "aliases": null
+      },
+      "aws_default_region": {
+        "description": "AWS default region for CloudWatch datasource type",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ap-northeast-1",
+          "ap-northeast-2",
+          "ap-southeast-1",
+          "ap-southeast-2",
+          "ap-south-1",
+          "ca-central-1",
+          "cn-north-1",
+          "cn-northwest-1",
+          "eu-central-1",
+          "eu-west-1",
+          "eu-west-2",
+          "eu-west-3",
+          "sa-east-1",
+          "us-east-1",
+          "us-east-2",
+          "us-gov-west-1",
+          "us-west-1",
+          "us-west-2"
+        ],
+        "default": "us-east-1",
+        "aliases": null
+      },
+      "aws_credentials_profile": {
+        "description": "Profile for AWS credentials for CloudWatch datasource type when C(aws_auth_type) is C(credentials)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "aws_access_key": {
+        "description": "AWS access key for CloudWatch datasource type when C(aws_auth_type) is C(keys) Stored as secure data, see C(enforce_secure_data) and notes!",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "aws_secret_key": {
+        "description": "AWS secret key for CloudWatch datasource type when C(aws_auth_type) is C(keys) Stored as secure data, see C(enforce_secure_data) and notes!",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "aws_assume_role_arn": {
+        "description": "AWS IAM role arn to assume for CloudWatch datasource type when C(aws_auth_type) is C(arn)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "aws_custom_metrics_namespaces": {
+        "description": "Namespaces of Custom Metrics for CloudWatch datasource type",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "azure_cloud": {
+        "description": "The national cloud for your Azure account",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "azuremonitor",
+          "chinaazuremonitor",
+          "govazuremonitor",
+          "germanyazuremonitor"
+        ],
+        "default": "azuremonitor",
+        "aliases": null
+      },
+      "azure_tenant": {
+        "description": "The directory/tenant ID for the Azure AD app registration to use for authentication",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "azure_client": {
+        "description": "The application/client ID for the Azure AD app registration to use for authentication.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "azure_secret": {
+        "description": "The application client secret for the Azure AD app registration to use for auth",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "zabbix_user": {
+        "description": "User for Zabbix API",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "zabbix_password": {
+        "description": "Password for Zabbix API",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "additional_json_data": {
+        "description": "Defined data is used for datasource jsonData Data may be overridden by specifically defined parameters (like zabbix_user)",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "additional_secure_json_data": {
+        "description": "Defined data is used for datasource secureJsonData Data may be overridden by specifically defined parameters (like tls_client_cert) Stored as secure data, see C(enforce_secure_data) and notes!",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "enforce_secure_data": {
+        "description": "Secure data is not updated per default (see notes!) To update secure data you have to enable this option! Enabling this, the task will always report changed=True",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },
     "deprecated": null
   },
   "community.grafana.grafana_folder": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Grafana folders",
+    "description": "Create/update/delete Grafana folders through the folders API.",
+    "options": {
+      "name": {
+        "description": "The title of the Grafana folder.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "title"
+        ]
+      },
+      "uid": {
+        "description": "The folder UID.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parent_uid": {
+        "description": "The parent folder UID. Available with subfolder feature of Grafana 11.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Delete the members not found in the C(members) parameters from the list of members found on the folder.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "org_id": {
+        "description": "Grafana organization ID in which the datasource should be created. Not used when C(grafana_api_key) is set, because the C(grafana_api_key) only belongs to one organization. Mutually exclusive with C(org_name).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "org_name": {
+        "description": "Grafana organization name in which the datasource should be created. Not used when C(grafana_api_key) is set, because the C(grafana_api_key) only belongs to one organization. Mutually exclusive with C(org_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "skip_version_check": {
+        "description": "Skip Grafana version check and try to reach api endpoint anyway. This parameter can be useful if you enabled C(hide_version) in grafana.ini",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.grafana.grafana_organization": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Grafana Organization",
+    "description": "Create/delete Grafana organization through org API. Tested with Grafana v6.5.0",
+    "options": {
+      "name": {
+        "description": "The name of the Grafana Organization.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State if the organization should be present in Grafana or not",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.grafana.grafana_organization_user": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Grafana Organization Users.",
+    "description": "Add or remove users or change their roles in Grafana organizations through org API. The user has to exist before using this module. See U(https://docs.ansible.com/ansible/latest/collections/community/grafana/grafana_user_module.html).",
+    "options": {
+      "login": {
+        "description": "Username or email.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role": {
+        "description": "User's role in the organization.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "viewer",
+          "editor",
+          "admin"
+        ],
+        "default": "viewer",
+        "aliases": null
+      },
+      "state": {
+        "description": "Status of a user's organization membership.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "org_id": {
+        "description": "Organization ID. Mutually exclusive with C(org_name).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "org_name": {
+        "description": "Organization name. Mutually exclusive with C(org_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.grafana.grafana_plugin": {
@@ -134,7 +1829,190 @@
         "aliases": null
       },
       "grafana_repo": {
-        "description": "URL to the Grafana plugin repository. ",
+        "description": "URL to the Grafana plugin repository. If omitted, grafana-cli will use the default value: U(https://grafana.com/api/plugins).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "grafana_plugin_url": {
+        "description": "Full URL to the plugin zip file instead of downloading the file from U(https://grafana.com/api/plugins). Requires grafana 4.6.x or later.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the plugin should be installed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "validate_certs": {
+        "description": "Boolean variable to include --insecure while installing pluging",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.grafana.grafana_silence": {
+    "short_description": "Manage Grafana Silences",
+    "description": "Create/delete Grafana Silences through the Alertmanager Silence API.",
+    "options": {
+      "org_id": {
+        "description": "The Grafana organization ID where the silence will be created or deleted. Not used when I(grafana_api_key) is set, because the grafana_api_key only belongs to one organization. Mutually exclusive with C(org_name).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "org_name": {
+        "description": "The Grafana organization name where the silence will be created or deleted. Not used when I(grafana_api_key) is set, because the grafana_api_key only belongs to one organization. Mutually exclusive with C(org_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "The comment that describes the silence.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "created_by": {
+        "description": "The author that creates the silence.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "starts_at": {
+        "description": "ISO 8601 Timestamp with milliseconds  e.g. \"2029-07-29T08:45:45.000Z\" when the silence starts.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ends_at": {
+        "description": "ISO 8601 Timestamp with milliseconds  e.g. \"2029-07-29T08:45:45.000Z\" when the silence will end.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "matchers": {
+        "description": "List of matchers to select which alerts are affected by the silence.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Delete the first occurrence of a silence with the same settings. Can be \"absent\" or \"present\".",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "skip_version_check": {
+        "description": "Skip Grafana version check and try to reach api endpoint anyway. This parameter can be useful if you enabled `hide_version` in grafana.ini",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.grafana.grafana_team": {
+    "short_description": "Manage Grafana Teams",
+    "description": "Create/update/delete Grafana Teams through the Teams API. Also allows to add members in the team (if members exists).",
+    "options": {
+      "name": {
+        "description": "The name of the Grafana Team.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "email": {
+        "description": "The mail address associated with the Team.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "members": {
+        "description": "List of team members (emails). The list can be enforced with C(enforce_members) parameter.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Delete the members not found in the C(members) parameters from the list of members found on the Team.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "enforce_members": {
+        "description": "Delete the members not found in the C(members) parameters from the list of members found on the Team.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "skip_version_check": {
+        "description": "Skip Grafana version check and try to reach api endpoint anyway. This parameter can be useful if you enabled C(hide_version) in grafana.ini",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "org_id": {
+        "description": "Grafana organization ID in which the team should be created. Not used when C(grafana_api_key) is set, because the C(grafana_api_key) only belongs to one organization. Mutually exclusive with C(org_name).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "org_name": {
+        "description": "Grafana organization name in which the team should be created. Not used when C(grafana_api_key) is set, because the C(grafana_api_key) only belongs to one organization. Mutually exclusive with C(org_id).",
         "type": "str",
         "required": false,
         "choices": null,
@@ -144,22 +2022,62 @@
     },
     "deprecated": null
   },
-  "community.grafana.grafana_silence": {
-    "short_description": "",
-    "description": "",
-    "options": {},
-    "deprecated": null
-  },
-  "community.grafana.grafana_team": {
-    "short_description": "",
-    "description": "",
-    "options": {},
-    "deprecated": null
-  },
   "community.grafana.grafana_user": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Grafana User",
+    "description": "Create/update/delete Grafana User through the users and admin API. Tested with Grafana v6.4.3 Password update is not supported at the time",
+    "options": {
+      "name": {
+        "description": "The name of the Grafana User.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "email": {
+        "description": "The email of the Grafana User.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login": {
+        "description": "The login of the Grafana User.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "The password of the Grafana User. At the moment, this field is not updated yet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_admin": {
+        "description": "The Grafana User is an admin.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "State if the user should be present in Grafana or not",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

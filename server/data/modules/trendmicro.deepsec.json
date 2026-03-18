@@ -2,7 +2,417 @@
   "trendmicro.deepsec.deepsec_anti_malware": {
     "short_description": "Create a new antimalware under TrendMicro Deep Security Policy",
     "description": "This module creates a new antimalware under TrendMicro Deep Security",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the anti-malware configuration.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the anti-malware configuration.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scan_type": {
+        "description": "The type of malware scan configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "real-time",
+          "on-demand"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "document_exploit_protection_enabled": {
+        "description": "Controls whether to scan for known critical vulnerabilities. Use true to enable scan.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "document_exploit_protection": {
+        "description": "Scan for exploits against known critical vulnerabilities only.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "critical-only",
+          "critical-and-heuristic"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "document_exploit_heuristic_level": {
+        "description": "Controls whether to scan for exploits of known critical vulnerabilites as well as aggessively detect suspicious behaviour that could be an unknown exploit.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "default",
+          "default-and-agressive"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "machine_learning_enabled": {
+        "description": "Controls whether predictive machine learning is enabled. Set to true to enable.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "behavior_monitoring_enabled": {
+        "description": "Controls whether to detect suspicious activity and unauthorized changes (including ransomware). Set to true to detect.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "document_recovery_enabled": {
+        "description": "Controls whether to back up ransomware-encrypted files. Set to true to back up.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "intelli_trap_enabled": {
+        "description": "Controls whether IntelliTrap is enabled. Set to true to enable.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "memory_scan_enabled": {
+        "description": "Controls whether to scan process memory for malware. Use true to enable scan.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "spyware_enabled": {
+        "description": "Controls whether to enable spyware/grayware protection. Set to true to enable.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "alert_enabled": {
+        "description": "Controls whether to create an alert when the Malware Scan Configuration logs an event. Set to true to enable the alert.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "directories_to_scan": {
+        "description": "Specify if the scan will be peformed on all the directories or on a subset.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "all-directories",
+          "directory-list"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "directory_list_id": {
+        "description": "ID of the directory list to scan.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "files_to_scan": {
+        "description": "Specify if scan will be performed on all files, a subset or by using IntelliScan.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "all-files",
+          "intelliscan-file-types",
+          "file-extension-list"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "file_extension_list_id": {
+        "description": "ID of the file extension list to scan.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "excluded_directory_list_id": {
+        "description": "ID of the directory list to exclude from the scan.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "excluded_file_list_id": {
+        "description": "ID of the file list to exclude from the scan.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "excluded_file_extension_list_id": {
+        "description": "ID of the file extension list to exclude from the scan.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "excluded_process_image_file_list_id": {
+        "description": "ID of the process image file list to exclude from the scan.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "real_time_scan": {
+        "description": "Specify when to perform the real-time scan.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "read-only",
+          "write-only",
+          "read-write"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "scan_compressed_enabled": {
+        "description": "Controls whether to scan compressed files. Use true to enable scan.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scan_compressed_maximum_size": {
+        "description": "Maximum size of compressed files to scan, in MB.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scan_compressed_maximum_levels": {
+        "description": "The maximum number of levels of compression to scan.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scan_compressed_maximum_files": {
+        "description": "Maximum number of files to extract.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "microsoft_office_enabled": {
+        "description": "Controls whether to scan Embedded Microsoft Office Objects. Use true to enable scan.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "microsoft_office_layers": {
+        "description": "Number of Microsoft Object Linking and Embedding (OLE) Layers to scan.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network_directories_enabled": {
+        "description": "Controls whether to scan network directories. Set to true to enable.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "custom_remediation_actions_enabled": {
+        "description": "Controls whether to use the action ActiveActions recommends when malware is detected. Set to true to use the action ActiveAction recommends.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "custom_scan_actions_enabled": {
+        "description": "Controls whether to use custom actions. Use true to enable custom actions.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scan_action_for_virus": {
+        "description": "The action to perform when a virus is detected.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "pass",
+          "delete",
+          "quarantine",
+          "clean",
+          "deny-access"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "scan_action_for_trojans": {
+        "description": "The action to perform when a trojan is detected.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "pass",
+          "delete",
+          "quarantine",
+          "deny-access"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "scan_action_for_packer": {
+        "description": "The action to perform when a packer is detected.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "pass",
+          "delete",
+          "quarantine",
+          "deny-access"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "scan_action_for_spyware": {
+        "description": "The action to perform when spyware is detected.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "pass",
+          "delete",
+          "quarantine",
+          "deny-access"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "scan_action_for_other_threats": {
+        "description": "The action to take when other threats are detected.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "pass",
+          "delete",
+          "quarantine",
+          "clean",
+          "deny-access"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "scan_action_for_cookies": {
+        "description": "The action to take when cookies are detected.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "pass",
+          "delete"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "scan_action_for_cve": {
+        "description": "The action to take when a CVE exploit is detected.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "pass",
+          "delete",
+          "quarantine",
+          "deny-access"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "scan_action_for_heuristics": {
+        "description": "The action to take when malware identified with heuristics are detected.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "pass",
+          "delete",
+          "quarantine",
+          "deny-access"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "scan_action_for_possible_malware": {
+        "description": "The action to take when possible malware is detected.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "active-action",
+          "pass",
+          "delete",
+          "quarantine",
+          "deny-access"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "cpu_usage": {
+        "description": "CPU usage.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "low",
+          "medium",
+          "high"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": "Newer and updated modules released with more functionality"
   },
   "trendmicro.deepsec.deepsec_anti_malwares": {
@@ -14,6 +424,19 @@
         "type": "list",
         "required": false,
         "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The state I(gathered) will get the module API configuration from the device and transform it into structured data in the format as per the module argspec and the value is returned in the I(gathered) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "gathered",
+          "deleted"
+        ],
         "default": null,
         "aliases": null
       }
@@ -31,6 +454,18 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The state I(gathered) will get the module API configuration from the device and transform it into structured data in the format as per the module argspec and the value is returned in the I(gathered) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "gathered"
+        ],
+        "default": "present",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -46,6 +481,20 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The state I(gathered) will get the module API configuration from the device and transform it into structured data in the format as per the module argspec and the value is returned in the I(gathered) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "gathered",
+          "deleted"
+        ],
+        "default": null,
+        "aliases": null
       }
     },
     "deprecated": null
@@ -53,7 +502,535 @@
   "trendmicro.deepsec.deepsec_firewallrules": {
     "short_description": "Create a new firewall rule.",
     "description": "This module creates a new firewall rule under TrendMicro Deep Security.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the firewall rule",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the firewall rule",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "action": {
+        "description": "Action of the packet filter.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "log-only",
+          "allow",
+          "deny",
+          "force-allow",
+          "bypass"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "priority": {
+        "description": "Priority of the packet filter.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "direction": {
+        "description": "Packet direction.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "incoming",
+          "outgoing"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "frame_type": {
+        "description": "Supported frame types.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "any",
+          "ip",
+          "arp",
+          "revarp",
+          "ipv4",
+          "ipv6",
+          "other"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "frame_number": {
+        "description": "Ethernet frame number. Only required for FrameType 'other'.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "frame_not": {
+        "description": "Controls if the frame setting should be inverted. Set to true to invert.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol": {
+        "description": "Protocol.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "any",
+          "icmp",
+          "igmp",
+          "ggp",
+          "tcp",
+          "pup",
+          "udp",
+          "idp",
+          "nd",
+          "raw",
+          "tcp-udp",
+          "icmpv6",
+          "other"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "protocol_number": {
+        "description": "Two-byte protocol number.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol_not": {
+        "description": "Controls if the protocol setting should be inverted. Set to true to invert.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_iptype": {
+        "description": "Source IP type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "any",
+          "masked-ip",
+          "range",
+          "ip-list",
+          "single",
+          "multiple"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "source_ipvalue": {
+        "description": "Source IP. Only applies to source IP type 'masked-ip' or 'single'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_ipmask": {
+        "description": "Source IP mask. Only applies to source IP type 'masked-ip'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_iprange_from": {
+        "description": "The first value for a range of source IP addresses. Only applies to source IP type 'range'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_iprange_to": {
+        "description": "The last value for a range of source IP addresses. Only applies to source IP type 'range'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_ipmultiple": {
+        "description": "List of source IP addresses. Only applies to source IP type 'multiple'.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_iplist_id": {
+        "description": "ID of source IP list. Only applies to source IP type 'ip-list'.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_ipnot": {
+        "description": "Controls if the source IP setting should be inverted. Set to true to invert.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_mactype": {
+        "description": "Source MAC type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "any",
+          "single",
+          "mac-list",
+          "multiple"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "source_macvalue": {
+        "description": "Source MAC address. Only applies to MAC type 'single'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_macmultiple": {
+        "description": "List of MAC addresses. Only applies to MAC type 'multiple'.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_maclist_id": {
+        "description": "ID of MAC address list. Only applies to MAC type 'mac-list'.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_macnot": {
+        "description": "Controls if the source MAC setting should be inverted. Set to true to invert.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_port_type": {
+        "description": "The type of source port.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "any",
+          "multiple",
+          "port-list"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "source_port_multiple": {
+        "description": "List of comma-delimited source ports. Only applies to source type 'multiple'.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_port_list_id": {
+        "description": "ID of source port list. Only applies to source type 'port-list'.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_port_not": {
+        "description": "Controls if the source MAC setting should be inverted. Set to true to invert.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_iptype": {
+        "description": "Destination IP type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "any",
+          "masked-ip",
+          "range",
+          "ip-list",
+          "single",
+          "multiple"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "destination_ipvalue": {
+        "description": "Destination IP. Only applies to destination IP type 'masked-ip' or 'single'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_ipmask": {
+        "description": "Destination IP mask. Only applies to destination IP type 'masked-ip'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_iprange_from": {
+        "description": "The first value for a range of destination IP addresses. Only applies to estination IP type 'range'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_iprange_to": {
+        "description": "The last value for a range of destination IP addresses. Only applies to destination IP type 'range'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_ipmultiple": {
+        "description": "List of comma-delimited destination IP addresses. Only applies to destination IP type 'multiple'.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_iplist_id": {
+        "description": "ID of destination IP list. Only applies to destination IP type 'ip-list'.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_ipnot": {
+        "description": "Controls if the destination IP setting should be inverted. Set to true to invert.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_mactype": {
+        "description": "Destination MAC type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "any",
+          "single",
+          "mac-list",
+          "multiple"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "destination_macvalue": {
+        "description": "Destination MAC address. Only applies to MAC type 'single'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_macmultiple": {
+        "description": "List of comma-delimited MAC addresses. Only applies to MAC type 'multiple'.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_maclist_id": {
+        "description": "ID of MAC address list. Only applies to MAC type 'mac-list'.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_macnot": {
+        "description": "Controls if the destination MAC setting should be inverted. Set to true to invert.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_port_type": {
+        "description": "The type of destination port.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "any",
+          "multiple",
+          "port-list"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "destination_port_multiple": {
+        "description": "List of comma-delimited destination ports. Only applies to destination type 'multiple'.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_port_list_id": {
+        "description": "ID of destination port list. Only applies to destination type 'port-list'.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destination_port_not": {
+        "description": "Controls if the destination port setting should be inverted. Set to true to invert.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "any_flags": {
+        "description": "True if any flags are used.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "log_disabled": {
+        "description": "Controls if logging for this filter is disabled. Only applies to filter action 'log-only' or 'deny'.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "include_packet_data": {
+        "description": "Controls if this filter should capture data for every log.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "alert_enabled": {
+        "description": "Controls if this filter should be alerted on.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context_id": {
+        "description": "ID of the schedule to control when this filter is 'on'.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tcpflags": {
+        "description": "TCP flags",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "fin",
+          "syn",
+          "rst",
+          "psh",
+          "ack",
+          "urg"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "tcpnot": {
+        "description": "TCP Not",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "icmptype": {
+        "description": "ICMP Type",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "icmpcode": {
+        "description": "ICMPCode",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "icmpnot": {
+        "description": "ICMP Not",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": "Newer and updated modules released with more functionality"
   },
   "trendmicro.deepsec.deepsec_hosts_info": {
@@ -73,14 +1050,58 @@
   },
   "trendmicro.deepsec.deepsec_integrity_monitoring_rules": {
     "short_description": "Manages Integrity Monitoring Rule resource module",
-    "description": "Integrity monitoring rules describe how Deep Security Agents should scan for and detect changes to a computer",
-    "options": {},
+    "description": "Integrity monitoring rules describe how Deep Security Agents should scan for and detect changes to a computer's files, directories and registry keys and values as well as changes in installed software, processes, listening ports and running services. Integrity monitoring rules can be assigned directly to computers or can be made part of a policy.",
+    "options": {
+      "config": {
+        "description": "A dictionary of Integrity Monitoring Rules options",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The state I(gathered) will get the module API configuration from the device and transform it into structured data in the format as per the module argspec and the value is returned in the I(gathered) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "gathered",
+          "deleted"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "trendmicro.deepsec.deepsec_integrity_monitoringrules": {
     "short_description": "Create/Configure Integrity Monitoring Rules.",
     "description": "This module creates and configure Integrity Monitoring Rules under TrendMicro Deep Security.",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "Integrity Monitoring Rules config",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The state I(gathered) will get the module API configuration from the device and transform it into structured data in the format as per the module argspec and the value is returned in the I(gathered) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "gathered"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": "Newer and updated modules released with more functionality"
   },
   "trendmicro.deepsec.deepsec_intrusion_prevention_rules": {
@@ -114,7 +1135,28 @@
   "trendmicro.deepsec.deepsec_intrusion_preventionrules": {
     "short_description": "Create a new intrusion prevention rule.",
     "description": "This module creates a new intrusion preventin rul under TrendMicro Deep Security.",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "Intrusion prevention rules config",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The state I(gathered) will get the module API configuration from the device and transform it into structured data in the format as per the module argspec and the value is returned in the I(gathered) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "gathered"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": "Newer and updated modules released with more functionality"
   },
   "trendmicro.deepsec.deepsec_log_inspection_rules": {
@@ -128,6 +1170,20 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The state I(gathered) will get the module API configuration from the device and transform it into structured data in the format as per the module argspec and the value is returned in the I(gathered) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "merged",
+          "replaced",
+          "overridden",
+          "gathered",
+          "deleted"
+        ],
+        "default": null,
+        "aliases": null
       }
     },
     "deprecated": null
@@ -135,7 +1191,258 @@
   "trendmicro.deepsec.deepsec_log_inspectionrules": {
     "short_description": "Create a new log inspection rule.",
     "description": "This module creates a new log inspection rule under TrendMicro Deep Security.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "Name of the LogInspectionRule.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the LogInspectionRule that appears in search results, and on the General tab in the Deep Security Manager user interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "minimum_agent_version": {
+        "description": "Minimum Deep Security Agent version required by the LogInspectionRule.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "minimum_manager_version": {
+        "description": "Minimumn Deep Security Manager version required by the LogInspectionRule.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Type of the LogInspectionRule. The value 'Defined' is used for LogInspectionRules provided by Trend Micro.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "original_issue": {
+        "description": "Creation timestamp of the LogInspectionRule, measured in milliseconds since epoch.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "last_updated": {
+        "description": "Update timestamp of the LogInspectionRule, measured in milliseconds since epoch.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "identifier": {
+        "description": "Indentifier of the LogInspectionRule used in the Deep Security Manager user interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template": {
+        "description": "Template used to create this rule.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "basic-rule",
+          "custom"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "rule_id": {
+        "description": "ID of the LogInspectionRule sent to the Deep Security Agent. The values 100000 - 109999 are reserved for user-definded rules.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "level": {
+        "description": "Log level of the LogInspectionRule indicates severity of attack. Level 0 is the least severe and will not log an event. Level 15 is the most severe.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "groups": {
+        "description": "Groups that the LogInspectionRule is assigned to, separated by commas. Useful when dependency is used as it's possible to create a LogInspectionRule that fires when another LogInspectionRule belonging to a specific group fires.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rule_description": {
+        "description": "Description of the LogInspectionRule that appears on events and the Content tab in the Deep Security Manager user interface. Alternatively, you can configure this by inserting a description in 'rule_xml'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pattern": {
+        "description": "Regular expression pattern the LogInspectionRule will look for in the logs. The rule will be triggered on a match. Open Source HIDS SEcurity (OSSEC) regular expression syntax is supported, see http://www.ossec.net/docs/syntax/regex.html.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pattern_type": {
+        "description": "Pattern the LogInspectionRule will look for in the logs. The string matching pattern is faster than the regex pattern.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "string",
+          "regex"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "dependency": {
+        "description": "Indicates if a dependant rule or dependency group is set or not. If set, the LogInspectionRule will only log an event if the dependency is triggered. Available for user-defined rules.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "none",
+          "rule",
+          "group"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "dependency_rule_id": {
+        "description": "If dependency is configured, the ID of the rule that this rule is dependant on. Ignored if the rule is from Trend Micro, which uses dependsOnRuleIDs instead.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dependency_group": {
+        "description": "If dependency is configured, the dependancy groups that this rule is dependant on.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "frequency": {
+        "description": "Number of times the dependant rule has to match within a specific time frame before the rule is triggered.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "time_frame": {
+        "description": "Time period for the frequency of LogInspectionRule triggers that will generate an event, in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rule_xml": {
+        "description": "LogInspectionRule in an XML format. For information on the XML format, see http://ossec-docs.readthedocs.io/en/latest/syntax/head_rules.html",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "log_files": {
+        "description": "Log file objects",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "alert_enabled": {
+        "description": "Controls whether to raise an alert when a LogInspectionRule logs an event. Use true to raise an alert.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "alert_minimum_severity": {
+        "description": "Severity level that will trigger an alert. Ignored unless ruleXML contains multiple rules with different severities, and so you must indicate which severity level to use.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "recommendations_mode": {
+        "description": "Indicates whether recommendation scans consider the LogInspectionRule. Can be set to enabled or ignored. Custom rules cannot be recommended.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "ignored",
+          "unknown",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "sort_order": {
+        "description": "Order in which LogInspectionRules are sent to the Deep Security Agent. Log inspeciton rules are sent in ascending order. Valid values are between 10000 and 20000.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "can_be_assigned_alone": {
+        "description": "Indicates whether this LogInspectionRule can be allocated without allocating any additional LogInspectionRules. Ignored if the rule is user-defined, which uses dependency instead.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "depends_onrule_id": {
+        "description": "IDs of LogInspectionRules, separated by commas, that are required by this rule. Ignored if the rule is user-defined which uses dependency_rule_id or dependency_group instead.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": "Newer and updated modules released with more functionality"
   },
   "trendmicro.deepsec.deepsec_syslog": {
@@ -248,11 +1555,31 @@
         "aliases": null
       },
       "certificate_chain": {
-        "description": "The identity certificate chain the Deep Security Manager will use when it contacts the syslog server over TLS. The identity certificate must be the first certificate in the list, followed by the certificate for the issuing certificate authority (if any) and continuing up the issuer chain. The root certificate authority",
-        "type": "str",
+        "description": "The identity certificate chain the Deep Security Manager will use when it contacts the syslog server over TLS. The identity certificate must be the first certificate in the list, followed by the certificate for the issuing certificate authority (if any) and continuing up the issuer chain. The root certificate authority's certificate does not need to be included. Each element in the list will be an unencrypted PEM-encoded certificate.",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "direct": {
+        "description": "The \"direct delivery from agent to syslog server\" flag",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The state I(gathered) will make a get call to the module API and transform it into structured data in the format as per the resource module argspec and the value is returned in the I(gathered) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "gathered"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -261,7 +1588,28 @@
   "trendmicro.deepsec.deepsec_system_settings": {
     "short_description": "Modify the system settings for TrendMicro Deep Security.",
     "description": "This module modifies system settings under TrendMicro Deep Security.",
-    "options": {},
+    "options": {
+      "config": {
+        "description": "System settings config",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state the configuration should be left in The state I(gathered) will get the module API configuration from the device and transform it into structured data in the format as per the module argspec and the value is returned in the I(gathered) key within the result.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "gathered"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

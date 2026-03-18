@@ -2,7 +2,298 @@
   "cloud.terraform.plan_stash": {
     "short_description": "Handle the base64 encoding or decoding of a terraform plan file",
     "description": "This module performs base64-encoding of a terraform plan file and saves it into playbook execution stats similar to M(ansible.builtin.set_stats) module. The module also performs base64-decoding of a terraform plan file from a variable defined into ansible facts and writes them into a file specified by the user.",
-    "options": {},
+    "options": {
+      "state": {
+        "description": "O(state=stash): base64-encodes the terraform plan file and saves it into ansible stats like using the M(ansible.builtin.set_stats) module. O(state=load): base64-decodes data from variable specified in O(var_name) and writes them into terraform plan file.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "stash",
+          "load"
+        ],
+        "default": "stash",
+        "aliases": null
+      },
+      "path": {
+        "description": "The path to the terraform plan file.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "var_name": {
+        "description": "When O(state=stash), this parameter defines the variable name to be set into stats. When O(state=load), this parameter defines the variable from ansible facts containing the base64-encoded data of the terraform plan file. Variables must start with a letter or underscore character, and contain only letters, numbers and underscores. The module will use V(terraform_plan) as default variable name if not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "binary_data": {
+        "description": "When O(state=load), this parameter defines the base64-encoded data of the terraform plan file. Mutually exclusive with V(var_name). Ignored when O(state=stash).",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "per_host": {
+        "description": "Whether the stats are per host or for all hosts in the run. Ignored when O(state=load).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cloud.terraform.terraform": {
+    "short_description": "Manages a Terraform deployment (and plans)",
+    "description": "Provides support for deploying resources with Terraform and pulling resource information back into Ansible.",
+    "options": {
+      "state": {
+        "description": "Goal state of given stage/project. Option `planned` is deprecated. Its function is equivalent to running the module in check mode.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "planned"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "binary_path": {
+        "description": "The path of a terraform binary to use.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project_path": {
+        "description": "The path to the root of the Terraform directory with the vars.tf/main.tf/etc to use.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "plugin_paths": {
+        "description": "List of paths containing Terraform plugin executable files. Plugin executables can be downloaded from U(https://releases.hashicorp.com/). When set, the plugin discovery and auto-download behavior of Terraform is disabled. The directory structure in the plugin path can be tricky. The Terraform docs U(https://learn.hashicorp.com/tutorials/terraform/automate-terraform#pre-installed-plugins) show a simple directory of files, but actually, the directory structure has to follow the same structure you would see if Terraform auto-downloaded the plugins. See the examples below for a tree output of an example plugin directory.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "workspace": {
+        "description": "The terraform workspace to work with. A new logic to identify the workspace has been developed, added in version 4.0.0. When O(workspace) is provided, then this is the value that will be used. The module will raise an error if this value differs from the value set into the cloud block from the terraform config. When O(workspace) is not provided, then the module will use workspace from the cloud block in the terraform config if defined, or the default workspace behavior of the CLI will be applied. The default value of the workspace will be the current workspace. added in version 4.0.0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge_workspace": {
+        "description": "Only works with state = absent If true, the workspace will be deleted after the \"terraform destroy\" action. The 'default' workspace will not be deleted.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "plan_file": {
+        "description": "The path to a Terraform plan file to apply or generate. When 'check_mode' is set to C(True) or I(state=planned), a Terraform plan file will be generated and saved into the specified location. When 'check_mode' is set to I(False) and I(state) is set to either C(present) or C(absent), The existing Terraform plan file will be applied.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state_file": {
+        "description": "The path to an existing Terraform state file to use when building plan. If this is not specified, the default C(terraform.tfstate) will be used. This option is ignored when plan is specified.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "variables_files": {
+        "description": "The path to a variables file for Terraform to fill into the TF configurations. This can accept a list of paths to multiple variables files. Up until Ansible 2.9, this option was usable as I(variables_file).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "variables_file"
+        ]
+      },
+      "variables": {
+        "description": "A group of key-values pairs to override template variables or those in variables files. By default, only string and number values are allowed, which are passed on unquoted. Support complex variable structures (lists, dictionaries, numbers, and booleans) to reflect terraform variable syntax when I(complex_vars=true). Ansible integers or floats are mapped to terraform numbers. Ansible strings are mapped to terraform strings. Ansible dictionaries are mapped to terraform objects. Ansible lists are mapped to terraform lists. Ansible booleans are mapped to terraform booleans. B(Note) passwords passed as variables will be visible in the log output. Make sure to use I(no_log=true) in production!",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "complex_vars": {
+        "description": "Enable/disable capability to handle complex variable structures for C(terraform). If C(true) the I(variables) also accepts dictionaries, lists, and booleans to be passed to C(terraform). Strings that are passed are correctly quoted. When disabled, supports only simple variables (strings, integers, and floats), and passes them on unquoted.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "targets": {
+        "description": "A list of specific resources to target in this plan/application. The resources selected here will also auto-include any dependencies.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "lock": {
+        "description": "Enable statefile locking, if you use a service that accepts locks (such as S3+DynamoDB) to store your statefile.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "lock_timeout": {
+        "description": "How long to maintain the lock on the statefile, if you use a service that accepts locks (such as S3+DynamoDB).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force_init": {
+        "description": "To avoid duplicating infra, if a state file can't be found this will force a C(terraform init). Generally, this should be turned off unless you intend to provision an entirely new Terraform deployment.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "overwrite_init": {
+        "description": "Run init even if C(.terraform/terraform.tfstate) already exists in I(project_path).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "backend_config": {
+        "description": "A group of key-values to provide at init stage to the -backend-config parameter.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backend_config_files": {
+        "description": "The path to a configuration file to provide at init state to the -backend-config parameter. This can accept a list of paths to multiple configuration files.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "provider_upgrade": {
+        "description": "Allows Terraform init to upgrade providers to versions specified in the project's version constraints.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "init_reconfigure": {
+        "description": "Forces backend reconfiguration during init.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "check_destroy": {
+        "description": "Apply only when no resources are destroyed. Note that this only prevents \"destroy\" actions, but not \"destroy and re-create\" actions. This option is ignored when I(state=absent).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "parallelism": {
+        "description": "Restrict concurrent operations when Terraform applies the plan.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cloud.terraform.terraform_output": {
+    "short_description": "Returns Terraform module outputs.",
+    "description": "Returns Terraform module outputs.",
+    "options": {
+      "project_path": {
+        "description": "The path to the root of the Terraform directory with the terraform.tfstate file. If I(state_file) and I(project_path) are not specified, the C(terraform.tfstate) file in the current working directory will be used. The C(TF_DATA_DIR) environment variable is respected.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of an individual output in the state file to list.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "format": {
+        "description": "A flag to specify the output format. Defaults to C(json). I(name) must be provided when using C(raw) option.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "json",
+          "raw"
+        ],
+        "default": "json",
+        "aliases": null
+      },
+      "binary_path": {
+        "description": "The path of a terraform binary to use.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state_file": {
+        "description": "The path to an existing Terraform state file whose outputs will be listed. If I(state_file) and I(project_path) are not specified, the C(terraform.tfstate) file in the current working directory will be used. The C(TF_DATA_DIR) environment variable is respected. This option is not compatible for remote states.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "workspace": {
+        "description": "The terraform workspace to work with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

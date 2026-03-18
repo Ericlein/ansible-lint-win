@@ -1,350 +1,4671 @@
 {
   "ovirt.ovirt.ovirt_affinity_group": {
     "short_description": "Module to manage affinity groups in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "This module manage affinity groups in oVirt/RHV. It can also manage assignments of those groups to VMs.",
+    "options": {
+      "name": {
+        "description": "Name of the affinity group to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the affinity group be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "cluster": {
+        "description": "Name of the cluster of the affinity group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the affinity group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_enforcing": {
+        "description": "If I(yes) VM cannot start on host if it does not satisfy the C(host_rule). This parameter is support since oVirt/RHV 4.1 version.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_rule": {
+        "description": "If I(positive) I(all) VMs in this group should run on the this host. If I(negative) I(no) VMs in this group should run on the this host. If I(disabled) this affinity group doesn't take effect. This parameter is support since oVirt/RHV 4.1 version.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disabled",
+          "negative",
+          "positive"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "vm_enforcing": {
+        "description": "If I(yes) VM cannot start if it does not satisfy the C(vm_rule).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm_rule": {
+        "description": "If I(positive) I(all) VMs in this group should run on the host defined by C(host_rule). If I(negative) I(no) VMs in this group should run on the host defined by C(host_rule). If I(disabled) this affinity group doesn't take effect.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disabled",
+          "negative",
+          "positive"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "vms": {
+        "description": "List of the VMs names, which should have assigned this affinity group.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hosts": {
+        "description": "List of the hosts names, which should have assigned this affinity group. This parameter is support since oVirt/RHV 4.1 version.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vms_labels": {
+        "description": "List of the hosts lable names, which should have assigned this affinity group.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hosts_labels": {
+        "description": "List of the hosts lable names, which should have assigned this affinity group.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_affinity_label": {
     "short_description": "Module to manage affinity labels in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "This module manage affinity labels in oVirt/RHV. It can also manage assignments of those labels to hosts and VMs.",
+    "options": {
+      "name": {
+        "description": "Name of the affinity label to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the affinity label be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "cluster": {
+        "description": "Name of the cluster where vms and hosts resides.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vms": {
+        "description": "List of the VMs names, which should have assigned this affinity label.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hosts": {
+        "description": "List of the hosts names, which should have assigned this affinity label.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_affinity_label_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV affinity labels",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV affinity labels. This module was called C(ovirt_affinity_label_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_affinity_label_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "name": {
+        "description": "Name of the affinity labels which should be listed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm": {
+        "description": "Name of the VM, which affinity labels should be listed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "Name of the host, which affinity labels should be listed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/affinity_label/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_api_info": {
     "short_description": "Retrieve information about the oVirt/RHV API",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about the oVirt/RHV API. This module was called C(ovirt_api_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_api_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/api/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_auth": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Module to manage authentication to oVirt/RHV",
+    "description": "This module authenticates to oVirt/RHV engine and creates SSO token, which should be later used in all other oVirt/RHV modules, so all modules don't need to perform login and logout. This module returns an Ansible fact called I(ovirt_auth). Every module can use this fact as C(auth) parameter, to perform authentication.",
+    "options": {
+      "state": {
+        "description": "Specifies if a token should be created or revoked.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "username": {
+        "description": "The name of the user. For example: I(admin@internal) Default value is set by I(OVIRT_USERNAME) environment variable.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "The password of the user. Default value is set by I(OVIRT_PASSWORD) environment variable.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "token": {
+        "description": "SSO token to be used instead of login with username/password. Default value is set by I(OVIRT_TOKEN) environment variable.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "url": {
+        "description": "A string containing the API URL of the server. For example: I(https://server.example.com/ovirt-engine/api). Default value is set by I(OVIRT_URL) environment variable. Either C(url) or C(hostname) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hostname": {
+        "description": "A string containing the hostname of the server. For example: I(server.example.com). Default value is set by I(OVIRT_HOSTNAME) environment variable. Either C(url) or C(hostname) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "insecure": {
+        "description": "A boolean flag that indicates if the server TLS certificate and host name should be checked.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ca_file": {
+        "description": "A PEM file containing the trusted CA certificates. The certificate presented by the server will be verified using these CA certificates. If C(ca_file) parameter is not set, system wide CA certificate store is used. Default value is set by I(OVIRT_CAFILE) environment variable.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The maximum total time to wait for the response, in seconds. A value of zero (the default) means wait forever. If the timeout expires before the response is received an exception will be raised.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "compress": {
+        "description": "A boolean flag indicating if the SDK should ask the server to send compressed responses. The default is I(True). Note that this is a hint for the server, and that it may return uncompressed data even when this parameter is set to I(True).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "kerberos": {
+        "description": "A boolean flag indicating if Kerberos authentication should be used instead of the default basic authentication.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "headers": {
+        "description": "A dictionary of HTTP headers to be added to each API call.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ovirt_auth": {
+        "description": "Previous run of the ovirt_auth used with C(state) absent Closes connection with the engine.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_cluster": {
     "short_description": "Module to manage clusters in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "Module to manage clusters in oVirt/RHV",
+    "options": {
+      "id": {
+        "description": "ID of the cluster to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the cluster to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the cluster be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "data_center": {
+        "description": "Datacenter name where cluster reside.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Comment of the cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network": {
+        "description": "Management network of cluster to access cluster hosts.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ballooning": {
+        "description": "If I(True) enable memory balloon optimization. Memory balloon is used to re-distribute / reclaim the host memory based on VM needs in a dynamic way.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "balloon"
+        ]
+      },
+      "virt": {
+        "description": "If I(True), hosts in this cluster will be used to run virtual machines.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gluster": {
+        "description": "If I(True), hosts in this cluster will be used as Gluster Storage server nodes, and not for running virtual machines. By default the cluster is created for virtual machine hosts.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "threads_as_cores": {
+        "description": "If I(True) the exposed host threads would be treated as cores which can be utilized by virtual machines.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ksm": {
+        "description": "I I(True) MoM enables to run Kernel Same-page Merging I(KSM) when necessary and when it can yield a memory saving benefit that outweighs its CPU cost.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ksm_numa": {
+        "description": "If I(True) enables KSM C(ksm) for best performance inside NUMA nodes.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ha_reservation": {
+        "description": "If I(True) enables the oVirt/RHV to monitor cluster capacity for highly available virtual machines.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trusted_service": {
+        "description": "If I(True) enables integration with an OpenAttestation server.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm_reason": {
+        "description": "If I(True) enables an optional reason field when a virtual machine is shut down from the Manager, allowing the administrator to provide an explanation for the maintenance.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_reason": {
+        "description": "If I(True) enables an optional reason field when a host is placed into maintenance mode from the Manager, allowing the administrator to provide an explanation for the maintenance.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "memory_policy": {
+        "description": "I(disabled) - Disables memory page sharing. I(server) - Sets the memory page sharing threshold to 150% of the system memory on each host. I(desktop) - Sets the memory page sharing threshold to 200% of the system memory on each host.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disabled",
+          "server",
+          "desktop"
+        ],
+        "default": null,
+        "aliases": [
+          "performance_preset"
+        ]
+      },
+      "rng_sources": {
+        "description": "List that specify the random number generator devices that all hosts in the cluster will use. Supported generators are: I(hwrng) and I(random).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "spice_proxy": {
+        "description": "The proxy by which the SPICE client will connect to virtual machines. The address must be in the following format: I(protocol://[host]:[port])",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fence_enabled": {
+        "description": "If I(True) enables fencing on the cluster. Fencing is enabled by default.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fence_skip_if_gluster_bricks_up": {
+        "description": "A flag indicating if fencing should be skipped if Gluster bricks are up and running in the host being fenced. This flag is optional, and the default value is `false`.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fence_skip_if_gluster_quorum_not_met": {
+        "description": "A flag indicating if fencing should be skipped if Gluster bricks are up and running and Gluster quorum will not be met without those bricks. This flag is optional, and the default value is `false`.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fence_skip_if_sd_active": {
+        "description": "If I(True) any hosts in the cluster that are Non Responsive and still connected to storage will not be fenced.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fence_skip_if_connectivity_broken": {
+        "description": "If I(True) fencing will be temporarily disabled if the percentage of hosts in the cluster that are experiencing connectivity issues is greater than or equal to the defined threshold. The threshold can be specified by C(fence_connectivity_threshold).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fence_connectivity_threshold": {
+        "description": "The threshold used by C(fence_skip_if_connectivity_broken).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resilience_policy": {
+        "description": "The resilience policy defines how the virtual machines are prioritized in the migration. Following values are supported: C(do_not_migrate) -  Prevents virtual machines from being migrated.  C(migrate) - Migrates all virtual machines in order of their defined priority. C(migrate_highly_available) - Migrates only highly available virtual machines to prevent overloading other hosts.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "do_not_migrate",
+          "migrate",
+          "migrate_highly_available"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "migration_bandwidth": {
+        "description": "The bandwidth settings define the maximum bandwidth of both outgoing and incoming migrations per host. Following bandwidth options are supported: C(auto) - Bandwidth is copied from the I(rate limit) [Mbps] setting in the data center host network QoS. C(hypervisor_default) - Bandwidth is controlled by local VDSM setting on sending host. C(custom) - Defined by user (in Mbps).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "hypervisor_default",
+          "custom"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "migration_bandwidth_limit": {
+        "description": "Set the I(custom) migration bandwidth limit. This parameter is used only when C(migration_bandwidth) is I(custom).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "migration_auto_converge": {
+        "description": "If I(True) auto-convergence is used during live migration of virtual machines. Used only when C(migration_policy) is set to I(legacy). Following options are supported: C(true) - Override the global setting to I(true). C(false) - Override the global setting to I(false). C(inherit) - Use value which is set globally.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "true",
+          "false",
+          "inherit"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "migration_compressed": {
+        "description": "If I(True) compression is used during live migration of the virtual machine. Used only when C(migration_policy) is set to I(legacy). Following options are supported: C(true) - Override the global setting to I(true). C(false) - Override the global setting to I(false). C(inherit) - Use value which is set globally.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "true",
+          "false",
+          "inherit"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "migration_encrypted": {
+        "description": "If I(True) encryption is used during live migration of the virtual machine. Following options are supported: C(true) - Override the global setting to I(true). C(false) - Override the global setting to I(false). C(inherit) - Use value which is set globally.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "true",
+          "false",
+          "inherit"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "migration_policy": {
+        "description": "A migration policy defines the conditions for live migrating virtual machines in the event of host failure. Following policies are supported: C(legacy) - Legacy behavior of 3.6 version. C(minimal_downtime) - Virtual machines should not experience any significant downtime. C(suspend_workload) - Virtual machines may experience a more significant downtime. C(post_copy) - Virtual machines should not experience any significant downtime. If the VM migration is not converging for a long time, the migration will be switched to post-copy. Added in version I(2.4).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "legacy",
+          "minimal_downtime",
+          "suspend_workload",
+          "post_copy"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "serial_policy": {
+        "description": "Specify a serial number policy for the virtual machines in the cluster. Following options are supported: C(vm) - Sets the virtual machine's UUID as its serial number. C(host) - Sets the host's UUID as the virtual machine's serial number. C(custom) - Allows you to specify a custom serial number in C(serial_policy_value).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "vm",
+          "host",
+          "custom"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "serial_policy_value": {
+        "description": "Allows you to specify a custom serial number. This parameter is used only when C(serial_policy) is I(custom).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scheduling_policy": {
+        "description": "Name of the scheduling policy to be used for cluster.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scheduling_policy_properties": {
+        "description": "Custom scheduling policy properties of the cluster. These optional properties override the properties of the scheduling policy specified by the C(scheduling_policy) parameter.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cpu_arch": {
+        "description": "CPU architecture of cluster.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "x86_64",
+          "ppc64",
+          "undefined"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "cpu_type": {
+        "description": "CPU codename. For example I(Intel SandyBridge Family).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "switch_type": {
+        "description": "Type of switch to be used by all networks in given cluster. Either I(legacy) which is using linux bridge or I(ovs) using Open vSwitch.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "legacy",
+          "ovs"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "compatibility_version": {
+        "description": "The compatibility version of the cluster. All hosts in this cluster must support at least this compatibility version.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mac_pool": {
+        "description": "MAC pool to be used by this cluster. C(Note:) This is supported since oVirt version 4.1.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "external_network_providers": {
+        "description": "List of references to the external network providers available in the cluster. If the automatic deployment of the external network provider is supported, the networks of the referenced network provider are available on every host in the cluster. This is supported since oVirt version 4.2.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "firewall_type": {
+        "description": "The type of firewall to be used on hosts in this cluster. Up to version 4.1, it was always I(iptables). Since version 4.2, you can choose between I(iptables) and I(firewalld). For clusters with a compatibility version of 4.2 and higher, the default firewall type is I(firewalld).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "firewalld",
+          "iptables"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "gluster_tuned_profile": {
+        "description": "The name of the U(https://fedorahosted.org/tuned) to set on all the hosts in the cluster. This is not mandatory and relevant only for clusters with Gluster service. Could be for example I(virtual-host), I(rhgs-sequential-io), I(rhgs-random-io)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_cluster_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV clusters",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV clusters. This module was called C(ovirt_cluster_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_cluster_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "pattern": {
+        "description": "Search term which is accepted by oVirt/RHV search backend. For example to search cluster X from datacenter Y use following pattern: name=X and datacenter=Y",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/cluster/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_datacenter": {
     "short_description": "Module to manage data centers in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "Module to manage data centers in oVirt/RHV",
+    "options": {
+      "id": {
+        "description": "ID of the datacenter to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the data center to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the data center be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the data center.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Comment of the data center.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "local": {
+        "description": "I(True) if the data center should be local, I(False) if should be shared. Default value is set by engine.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "compatibility_version": {
+        "description": "Compatibility version of the data center.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "quota_mode": {
+        "description": "Quota mode of the data center. One of I(disabled), I(audit) or I(enabled)",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disabled",
+          "audit",
+          "enabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "mac_pool": {
+        "description": "MAC pool to be used by this datacenter. IMPORTANT: This option is deprecated in oVirt/RHV 4.1. You should use C(mac_pool) in C(ovirt_clusters) module, as MAC pools are set per cluster since 4.1.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "This parameter can be used only when removing a data center. If I(True) data center will be forcibly removed, even though it contains some clusters. Default value is I(False), which means that only empty data center can be removed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iscsi_bonds": {
+        "description": "List of iscsi bonds, which should be created in datacenter.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_datacenter_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV datacenters",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV datacenters. This module was called C(ovirt_datacenter_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_datacenter_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "pattern": {
+        "description": "Search term which is accepted by oVirt/RHV search backend. For example to search datacenter I(X) use following pattern: I(name=X)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/data_center/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_disk": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Module to manage Virtual Machine and floating disks in oVirt/RHV",
+    "description": "Module to manage Virtual Machine and floating disks in oVirt/RHV. WARNING: If you are installing the collection from ansible galaxy you need to install 'qemu-img' package.",
+    "options": {
+      "id": {
+        "description": "ID of the disk to manage. Either C(id) or C(name)/C(alias) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the disk to manage. Either C(id) or C(name)/C(alias) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "alias"
+        ]
+      },
+      "description": {
+        "description": "Description of the disk image to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm_name": {
+        "description": "Name of the Virtual Machine to manage. Either C(vm_id) or C(vm_name) is required if C(state) is I(attached) or I(detached).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm_id": {
+        "description": "ID of the Virtual Machine to manage. Either C(vm_id) or C(vm_name) is required if C(state) is I(attached) or I(detached).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the Virtual Machine disk be present/absent/attached/detached/exported/imported.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "attached",
+          "detached",
+          "exported",
+          "imported"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "download_image_path": {
+        "description": "Path on a file system where disk should be downloaded. Note that you must have an valid oVirt/RHV engine CA in your system trust store or you must provide it in C(ca_file) parameter. Note that the disk is not downloaded when the file already exists, but you can forcibly download the disk when using C(force) I (true).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "upload_image_path": {
+        "description": "Path to disk image, which should be uploaded. Note if C(size) is not specified the size of the disk will be determined by the size of the specified image. Note that currently we support only compatibility version 0.10 of the qcow disk. Note that you must have an valid oVirt/RHV engine CA in your system trust store or you must provide it in C(ca_file) parameter. Note that there is no reliable way to achieve idempotency, so if you want to upload the disk even if the disk with C(id) or C(name) exists, then please use C(force) I(true). If you will use C(force) I(false), which is default, then the disk image won't be uploaded. Note that in order to upload iso the C(format) should be 'raw'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "image_path"
+        ]
+      },
+      "size": {
+        "description": "Size of the disk. Size should be specified using IEC standard units. For example 10GiB, 1024MiB, etc. Size can be only increased, not decreased. If the disk is referenced by C(name) and is attached to a VM, make sure to specify C(vm_name)/C(vm_id) to prevent extension of another disk that is not attached to the VM.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interface": {
+        "description": "Driver of the storage interface. It's required parameter when creating the new disk.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "virtio",
+          "ide",
+          "sata",
+          "virtio_scsi"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "format": {
+        "description": "Specify format of the disk. Note that this option isn't idempotent as it's not currently possible to change format of the disk via API.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "raw",
+          "cow"
+        ],
+        "default": "cow",
+        "aliases": null
+      },
+      "content_type": {
+        "description": "Specify if the disk is a data disk or ISO image or a one of a the Hosted Engine disk types The Hosted Engine disk content types are available with Engine 4.3+ and Ansible 2.8",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "data",
+          "iso",
+          "hosted_engine",
+          "hosted_engine_sanlock",
+          "hosted_engine_metadata",
+          "hosted_engine_configuration"
+        ],
+        "default": "data",
+        "aliases": null
+      },
+      "sparse": {
+        "description": "I(True) if the disk should be sparse (also known as I(thin provision)). If the parameter is omitted, cow disks will be created as sparse and raw disks as I(preallocated) Note that this option isn't idempotent as it's not currently possible to change sparseness of the disk via API.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_domain": {
+        "description": "Storage domain name where disk should be created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_domains": {
+        "description": "Storage domain names where disk should be copied. C(**IMPORTANT**) There is no reliable way to achieve idempotency, so every time you specify this parameter the disks are copied, so please handle your playbook accordingly to not copy the disks all the time. This is valid only for VM and floating disks, template disks works as expected.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Please take a look at C(image_path) documentation to see the correct usage of this parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "profile": {
+        "description": "Disk profile name to be attached to disk. By default profile is chosen by oVirt/RHV engine.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "quota_id": {
+        "description": "Disk quota ID to be used for disk. By default quota is chosen by oVirt/RHV engine.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bootable": {
+        "description": "I(True) if the disk should be bootable. By default when disk is created it isn't bootable.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "shareable": {
+        "description": "I(True) if the disk should be shareable. By default when disk is created it isn't shareable.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "read_only": {
+        "description": "I(True) if the disk should be read_only. By default when disk is created it isn't read_only.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "logical_unit": {
+        "description": "Dictionary which describes LUN to be directly attached to VM:",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sparsify": {
+        "description": "I(True) if the disk should be sparsified. Sparsification frees space in the disk image that is not used by its filesystem. As a result, the image will occupy less space on the storage. Note that this parameter isn't idempotent, as it's not possible to check if the disk should be or should not be sparsified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "openstack_volume_type": {
+        "description": "Name of the openstack volume type. This is valid when working with cinder.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image_provider": {
+        "description": "When C(state) is I(exported) disk is exported to given Glance image provider. When C(state) is I(imported) disk is imported from given Glance image provider. C(**IMPORTANT**) There is no reliable way to achieve idempotency, so every time you specify this parameter the disk is exported, so please handle your playbook accordingly to not export the disk all the time. This option is valid only for template disks.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "When the hypervisor name is specified the newly created disk or an existing disk will refresh its information about the underlying storage( Disk size, Serial, Product ID, Vendor ID ...) The specified host will be used for gathering the storage related information. This option is only valid for passthrough disks. This option requires at least the logical_unit.id to be specified",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wipe_after_delete": {
+        "description": "If the disk's Wipe After Delete is enabled, then the disk is first wiped.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "activate": {
+        "description": "I(True) if the disk should be activated. When creating disk of Virtual Machine it is set to I(True).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup": {
+        "description": "The backup behavior supported by the disk.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "incremental"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "scsi_passthrough": {
+        "description": "Indicates whether SCSI passthrough is enable and its policy. Setting a value of `filtered`/`unfiltered` will enable SCSI passthrough for a LUN disk with unprivileged/privileged SCSI I/O. To disable SCSI passthrough the value should be set to `disabled`",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disabled",
+          "filtered",
+          "unfiltered"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "propagate_errors": {
+        "description": "Indicates if disk errors should cause Virtual Machine to be paused or if disk errors should be propagated to the the guest operating system instead.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pass_discard": {
+        "description": "Defines whether the Virtual Machine passes discard commands to the storage.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uses_scsi_reservation": {
+        "description": "Defines whether SCSI reservation is enabled for this disk.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_workers": {
+        "description": "The number of workers which should be used in the upload/download of the image. The use of multiple workers can speed up the process.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_disk_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV disks",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV disks. This module was called C(ovirt_disk_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_disk_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "pattern": {
+        "description": "Search term which is accepted by oVirt/RHV search backend. For example to search Disk X from storage Y use following pattern: name=X and storage.name=Y",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/disk/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_disk_profile": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Module to manage storage domain disk profiles in ovirt",
+    "description": "Module to manage storage domain disk profiles in ovirt.",
+    "options": {
+      "id": {
+        "description": "ID of the disk profile to manage. Either C(id) or C(name) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the disk profile to manage. Either C(id) or C(name)/C(alias) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the disk profile.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Comment of the disk profile.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_domain": {
+        "description": "Name of the storage domain where the disk profile should be created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "data_center": {
+        "description": "Name of the data center where the qos entry has been created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "qos": {
+        "description": "Name of the QoS entry on the disk profile. If not passed defaults to ovirt HE default",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the disk profile be present/absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_event": {
     "short_description": "Create or delete an event in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "This module can be used to create or delete an event in oVirt/RHV.",
+    "options": {
+      "state": {
+        "description": "Should the event be present/absent. The C(wait) option must be set to false when state is absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "description": {
+        "description": "Message for the event. Required when state is present.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "severity": {
+        "description": "Severity of the event. Required when state is present.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "error",
+          "normal",
+          "warning"
+        ],
+        "default": "normal",
+        "aliases": null
+      },
+      "origin": {
+        "description": "Originator of the event. Required when state is present.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "custom_id": {
+        "description": "Custom ID for the event. This ID must be unique for each event. Required when state is present.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "The event ID in the oVirt/RHV audit_log table. This ID is not the same as custom_id and is only used when state is absent. Required when state is absent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "correlation_id": {
+        "description": "The event correlation identifier. If not specified, the 'correlation-id' in the connection header will be used. If neither are available, it is not set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster": {
+        "description": "The id of the cluster associated with this event.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "data_center": {
+        "description": "The id of the data center associated with this event.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "The id of the host associated with this event.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_domain": {
+        "description": "The id of the storage domain associated with this event.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template": {
+        "description": "The id of the template associated with this event.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user": {
+        "description": "The id of the user associated with this event.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm": {
+        "description": "The id of the VM associated with this event.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_event_info": {
     "short_description": "This module can be used to retrieve information about one or more oVirt/RHV events",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV events. This module was called C(ovirt_event_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_event_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "case_sensitive": {
+        "description": "Indicates if the search performed using the search parameter should be performed taking case into account. The default value is true, which means that case is taken into account. If you want to search ignoring case set it to false.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "from_": {
+        "description": "Indicates the event index after which events should be returned. The indexes of events are strictly increasing, so when this parameter is used only the events with greater indexes will be returned.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max": {
+        "description": "Sets the maximum number of events to return. If not specified all the events are returned.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "search": {
+        "description": "Search term which is accepted by the oVirt/RHV API. For example to search for events of severity alert use the following pattern: severity=alert",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "headers": {
+        "description": "Additional HTTP headers.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "query": {
+        "description": "Additional URL query parameters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "wait": {
+        "description": "If True wait for the response.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/event/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_external_provider": {
     "short_description": "Module to manage external providers in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "Module to manage external providers in oVirt/RHV",
+    "options": {
+      "name": {
+        "description": "Name of the external provider to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the external be present or absent When you are using absent for I(os_volume), you need to make sure that SD is not attached to the data center!",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the external provider.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Type of the external provider.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "os_image",
+          "network",
+          "os_volume",
+          "foreman"
+        ],
+        "default": null,
+        "aliases": [
+          "provider"
+        ]
+      },
+      "url": {
+        "description": "URL where external provider is hosted. Applicable for those types: I(os_image), I(os_volume), I(network) and I(foreman).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Username to be used for login to external provider. Applicable for all types.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password of the user specified in C(username) parameter. Applicable for all types.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tenant_name": {
+        "description": "Name of the tenant. Applicable for those types: I(os_image), I(os_volume) and I(network).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "tenant"
+        ]
+      },
+      "authentication_url": {
+        "description": "Keystone authentication URL of the openstack provider. Applicable for those types: I(os_image), I(os_volume) and I(network).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "auth_url"
+        ]
+      },
+      "data_center": {
+        "description": "Name of the data center where provider should be attached. Applicable for those type: I(os_volume).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "read_only": {
+        "description": "Specify if the network should be read only. Applicable if C(type) is I(network).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network_type": {
+        "description": "Type of the external network provider either external (for example OVN) or neutron. Applicable if C(type) is I(network).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "external",
+          "neutron"
+        ],
+        "default": "external",
+        "aliases": null
+      },
+      "authentication_keys": {
+        "description": "List of authentication keys. When you will not pass these keys and there are already some of them defined in the system they will be removed. Applicable for I(os_volume).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "auth_keys"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_external_provider_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV external providers",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV external providers. This module was called C(ovirt_external_provider_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_external_provider_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "type": {
+        "description": "Type of the external provider.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "os_image",
+          "os_network",
+          "os_volume",
+          "foreman"
+        ],
+        "default": null,
+        "aliases": [
+          "provider"
+        ]
+      },
+      "name": {
+        "description": "Name of the external provider, can be used as glob expression.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). For type C(foreman), all follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/external_host_provider/links_summary For type C(os_image), all follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/open_stack_image_provider/links_summary For type C(os_volume), all follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/open_stack_volume_provider/links_summary For type C(os_network), all follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/open_stack_network_provider/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_group": {
     "short_description": "Module to manage groups in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "Module to manage groups in oVirt/RHV",
+    "options": {
+      "name": {
+        "description": "Name of the group to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the group be present/absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "authz_name": {
+        "description": "Authorization provider of the group. In previous versions of oVirt/RHV known as domain.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "domain"
+        ]
+      },
+      "namespace": {
+        "description": "Namespace of the authorization provider, where group resides.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_group_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV groups",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV groups. This module was called C(ovirt_group_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_group_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "pattern": {
+        "description": "Search term which is accepted by oVirt/RHV search backend. For example to search group X use following pattern: name=X",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/group/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_host": {
     "short_description": "Module to manage hosts in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "Module to manage hosts in oVirt/RHV",
+    "options": {
+      "id": {
+        "description": "ID of the host to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the host to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State which should a host to be in after successful completion. I(iscsilogin) and I(iscsidiscover) are supported since version 2.4. I(refreshed) is supported since 3.1.0",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "maintenance",
+          "upgraded",
+          "started",
+          "restarted",
+          "stopped",
+          "reinstalled",
+          "iscsidiscover",
+          "iscsilogin",
+          "refreshed"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "comment": {
+        "description": "Description of the host.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The amount of time in seconds the module should wait for the host to get into desired state.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": 600,
+        "aliases": null
+      },
+      "cluster": {
+        "description": "Name of the cluster, where host should be created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "address": {
+        "description": "Host address. It can be either FQDN (preferred) or IP address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password of the root. It's required in case C(public_key) is set to I(False).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssh_port": {
+        "description": "The host SSH port.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "public_key": {
+        "description": "I(True) if the public key should be used to authenticate to host. It's required in case C(password) is not set.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "ssh_public_key"
+        ]
+      },
+      "enroll_certificate": {
+        "description": "Enrolls the certificate of the host. Useful in case you get a warning that it is about to expire or has already expired. The host must be in maintenance status before enrolling the certificates.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "kdump_integration": {
+        "description": "Specify if host will have enabled Kdump integration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "spm_priority": {
+        "description": "SPM priority of the host. Integer value from 1 to 10, where higher number means higher priority.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "override_iptables": {
+        "description": "If True host iptables will be overridden by host deploy script. Note that C(override_iptables) is I(false) by default in oVirt/RHV.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Indicates that the host should be removed even if it is non-responsive, or if it is part of a Gluster Storage cluster and has volume bricks on it. WARNING: It doesn't forcibly remove the host if another host related operation is being executed on the host at the same time.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "override_display": {
+        "description": "Override the display address of all VMs on this host with specified address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kernel_params": {
+        "description": "List of kernel boot parameters. Following are most common kernel parameters used for host: Hostdev Passthrough & SR-IOV: intel_iommu=on Nested Virtualization: kvm-intel.nested=1 Unsafe Interrupts: vfio_iommu_type1.allow_unsafe_interrupts=1 PCI Reallocation: pci=realloc C(Note:) Modifying kernel boot parameters settings can lead to a host boot failure. Please consult the product documentation before doing any changes. Kernel boot parameters changes require host deploy and restart. The host needs to be I(reinstalled) successfully and then to be I(rebooted) for kernel boot parameters to be applied.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hosted_engine": {
+        "description": "If I(deploy) it means this host should deploy also hosted engine components. If I(undeploy) it means this host should un-deploy hosted engine components and this host will not function as part of the High Availability cluster.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deploy",
+          "undeploy"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "power_management_enabled": {
+        "description": "Enable or disable power management of the host. For more comprehensive setup of PM use C(ovirt_host_pm) module.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "activate": {
+        "description": "If C(state) is I(present) activate the host. This parameter is good to disable, when you don't want to change the state of host when using I(present) C(state).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "iscsi": {
+        "description": "If C(state) is I(iscsidiscover) it means that the iscsi attribute is being used to discover targets If C(state) is I(iscsilogin) it means that the iscsi attribute is being used to login to the specified targets passed as part of the iscsi attribute",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "check_upgrade": {
+        "description": "If I(true) and C(state) is I(upgraded) run check for upgrade action before executing upgrade action.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "reboot_after_upgrade": {
+        "description": "If I(true) and C(state) is I(upgraded) reboot host after successful upgrade.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "reboot_after_installation": {
+        "description": "If I(true) reboot host after successful installation. Default value on engine is I(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vgpu_placement": {
+        "description": "If I(consolidated), each vGPU is placed on the first physical card with available space. This is the default placement, utilizing all available space on the physical cards. If I(separated), each vGPU is placed on a separate physical card, if possible. This can be useful for improving vGPU performance.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "consolidated",
+          "separated"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_host_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV hosts",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV hosts. This module was called C(ovirt_host_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_host_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "pattern": {
+        "description": "Search term which is accepted by oVirt/RHV search backend. For example to search host X from datacenter Y use following pattern: name=X and datacenter=Y",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "all_content": {
+        "description": "If I(true) all the attributes of the hosts should be included in the response.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "cluster_version": {
+        "description": "Filter the hosts based on the cluster version.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/host/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_host_network": {
     "short_description": "Module to manage host networks in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "Module to manage host networks in oVirt/RHV.",
+    "options": {
+      "name": {
+        "description": "Name of the host to manage networks for.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "host"
+        ]
+      },
+      "state": {
+        "description": "Should the host be present/absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "bond": {
+        "description": "Dictionary describing network bond:",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interface": {
+        "description": "Name of the network interface where logical network should be attached.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "networks": {
+        "description": "List of dictionary describing networks to be attached to interface or bond:",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "List of names of the network label to be assigned to bond or interface.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "check": {
+        "description": "If I(true) verify connectivity between host and engine. Network configuration changes will be rolled back if connectivity between engine and the host is lost after changing network configuration.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "save": {
+        "description": "If I(true) network configuration will be persistent, otherwise it is temporary. Default I(true) since Ansible 2.8.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "sync_networks": {
+        "description": "If I(true) all networks will be synchronized before modification",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_host_pm": {
     "short_description": "Module to manage power management of hosts in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "Module to manage power management of hosts in oVirt/RHV.",
+    "options": {
+      "name": {
+        "description": "Name of the host to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "host"
+        ]
+      },
+      "state": {
+        "description": "Should the host be present/absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "address": {
+        "description": "Address of the power management interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Username to be used to connect to power management interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password of the user specified in C(username) parameter.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Type of the power management. oVirt/RHV predefined values are I(drac5), I(ipmilan), I(rsa), I(bladecenter), I(alom), I(apc), I(apc_snmp), I(eps), I(wti), I(rsb), I(cisco_ucs), I(drac7), I(hpblade), I(ilo), I(ilo2), I(ilo3), I(ilo4), I(ilo_ssh), but user can have defined custom type.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Power management interface port.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "options": {
+        "description": "Dictionary of additional fence agent options (including Power Management slot). Additional information about options can be found at U(https://github.com/ClusterLabs/fence-agents/blob/master/doc/FenceAgentAPI.md).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "encrypt_options": {
+        "description": "If I(true) options will be encrypted when send to agent.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "encrypt"
+        ]
+      },
+      "order": {
+        "description": "Integer value specifying, by default it's added at the end.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_host_storage_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV HostStorages (applicable only for block storage)",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV HostStorages (applicable only for block storage). This module was called C(ovirt_host_storage_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_host_storage_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "host": {
+        "description": "Host to get device list from.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iscsi": {
+        "description": "Dictionary with values for iSCSI storage type:",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fcp": {
+        "description": "Dictionary with values for fibre channel storage type:",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/host_storage/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_instance_type": {
     "short_description": "Module to manage Instance Types in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "This module manages whole lifecycle of the Instance Type in oVirt/RHV.",
+    "options": {
+      "name": {
+        "description": "Name of the Instance Type to manage. If instance type don't exists C(name) is required. Otherwise C(id) or C(name) can be used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "ID of the Instance Type to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the Instance Type be present/absent. I(present) state will create/update instance type and don't change its state if it already exists.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "memory": {
+        "description": "Amount of memory of the Instance Type. Prefix uses IEC 60027-2 standard (for example 1GiB, 1024MiB). Default value is set by engine.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "memory_guaranteed": {
+        "description": "Amount of minimal guaranteed memory of the Instance Type. Prefix uses IEC 60027-2 standard (for example 1GiB, 1024MiB). C(memory_guaranteed) parameter can't be lower than C(memory) parameter. Default value is set by engine.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nics": {
+        "description": "List of NICs, which should be attached to Virtual Machine. NIC is described by following dictionary. NOTE - This parameter is used only when C(state) is I(running) or I(present) and is able to only create NICs. To manage NICs of the instance type in more depth please use M(ovirt.ovirt.ovirt_nic) module instead.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "memory_max": {
+        "description": "Upper bound of instance type memory up to which memory hot-plug can be performed. Prefix uses IEC 60027-2 standard (for example 1GiB, 1024MiB). Default value is set by engine.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cpu_cores": {
+        "description": "Number of virtual CPUs cores of the Instance Type. Default value is set by oVirt/RHV engine.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cpu_sockets": {
+        "description": "Number of virtual CPUs sockets of the Instance Type. Default value is set by oVirt/RHV engine.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cpu_threads": {
+        "description": "Number of virtual CPUs sockets of the Instance Type. Default value is set by oVirt/RHV engine.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "operating_system": {
+        "description": "Operating system of the Instance Type, for example 'rhel_8x64'. Default value is set by oVirt/RHV engine. Use the M(ovirt.ovirt.ovirt_vm_os_info) module to obtain the current list.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "boot_devices": {
+        "description": "List of boot devices which should be used to boot. For example C([ cdrom, hd ]). Default value is set by oVirt/RHV engine.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "cdrom",
+          "hd",
+          "network"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "serial_console": {
+        "description": "I(True) enable VirtIO serial console, I(False) to disable it. By default is chosen by oVirt/RHV engine.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "usb_support": {
+        "description": "I(True) enable USB support, I(False) to disable it. By default is chosen by oVirt/RHV engine.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "high_availability": {
+        "description": "If I(yes) Instance Type will be set as highly available. If I(no) Instance Type won't be set as highly available. If no value is passed, default value is set by oVirt/RHV engine.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "high_availability_priority": {
+        "description": "Indicates the priority of the instance type inside the run and migration queues. Instance Type with higher priorities will be started and migrated before instance types with lower priorities. The value is an integer between 0 and 100. The higher the value, the higher the priority. If no value is passed, default value is set by oVirt/RHV engine.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "watchdog": {
+        "description": "Assign watchdog device for the instance type. Watchdogs is a dictionary which can have following values: C(model) - Model of the watchdog device. For example: I(i6300esb), I(diag288) or I(null). C(action) - Watchdog action to be performed when watchdog is triggered. For example: I(none), I(reset), I(poweroff), I(pause) or I(dump).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "Specify host where Instance Type should be running. By default the host is chosen by engine scheduler. This parameter is used only when C(state) is I(running) or I(present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "graphical_console": {
+        "description": "Assign graphical console to the instance type. Graphical console is a dictionary which can have following values: C(headless_mode) - If I(true) disable the graphics console for this instance type. C(protocol) - Graphical protocol, a list of I(spice), I(vnc), or both.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the instance type.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cpu_mode": {
+        "description": "CPU mode of the instance type. It can be some of the following: I(host_passthrough), I(host_model) or I(custom). For I(host_passthrough) CPU type you need to set C(placement_policy) to I(pinned). If no value is passed, default value is set by oVirt/RHV engine.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rng_device": {
+        "description": "Random number generator (RNG). You can choose of one the following devices I(urandom), I(random) or I(hwrng). In order to select I(hwrng), you must have it enabled on cluster first. /dev/urandom is used for cluster version >= 4.1, and /dev/random for cluster version <= 4.0",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rng_bytes": {
+        "description": "Number of bytes allowed to consume per period.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rng_period": {
+        "description": "Duration of one period in milliseconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "placement_policy": {
+        "description": "The configuration of the instance type's placement policy. Placement policy can be one of the following values: C(migratable) - Allow manual and automatic migration. C(pinned) - Do not allow migration. C(user_migratable) - Allow manual migration only. If no value is passed, default value is set by oVirt/RHV engine.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cpu_pinning": {
+        "description": "CPU Pinning topology to map instance type CPU to host CPU. CPU Pinning topology is a list of dictionary which can have following values:",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "soundcard_enabled": {
+        "description": "If I(true), the sound card is added to the instance type.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "smartcard_enabled": {
+        "description": "If I(true), use smart card authentication.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "virtio_scsi": {
+        "description": "If I(true), virtio scsi will be enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "io_threads": {
+        "description": "Number of IO threads used by instance type. I(0) means IO threading disabled.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ballooning_enabled": {
+        "description": "If I(true), use memory ballooning. Memory balloon is a guest device, which may be used to re-distribute / reclaim the host memory based on instance type needs in a dynamic way. In this way it's possible to create memory over commitment states.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_job": {
     "short_description": "Module to manage jobs in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "This module manage jobs in oVirt/RHV. It can also manage steps of the job.",
+    "options": {
+      "description": {
+        "description": "Description of the job. When task with same description has already finished and you rerun taks it will create new job.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the job be C(present)/C(absent)/C(failed). C(started) is alias for C(present). C(finished) is alias for C(absent). Same in the steps. Note when C(finished)/C(failed) it will finish/fail all steps.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "started",
+          "finished",
+          "failed"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "steps": {
+        "description": "The steps of the job.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_mac_pool": {
     "short_description": "Module to manage MAC pools in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "This module manage MAC pools in oVirt/RHV.",
+    "options": {
+      "id": {
+        "description": "ID of the mac pool to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the MAC pool to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the MAC pool.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the mac pool be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "allow_duplicates": {
+        "description": "If I(true) allow a MAC address to be used multiple times in a pool. Default value is set by oVirt/RHV engine to I(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ranges": {
+        "description": "List of MAC ranges. The from and to should be split by comma. For example: 00:1a:4a:16:01:51,00:1a:4a:16:01:61",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_network": {
     "short_description": "Module to manage logical networks in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "Module to manage logical networks in oVirt/RHV",
+    "options": {
+      "id": {
+        "description": "ID of the network to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the network to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the network be present or absent",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "data_center": {
+        "description": "Datacenter name where network reside.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the network.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Comment of the network.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vlan_tag": {
+        "description": "Specify VLAN tag. NOTE - To remove the vlan_tag use -1.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "external_provider": {
+        "description": "Name of external network provider. At first it tries to import the network when not found it will create network in external provider.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm_network": {
+        "description": "If I(True) network will be marked as network for VM. VM network carries traffic relevant to the virtual machine.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mtu": {
+        "description": "Maximum transmission unit (MTU) of the network.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "clusters": {
+        "description": "List of dictionaries describing how the network is managed in specific cluster.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "label": {
+        "description": "Name of the label to assign to the network.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_network_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV networks",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV networks. This module was called C(ovirt_network_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_network_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "pattern": {
+        "description": "Search term which is accepted by oVirt/RHV search backend. For example to search network starting with string vlan1 use: name=vlan1*",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/network/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_nic": {
     "short_description": "Module to manage network interfaces of Virtual Machines in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "Module to manage network interfaces of Virtual Machines in oVirt/RHV.",
+    "options": {
+      "id": {
+        "description": "ID of the nic to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the network interface to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm": {
+        "description": "Name of the Virtual Machine to manage. You must provide either C(vm) parameter or C(template) parameter.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template": {
+        "description": "Name of the template to manage. You must provide either C(vm) parameter or C(template) parameter.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_version": {
+        "description": "Version number of the template.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the Virtual Machine NIC be present/absent/plugged/unplugged.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "plugged",
+          "present",
+          "unplugged"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "network": {
+        "description": "Logical network to which the VM network interface should use, by default Empty network is used if network is not specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "profile": {
+        "description": "Virtual network interface profile to be attached to VM network interface. When not specified and network has only single profile it will be auto-selected, otherwise you must specify profile.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interface": {
+        "description": "Type of the network interface. For example e1000, pci_passthrough, rtl8139, rtl8139_virtio, spapr_vlan or virtio. It's required parameter when creating the new NIC.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mac_address": {
+        "description": "Custom MAC address of the network interface, by default it's obtained from MAC pool.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "linked": {
+        "description": "Defines if the NIC is linked to the virtual machine.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network_filter_parameters": {
+        "description": "The list of network filter parameters.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_nic_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV virtual machine network interfaces",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV virtual machine network interfaces. This module was called C(ovirt_nic_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_nic_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "vm": {
+        "description": "Name of the VM where NIC is attached. You must provide either C(vm) parameter or C(template) parameter.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template": {
+        "description": "Name of the template where NIC is attached. You must provide either C(vm) parameter or C(template) parameter.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the NIC, can be used as glob expression.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/nic/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_permission": {
     "short_description": "Module to manage permissions of users/groups in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "Module to manage permissions of users/groups in oVirt/RHV.",
+    "options": {
+      "role": {
+        "description": "Name of the role to be assigned to user/group on specific object.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "UserRole",
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the permission be present/absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "object_id": {
+        "description": "ID of the object where the permissions should be managed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "object_name": {
+        "description": "Name of the object where the permissions should be managed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "object_type": {
+        "description": "The object where the permissions should be managed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "cluster",
+          "cpu_profile",
+          "data_center",
+          "disk",
+          "disk_profile",
+          "host",
+          "network",
+          "storage_domain",
+          "system",
+          "template",
+          "vm",
+          "vm_pool",
+          "vnic_profile",
+          "mac_pool"
+        ],
+        "default": "vm",
+        "aliases": null
+      },
+      "user_name": {
+        "description": "Username of the user to manage. In most LDAPs it's I(uid) of the user, but in Active Directory you must specify I(UPN) of the user. Note that if user does not exist in the system this module will fail, you should ensure the user exists by using M(ovirt.ovirt.ovirt_users) module.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group_name": {
+        "description": "Name of the group to manage. Note that if group does not exist in the system this module will fail, you should ensure the group exists by using M(ovirt.ovirt.ovirt_groups) module.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "authz_name": {
+        "description": "Authorization provider of the user/group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "domain"
+        ]
+      },
+      "namespace": {
+        "description": "Namespace of the authorization provider, where user/group resides.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "quota_name": {
+        "description": "Name of the quota to assign permission. Works only with C(object_type) I(data_center).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_permission_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV permissions",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV permissions. This module was called C(ovirt_permission_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_permission_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "user_name": {
+        "description": "Username of the user to manage. In most LDAPs it's I(uid) of the user, but in Active Directory you must specify I(UPN) of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group_name": {
+        "description": "Name of the group to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "authz_name": {
+        "description": "Authorization provider of the user/group. In previous versions of oVirt/RHV known as domain.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "domain"
+        ]
+      },
+      "namespace": {
+        "description": "Namespace of the authorization provider, where user/group resides.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/permission/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_qos": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Module to manage QoS entries in ovirt",
+    "description": "Module to manage QoS entries in ovirt. Doesn't support updating a QoS that exists Only works with storage QoS entries atm",
+    "options": {
+      "id": {
+        "description": "ID of the QoS to manage. Either C(id) or C(name) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of QoS to manage. Either C(id) or C(name)/C(alias) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the QoS.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "data_center": {
+        "description": "Name of the data center where the QoS entry should be created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_iops": {
+        "description": "The max number of read/write iops. If passed you can't pass a value for C(read_iops) or C(write_iops) If no value is given it will default to the HE value, assuming C(read_iops) or C(write_iops) hasn't been set",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "write_iops": {
+        "description": "The max number of write iops. If passed you can't pass a value for C(max_iops) If no value is given it will default to the HE value, assuming C(max_iops) hasn't been set",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "read_iops": {
+        "description": "The max number of read iops. If passed you can't pass a value for C(max_iops) If no value is given it will default to the HE value, assuming C(max_iops) hasn't been set",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_throughput": {
+        "description": "The max number of read/write throughput. If passed you can't pass a value for C(read_throughput) or C(write_throughput) If no value is given it will default to the HE value, assuming C(read_throughput) or C(write_throughput) hasn't been set",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "write_throughput": {
+        "description": "The max number of write throughput. If passed you can't pass a value for C(max_throughput) If no value is given it will default to the HE value, assuming C(max_throughput) hasn't been set",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "read_throughput": {
+        "description": "The max number of read throughput. If passed you can't pass a value for C(max_throughput) If no value is given it will default to the HE value, assuming C(max_throughput) hasn't been set",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cpu_limit": {
+        "description": "The maximum processing capability in %. Used to configure computing resources.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inbound_average": {
+        "description": "The desired average inbound bit rate in Mbps (Megabits per sec). Used to configure virtual machines networks. If defined, C(inbound_peak) and C(inbound_burst) also has to be set. See link:https://libvirt.org/formatnetwork.html#elementQoS[Libvirt-QOS] for further details.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inbound_peak": {
+        "description": "The maximum inbound rate in Mbps (Megabits per sec). Used to configure virtual machines networks. If defined, C(inbound_average) and C(inbound_burst) also has to be set. See link:https://libvirt.org/formatnetwork.html#elementQoS[Libvirt-QOS] for further details.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inbound_burst": {
+        "description": "The amount of data that can be delivered in a single burst, in MB. Used to configure virtual machine networks. If defined, C(inbound_average) and C(inbound_peak) must also be set. See link:https://libvirt.org/formatnetwork.html#elementQoS[Libvirt-QOS] for further details.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "outbound_average": {
+        "description": "The desired average outbound bit rate in Mbps (Megabits per sec). Used to configure virtual machines networks. If defined, C(outbound_peak) and C(outbound_burst) also has to be set. See link:https://libvirt.org/formatnetwork.html#elementQoS[Libvirt-QOS] for further details.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "outbound_peak": {
+        "description": "The maximum outbound rate in Mbps (Megabits per sec). Used to configure virtual machines networks. If defined, C(outbound_average) and C(outbound_burst) also has to be set. See link:https://libvirt.org/formatnetwork.html#elementQoS[Libvirt-QOS] for further details.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "outbound_burst": {
+        "description": "The amount of data that can be sent in a single burst, in MB. Used to configure virtual machine networks. If defined, C(outbound_average) and C(outbound_peak) must also be set. See link:https://libvirt.org/formatnetwork.html#elementQoS[Libvirt-QOS] for further details.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "outbound_average_linkshare": {
+        "description": "Weighted share. Used to configure host networks. Signifies how much of the logical link's capacity a specific network should be allocated, relative to the other networks attached to the same logical link. The exact share depends on the sum of shares of all networks on that link. By default this is a number in the range 1-100.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "outbound_average_upperlimit": {
+        "description": "The maximum bandwidth to be used by a network in Mbps (Megabits per sec). Used to configure host networks. If C(outboundAverageUpperlimit) and C(outbound_average_realtime) are provided, the C(outbound_averageUpperlimit) must not be lower than the C(outbound_average_realtime).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "outbound_average_realtime": {
+        "description": "The committed rate in Mbps (Megabits per sec). Used to configure host networks. The minimum bandwidth required by a network. The committed rate requested is not guaranteed and will vary depending on the network infrastructure and the committed rate requested by other networks on the same logical link.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "The type of QoS.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "storage",
+          "cpu",
+          "network",
+          "hostnetwork"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the QoS be present/absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_quota": {
     "short_description": "Module to manage datacenter quotas in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "Module to manage datacenter quotas in oVirt/RHV",
+    "options": {
+      "id": {
+        "description": "ID of the quota to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the quota to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the quota be present/absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "data_center": {
+        "description": "Name of the datacenter where quota should be managed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the quota to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster_threshold": {
+        "description": "Cluster threshold(soft limit) defined in percentage (0-100).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "cluster_soft_limit"
+        ]
+      },
+      "cluster_grace": {
+        "description": "Cluster grace(hard limit) defined in percentage (1-100).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "cluster_hard_limit"
+        ]
+      },
+      "storage_threshold": {
+        "description": "Storage threshold(soft limit) defined in percentage (0-100).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "storage_soft_limit"
+        ]
+      },
+      "storage_grace": {
+        "description": "Storage grace(hard limit) defined in percentage (1-100).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "storage_hard_limit"
+        ]
+      },
+      "clusters": {
+        "description": "List of dictionary of cluster limits, which is valid to specific cluster. If cluster isn't specified it's valid to all clusters in system:",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "storages": {
+        "description": "List of dictionary of storage limits, which is valid to specific storage. If storage isn't specified it's valid to all storages in system:",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_quota_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV quotas",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV quotas. This module was called C(ovirt_quota_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_quota_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "data_center": {
+        "description": "Name of the datacenter where quota resides.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the quota, can be used as glob expression.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/quota/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_role": {
     "short_description": "Module to manage roles in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "Module to manage roles in oVirt/RHV.",
+    "options": {
+      "name": {
+        "description": "Name of the role to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "id": {
+        "description": "ID of the role to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the role.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the role be present/absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "administrative": {
+        "description": "Defines the role as administrative-only or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "permits": {
+        "description": "List of permits which role will have Permit 'login' is default and all roles will have it. List can contain name of permit.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_scheduling_policy_info": {
     "short_description": "Retrieve information about one or more oVirt scheduling policies",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt scheduling policies. This module was called C(ovirt_scheduling_policy_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_scheduling_policy_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "id": {
+        "description": "ID of the scheduling policy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the scheduling policy, can be used as glob expression.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/scheduling_policy/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_snapshot": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Module to manage Virtual Machine Snapshots in oVirt/RHV",
+    "description": "Module to manage Virtual Machine Snapshots in oVirt/RHV",
+    "options": {
+      "snapshot_id": {
+        "description": "ID of the snapshot to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm_name": {
+        "description": "Name of the Virtual Machine to manage. Required one of C(vm_name) or C(vm_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm_id": {
+        "description": "ID of the Virtual Machine to manage. Required one of C(vm_name) or C(vm_id).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the Virtual Machine snapshot be restore/present/absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "restore",
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disk_id": {
+        "description": "Disk id which you want to upload or download To get disk, you need to define disk_id or disk_name",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disk_name": {
+        "description": "Disk name which you want to upload or download",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "download_image_path": {
+        "description": "Path on a file system where snapshot should be downloaded. Note that you must have an valid oVirt/RHV engine CA in your system trust store or you must provide it in C(ca_file) parameter. Note that the snapshot is not downloaded when the file already exists, but you can forcibly download the snapshot when using C(force) I (true).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "upload_image_path": {
+        "description": "Path to disk image, which should be uploaded.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_memory": {
+        "description": "If I(true) and C(state) is I(present) save memory of the Virtual Machine if it's running. If I(true) and C(state) is I(restore) restore memory of the Virtual Machine. Note that Virtual Machine will be paused while saving the memory.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "restore_memory",
+          "save_memory"
+        ]
+      },
+      "keep_days_old": {
+        "description": "Number of days after which should snapshot be deleted. It will check all snapshots of virtual machine and delete them, if they are older.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disks": {
+        "description": "List of disks which should be created with snapshot.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_snapshot_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV virtual machine snapshots",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV virtual machine snapshots. This module was called C(ovirt_snapshot_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_snapshot_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "vm": {
+        "description": "Name of the VM with snapshot.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the snapshot, can be used as glob expression.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_id": {
+        "description": "Id of the snapshot we want to retrieve information about.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/snapshot/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_storage_connection": {
     "short_description": "Module to manage storage connections in oVirt",
-    "description": "",
-    "options": {},
+    "description": "Module to manage storage connections in oVirt",
+    "options": {
+      "id": {
+        "description": "Id of the storage connection to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the storage connection be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "storage": {
+        "description": "Name of the storage domain to be used with storage connection.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "address": {
+        "description": "Address of the storage server. E.g.: myserver.mydomain.com",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "Path of the mount point of the storage. E.g.: /path/to/my/data",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nfs_version": {
+        "description": "NFS version. One of: I(auto), I(v3), I(v4) or I(v4_1).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nfs_timeout": {
+        "description": "The time in tenths of a second to wait for a response before retrying NFS requests. Range 0 to 65535.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nfs_retrans": {
+        "description": "The number of times to retry a request before attempting further recovery actions. Range 0 to 65535.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mount_options": {
+        "description": "Option which will be passed when mounting storage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "A CHAP password for logging into a target.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "A CHAP username for logging into a target.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Port of the iSCSI storage server.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target": {
+        "description": "The target IQN for the storage device.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Storage type. For example: I(nfs), I(iscsi), etc.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vfs_type": {
+        "description": "Virtual File System type.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "This parameter is relevant only when updating a connection. If I(true) the storage domain don't have to be in I(MAINTENANCE) state, so the storage connection is updated.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_storage_domain": {
     "short_description": "Module to manage storage domains in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "Module to manage storage domains in oVirt/RHV",
+    "options": {
+      "id": {
+        "description": "Id of the storage domain to be imported.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the storage domain to manage. (Not required when state is I(imported))",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the storage domain be present/absent/maintenance/unattached/imported/update_ovf_store I(imported) is supported since version 2.4. I(update_ovf_store) is supported since version 2.5, currently if C(wait) is (true), we don't wait for update.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "maintenance",
+          "unattached",
+          "imported",
+          "update_ovf_store"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the storage domain.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Comment of the storage domain.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "data_center": {
+        "description": "Data center name where storage domain should be attached. This parameter isn't idempotent, it's not possible to change data center of storage domain.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain_function": {
+        "description": "Function of the storage domain. This parameter isn't idempotent, it's not possible to change domain function of storage domain.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "data",
+          "iso",
+          "export"
+        ],
+        "default": "data",
+        "aliases": [
+          "type"
+        ]
+      },
+      "host": {
+        "description": "Host to be used to mount storage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "localfs": {
+        "description": "Dictionary with values for localfs storage type: Note that these parameters are not idempotent.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nfs": {
+        "description": "Dictionary with values for NFS storage type: Note that these parameters are not idempotent.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iscsi": {
+        "description": "Dictionary with values for iSCSI storage type: Note that these parameters are not idempotent.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "posixfs": {
+        "description": "Dictionary with values for PosixFS storage type: Note that these parameters are not idempotent.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "glusterfs": {
+        "description": "Dictionary with values for GlusterFS storage type: Note that these parameters are not idempotent.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "managed_block_storage": {
+        "description": "Dictionary with values for managed block storage type Note: available from ovirt 4.3",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fcp": {
+        "description": "Dictionary with values for fibre channel storage type: Note that these parameters are not idempotent.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wipe_after_delete": {
+        "description": "Boolean flag which indicates whether the storage domain should wipe the data after delete.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backup": {
+        "description": "Boolean flag which indicates whether the storage domain is configured as backup or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "critical_space_action_blocker": {
+        "description": "Indicates the minimal free space the storage domain should contain in percentages.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "warning_low_space": {
+        "description": "Indicates the minimum percentage of a free space in a storage domain to present a warning.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "destroy": {
+        "description": "Logical remove of the storage domain. If I(true) retains the storage domain's data for import. This parameter is relevant only when C(state) is I(absent).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "format": {
+        "description": "If I(True) storage domain will be formatted after removing it from oVirt/RHV. This parameter is relevant only when C(state) is I(absent).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "discard_after_delete": {
+        "description": "If I(True) storage domain blocks will be discarded upon deletion. Enabled by default. This parameter is relevant only for block based storage domains.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_format": {
+        "description": "One of v1, v2, v3, v4, v5 - sets the storage format of the domain.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_storage_domain_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV storage domains",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV storage domains. This module was called C(ovirt_storage_domain_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_storage_domain_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "pattern": {
+        "description": "Search term which is accepted by oVirt/RHV search backend. For example to search storage domain X from datacenter Y use following pattern: name=X and datacenter=Y",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/storage_domain/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_storage_template_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV templates relate to a storage domain.",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV templates relate to a storage domain. This module was called C(ovirt_storage_template_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_storage_template_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "unregistered": {
+        "description": "Flag which indicates whether to get unregistered templates which contain one or more disks which reside on a storage domain or diskless templates.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "max": {
+        "description": "Sets the maximum number of templates to return. If not specified all the templates are returned.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_domain": {
+        "description": "The storage domain name where the templates should be listed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/template/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_storage_vm_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV virtual machines relate to a storage domain.",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV virtual machines relate to a storage domain. This module was called C(ovirt_storage_vm_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_storage_vm_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "unregistered": {
+        "description": "Flag which indicates whether to get unregistered virtual machines which contain one or more disks which reside on a storage domain or diskless virtual machines.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "max": {
+        "description": "Sets the maximum number of virtual machines to return. If not specified all the virtual machines are returned.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_domain": {
+        "description": "The storage domain name where the virtual machines should be listed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/vm/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_system_option_info": {
     "short_description": "Retrieve information about one oVirt/RHV system options.",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one oVirt/RHV system options.",
+    "options": {
+      "name": {
+        "description": "Name of system option.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "version": {
+        "description": "The version of the option.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/system_option/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_tag": {
     "short_description": "Module to manage tags in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "This module manage tags in oVirt/RHV. It can also manage assignments of those tags to entities.",
+    "options": {
+      "id": {
+        "description": "ID of the tag to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the tag to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the tag be present/absent/attached/detached. C(Note): I(attached) and I(detached) states are supported since version 2.4.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "attached",
+          "detached"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the tag to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "parent": {
+        "description": "Name of the parent tag.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vms": {
+        "description": "List of the VMs names, which should have assigned this tag.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hosts": {
+        "description": "List of the hosts names, which should have assigned this tag.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_tag_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV tags",
-    "description": "",
-    "options": {},
-    "deprecated": null
-  },
-  "ovirt.ovirt.ovirt_template": {
-    "short_description": "Module to manage virtual machine templates in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV tags. This module was called C(ovirt_tag_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_tag_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "name": {
+        "description": "Name of the tag which should be listed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm": {
+        "description": "Name of the VM, which tags should be listed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "Name of the host, which tags should be listed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/tag/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_template_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV templates",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV templates. This module was called C(ovirt_template_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_template_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "pattern": {
+        "description": "Search term which is accepted by oVirt/RHV search backend. For example to search template X from datacenter Y use following pattern: name=X and datacenter=Y",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/template/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_user": {
     "short_description": "Module to manage users in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "Module to manage users in oVirt/RHV.",
+    "options": {
+      "name": {
+        "description": "Name of the user to manage. In most LDAPs it's I(uid) of the user, but in Active Directory you must specify I(UPN) of the user.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the user be present/absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "authz_name": {
+        "description": "Authorization provider of the user. In previous versions of oVirt/RHV known as domain.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "domain"
+        ]
+      },
+      "namespace": {
+        "description": "Namespace where the user resides. When using the authorization provider that stores users in the LDAP server, this attribute equals the naming context of the LDAP server.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssh_public_key": {
+        "description": "The user public key.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_user_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV users",
-    "description": "",
-    "options": {},
-    "deprecated": null
-  },
-  "ovirt.ovirt.ovirt_vm": {
-    "short_description": "Module to manage Virtual Machines in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV users. This module was called C(ovirt_user_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_user_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "pattern": {
+        "description": "Search term which is accepted by oVirt/RHV search backend. For example to search user X use following pattern: name=X",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/user/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_vm_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV virtual machines",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV virtual machines. This module was called C(ovirt_vm_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_vm_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "pattern": {
+        "description": "Search term which is accepted by oVirt/RHV search backend. For example to search VM X from cluster Y use following pattern: name=X and cluster=Y",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "all_content": {
+        "description": "If I(true) all the attributes of the virtual machines should be included in the response.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "case_sensitive": {
+        "description": "If I(true) performed search will take case into account.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "max": {
+        "description": "The maximum number of results to return.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "next_run": {
+        "description": "Indicates if the returned result describes the virtual machine as it is currently running or if describes the virtual machine with the modifications that have already been performed but that will only come into effect when the virtual machine is restarted. By default the value is set by engine.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "current_cd": {
+        "description": "If I(true) it will get from all virtual machines current attached cd.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/vm/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_vm_os_info": {
     "short_description": "Retrieve information on all supported oVirt/RHV operating systems",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information on all supported oVirt/RHV operating systems.",
+    "options": {
+      "filter_keys": {
+        "description": "List of attributes which should be in returned.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the operating system which should be returned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/operating_system_info/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_vmpool": {
     "short_description": "Module to manage VM pools in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "Module to manage VM pools in oVirt/RHV.",
+    "options": {
+      "id": {
+        "description": "ID of the vmpool to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the VM pool to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "comment": {
+        "description": "Comment of the Virtual Machine pool.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the VM pool be present/absent. Note that when C(state) is I(absent) all VMs in VM pool are stopped and removed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "template": {
+        "description": "Name of the template, which will be used to create VM pool.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of the VM pool.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster": {
+        "description": "Name of the cluster, where VM pool should be created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Type of the VM pool. Either manual or automatic. C(manual) - The administrator is responsible for explicitly returning the virtual machine to the pool. The virtual machine reverts to the original base image after the administrator returns it to the pool. C(Automatic) - When the virtual machine is shut down, it automatically reverts to its base image and is returned to the virtual machine pool. Default value is set by engine.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "manual",
+          "automatic"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "vm_per_user": {
+        "description": "Maximum number of VMs a single user can attach to from this pool. Default value is set by engine.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "prestarted": {
+        "description": "Number of pre-started VMs defines the number of VMs in run state, that are waiting to be attached to Users. Default value is set by engine.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm_count": {
+        "description": "Number of VMs in the pool. Default value is set by engine.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm": {
+        "description": "For creating vm pool without editing template. Note: You can use C(vm) only for creating vm pool.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_vmpool_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV vmpools",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV vmpools. This module was called C(ovirt_vmpool_facts) before Ansible 2.9, returning C(ansible_facts). Note that the M(ovirt.ovirt.ovirt_vmpool_info) module no longer returns C(ansible_facts)!",
+    "options": {
+      "pattern": {
+        "description": "Search term which is accepted by oVirt/RHV search backend. For example to search vmpool X: name=X",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/vm_pool/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_vnic_profile": {
     "short_description": "Module to manage vNIC profile of network in oVirt/RHV",
-    "description": "",
-    "options": {},
+    "description": "Module to manage vNIC profile of network in oVirt/RHV",
+    "options": {
+      "name": {
+        "description": "A human-readable name in plain text.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Should the vNIC be absent/present.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "description": {
+        "description": "A human-readable description in plain text.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "data_center": {
+        "description": "Datacenter name where network reside.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network": {
+        "description": "Name of network to which is vNIC attached.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network_filter": {
+        "description": "The network filter enables to filter packets send to/from the VM's nic according to defined rules.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "custom_properties": {
+        "description": "Custom properties applied to the vNIC profile. Custom properties is a list of dictionary which can have following values:",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "qos": {
+        "description": "Quality of Service attributes regulate inbound and outbound network traffic of the NIC.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port_mirroring": {
+        "description": "Enables port mirroring.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pass_through": {
+        "description": "Enables passthrough to an SR-IOV-enabled host NIC. When enabled C(qos) and  C(network_filter) are automatically set to None and C(port_mirroring) to False. When enabled and C(migratable) not specified then C(migratable) is enabled. Port mirroring, QoS and network filters are not supported on passthrough profiles.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disabled",
+          "enabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "migratable": {
+        "description": "Marks whether pass_through NIC is migratable or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ovirt.ovirt.ovirt_vnic_profile_info": {
     "short_description": "Retrieve information about one or more oVirt/RHV vnic profiles",
-    "description": "",
-    "options": {},
+    "description": "Retrieve information about one or more oVirt/RHV vnic profiles.",
+    "options": {
+      "max": {
+        "description": "The maximum number of results to return.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of vnic profile.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "follow": {
+        "description": "List of linked entities, which should be fetched along with the main entity. This parameter replaces usage of C(fetch_nested) and C(nested_attributes). All follow parameters can be found at following url: https://ovirt.github.io/ovirt-engine-api-model/master/#types/vnic_profile/links_summary",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": [
+          "follows"
+        ]
+      }
+    },
     "deprecated": null
   }
 }

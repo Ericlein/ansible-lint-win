@@ -84,7 +84,90 @@
         "aliases": null
       },
       "load_profile": {
-        "description": "Runs the remote command with the user",
+        "description": "Runs the remote command with the user's profile loaded.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "process_username": {
+        "description": "The user to run the process as. This can be set to run the process under an Interactive logon of the specified account which bypasses limitations of a Network logon used when this isn't specified. If omitted then the process is run under the same account as I(connection_username) with a Network logon. Set to C(System) to run as the builtin SYSTEM account, no password is required with this account. If I(encrypt) is C(no), the username and password are sent as a simple XOR scrambled byte string that is not encrypted. No special tools are required to get the username and password just knowledge of the protocol.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "process_password": {
+        "description": "The password for I(process_username). Required if I(process_username) is defined and not C(System).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "integrity_level": {
+        "description": "The integrity level of the process when I(process_username) is defined and is not equal to C(System). When C(default), the default integrity level based on the system setup. When C(elevated), the command will be run with Administrative rights. When C(limited), the command will be forced to run with non-Administrative rights.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "limited",
+          "default",
+          "elevated"
+        ],
+        "default": "default",
+        "aliases": null
+      },
+      "interactive": {
+        "description": "Will run the process as an interactive process that shows a process Window of the Windows session specified by I(interactive_session). The I(stdout) and I(stderr) return values will be null when this is set to C(yes). The I(stdin) option does not work with this type of process.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "interactive_session": {
+        "description": "The Windows session ID to use when displaying the interactive process on the remote Windows host. This is only valid when I(interactive) is C(yes). The default is C(0) which is the console session of the Windows host.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "priority": {
+        "description": "Set the command's priority on the Windows host. See U(https://msdn.microsoft.com/en-us/library/windows/desktop/ms683211.aspx) for more details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "above_normal",
+          "below_normal",
+          "high",
+          "idle",
+          "normal",
+          "realtime"
+        ],
+        "default": "normal",
+        "aliases": null
+      },
+      "show_ui_on_logon_screen": {
+        "description": "Shows the process UI on the Winlogon secure desktop when I(process_username) is C(System).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "process_timeout": {
+        "description": "The timeout in seconds that is placed upon the running process. A value of C(0) means no timeout.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "stdin": {
+        "description": "Data to send on the stdin pipe once the process has started. This option has no effect when I(interactive) or I(asynchronous) is C(yes).",
         "type": "str",
         "required": false,
         "choices": null,
@@ -130,8 +213,52 @@
   },
   "community.windows.win_defrag": {
     "short_description": "Consolidate fragmented files on local volumes",
-    "description": "Locates and consolidates fragmented files on local volumes to improve system performance. ",
-    "options": {},
+    "description": "Locates and consolidates fragmented files on local volumes to improve system performance. More information regarding C(win_defrag) is available from: U(https://technet.microsoft.com/en-us/library/cc731650%28v%3Dws.11.aspx%29)",
+    "options": {
+      "include_volumes": {
+        "description": "A list of drive letters or mount point paths of the volumes to be defragmented. If this parameter is omitted, all volumes (not excluded) will be fragmented.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "exclude_volumes": {
+        "description": "A list of drive letters or mount point paths to exclude from defragmentation.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "freespace_consolidation": {
+        "description": "Perform free space consolidation on the specified volumes.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "priority": {
+        "description": "Run the operation at low or normal priority.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "low",
+          "normal"
+        ],
+        "default": "low",
+        "aliases": null
+      },
+      "parallel": {
+        "description": "Run the operation on each volume in parallel in the background.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.windows.win_disk_facts": {
@@ -303,8 +430,120 @@
         "aliases": null
       },
       "name": {
-        "description": "The rule",
+        "description": "The rule's display name. This is required unless I(group) is specified.",
         "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group": {
+        "description": "The group name for the rule. If I(name) is not specified then the module will set the firewall options for all the rules in this group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "direction": {
+        "description": "Whether this rule is for inbound or outbound traffic. Defaults to C(in) when creating a new rule.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "in",
+          "out"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "action": {
+        "description": "What to do with the items this rule is for. Defaults to C(allow) when creating a new rule.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "allow",
+          "block"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description for the firewall rule.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "localip": {
+        "description": "The local ip address this rule applies to. Set to C(any) to apply to all local ip addresses. Defaults to C(any) when creating a new rule.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remoteip": {
+        "description": "The remote ip address/range this rule applies to. Set to C(any) to apply to all remote ip addresses. Defaults to C(any) when creating a new rule.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "localport": {
+        "description": "The local port this rule applies to. Set to C(any) to apply to all local ports. Defaults to C(any) when creating a new rule. Must have I(protocol) set",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "remoteport": {
+        "description": "The remote port this rule applies to. Set to C(any) to apply to all remote ports. Defaults to C(any) when creating a new rule. Must have I(protocol) set",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "program": {
+        "description": "The program this rule applies to. Set to C(any) to apply to all programs. Defaults to C(any) when creating a new rule.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service": {
+        "description": "The service this rule applies to. Set to C(any) to apply to all services. Defaults to C(any) when creating a new rule.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol": {
+        "description": "The protocol this rule applies to. Set to C(any) to apply to all services. Defaults to C(any) when creating a new rule.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "profiles": {
+        "description": "The profile this rule applies to. Defaults to C(domain,private,public) when creating a new rule.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "profile"
+        ]
+      },
+      "icmp_type_code": {
+        "description": "The ICMP types and codes for the rule. This is only valid when I(protocol) is C(icmpv4) or C(icmpv6). Each entry follows the format C(type:code) where C(type) is the type number and C(code) is the code number for that type or C(*) for all codes. Set the value to just C(*) to apply the rule for all ICMP type codes. See U(https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml) for a list of ICMP types and the codes that apply to them. ICMP types and codes for IPV6 can be found at U(https://www.iana.org/assignments/icmpv6-parameters/icmpv6-parameters.xhtml).",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
@@ -573,11 +812,33 @@
     "description": "Creates, removes and configures an IIS Web Application Pool.",
     "options": {
       "attributes": {
-        "description": "This field is a free form dictionary value for the application pool attributes. These attributes are based on the naming standard at U(https://www.iis.net/configreference/system.applicationhost/applicationpools/add#005), see the examples section for more details on how to set this. You can also set the attributes of child elements like cpu and processModel, see the examples to see how it is done. While you can use the numeric values for enums it is recommended to use the enum name itself, e.g. use SpecificUser instead of 3 for processModel.identityType. managedPipelineMode may be either",
+        "description": "This field is a free form dictionary value for the application pool attributes. These attributes are based on the naming standard at U(https://www.iis.net/configreference/system.applicationhost/applicationpools/add#005), see the examples section for more details on how to set this. You can also set the attributes of child elements like cpu and processModel, see the examples to see how it is done. While you can use the numeric values for enums it is recommended to use the enum name itself, e.g. use SpecificUser instead of 3 for processModel.identityType. managedPipelineMode may be either \"Integrated\" or \"Classic\". startMode may be either \"OnDemand\" or \"AlwaysRunning\". Use C(state) module parameter to modify the state of the app pool. When trying to set 'processModel.password' and you receive a 'Value does fall within the expected range' error, you have a corrupted keystore. Please follow U(http://structuredsight.com/2014/10/26/im-out-of-range-youre-out-of-range/) to help fix your host.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the application pool.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The state of the application pool. If C(absent) will ensure the app pool is removed. If C(present) will ensure the app pool is configured and exists. If C(restarted) will ensure the app pool exists and will restart, this is never idempotent. If C(started) will ensure the app pool exists and is started. If C(stopped) will ensure the app pool exists and is stopped.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "restarted",
+          "started",
+          "stopped"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -618,6 +879,46 @@
       },
       "ip": {
         "description": "The IP address to bind to / use for the new site.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "*",
+        "aliases": null
+      },
+      "host_header": {
+        "description": "The host header to bind to / use for the new site. If you are creating/removing a catch-all binding, omit this parameter rather than defining it as '*'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol": {
+        "description": "The protocol to be used for the Web binding (usually HTTP, HTTPS, or FTP).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "http",
+        "aliases": null
+      },
+      "certificate_hash": {
+        "description": "Certificate hash (thumbprint) for the SSL binding. The certificate hash is the unique identifier for the certificate.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "certificate_store_name": {
+        "description": "Name of the certificate store where the certificate for the binding is located.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "my",
+        "aliases": null
+      },
+      "ssl_flags": {
+        "description": "This parameter is only valid on Server 2012 and newer. Primarily used for enabling and disabling server name indication (SNI). Set to C(0) to disable SNI. Set to C(1) to enable SNI.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -701,7 +1002,7 @@
         "aliases": null
       },
       "parameters": {
-        "description": "Custom site Parameters from string where properties are separated by a pipe and property name/values by colon Ex.",
+        "description": "Custom site Parameters from string where properties are separated by a pipe and property name/values by colon Ex. \"foo:1|bar:2\" Some custom parameters that you can use are listed below, this isn't a definitive list but some common parameters. C(logfile.directory) - Physical path to store Logs, e.g. C(D:\\IIS-LOGs\\). C(logfile.period) - Log file rollover scheduled accepting these values, how frequently the log file should be rolled-over, e.g. C(Hourly, Daily, Weekly, Monthly). C(logfile.LogFormat) - Log file format, by default IIS uses C(W3C). C(logfile.truncateSize) - The size at which the log file contents will be trunsted, expressed in bytes.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -713,8 +1014,181 @@
   },
   "community.windows.win_initialize_disk": {
     "short_description": "Initializes disks on Windows Server",
-    "description": "",
-    "options": {},
+    "description": "The M(community.windows.win_initialize_disk) module initializes disks",
+    "options": {
+      "disk_number": {
+        "description": "Used to specify the disk number of the disk to be initialized.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uniqueid": {
+        "description": "Used to specify the uniqueid of the disk to be initialized.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "Used to specify the path to the disk to be initialized.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "style": {
+        "description": "The partition style to use for the disk. Valid options are mbr or gpt.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "gpt",
+          "mbr"
+        ],
+        "default": "gpt",
+        "aliases": null
+      },
+      "online": {
+        "description": "If the disk is offline and/or readonly update the disk to be online and not readonly.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "force": {
+        "description": "Specify if initializing should be forced for disks that are already initialized.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "community.windows.win_lineinfile": {
+    "short_description": "Ensure a particular line is in a file, or replace an existing line using a back-referenced regular expression",
+    "description": "This module will search a file for a line, and ensure that it is present or absent. This is primarily useful when you want to change a single line in a file only.",
+    "options": {
+      "path": {
+        "description": "The path of the file to modify. Note that the Windows path delimiter C(\\) must be escaped as C(\\\\) when the line is double quoted.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "dest",
+          "destfile",
+          "name"
+        ]
+      },
+      "backup": {
+        "description": "Determine whether a backup should be created. When set to C(yes), create a backup file including the timestamp information so you can get the original file back if you somehow clobbered it incorrectly.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "regex": {
+        "description": "The regular expression to look for in every line of the file. For C(state=present), the pattern to replace if found; only the last line found will be replaced. For C(state=absent), the pattern of the line to remove. Uses .NET compatible regular expressions; see U(https://msdn.microsoft.com/en-us/library/hs600312%28v=vs.110%29.aspx).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "regexp"
+        ]
+      },
+      "state": {
+        "description": "Whether the line should be there or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "line": {
+        "description": "Required for C(state=present). The line to insert/replace into the file. If C(backrefs) is set, may contain backreferences that will get expanded with the C(regexp) capture groups if the regexp matches. Be aware that the line is processed first on the controller and thus is dependent on yaml quoting rules. Any double quoted line will have control characters, such as '\\r\\n', expanded. To print such characters literally, use single or no quotes.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "backrefs": {
+        "description": "Used with C(state=present). If set, line can contain backreferences (both positional and named) that will get populated if the C(regexp) matches. This flag changes the operation of the module slightly; C(insertbefore) and C(insertafter) will be ignored, and if the C(regexp) doesn't match anywhere in the file, the file will be left unchanged. If the C(regexp) does match, the last matching line will be replaced by the expanded line parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "insertafter": {
+        "description": "Used with C(state=present). If specified, the line will be inserted after the last match of specified regular expression. A special value is available; C(EOF) for inserting the line at the end of the file. If specified regular expression has no matches, EOF will be used instead. May not be used with C(backrefs).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "EOF",
+          "*regex*"
+        ],
+        "default": "EOF",
+        "aliases": null
+      },
+      "insertbefore": {
+        "description": "Used with C(state=present). If specified, the line will be inserted before the last match of specified regular expression. A value is available; C(BOF) for inserting the line at the beginning of the file. If specified regular expression has no matches, the line will be inserted at the end of the file. May not be used with C(backrefs).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "BOF",
+          "*regex*"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "create": {
+        "description": "Used with C(state=present). If specified, the file will be created if it does not already exist. By default it will fail if the file is missing.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "validate": {
+        "description": "Validation to run before copying into place. Use %s in the command to indicate the current file to validate. The command is passed securely so shell features like expansion and pipes won't work.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "encoding": {
+        "description": "Specifies the encoding of the source text file to operate on (and thus what the output encoding will be). The default of C(auto) will cause the module to auto-detect the encoding of the source file and ensure that the modified file is written with the same encoding. An explicit encoding can be passed as a string that is a valid value to pass to the .NET framework System.Text.Encoding.GetEncoding() method - see U(https://msdn.microsoft.com/en-us/library/system.text.encoding%28v=vs.110%29.aspx). This is mostly useful with C(create=yes) if you want to create a new file with a specific encoding. If C(create=yes) is specified without a specific encoding, the default encoding (UTF-8, no BOM) will be used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "auto",
+        "aliases": null
+      },
+      "newline": {
+        "description": "Specifies the line separator style to use for the modified file. This defaults to the windows line separator (C(\\r\\n)). Note that the indicated line separator will be used for file output regardless of the original line separator that appears in the input file.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "unix",
+          "windows"
+        ],
+        "default": "windows",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.windows.win_msg": {
@@ -726,7 +1200,31 @@
         "type": "str",
         "required": false,
         "choices": null,
-        "default": null,
+        "default": "*",
+        "aliases": null
+      },
+      "display_seconds": {
+        "description": "How long to wait for receiver to acknowledge message, in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Whether to wait for users to respond.  Module will only wait for the number of seconds specified in display_seconds or 10 seconds if not specified. However, if I(wait) is C(yes), the message is sent to each logged on user in turn, waiting for the user to either press 'ok' or for the timeout to elapse before moving on to the next user.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "msg": {
+        "description": "The text of the message to be displayed. The message must be less than 256 characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "Hello world!",
         "aliases": null
       }
     },
@@ -756,8 +1254,8 @@
         "aliases": null
       },
       "component_id": {
-        "description": "Specify the below component_id of network adapters. component_id (DisplayName) C(ms_implat) (Microsoft Network Adapter Multiplexor Protocol) C(ms_lltdio) (Link-Layer Topology Discovery Mapper I/O Driver) C(ms_tcpip6) (Internet Protocol Version 6 (TCP/IPv6)) C(ms_tcpip) (Internet Protocol Version 4 (TCP/IPv4)) C(ms_lldp) (Microsoft LLDP Protocol Driver) C(ms_rspndr) (Link-Layer Topology Discovery Responder) C(ms_msclient) (Client for Microsoft Networks) C(ms_pacer) (QoS Packet Scheduler) If you",
-        "type": "str",
+        "description": "Specify the below component_id of network adapters. component_id (DisplayName) C(ms_implat) (Microsoft Network Adapter Multiplexor Protocol) C(ms_lltdio) (Link-Layer Topology Discovery Mapper I/O Driver) C(ms_tcpip6) (Internet Protocol Version 6 (TCP/IPv6)) C(ms_tcpip) (Internet Protocol Version 4 (TCP/IPv4)) C(ms_lldp) (Microsoft LLDP Protocol Driver) C(ms_rspndr) (Link-Layer Topology Discovery Responder) C(ms_msclient) (Client for Microsoft Networks) C(ms_pacer) (QoS Packet Scheduler) If you'd like to set custom adapters like 'Juniper Network Service', get the I(component_id) by running the C(Get-NetAdapterBinding) cmdlet.",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
@@ -795,8 +1293,198 @@
   },
   "community.windows.win_nssm": {
     "short_description": "Install a service using NSSM",
-    "description": "Install a Windows service using the NSSM wrapper. NSSM is a service helper which doesn",
-    "options": {},
+    "description": "Install a Windows service using the NSSM wrapper. NSSM is a service helper which doesn't suck. See U(https://nssm.cc/) for more information.",
+    "options": {
+      "name": {
+        "description": "Name of the service to operate on.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the service on the system.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "started",
+          "stopped",
+          "restarted"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "application": {
+        "description": "The application binary to run as a service Required when I(state) is C(present), C(started), C(stopped), or C(restarted).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "executable": {
+        "description": "The location of the NSSM utility (in case it is not located in your PATH).",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": "nssm.exe",
+        "aliases": null
+      },
+      "description": {
+        "description": "The description to set for the service.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "display_name": {
+        "description": "The display name to set for the service.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "working_directory": {
+        "description": "The working directory to run the service executable from (defaults to the directory containing the application binary)",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "app_directory",
+          "chdir"
+        ]
+      },
+      "stdout_file": {
+        "description": "Path to receive output.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stderr_file": {
+        "description": "Path to receive error output.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "arguments": {
+        "description": "Parameters to be passed to the application when it starts. This can be either a simple string or a list.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "app_parameters_free_form"
+        ]
+      },
+      "dependencies": {
+        "description": "Service dependencies that has to be started to trigger startup, separated by comma.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "User to be used for service startup. Group managed service accounts must end with C($). Before C(1.8.0), this parameter was just C(user).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "user"
+        ]
+      },
+      "password": {
+        "description": "Password to be used for service startup. This is not required for the well known service accounts and group managed service accounts.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "start_mode": {
+        "description": "If C(auto) is selected, the service will start at bootup. C(delayed) causes a delayed but automatic start after boot. C(manual) means that the service will start only when another service needs it. C(disabled) means that the service will stay off, regardless if it is needed or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "delayed",
+          "disabled",
+          "manual"
+        ],
+        "default": "auto",
+        "aliases": null
+      },
+      "app_environment": {
+        "description": "Key/Value pairs which will be added to the environment of the service application.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "app_rotate_bytes": {
+        "description": "NSSM will not rotate any file which is smaller than the configured number of bytes.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 104858,
+        "aliases": null
+      },
+      "app_rotate_online": {
+        "description": "If set to 1, nssm can rotate files which grow to the configured file size limit while the service is running.",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          1
+        ],
+        "default": 0,
+        "aliases": null
+      },
+      "app_stop_method_console": {
+        "description": "Time to wait after sending Control-C.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "app_stop_method_skip": {
+        "description": "To disable service shutdown methods, set to the sum of one or more of the numbers 1 - Don't send Control-C to the console. 2 - Don't send WM_CLOSE to windows. 4 - Don't send WM_QUIT to threads. 8 - Don't call TerminateProcess().",
+        "type": "int",
+        "required": false,
+        "choices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.windows.win_pagefile": {
@@ -938,10 +1626,54 @@
         "aliases": null
       },
       "active": {
-        "description": "Specifies if the partition is active and can be used to start the system. This property is only valid when the disk",
-        "type": "str",
+        "description": "Specifies if the partition is active and can be used to start the system. This property is only valid when the disk's partition style is MBR.",
+        "type": "bool",
         "required": false,
         "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hidden": {
+        "description": "Hides the target partition, making it undetectable by the mount manager.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "offline": {
+        "description": "Sets the partition offline. Adding a mount point (such as a drive letter) will cause the partition to go online again.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mbr_type": {
+        "description": "Specify the partition's MBR type if the disk's partition style is MBR. This only applies to new partitions. This does not relate to the partitions file system formatting.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "fat12",
+          "fat16",
+          "extended",
+          "huge",
+          "ifs",
+          "fat32"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "gpt_type": {
+        "description": "Specify the partition's GPT type if the disk's partition style is GPT. This only applies to new partitions. This does not relate to the partitions file system formatting.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "system_partition",
+          "microsoft_reserved",
+          "basic_data",
+          "microsoft_recovery"
+        ],
         "default": null,
         "aliases": null
       }
@@ -1089,11 +1821,82 @@
         "aliases": null
       },
       "noprofile": {
-        "description": "Run the command without loading the account",
-        "type": "str",
+        "description": "Run the command without loading the account's profile.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "elevated": {
+        "description": "Run the command with elevated privileges.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "interactive": {
+        "description": "Run the program so that it interacts with the desktop on the remote system.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "session": {
+        "description": "Specifies the session ID to use. This parameter works in conjunction with I(interactive). It has no effect when I(interactive) is set to C(no).",
+        "type": "int",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "limited": {
+        "description": "Run the command as limited user (strips the Administrators group and allows only privileges assigned to the Users group).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "system": {
+        "description": "Run the remote command in the System account.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "priority": {
+        "description": "Used to run the command at a different priority.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "abovenormal",
+          "background",
+          "belownormal",
+          "high",
+          "low",
+          "realtime"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The connection timeout in seconds",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for the application to terminate. Only use for non-interactive applications.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
         "aliases": null
       }
     },
@@ -1164,11 +1967,51 @@
         "aliases": null
       },
       "allow_prerelease": {
-        "description": "If C(yes) installs modules marked as prereleases. It doesn",
+        "description": "If C(yes) installs modules marked as prereleases. It doesn't work with the parameters C(minimum_version) and/or C(maximum_version). It doesn't work with the C(state) set to absent.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "repository": {
+        "description": "Name of the custom repository to use.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "Username to authenticate against private repository.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password to authenticate against private repository.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "accept_license": {
+        "description": "Accepts the module's license. Required for modules that require license acceptance, since interactively answering the prompt is not possible. Corresponds to the C(-AcceptLicense) parameter of C(Install-Module). Installation of a module or a dependency that requires license acceptance cannot be detected in check mode, but will cause a failure at runtime unless I(accept_license=true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "force": {
+        "description": "Overrides warning messages about module installation conflicts If there is an existing module with the same name and version, force overwrites that version Corresponds to the C(-Force) parameter of C(Install-Module). If module as dependency, it will also force reinstallation of dependency. Updating them to latest if version isn't specified in module manifest.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },
@@ -1180,6 +2023,14 @@
     "options": {
       "name": {
         "description": "The name of the module to retrieve. Supports any wildcard pattern supported by C(Get-Module). If omitted then all modules will returned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "*",
+        "aliases": null
+      },
+      "repository": {
+        "description": "The name of the PSRepository the modules were installed from. This acts as a filter against the modules that would be returned based on the I(name) option. Modules that were not installed from a repository will not be returned if this option is set. Only modules installed from a registered repository will be returned. If the repository was re-registered after module installation with a new C(SourceLocation), this will not match.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -1280,14 +2131,79 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "password": {
+        "description": "Password to authenticate against private repository.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
       }
     },
     "deprecated": null
   },
   "community.windows.win_psrepository_copy": {
     "short_description": "Copies registered PSRepositories to other user profiles",
-    "description": "",
-    "options": {},
+    "description": "Copies specified registered PSRepositories to other user profiles on the system. Can include the C(Default) profile so that new users start with the selected repositories. Can include special service accounts like the local SYSTEM user, LocalService, NetworkService.",
+    "options": {
+      "source": {
+        "description": "The full path to the source repositories XML file. Defaults to the repositories registered to the current user.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": "%LOCALAPPDATA%\\Microsoft\\Windows\\PowerShell\\PowerShellGet\\PSRepositories.xml",
+        "aliases": null
+      },
+      "name": {
+        "description": "The names of repositories to copy. Names are interpreted as wildcards.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [
+          "*"
+        ],
+        "aliases": null
+      },
+      "exclude": {
+        "description": "The names of repositories to exclude. Names are interpreted as wildcards. If a name matches both an include (I(name)) and I(exclude), it will be excluded.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "profiles": {
+        "description": "The names of user profiles to populate with repositories. Names are interpreted as wildcards. The C(Default) profile can also be matched. The C(Public) and C(All Users) profiles cannot be targeted, as PSRepositories are not loaded from them.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [
+          "*"
+        ],
+        "aliases": null
+      },
+      "exclude_profiles": {
+        "description": "The names of user profiles to exclude. If a profile matches both an include (I(profiles)) and I(exclude_profiles), it will be excluded. By default, the service account profiles are excluded. To explcitly exclude nothing, set I(exclude_profiles=[]).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [
+          "systemprofile",
+          "LocalService",
+          "NetworkService"
+        ],
+        "aliases": null
+      },
+      "force": {
+        "description": "If C(True), this deletes repositories that are not present in the source.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.windows.win_psrepository_info": {
@@ -1299,7 +2215,7 @@
         "type": "str",
         "required": false,
         "choices": null,
-        "default": null,
+        "default": "*",
         "aliases": null
       }
     },
@@ -1405,6 +2321,14 @@
     "options": {
       "name": {
         "description": "The name of the script. Supports any wildcard pattern supported by C(Get-InstalledScript). If omitted then all scripts will returned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "*",
+        "aliases": null
+      },
+      "repository": {
+        "description": "The name of the PSRepository the scripts were installed from. This acts as a filter against the scripts that would be returned based on the I(name) option. Only scripts installed from a registered repository will be returned. If the repository was re-registered after script installation with a new C(SourceLocation), this will not match.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -1919,8 +2843,99 @@
         "aliases": null
       },
       "order": {
-        "description": "Evaluation order of the policy. The CAP in which I(order) is set to a value of",
+        "description": "Evaluation order of the policy. The CAP in which I(order) is set to a value of '1' is evaluated first. By default, a newly created CAP will take the first position. If the given value exceed the total number of existing policies, the policy will take the last position but the evaluation order will be capped to this number.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "session_timeout": {
+        "description": "The maximum time, in minutes, that a session can be idle. A value of zero disables session timeout.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "session_timeout_action": {
+        "description": "The action the server takes when a session times out. C(disconnect): disconnect the session. C(reauth): silently reauthenticate and reauthorize the session.",
         "type": "str",
+        "required": false,
+        "choices": [
+          "disconnect",
+          "reauth"
+        ],
+        "default": "disconnect",
+        "aliases": null
+      },
+      "idle_timeout": {
+        "description": "Specifies the time interval, in minutes, after which an idle session is disconnected. A value of zero disables idle timeout.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_only_sdrts_servers": {
+        "description": "Specifies whether connections are allowed only to Remote Desktop Session Host servers that enforce Remote Desktop Gateway redirection policy.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_groups": {
+        "description": "A list of user groups that is allowed to connect to the Remote Gateway server. Required when a new CAP is created.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "computer_groups": {
+        "description": "A list of computer groups that is allowed to connect to the Remote Gateway server.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "redirect_clipboard": {
+        "description": "Allow clipboard redirection.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "redirect_drives": {
+        "description": "Allow disk drive redirection.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "redirect_printers": {
+        "description": "Allow printers redirection.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "redirect_serial": {
+        "description": "Allow serial port redirection.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "redirect_pnp": {
+        "description": "Allow Plug and Play devices redirection.",
+        "type": "bool",
         "required": false,
         "choices": null,
         "default": null,
@@ -1971,7 +2986,27 @@
         "aliases": null
       },
       "allowed_ports": {
-        "description": "List of port numbers through which connections are allowed for this policy. To allow connections through any port, specify",
+        "description": "List of port numbers through which connections are allowed for this policy. To allow connections through any port, specify 'any'.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "computer_group_type": {
+        "description": "The computer group type: C(rdg_group): RD Gateway-managed group C(ad_network_resource_group): Active Directory Domain Services network resource group C(allow_any): Allow users to connect to any network resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "rdg_group",
+          "ad_network_resource_group",
+          "allow_any"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "computer_group": {
+        "description": "The computer group name that is associated with this resource authorization policy (RAP). This is required when I(computer_group_type) is C(rdg_group) or C(ad_network_resource_group).",
         "type": "str",
         "required": false,
         "choices": null,
@@ -2002,8 +3037,20 @@
         "aliases": null
       },
       "ssl_bridging": {
-        "description": "Specifies whether to use SSL Bridging. ",
+        "description": "Specifies whether to use SSL Bridging. C(none): no SSL bridging. C(https_http): HTTPS-HTTP bridging. C(https_https): HTTPS-HTTPS bridging.",
         "type": "str",
+        "required": false,
+        "choices": [
+          "https_http",
+          "https_https",
+          "none"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "enable_only_messaging_capable_clients": {
+        "description": "If enabled, only clients that support logon messages and administrator messages can connect.",
+        "type": "bool",
         "required": false,
         "choices": null,
         "default": null,
@@ -2191,6 +3238,264 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "display_name": {
+        "description": "The name of the user/group that is displayed in the Task Scheduler UI.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group": {
+        "description": "The group that will run the task. C(group) and C(username) are exclusive to each other and cannot be set at the same time. C(logon_type) can either be not set or equal C(group).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "logon_type": {
+        "description": "The logon method that the task will run with. C(password) means the password will be stored and the task has access to network resources. C(s4u) means the existing token will be used to run the task and no password will be stored with the task. Means no network or encrypted files access. C(interactive_token) means the user must already be logged on interactively and will run in an existing interactive session. C(group) means that the task will run as a group. C(service_account) means that a service account like System, Local Service or Network Service will run the task.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "none",
+          "password",
+          "s4u",
+          "interactive_token",
+          "group",
+          "service_account",
+          "token_or_password"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "run_level": {
+        "description": "The level of user rights used to run the task. If not specified the task will be created with limited rights.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "limited",
+          "highest"
+        ],
+        "default": null,
+        "aliases": [
+          "runlevel"
+        ]
+      },
+      "username": {
+        "description": "The user to run the scheduled task as. Will default to the current user under an interactive token if not specified during creation. The user account specified must have the C(SeBatchLogonRight) logon right which can be added with M(ansible.windows.win_user_right).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "user"
+        ]
+      },
+      "password": {
+        "description": "The password for the user account to run the scheduled task as. This is required when running a task without the user being logged in, excluding the builtin service accounts and Group Managed Service Accounts (gMSA). If set, will always result in a change unless C(update_password) is set to C(no) and no other changes are required for the service.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_password": {
+        "description": "Whether to update the password even when not other changes have occurred. When C(yes) will always result in a change when executing the module.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": null
+      },
+      "author": {
+        "description": "The author of the task.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "date": {
+        "description": "The date when the task was registered.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The description of the task.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source": {
+        "description": "The source of the task.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "version": {
+        "description": "The version number of the task.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_demand_start": {
+        "description": "Whether the task can be started by using either the Run command or the Context menu.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_hard_terminate": {
+        "description": "Whether the task can be terminated by using TerminateProcess.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "compatibility": {
+        "description": "The integer value with indicates which version of Task Scheduler a task is compatible with. C(0) means the task is compatible with the AT command. C(1) means the task is compatible with Task Scheduler 1.0(Windows Vista, Windows Server 2008 and older). C(2) means the task is compatible with Task Scheduler 2.0(Windows Vista, Windows Server 2008). C(3) means the task is compatible with Task Scheduler 2.0(Windows 7, Windows Server 2008 R2). C(4) means the task is compatible with Task Scheduler 2.0(Windows 10, Windows Server 2016, Windows Server 2019).",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "delete_expired_task_after": {
+        "description": "The amount of time that the Task Scheduler will wait before deleting the task after it expires. A task expires after the end_boundary has been exceeded for all triggers associated with the task. This is in the ISO 8601 Duration format C(P[n]Y[n]M[n]DT[n]H[n]M[n]S).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disallow_start_if_on_batteries": {
+        "description": "Whether the task will not be started if the computer is running on battery power.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Whether the task is enabled, the task can only run when C(yes).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "execution_time_limit": {
+        "description": "The amount of time allowed to complete the task. When set to C(PT0S), the time limit is infinite. When omitted, the default time limit is 72 hours. This is in the ISO 8601 Duration format C(P[n]Y[n]M[n]DT[n]H[n]M[n]S).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hidden": {
+        "description": "Whether the task will be hidden in the UI.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "multiple_instances": {
+        "description": "An integer that indicates the behaviour when starting a task that is already running. C(0) will start a new instance in parallel with existing instances of that task. C(1) will wait until other instances of that task to finish running before starting itself. C(2) will not start a new instance if another is running. C(3) will stop other instances of the task and start the new one.",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "priority": {
+        "description": "The priority level (0-10) of the task. When creating a new task the default is C(7). See U(https://msdn.microsoft.com/en-us/library/windows/desktop/aa383512.aspx) for details on the priority levels.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "restart_count": {
+        "description": "The number of times that the Task Scheduler will attempt to restart the task.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "restart_interval": {
+        "description": "How long the Task Scheduler will attempt to restart the task. If this is set then C(restart_count) must also be set. The maximum allowed time is 31 days. The minimum allowed time is 1 minute. This is in the ISO 8601 Duration format C(P[n]Y[n]M[n]DT[n]H[n]M[n]S).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "run_only_if_idle": {
+        "description": "Whether the task will run the task only if the computer is in an idle state.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "run_only_if_network_available": {
+        "description": "Whether the task will run only when a network is available.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "start_when_available": {
+        "description": "Whether the task can start at any time after its scheduled time has passed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stop_if_going_on_batteries": {
+        "description": "Whether the task will be stopped if the computer begins to run on battery power.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wake_to_run": {
+        "description": "Whether the task will wake the computer when it is time to run the task.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
       }
     },
     "deprecated": null
@@ -2244,11 +3549,54 @@
         "aliases": null
       },
       "independent": {
-        "description": "Don",
-        "type": "str",
+        "description": "Don't install dependencies automatically",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the package(s) to be installed.",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "no_cache": {
+        "description": "Don't use the download cache",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "purge": {
+        "description": "Remove all persistent data",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "skip_checksum": {
+        "description": "Skip hash validation",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the package on the system. When C(absent), will ensure the package is not installed. When C(present), will ensure the package is installed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -2293,7 +3641,23 @@
     "description": "Allows you to set the local security policies that are configured by SecEdit.exe.",
     "options": {
       "section": {
-        "description": "The ini section the key exists in. If the section does not exist then the module will return an error. Example sections to use are",
+        "description": "The ini section the key exists in. If the section does not exist then the module will return an error. Example sections to use are 'Account Policies', 'Local Policies', 'Event Log', 'Restricted Groups', 'System Services', 'Registry' and 'File System' If wanting to edit the C(Privilege Rights) section, use the M(ansible.windows.win_user_right) module instead.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "key": {
+        "description": "The ini key of the section or policy name to modify. The module will return an error if this key is invalid.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "value": {
+        "description": "The value for the ini key or policy name. If the key takes in a boolean value then 0 = False and 1 = True.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -2669,8 +4033,17 @@
   },
   "community.windows.win_webpicmd": {
     "short_description": "Installs packages using Web Platform Installer command-line",
-    "description": "Installs packages using Web Platform Installer command-line (U(http://www.iis.net/learn/install/web-platform-installer/web-platform-installer-v4-command-line-webpicmdexe-rtw-release)). Must be installed and present in PATH (see M(chocolatey.chocolatey.win_chocolatey) module;",
-    "options": {},
+    "description": "Installs packages using Web Platform Installer command-line (U(http://www.iis.net/learn/install/web-platform-installer/web-platform-installer-v4-command-line-webpicmdexe-rtw-release)). Must be installed and present in PATH (see M(chocolatey.chocolatey.win_chocolatey) module; 'webpicmd' is the package name, and you must install 'lessmsi' first too)? Install IIS first (see M(ansible.windows.win_feature) module).",
+    "options": {
+      "name": {
+        "description": "Name of the package to be installed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.windows.win_xml": {
@@ -2678,11 +4051,98 @@
     "description": "Manages XML nodes, attributes and text, using xpath to select which xml nodes need to be managed. XML fragments, formatted as strings, are used to specify the desired state of a part or parts of XML files on remote Windows servers. For non-Windows targets, use the M(community.general.xml) module instead.",
     "options": {
       "attribute": {
-        "description": "The attribute name if the type is",
+        "description": "The attribute name if the type is 'attribute'. Required if C(type=attribute).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "count": {
+        "description": "When set to C(yes), return the number of nodes matched by I(xpath).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "content": {
+        "description": "Returns the content of the nodes matched by I(xpath).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "attribute",
+          "text"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "backup": {
+        "description": "Determine whether a backup should be created. When set to C(yes), create a backup file including the timestamp information so you can get the original file back if you somehow clobbered it incorrectly.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "fragment": {
+        "description": "The string representation of the XML fragment expected at xpath.  Since ansible 2.9 not required when I(state=absent) or when I(count=yes). Not required when I(content) is set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "xmlstring"
+        ]
+      },
+      "path": {
+        "description": "Path to the file to operate on.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "dest",
+          "file"
+        ]
+      },
+      "state": {
+        "description": "Set or remove the nodes (or attributes) matched by I(xpath).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "type": {
+        "description": "The type of XML node you are working with.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "attribute",
+          "element",
+          "text"
+        ],
+        "default": "element",
+        "aliases": null
+      },
+      "xpath": {
+        "description": "Xpath to select the node or nodes to operate on.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "preserve_whitespace": {
+        "description": "Whether to preserve whitespace in the XML.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },

@@ -1,20 +1,135 @@
 {
   "ansible.snmp.get": {
     "short_description": "Perform an SNMP get against a remote device for one or more OIDs",
-    "description": "",
-    "options": {},
+    "description": "Perform an SNMP get against a remote device for one or more OIDs",
+    "options": {
+      "best_guess": {
+        "description": "This setting controls how return value oids are parsed. Setting to 0 causes a regular lookup. Setting to 1 causes a regular expression match (defined as -Ib in snmpcmd). Setting to 2 causes a random access lookup (defined as -IR in snmpcmd).",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          1,
+          2
+        ],
+        "default": 0,
+        "aliases": null
+      },
+      "enums": {
+        "description": "Set to `True` to have integer return values converted to enumeration identifiers if possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "long_names": {
+        "description": "Set to `True` to have OIDS generated preferring longer Mib name convention.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "oids": {
+        "description": "A dictionary of entries to get from the remote device",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "numeric": {
+        "description": "Set to `True to have `oids` returned untranslated (i.e. dotted-decimal).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "sprint_value": {
+        "description": "Set to `True` to have return values formatted with netsnmp's sprint_value function. This will result in certain data types being returned in non-canonical format. Values returned with this option set may not be appropriate for 'set' operations",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ansible.snmp.set": {
     "short_description": "Perform an SNMP set against a remote device for one or more OIDs",
-    "description": "",
-    "options": {},
+    "description": "Perform an SNMP get against a remote device for one or more OIDs",
+    "options": {
+      "oids": {
+        "description": "A dictionary of OID, value to set on the remote device",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ansible.snmp.walk": {
     "short_description": "Perform an SNMP walk against a remote device for one or more OIDs",
-    "description": "",
-    "options": {},
+    "description": "Perform an SNMP walk against a remote device for one or more OIDs",
+    "options": {
+      "best_guess": {
+        "description": "This setting controls how return value oids are parsed. Setting to 0 causes a regular lookup. Setting to 1 causes a regular expression match (defined as -Ib in snmpcmd). Setting to 2 causes a random access lookup (defined as -IR in snmpcmd).",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          1,
+          2
+        ],
+        "default": 0,
+        "aliases": null
+      },
+      "enums": {
+        "description": "Set to `True` to have integer return values converted to enumeration identifiers if possible.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "long_names": {
+        "description": "Set to `True` to have OIDS generated preferring longer Mib name convention.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "oids": {
+        "description": "A dictionary of entries to walk on the remote device",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "numeric": {
+        "description": "Set to `True to have `oids` returned untranslated (i.e. dotted-decimal).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "sprint_value": {
+        "description": "Set to `True` to have return values formatted with netsnmp's sprint_value function. This will result in certain data types being returned in non-canonical format. Values returned with this option set may not be appropriate for 'set' operations.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

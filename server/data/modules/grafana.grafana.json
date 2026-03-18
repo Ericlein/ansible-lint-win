@@ -1,56 +1,583 @@
 {
   "grafana.grafana.alert_contact_point": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Alerting Contact points in Grafana",
+    "description": "Create, Update and delete Contact points using Ansible.",
+    "options": {
+      "name": {
+        "description": "Sets the name of the contact point.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uid": {
+        "description": "Sets the UID of the Contact point.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "type": {
+        "description": "Sets Contact point type.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "settings": {
+        "description": "Sets Contact point settings.",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disableResolveMessage": {
+        "description": "When set to C(true), Disables the resolve message [OK] that is sent when alerting state returns to C(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "grafana_api_key": {
+        "description": "Grafana API Key used to authenticate with Grafana.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "grafana_url": {
+        "description": "URL of the Grafana instance.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State for the Grafana Alert Contact Point.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "grafana.grafana.alert_notification_policy": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Alerting Policies points in Grafana",
+    "description": "Set the notification policy tree using Ansible.",
+    "options": {
+      "Continue": {
+        "description": "Continue matching subsequent sibling nodes if set to C(true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "groupByStr": {
+        "description": "List of string. Group alerts when you receive a notification based on labels. If empty it will be inherited from the parent policy.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "muteTimeIntervals": {
+        "description": "List of string. Sets the mute timing for the notfification policy.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "rootPolicyReceiver": {
+        "description": "Sets the name of the contact point to be set as the default receiver.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "grafana-default-email",
+        "aliases": null
+      },
+      "routes": {
+        "description": "List of objects Sets the Route that contains definitions of how to handle alerts.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "groupInterval": {
+        "description": "Sets the wait time to send a batch of new alerts for that group after the first notification was sent. Inherited from the parent policy if empty.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "5m",
+        "aliases": null
+      },
+      "groupWait": {
+        "description": "Sets the wait time until the initial notification is sent for a new group created by an incoming alert. Inherited from the parent policy if empty.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "30s",
+        "aliases": null
+      },
+      "objectMatchers": {
+        "description": "Matchers is a slice of Matchers that is sortable, implements Stringer, and provides a Matches method to match a LabelSet.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "repeatInterval": {
+        "description": "Sets the waiting time to resend an alert after they have successfully been sent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "4h",
+        "aliases": null
+      },
+      "grafana_url": {
+        "description": "URL of the Grafana instance.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "grafana_api_key": {
+        "description": "Grafana API Key used to authenticate with Grafana.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "grafana.grafana.cloud_api_key": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Grafana Cloud API keys",
+    "description": "Create and delete Grafana Cloud API keys using Ansible.",
+    "options": {
+      "name": {
+        "description": "Sets the name of the Grafana Cloud API key.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role": {
+        "description": "Sets the role to be associated with the Cloud API key.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "Admin",
+          "Viewer",
+          "Editor",
+          "MetricsPublisher"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "org_slug": {
+        "description": "Name of the Grafana Cloud organization in which Cloud API key will be created.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "existing_cloud_api_key": {
+        "description": "Cloud API Key to authenticate with Grafana Cloud.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fail_if_already_created": {
+        "description": "If set to C(true), the task will fail if the API key with same name already exists in the Organization.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "State for the Grafana Cloud API Key.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "grafana.grafana.cloud_plugin": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Grafana Cloud Plugins",
+    "description": "Create, Update and delete Grafana Cloud plugins using Ansible.",
+    "options": {
+      "name": {
+        "description": "Name of the plugin, e.g. grafana-github-datasource.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "version": {
+        "description": "Version of the plugin to install.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "latest",
+        "aliases": null
+      },
+      "stack_slug": {
+        "description": "Name of the Grafana Cloud stack to which the plugin will be added.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cloud_api_key": {
+        "description": "Cloud API Key to authenticate with Grafana Cloud.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State for the Grafana Cloud Plugin.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "grafana.grafana.cloud_stack": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Grafana Cloud stack",
+    "description": "Create and delete Grafana Cloud stacks using Ansible.",
+    "options": {
+      "name": {
+        "description": "Sets the name of stack. Conventionally matches the URL of the instance. For example, C(stackslug.grafana.net).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stack_slug": {
+        "description": "Sets the subdomain of the Grafana instance. For example, if slug is B(stackslug), the instance URL will be C(https://stackslug.grafana.net).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cloud_api_key": {
+        "description": "Cloud API Key to authenticate with Grafana Cloud.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "region": {
+        "description": "Sets the region for the Grafana Cloud stack.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "us",
+          "us-azure",
+          "eu",
+          "au",
+          "eu-azure",
+          "prod-ap-southeast-0",
+          "prod-gb-south-0",
+          "prod-eu-west-3"
+        ],
+        "default": "us",
+        "aliases": null
+      },
+      "url": {
+        "description": "If you use a custom domain for the instance, you can provide it here. If not provided, Will be set to C(https://stackslug.grafana.net).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "org_slug": {
+        "description": "Name of the organization under which Cloud stack is created.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delete_protection": {
+        "description": "Enables or disables deletion protection for the Cloud stack. When set to true, the stack cannot be deleted unless this flag is explicitly disabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "State for the Grafana Cloud stack.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "grafana.grafana.dashboard": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Dashboards in Grafana",
+    "description": "Create, Update and delete Dashboards using Ansible.",
+    "options": {
+      "dashboard": {
+        "description": "JSON source code for dashboard.",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "grafana_url": {
+        "description": "URL of the Grafana instance.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "grafana_api_key": {
+        "description": "Grafana API Key to authenticate with Grafana Cloud.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State for the Grafana Dashboard.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "grafana.grafana.datasource": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Data sources in Grafana",
+    "description": "Create, Update and delete Data sources using Ansible.",
+    "options": {
+      "dataSource": {
+        "description": "JSON source code for the Data source.",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "grafana_url": {
+        "description": "URL of the Grafana instance.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "grafana_api_key": {
+        "description": "Grafana API Key to authenticate with Grafana Cloud.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State for the Grafana Datasource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "grafana.grafana.folder": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Folders in Grafana",
+    "description": "Create, Update and delete Folders via Ansible.",
+    "options": {
+      "title": {
+        "description": "Sets the title of the folder.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uid": {
+        "description": "Sets the UID for your folder.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "overwrite": {
+        "description": "Set to C(false) if you dont want to overwrite existing folder with newer version.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "grafana_api_key": {
+        "description": "Grafana API Key to authenticate with Grafana.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "grafana_url": {
+        "description": "URL of the Grafana instance.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State for the Grafana Folder.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "grafana.grafana.user": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Users in Grafana",
+    "description": "Create, Update and delete Users using Ansible.",
+    "options": {
+      "grafana_url": {
+        "description": "URL of the Grafana instance.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "admin_name": {
+        "description": "Grafana admin username",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "admin_password": {
+        "description": "Grafana admin password",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login": {
+        "description": "Login of the user",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password of the user. Should be provided if state=present",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "email": {
+        "description": "Email address of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State for the Grafana User.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

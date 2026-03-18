@@ -15,11 +15,127 @@
         "aliases": null
       },
       "name": {
-        "description": "The name of the disk group policy. This name can be between 1 and 16 alphanumeric characters. ",
+        "description": "The name of the disk group policy. This name can be between 1 and 16 alphanumeric characters. You cannot use spaces or any special characters other than - (hyphen), \"_\" (underscore), : (colon), and . (period). You cannot change this name after the policy is created.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the storage profile. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote), = (equal sign), > (greater than), < (less than), or ' (single quote).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "raid_level": {
+        "description": "The RAID level for the disk group policy. This can be one of the following: stripe - UCS Manager shows RAID 0 Striped mirror - RAID 1 Mirrored mirror-stripe - RAID 10 Mirrored and Striped stripe-parity - RAID 5 Striped Parity stripe-dual-parity - RAID 6 Striped Dual Parity stripe-parity-stripe - RAID 50 Striped Parity and Striped stripe-dual-parity-stripe - RAID 60 Striped Dual Parity and Striped",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "stripe",
+          "mirror",
+          "mirror-stripe",
+          "stripe-parity",
+          "stripe-dual-parity",
+          "stripe-parity-stripe",
+          "stripe-dual-parity-stripe"
+        ],
+        "default": "stripe",
+        "aliases": null
+      },
+      "configuration_mode": {
+        "description": "Disk group configuration mode. Choose one of the following: automatic - Automatically configures the disks in the disk group. manual - Enables you to manually configure the disks in the disk group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "automatic",
+          "manual"
+        ],
+        "default": "automatic",
+        "aliases": null
+      },
+      "num_drives": {
+        "description": "Specify the number of drives for the disk group. This can be from 0 to 24. Option only applies when configuration mode is automatic.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "1",
+        "aliases": null
+      },
+      "drive_type": {
+        "description": "Specify the drive type to use in the drive group. This can be one of the following: unspecified — Selects the first available drive type, and applies that to all drives in the group. HDD — Hard disk drive SSD — Solid state drive Option only applies when configuration mode is automatic.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "unspecified",
+          "HDD",
+          "SSD"
+        ],
+        "default": "unspecified",
+        "aliases": null
+      },
+      "num_ded_hot_spares": {
+        "description": "Specify the number of hot spares for the disk group. This can be from 0 to 24. Option only applies when configuration mode is automatic.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "unspecified",
+        "aliases": null
+      },
+      "num_glob_hot_spares": {
+        "description": "Specify the number of global hot spares for the disk group. This can be from 0 to 24. Option only applies when configuration mode is automatic.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "unspecified",
+        "aliases": null
+      },
+      "min_drive_size": {
+        "description": "Specify the minimum drive size or unspecified to allow all drive sizes. This can be from 0 to 10240 GB. Option only applies when configuration mode is automatic.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "unspecified",
+        "aliases": null
+      },
+      "use_remaining_disks": {
+        "description": "Specifies whether you can use all the remaining disks in the disk group or not. Option only applies when configuration mode is automatic.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "yes",
+          "no"
+        ],
+        "default": "no",
+        "aliases": null
+      },
+      "manual_disks": {
+        "description": "List of manually configured disks. Options are only used when you choose manual configuration_mode.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "virtual_drive": {
+        "description": "Configuration of virtual drive options.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "org_dn": {
+        "description": "The distinguished name (dn) of the organization where the resource is assigned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "org-root",
         "aliases": null
       }
     },
@@ -51,11 +167,21 @@
         ]
       },
       "description": {
-        "description": "A user-defined description of the DNS server. Enter up to 256 characters. ",
+        "description": "A user-defined description of the DNS server. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote), = (equal sign), > (greater than), < (less than), or ' (single quote).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "delegate_to": {
+        "description": "Where the module will be run",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "localhost",
         "aliases": null
       }
     },
@@ -77,11 +203,41 @@
         "aliases": null
       },
       "name": {
-        "description": "The name of the organization. Enter up to 16 characters. ",
+        "description": "The name of the organization. Enter up to 16 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote) = (equal sign), > (greater than), < (less than), ' (single quote).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A user-defined description of the organization. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote) = (equal sign), > (greater than), < (less than), ' (single quote).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "graphics_card_mode": {
+        "description": "Set the Graphics Card Mode.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "any-configuration",
+          "compute",
+          "graphics"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "org_dn": {
+        "description": "Org dn (distinguished name)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "org-root",
         "aliases": null
       }
     },
@@ -103,11 +259,56 @@
         "aliases": null
       },
       "name": {
-        "description": "The name of the IP address pool. This name can be between 1 and 32 alphanumeric characters. ",
+        "description": "The name of the IP address pool. This name can be between 1 and 32 alphanumeric characters. You cannot use spaces or any special characters other than - (hyphen), \"_\" (underscore), : (colon), and . (period). You cannot change this name after the IP address pool is created.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the IP address pool. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote), = (equal sign), > (greater than), < (less than), or ' (single quote).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "order": {
+        "description": "The Assignment Order field. This can be one of the following: default - Cisco UCS Manager selects a random identity from the pool. sequential - Cisco UCS Manager selects the lowest available identity from the pool.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "default",
+          "sequential"
+        ],
+        "default": "default",
+        "aliases": null
+      },
+      "ipv4_blocks": {
+        "description": "List of IPv4 blocks used by the IP Pool.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipv6_blocks": {
+        "description": "List of IPv6 blocks used by the IP Pool.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "org_dn": {
+        "description": "Org dn (distinguished name)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "org-root",
         "aliases": null
       }
     },
@@ -129,11 +330,45 @@
         "aliases": null
       },
       "name": {
-        "description": "The name of the LAN Connectivity Policy. This name can be between 1 and 16 alphanumeric characters. ",
+        "description": "The name of the LAN Connectivity Policy. This name can be between 1 and 16 alphanumeric characters. You cannot use spaces or any special characters other than - (hyphen), \"_\" (underscore), : (colon), and . (period). You cannot change this name after the policy is created.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A description of the LAN Connectivity Policy. Cisco recommends including information about where and when to use the policy. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote), = (equal sign), > (greater than), < (less than), or ' (single quote).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "vnic_list": {
+        "description": "List of vNICs used by the LAN Connectivity Policy. vNICs used by the LAN Connectivity Policy must be created from a vNIC template.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iscsi_vnic_list": {
+        "description": "List of iSCSI vNICs used by the LAN Connectivity Policy.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "org_dn": {
+        "description": "Org dn (distinguished name)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "org-root",
         "aliases": null
       }
     },
@@ -155,11 +390,56 @@
         "aliases": null
       },
       "name": {
-        "description": "The name of the MAC pool. This name can be between 1 and 32 alphanumeric characters. ",
+        "description": "The name of the MAC pool. This name can be between 1 and 32 alphanumeric characters. You cannot use spaces or any special characters other than - (hyphen), \"_\" (underscore), : (colon), and . (period). You cannot change this name after the MAC pool is created.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A description of the MAC pool. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote), = (equal sign), > (greater than), < (less than), or ' (single quote).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "order": {
+        "description": "The Assignment Order field. This can be one of the following: default - Cisco UCS Manager selects a random identity from the pool. sequential - Cisco UCS Manager selects the lowest available identity from the pool.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "default",
+          "sequential"
+        ],
+        "default": "default",
+        "aliases": null
+      },
+      "first_addr": {
+        "description": "The first MAC address in the block of addresses. This is the From field in the UCS Manager MAC Blocks menu.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "last_addr": {
+        "description": "The last MAC address in the block of addresses. This is the To field in the UCS Manager Add MAC Blocks menu.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "org_dn": {
+        "description": "The distinguished name (dn) of the organization where the resource is assigned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "org-root",
         "aliases": null
       }
     },
@@ -217,12 +497,14 @@
         ]
       },
       "description": {
-        "description": "A user-defined description of the NTP server. Enter up to 256 characters. ",
+        "description": "A user-defined description of the NTP server. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote), = (equal sign), > (greater than), < (less than), or ' (single quote).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
-        "aliases": null
+        "aliases": [
+          "descr"
+        ]
       }
     },
     "deprecated": null
@@ -243,11 +525,39 @@
         "aliases": null
       },
       "org_name": {
-        "description": "The name of the organization. Enter up to 16 characters. ",
+        "description": "The name of the organization. Enter up to 16 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote), = (equal sign), > (greater than), < (less than), or ' (single quote).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "parent_org_path": {
+        "description": "A forward slash / separated hierarchical path from the root organization to the parent of the organization to be added or updated. UCS Manager supports a hierarchical structure of organizations up to five levels deep not including the root organization. For example the parent_org_path for an organization named level5 could be root/level1/level2/level3/level4",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "root",
+        "aliases": null
+      },
+      "description": {
+        "description": "A user-defined description of the organization. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote), = (equal sign), > (greater than), < (less than), or ' (single quote).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "delegate_to": {
+        "description": "Where the module will be run",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "localhost",
         "aliases": null
       }
     },
@@ -300,11 +610,45 @@
         "aliases": null
       },
       "name": {
-        "description": "The name of the SAN Connectivity Policy. This name can be between 1 and 16 alphanumeric characters. ",
+        "description": "The name of the SAN Connectivity Policy. This name can be between 1 and 16 alphanumeric characters. You cannot use spaces or any special characters other than - (hyphen), \"_\" (underscore), : (colon), and . (period). You cannot change this name after the policy is created.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A description of the policy. Cisco recommends including information about where and when to use the policy. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote), = (equal sign), > (greater than), < (less than), or ' (single quote).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "wwnn_pool": {
+        "description": "Name of the WWNN pool to use for WWNN assignment.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "vhba_list": {
+        "description": "List of vHBAs used by the SAN Connectivity Policy. vHBAs used by the SAN Connectivity Policy must be created from a vHBA template.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "org_dn": {
+        "description": "Org dn (distinguished name)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "org-root",
         "aliases": null
       }
     },
@@ -326,11 +670,73 @@
         "aliases": null
       },
       "name": {
-        "description": "The name of the organization. Enter up to 16 characters. ",
+        "description": "The name of the organization. Enter up to 16 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote) = (equal sign), > (greater than), < (less than), ' (single quote).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A user-defined description of the organization. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote) = (equal sign), > (greater than), < (less than), ' (single quote).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "bios_settings_scrub": {
+        "description": "Scrub the BIOS settings. If the field is set to Yes, when a service profile containing this scrub policy is disassociated from a server, the BIOS settings for that server are erased and reset to the defaults for that server type and vendor. If this field is set to No, the BIOS settings are preserved. yes scrub the BIOS settings. no do not scrub the BIOS settings.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "yes",
+          "no"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "disk_scrub": {
+        "description": "Scrub the BIOS settings. If this field is set to Yes, when a service profile containing this scrub policy is disassociated from a server, all data on the server local drives is completely erased. If this field is set to No, the data on the local drives is preserved, including all local storage configuration. yes scrub the server disks. no do not scrub the server disks.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "yes",
+          "no"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "flex_flash_scrub": {
+        "description": "Scrub the BIOS settings. If the field is set to Yes, the HV partition on the SD card is formatted using the PNUOS formatting utility when the server is reacknowledged. If this field is set to No, the SD card is preserved. yes scrub the flex flash. no do not scrub the flex flash.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "yes",
+          "no"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "persistent_memory_scrub": {
+        "description": "Scrub the BIOS settings. If the field is set to Yes, when a service profile containing this scrub policy is disassociated from a server, all persistent memory modules for that server are erased and reset to the defaults for that server type and vendor. If this field is set to No, the persistent memory modules are preserved. yes scrub the persistent memory. no do not scrub the persistent memory.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "yes",
+          "no"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "org_dn": {
+        "description": "Org dn (distinguished name)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "org-root",
         "aliases": null
       }
     },
@@ -352,11 +758,54 @@
         "aliases": null
       },
       "name": {
-        "description": "The name of the serial over lan policy. Enter up to 16 characters. ",
+        "description": "The name of the serial over lan policy. Enter up to 16 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote) = (equal sign), > (greater than), < (less than), ' (single quote).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A user-defined description of the serial over lan policy. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote) = (equal sign), > (greater than), < (less than), ' (single quote).",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "admin_state": {
+        "description": "The administrative state of the serial over lan policy. disable Serial over LAN access is blocked. enable Serial over LAN access is permitted.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disable",
+          "enable"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "speed": {
+        "description": "The transmission speed of the serial over lan policy.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "9600",
+          "19200",
+          "38400",
+          "57600",
+          "115200"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "org_dn": {
+        "description": "Org dn (distinguished name) of the serial over lan policy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "org-root",
         "aliases": null
       }
     },
@@ -378,10 +827,42 @@
         "aliases": null
       },
       "name": {
-        "description": "The name assigned to the Server Maintenance Policy. The Server Maintenance Policy name is case sensitive. This name can be between 1 and 16 alphanumeric characters. ",
+        "description": "The name assigned to the Server Maintenance Policy. The Server Maintenance Policy name is case sensitive. This name can be between 1 and 16 alphanumeric characters. You cannot use spaces or any special characters other than - (hyphen), \"_\" (underscore), : (colon), and . (period). You cannot change this name after the Server Maintenance Policy is created.",
         "type": "str",
         "required": false,
         "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A description of the Server Maintenance Package Policy. Cisco recommends including information about where and when to use the policy. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote), = (equal sign), > (greater than), < (less than), or ' (single quote).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "trigger_config": {
+        "description": "This option is used in combination with either User Ack (user-ack) or Timer Automatic (timer-automatic). When the On Next Boot option is enabled, the host OS reboot, shutdown, or server reset also triggers the associated FSM to apply the changes. Note that de-selecting the On Next Boot option disables the Maintenance Policy on the BMC.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "on-next-boot"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "uptime_disr": {
+        "description": "When a Server profile is associated with a Server, or when changes are made to an associated Server profile, you must reboot the Server. The Reboot Policy field determines when the reboot occurs for Server associated with any Server profiles that include this maintenance policy.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "immediate",
+          "timer-automatic",
+          "user-ack"
+        ],
         "default": null,
         "aliases": null
       }
@@ -412,11 +893,49 @@
         "aliases": null
       },
       "server_assignment": {
-        "description": "",
+        "description": "Specifies how to associate servers with this service profile using the following choices: server - Use to pre-provision a slot or select an existing server.  Slot or server is specified by the server_dn option. pool - Use to select from a server pool.  The server_pool option specifies the name of the server pool to use. Option is not valid if the service profile is bound to a template. Optional if the state is absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "server",
+          "pool"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "server_dn": {
+        "description": "The Distinguished Name (dn) of the server object used for pre-provisioning or selecting an existing server. Required if the server_assignment option is server. Optional if the state is absent.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "server_pool_name": {
+        "description": "Name of the server pool used for server pool based assignment. Required if the server_assignment option is pool. Optional if the state is absent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "restrict_migration": {
+        "description": "Restricts the migration of the service profile after it has been associated with a server. If set to no, Cisco UCS Manager does not perform any compatibility checks on the new server before migrating the existing service profile. If set to no and the hardware of both servers used in migration are not similar, the association might fail.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "yes",
+          "no"
+        ],
+        "default": "no",
+        "aliases": null
+      },
+      "org_dn": {
+        "description": "The distinguished name (dn) of the organization where the resource is assigned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "org-root",
         "aliases": null
       }
     },
@@ -438,7 +957,50 @@
         "aliases": null
       },
       "name": {
-        "description": "The name of the service profile. This name can be between 2 and 32 alphanumeric characters. ",
+        "description": "The name of the service profile. This name can be between 2 and 32 alphanumeric characters. You cannot use spaces or any special characters other than - (hyphen), \"_\" (underscore), : (colon), and . (period). This name must be unique across all service profiles and service profile templates within the same organization.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_template": {
+        "description": "The name of the service profile template used to create this serivce profile.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "power_state": {
+        "description": "The power state to be applied when this service profile is associated with a server. If no value is provided, the power_state for the service profile will not be modified.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "up",
+          "down"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "user_label": {
+        "description": "The User Label you want to assign to this service profile.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "org_dn": {
+        "description": "Org dn (distinguished name)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "org-root",
+        "aliases": null
+      },
+      "description": {
+        "description": "Optional The Description of the service profile",
         "type": "str",
         "required": false,
         "choices": null,
@@ -464,11 +1026,301 @@
         "aliases": null
       },
       "name": {
-        "description": "The name of the service profile template. This name can be between 2 and 32 alphanumeric characters. ",
+        "description": "The name of the service profile template. This name can be between 2 and 32 alphanumeric characters. You cannot use spaces or any special characters other than - (hyphen), \"_\" (underscore), : (colon), and . (period). This name must be unique across all service profiles and service profile templates within the same organization.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "template_type": {
+        "description": "The template type field which can be one of the following: initial-template — Any service profiles created from this template are not updated if the template changes. updating-template — Any service profiles created from this template are updated if the template changes.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "initial-template",
+          "updating-template"
+        ],
+        "default": "initial-template",
+        "aliases": null
+      },
+      "uuid_pool": {
+        "description": "Specifies how the UUID will be set on a server associated with a service profile created from this template. The uuid_pool option can be the name of the UUID pool to use or '' (the empty string). An empty string will use the UUID assigned to the server by the manufacturer, and the UUID remains unassigned until a service profile created from this template is associated with a server. At that point, the UUID is set to the UUID value assigned to the server by the manufacturer. If the service profile is later moved to a different server, the UUID is changed to match the new server.\"",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "description": {
+        "description": "A user-defined description of the service profile template. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote), = (equal sign), > (greater than), < (less than), or ' (single quote).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "storage_profile": {
+        "description": "The name of the storage profile you want to associate with service profiles created from this template",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "local_disk_policy": {
+        "description": "The name of the local disk policy you want to associate with service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lan_connectivity_policy": {
+        "description": "The name of the LAN connectivity policy you want to associate with service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iqn_pool": {
+        "description": "The name of the IQN pool (initiator) you want to apply to all iSCSI vNICs for service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "san_connectivity_policy": {
+        "description": "The name of the SAN connectivity policy you want to associate with service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vmedia_policy": {
+        "description": "The name of the vMedia policy you want to associate with service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "boot_policy": {
+        "description": "The name of the boot order policy you want to associate with service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "maintenance_policy": {
+        "description": "The name of the maintenance policy you want to associate with service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_pool": {
+        "description": "The name of the server pool you want to associate with this service profile template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server_pool_qualification": {
+        "description": "The name of the server pool policy qualificaiton you want to use for this service profile template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "power_state": {
+        "description": "The power state to be applied when a service profile created from this template is associated with a server.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "up",
+          "down"
+        ],
+        "default": "up",
+        "aliases": null
+      },
+      "host_firmware_package": {
+        "description": "The name of the host firmware package you want to associate with service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bios_policy": {
+        "description": "The name of the BIOS policy you want to associate with service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipmi_access_profile": {
+        "description": "The name of the IPMI access profile you want to associate with service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sol_policy": {
+        "description": "The name of the Serial over LAN (SoL) policy you want to associate with service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mgmt_ip_state": {
+        "description": "The state for the Outband Management IP pool you want to use with service profiles created from this template. Choices are none or pooled.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "pooled",
+        "aliases": null
+      },
+      "mgmt_ip_pool": {
+        "description": "The name of the Outband Management IP pool you want to use with service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "ext-mgmt",
+        "aliases": null
+      },
+      "power_control_policy": {
+        "description": "The name of the power control policy you want to associate with service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "power_sync_policy": {
+        "description": "The name of the power sync policy you want to associate with service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scrub_policy": {
+        "description": "The name of the scrub policy you want to associate with service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kvm_mgmt_policy": {
+        "description": "The name of the KVM management policy you want to associate with service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "graphics_card_policy": {
+        "description": "The name of the graphics card policy you want to associate with service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "threshold_policy": {
+        "description": "The name of the threshold policy you want to associate with service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "user_label": {
+        "description": "The User Label you want to assign to service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mgmt_interface_mode": {
+        "description": "The Management Interface you want to assign to service profiles created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "",
+          "in-band"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "mgmt_vnet_name": {
+        "description": "A VLAN selected from the associated VLAN group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mgmt_inband_pool_name": {
+        "description": "How the inband management IPv4 address is derived for the server associated with this service profile.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "org_dn": {
+        "description": "Org dn (distinguished name)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "org-root",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_sp_vnic_order": {
+    "short_description": "Configures vNIC order for service profiles and templates on Cisco UCS Manager",
+    "description": "Configures Configures vNIC order for service profiles and templates on Cisco UCS Manager",
+    "options": {
+      "sp_name": {
+        "description": "DN of the service profile",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vnics": {
+        "description": "List of vNIC order properties",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "org_dn": {
+        "description": "root org dn",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "org-root",
         "aliases": null
       }
     },
@@ -490,11 +1342,118 @@
         "aliases": null
       },
       "name": {
-        "description": "The name of the storage profile. This name can be between 1 and 16 alphanumeric characters. ",
+        "description": "The name of the storage profile. This name can be between 1 and 16 alphanumeric characters. You cannot use spaces or any special characters other than - (hyphen), \"_\" (underscore), : (colon), and . (period). You cannot change this name after profile is created.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the storage profile. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote), = (equal sign), > (greater than), < (less than), or ' (single quote).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "local_luns": {
+        "description": "List of Local LUNs used by the storage profile.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "org_dn": {
+        "description": "The distinguished name (dn) of the organization where the resource is assigned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "org-root",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "cisco.ucs.ucs_system_qos": {
+    "short_description": "Configures system QoS settings",
+    "description": "Configures system QoS settings",
+    "options": {
+      "priority": {
+        "description": "Priority to configure",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "best-effort",
+          "bronze",
+          "fc",
+          "gold",
+          "platinum",
+          "silver"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "admin_state": {
+        "description": "Admin state of QoS Policy",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disabled",
+          "enabled"
+        ],
+        "default": "enabled",
+        "aliases": null
+      },
+      "cos": {
+        "description": "CoS setting. Choices are any or 0-6.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "weight": {
+        "description": "CoS profile weight. Choices are best-effort, none or 0-10.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mtu": {
+        "description": "MTU size. Choices are fc, normal or 0-4294967295.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "normal",
+        "aliases": null
+      },
+      "multicast_optimize": {
+        "description": "Set multicast optimization options",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "false",
+          "no",
+          "true",
+          "yes"
+        ],
+        "default": "no",
+        "aliases": null
+      },
+      "drop": {
+        "description": "Set multicast optimization options",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "drop",
+          "no-drop"
+        ],
+        "default": "drop",
         "aliases": null
       }
     },
@@ -527,7 +1486,17 @@
         "aliases": null
       },
       "description": {
-        "description": "A user-defined description of the timezone. Enter up to 256 characters. ",
+        "description": "A user-defined description of the timezone. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote), = (equal sign), > (greater than), < (less than), or ' (single quote).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "timezone": {
+        "description": "The timezone name. Time zone names are from the L(tz database,https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) The timezone name is case sensitive. The timezone name can be between 0 and 510 alphanumeric characters. You cannot use spaces or any special characters other than \"-\" (hyphen), \"_\" (underscore), \"/\" (backslash).",
         "type": "str",
         "required": false,
         "choices": null,
@@ -553,11 +1522,64 @@
         "aliases": null
       },
       "name": {
-        "description": "The name of the UUID pool. This name can be between 1 and 32 alphanumeric characters. ",
+        "description": "The name of the UUID pool. This name can be between 1 and 32 alphanumeric characters. You cannot use spaces or any special characters other than - (hyphen), \"_\" (underscore), : (colon), and . (period). You cannot change this name after the UUID pool is created.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The user-defined description of the UUID pool. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote), = (equal sign), > (greater than), < (less than), or ' (single quote).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "prefix": {
+        "description": "UUID prefix used for the range of server UUIDs. If no value is provided, the system derived prefix will be used (equivalent to selecting 'derived' option in UI). If the user provides a value, the user provided prefix will be used (equivalent to selecting 'other' option in UI). A user provided value should be in the format XXXXXXXX-XXXX-XXXX.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "order": {
+        "description": "The Assignment Order field. This can be one of the following: default - Cisco UCS Manager selects a random identity from the pool. sequential - Cisco UCS Manager selects the lowest available identity from the pool.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "default",
+          "sequential"
+        ],
+        "default": "default",
+        "aliases": null
+      },
+      "first_uuid": {
+        "description": "The first UUID in the block of UUIDs. This is the From field in the UCS Manager UUID Blocks menu.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "last_uuid": {
+        "description": "The last UUID in the block of UUIDs. This is the To field in the UCS Manager Add UUID Blocks menu.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "org_dn": {
+        "description": "The distinguished name (dn) of the organization where the resource is assigned.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "org-root",
         "aliases": null
       }
     },
@@ -579,11 +1601,111 @@
         "aliases": null
       },
       "name": {
-        "description": "The name of the virtual HBA template. This name can be between 1 and 16 alphanumeric characters. ",
+        "description": "The name of the virtual HBA template. This name can be between 1 and 16 alphanumeric characters. You cannot use spaces or any special characters other than - (hyphen), \"_\" (underscore), : (colon), and . (period). You cannot change this name after the template is created.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A user-defined description of the template. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote), = (equal sign), > (greater than), < (less than), or ' (single quote).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "fabric": {
+        "description": "The Fabric ID field. The name of the fabric interconnect that vHBAs created with this template are associated with.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "A",
+          "B"
+        ],
+        "default": "A",
+        "aliases": null
+      },
+      "redundancy_type": {
+        "description": "The Redundancy Type used for template pairing from the Primary or Secondary redundancy template. primary — Creates configurations that can be shared with the Secondary template. Any other shared changes on the Primary template are automatically synchronized to the Secondary template. secondary — All shared configurations are inherited from the Primary template. none - Legacy vHBA template behavior. Select this option if you do not want to use redundancy.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "none",
+          "primary",
+          "secondary"
+        ],
+        "default": "none",
+        "aliases": null
+      },
+      "vsan": {
+        "description": "The VSAN to associate with vHBAs created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "template_type": {
+        "description": "The Template Type field. This can be one of the following: initial-template — vHBAs created from this template are not updated if the template changes. updating-template - vHBAs created from this template are updated if the template changes.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "initial-template",
+          "updating-template"
+        ],
+        "default": "initial-template",
+        "aliases": null
+      },
+      "max_data": {
+        "description": "The Max Data Field Size field. The maximum size of the Fibre Channel frame payload bytes that the vHBA supports. Enter an string between '256' and '2112'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "2048",
+        "aliases": null
+      },
+      "wwpn_pool": {
+        "description": "The WWPN pool that a vHBA created from this template uses to derive its WWPN address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "qos_policy": {
+        "description": "The QoS policy that is associated with vHBAs created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pin_group": {
+        "description": "The SAN pin group that is associated with vHBAs created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stats_policy": {
+        "description": "The statistics collection policy that is associated with vHBAs created from this template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "org_dn": {
+        "description": "Org dn (distinguished name)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "org-root",
         "aliases": null
       }
     },
@@ -602,7 +1724,19 @@
         "aliases": null
       },
       "fabric": {
-        "description": "",
+        "description": "The fabric configuration of the VLAN.  This can be one of the following: common - The VLAN applies to both fabrics and uses the same configuration parameters in both cases. A — The VLAN only applies to fabric A. B — The VLAN only applies to fabric B.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "common",
+          "A",
+          "B"
+        ],
+        "default": "common",
+        "aliases": null
+      },
+      "vlanid": {
+        "description": "The unique string identifier assigned to the VLAN. A VLAN ID can be between '1' and '3967', or between '4048' and '4093'. This is required if C(pattern) parameter is not supplied.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -628,7 +1762,15 @@
         "aliases": null
       },
       "vlanname": {
-        "description": "The name assigned to the VLAN. The VLAN name is case sensitive. This name can be between 1 and 32 alphanumeric characters. ",
+        "description": "The name assigned to the VLAN. The VLAN name is case sensitive. This name can be between 1 and 32 alphanumeric characters. You cannot use spaces or any special characters other than - (hyphen), \"_\" (underscore), : (colon), and . (period).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vlangroup": {
+        "description": "The name assigned to the VLAN Group. The VLAN Group name is case sensitive. This name can be between 1 and 32 alphanumeric characters. You cannot use spaces or any special characters other than - (hyphen), \"_\" (underscore), : (colon), and . (period).",
         "type": "str",
         "required": false,
         "choices": null,
@@ -654,11 +1796,63 @@
         "aliases": null
       },
       "name": {
-        "description": "The name assigned to the VLAN. The VLAN name is case sensitive. This name can be between 1 and 32 alphanumeric characters. ",
+        "description": "The name assigned to the VLAN. The VLAN name is case sensitive. This name can be between 1 and 32 alphanumeric characters. You cannot use spaces or any special characters other than - (hyphen), \"_\" (underscore), : (colon), and . (period). You cannot change this name after the VLAN is created.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "multicast_policy": {
+        "description": "The multicast policy associated with this VLAN. This option is only valid if the Sharing Type field is set to None or Primary.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fabric": {
+        "description": "The fabric configuration of the VLAN.  This can be one of the following: common - The VLAN applies to both fabrics and uses the same configuration parameters in both cases. A — The VLAN only applies to fabric A. B — The VLAN only applies to fabric B. For upstream disjoint L2 networks, Cisco recommends that you choose common to create VLANs that apply to both fabrics.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "common",
+          "A",
+          "B"
+        ],
+        "default": "common",
+        "aliases": null
+      },
+      "id": {
+        "description": "The unique string identifier assigned to the VLAN. A VLAN ID can be between '1' and '3967', or between '4048' and '4093'. You cannot create VLANs with IDs from 4030 to 4047. This range of VLAN IDs is reserved. The VLAN IDs you specify must also be supported on the switch that you are using. VLANs in the LAN cloud and FCoE VLANs in the SAN cloud must have different IDs. Optional if state is absent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sharing": {
+        "description": "The Sharing Type field. Whether this VLAN is subdivided into private or secondary VLANs. This can be one of the following: none - This VLAN does not have any secondary or private VLANs. This is a regular VLAN. primary - This VLAN can have one or more secondary VLANs, as shown in the Secondary VLANs area. This VLAN is a primary VLAN in the private VLAN domain. isolated - This is a private VLAN associated with a primary VLAN. This VLAN is an Isolated VLAN. community - This VLAN can communicate with other ports on the same community VLAN as well as the promiscuous port. This VLAN is a Community VLAN.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "none",
+          "primary",
+          "isolated",
+          "community"
+        ],
+        "default": "none",
+        "aliases": null
+      },
+      "native": {
+        "description": "Designates the VLAN as a native VLAN.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "yes",
+          "no"
+        ],
+        "default": "no",
         "aliases": null
       }
     },
@@ -680,11 +1874,161 @@
         "aliases": null
       },
       "name": {
-        "description": "The name of the vNIC template. This name can be between 1 and 16 alphanumeric characters. ",
+        "description": "The name of the vNIC template. This name can be between 1 and 16 alphanumeric characters. You cannot use spaces or any special characters other than - (hyphen), \"_\" (underscore), : (colon), and . (period). You cannot change this name after the template is created.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A user-defined description of the vNIC template. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote), = (equal sign), > (greater than), < (less than), or ' (single quote).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "fabric": {
+        "description": "The Fabric ID field specifying the fabric interconnect associated with vNICs created from this template. If you want fabric failover enabled on vNICs created from this template, use of of the following:\" A-B to use Fabric A by default with failover enabled. B-A to use Fabric B by default with failover enabled. Do not enable vNIC fabric failover under the following circumstances: - If the Cisco UCS domain is running in Ethernet switch mode. vNIC fabric failover is not supported in that mode. - If you plan to associate one or more vNICs created from this template to a server with an adapter that does not support fabric failover.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "A",
+          "B",
+          "A-B",
+          "B-A"
+        ],
+        "default": "A",
+        "aliases": null
+      },
+      "redundancy_type": {
+        "description": "The Redundancy Type used for vNIC redundancy pairs during fabric failover. This can be one of the following: primary — Creates configurations that can be shared with the Secondary template. secondary — All shared configurations are inherited from the Primary template. none - Legacy vNIC template behavior. Select this option if you do not want to use redundancy.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "none",
+          "primary",
+          "secondary"
+        ],
+        "default": "none",
+        "aliases": null
+      },
+      "peer_redundancy_template": {
+        "description": "The Peer Redundancy Template. The name of the vNIC template sharing a configuration with this template. If the redundancy_type is primary, the name of the secondary template should be provided. If the redundancy_type is secondary, the name of the primary template should be provided. Secondary templates can only configure non-shared properties (name, description, and mac_pool).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "peer_redundancy_templ"
+        ]
+      },
+      "target": {
+        "description": "The possible target for vNICs created from this template. The target determines whether or not Cisco UCS Manager automatically creates a VM-FEX port profile with the appropriate settings for the vNIC template. This can be one of the following: adapter — The vNICs apply to all adapters. No VM-FEX port profile is created if you choose this option. vm - The vNICs apply to all virtual machines. A VM-FEX port profile is created if you choose this option.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "adapter",
+          "vm"
+        ],
+        "default": "adapter",
+        "aliases": null
+      },
+      "template_type": {
+        "description": "The Template Type field. This can be one of the following: initial-template — vNICs created from this template are not updated if the template changes. updating-template - vNICs created from this template are updated if the template changes.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "initial-template",
+          "updating-template"
+        ],
+        "default": "initial-template",
+        "aliases": null
+      },
+      "vlans_list": {
+        "description": "List of VLANs used by the vNIC template.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cdn_source": {
+        "description": "CDN Source field. This can be one of the following options: vnic-name - Uses the vNIC template name of the vNIC instance as the CDN name. This is the default option. user-defined - Uses a user-defined CDN name for the vNIC template. If this option is chosen, cdn_name must also be provided.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "vnic-name",
+          "user-defined"
+        ],
+        "default": "vnic-name",
+        "aliases": null
+      },
+      "cdn_name": {
+        "description": "CDN Name used when cdn_source is set to user-defined.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mtu": {
+        "description": "The MTU field. The maximum transmission unit, or packet size, that vNICs created from this vNIC template should use. Enter a string between '1500' and '9000'. If the vNIC template has an associated QoS policy, the MTU specified here must be equal to or less than the MTU specified in the QoS system class.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "1500",
+        "aliases": null
+      },
+      "mac_pool": {
+        "description": "The MAC address pool that vNICs created from this vNIC template should use.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "qos_policy": {
+        "description": "The quality of service (QoS) policy that vNICs created from this vNIC template should use.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network_control_policy": {
+        "description": "The network control policy that vNICs created from this vNIC template should use.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pin_group": {
+        "description": "The LAN pin group that vNICs created from this vNIC template should use.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stats_policy": {
+        "description": "The statistics collection policy that vNICs created from this vNIC template should use.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "org_dn": {
+        "description": "Org dn (distinguished name)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "org-root",
         "aliases": null
       }
     },
@@ -706,11 +2050,50 @@
         "aliases": null
       },
       "name": {
-        "description": "The name assigned to the VSAN. This name can be between 1 and 32 alphanumeric characters. ",
+        "description": "The name assigned to the VSAN. This name can be between 1 and 32 alphanumeric characters. You cannot use spaces or any special characters other than - (hyphen), \"_\" (underscore), : (colon), and . (period). You cannot change this name after the VSAN is created.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "vsan_id": {
+        "description": "The unique identifier assigned to the VSAN. The ID can be a string between '1' and '4078', or between '4080' and '4093'. '4079' is a reserved VSAN ID. In addition, if you plan to use FC end-host mode, the range between '3840' to '4079' is also a reserved VSAN ID range. Optional if state is absent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vlan_id": {
+        "description": "The unique string identifier assigned to the VLAN used for Fibre Channel connections. Note that Cisco UCS Manager uses VLAN '4048'.  See the UCS Manager configuration guide if you want to assign '4048' to a VLAN. Optional if state is absent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fc_zoning": {
+        "description": "Fibre Channel zoning configuration for the Cisco UCS domain. Fibre Channel zoning can be set to one of the following values: disabled — The upstream switch handles Fibre Channel zoning, or Fibre Channel zoning is not implemented for the Cisco UCS domain. enabled — Cisco UCS Manager configures and controls Fibre Channel zoning for the Cisco UCS domain. If you enable Fibre Channel zoning, do not configure the upstream switch with any VSANs that are being used for Fibre Channel zoning.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disabled",
+          "enabled"
+        ],
+        "default": "disabled",
+        "aliases": null
+      },
+      "fabric": {
+        "description": "The fabric configuration of the VSAN.  This can be one of the following: common - The VSAN maps to the same VSAN ID in all available fabrics. A - The VSAN maps to the a VSAN ID that exists only in fabric A. B - The VSAN maps to the a VSAN ID that exists only in fabric B.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "common",
+          "A",
+          "B"
+        ],
+        "default": "common",
         "aliases": null
       }
     },
@@ -732,11 +2115,67 @@
         "aliases": null
       },
       "name": {
-        "description": "The name of the World Wide Node Name (WWNN) or World Wide Port Name (WWPN) pool. This name can be between 1 and 32 alphanumeric characters. ",
+        "description": "The name of the World Wide Node Name (WWNN) or World Wide Port Name (WWPN) pool. This name can be between 1 and 32 alphanumeric characters. You cannot use spaces or any special characters other than - (hyphen), \"_\" (underscore), : (colon), and . (period). You cannot change this name after the WWNN or WWPN pool is created.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "purpose": {
+        "description": "Specify whether this is a node (WWNN) or port (WWPN) pool. Optional if state is absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "node",
+          "port"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "A description of the WWNN or WWPN pool. Enter up to 256 characters. You can use any characters or spaces except the following: ` (accent mark),  (backslash), ^ (carat), \" (double quote), = (equal sign), > (greater than), < (less than), or ' (single quote).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "descr"
+        ]
+      },
+      "order": {
+        "description": "The Assignment Order field. This can be one of the following: default - Cisco UCS Manager selects a random identity from the pool. sequential - Cisco UCS Manager selects the lowest available identity from the pool.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "default",
+          "sequential"
+        ],
+        "default": "default",
+        "aliases": null
+      },
+      "first_addr": {
+        "description": "The first initiator in the World Wide Name (WWN) block. This is the From field in the UCS Manager Add WWN Blocks menu.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "last_addr": {
+        "description": "The last initiator in the World Wide Name (WWN) block. This is the To field in the UCS Manager Add WWN Blocks menu. For WWxN pools, the pool size must be a multiple of ports-per-node + 1. For example, if there are 7 ports per node, the pool size must be a multiple of 8. If there are 63 ports per node, the pool size must be a multiple of 64.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "org_dn": {
+        "description": "Org dn (distinguished name)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "org-root",
         "aliases": null
       }
     },

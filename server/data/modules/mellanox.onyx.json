@@ -1,218 +1,2164 @@
 {
   "mellanox.onyx.onyx_aaa": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configures AAA parameters",
+    "description": "This module provides declarative management of AAA protocol params on Mellanox ONYX network devices.",
+    "options": {
+      "tacacs_accounting_enabled": {
+        "description": "Configures accounting settings.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auth_default_user": {
+        "description": "Sets local user default mapping.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "admin",
+          "monitor"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "auth_order": {
+        "description": "Sets the order on how to handle remote to local user mappings.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "local-only",
+          "remote-first",
+          "remote-only"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "auth_fallback_enabled": {
+        "description": "Enables/Disables fallback server-err option.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_bfd": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configures BFD parameters",
+    "description": "This module provides declarative management of BFD protocol params on Mellanox ONYX network devices.",
+    "options": {
+      "shutdown": {
+        "description": "Administratively shut down BFD protection.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vrf": {
+        "description": "Specifys the vrf name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interval_min_rx": {
+        "description": "Minimum desired receive rate, should be between 50 and 6000.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interval_multiplier": {
+        "description": "Desired detection multiplier, should be between 3 and 50.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interval_transmit_rate": {
+        "description": "Minimum desired transmit rate, should be between 50 and 60000.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iproute_network_prefix": {
+        "description": "Configures the ip route network prefix, e.g 1.1.1.1.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iproute_mask_length": {
+        "description": "Configures the mask length of the ip route network prefix, e.g 24.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iproute_next_hop": {
+        "description": "Configures the ip route next hop, e.g 2.2.2.2.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_bgp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configures BGP on Mellanox ONYX network devices",
+    "description": "This module provides declarative management of BGP router and neighbors on Mellanox ONYX network devices.",
+    "options": {
+      "as_number": {
+        "description": "Local AS number.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "router_id": {
+        "description": "Router IP address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "neighbors": {
+        "description": "List of neighbors. Required if I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "networks": {
+        "description": "List of advertised networks.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fast_external_fallover": {
+        "description": "will configure fast_external_fallover when it is True.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_paths": {
+        "description": "Maximum bgp paths.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ecmp_bestpath": {
+        "description": "Enables ECMP across AS paths.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "evpn": {
+        "description": "Configure evpn peer-group.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vrf": {
+        "description": "vrf name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "BGP state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "purge": {
+        "description": "will remove all neighbors when it is True.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_buffer_pool": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configures Buffer Pool",
+    "description": "This module provides declarative management of Onyx Buffer Pool configuration on Mellanox ONYX network devices.",
+    "options": {
+      "name": {
+        "description": "pool name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool_type": {
+        "description": "pool type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "lossless",
+          "lossy"
+        ],
+        "default": "lossy",
+        "aliases": null
+      },
+      "memory_percent": {
+        "description": "memory percent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "switch_priority": {
+        "description": "switch priority, range 1-7.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_command": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Run commands on remote devices running Mellanox ONYX",
+    "description": "Sends arbitrary commands to an Mellanox ONYX network device and returns the results read from the device. This module includes an argument that will cause the module to wait for a specific condition before returning or timing out if the condition is not met. This module does not support running commands in configuration mode. Please use M(mellanox.onyx.onyx_config) to configure Mellanox ONYX devices.",
+    "options": {
+      "commands": {
+        "description": "List of commands to send to the remote Mellanox ONYX network device. The resulting output from the command is returned. If the I(wait_for) argument is provided, the module is not returned until the condition is satisfied or the number of retries has expired.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait_for": {
+        "description": "List of conditions to evaluate against the output of the command. The task will wait for each condition to be true before moving forward. If the conditional is not true within the configured number of retries, the task fails. See examples.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "match": {
+        "description": "The I(match) argument is used in conjunction with the I(wait_for) argument to specify the match policy.  Valid values are C(all) or C(any).  If the value is set to C(all) then all conditionals in the wait_for must be satisfied.  If the value is set to C(any) then only one of the values must be satisfied.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "any",
+          "all"
+        ],
+        "default": "all",
+        "aliases": null
+      },
+      "retries": {
+        "description": "Specifies the number of retries a command should by tried before it is considered failed. The command is run on the target device every retry and evaluated against the I(wait_for) conditions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "interval": {
+        "description": "Configures the interval in seconds to wait between retries of the command. If the command does not pass the specified conditions, the interval indicates how long to wait before trying the command again.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_config": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Mellanox ONYX configuration sections",
+    "description": "Mellanox ONYX configurations uses a simple block indent file syntax for segmenting configuration into sections. This module provides an implementation for working with ONYX configuration sections in a deterministic way.",
+    "options": {
+      "lines": {
+        "description": "The ordered set of commands that should be configured in the section.  The commands must be the exact same commands as found in the device running-config.  Be sure to note the configuration command syntax as some commands are automatically modified by the device config parser.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "commands"
+        ]
+      },
+      "parents": {
+        "description": "The ordered set of parents that uniquely identify the section the commands should be checked against.  If the parents argument is omitted, the commands are checked against the set of top level or global commands.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "src": {
+        "description": "Specifies the source path to the file that contains the configuration or configuration template to load.  The path to the source file can either be the full path on the Ansible control host or a relative path from the playbook or role root directory.  This argument is mutually exclusive with I(lines), I(parents).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "before": {
+        "description": "The ordered set of commands to push on to the command stack if a change needs to be made.  This allows the playbook designer the opportunity to perform configuration commands prior to pushing any changes without affecting how the set of commands are matched against the system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "after": {
+        "description": "The ordered set of commands to append to the end of the command stack if a change needs to be made.  Just like with I(before) this allows the playbook designer to append a set of commands to be executed after the command set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "match": {
+        "description": "Instructs the module on the way to perform the matching of the set of commands against the current device config.  If match is set to I(line), commands are matched line by line.  If match is set to I(strict), command lines are matched with respect to position.  If match is set to I(exact), command lines must be an equal match.  Finally, if match is set to I(none), the module will not attempt to compare the source configuration with the running configuration on the remote device.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "line",
+          "strict",
+          "exact",
+          "none"
+        ],
+        "default": "line",
+        "aliases": null
+      },
+      "replace": {
+        "description": "Instructs the module on the way to perform the configuration on the device.  If the replace argument is set to I(line) then the modified lines are pushed to the device in configuration mode.  If the replace argument is set to I(block) then the entire command block is pushed to the device in configuration mode if any line is not correct",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "line",
+          "block"
+        ],
+        "default": "line",
+        "aliases": null
+      },
+      "backup": {
+        "description": "This argument will cause the module to create a full backup of the current C(running-config) from the remote device before any changes are made. If the C(backup_options) value is not given, the backup file is written to the C(backup) folder in the playbook root directory.  If the directory does not exist, it is created.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "config": {
+        "description": "The C(config) argument allows the playbook designer to supply the base configuration to be used to validate configuration changes necessary.  If this argument is provided, the module will not download the running-config from the remote node.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "save": {
+        "description": "The C(save) argument instructs the module to save the running- config to the startup-config at the conclusion of the module running.  If check mode is specified, this argument is ignored.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "backup_options": {
+        "description": "This is a dict object containing configurable options related to backup file path. The value of this option is read only when C(backup) is set to I(yes), if C(backup) is set to I(no) this option will be silently ignored.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_facts": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Collect facts from Mellanox ONYX network devices",
+    "description": "Collects a base set of device facts from a ONYX Mellanox network devices This module prepends all of the base network fact keys with C(ansible_net_<fact>).  The facts module will always collect a base set of facts from the device and can enable or disable collection of additional facts.",
+    "options": {
+      "gather_subset": {
+        "description": "When supplied, this argument will restrict the facts collected to a given subset.  Possible values for this argument include all, version, module, and interfaces.  Can specify a list of values to include a larger subset.  Values can also be used with an initial C(!) to specify that a specific subset should not be collected.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "version",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_igmp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configures IGMP global parameters",
+    "description": "This module provides declarative management of IGMP protocol params on Mellanox ONYX network devices.",
+    "options": {
+      "state": {
+        "description": "IGMP state.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "last_member_query_interval": {
+        "description": "Configure the last member query interval, range 1-25",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mrouter_timeout": {
+        "description": "Configure the mrouter timeout, range 60-600",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port_purge_timeout": {
+        "description": "Configure the host port purge timeout, range 130-1225",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "proxy_reporting": {
+        "description": "Configure ip igmp snooping proxy and enable reporting mode",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "report_suppression_interval": {
+        "description": "Configure the report suppression interval, range 1-25",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "unregistered_multicast": {
+        "description": "Configure the unregistered multicast mode Flood unregistered multicast Forward unregistered multicast to mrouter ports",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "flood",
+          "forward-to-mrouter-ports"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "default_version": {
+        "description": "Configure the default operating version of the IGMP snooping",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "V2",
+          "V3"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_igmp_interface": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configures IGMP interface parameters",
+    "description": "This module provides declarative management of IGMP interface configuration on Mellanox ONYX network devices.",
+    "options": {
+      "name": {
+        "description": "interface name that we want to configure IGMP on it",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "IGMP Interface state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "enabled",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "mellanox.onyx.onyx_igmp_vlan": {
+    "short_description": "Configures IGMP Vlan parameters",
+    "description": "This module provides declarative management of IGMP vlan configuration on Mellanox ONYX network devices.",
+    "options": {
+      "vlan_id": {
+        "description": "VLAN ID, vlan should exist.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "IGMP state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "enabled",
+        "aliases": null
+      },
+      "mrouter": {
+        "description": "Configure ip igmp snooping mrouter port on vlan",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "querier": {
+        "description": "Configure the IGMP querier parameters",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "static_groups": {
+        "description": "List of IGMP static groups.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "version": {
+        "description": "IGMP snooping operation version on this vlan",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "V2",
+          "V3"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_interface": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Interfaces on Mellanox ONYX network devices",
+    "description": "This module provides declarative management of Interfaces on Mellanox ONYX network devices.",
+    "options": {
+      "name": {
+        "description": "Name of the Interface.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description of Interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Interface link status.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "speed": {
+        "description": "Interface link speed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "1G",
+          "10G",
+          "25G",
+          "40G",
+          "50G",
+          "56G",
+          "100G"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "mtu": {
+        "description": "Maximum size of transmit packet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "aggregate": {
+        "description": "List of Interfaces definitions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "duplex": {
+        "description": "Interface link status",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "full",
+          "half",
+          "auto"
+        ],
+        "default": "auto",
+        "aliases": null
+      },
+      "tx_rate": {
+        "description": "Transmit rate in bits per second (bps). This is state check parameter only. Supports conditionals, see L(Conditionals in Networking Modules,../network/user_guide/network_working_with_command_output.html)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rx_rate": {
+        "description": "Receiver rate in bits per second (bps). This is state check parameter only. Supports conditionals, see L(Conditionals in Networking Modules,../network/user_guide/network_working_with_command_output.html)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delay": {
+        "description": "Time in seconds to wait before checking for the operational state on remote device. This wait is applicable for operational state argument which are I(state) with values C(up)/C(down).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "purge": {
+        "description": "Purge Interfaces not defined in the aggregate parameter. This applies only for logical interface.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the Interface configuration, C(up) means present and operationally up and C(down) means present and operationally C(down)",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "up",
+          "down"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_l2_interface": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Layer-2 interface on Mellanox ONYX network devices",
+    "description": "This module provides declarative management of Layer-2 interface on Mellanox ONYX network devices.",
+    "options": {
+      "name": {
+        "description": "Name of the interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "aggregate": {
+        "description": "List of Layer-2 interface definitions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mode": {
+        "description": "Mode in which interface needs to be configured.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "access",
+          "trunk",
+          "hybrid"
+        ],
+        "default": "access",
+        "aliases": null
+      },
+      "access_vlan": {
+        "description": "Configure given VLAN in access port.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trunk_allowed_vlans": {
+        "description": "List of allowed VLANs in a given trunk port.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the Layer-2 Interface configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_l3_interface": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage L3 interfaces on Mellanox ONYX network devices",
+    "description": "This module provides declarative management of L3 interfaces on Mellanox ONYX network devices.",
+    "options": {
+      "name": {
+        "description": "Name of the L3 interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipv4": {
+        "description": "IPv4 of the L3 interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ipv6": {
+        "description": "IPv6 of the L3 interface (not supported for now).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "aggregate": {
+        "description": "List of L3 interfaces definitions",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge": {
+        "description": "Purge L3 interfaces not defined in the I(aggregate) parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the L3 interface configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_linkagg": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage link aggregation groups on Mellanox ONYX network devices",
+    "description": "This module provides declarative management of link aggregation groups on Mellanox ONYX network devices.",
+    "options": {
+      "name": {
+        "description": "Name of the link aggregation group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mode": {
+        "description": "Mode of the link aggregation group. A value of C(on) will enable LACP. C(active) configures the link to actively information about the state of the link, or it can be configured in C(passive) mode ie. send link state information only when received them from another link.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "on",
+          "active",
+          "passive"
+        ],
+        "default": "on",
+        "aliases": null
+      },
+      "members": {
+        "description": "List of members interfaces of the link aggregation group. The value can be single interface or list of interfaces.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "aggregate": {
+        "description": "List of link aggregation definitions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge": {
+        "description": "Purge link aggregation groups not defined in the I(aggregate) parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the link aggregation group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "up",
+          "down"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_lldp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage LLDP configuration on Mellanox ONYX network devices",
+    "description": "This module provides declarative management of LLDP service configuration on Mellanox ONYX network devices.",
+    "options": {
+      "state": {
+        "description": "State of the LLDP protocol configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_lldp_interface": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage LLDP interfaces configuration on Mellanox ONYX network devices",
+    "description": "This module provides declarative management of LLDP interfaces configuration on Mellanox ONYX network devices.",
+    "options": {
+      "name": {
+        "description": "Name of the interface LLDP should be configured on.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "aggregate": {
+        "description": "List of interfaces LLDP should be configured on.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge": {
+        "description": "Purge interfaces not defined in the aggregate parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the LLDP configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "enabled",
+          "disabled"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_magp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage MAGP protocol on Mellanox ONYX network devices",
+    "description": "This module provides declarative management of MAGP protocol on vlan interface of Mellanox ONYX network devices.",
+    "options": {
+      "magp_id": {
+        "description": "MAGP instance number 1-255",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interface": {
+        "description": "VLAN Interface name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "MAGP state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "enabled",
+          "disabled"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "router_ip": {
+        "description": "MAGP router IP address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "router_mac": {
+        "description": "MAGP router MAC address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_mlag_ipl": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage IPL (inter-peer link) on Mellanox ONYX network devices",
+    "description": "This module provides declarative management of IPL (inter-peer link) management on Mellanox ONYX network devices.",
+    "options": {
+      "name": {
+        "description": "Name of the interface (port-channel) IPL should be configured on.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vlan_interface": {
+        "description": "Name of the IPL vlan interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "IPL state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "peer_address": {
+        "description": "IPL peer IP address.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_mlag_vip": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configures MLAG VIP on Mellanox ONYX network devices",
+    "description": "This module provides declarative management of MLAG virtual IPs on Mellanox ONYX network devices.",
+    "options": {
+      "ipaddress": {
+        "description": "Virtual IP address of the MLAG. Required if I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group_name": {
+        "description": "MLAG group name. Required if I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mac_address": {
+        "description": "MLAG system MAC address. Required if I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "MLAG VIP state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "delay": {
+        "description": "Delay interval, in seconds, waiting for the changes on mlag VIP to take effect.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": 12,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_ntp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage NTP general configurations and ntp keys configurations on Mellanox ONYX network devices",
+    "description": "This module provides declarative management of NTP & NTP Keys on Mellanox ONYX network devices.",
+    "options": {
+      "state": {
+        "description": "State of the NTP configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "authenticate_state": {
+        "description": "State of the NTP authentication configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "ntp_authentication_keys": {
+        "description": "List of ntp authentication keys",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trusted_keys": {
+        "description": "List of ntp trusted keys",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_ntp_servers_peers": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configures NTP peers and servers parameters",
+    "description": "This module provides declarative management of NTP peers and servers configuration on Mellanox ONYX network devices.",
+    "options": {
+      "peer": {
+        "description": "List of ntp peers.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "server": {
+        "description": "List of ntp servers.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ntpdate": {
+        "description": "Sets system clock once from a remote server using NTP.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_ospf": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage OSPF protocol on Mellanox ONYX network devices",
+    "description": "This module provides declarative management and configuration of OSPF protocol on Mellanox ONYX network devices.",
+    "options": {
+      "ospf": {
+        "description": "OSPF instance number 1-65535",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "router_id": {
+        "description": "OSPF router ID. Required if I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interfaces": {
+        "description": "List of interfaces and areas. Required if I(state=present).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "OSPF state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_pfc_interface": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage priority flow control on ONYX network devices",
+    "description": "This module provides declarative management of priority flow control (PFC) on interfaces of Mellanox ONYX network devices.",
+    "options": {
+      "name": {
+        "description": "Name of the interface PFC should be configured on.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "aggregate": {
+        "description": "List of interfaces PFC should be configured on.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge": {
+        "description": "Purge interfaces not defined in the aggregate parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the PFC configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "enabled",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_protocol": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Enables/Disables protocols on Mellanox ONYX network devices",
+    "description": "This module provides a mechanism for enabling and disabling protocols Mellanox on ONYX network devices.",
+    "options": {
+      "mlag": {
+        "description": "MLAG protocol",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "magp": {
+        "description": "MAGP protocol",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "spanning_tree": {
+        "description": "Spanning Tree support",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "dcb_pfc": {
+        "description": "DCB priority flow control",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "igmp_snooping": {
+        "description": "IP IGMP snooping",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "lacp": {
+        "description": "LACP protocol",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "ip_l3": {
+        "description": "IP L3 support",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "ip_routing": {
+        "description": "IP routing support",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "lldp": {
+        "description": "LLDP protocol",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "bgp": {
+        "description": "BGP protocol",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "ospf": {
+        "description": "OSPF protocol",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "nve": {
+        "description": "nve protocol",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "bfd": {
+        "description": "bfd protocol",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_ptp_global": {
-    "short_description": "",
-    "description": "",
-    "options": {},
-    "deprecated": null
-  },
-  "mellanox.onyx.onyx_ptp_interface": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configures PTP Global parameters",
+    "description": "This module provides declarative management of PTP Global configuration on Mellanox ONYX network devices.",
+    "options": {
+      "ptp_state": {
+        "description": "PTP state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "enabled",
+        "aliases": null
+      },
+      "ntp_state": {
+        "description": "NTP state.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "domain": {
+        "description": "set PTP domain number Range 0-127",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "primary_priority": {
+        "description": "set PTP primary priority Range 0-225",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "secondary_priority": {
+        "description": "set PTP secondary priority Range 0-225",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_qos": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configures QoS",
+    "description": "This module provides declarative management of Onyx QoS configuration on Mellanox ONYX network devices.",
+    "options": {
+      "interfaces": {
+        "description": "list of interfaces name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trust": {
+        "description": "trust type.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "L2",
+          "L3",
+          "both"
+        ],
+        "default": "L2",
+        "aliases": null
+      },
+      "rewrite_pcp": {
+        "description": "rewrite with type pcp.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "disabled",
+        "aliases": null
+      },
+      "rewrite_dscp": {
+        "description": "rewrite with type dscp.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "disabled",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_snmp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manages SNMP general configurations on Mellanox ONYX network devices",
+    "description": "This module provides declarative management of SNMP on Mellanox ONYX network devices.",
+    "options": {
+      "state_enabled": {
+        "description": "Enables/Disables the state of the SNMP configuration.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "contact_name": {
+        "description": "Sets the SNMP contact name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "location": {
+        "description": "Sets the SNMP location.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "communities_enabled": {
+        "description": "Enables/Disables community-based authentication on the system.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "multi_communities_enabled": {
+        "description": "Enables/Disables multiple communities to be configured.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snmp_communities": {
+        "description": "List of snmp communities",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notify_enabled": {
+        "description": "Enables/Disables sending of SNMP notifications (traps and informs) from thee system.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notify_port": {
+        "description": "Sets the default port to which notifications are sent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notify_community": {
+        "description": "Sets the default community for SNMP v1 and v2c notifications sent to hosts which do not have a community override set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notify_send_test": {
+        "description": "Sends a test notification.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "yes",
+          "no"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "notify_event": {
+        "description": "Specifys which events will be sent as SNMP notifications.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "asic-chip-down",
+          "dcbx-pfc-port-oper-state-trap",
+          "insufficient-power",
+          "mstp-new-bridge-root",
+          "ospf-lsdb-approaching-overflow",
+          "sm-stop",
+          "user-logout",
+          "cli-line-executed",
+          "dcbx-pfc-port-peer-state-trap",
+          "interface-down",
+          "mstp-new-root-port",
+          "ospf-lsdb-overflow",
+          "snmp-authtrap",
+          "xstp-new-root-bridge",
+          "cpu-util-high",
+          "disk-io-high",
+          "interface-up",
+          "mstp-topology-change",
+          "ospf-nbr-state-change",
+          "temperature-too-high",
+          "xstp-root-port-change",
+          "dcbx-ets-module-state-change",
+          "disk-space-low",
+          "internal-bus-error",
+          "netusage-high",
+          "paging-high",
+          "topology_change",
+          "xstp-topology-change",
+          "dcbx-ets-port-admin-state-trap",
+          "entity-state-change",
+          "internal-link-speed-mismatch",
+          "new_root",
+          "power-redundancy-mismatch",
+          "unexpected-cluster-join",
+          "dcbx-ets-port-oper-state-trap",
+          "expected-shutdown",
+          "liveness-failure",
+          "ospf-auth-fail",
+          "process-crash",
+          "unexpected-cluster-leave",
+          "dcbx-ets-port-peer-state-trap",
+          "health-module-status",
+          "low-power",
+          "ospf-config-error",
+          "process-exit",
+          "unexpected-cluster-size",
+          "dcbx-pfc-module-state-change",
+          "insufficient-fans",
+          "low-power-recover",
+          "ospf-if-rx-bad-packet",
+          "sm-restart",
+          "unexpected-shutdown",
+          "dcbx-pfc-port-admin-state-trap",
+          "insufficient-fans-recover",
+          "memusage-high",
+          "ospf-if-state-change",
+          "sm-start",
+          "user-login"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "engine_id_reset": {
+        "description": "Sets SNMPv3 engineID to node unique value.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snmp_permissions": {
+        "description": "Allow SNMPSET requests for items in a MIB.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_snmp_hosts": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configures SNMP host parameters",
+    "description": "This module provides declarative management of SNMP hosts protocol params on Mellanox ONYX network devices.",
+    "options": {
+      "hosts": {
+        "description": "List of snmp hosts",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_snmp_users": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configures SNMP User parameters",
+    "description": "This module provides declarative management of SNMP Users protocol params on Mellanox ONYX network devices.",
+    "options": {
+      "users": {
+        "description": "List of snmp users",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_syslog_files": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure file management syslog module",
+    "description": "This module provides declarative management of syslog on Mellanox ONYX network devices.",
+    "options": {
+      "debug": {
+        "description": "Configure settings for debug log files",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "delete_group": {
+        "description": "Delete certain log files",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "current",
+          "oldest"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "rotation": {
+        "description": "rotation related attributes",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "upload_url": {
+        "description": "upload local log files to remote host (ftp, scp, sftp, tftp) with format protocol://username[:password]@server/path",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "upload_file": {
+        "description": "Upload compressed log file (current or filename)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_syslog_remote": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure remote syslog module",
+    "description": "This module provides declarative management of syslog on Mellanox ONYX network devices.",
+    "options": {
+      "enabled": {
+        "description": "Disable/Enable logging to given remote host",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "host": {
+        "description": "<IP4/IP6 Hostname> Send event logs to this server using the syslog protocol",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Set remote server destination port for log messages",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "trap": {
+        "description": "Minimum severity level for messages to this syslog server",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "none",
+          "debug",
+          "info",
+          "notice",
+          "alert",
+          "warning",
+          "err",
+          "emerg",
+          "crit"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "trap_override": {
+        "description": "Override log levels for this sink on a per-class basis",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filter": {
+        "description": "Specify a filter type",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "include",
+          "exclude"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "filter_str": {
+        "description": "Specify a regex filter string",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_traffic_class": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configures Traffic Class",
+    "description": "This module provides declarative management of Traffic Class configuration on Mellanox ONYX network devices.",
+    "options": {
+      "state": {
+        "description": "enable congestion control on interface.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled"
+        ],
+        "default": "enabled",
+        "aliases": null
+      },
+      "interfaces": {
+        "description": "list of interfaces name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tc": {
+        "description": "traffic class, range 0-7.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "congestion_control": {
+        "description": "configure congestion control on interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dcb": {
+        "description": "configure dcb control on interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_username": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure username module",
+    "description": "This module provides declarative management of users/roles on Mellanox ONYX network devices.",
+    "options": {
+      "username": {
+        "description": "Create/Edit user using username",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "full_name": {
+        "description": "Set the full name of this user",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nopassword": {
+        "description": "Clear password for such user",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "password": {
+        "description": "Set password fot such user",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "encrypted_password": {
+        "description": "Decide the type of setted password (plain text or encrypted)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "capability": {
+        "description": "Grant capability to this user account",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "monitor",
+          "unpriv",
+          "v_admin",
+          "admin"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "reset_capability": {
+        "description": "Reset capability to this user account",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "disconnected": {
+        "description": "Disconnect all sessions of this user",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "disabled": {
+        "description": "Disable means of logging into this account",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "none",
+          "login",
+          "password",
+          "all"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Set state of the given account",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_vlan": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage VLANs on Mellanox ONYX network devices",
+    "description": "This module provides declarative management of VLANs on Mellanox ONYX network devices.",
+    "options": {
+      "name": {
+        "description": "Name of the VLAN.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vlan_id": {
+        "description": "ID of the VLAN.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "aggregate": {
+        "description": "List of VLANs definitions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "purge": {
+        "description": "Purge VLANs not defined in the I(aggregate) parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "state": {
+        "description": "State of the VLAN configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_vxlan": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configures Vxlan",
+    "description": "This module provides declarative management of Vxlan configuration on Mellanox ONYX network devices.",
+    "options": {
+      "nve_id": {
+        "description": "nve interface ID.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "loopback_id": {
+        "description": "loopback interface ID.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bgp": {
+        "description": "configure bgp on nve interface.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "mlag_tunnel_ip": {
+        "description": "vxlan Mlag tunnel IP",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vni_vlan_list": {
+        "description": "Each item in the list has two attributes vlan_id, vni_id.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "arp_suppression": {
+        "description": "A flag telling if to configure arp suppression.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "mellanox.onyx.onyx_wjh": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure what-just-happend module",
+    "description": "This module provides declarative management of wjh on Mellanox ONYX network devices.",
+    "options": {
+      "group": {
+        "description": "Name of wjh group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "all",
+          "forwarding",
+          "acl"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "wjh group status",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auto_export": {
+        "description": "wjh group auto export pcap file status",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "export_group": {
+        "description": "wjh group auto export group",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "all",
+          "forwarding",
+          "acl"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "clear_group": {
+        "description": "clear pcap file by group",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "all",
+          "user",
+          "auto-export"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

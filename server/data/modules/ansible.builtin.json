@@ -1,267 +1,4 @@
 {
-  "ansible.builtin.add_host": {
-    "short_description": "Add a host (and alternatively a group) to the ansible-playbook in-memory inventory",
-    "description": "Use variables to create new hosts and groups in inventory for use in later plays of the same playbook. Takes variables so you can define the new hosts more fully. This module is also supported for Windows targets.",
-    "options": {
-      "name": {
-        "description": "The hostname/ip of the host to add to the inventory, can include a colon and a port number.",
-        "type": "str",
-        "required": true,
-        "choices": null,
-        "default": null,
-        "aliases": [
-          "host",
-          "hostname"
-        ]
-      },
-      "groups": {
-        "description": "The groups to add the hostname to.",
-        "type": "list",
-        "required": false,
-        "choices": null,
-        "default": null,
-        "aliases": [
-          "group",
-          "groupname"
-        ]
-      }
-    },
-    "deprecated": null
-  },
-  "ansible.builtin.apt": {
-    "short_description": "Manages apt-packages",
-    "description": "Manages I(apt) packages (such as for Debian/Ubuntu).",
-    "options": {
-      "auto_install_module_deps": {
-        "description": "Automatically install dependencies required to run this module.",
-        "type": "bool",
-        "required": false,
-        "choices": null,
-        "default": "yes",
-        "aliases": null
-      },
-      "name": {
-        "description": "A list of package names, like V(foo), or package specifier with version, like V(foo=1.0) or V(foo>=1.0). Name wildcards (fnmatch) like V(apt*) and version wildcards like V(foo=1.0*) are also supported. Do not use single or double quotes around the version when referring to the package name with a specific version, such as V(foo=1.0) or V(foo>=1.0).",
-        "type": "list",
-        "required": false,
-        "choices": null,
-        "default": null,
-        "aliases": [
-          "package",
-          "pkg"
-        ]
-      },
-      "state": {
-        "description": "Indicates the desired package state. V(latest) ensures that the latest version is installed. V(build-dep) ensures the package build dependencies are installed. V(fixed) attempt to correct a system with broken dependencies in place.",
-        "type": "str",
-        "required": false,
-        "choices": [
-          "absent",
-          "build-dep",
-          "latest",
-          "present",
-          "fixed"
-        ],
-        "default": "present",
-        "aliases": null
-      },
-      "update_cache": {
-        "description": "Run the equivalent of C(apt-get update) before the operation. Can be run as part of the package installation or as a separate step. Default is not to update the cache.",
-        "type": "bool",
-        "required": false,
-        "choices": null,
-        "default": null,
-        "aliases": [
-          "update-cache"
-        ]
-      },
-      "update_cache_retries": {
-        "description": "Amount of retries if the cache update fails. Also see O(update_cache_retry_max_delay).",
-        "type": "int",
-        "required": false,
-        "choices": null,
-        "default": 5,
-        "aliases": null
-      },
-      "update_cache_retry_max_delay": {
-        "description": "Use an exponential backoff delay for each retry (see O(update_cache_retries)) up to this max delay in seconds.",
-        "type": "int",
-        "required": false,
-        "choices": null,
-        "default": 12,
-        "aliases": null
-      },
-      "cache_valid_time": {
-        "description": "Update the apt cache if it is older than the O(cache_valid_time). This option is set in seconds. As of Ansible 2.4, if explicitly set, this sets O(update_cache=yes).",
-        "type": "int",
-        "required": false,
-        "choices": null,
-        "default": 0,
-        "aliases": null
-      },
-      "purge": {
-        "description": "Will force purging of configuration files if O(state=absent) or O(autoremove=yes).",
-        "type": "bool",
-        "required": false,
-        "choices": null,
-        "default": "no",
-        "aliases": null
-      },
-      "default_release": {
-        "description": "Corresponds to the C(-t) option for I(apt) and sets pin priorities.",
-        "type": "str",
-        "required": false,
-        "choices": null,
-        "default": null,
-        "aliases": [
-          "default-release"
-        ]
-      },
-      "install_recommends": {
-        "description": "Corresponds to the C(--no-install-recommends) option for C(apt). V(true) installs recommended packages. V(false) does not install recommended packages. By default, Ansible will use the same defaults as the operating system. Suggested packages are never installed.",
-        "type": "bool",
-        "required": false,
-        "choices": null,
-        "default": null,
-        "aliases": [
-          "install-recommends"
-        ]
-      },
-      "force": {
-        "description": "Corresponds to the C(--force-yes) to C(apt-get) and implies O(allow_unauthenticated=yes) and O(allow_downgrade=yes). This option will disable checking both the packages' signatures and the certificates of the web servers they are downloaded from. This option *is not* the equivalent of passing the C(-f) flag to C(apt-get) on the command line. **This is a destructive operation with the potential to destroy your system, and it should almost never be used.** Please also see C(man apt-get) for more information.",
-        "type": "bool",
-        "required": false,
-        "choices": null,
-        "default": "no",
-        "aliases": null
-      },
-      "clean": {
-        "description": "Run the equivalent of C(apt-get clean) to clear out the local repository of retrieved package files. It removes everything but the lock file from C(/var/cache/apt/archives/) and C(/var/cache/apt/archives/partial/). Can be run as part of the package installation (clean runs before install) or as a separate step.",
-        "type": "bool",
-        "required": false,
-        "choices": null,
-        "default": "no",
-        "aliases": null
-      },
-      "allow_unauthenticated": {
-        "description": "Ignore if packages cannot be authenticated. This is useful for bootstrapping environments that manage their own apt-key setup. O(allow_unauthenticated) is only supported with O(state): V(install)/V(present).",
-        "type": "bool",
-        "required": false,
-        "choices": null,
-        "default": "no",
-        "aliases": [
-          "allow-unauthenticated"
-        ]
-      },
-      "allow_downgrade": {
-        "description": "Corresponds to the C(--allow-downgrades) option for I(apt). This option enables the named package and version to replace an already installed higher version of that package. Note that setting O(allow_downgrade=true) can make this module behave in a non-idempotent way. (The task could end up with a set of packages that does not match the complete list of specified packages to install). O(allow_downgrade) is only supported by C(apt) and will be ignored if C(aptitude) is detected or specified.",
-        "type": "bool",
-        "required": false,
-        "choices": null,
-        "default": "no",
-        "aliases": [
-          "allow-downgrade",
-          "allow_downgrades",
-          "allow-downgrades"
-        ]
-      },
-      "allow_change_held_packages": {
-        "description": "Allows changing the version of a package which is on the apt hold list.",
-        "type": "bool",
-        "required": false,
-        "choices": null,
-        "default": "no",
-        "aliases": null
-      },
-      "upgrade": {
-        "description": "If yes or safe, performs an aptitude safe-upgrade. If full, performs an aptitude full-upgrade. If dist, performs an apt-get dist-upgrade. Note: This does not upgrade a specific package, use state=latest for that. Note: Since 2.4, apt-get is used as a fall-back if aptitude is not present.",
-        "type": "str",
-        "required": false,
-        "choices": [
-          "dist",
-          "full",
-          "no",
-          "safe",
-          "yes"
-        ],
-        "default": "no",
-        "aliases": null
-      },
-      "dpkg_options": {
-        "description": "Add C(dpkg) options to C(apt) command. Defaults to C(-o \"Dpkg::Options::=--force-confdef\" -o \"Dpkg::Options::=--force-confold\"). Options should be supplied as comma separated list.",
-        "type": "str",
-        "required": false,
-        "choices": null,
-        "default": "force-confdef,force-confold",
-        "aliases": null
-      },
-      "deb": {
-        "description": "Path to a .deb package on the remote machine. If C(://) in the path, ansible will attempt to download deb before installing. (Version added 2.1) Requires the C(xz-utils) package to extract the control file of the deb package to install.",
-        "type": "path",
-        "required": false,
-        "choices": null,
-        "default": null,
-        "aliases": null
-      },
-      "autoremove": {
-        "description": "If V(true), remove unused dependency packages for all module states except V(build-dep). It can also be used as the only option. Previous to version 2.4, O(autoclean) was also an alias for O(autoremove), now it is its own separate command. See documentation for further information.",
-        "type": "bool",
-        "required": false,
-        "choices": null,
-        "default": "no",
-        "aliases": null
-      },
-      "autoclean": {
-        "description": "If V(true), cleans the local repository of retrieved package files that can no longer be downloaded.",
-        "type": "bool",
-        "required": false,
-        "choices": null,
-        "default": "no",
-        "aliases": null
-      },
-      "policy_rc_d": {
-        "description": "Force the exit code of C(/usr/sbin/policy-rc.d). For example, if O(policy_rc_d=101) the installed package will not trigger a service start. If C(/usr/sbin/policy-rc.d) already exists, it is backed up and restored after the package installation. If V(null), the C(/usr/sbin/policy-rc.d) is not created/changed.",
-        "type": "int",
-        "required": false,
-        "choices": null,
-        "default": null,
-        "aliases": null
-      },
-      "only_upgrade": {
-        "description": "Only upgrade a package if it is already installed.",
-        "type": "bool",
-        "required": false,
-        "choices": null,
-        "default": "no",
-        "aliases": null
-      },
-      "fail_on_autoremove": {
-        "description": "Corresponds to the C(--no-remove) option for C(apt). If V(true), it is ensured that no packages will be removed or the task will fail. O(fail_on_autoremove) is only supported with O(state) except V(absent). O(fail_on_autoremove) is only supported by C(apt) and will be ignored if C(aptitude) is detected or specified.",
-        "type": "bool",
-        "required": false,
-        "choices": null,
-        "default": "no",
-        "aliases": null
-      },
-      "force_apt_get": {
-        "description": "Force usage of apt-get instead of aptitude.",
-        "type": "bool",
-        "required": false,
-        "choices": null,
-        "default": "no",
-        "aliases": null
-      },
-      "lock_timeout": {
-        "description": "How many seconds will this action wait to acquire a lock on the apt db. Sometimes there is a transitory lock and this will retry at least until timeout is hit.",
-        "type": "int",
-        "required": false,
-        "choices": null,
-        "default": 60,
-        "aliases": null
-      }
-    },
-    "deprecated": null
-  },
   "ansible.builtin.assemble": {
     "short_description": "Assemble configuration files from fragments",
     "description": "Assembles a configuration file from fragments. Often a particular program will take a single configuration file and does not support a C(conf.d) style structure where it is easy to build up the configuration from multiple sources. M(ansible.builtin.assemble) will take a directory of files that can be local or have already been transferred to the system, and concatenate them together to produce a destination file. Files are assembled in string sorting order. Puppet calls this idea I(fragments).",
@@ -328,6 +65,47 @@
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "ansible.builtin.assert": {
+    "short_description": "Asserts given expressions are true",
+    "description": "This module asserts that given expressions are true with an optional custom message. This module is also supported for Windows targets.",
+    "options": {
+      "that": {
+        "description": "A list of string expressions of the same form that can be passed to the C(when) statement.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fail_msg": {
+        "description": "The customized message used for a failing assertion. This argument was called O(msg) before Ansible 2.7, now it is renamed to O(fail_msg) with alias O(msg).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "msg"
+        ]
+      },
+      "success_msg": {
+        "description": "The customized message used for a successful assertion.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "quiet": {
+        "description": "Set this to V(true) to avoid verbose output.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
         "aliases": null
       }
     },

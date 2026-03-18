@@ -26,6 +26,87 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "state": {
+        "description": "State C(present) will check that the NetApp account exists with the requested configuration. State C(absent) will delete the NetApp account.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "debug": {
+        "description": "output details about current account if it exists.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "netapp.azure.azure_rm_netapp_capacity_pool": {
+    "short_description": "Manage NetApp Azure Files capacity pool",
+    "description": "Create and delete NetApp Azure capacity pool. Provide the Resource group name for the capacity pool to be created. Resize NetApp Azure capacity pool",
+    "options": {
+      "name": {
+        "description": "The name of the capacity pool.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "account_name": {
+        "description": "The name of the NetApp account.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "location": {
+        "description": "Resource location. Required for create.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "size": {
+        "description": "Provisioned size of the pool (in chunks). Allowed values are in 4TiB chunks. Provide number to be multiplied to 4TiB. Required for create.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "service_level": {
+        "description": "The service level of the file system. Required for create.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Standard",
+          "Premium",
+          "Ultra"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State C(present) will check that the capacity pool exists with the requested configuration. State C(absent) will delete the capacity pool.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -83,6 +164,126 @@
           "present"
         ],
         "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "netapp.azure.azure_rm_netapp_volume": {
+    "short_description": "Manage NetApp Azure Files Volume",
+    "description": "Create and delete NetApp Azure volume.",
+    "options": {
+      "name": {
+        "description": "The name of the volume.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "file_path": {
+        "description": "A unique file path for the volume. Used when creating mount targets.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pool_name": {
+        "description": "The name of the capacity pool.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "account_name": {
+        "description": "The name of the NetApp account.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "location": {
+        "description": "Resource location. Required for create.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subnet_name": {
+        "description": "Azure resource name for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes. Provide name of the subnet ID. Required for create.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "subnet_id"
+        ]
+      },
+      "virtual_network": {
+        "description": "The name of the virtual network required for the subnet to create a volume. Required for create.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service_level": {
+        "description": "The service level of the file system. default is Premium.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "Premium",
+          "Standard",
+          "Ultra"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "vnet_resource_group_for_subnet": {
+        "description": "Only required if virtual_network to be used is of different resource_group. Name of the resource group for virtual_network and subnet_name to be used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "size": {
+        "description": "Provisioned size of the volume (in GiB). Minimum size is 100 GiB. Upper limit is 100TiB default is 100GiB.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol_types": {
+        "description": "Protocol types - NFSv3, NFSv4.1, CIFS (for SMB).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State C(present) will check that the volume exists with the requested configuration. State C(absent) will delete the volume.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "feature_flags": {
+        "description": "Enable or disable a new feature. This can be used to enable an experimental feature or disable a new feature that breaks backward compatibility. Supported keys and values are subject to change without notice.  Unknown keys are ignored.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
         "aliases": null
       }
     },

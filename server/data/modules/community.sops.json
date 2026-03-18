@@ -1,14 +1,92 @@
 {
   "community.sops.load_vars": {
     "short_description": "Load SOPS-encrypted variables from files, dynamically within a task",
-    "description": "",
-    "options": {},
+    "description": "Loads SOPS-encrypted YAML/JSON variables dynamically from a file during task runtime. To assign included variables to a different host than C(inventory_hostname), use C(delegate_to) and set C(delegate_facts=true).",
+    "options": {
+      "file": {
+        "description": "The file name from which variables should be loaded. If the path is relative, it will look for the file in C(vars/) subdirectory of a role or relative to playbook.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of a variable into which assign the included vars. If omitted (V(null)) they will be made top level vars.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "expressions": {
+        "description": "This option controls how Jinja2 expressions in values in the loaded file are handled. If set to V(ignore), expressions will not be evaluated, but treated as regular strings. If set to V(evaluate-on-load), expressions will be evaluated on execution of this module, in other words, when the file is loaded. If set to V(lazy-evaluation), expressions will be lazily evaluated. This requires ansible-core 2.19 or newer and is the same behavior than M(ansible.builtin.include_vars). V(lazy-evaluation) has been added in community.sops 2.2.0.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ignore",
+          "evaluate-on-load",
+          "lazy-evaluation"
+        ],
+        "default": "ignore",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.sops.sops_encrypt": {
     "short_description": "Encrypt data with SOPS",
-    "description": "",
-    "options": {},
+    "description": "Allows to encrypt binary data (Base64 encoded), text data, JSON or YAML data with SOPS.",
+    "options": {
+      "path": {
+        "description": "The SOPS encrypt file.",
+        "type": "path",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Force rewriting the encrypted file.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "content_text": {
+        "description": "The data to encrypt. Must be a Unicode text. Please note that the module might not be idempotent if the text can be parsed as JSON or YAML. Exactly one of O(content_text), O(content_binary), O(content_json), and O(content_yaml) must be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_binary": {
+        "description": "The data to encrypt. Must be L(Base64 encoded,https://en.wikipedia.org/wiki/Base64) binary data. Please note that the module might not be idempotent if the data can be parsed as JSON or YAML. Exactly one of O(content_text), O(content_binary), O(content_json), and O(content_yaml) must be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_json": {
+        "description": "The data to encrypt. Must be a JSON dictionary. Exactly one of O(content_text), O(content_binary), O(content_json), and O(content_yaml) must be specified.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_yaml": {
+        "description": "The data to encrypt. Must be a YAML dictionary. Please note that Ansible only allows to pass data that can be represented as a JSON dictionary. Exactly one of O(content_text), O(content_binary), O(content_json), and O(content_yaml) must be specified.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

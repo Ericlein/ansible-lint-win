@@ -1,38 +1,465 @@
 {
+  "community.libvirt.virt": {
+    "short_description": "Manages virtual machines supported by libvirt",
+    "description": "Manages virtual machines supported by I(libvirt).",
+    "options": {
+      "flags": {
+        "description": "Pass additional parameters. Currently only implemented with command C(undefine). Specify which metadata should be removed with C(undefine). Useful option to be able to C(undefine) guests with UEFI nvram. C(nvram) and C(keep_nvram) are conflicting and mutually exclusive. Consider option C(force) if all related metadata should be removed.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "managed_save",
+          "snapshots_metadata",
+          "nvram",
+          "keep_nvram",
+          "checkpoints_metadata",
+          "delete_volumes"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "Enforce an action. Currently only implemented with command C(undefine). This option can be used instead of providing all C(flags). If C(true), C(undefine) removes also any related nvram or other metadata, if existing. If C(false) or not set, C(undefine) executes only if there is no nvram or other metadata existing. Otherwise the task fails and the guest is kept defined without change. C(true) and option C(flags) should not be provided together. In this case C(undefine) ignores C(true), considers only C(flags) and issues a warning.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
   "community.libvirt.virt_cloud_instance": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Provision new virtual machines from cloud images via libvirt",
+    "description": "Create and customize virtual machines using pre-built cloud images with cloud-init support. Cloud images can be retrieved from local files and remote URLs. Supports automatic conversion and resizing of disk images.",
+    "options": {
+      "name": {
+        "description": "Name of the new guest virtual machine instance.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "If set to V(present), create the VM if it does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "recreate": {
+        "description": "Use with present to force the re-creation of an existing VM.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "base_image": {
+        "description": "Path or URL to the cloud image. Can be a local file path or a remote URL (http, https, ftp). The image will be automatically downloaded if a URL is provided.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image_cache_dir": {
+        "description": "Directory where downloaded cloud images will be cached. Only used when O(base_image) is a URL. If not specified, the base image will be downloaded to the temporary directory and not be cached.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force_pull": {
+        "description": "Force pull of the cloud image even if it already exists in the cache. Only used when O(base_image) is a URL. Useful for updating cached images to their latest versions.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "force_disk": {
+        "description": "Force deletion and recreation of existing disk files. When set to V(true), any existing disk files specified in O(disks) will be removed and recreated. When set to V(false), the module will fail if any disk file already exists. This parameter only affects disk file creation, not VM definition. Use with O(recreate=true) to recreate both the VM and its disk files.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "image_checksum": {
+        "description": "If specified, the digest of the downloaded image will be calculated to verify the integrity of the downloaded image. Format: <algorithm>:<checksum|url>, e.g. I(sha256:D98291AC[...]B6DC7B97), I(sha256:http://example.com/path/sha256sum.txt). Only used when O(base_image) is a URL. If you worry about portability, only the sha1 algorithm is available on all platforms and python versions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "url_timeout": {
+        "description": "The timeout in seconds for downloading the base image from a URL. Only used when O(base_image) is a URL.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 60,
+        "aliases": null
+      },
+      "url_username": {
+        "description": "The username for HTTP basic authentication. Only used when O(base_image) is a URL.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "url_password": {
+        "description": "The password for HTTP basic authentication. Only used when O(base_image) is a URL.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait_for_cloud_init_reboot": {
+        "description": "If set to V(true), wait for cloud-init to trigger a reboot and for the VM to come back online. This requires that your cloud-init user-data includes a reboot action, or I(cloud_init_auto_reboot=true). Only applicable when O(cloud_init) configuration is provided.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "cloud_init_auto_reboot": {
+        "description": "When I(wait_for_cloud_init_reboot=true), automatically inject a reboot instruction into the cloud-init user-data. If set to V(false), the reboot instructions should be included in the cloud-init user-data manually. Only applies when I(wait_for_cloud_init_reboot=true).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "cloud_init_reboot_timeout": {
+        "description": "Maximum time in seconds to wait for the cloud-init reboot cycle to complete. The timeout is checked at minute intervals, so the actual timeout may be up to 60 seconds longer. Only applies when I(wait_for_cloud_init_reboot=true). If the timeout is exceeded, the task will fail.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 600,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.libvirt.virt_install": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Provision new virtual machines using virt-install tool",
+    "description": "Create and install virtual machines using C(virt-install) with a declarative configuration.",
+    "options": {
+      "name": {
+        "description": "Name of the new guest virtual machine instance.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "If set to V(present), create the VM if it does not exist. If set to V(absent), remove the VM if it exists.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "recreate": {
+        "description": "Use with present to force the re-creation of an existing VM.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.libvirt.virt_net": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage libvirt network configuration",
+    "description": "Manage I(libvirt) networks.",
+    "options": {
+      "name": {
+        "description": "Name of the network being managed. Note that network must be previously defined with xml.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "network"
+        ]
+      },
+      "state": {
+        "description": "Specify which state you want a network to be in. If 'active', network will be started. If 'present', ensure that network is present but do not change its state; if it is missing, you need to specify xml argument. If 'inactive', network will be stopped. If 'undefined' or 'absent', network will be removed from I(libvirt) configuration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "active",
+          "inactive",
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "command": {
+        "description": "In addition to state management, various non-idempotent commands are available. See examples. Modify was added in Ansible version 2.1.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "define",
+          "create",
+          "start",
+          "stop",
+          "destroy",
+          "undefine",
+          "get_xml",
+          "list_nets",
+          "facts",
+          "info",
+          "status",
+          "modify"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "autostart": {
+        "description": "Specify if a given network should be started automatically on system boot.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.libvirt.virt_pool": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage libvirt storage pools",
+    "description": "Manage I(libvirt) storage pools.",
+    "options": {
+      "name": {
+        "description": "Name of the storage pool being managed. Note that pool must be previously defined with xml.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "pool"
+        ]
+      },
+      "state": {
+        "description": "Specify which state you want a storage pool to be in. If 'active', pool will be started. If 'present', ensure that pool is present but do not change its state; if it is missing, you need to specify xml argument. If 'inactive', pool will be stopped. If 'undefined' or 'absent', pool will be removed from I(libvirt) configuration. If 'deleted', pool contents will be deleted and then pool undefined.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "active",
+          "inactive",
+          "present",
+          "absent",
+          "undefined",
+          "deleted"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "command": {
+        "description": "In addition to state management, various non-idempotent commands are available. See examples.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "define",
+          "build",
+          "create",
+          "start",
+          "stop",
+          "destroy",
+          "delete",
+          "undefine",
+          "get_xml",
+          "list_pools",
+          "facts",
+          "info",
+          "status",
+          "refresh"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "autostart": {
+        "description": "Specify if a given storage pool should be started automatically on system boot.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mode": {
+        "description": "Pass additional parameters to 'build' or 'delete' commands.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "new",
+          "repair",
+          "resize",
+          "no_overwrite",
+          "overwrite",
+          "normal",
+          "zeroed"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.libvirt.virt_secret": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage libvirt secrets and their values",
+    "description": "Manage I(libvirt) secrets. Can add, remove or update secrets in libvirt. Can be used to set secrets value.",
+    "options": {
+      "uuid": {
+        "description": "Secret UUID. The value is unique across all secret types. If UUID value is also defined in the O(xml) this option is ignored.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "secret": {
+        "description": "Defines a secret as a set of fields instead of raw XML. This property is mutually exclusive with O(xml). If O(uuid) is not defined, O(secret.usage) and O(secret.usage_id) must be defined.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "A value of the secret which will be stored in the libvirt secret. As in majority cases secrets are private, password is defined only\nduring secret creation or when O(command=set_value) is executed. If the\nsecret already exist and the O(password) is defined, it will not try to\nset it once again. Even if different password is provided.\n",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Alternative for the O(command) option. If V(present), creates a volume described by either O(xml) or O(secret). Can be used to update existing secrets properties. If V(absent), removes secret defined by either O(uuid), O(state) or O(xml). If V(present) and UUID is not specified in either O(uuid) or O(xml), it\nwill try to find existing secret using O(secret.usage) and\nO(secret.usage_id)\n Mutually exclusive with O(command).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "command": {
+        "description": "Executes commands to manage secret. If defined V(create), creates secret described by either O(xml)\nor(secret). It is analagous to O(state=present).\n If defined V(delete), removes secret defined by either O(uuid),\nO(state), O(xml). It is analagous to O(state=absent).\n If defined V(list_secrets) it will return RV(list_secrets) with all\nexisting secrets in XML format.\n If defined V(get_xml) module will try to get secret definition from\nlibvirt. If existing secret found, returns RV(secret_xml). Otherwise it\nwill return None.\n If defined V(set_value) module will define a secret value. This command\nis not idempotent and will always show changed. Requires O(password) to\nbe defined.\n",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "create",
+          "delete",
+          "list_secrets",
+          "get_xml",
+          "set_value"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.libvirt.virt_volume": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage libvirt volumes inside a storage pool",
+    "description": "Manage I(libvirt) volumes inside a storage pool.",
+    "options": {
+      "name": {
+        "description": "Name of the volume being managed. Note that the volume must be previously defined with xml.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "volume"
+        ]
+      },
+      "pool": {
+        "description": "Name of the storage pool, where the volume is located.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "If C(present), Creates a new volume with the XML provided, optionally cloning from the image in C(clone_source). The name of the volume is specified in the XML (if a C(name) parameter is provided, it is ignored). C(xml) must be provided. If C(absent), Deletes the volume specified by C(name) from the storage pool.  If C(wipe) is set to C(true), the volume will be wiped before deletion. Mutually exclusive with C(command). Can be used to resize existing volumes if C(xml) has bigger capacity than current volume capacity.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "command": {
+        "description": "C(create) - Analagous to C(state) / C(present) C(delete) - Analagous to C(state) / C(absent) C(wipe) - Performs a wipe *only* of the volume specified by C(name) - *does not delete* the volume. C(list_volumes) - Lists all volumes in the storage pool. C(get_xml) - Retrieves the XML of the volume specified by C(name). C(create_cidata_cdrom) - Creates a CIDATA CDROM with the provided C(cloudinit_config) data. Enables bootstrapping of cloud-init enabled VMs. Mutually exclusive with C(state).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "create",
+          "delete",
+          "wipe",
+          "list_volumes",
+          "get_xml",
+          "create_cidata_cdrom"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "xml": {
+        "description": "XML definition of the volume to be created. This is required if C(command) is C(create)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cloudinit_config": {
+        "description": "Ansible dict of cloud-init data to create a CIDATA CDROM. The data should contain the keys C(METADATA), C(USERDATA), and/or C(NETWORK_CONFIG). This is required if C(command) is C(create_cidata_cdrom).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "clone_source": {
+        "description": "Name of the volume to clone from. Optionally provided with C(state) C(present) or C(command) C(create).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wipe": {
+        "description": "Whether to wipe the volume before deleting it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

@@ -1,38 +1,399 @@
 {
   "community.pacemaker.pacemaker_authentication": {
     "short_description": "Authenticate pcs to pcsd on nodes specified.",
-    "description": "Manages the pcs tokens file either directly or through pcs auth commands. Authenticate pcs to pcsd on nodes specified. Tokens are stored in /var/lib/pcsd/tokens for root or ~/.pcs/tokens for other users. Using the local parameter only authenticates the local node but by default all nodes are authenticated to each other. Using the force parameter forces re-authentication to occur. Supports removal of hosts from the pcsd tokens file. We simply remove the data. No other action is performed. It",
-    "options": {},
+    "description": "Manages the pcs tokens file either directly or through pcs auth commands. Authenticate pcs to pcsd on nodes specified. Tokens are stored in /var/lib/pcsd/tokens for root or ~/.pcs/tokens for other users. Using the local parameter only authenticates the local node but by default all nodes are authenticated to each other. Using the force parameter forces re-authentication to occur. Supports removal of hosts from the pcsd tokens file. We simply remove the data. No other action is performed. It's possible the module could be non-atomic when adding new and removing members at the same time.\\ Perform these actions individually to minimise that risk.",
+    "options": {
+      "members": {
+        "description": "Hosts to authenticate between. Required when I(state=present).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "hosts"
+        ]
+      },
+      "state": {
+        "description": "The desired state of the members in the pcsd token file. When the state is set to \"present\" the tokens file is synced to the members list,\\ i.e. hosts are added or removed. When adding hosts are authenticated in order to get a token.\\ When removing hosts we only remove the data from the pcsd tokens file. When the state is set to \"absent\" we will delete the tokens file.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "pcsd_tokens_file": {
+        "description": "Path to the pcsd tokens file. Function calculated default /var/lib/pcsd/tokens (when root) or ~/.pcs/tokens (other users)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "User to authenticate with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "hacluster",
+        "aliases": [
+          "user",
+          "u"
+        ]
+      },
+      "password": {
+        "description": "Password to authenticate with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "p"
+        ]
+      },
+      "local": {
+        "description": "Execute cmd with the --local flag. Only perform auth on the local node.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.pacemaker.pacemaker_cluster": {
     "short_description": "Manage a Pacemaker Cluster and the nodes within it..",
     "description": "Manage a Pacemaker Cluster and the nodes within it. Manages the /etc/corosync/corosync.conf file either directly or through pcs cluster commands.",
-    "options": {},
+    "options": {
+      "members": {
+        "description": "Hosts in the . Required when I(state=present).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "hosts"
+        ]
+      },
+      "state": {
+        "description": "The desired state of the Pacemaker Cluster. The cluster must be started for most operations to succeed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "started",
+          "stopped"
+        ],
+        "default": "started",
+        "aliases": null
+      },
+      "corosync_file": {
+        "description": "Path to the corosync configuration file.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "/etc/corosync/corosync.conf",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the cluster. Note that the cluster name will only be set upon cluster creation. To rename a cluster see the following guide https://access.redhat.com/solutions/2160321 Attempting to perform any operation on a cluster with a different name will fail.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "cluster",
+          "cluster_name"
+        ]
+      },
+      "enabled": {
+        "description": "Enable the Pacemaker Cluster on the node.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait up to 'n' seconds for the nodes to start",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "timeout"
+        ]
+      },
+      "local": {
+        "description": "Execute cmd with the --local flag. Only perform auth on the local node.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.pacemaker.pacemaker_constraint": {
     "short_description": "Manage Constraints for a Pacemaker Cluster.",
     "description": "Manage Constraints for a Pacemaker Cluster. At the moment this module will only create or remove the constraint Verification is performed by name only. This module is very simple and will likely not support advanced constraint configurations.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The id of the constraint. By convention this should be the resource name, or group Note that a unique id with the type will be created, e.g. <name>_<type>. Example, when name is httpd and the constraint type is location the id will be httpd_location.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "constraint_name"
+        ]
+      },
+      "type": {
+        "description": "The type of constraint.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "location",
+          "order",
+          "colocation"
+        ],
+        "default": null,
+        "aliases": [
+          "constraint_type"
+        ]
+      },
+      "prefers": {
+        "description": "Used when the constraint type is location. Specify which nodes a resource is prefered to run on. Mutually exclusive with avoids.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "avoids": {
+        "description": "Used when the constraint type is location. Specifiy which nodes a resource should avoid. Mutually exclusive with prefers.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "order": {
+        "description": "Used when the constraint type is order. Specify in which order resources should be started, stopped or otherwise managed. Mutually exclusive with set.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "set": {
+        "description": "Used when the constraint type is order. Create a chain of ordered resources. Mutually exclusive with order.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resources": {
+        "description": "Used when the constraint type is colocation. Specifiy which resources should be colocated.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The desired state of the constraint.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "local": {
+        "description": "Execute cmd with the --local flag. Only perform auth on the local node.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.pacemaker.pacemaker_fence": {
     "short_description": "Manage Fences for a Pacemaker Cluster.",
     "description": "Manage Fences for a Pacemaker Cluster. At the moment this module will only create or remove the fence. Verification is performed by name only.",
-    "options": {},
+    "options": {
+      "name": {
+        "description": "The name of the fence to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "fence_name"
+        ]
+      },
+      "agent": {
+        "description": "The  fence agent to use.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "fence_agent"
+        ]
+      },
+      "config": {
+        "description": "The configuration of the fence agent. There is no restriction on the values you provide here. Acceptable values are dependent on the Fence Agent and this module has no knowledge of them. Run the command `pcs stonith describe <fence agent>` to see these options.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "fence_config"
+        ]
+      },
+      "state": {
+        "description": "The desired state of the property.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "local": {
+        "description": "Execute cmd with the --local flag. Only perform auth on the local node.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.pacemaker.pacemaker_property": {
     "short_description": "Manage Pacemaker Cluster Properties.",
     "description": "Manage Pacemaker Cluster Properties.",
-    "options": {},
+    "options": {
+      "property_name": {
+        "description": "The property to manage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "property_value": {
+        "description": "The desired value of the propery All values should be quoted to prevent Ansible munging the data type.\\ For example yaml boolean would be transformed by Ansible into False and\\ the following error would result \"invalid property format\".",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The desired state of the property.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "default"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "local": {
+        "description": "Execute cmd with the --local flag. Only perform auth on the local node.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.pacemaker.pacemaker_resource": {
     "short_description": "Create and manage resources within a Pacemaker cluster.",
     "description": "Create and manage resources within a Pacemaker cluster. This module does not check resource configuration for changes. To update a resource you can delete it before recreating.",
-    "options": {},
+    "options": {
+      "resource_name": {
+        "description": "The name of the resource.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resource_type": {
+        "description": "The type of resource. Required when state is present",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resource_config": {
+        "description": "The configuration of the resource. Supply as key value pairs. Required when state is present.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resource_group": {
+        "description": "The group to add the resource to. Will be created if it does not exist.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The desired state of the Pacemaker resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "enabled",
+          "disabled",
+          "move",
+          "debug-start"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "member": {
+        "description": "Member nominated for the move command. Required when status is move.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "local": {
+        "description": "Execute cmd with the --local flag. Only perform auth on the local node.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

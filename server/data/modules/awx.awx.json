@@ -1,272 +1,4499 @@
 {
   "awx.awx.ad_hoc_command": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Automation Platform Controller ad hoc commands.",
+    "description": "Create, update, or destroy Automation Platform Controller ad hoc commands. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "job_type": {
+        "description": "Job_type to use for the ad hoc command.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "run",
+          "check"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "execution_environment": {
+        "description": "Execution Environment name, ID, or named URL to use for the ad hoc command.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inventory": {
+        "description": "Inventory name, ID, or named URL to use for the ad hoc command.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "limit": {
+        "description": "Limit to use for the ad hoc command.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credential": {
+        "description": "Credential name, ID, or named URL to use for ad hoc command.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "module_name": {
+        "description": "The Ansible module to execute.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "module_args": {
+        "description": "The arguments to pass to the module.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "forks": {
+        "description": "The number of forks to use for this ad hoc execution.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "verbosity": {
+        "description": "Verbosity level for this ad hoc command run",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "extra_vars": {
+        "description": "Extra variables to use for the ad hoc command..",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "become_enabled": {
+        "description": "If the become flag should be set.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "diff_mode": {
+        "description": "Show the changes made by Ansible tasks where supported",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for the command to complete.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "interval": {
+        "description": "The interval to request an update from the controller.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 2,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "If waiting for the command to complete this will abort after this amount of seconds",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.ad_hoc_command_cancel": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Cancel an Ad Hoc Command.",
+    "description": "Cancel ad hoc command. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "command_id": {
+        "description": "ID of the command to cancel",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fail_if_not_running": {
+        "description": "Fail loudly if the I(command_id) can not be canceled",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "interval": {
+        "description": "The interval in seconds, to request an update from .",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Maximum time in seconds to wait for a job to finish. Not specifying means the task will wait until the controller cancels the command.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.ad_hoc_command_wait": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Wait for Automation Platform Controller Ad Hoc Command to finish.",
+    "description": "Wait for Automation Platform Controller ad hoc command to finish and report success or failure. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "command_id": {
+        "description": "ID of the ad hoc command to monitor.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interval": {
+        "description": "The interval in sections, to request an update from the controller.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 2,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Maximum time in seconds to wait for a ad hoc command to finish.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.bulk_host_create": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Bulk host create in Automation Platform Controller",
+    "description": "Single-request bulk host creation in Automation Platform Controller. Provides a way to add many hosts at once to an inventory in Controller.",
+    "options": {
+      "hosts": {
+        "description": "List of hosts to add to inventory.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inventory": {
+        "description": "Inventory name, ID, or named URL the hosts should be made a member of.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.bulk_host_delete": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Bulk host delete in Automation Platform Controller",
+    "description": "Single-request bulk host deletion in Automation Platform Controller. Provides a way to delete many hosts at once from inventories in Controller.",
+    "options": {
+      "hosts": {
+        "description": "List of hosts id's to delete from inventory.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.bulk_job_launch": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Bulk job launch in Automation Platform Controller",
+    "description": "Single-request bulk job launch in Automation Platform Controller. Creates a workflow where each node corresponds to an item specified in the jobs option. Any options specified at the top level will inherited by the launched jobs (if prompt on launch is enabled for those fields). Provides a way to submit many jobs at once to Controller.",
+    "options": {
+      "jobs": {
+        "description": "List of jobs to create.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the bulk job that is created",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Optional description of this bulk job.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "If not provided, will use the organization the user is in. Required if the user belongs to more than one organization. Affects who can see the resulting bulk job.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inventory": {
+        "description": "Inventory name, ID, or named URL to use for the jobs ran within the bulk job, only used if prompt for inventory is set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scm_branch": {
+        "description": "A specific branch of the SCM project to run the template on. This is only applicable if the project allows for branch override.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extra_vars": {
+        "description": "Any extra vars required to launch the job. Extends the extra_data field at the individual job level.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "limit": {
+        "description": "Limit to use for the bulk job.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "job_tags": {
+        "description": "A comma-separated list of playbook tags to specify what parts of the playbooks should be executed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "skip_tags": {
+        "description": "A comma-separated list of playbook tags to skip certain tasks or parts of the playbooks to be executed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for the bulk job to complete.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "interval": {
+        "description": "The interval to request an update from the controller.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 2,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.controller_meta": {
-    "short_description": "",
-    "description": "",
+    "short_description": "Returns metadata about the collection this module lives in.",
+    "description": "Allows a user to find out what collection this module exists in. This takes common module parameters, but does nothing with them.",
     "options": {},
     "deprecated": null
   },
   "awx.awx.credential": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Automation Platform Controller credential.",
+    "description": "Create, update, or destroy Automation Platform Controller credentials. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "name": {
+        "description": "The name to use for the credential.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_name": {
+        "description": "Setting this option will change the existing name (looked up via the name field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "copy_from": {
+        "description": "Name or id to copy the credential from. This will copy an existing credential and change any parameters supplied. The new credential name will be the one provided in the name parameter. The organization parameter is not used in this, to facilitate copy from one organization to another. Provide the id or use the lookup plugin to provide the id if multiple credentials share the same name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The description to use for the credential.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "Organization name, ID, or named URL that should own the credential. This parameter is mutually exclusive with C(team) and C(user).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credential_type": {
+        "description": "The credential type being created. Can be a built-in credential type such as \"Machine\", or a custom credential type such as \"My Credential Type\" Choices include Amazon Web Services, Ansible Galaxy/Automation Hub API Token, Centrify Vault Credential Provider Lookup, Container Registry, CyberArk Central Credential Provider Lookup, CyberArk Conjur Secret Lookup, Google Compute Engine, GitHub Personal Access Token, GitLab Personal Access Token, GPG Public Key, HashiCorp Vault Secret Lookup, HashiCorp Vault Signed SSH, Insights, Machine, Microsoft Azure Key Vault, Microsoft Azure Resource Manager, Network, OpenShift or Kubernetes API Bearer Token, OpenStack, Red Hat Ansible Automation Platform, Red Hat Satellite 6, Red Hat Virtualization, Source Control, Thycotic DevOps Secrets Vault, Thycotic Secret Server, Vault, VMware vCenter, or a custom credential type",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inputs": {
+        "description": "Credential inputs where the keys are var names used in templating. Refer to the Automation Platform Controller documentation for example syntax. authorize (use this for net type) authorize_password (password for net credentials that require authorize) client (client or application ID for azure_rm type) security_token (STS token for aws type) secret (secret token for azure_rm type) tenant (tenant ID for azure_rm type) subscription (subscription ID for azure_rm type) domain (domain for openstack type) become_method (become method to use for privilege escalation; some examples are \"None\", \"sudo\", \"su\", \"pbrun\") become_username (become username; use \"ASK\" and launch job to be prompted) become_password (become password; use \"ASK\" and launch job to be prompted) vault_password (the vault password; use \"ASK\" and launch job to be prompted) project (project that should use this credential for GCP) host (the host for this credential) username (the username for this credential; ``access_key`` for AWS) password (the password for this credential; ``secret_key`` for AWS, ``api_key`` for RAX) ssh_key_data (SSH private key content; to extract the content from a file path, use the lookup function (see examples)) vault_id (the vault identifier; this parameter is only valid if C(kind) is specified as C(vault).) ssh_key_unlock (unlock password for ssh_key; use \"ASK\" and launch job to be prompted) gpg_public_key (GPG Public Key used for signature validation) client_id (client ID insights type service account) client_secret (client secret insights type service account)",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_secrets": {
+        "description": "C(true) will always update encrypted values. C(false) will only update encrypted values if a change is absolutely known to be needed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "user": {
+        "description": "User name, ID, or named URL that should own this credential. This parameter is mutually exclusive with C(organization) and C(team).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "team": {
+        "description": "Team name, ID, or named URL that should own this credential. This parameter is mutually exclusive with C(organization) and C(user).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource. C(exists) will not modify the resource if it is present.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.credential_input_source": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Automation Platform Controller credential input sources.",
+    "description": "Create, update, or destroy Automation Platform Controller credential input sources. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "description": {
+        "description": "The description to use for the credential input source.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "input_field_name": {
+        "description": "The input field the credential source will be used for",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "metadata": {
+        "description": "A JSON or YAML string",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_credential": {
+        "description": "The credential name, ID, or named URL which will have its input defined by this source",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_credential": {
+        "description": "The credential name, ID, or named URL which is the source of the credential lookup",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.credential_type": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Create, update, or destroy custom Automation Platform Controller credential type.",
+    "description": "Create, update, or destroy Automation Platform Controller credential type. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "name": {
+        "description": "The name of the credential type.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_name": {
+        "description": "Setting this option will change the existing name (looked up via the name field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The description of the credential type to give more detail about it.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kind": {
+        "description": "The type of credential type being added. Note that only cloud and net can be used for creating credential types. Refer to the Ansible for more information.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ssh",
+          "vault",
+          "net",
+          "scm",
+          "cloud",
+          "insights"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "inputs": {
+        "description": "Enter inputs using either JSON or YAML syntax. Refer to the Automation Platform Controller documentation for example syntax.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "injectors": {
+        "description": "Enter injectors using either JSON or YAML syntax. Refer to the Automation Platform Controller documentation for example syntax.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.execution_environment": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Execution Environments in Automation Platform Controller.",
+    "description": "Create, update, or destroy Execution Environments in Automation Platform Controller. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "name": {
+        "description": "Name to use for the execution environment.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_name": {
+        "description": "Setting this option will change the existing name (looked up via the name field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "image": {
+        "description": "The fully qualified url of the container image.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description to use for the execution environment.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "The organization name, ID, or named URL that the execution environment belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credential": {
+        "description": "Name, ID, or named URL of the credential to use for the execution environment.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "pull": {
+        "description": "determine image pull behavior",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "always",
+          "missing",
+          "never"
+        ],
+        "default": "missing",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.export": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "export resources from Automation Platform Controller.",
+    "description": "Export assets from Automation Platform Controller.",
+    "options": {
+      "all": {
+        "description": "Export all assets",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "False",
+        "aliases": null
+      },
+      "organizations": {
+        "description": "organization names, IDs, or named URLs to export",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "users": {
+        "description": "user names, IDs, or named URLs to export",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "teams": {
+        "description": "team names, IDs, or named URLs to export",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credential_types": {
+        "description": "credential type names, IDs, or named URLs to export",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credentials": {
+        "description": "credential names, IDs, or named URLs to export",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "execution_environments": {
+        "description": "execution environment names, IDs, or named URLs to export",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_templates": {
+        "description": "notification template names, IDs, or named URLs to export",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inventory_sources": {
+        "description": "inventory source name, ID, or named URLs to export",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inventory": {
+        "description": "inventory names, IDs, or named URLs to export",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "projects": {
+        "description": "project names, IDs, or named URLs to export",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "job_templates": {
+        "description": "job template names, IDs, or named URLs to export",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "workflow_job_templates": {
+        "description": "workflow names, IDs, or named URLs to export",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "schedules": {
+        "description": "schedule names, IDs, or named URLs to export",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.group": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Automation Platform Controller group.",
+    "description": "Create, update, or destroy Automation Platform Controller groups. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "name": {
+        "description": "The name to use for the group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The description to use for the group.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inventory": {
+        "description": "Inventory name, ID, or named URL that the group should be made a member of.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "variables": {
+        "description": "Variables to use for the group.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hosts": {
+        "description": "List of host names, IDs, or named URLs that should be put in this group.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "children": {
+        "description": "List of groups names, IDs, or named URLs that should be nested inside in this group.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "groups"
+        ]
+      },
+      "preserve_existing_hosts": {
+        "description": "Provide option (False by default) to preserves existing hosts in an existing group.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "preserve_existing_children": {
+        "description": "Provide option (False by default) to preserves existing children in an existing group.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "preserve_existing_groups"
+        ]
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "new_name": {
+        "description": "A new name for this group (for renaming)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.host": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Automation Platform Controller host.",
+    "description": "Create, update, or destroy Automation Platform Controller hosts. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "name": {
+        "description": "The name to use for the host.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_name": {
+        "description": "To use when changing a hosts's name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The description to use for the host.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inventory": {
+        "description": "Inventory name, ID, or named URL the host should be made a member of.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "If the host should be enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "variables": {
+        "description": "Variables to use for the host.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.import": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "import resources into Automation Platform Controller.",
+    "description": "Import assets into Automation Platform Controller. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "assets": {
+        "description": "The assets to import. This can be the output of the export module or loaded from a file",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.instance": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Automation Platform Controller instances.",
+    "description": "Create, update, or destroy Automation Platform Controller instances. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "hostname": {
+        "description": "Hostname of this instance.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "capacity_adjustment": {
+        "description": "Capacity adjustment (0 <= capacity_adjustment <= 1)",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "If true, the instance will be enabled and used.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "managed_by_policy": {
+        "description": "Managed by policy",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "node_type": {
+        "description": "Role that this node plays in the mesh.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "execution",
+          "hop"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "node_state": {
+        "description": "Indicates the current life cycle stage of this instance.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "deprovisioning",
+          "installed"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "listener_port": {
+        "description": "Port that Receptor will listen for incoming connections on.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "peers": {
+        "description": "List of peers to connect outbound to. Only configurable for hop and execution nodes. To remove all current peers, set value to an empty list, []. Each item is an ID or address of a receptor address. If item is address, it must be unique across all receptor addresses.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "peers_from_control_nodes": {
+        "description": "If enabled, control plane nodes will automatically peer to this node.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.instance_group": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Automation Platform Controller instance groups.",
+    "description": "Create, update, or destroy Automation Platform Controller instance groups. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "name": {
+        "description": "Name of this instance group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_name": {
+        "description": "Setting this option will change the existing name (looked up via the name field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credential": {
+        "description": "Credential name, ID, or named URL to authenticate with Kubernetes or OpenShift.  Must be of type \"OpenShift or Kubernetes API Bearer Token\".",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_container_group": {
+        "description": "Signifies that this InstanceGroup should act as a ContainerGroup. If no credential is specified, the underlying Pod's ServiceAccount will be used.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy_instance_percentage": {
+        "description": "Minimum percentage of all instances that will be automatically assigned to this group when new instances come online.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy_instance_minimum": {
+        "description": "Static minimum number of Instances that will be automatically assign to this group when new instances come online.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_concurrent_jobs": {
+        "description": "Maximum number of concurrent jobs to run on this group. Zero means no limit.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_forks": {
+        "description": "Max forks to execute on this group. Zero means no limit.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "policy_instance_list": {
+        "description": "List of exact-match Instances that will be assigned to this group",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pod_spec_override": {
+        "description": "A custom Kubernetes or OpenShift Pod specification.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "instances": {
+        "description": "The instance names, IDs, or named URLs associated with this instance_group",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.inventory": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Automation Platform Controller inventory.",
+    "description": "Create, update, or destroy Automation Platform Controller inventories. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "name": {
+        "description": "The name to use for the inventory.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_name": {
+        "description": "Setting this option will change the existing name (looked up via the name field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "copy_from": {
+        "description": "Name or id to copy the inventory from. This will copy an existing inventory and change any parameters supplied. The new inventory name will be the one provided in the name parameter. The organization parameter is not used in this, to facilitate copy from one organization to another. Provide the id or use the lookup plugin to provide the id if multiple inventories share the same name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The description to use for the inventory.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "Organization name, ID, or named URL the inventory belongs to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "variables": {
+        "description": "Inventory variables.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kind": {
+        "description": "The kind field. Cannot be modified after created.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "",
+          "smart",
+          "constructed"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "host_filter": {
+        "description": "The host_filter field. Only useful when C(kind=smart).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "instance_groups": {
+        "description": "list of Instance Group names, IDs, or named URLs for this Organization to run on.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "input_inventories": {
+        "description": "List of Inventory names, IDs, or named URLs to use as input for Constructed Inventory.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "prevent_instance_group_fallback": {
+        "description": "Prevent falling back to instance groups set on the organization",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.inventory_source": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Automation Platform Controller inventory source.",
+    "description": "Create, update, or destroy Automation Platform Controller inventory source. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "name": {
+        "description": "The name to use for the inventory source.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_name": {
+        "description": "A new name for this assets (will rename the asset)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The description to use for the inventory source.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inventory": {
+        "description": "Inventory name, ID, or named URL the group should be made a member of.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source": {
+        "description": "The source to use for this group.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "scm",
+          "ec2",
+          "gce",
+          "azure_rm",
+          "vmware",
+          "satellite6",
+          "openstack",
+          "rhv",
+          "controller",
+          "insights",
+          "terraform",
+          "openshift_virtualization"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "source_path": {
+        "description": "For an SCM based inventory source, the source path points to the file within the repo to use as an inventory.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_vars": {
+        "description": "The variables or environment fields to apply to this source type.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled_var": {
+        "description": "The variable to use to determine enabled state e.g., \"status.power_state\"",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled_value": {
+        "description": "Value when the host is considered enabled, e.g., \"powered_on\"",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_filter": {
+        "description": "If specified, AWX will only import hosts that match this regular expression.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "limit": {
+        "description": "Enter host, group or pattern match",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credential": {
+        "description": "Credential name, ID, or named URL to use for the source.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "execution_environment": {
+        "description": "Execution Environment name, ID, or named URL to use for the source.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "custom_virtualenv": {
+        "description": "Local absolute file path containing a custom Python virtualenv to use. Only compatible with older versions of AWX/Controller Deprecated, will be removed in the future",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "overwrite": {
+        "description": "Delete child groups and hosts not found in source.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "overwrite_vars": {
+        "description": "Override vars in child groups and hosts with those from external source.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The amount of time (in seconds) to run before the task is canceled.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "verbosity": {
+        "description": "The verbosity level to run this inventory source under.",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          1,
+          2
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "update_on_launch": {
+        "description": "Refresh inventory data from its source each time a job is run.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_cache_timeout": {
+        "description": "Time in seconds to consider an inventory sync to be current.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_project": {
+        "description": "Project name, ID, or named URL to use as source with scm option",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scm_branch": {
+        "description": "Inventory source SCM branch. Project must have branch override enabled.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "notification_templates_started": {
+        "description": "list of notifications to send on start",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_templates_success": {
+        "description": "list of notifications to send on success",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_templates_error": {
+        "description": "list of notifications to send on error",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "Name of the inventory source's inventory's organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.inventory_source_update": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Update inventory source(s).",
+    "description": "Update Automation Platform Controller inventory source(s). See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "name": {
+        "description": "The name or id of the inventory source to update.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "inventory_source"
+        ]
+      },
+      "inventory": {
+        "description": "Name or id of the inventory that contains the inventory source(s) to update.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "Name, ID, or named URL of the inventory source's inventory's organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for the job to complete.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "interval": {
+        "description": "The interval to request an update from the controller.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 2,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "If waiting for the job to complete this will abort after this amount of seconds",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.job_cancel": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Cancel an Automation Platform Controller Job.",
+    "description": "Cancel Automation Platform Controller jobs. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "job_id": {
+        "description": "ID of the job to cancel",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fail_if_not_running": {
+        "description": "Fail loudly if the I(job_id) can not be canceled",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.job_launch": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Launch an Ansible Job.",
+    "description": "Launch an Automation Platform Controller jobs. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "name": {
+        "description": "Name of the job template to use.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "job_template"
+        ]
+      },
+      "job_type": {
+        "description": "Job_type to use for the job, only used if prompt for job_type is set.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "run",
+          "check"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "inventory": {
+        "description": "Inventory name, ID, or named URL to use for the job, only used if prompt for inventory is set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "Organization name, ID, or named URL the job template exists in. Used to help lookup the object, cannot be modified using this module. If not provided, will lookup by name only, which does not work with duplicates.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credentials": {
+        "description": "Credential names, IDs, or named URLs to use for job, only used if prompt for credential is set.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "credential"
+        ]
+      },
+      "extra_vars": {
+        "description": "extra_vars to use for the Job Template. ask_extra_vars needs to be set to True via job_template module when creating the Job Template.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "limit": {
+        "description": "Limit to use for the I(job_template).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Specific tags to use for from playbook.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scm_branch": {
+        "description": "A specific of the SCM project to run the template on. This is only applicable if your project allows for branch override.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "skip_tags": {
+        "description": "Specific tags to skip from the playbook.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "verbosity": {
+        "description": "Verbosity level for this job run",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "diff_mode": {
+        "description": "Show the changes made by Ansible tasks where supported",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credential_passwords": {
+        "description": "Passwords for credentials which are set to prompt on launch",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "execution_environment": {
+        "description": "Execution environment name, ID, or named URL to use for the job, only used if prompt for execution environment is set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "forks": {
+        "description": "Forks to use for the job, only used if prompt for forks is set.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "instance_groups": {
+        "description": "Instance group names, IDs, or named URLs to use for the job, only used if prompt for instance groups is set.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "job_slice_count": {
+        "description": "Job slice count to use for the job, only used if prompt for job slice count is set.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "Labels to use for the job, only used if prompt for labels is set.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "job_timeout": {
+        "description": "Timeout to use for the job, only used if prompt for timeout is set. This parameter is sent through the API to the job.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for the job to complete.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "interval": {
+        "description": "The interval to request an update from the controller.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 2,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "If waiting for the job to complete this will abort after this amount of seconds. This happens on the module side.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.job_list": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "List Automation Platform Controller jobs.",
+    "description": "List Automation Platform Controller jobs. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "status": {
+        "description": "Only list jobs with this status.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "pending",
+          "waiting",
+          "running",
+          "error",
+          "failed",
+          "canceled",
+          "successful"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "page": {
+        "description": "Page number of the results to fetch.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "all_pages": {
+        "description": "Fetch all the pages and return a single result.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "no",
+        "aliases": null
+      },
+      "query": {
+        "description": "Query used to further filter the list of jobs. C({\"foo\":\"bar\"}) will be passed at C(?foo=bar)",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.job_template": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy job templates.",
+    "description": "Create, update, or destroy job templates. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "name": {
+        "description": "Name to use for the job template.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_name": {
+        "description": "Setting this option will change the existing name (looked up via the name field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "copy_from": {
+        "description": "Name or id to copy the job template from. This will copy an existing job template and change any parameters supplied. The new job template name will be the one provided in the name parameter. The organization parameter is not used in this, to facilitate copy from one organization to another. Provide the id or use the lookup plugin to provide the id if multiple job templates share the same name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description to use for the job template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "job_type": {
+        "description": "The job type to use for the job template.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "run",
+          "check"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "inventory": {
+        "description": "Name, ID, or named URL of the inventory to use for the job template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "Organization name, ID, or named URL the job template exists in. Used to help lookup the object, cannot be modified using this module. The Organization is inferred from the associated project If not provided, will lookup by name only, which does not work with duplicates. Requires Automation Platform Version 3.7.0 or AWX 10.0.0 IS NOT backwards compatible with earlier versions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project": {
+        "description": "Name, ID, or named URL of the project to use for the job template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "playbook": {
+        "description": "Path to the playbook to use for the job template within the project provided.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credential": {
+        "description": "Name, ID, or named URL of the credential to use for the job template. Deprecated, use 'credentials'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credentials": {
+        "description": "List of credential names, IDs, or named URLs to use for the job template.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vault_credential": {
+        "description": "Name, ID, or named URL of the vault credential to use for the job template. Deprecated, use 'credentials'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "execution_environment": {
+        "description": "Execution Environment name, ID, or named URL to use for the job template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "custom_virtualenv": {
+        "description": "Local absolute file path containing a custom Python virtualenv to use. Only compatible with older versions of AWX/Tower Deprecated, will be removed in the future",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "instance_groups": {
+        "description": "list of Instance Group names, IDs, or named URLs for this Organization to run on.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "forks": {
+        "description": "The number of parallel or simultaneous processes to use while executing the playbook.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "limit": {
+        "description": "A host pattern to further constrain the list of hosts managed or affected by the playbook",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "verbosity": {
+        "description": "Control the output level Ansible produces as the playbook runs. 0 - Normal, 1 - Verbose, 2 - More Verbose, 3 - Debug, 4 - Connection Debug.",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "extra_vars": {
+        "description": "Specify C(extra_vars) for the template.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "job_tags": {
+        "description": "Comma separated list of the tags to use for the job template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force_handlers": {
+        "description": "Enable forcing playbook handlers to run even if a task fails.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "force_handlers_enabled"
+        ]
+      },
+      "skip_tags": {
+        "description": "Comma separated list of the tags to skip for the job template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "start_at_task": {
+        "description": "Start the playbook at the task matching this name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "diff_mode": {
+        "description": "Enable diff mode for the job template.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "diff_mode_enabled"
+        ]
+      },
+      "use_fact_cache": {
+        "description": "Enable use of fact caching for the job template.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "fact_caching_enabled"
+        ]
+      },
+      "host_config_key": {
+        "description": "Allow provisioning callbacks using this host config key.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ask_scm_branch_on_launch": {
+        "description": "Prompt user for (scm branch) on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ask_diff_mode_on_launch": {
+        "description": "Prompt user to enable diff mode (show changes) to files when supported by modules.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ask_diff_mode"
+        ]
+      },
+      "ask_variables_on_launch": {
+        "description": "Prompt user for (extra_vars) on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ask_extra_vars"
+        ]
+      },
+      "ask_limit_on_launch": {
+        "description": "Prompt user for a limit on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ask_limit"
+        ]
+      },
+      "ask_tags_on_launch": {
+        "description": "Prompt user for job tags on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ask_tags"
+        ]
+      },
+      "ask_skip_tags_on_launch": {
+        "description": "Prompt user for job tags to skip on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ask_skip_tags"
+        ]
+      },
+      "ask_job_type_on_launch": {
+        "description": "Prompt user for job type on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ask_job_type"
+        ]
+      },
+      "ask_verbosity_on_launch": {
+        "description": "Prompt user to choose a verbosity level on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ask_verbosity"
+        ]
+      },
+      "ask_inventory_on_launch": {
+        "description": "Prompt user for inventory on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ask_inventory"
+        ]
+      },
+      "ask_credential_on_launch": {
+        "description": "Prompt user for credential on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ask_credential"
+        ]
+      },
+      "ask_execution_environment_on_launch": {
+        "description": "Prompt user for execution environment on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ask_execution_environment"
+        ]
+      },
+      "ask_forks_on_launch": {
+        "description": "Prompt user for forks on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ask_forks"
+        ]
+      },
+      "ask_instance_groups_on_launch": {
+        "description": "Prompt user for instance groups on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ask_instance_groups"
+        ]
+      },
+      "ask_job_slice_count_on_launch": {
+        "description": "Prompt user for job slice count on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ask_job_slice_count"
+        ]
+      },
+      "ask_labels_on_launch": {
+        "description": "Prompt user for labels on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ask_labels"
+        ]
+      },
+      "ask_timeout_on_launch": {
+        "description": "Prompt user for timeout on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ask_timeout"
+        ]
+      },
+      "survey_enabled": {
+        "description": "Enable a survey on the job template.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "survey_spec": {
+        "description": "JSON/YAML dict formatted survey definition.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "become_enabled": {
+        "description": "Activate privilege escalation.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_simultaneous": {
+        "description": "Allow simultaneous runs of the job template.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "concurrent_jobs_enabled"
+        ]
+      },
+      "timeout": {
+        "description": "Maximum time in seconds to wait for a job to finish (server-side).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "job_slice_count": {
+        "description": "The number of jobs to slice into at runtime. Will cause the Job Template to launch a workflow if value is greater than 1.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webhook_service": {
+        "description": "Service that webhook requests will be accepted from",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "",
+          "github",
+          "gitlab"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "webhook_credential": {
+        "description": "Personal Access Token for posting back the status to the service API",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scm_branch": {
+        "description": "Branch to use in job run. Project default used if blank. Only allowed if project allow_override field is set to true.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "The labels applied to this job template Must be created with the labels module first. This will error if the label has not been created.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "notification_templates_started": {
+        "description": "list of notifications to send on start",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_templates_success": {
+        "description": "list of notifications to send on success",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_templates_error": {
+        "description": "list of notifications to send on error",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "prevent_instance_group_fallback": {
+        "description": "Prevent falling back to instance groups set on the associated inventory or organization",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.job_wait": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Wait for Automation Platform Controller job to finish.",
+    "description": "Wait for Automation Platform Controller job to finish and report success or failure. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "job_id": {
+        "description": "ID of the job to monitor.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interval": {
+        "description": "The interval in sections, to request an update from the controller. For backwards compatibility if unset this will be set to the average of min and max intervals",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 2,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Maximum time in seconds to wait for a job to finish.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "job_type": {
+        "description": "Job type to wait for",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "project_updates",
+          "jobs",
+          "inventory_updates",
+          "workflow_jobs"
+        ],
+        "default": "jobs",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.label": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Automation Platform Controller labels.",
+    "description": "Create, update, or destroy Automation Platform Controller labels. See U(https://www.ansible.com/tower) for an overview. Note, labels can only be created via the API, they can not be deleted. Once they are fully disassociated the API will clean them up on its own.",
+    "options": {
+      "name": {
+        "description": "Name of this label.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_name": {
+        "description": "Setting this option will change the existing name (looked up via the name field).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "Organization name, ID, or named URL this label belongs to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.license": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Set the license for Automation Platform Controller",
+    "description": "Get or Set Automation Platform Controller license. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "manifest": {
+        "description": "file path to a Red Hat subscription manifest (a .zip file)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force": {
+        "description": "By default, the license manifest will only be applied if Tower is currently unlicensed or trial licensed.  When force=true, the license is always applied.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "False",
+        "aliases": null
+      },
+      "subscription_id": {
+        "description": "Red Hat or Red Hat Satellite subscription_id to attach to",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.notification_template": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Automation Platform Controller notification.",
+    "description": "Create, update, or destroy Automation Platform Controller notifications. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "name": {
+        "description": "The name of the notification.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_name": {
+        "description": "Setting this option will change the existing name (looked up via the name field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "copy_from": {
+        "description": "Name or id to copy the notification from. This will copy an existing notification and change any parameters supplied. The new notification name will be the one provided in the name parameter. The organization parameter is not used in this, to facilitate copy from one organization to another. Provide the id or use the lookup plugin to provide the id if multiple notifications share the same name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The description of the notification.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "The organization name, ID, or named URL the notification belongs to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_type": {
+        "description": "The type of notification to be sent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "awssns",
+          "email",
+          "grafana",
+          "irc",
+          "mattermost",
+          "pagerduty",
+          "rocketchat",
+          "slack",
+          "twilio",
+          "webhook"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "notification_configuration": {
+        "description": "The notification configuration file. Note providing this field would disable all notification-configuration-related fields. username (the mail server username) sender (the sender email address) recipients (the recipients email addresses) use_tls (the TLS trigger) host (the mail server host) use_ssl (the SSL trigger) password (the mail server password) port (the mail server port) channels (the destination Slack channels) token (the access token) account_token (the Twillio account token) from_number (the source phone number) to_numbers (the destination phone numbers) account_sid (the Twillio account SID) subdomain (the PagerDuty subdomain) service_key (the PagerDuty service/integration API key) client_name (the PagerDuty client identifier) message_from (the label to be shown with the notification) color (the notification color) notify (the notify channel trigger) url (the target URL) headers (the HTTP headers as JSON string) server (the IRC server address) nickname (the IRC nickname) targets (the destination channels or users)",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "messages": {
+        "description": "Optional custom messages for notification template.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.organization": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Automation Platform Controller organizations",
+    "description": "Create, update, or destroy Automation Platform Controller organizations. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "name": {
+        "description": "Name to use for the organization.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_name": {
+        "description": "Setting this option will change the existing name (looked up via the name field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The description to use for the organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "default_environment": {
+        "description": "Default Execution Environment name, ID, or named URL to use for jobs owned by the Organization.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "custom_virtualenv": {
+        "description": "Local absolute file path containing a custom Python virtualenv to use. Only compatible with older versions of AWX/Tower Deprecated, will be removed in the future",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_hosts": {
+        "description": "The max hosts allowed in this organizations",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "instance_groups": {
+        "description": "list of Instance Group names, IDs, or named URLs for this Organization to run on.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_templates_started": {
+        "description": "list of notifications to send on start",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_templates_success": {
+        "description": "list of notifications to send on success",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_templates_error": {
+        "description": "list of notifications to send on error",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_templates_approvals": {
+        "description": "list of notifications to send on approval",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "galaxy_credentials": {
+        "description": "list of Ansible Galaxy credential names, IDs, or named URLs to associate to the organization",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.project": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Automation Platform Controller projects",
+    "description": "Create, update, or destroy Automation Platform Controller projects. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "name": {
+        "description": "Name to use for the project.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_name": {
+        "description": "Setting this option will change the existing name (looked up via the name field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "copy_from": {
+        "description": "Name or id to copy the project from. This will copy an existing project and change any parameters supplied. The new project name will be the one provided in the name parameter. The organization parameter is not used in this, to facilitate copy from one organization to another. Provide the id or use the lookup plugin to provide the id if multiple projects share the same name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Description to use for the project.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scm_type": {
+        "description": "Type of SCM resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "manual",
+          "git",
+          "svn",
+          "insights",
+          "archive"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "scm_url": {
+        "description": "URL of SCM resource.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "local_path": {
+        "description": "The server playbook directory for manual projects.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scm_branch": {
+        "description": "The branch to use for the SCM resource.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scm_refspec": {
+        "description": "The refspec to use for the SCM resource.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credential": {
+        "description": "Name, ID, or named URL of the credential to use with this SCM resource.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "scm_credential"
+        ]
+      },
+      "scm_clean": {
+        "description": "Remove local modifications before updating.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scm_delete_on_update": {
+        "description": "Remove the repository completely before updating.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scm_track_submodules": {
+        "description": "Track submodules latest commit on specified branch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scm_update_on_launch": {
+        "description": "Perform an update to the local repository before launching a job with this project.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scm_update_cache_timeout": {
+        "description": "Cache Timeout to cache prior project syncs for a certain number of seconds. Only valid if scm_update_on_launch is to True, otherwise ignored.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_override": {
+        "description": "Allow changing the SCM branch or revision in a job template that uses this project.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "scm_allow_override"
+        ]
+      },
+      "timeout": {
+        "description": "The amount of time (in seconds) to run before the SCM Update is canceled. A value of 0 means no timeout. If waiting for the project to update this will abort after this amount of seconds",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "job_timeout"
+        ]
+      },
+      "default_environment": {
+        "description": "Default Execution Environment name, ID, or named URL to use for jobs relating to the project.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "custom_virtualenv": {
+        "description": "Local absolute file path containing a custom Python virtualenv to use. Only compatible with older versions of AWX/Tower Deprecated, will be removed in the future",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "Name, ID, or named URL of organization for the project.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "wait": {
+        "description": "Provides option (True by default) to wait for completed project sync before returning Can assure playbook files are populated so that job templates that rely on the project may be successfully created",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "notification_templates_started": {
+        "description": "list of notifications to send on start",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_templates_success": {
+        "description": "list of notifications to send on success",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_templates_error": {
+        "description": "list of notifications to send on error",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_project": {
+        "description": "Force project to update after changes. Used in conjunction with wait, interval, and timeout.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "interval": {
+        "description": "The interval to request an update from the controller. Requires wait.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 2,
+        "aliases": null
+      },
+      "signature_validation_credential": {
+        "description": "Name, ID, or named URL of the credential to use for signature validation. If signature validation credential is provided, signature validation will be enabled.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.project_update": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Update a Project in Automation Platform Controller",
+    "description": "Update a Automation Platform Controller Project. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "name": {
+        "description": "The name or id of the project to update.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "project"
+        ]
+      },
+      "organization": {
+        "description": "Organization name, ID, or named URL the project exists in. Used to help lookup the object, cannot be modified using this module. If not provided, will lookup by name only, which does not work with duplicates.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for the project to update. If scm revision has not changed module will return not changed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "interval": {
+        "description": "The interval to request an update from the controller.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 2,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "If waiting for the project to update this will abort after this amount of seconds",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.role": {
-    "short_description": "",
-    "description": "",
-    "options": {},
-    "deprecated": null
+    "short_description": "grant or revoke an Automation Platform Controller role.",
+    "description": "Roles are used for access control, this module is for managing user access to server resources. Grant or revoke Automation Platform Controller roles to users. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "user": {
+        "description": "User name, ID, or named URL that receives the permissions specified by the role. Deprecated, use 'users'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "users": {
+        "description": "User names, IDs, or named URLs that receive the permissions specified by the role.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "team": {
+        "description": "Team name, ID, or named URL that receives the permissions specified by the role. Deprecated, use 'teams'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "teams": {
+        "description": "Team names, IDs, or named URLs that receive the permissions specified by the role.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role": {
+        "description": "The role type to grant/revoke.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "admin",
+          "read",
+          "member",
+          "execute",
+          "adhoc",
+          "update",
+          "use",
+          "approval",
+          "auditor",
+          "project_admin",
+          "inventory_admin",
+          "credential_admin",
+          "workflow_admin",
+          "notification_admin",
+          "job_template_admin",
+          "execution_environment_admin"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "target_team": {
+        "description": "Team name, ID, or named URL that the role acts on. For example, make someone a member or an admin of a team. Members of a team implicitly receive the permissions that the team has. Deprecated, use 'target_teams'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_teams": {
+        "description": "Team names, IDs, or named URLs that the role acts on. For example, make someone a member or an admin of a team. Members of a team implicitly receive the permissions that the team has.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inventory": {
+        "description": "Inventory name, ID, or named URL the role acts on. Deprecated, use 'inventories'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inventories": {
+        "description": "Inventory names, IDs, or named URLs the role acts on.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "job_template": {
+        "description": "The job template name, ID, or named URL the role acts on. Deprecated, use 'job_templates'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "job_templates": {
+        "description": "The job template names, IDs, or named URLs the role acts on.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "workflow": {
+        "description": "The workflow job template name, ID, or named URL the role acts on. Deprecated, use 'workflows'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "workflows": {
+        "description": "The workflow job template names, IDs, or named URLs the role acts on.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credential": {
+        "description": "Credential name, ID, or named URL the role acts on. Deprecated, use 'credentials'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credentials": {
+        "description": "Credential names, IDs, or named URLs the role acts on.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "Organization name, ID, or named URL the role acts on. Deprecated, use 'organizations'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organizations": {
+        "description": "Organization names, IDs, or named URLs the role acts on.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lookup_organization": {
+        "description": "Organization name, ID, or named URL the inventories, job templates, projects, or workflows the items exists in. Used to help lookup the object, for organization roles see organization. If not provided, will lookup by name only, which does not work with duplicates.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "project": {
+        "description": "Project name, ID, or named URL the role acts on. Deprecated, use 'projects'.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "projects": {
+        "description": "Project names, IDs, or named URLs the role acts on.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "instance_groups": {
+        "description": "Instance Group names, IDs, or named URLs the role acts on.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state. State of present indicates the user should have the role. State of absent indicates the user should have the role taken away, if they have it.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": "Endpoints corresponding to module will be removed in the API"
   },
   "awx.awx.role_definition": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Add role definition to Automation Platform Controller",
+    "description": "Contains a list of permissions and a resource type that can then be assigned to users or teams.",
+    "options": {
+      "name": {
+        "description": "Name of this role definition.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "permissions": {
+        "description": "List of permissions to include in the role definition.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "content_type": {
+        "description": "The type of resource this applies to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Optional description of this role definition.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The desired state of the role definition.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.role_team_assignment": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Gives a team permission to a resource or an organization.",
+    "description": "Use this endpoint to give a team permission to a resource or an organization. After creation, the assignment cannot be edited, but can be deleted to remove those permissions.",
+    "options": {
+      "role_definition": {
+        "description": "The name or id of the role definition to assign to the team.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "object_id": {
+        "description": "Primary key of the object this assignment applies to.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "team": {
+        "description": "The name or id of the team to assign to the object.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "object_ansible_id": {
+        "description": "Resource id of the object this role applies to. Alternative to the object_id field.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "team_ansible_id": {
+        "description": "Resource id of the team who will receive permissions from this assignment. Alternative to team field.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The desired state of the role definition.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.role_user_assignment": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Gives a user permission to a resource or an organization.",
+    "description": "Use this endpoint to give a user permission to a resource or an organization. After creation, the assignment cannot be edited, but can be deleted to remove those permissions.",
+    "options": {
+      "role_definition": {
+        "description": "The name or id of the role definition to assign to the user.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "object_id": {
+        "description": "Primary key of the object this assignment applies to.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user": {
+        "description": "The name or id of the user to assign to the object.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "object_ansible_id": {
+        "description": "Resource id of the object this role applies to. Alternative to the object_id field.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_ansible_id": {
+        "description": "Resource id of the user who will receive permissions from this assignment. Alternative to user field.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The desired state of the role definition.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.schedule": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Automation Platform Controller schedules.",
+    "description": "Create, update, or destroy Automation Platform Controller schedules. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "rrule": {
+        "description": "A value representing the schedules iCal recurrence rule. See rrule plugin for help constructing this value",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of this schedule.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_name": {
+        "description": "Setting this option will change the existing name (looked up via the name field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Optional description of this schedule.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "execution_environment": {
+        "description": "Execution Environment name, ID, or named URL applied as a prompt, assuming job template prompts for execution environment",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extra_data": {
+        "description": "Specify C(extra_vars) for the template.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "forks": {
+        "description": "Forks applied as a prompt, assuming job template prompts for forks",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "instance_groups": {
+        "description": "List of Instance Group names, IDs, or named URLs applied as a prompt, assuming job template prompts for instance groups",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inventory": {
+        "description": "Inventory name, ID, or named URL applied as a prompt, assuming job template prompts for inventory",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "job_slice_count": {
+        "description": "Job Slice Count applied as a prompt, assuming job template prompts for job slice count",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "List of labels applied as a prompt, assuming job template prompts for labels",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credentials": {
+        "description": "List of credential names, IDs, or named URLs applied as a prompt, assuming job template prompts for credentials",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scm_branch": {
+        "description": "Branch to use in job run. Project default used if blank. Only allowed if project allow_override field is set to true.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Timeout applied as a prompt, assuming job template prompts for timeout",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "job_type": {
+        "description": "The job type to use for the job template.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "run",
+          "check"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "job_tags": {
+        "description": "Comma separated list of the tags to use for the job template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "skip_tags": {
+        "description": "Comma separated list of the tags to skip for the job template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "limit": {
+        "description": "A host pattern to further constrain the list of hosts managed or affected by the playbook",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "diff_mode": {
+        "description": "Enable diff mode for the job template.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "verbosity": {
+        "description": "Control the output level Ansible produces as the playbook runs. 0 - Normal, 1 - Verbose, 2 - More Verbose, 3 - Debug, 4 - Connection Debug.",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "unified_job_template": {
+        "description": "Name, ID, or named URL of unified job template to schedule. Used to look up an already existing schedule.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "The organization name, ID, or named URL the unified job template exists in. Used for looking up the unified job template, not a direct model field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Enables processing of this schedule.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.settings": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Modify Automation Platform Controller settings.",
+    "description": "Modify Automation Platform Controller settings. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "name": {
+        "description": "Name of setting to modify",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "value": {
+        "description": "Value to be modified for given setting. If given a non-string type, will make best effort to cast it to type API expects. For better control over types, use the C(settings) param instead.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "settings": {
+        "description": "A data structure to be sent into the settings endpoint",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.subscriptions": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Get subscription list",
+    "description": "Get subscriptions available to Automation Platform Controller. See U(https://www.ansible.com/tower) for an overview. The credentials you use will be stored for future use in retrieving renewal or expanded subscriptions",
+    "options": {
+      "username": {
+        "description": "Red Hat username to get available subscriptions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Red Hat password to get available subscriptions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "client_id": {
+        "description": "Red Hat service account client ID to get available subscriptions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "client_secret": {
+        "description": "Red Hat service account client secret to get available subscriptions.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "filters": {
+        "description": "Client side filters to apply to the subscriptions. For any entries in this dict, if there is a corresponding entry in the subscription it must contain the value from this dict Note This is a client side search, not an API side search",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.team": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Automation Platform Controller team.",
+    "description": "Create, update, or destroy Automation Platform Controller teams. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "name": {
+        "description": "Name to use for the team.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_name": {
+        "description": "To use when changing a team's name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "The description to use for the team.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "Organization name, ID, or named URL the team should be made a member of.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.user": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Automation Platform Controller users.",
+    "description": "Create, update, or destroy Automation Platform Controller users. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "username": {
+        "description": "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_username": {
+        "description": "Setting this option will change the existing username (looked up via the name field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "first_name": {
+        "description": "First name of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "last_name": {
+        "description": "Last name of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "email": {
+        "description": "Email address of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "The user will be created as a member of that organization name, ID, or named URL (needed for organization admins to create new organization users).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_superuser": {
+        "description": "Designates that this user has all permissions without explicitly assigning them.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "superuser"
+        ]
+      },
+      "is_system_auditor": {
+        "description": "User is a system wide auditor.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "auditor"
+        ]
+      },
+      "password": {
+        "description": "Write-only field used to change the password.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_secrets": {
+        "description": "C(true) will always change password if user specifies password, even if API gives $encrypted$ for password. C(false) will only set the password if other values change too.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.workflow_approval": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Approve an approval node in a workflow job.",
+    "description": "Approve an approval node in a workflow job. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "workflow_job_id": {
+        "description": "ID of the workflow job to monitor for approval.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the Approval node to approve or deny.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "action": {
+        "description": "Type of action to take.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "approve",
+          "deny"
+        ],
+        "default": "approve",
+        "aliases": null
+      },
+      "interval": {
+        "description": "The interval in sections, to request an update from the controller.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Maximum time in seconds to wait for a workflow job to to reach approval node.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.workflow_job_template": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Automation Platform Controller workflow job templates.",
+    "description": "Create, update, or destroy Automation Platform Controller workflow job templates. Use workflow_job_template_node after this, or use the workflow_nodes parameter to build the workflow's graph",
+    "options": {
+      "name": {
+        "description": "Name of this workflow job template.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_name": {
+        "description": "Setting this option will change the existing name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "copy_from": {
+        "description": "Name or id to copy the workflow job template from. This will copy an existing workflow job template and change any parameters supplied. The new workflow job template name will be the one provided in the name parameter. The organization parameter is not used in this, to facilitate copy from one organization to another. Provide the id or use the lookup plugin to provide the id if multiple workflow job templates share the same name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Optional description of this workflow job template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extra_vars": {
+        "description": "Variables which will be made available to jobs ran inside the workflow.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "job_tags": {
+        "description": "Comma separated list of the tags to use for the job template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ask_tags_on_launch": {
+        "description": "Prompt user for job tags on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ask_tags"
+        ]
+      },
+      "organization": {
+        "description": "Organization name, ID, or named URL the workflow job template exists in. Used to help lookup the object, cannot be modified using this module. If not provided, will lookup by name only, which does not work with duplicates.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_simultaneous": {
+        "description": "Allow simultaneous runs of the workflow job template.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ask_variables_on_launch": {
+        "description": "Prompt user for C(extra_vars) on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inventory": {
+        "description": "Name, ID, or named URL of inventory applied as a prompt, assuming job template prompts for inventory",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "limit": {
+        "description": "Limit applied as a prompt, assuming job template prompts for limit",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scm_branch": {
+        "description": "SCM branch applied as a prompt, assuming job template prompts for SCM branch",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ask_inventory_on_launch": {
+        "description": "Prompt user for inventory on launch of this workflow job template",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ask_scm_branch_on_launch": {
+        "description": "Prompt user for SCM branch on launch of this workflow job template",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ask_limit_on_launch": {
+        "description": "Prompt user for limit on launch of this workflow job template",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ask_labels_on_launch": {
+        "description": "Prompt user for labels on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ask_labels"
+        ]
+      },
+      "ask_skip_tags_on_launch": {
+        "description": "Prompt user for job tags to skip on launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "ask_skip_tags"
+        ]
+      },
+      "skip_tags": {
+        "description": "Comma separated list of the tags to skip for the job template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "webhook_service": {
+        "description": "Service that webhook requests will be accepted from",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "github",
+          "gitlab"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "webhook_credential": {
+        "description": "Personal Access Token for posting back the status to the service API",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "survey_enabled": {
+        "description": "Setting that variable will prompt the user for job type on the workflow launch.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "survey_spec": {
+        "description": "The definition of the survey associated to the workflow.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "survey"
+        ]
+      },
+      "labels": {
+        "description": "The labels applied to this job template Must be created with the labels module first. This will error if the label has not been created.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "notification_templates_started": {
+        "description": "list of notifications to send on start",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_templates_success": {
+        "description": "list of notifications to send on success",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_templates_error": {
+        "description": "list of notifications to send on error",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "notification_templates_approvals": {
+        "description": "list of notifications to send on approval",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "workflow_nodes": {
+        "description": "A json list of nodes and their coresponding options. The following suboptions describe a single node.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "schema"
+        ]
+      },
+      "destroy_current_nodes": {
+        "description": "Set in order to destroy current workflow_nodes on the workflow. This option is used for full workflow update, if not used, nodes not described in workflow will persist and keep current associations and links.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": [
+          "destroy_current_schema"
+        ]
+      }
+    },
     "deprecated": null
   },
   "awx.awx.workflow_job_template_node": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "create, update, or destroy Automation Platform Controller workflow job template nodes.",
+    "description": "Create, update, or destroy Automation Platform Controller workflow job template nodes. Use this to build a graph for a workflow, which dictates what the workflow runs. You can create nodes first, and link them afterwards, and not worry about ordering. For failsafe referencing of a node, specify identifier, WFJT, and organization. With those specified, you can choose to modify or not modify any other parameter.",
+    "options": {
+      "extra_data": {
+        "description": "Variables to apply at launch time. Will only be accepted if job template prompts for vars or has a survey asking for those vars.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inventory": {
+        "description": "Name, ID, or named URL of the Inventory applied as a prompt, if job template prompts for inventory",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scm_branch": {
+        "description": "SCM branch applied as a prompt, if job template prompts for SCM branch",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "job_type": {
+        "description": "Job type applied as a prompt, if job template prompts for job type",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "run",
+          "check"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "job_tags": {
+        "description": "Job tags applied as a prompt, if job template prompts for job tags",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "skip_tags": {
+        "description": "Tags to skip, applied as a prompt, if job tempalte prompts for job tags",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "limit": {
+        "description": "Limit to act on, applied as a prompt, if job template prompts for limit",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "diff_mode": {
+        "description": "Run diff mode, applied as a prompt, if job template prompts for diff mode",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "verbosity": {
+        "description": "Verbosity applied as a prompt, if job template prompts for verbosity",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "workflow_job_template": {
+        "description": "The workflow job template name, ID, or named URL the node exists in. Used for looking up the node, cannot be modified after creation.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "workflow"
+        ]
+      },
+      "organization": {
+        "description": "The organization name, ID, or named URL of the workflow job template the node exists in. Used for looking up the workflow, not a direct model field.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "unified_job_template": {
+        "description": "Name of unified job template to run in the workflow. Can be a job template, project, inventory source, etc. Omit if creating an approval node. This parameter is mutually exclusive with C(approval_node).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lookup_organization": {
+        "description": "Organization name, ID, or named URL the inventories, job template, project, inventory source the unified_job_template exists in. If not provided, will lookup by name only, which does not work with duplicates.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "approval_node": {
+        "description": "A dictionary of Name, description, and timeout values for the approval node. This parameter is mutually exclusive with C(unified_job_template).",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "all_parents_must_converge": {
+        "description": "If enabled then the node will only run if all of the parent nodes have met the criteria to reach this node",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "identifier": {
+        "description": "An identifier for this node that is unique within its workflow. It is copied to workflow job nodes corresponding to this node.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "always_nodes": {
+        "description": "Nodes that will run after this node completes. List of node identifiers.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "success_nodes": {
+        "description": "Nodes that will run after this node on success. List of node identifiers.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "failure_nodes": {
+        "description": "Nodes that will run after this node on failure. List of node identifiers.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "credentials": {
+        "description": "Credential names, IDs, or named URLs to be applied to job as launch-time prompts. List of credential names, IDs, or named URLs. Uniqueness is not handled rigorously.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "execution_environment": {
+        "description": "Execution Environment name, ID, or named URL applied as a prompt, assuming job template prompts for execution environment",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "forks": {
+        "description": "Forks applied as a prompt, assuming job template prompts for forks",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "instance_groups": {
+        "description": "List of Instance Group names, IDs, or named URLs applied as a prompt, assuming job template prompts for instance groups",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "job_slice_count": {
+        "description": "Job Slice Count applied as a prompt, assuming job template prompts for job slice count",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "labels": {
+        "description": "List of labels applied as a prompt, assuming job template prompts for labels",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Timeout applied as a prompt, assuming job template prompts for timeout",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Desired state of the resource.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent",
+          "exists"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.workflow_launch": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Run a workflow in Automation Platform Controller",
+    "description": "Launch an Automation Platform Controller workflows. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "name": {
+        "description": "The name of the workflow template to run.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "workflow_template"
+        ]
+      },
+      "organization": {
+        "description": "Organization name, ID, or named URL the workflow job template exists in. Used to help lookup the object, cannot be modified using this module. If not provided, will lookup by name only, which does not work with duplicates.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "inventory": {
+        "description": "Inventory name, ID, or named URL to use for the job ran with this workflow, only used if prompt for inventory is set.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "limit": {
+        "description": "Limit to use for the I(job_template).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tags": {
+        "description": "Specific tags to apply from the I(job_template).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "skip_tags": {
+        "description": "Specific tags to skip from the I(job_template).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scm_branch": {
+        "description": "A specific branch of the SCM project to run the template on. This is only applicable if your project allows for branch override.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "extra_vars": {
+        "description": "Any extra vars required to launch the job.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait": {
+        "description": "Wait for the workflow to complete.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "interval": {
+        "description": "The interval to request an update from the controller.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 2,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "If waiting for the workflow to complete this will abort after this amount of seconds",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "awx.awx.workflow_node_wait": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Wait for a workflow node to finish.",
+    "description": "Approve an approval node in a workflow job. See U(https://www.ansible.com/tower) for an overview.",
+    "options": {
+      "workflow_job_id": {
+        "description": "ID of the workflow job to monitor for node.",
+        "type": "int",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the workflow node to wait on.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "interval": {
+        "description": "The interval in sections, to request an update from the controller.",
+        "type": "float",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Maximum time in seconds to wait for a workflow job to reach approval node.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

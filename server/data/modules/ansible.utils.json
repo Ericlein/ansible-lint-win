@@ -26,20 +26,62 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "set_fact": {
+        "description": "Set the resulting parsed data as a fact",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
       }
     },
     "deprecated": null
   },
   "ansible.utils.fact_diff": {
     "short_description": "Find the difference between currently set facts",
-    "description": "",
-    "options": {},
+    "description": "Compare two facts or variables and get a diff.",
+    "options": {
+      "before": {
+        "description": "The first fact to be used in the comparison.",
+        "type": "raw",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "after": {
+        "description": "The second fact to be used in the comparison.",
+        "type": "raw",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "plugin": {
+        "description": "Configure and specify the diff plugin to use",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ansible.utils.update_fact": {
     "short_description": "Update currently set facts",
-    "description": "",
-    "options": {},
+    "description": "This module allows updating existing variables. Variables are updated on a host-by-host basis. Variables are not modified in place, instead they are returned by the module.",
+    "options": {
+      "updates": {
+        "description": "A list of dictionaries, each a desired update to make.",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "ansible.utils.validate": {

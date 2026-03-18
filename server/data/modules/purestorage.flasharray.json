@@ -1,404 +1,4914 @@
 {
   "purestorage.flasharray.purefa_ad": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashArray Active Directory Account",
+    "description": "Add or delete FlashArray Active Directory Account FlashArray allows the creation of one AD computer account, or joining of an existing AD computer account.",
+    "options": {
+      "name": {
+        "description": "Name of the AD account",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the AD sccount is deleted or not",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "computer": {
+        "description": "The common name of the computer account to be created in the Active Directory domain. If not specified, defaults to the name of the Active Directory configuration.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "domain": {
+        "description": "The Active Directory domain to join",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "username": {
+        "description": "A user capable of creating a computer account within the domain",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password string for I(username)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "directory_servers": {
+        "description": "A list of directory servers that will be used for lookups related to user authorization Accepted server formats are IP address and DNS name All specified servers must be registered to the domain appropriately in the array configured DNS and are only communicated with over the secure LDAP (LDAPS) protocol. If not specified, servers are resolved for the domain in DNS The specified list can have a maximum length of 1, or 3 for Purity 6.1.6 or higher. If more are provided only the first allowed count used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "kerberos_servers": {
+        "description": "A list of key distribution servers to use for Kerberos protocol Accepted server formats are IP address and DNS name All specified servers must be registered to the domain appropriately in the array configured DNS and are only communicated with over the secure LDAP (LDAPS) protocol. If not specified, servers are resolved for the domain in DNS. The specified list can have a maximum length of 1, or 3 for Purity 6.1.6 or higher. If more are provided only the first allowed count used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "local_only": {
+        "description": "Do a local-only delete of an active directory account",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "join_ou": {
+        "description": "Distinguished name of organization unit in which the computer account should be created when joining the domain. e.g. OU=Arrays,OU=Storage. The B(DC=...) components can be omitted. If left empty, defaults to B(CN=Computers). Requires Purity//FA 6.1.8 or higher",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tls": {
+        "description": "TLS mode for communication with domain controllers.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "required",
+          "optional"
+        ],
+        "default": "required",
+        "aliases": null
+      },
+      "join_existing": {
+        "description": "If specified as I(true), the domain is searched for a pre-existing computer account to join to, and no new account will be created within the domain. The C(username) specified when joining a pre-existing account must have permissions to 'read all properties from' and 'reset the password of' the pre-existing account. C(join_ou) will be read from the pre-existing account and cannot be specified when joining to an existing account",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_admin": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Everpure FlashArray Global Admin settings",
+    "description": "Set global admin settings for the FlashArray",
+    "options": {
+      "sso": {
+        "description": "Enable or disable the array Single Sign-On from Pure1 Manage",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "max_login": {
+        "description": "Maximum number of failed logins before account is locked",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "min_password": {
+        "description": "Minimum user password length",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "lockout": {
+        "description": "Account lockout duration, in seconds, after max_login exceeded Range between 1 second and 90 days (7776000 seconds)",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_alert": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Everpure FlashArray alert email settings",
+    "description": "Configure alert email configuration for Everpure FlashArrays.",
+    "options": {
+      "state": {
+        "description": "Create, delete or test alert email",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "test"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "address": {
+        "description": "Email address (valid format required)",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Set specified email address to be enabled or disabled",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_apiclient": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashArray API Clients",
+    "description": "Enable or disable FlashArray API Clients",
+    "options": {
+      "name": {
+        "description": "Name of the API Client",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the API client should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "role": {
+        "description": "The maximum role allowed for ID Tokens issued by this API client",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "readonly",
+          "ops_admin",
+          "storage_admin",
+          "array_admin"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "issuer": {
+        "description": "The name of the identity provider that will be issuing ID Tokens for this API client If not specified, defaults to the API client name, I(name).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "public_key": {
+        "description": "The API clients PEM formatted (Base64 encoded) RSA public key. Include the I(—–BEGIN PUBLIC KEY—–) and I(—–END PUBLIC KEY—–) lines",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "token_ttl": {
+        "description": "Time To Live length in seconds for the exchanged access token Range is 1 second to 1 day (86400 seconds)",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 86400,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "State of the API Client Key",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_arrayname": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Everpure FlashArray array name",
+    "description": "Configure name of array for Everpure FlashArrays. Ideal for Day 0 initial configuration.",
+    "options": {
+      "state": {
+        "description": "Set the array name",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the array. Must conform to correct naming schema.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_audits": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "List FlashArray Audit Events",
+    "description": "List audit events based on filters provided",
+    "options": {
+      "start": {
+        "description": "Start date and time (based on array local time) If not provided epoch is assumed Expected format \"YYYY-MM-DD hh:mm:ss\"",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timezone": {
+        "description": "The timezone of the FlashArray If not provided, the module will attempt to get the current local timezone from the server however from Purity//FA 6.5.3 this value will calculated automatically from the FlashArray",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_banner": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Everpure FlashArray GUI and SSH MOTD message",
+    "description": "Configure MOTD for Everpure FlashArrays. This will be shown during an SSH or GUI login to the array. Multiple line messages can be achieved using \\\\n.",
+    "options": {
+      "state": {
+        "description": "Set or delete the MOTD",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "banner": {
+        "description": "Banner text, or MOTD, to use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "Welcome to the machine...",
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_cbsexpand": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Modify the CBS array capacity",
+    "description": "Expand the CBS array capacity. Capacity can only be updated to specific values.",
+    "options": {
+      "state": {
+        "description": "Action to be performed on the CBS array. I{list) will provide the options that I(capacity), in bytes, can be set to.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "show",
+          "expand"
+        ],
+        "default": "show",
+        "aliases": null
+      },
+      "capacity": {
+        "description": "Requested capacity of CBS array in bytes.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_certs": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashArray SSL Certificates",
+    "description": "Create, delete, import and export FlashArray SSL Certificates",
+    "options": {
+      "name": {
+        "description": "Name of the SSL Certificate",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "management",
+        "aliases": null
+      },
+      "state": {
+        "description": "Action for the module to perform I(present) will create or re-create an SSL certificate I(absent) will delete an existing SSL certificate I(sign) will construct a Certificate Signing request (CSR) I(export) will export the existing SSL certificate I(import) will import a CA provided certificate.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "import",
+          "export",
+          "sign"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "country": {
+        "description": "The two-letter ISO code for the country where your organization is located",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "province": {
+        "description": "The full name of the state or province where your organization is located",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "locality": {
+        "description": "The full name of the city where your organization is located",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "organization": {
+        "description": "The full and exact legal name of your organization. The organization name should not be abbreviated and should include suffixes such as Inc, Corp, or LLC.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "org_unit": {
+        "description": "The department within your organization that is managing the certificate",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "common_name": {
+        "description": "The fully qualified domain name (FQDN) of the current array For example, the common name for https://purearray.example.com is purearray.example.com, or *.example.com for a wildcard certificate This can also be the management IP address of the array or the shortname of the current array. Maximum of 64 characters If not provided this will default to the shortname of the array",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "email": {
+        "description": "The email address used to contact your organization",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "key_size": {
+        "description": "The key size in bits if you generate a new private key",
+        "type": "int",
+        "required": false,
+        "choices": [
+          1024,
+          2048,
+          4096
+        ],
+        "default": 2048,
+        "aliases": null
+      },
+      "days": {
+        "description": "The number of valid days for the self-signed certificate being generated If not specified, the self-signed certificate expires after 3650 days.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3650,
+        "aliases": null
+      },
+      "generate": {
+        "description": "Generate a new private key. If not selected, the certificate will use the existing key",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "certificate": {
+        "description": "Required for I(import) A valid signed certificate in PEM format (Base64 encoded) Includes the \"-----BEGIN CERTIFICATE-----\" and \"-----END CERTIFICATE-----\" lines",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "intermeadiate_cert": {
+        "description": "Intermeadiate certificate provided by the CA",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "key": {
+        "description": "If the Certificate Signed Request (CSR) was not constructed on the array or the private key has changed since construction the CSR, provide a new private key here",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "passphrase": {
+        "description": "Passphrase if the private key is encrypted",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "export_file": {
+        "description": "Name of file to contain Certificate Signing Request when `status sign` Name of file to export the current SSL Certificate when `status export` File will be overwritten if it already exists",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_connect": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage replication connections between two FlashArrays",
+    "description": "Manage array connections to specified target array",
+    "options": {
+      "state": {
+        "description": "Create or delete array connection",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "target_url": {
+        "description": "Management IP address of remote array.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_api": {
+        "description": "API token for target array",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "connection": {
+        "description": "Type of connection between arrays.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "sync",
+          "async"
+        ],
+        "default": "async",
+        "aliases": null
+      },
+      "transport": {
+        "description": "Type of transport protocol to use for replication",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ip",
+          "fc"
+        ],
+        "default": "ip",
+        "aliases": null
+      },
+      "encrypted": {
+        "description": "Defines if the array connection will be encrypted",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "renew_key": {
+        "description": "Update array connection with a new encryption key. If set to true, other array connection attributes will not be modified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "refresh": {
+        "description": "Array will attempt to communicate with the connection peer in order to update the connection attributes on both arrays with any changes that have occurred. If set to true, other array connection attributes will not be modified.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_console": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Enable or Disable Everpure FlashArray Console Lock",
+    "description": "Enablke or Disable root lockout from the array at the physical console for a Everpure FlashArray.",
+    "options": {
+      "state": {
+        "description": "Define state of console lockout When set to I(enable) the console port is locked from root login.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enable",
+          "disable"
+        ],
+        "default": "disable",
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_default_protection": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage SafeMode default protection for a Everpure FlashArray",
+    "description": "Configure automatic protection group membership for new volumes and copied volumes array wide, or at the pod level. Requires a minimum of Purity 6.3.4",
+    "options": {
+      "scope": {
+        "description": "The scope of the default protection group",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "array",
+          "pod"
+        ],
+        "default": "array",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the protection group to assign or remove as default for the scope. If I(scope) is I(pod) only the short-name for the pod protection group is needed. See examples",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pod": {
+        "description": "name of the pod to apply the default protection to. Only required for I(scope) is I(pod)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether to add or delete the protection group to the default list",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_directory": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashArray File System Directories",
+    "description": "Create/Delete FlashArray File Systems",
+    "options": {
+      "name": {
+        "description": "Name of the directory",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the directory should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "filesystem": {
+        "description": "Name of the filesystem the directory links to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "path": {
+        "description": "Path of the managed directory in the file system If not provided will default to I(name)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rename": {
+        "description": "Value to rename the specified directory to",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_dirsnap": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashArray File System Directory Snapshots",
+    "description": "Create/Delete FlashArray File System directory snapshots A full snapshot name is constructed in the form of DIR.CLIENT_NAME.SUFFIX where DIR is the managed directory name, CLIENT_NAME is the client name, and SUFFIX is the suffix. The client visible snapshot name is CLIENT_NAME.SUFFIX.",
+    "options": {
+      "name": {
+        "description": "Name of the directory to snapshot",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the directory snapshot should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "filesystem": {
+        "description": "Name of the filesystem the directory links to.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "eradicate": {
+        "description": "Define whether to eradicate the snapshot on delete or leave in trash",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "client": {
+        "description": "The client name portion of the client visible snapshot name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "suffix": {
+        "description": "Snapshot suffix to use",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_client": {
+        "description": "The new client name when performing a rename",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "new_suffix": {
+        "description": "The new suffix when performing a rename",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rename": {
+        "description": "Whether to rename a directory snapshot The snapshot client name and suffix can be changed Required with I(new_client) and I(new_suffix)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "keep_for": {
+        "description": "Retention period, after which snapshots will be eradicated Specify in seconds. Range 300 - 31536000 (5 minutes to 1 year) Value of 0 will set no retention period. If not specified on create will default to 0 (no retention period)",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_dns": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure FlashArray DNS settings",
+    "description": "Set or erase configuration for the DNS settings. Nameservers provided will overwrite any existing nameservers. From Purity//FA 6.3.3 DNS setting for FA-File can be configured separately to the management DNS settings",
+    "options": {
+      "name": {
+        "description": "Name of the DNS configuration. Default value only supported for management service",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "management",
+        "aliases": null
+      },
+      "state": {
+        "description": "Set or delete directory service configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "domain": {
+        "description": "Domain suffix to be appended when perofrming DNS lookups.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nameservers": {
+        "description": "List of up to 3 unique DNS server IP addresses. These can be IPv4 or IPv6 - No validation is done of the addresses is performed.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "service": {
+        "description": "Type of service the DNS will work with",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "management",
+          "file"
+        ],
+        "default": "management",
+        "aliases": null
+      },
+      "source": {
+        "description": "A virtual network interface (vif)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_ds": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure FlashArray Directory Service",
+    "description": "Set or erase configuration for the directory service. There is no facility to SSL certificates at this time. Use the FlashArray GUI for this additional configuration work. To modify an existing directory service configuration you must first delete an existing configuration and then recreate with new settings.",
+    "options": {
+      "state": {
+        "description": "Create, delete or test directory service configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "test"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "enable": {
+        "description": "Whether to enable or disable directory service support.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "dstype": {
+        "description": "The type of directory service to work on",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "management",
+          "data"
+        ],
+        "default": "management",
+        "aliases": null
+      },
+      "uri": {
+        "description": "A list of up to 30 URIs of the directory servers. Each URI must include the scheme ldap:// or ldaps:// (for LDAP over SSL), a hostname, and a domain name or IP address. For example, ldap://ad.company.com configures the directory service with the hostname \"ad\" in the domain \"company.com\" while specifying the unencrypted LDAP protocol.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "base_dn": {
+        "description": "Sets the base of the Distinguished Name (DN) of the directory service groups. The base should consist of only Domain Components (DCs). The base_dn will populate with a default value when a URI is entered by parsing domain components from the URI. The base DN should specify DC= for each domain component and multiple DCs should be separated by commas.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bind_password": {
+        "description": "Sets the password of the bind_user user name account.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "force_bind_password": {
+        "description": "Will force the bind password to be reset even if the bind user password is unchanged. If set to I(false) and I(bind_user) is unchanged the password will not be reset.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "bind_user": {
+        "description": "Sets the user name that can be used to bind to and query the directory. For Active Directory, enter the username - often referred to as sAMAccountName or User Logon Name - of the account that is used to perform directory lookups. For OpenLDAP, enter the full DN of the user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_login": {
+        "description": "User login attribute in the structure of the configured LDAP servers. Typically the attribute field that holds the users unique login name. Default value is I(sAMAccountName) for Active Directory or I(uid) for all other directory services",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user_object": {
+        "description": "Value of the object class for a management LDAP user. Defaults to I(User) for Active Directory servers, I(posixAccount) or I(shadowAccount) for OpenLDAP servers dependent on the group type of the server, or person for all other directory servers.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "check_peer": {
+        "description": "Whether or not server authenticity is enforced when a certificate is provided",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "certificate": {
+        "description": "The certificate of the Certificate Authority (CA) that signed the certificates of the directory servers, which is used to validate the authenticity of the configured servers A valid signed certificate in PEM format (Base64 encoded) Includes the \"-----BEGIN CERTIFICATE-----\" and \"-----END CERTIFICATE-----\" lines",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_dsrole": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure FlashArray Directory Service Roles",
+    "description": "Set or erase directory services role configurations.",
+    "options": {
+      "name": {
+        "description": "Name of role If not providied, will be assigned to the same as I(role)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Create or delete directory service role",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "role": {
+        "description": "The directory service role to work on",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "array_admin",
+          "ops_admin",
+          "readonly",
+          "storage_admin"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "group_base": {
+        "description": "Specifies where the configured group is located in the directory tree. This field consists of Organizational Units (OUs) that combine with the base DN attribute and the configured group CNs to complete the full Distinguished Name of the groups. The group base should specify OU= for each OU and multiple OUs should be separated by commas. The order of OUs is important and should get larger in scope from left to right. Each OU should not exceed 64 characters in length.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group": {
+        "description": "Sets the common Name (CN) of the configured directory service group containing users for the FlashBlade. This name should be just the Common Name of the group without the CN= specifier. Common Names should not exceed 64 characters in length.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_dsrole_old": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure FlashArray Directory Service Roles (pre-6.6.3)",
+    "description": "Set or erase directory services role configurations. Only available for FlashArray running Purity//FA 6.6.2 or lower Please use ``purefa_dsrole`` for FlashArrays running Purity//FA 6.6.3 or higher",
+    "options": {
+      "state": {
+        "description": "Create or delete directory service role",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "role": {
+        "description": "The directory service role to work on",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "array_admin",
+          "ops_admin",
+          "readonly",
+          "storage_admin"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "group_base": {
+        "description": "Specifies where the configured group is located in the directory tree. This field consists of Organizational Units (OUs) that combine with the base DN attribute and the configured group CNs to complete the full Distinguished Name of the groups. The group base should specify OU= for each OU and multiple OUs should be separated by commas. The order of OUs is important and should get larger in scope from left to right. Each OU should not exceed 64 characters in length.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "group": {
+        "description": "Sets the common Name (CN) of the configured directory service group containing users for the FlashBlade. This name should be just the Common Name of the group without the CN= specifier. Common Names should not exceed 64 characters in length.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_endpoint": {
     "short_description": "Manage VMware protocol-endpoints on Everpure FlashArrays",
-    "description": "",
-    "options": {},
+    "description": "Create, delete or eradicate the an endpoint on a Everpure FlashArray.",
+    "options": {
+      "name": {
+        "description": "The name of the endpoint.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the endpoint should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "eradicate": {
+        "description": "Define whether to eradicate the endpoint on delete or leave in trash.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "rename": {
+        "description": "Value to rename the specified endpoint to. Rename only applies to the container the current endpoint is in.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "name of host to attach endpoint to",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hgroup": {
+        "description": "name of hostgroup to attach endpoint to",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the volume operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "container_version": {
+        "description": "Defines vCenter and EXSi host compatibility of the protocol endpoint and its associated container.",
+        "type": "int",
+        "required": false,
+        "choices": [
+          1,
+          2,
+          3
+        ],
+        "default": 1,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_eradication": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Everpure FlashArray Eradication Timer",
+    "description": "Configure the eradication timer for destroyed items on a FlashArray. Valid values are integer days from 1 to 30. Default is 1.",
+    "options": {
+      "timer": {
+        "description": "Set the eradication timer for the FlashArray Allowed values are integers from 1 to 30. Default is 1 This parameter is not allowed to be specified with I(disabled_delay) or I(enabled_delay)",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disabled_delay": {
+        "description": "Configures the eradication delay for destroyed objects that I(are) protected by SafeMode (objects for which eradication is disabled) Allowed values are integers from 1 to 30. Default is 1",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "enabled_delay": {
+        "description": "Configures the eradication delay for destroyed objects that I(are not) protected by SafeMode (objects for which eradication is disabled) Allowed values are integers from 1 to 30. Default is 1",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_eula": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Sign Everpure FlashArray EULA",
+    "description": "Sign the FlashArray EULA for Day 0 config, or change signatory.",
+    "options": {
+      "company": {
+        "description": "Full legal name of the entity. The value must be between 1 and 64 characters in length.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "Full legal name of the individual at the company who has the authority to accept the terms of the agreement. The value must be between 1 and 64 characters in length.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "title": {
+        "description": "Individual's job title at the company. The value must be between 1 and 64 characters in length.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_export": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashArray File System Exports",
+    "description": "Create/Delete FlashArray File Systems Exports",
+    "options": {
+      "name": {
+        "description": "Name of the export",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the export should exist or not. You must specify an NFS or SMB policy, or both on creation and deletion.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "filesystem": {
+        "description": "Name of the filesystem the export applies to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "directory": {
+        "description": "Name of the managed directory in the file system the export applies to",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nfs_policy": {
+        "description": "Name of NFS Policy to apply to the export",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "smb_policy": {
+        "description": "Name of SMB Policy to apply to the export",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_file": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashArray File Copies",
+    "description": "Copy FlashArray File from one filesystem to another",
+    "options": {
+      "source_file": {
+        "description": "Name of the file to copy Include full path from the perspective of the source managed directory",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "source_dir": {
+        "description": "Name of the source managed directory containing the source file to be copied",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_file": {
+        "description": "Name of the file to copy to Include full path from the perspective of the target managed directory If not provided the file will be copied to the relative path specified by I(name)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_dir": {
+        "description": "Name of the target managed directory containing the source file to be copied If not provided will use managed directory specified by I(source_dir)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "overwrite": {
+        "description": "Define whether to overwrite an existing target file",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_fleet": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Fusion Fleet",
+    "description": "Create/Modify/Delete Fusion fleet and members",
+    "options": {
+      "name": {
+        "description": "Name of the fleet. If not provided local array will be used.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether to add or remove member from a fleet. Create a new fleet if one does not exist. This will use the current array as the first member. Fleet deletion can only occiur when the current array is the only fleet member.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "create"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "member_url": {
+        "description": "Management IP address/FQDN of array to add to fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "member_api": {
+        "description": "API token for target array",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rename": {
+        "description": "new name for fleet",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_fs": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashArray File Systems",
+    "description": "Create/Delete FlashArray File Systems",
+    "options": {
+      "name": {
+        "description": "Name of the file system",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the file system should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "eradicate": {
+        "description": "Define whether to eradicate the file system on delete or leave in trash.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "rename": {
+        "description": "Value to rename the specified file system to Rename only applies to the container the current filesystem is in. There is no requirement to specify the pod name as this is implied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "move": {
+        "description": "Move a filesystem in and out of a pod Provide the name of pod to move the filesystem to Pod names must be unique in the array To move to the local array, specify C(local) This is not idempotent - use C(ignore_errors) in the play",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_hardware": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashArray Hardware Identification",
+    "description": "Enable or disable FlashArray visual identification lights",
+    "options": {
+      "name": {
+        "description": "Name of hardware component",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "State of the component identification LED",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_hg": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage hostgroups on Everpure FlashArrays",
+    "description": "Create, delete or modify hostgroups on Everpure FlashArrays.",
+    "options": {
+      "name": {
+        "description": "The name of the hostgroup.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "hostgroup"
+        ]
+      },
+      "state": {
+        "description": "Define whether the hostgroup should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "host": {
+        "description": "List of existing hosts to add to hostgroup. Note that hostnames are case-sensitive however FlashArray hostnames are unique and ignore case - you cannot have I(hosta) and I(hostA)",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "volume": {
+        "description": "List of existing volumes to add to hostgroup. Note that volumes are case-sensitive however FlashArray volume names are unique and ignore case - you cannot have I(volumea) and I(volumeA)",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lun": {
+        "description": "LUN ID to assign to volume for hostgroup. Must be unique. Only applicable when only one volume is specified for connection. If not provided the ID will be automatically assigned. Range for LUN ID is 1 to 4095.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rename": {
+        "description": "New name of hostgroup",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "eradicate": {
+        "description": "Whether to eradicate a deleted host group or not",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_host": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage hosts on Everpure FlashArrays",
+    "description": "Create, delete or modify hosts on Everpure FlashArrays.",
+    "options": {
+      "name": {
+        "description": "The name of the host. Note that hostnames are case-sensitive however FlashArray hostnames are unique and ignore case - you cannot have I(hosta) and I(hostA) Multi-host support available from Purity//FA 6.0.0 B(***NOTE***) Manual deletion of individual hosts created using multi-host will cause idempotency to fail Multi-host support only exists for host creation",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "host"
+        ]
+      },
+      "protocol": {
+        "description": "Defines the host connection protocol for volumes. DEPRECATED No longer a necessary parameter",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "fc",
+          "iscsi",
+          "nvme",
+          "mixed"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "rename": {
+        "description": "The name to rename to. Note that hostnames are case-sensitive however FlashArray hostnames are unique and ignore case - you cannot have I(hosta) and I(hostA)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the host should exist or not. When removing host all connected volumes will be disconnected.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "wwns": {
+        "description": "List of wwns of the host.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iqn": {
+        "description": "List of IQNs of the host.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nqn": {
+        "description": "List of NQNs of the host. Note that NMVe hosts can only possess NQNs. Multi-protocol is not allowed for these hosts.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "volume": {
+        "description": "Volume name to map to the host.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lun": {
+        "description": "LUN ID to assign to volume for host. Must be unique. If not provided the ID will be automatically assigned. Range for LUN ID is 1 to 4095.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "count": {
+        "description": "Number of hosts to be created in a multiple host creation Only supported from Purity//FA v6.0.0 and higher",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "start": {
+        "description": "Number at which to start the multiple host creation index Only supported from Purity//FA v6.0.0 and higher",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "digits": {
+        "description": "Number of digits to use for multiple host count. This will pad the index number with zeros where necessary Only supported from Purity//FA v6.0.0 and higher Range is between 1 and 10",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "suffix": {
+        "description": "Suffix string, if required, for multiple host create Host names will be formed as I(<name>#<suffix>), where I(#) is a placeholder for the host index See associated descriptions Suffix string is optional Only supported from Purity//FA v6.0.0 and higher",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "personality": {
+        "description": "Define which operating system the host is. Recommended for ActiveCluster integration.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "hpux",
+          "vms",
+          "aix",
+          "esxi",
+          "solaris",
+          "hitachi-vsp",
+          "oracle-vm-server",
+          "delete",
+          ""
+        ],
+        "default": "",
+        "aliases": null
+      },
+      "preferred_array": {
+        "description": "List of preferred arrays in an ActiveCluster environment. To remove existing preferred arrays from the host, specify I(delete).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_user": {
+        "description": "Sets the target user name for CHAP authentication Required with I(target_password) To clear the username/password pair use I(clear) as the password",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_password": {
+        "description": "Sets the target password for CHAP authentication Password length between 12 and 255 characters To clear the username/password pair use I(clear) as the password SETTING A PASSWORD IS NON-IDEMPOTENT",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_user": {
+        "description": "Sets the host user name for CHAP authentication Required with I(host_password) To clear the username/password pair use I(clear) as the password",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host_password": {
+        "description": "Sets the host password for CHAP authentication Password length between 12 and 255 characters To clear the username/password pair use I(clear) as the password SETTING A PASSWORD IS NON-IDEMPOTENT",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vlan": {
+        "description": "The VLAN ID that the host is associated with. If not set or set to I(any), the host can access any VLAN. If set to I(untagged), the host can only access untagged VLANs. If set to a number between 1 and 4094, the host can only access the specified VLAN with that number.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "move": {
+        "description": "Move a host in and out of a local member realm(s) or local array Provide the name of realm(s) to move to To move to the local array, specify C(local) Host cannot have connected volume(s) for move operation",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "modify_resource_access": {
+        "description": "Describes how to modify a resource accesses of a resource when that resource is moved. The none value indicates that no resource access should be modified. The create value is used when a resource is moving out of a realm into the array and it needs to create a resource access of the moved resource to the realm from which it is moving. The delete value is used when a resource that is moving from an array into a realm already has a resource access into that realm.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "none",
+          "create",
+          "delete"
+        ],
+        "default": "none",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_info": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Collect information from Everpure FlashArray",
+    "description": "Collect information from a Everpure Flasharray running the Purity//FA operating system. By default, the module will collect basic information including hosts, host groups, protection groups and volume counts. Additional information can be collected based on the configured set of arguments.",
+    "options": {
+      "gather_subset": {
+        "description": "When supplied, this argument will define the information to be collected. Possible values for this include all, minimum, config, performance, capacity, network, subnet, interfaces, hgroups, pgroups, hosts, admins, volumes, snapshots, pods, replication, vgroups, offload, apps, arrays, certs, kmip, clients, policies, dir_snaps, filesystems, alerts, virtual_machines, subscriptions, realms, fleet, presets and workloads.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": "minimum",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_inventory": {
     "short_description": "Collect information from Everpure FlashArray",
-    "description": "",
+    "description": "Collect hardware inventory information from a Everpure Flasharray",
     "options": {},
     "deprecated": null
   },
   "purestorage.flasharray.purefa_kmip": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashArray KMIP server objects",
+    "description": "Manage FlashArray KMIP Server objects",
+    "options": {
+      "name": {
+        "description": "Name of the KMIP server object",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "certificate": {
+        "description": "Name of existing certificate used to verify FlashArray authenticity to the KMIP server. Use the I(purestorage.flasharray.purefa_certs) module to create certificates.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Action for the module to perform",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "test"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "ca_certificate": {
+        "description": "The text of the CA certificate for the KMIP server. Includes the \"-----BEGIN CERTIFICATE-----\" and \"-----END CERTIFICATE-----\" lines Does not exceed 3000 characters in length",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uris": {
+        "description": "A list of URIs for the configured KMIP servers.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_logging": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Everpure FlashArray Audit and Session logs",
+    "description": "view the FlashArray audit trail oe session logs, newest to oldest based on (start) time",
+    "options": {
+      "log_type": {
+        "description": "The type of logs to be viewed",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "audit",
+          "session"
+        ],
+        "default": "audit",
+        "aliases": null
+      },
+      "limit": {
+        "description": "The maximum number of audit events returned",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1000,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_maintenance": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Everpure FlashArray Maintenance Windows",
+    "description": "Configuration for Everpure FlashArray Maintenance Windows.",
+    "options": {
+      "state": {
+        "description": "Create or delete maintennance window",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Maintenance window period, specified in seconds. Range allowed is 1 hour (3600 seconds) to 48 hours (172800 seconds) Default setting is 1 hour (3600 seconds)",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3600,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_messages": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "List FlashArray Alert Messages",
+    "description": "List Alert messages based on filters provided",
+    "options": {
+      "severity": {
+        "description": "severity of the alerts to show",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "critical",
+          "warning",
+          "info"
+        ],
+        "default": "info",
+        "aliases": null
+      },
+      "state": {
+        "description": "State of alerts to show",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "open",
+          "closed"
+        ],
+        "default": "open",
+        "aliases": null
+      },
+      "flagged": {
+        "description": "Show alerts that have been acknowledged or not",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "history": {
+        "description": "Historical time period to show alerts for, from present time Allowed time period are hour(h), day(d), week(w) and year(y)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "1w",
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_network": {
     "short_description": "Manage network interfaces in a Everpure FlashArray",
-    "description": "",
-    "options": {},
+    "description": "This module manages the physical and virtual network interfaces on a Everpure FlashArray. To manage VLAN interfaces use the I(purestorage.flasharray.purefa_vlan) module. To manage network subnets use the I(purestorage.flasharray.purefa_subnet) module. To remove an IP address from a non-management port use 0.0.0.0/0",
+    "options": {
+      "name": {
+        "description": "Interface name (physical or virtual).",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of existing interface (on/off).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "address": {
+        "description": "IPv4 or IPv6 address of interface in CIDR notation. To remove an IP address from a non-management port use 0.0.0.0/0",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gateway": {
+        "description": "IPv4 or IPv6 address of interface gateway.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mtu": {
+        "description": "MTU size of the interface. Range is 1280 to 9216.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "servicelist": {
+        "description": "Assigns the specified (comma-separated) service list to one or more specified interfaces. Replaces the previous service list. Supported service lists depend on whether the network interface is Ethernet or Fibre Channel. Note that I(system) is only valid for Cloud Block Store.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "replication",
+          "management",
+          "ds",
+          "file",
+          "iscsi",
+          "scsi-fc",
+          "nvme-fc",
+          "nvme-tcp",
+          "nvme-roce",
+          "system"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "interface": {
+        "description": "Type of interface to create if subinterfaces is supplied",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "vif",
+          "lacp"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "subordinates": {
+        "description": "List of one or more child devices to be added to a LACP interface Subordinates must be on the same controller, therefore the full device needs to be provided.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subinterfaces": {
+        "description": "List of one or more child devices to be added to a VIF interface Only the 'eth' name needs to be provided, such as 'eth6'. This interface on all controllers will be assigned to the interface.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subnet": {
+        "description": "Name of the subnet which interface is to be attached",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "State of the network interface",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_ntp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Everpure FlashArray NTP settings",
+    "description": "Set, erase or test NTP configuration for Everpure FlashArrays.",
+    "options": {
+      "state": {
+        "description": "Create, delete or test NTP servers configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "test"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "ntp_servers": {
+        "description": "A list of up to 4 alternate NTP servers. These may include IPv4, IPv6 or FQDNs. Invalid IP addresses will cause the module to fail. No validation is performed for FQDNs. If more than 4 servers are provided, only the first 4 unique nameservers will be used. if no servers are given a default of I(0.pool.ntp.org) will be used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ntp_key": {
+        "description": "The NTP symmetric key to be used for NTP authentication. If it is an ASCII string, it cannot contain the character \"#\" and cannot be longer than 20 characters. If it is a hex-encoded string, it cannot be longer than 64 characters. Setting this parameter is not idempotent.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the ntp operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_offload": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Create, modify and delete NFS, S3 or Azure offload targets",
+    "description": "Create, modify and delete NFS, S3, Azure or GCP offload targets. You must have a correctly configured offload app installed and a correctly configured offload network for offload to work.",
+    "options": {
+      "state": {
+        "description": "Define state of offload",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the offload target",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol": {
+        "description": "Define which protocol the offload engine uses NFS is not a supported protocol from Purity//FA 6.6.0 and higher",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "nfs",
+          "s3",
+          "azure",
+          "gcp"
+        ],
+        "default": "nfs",
+        "aliases": null
+      },
+      "address": {
+        "description": "The IP or FQDN address of the NFS server",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "share": {
+        "description": "NFS export on the NFS server",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "options": {
+        "description": "Additional mount options for the NFS share Supported mount options include I(port), I(rsize), I(wsize), I(nfsvers), and I(tcp) or I(udp)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "access_key": {
+        "description": "Access Key ID of the offload target",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "container": {
+        "description": "Name of the blob container of the Azure target",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "offload",
+        "aliases": null
+      },
+      "bucket": {
+        "description": "Name of the bucket for the S3 or GCP target",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "account": {
+        "description": "Name of the Azure blob storage account",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "secret": {
+        "description": "Secret Access Key for the offload target",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "initialize": {
+        "description": "Define whether to initialize the offload bucket",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "placement": {
+        "description": "AWS S3 placement strategy",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "retention-based",
+          "aws-standard-class",
+          "aws-intelligent-tiering"
+        ],
+        "default": "retention-based",
+        "aliases": null
+      },
+      "profile": {
+        "description": "The Offload target profile that will be selected for this target. This option allows more granular configuration for the target on top of the protocol parameter",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "azure",
+          "gcp",
+          "nfs",
+          "nfs-flashblade",
+          "s3-aws",
+          "s3-flashblade",
+          "s3-scality-ring",
+          "s3-wasabi-pay-as-you-go",
+          "s3-wasabi-rcs",
+          "s3-other"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "uri": {
+        "description": "The URI used to create a connection between the array and a non-AWS S3 offload target. Storage placement strategies are not supported for non-AWS S3 offload targets. Both the HTTP and HTTPS protocols are allowed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auth_region": {
+        "description": "The region that will be used for initial authentication request. This parameter is optional and should be used only when region autodetection fails.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_pg": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage protection groups on Everpure FlashArrays",
+    "description": "Create, delete or modify protection groups on Everpure FlashArrays. If a protection group exists and you try to add non-valid types, eg. a host to a volume protection group the module will ignore the invalid types. Protection Groups on Offload targets are supported.",
+    "options": {
+      "name": {
+        "description": "The name of the protection group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "pgroup"
+        ]
+      },
+      "state": {
+        "description": "Define whether the protection group should exist or not. If specified with I(volume) or I(host) or I(hostgroup) will act on those items in the protection group only.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "volume": {
+        "description": "List of existing volumes to add to protection group. Note that volume are case-sensitive however FlashArray volume names are unique and ignore case - you cannot have I(volumea) and I(volumeA)",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "List of existing hosts to add to protection group. Note that hostnames are case-sensitive however FlashArray hostnames are unique and ignore case - you cannot have I(hosta) and I(hostA)",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "hostgroup": {
+        "description": "List of existing hostgroups to add to protection group. Note that hostgroups are case-sensitive however FlashArray hostgroup names are unique and ignore case - you cannot have I(groupa) and I(groupA)",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "eradicate": {
+        "description": "Define whether to eradicate the protection group on delete and leave in trash.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Define whether to enabled snapshots for the protection group.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "target": {
+        "description": "List of remote arrays or offload target for replication protection group to connect to. Note that all replicated protection groups are asynchronous. Target arrays or offload targets must already be connected to the source array. Maximum number of targets per Portection Group is 4, assuming your configuration supports this.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rename": {
+        "description": "Rename a protection group If the source protection group is in a Pod or Volume Group 'container' you only need to provide the new protection group name in the same 'container'",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "safe_mode": {
+        "description": "Enables SafeMode restrictions on the protection group B(Once set disabling this can only be performed by Pure Technical Support)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_pgsched": {
     "short_description": "Manage protection groups replication schedules on Everpure FlashArrays",
-    "description": "",
-    "options": {},
+    "description": "Modify or delete protection groups replication schedules on Everpure FlashArrays.",
+    "options": {
+      "name": {
+        "description": "The name of the protection group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether to set or delete the protection group schedule.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "schedule": {
+        "description": "Which schedule to change.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "replication",
+          "snapshot"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Enable the schedule being configured.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "replicate_at": {
+        "description": "Provide a time in 12-hour AM/PM format, eg. 11AM Only valid if I(replicate_frequency) is an exact multiple of 86400, ie 1 day. Set to an empty string \"\" to clear an existing at value (sends -1 to the API). Automatically cleared when I(replicate_frequency) changes to a non-day multiple.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "blackout_start": {
+        "description": "Specifies the time at which to suspend replication. Provide a time in 12-hour AM/PM format, eg. 11AM",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "blackout_end": {
+        "description": "Specifies the time at which to restart replication. Provide a time in 12-hour AM/PM format, eg. 5PM",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "replicate_frequency": {
+        "description": "Specifies the replication frequency in seconds. Range 900 - 34560000 (FA-405, //M10, //X10 and Cloud Block Store). Range 300 - 34560000 (all other arrays).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snap_at": {
+        "description": "Provide a time in 12-hour AM/PM format, eg. 11AM Only valid if I(snap_frequency) is an exact multiple of 86400, ie 1 day. Set to an empty string \"\" to clear an existing at value (sends -1 to the API). Automatically cleared when I(snap_frequency) changes to a non-day multiple.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snap_frequency": {
+        "description": "Specifies the snapshot frequency in seconds. Range available 300 - 34560000.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "days": {
+        "description": "Specifies the number of days to keep the I(per_day) snapshots beyond the I(all_for) period before they are eradicated Max retention period is 4000 days",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "all_for": {
+        "description": "Specifies the length of time, in seconds, to keep the snapshots on the source array before they are eradicated. Range available 1 - 34560000.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "per_day": {
+        "description": "Specifies the number of I(per_day) snapshots to keep beyond the I(all_for) period. Maximum number is 1440",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_all_for": {
+        "description": "Specifies the length of time, in seconds, to keep the replicated snapshots on the targets. Range is 1 - 34560000 seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_per_day": {
+        "description": "Specifies the number of I(per_day) replicated snapshots to keep beyond the I(target_all_for) period. Maximum number is 1440",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_days": {
+        "description": "Specifies the number of days to keep the I(target_per_day) replicated snapshots beyond the I(target_all_for) period before they are eradicated. Max retention period is 4000 days",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_pgsnap": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage protection group snapshots on Everpure FlashArrays",
+    "description": "Create or delete protection group snapshots on Everpure FlashArray. Recovery of replicated snapshots on the replica target array is enabled. Support for ActiveCluster and Volume Group protection groups is supported.",
+    "options": {
+      "name": {
+        "description": "The name of the source protection group.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "suffix": {
+        "description": "Suffix of snapshot name. Special case. If I(latest) the module will select the latest snapshot created in the group",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the protection group snapshot should exist or not. Copy (added in 2.7) will create a full read/write clone of the snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "copy",
+          "rename"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "eradicate": {
+        "description": "Define whether to eradicate the snapshot on delete or leave in trash.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "restore": {
+        "description": "Restore a specific volume from a protection group snapshot. The protection group name is not required. Only provide the name of the volume to be restored.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "overwrite": {
+        "description": "Define whether to overwrite the target volume if it already exists.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "target": {
+        "description": "Volume to restore a specified volume to. If not supplied this will default to the volume defined in I(restore) Name of new snapshot suffix if renaming a snapshot",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "offload": {
+        "description": "Name of offload target on which the snapshot exists. This is only applicable for deletion and erasure of snapshots",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "now": {
+        "description": "Whether to initiate a snapshot of the protection group immediately",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "apply_retention": {
+        "description": "Apply retention schedule settings to the snapshot",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "remote": {
+        "description": "Force immediate snapshot to remote targets",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "throttle": {
+        "description": "If set to true, allows snapshot to fail if array health is not optimal.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "with_default_protection": {
+        "description": "Whether to add the default container protection groups to those specified in I(add_to_pgs) as the initial protection of a volume created from a snapshot.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "add_to_pgs": {
+        "description": "A volume created from a snapshot will be added to the specified protection groups",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_phonehome": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Enable or Disable Everpure FlashArray Phonehome",
+    "description": "Enablke or Disable Phonehome for a Everpure FlashArray.",
+    "options": {
+      "state": {
+        "description": "Define state of phonehome",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "excludes": {
+        "description": "Items that are excluded from phonehome data collection",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "application-insights"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_pod": {
     "short_description": "Manage AC pods in Everpure FlashArrays",
-    "description": "",
-    "options": {},
+    "description": "Manage AC pods in a Everpure FlashArray.",
+    "options": {
+      "name": {
+        "description": "The name of the pod.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "stretch": {
+        "description": "The name of the array to stretch to/unstretch from. Must be synchromously replicated. To unstretch an array use state I(absent) You can only specify a remote array, ie you cannot unstretch a pod from the current array and then restretch back to the current array. To restretch a pod you must perform this from the remaining array the pod resides on.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "failover": {
+        "description": "The name of the array given priority to stay online if arrays loose contact with each other. Options are either array in the cluster, or I(auto)",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the pod should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "eradicate": {
+        "description": "Define whether to eradicate the pod on delete or leave in trash.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "target": {
+        "description": "Name of clone target pod.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mediator": {
+        "description": "Name of the mediator to use for a pod",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "purestorage",
+        "aliases": null
+      },
+      "promote": {
+        "description": "Promote/demote any pod not in a stretched relationship. . Demoting a pod will render it read-only.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "quiesce": {
+        "description": "Quiesce/Skip quiesce when I(promote) is false and demoting an ActiveDR pod. Quiesce will ensure all local data has been replicated before demotion. Skipping quiesce looses all pending data to be replicated to the remote pod. Can only demote the pod if it is in a Acrive DR replica link relationship. This will default to True",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "undo": {
+        "description": "Use the I(undo-remote) pod when I(promote) is true and promoting an ActiveDR pod. This will default to True",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "quota": {
+        "description": "Logical quota limit of the pod in K, M, G, T or P units, or bytes.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ignore_usage": {
+        "description": "Flag used to override checks for quota management operations. If set to true, pod usage is not checked against the quota_limits that are set. If set to false, the actual logical bytes in use are prevented from exceeding the limits set on the pod. Client operations might be impacted. If the limit exceeds the quota, the operation is not allowed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "throttle": {
+        "description": "Allows pod creation to fail if array health is not optimal",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "delete_contents": {
+        "description": "This enables you to eradicate pods with contents.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "with_default_protection": {
+        "description": "Whether to keep the default container protection for the pod Only applicable for first creation of a pod",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "default_protection_pg": {
+        "description": "Name of the default protection default for the pod Only applicable for existing pods Name must include the pod name Will create the PG in the pod if it doesn't already exist To remove an existing default protection group provide I([])",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "retention_lock": {
+        "description": "Define if I(default_protection_pg) has retention lock enabled",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_pod_replica": {
     "short_description": "Manage ActiveDR pod replica links between Everpure FlashArrays",
-    "description": "",
-    "options": {},
+    "description": "This module manages ActiveDR pod replica links between Everpure FlashArrays.",
+    "options": {
+      "name": {
+        "description": "ActiveDR source pod name",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Creates or modifies a pod replica link",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "target_array": {
+        "description": "Remote array name to create replica on.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target_pod": {
+        "description": "Name of target pod Must not be the same as the local pod.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pause": {
+        "description": "Pause/unpause a pod replica link",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_policy": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashArray File System Policies",
+    "description": "Manage FlashArray file system policies for NFS, SMB and snapshot",
+    "options": {
+      "name": {
+        "description": "Name of the policy",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the policy should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "policy": {
+        "description": "The type of policy to use",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "nfs",
+          "smb",
+          "snapshot",
+          "quota",
+          "autodir",
+          "password"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Define if policy is enabled or not",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "smb_anon_allowed": {
+        "description": "Specifies whether access to information is allowed for anonymous users",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "client": {
+        "description": "Specifies which SMB or NFS clients are given access Accepted notation, IP, IP mask, or hostname",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "smb_encrypt": {
+        "description": "Specifies whether the remote client is required to use SMB encryption",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "nfs_access": {
+        "description": "Specifies access control for the export",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "root-squash",
+          "no-root-squash",
+          "all-squash"
+        ],
+        "default": "no-root-squash",
+        "aliases": null
+      },
+      "nfs_permission": {
+        "description": "Specifies which read-write client access permissions are allowed for the export",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ro",
+          "rw"
+        ],
+        "default": "rw",
+        "aliases": null
+      },
+      "nfs_version": {
+        "description": "NFS protocol version allowed for the export",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "nfsv3",
+          "nfsv4"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "user_mapping": {
+        "description": "Defines if user mapping is enabled",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "snap_at": {
+        "description": "Specifies the number of hours since midnight at which to take a snapshot or the hour including AM/PM Can only be set on the rule with the smallest I(snap_every) value. Cannot be set if the I(snap_every) value is not measured in days. Can only be set for at most one rule in the same policy.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snap_every": {
+        "description": "Specifies the interval between snapshots, in minutes. The value for all rules must be multiples of one another. Must be unique for each rule in the same policy. Value must be between 5 and 525600.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snap_keep_for": {
+        "description": "Specifies the period that snapshots are retained before they are eradicated, in minutes. Cannot be less than the I(snap_every) value of the rule. Value must be unique for each rule in the same policy. Value must be between 5 and 525600.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snap_client_name": {
+        "description": "The customizable portion of the client visible snapshot name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snap_suffix": {
+        "description": "The snapshot suffix name The suffix value can only be set for one rule in the same policy The suffix value can only be set on a rule with the same ``keep_for`` value and ``every`` value The suffix value can only be set on the rule with the largest ``keep_for`` value If not specified, defaults to a monotonically increasing number generated by the system.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rename": {
+        "description": "New name of policy",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "directory": {
+        "description": "Directories to have the quota rule applied to.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "quota_limit": {
+        "description": "Logical space limit of the share in M, G, T or P units. See examples. If size is not set at filesystem creation time the filesystem size becomes unlimited. This value cannot be set to 0.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "quota_notifications": {
+        "description": "Targets to notify when usage approaches the quota limit. The list of notification targets is a comma-separated string If not specified, notification targets are not assigned.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "user",
+          "group",
+          "none"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "quota_enforced": {
+        "description": "Defines if the directory quota is enforced.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "ignore_usage": {
+        "description": "Flag used to override checks for quota management operations. If set to true, directory usage is not checked against the quota_limits that are set. If set to false, the actual logical bytes in use are prevented from exceeding the limits set on the directory. Client operations might be impacted. If the limit exceeds the quota, the client operation is not allowed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "anonuid": {
+        "description": "The ID to which any users whose UID is affected by I(access) of I(root-squash) or I(all-squash) will be mapped to. Clear using \"\".",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "65534",
+        "aliases": null
+      },
+      "anongid": {
+        "description": "The ID to which any users whose GID is affected by I(access) of I(root-squash) or I(all-squash) will be mapped to. This is ignored when I(user_mapping) is enabled. Clear using \"\".",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "65534",
+        "aliases": null
+      },
+      "security": {
+        "description": "The security flavors to use for accessing files on a mount point. If the server does not support the requested flavor, the mount operation fails. This operation updates all rules of the specified policy.",
+        "type": "list",
+        "required": false,
+        "choices": [
+          "auth_sys",
+          "krb5",
+          "krb5i",
+          "krb5p"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "access_based_enumeration": {
+        "description": "Defines if access based enumeration for SMB is enabled",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "enforce_dictionary_check": {
+        "description": "If I(true), test password against dictionary of known leaked passwords. Only applies to passwords longer than 6 characters.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enforce_username_check": {
+        "description": "If I(true), the username cannot be a substring of the password. It only applies to usernames of 3 characters and longer",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_login_attempts": {
+        "description": "Maximum number of failed logins before account is locked",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "min_password_length": {
+        "description": "Minimum user password length",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "lockout_duration": {
+        "description": "Account lockout duration, in seconds, after I(max_login_attempts) exceeded Range between 1 second and 90 days (7776000 seconds)",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password_history": {
+        "description": "The number of passwords tracked to prevent reuse of passwords. A value of 0 will not check password history",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "min_character_groups": {
+        "description": "The minimum number of character groups required to be present in a password.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "min_characters_per_group": {
+        "description": "The minimum number of characters per group to count the group as present. Maximum is limited by the minimum password length divided by the number of character groups",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "min_password_age": {
+        "description": "Minimum password age before a password can be changed. Value can be specified as a human-readable time period (e.g., C(1d), C(2h), C(30m), C(60s)) or as an integer representing seconds. Supported time units are C(w) (weeks), C(d) (days), C(h) (hours), C(m) (minutes), C(s) (seconds). Range between 0 seconds (no minimum) and 7 days. A value of 0 or C(0s) means passwords can be changed immediately.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "max_password_age": {
+        "description": "Maximum password age before a password must be changed. Value can be specified as a human-readable time period (e.g., C(90d), C(1w), C(24h)) or as an integer representing seconds. Supported time units are C(w) (weeks), C(d) (days), C(h) (hours), C(m) (minutes), C(s) (seconds). Range between 1 day and 99999 days. A value of 0 or C(0s) disables password expiration.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rule_name": {
+        "description": "Name of rule to update for a quota policy",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "continuous_availability": {
+        "description": "Defines if continuous availability on the policy. When continuous availability is enabled on a policy, file shares are accessible during otherwise disruptive scenarios such as temporary network outages, controller upgrades or failovers.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_proxy": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure FlashArray phonehome HTTPs proxy settings",
+    "description": "Set or erase configuration for the HTTPS phonehome proxy settings.",
+    "options": {
+      "state": {
+        "description": "Set or delete proxy configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "protocol": {
+        "description": "The proxy protocol.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "http",
+          "https"
+        ],
+        "default": "https",
+        "aliases": null
+      },
+      "host": {
+        "description": "The proxy host name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "The proxy TCP/IP port number.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_ra": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Enable or Disable Everpure FlashArray Remote Assist",
+    "description": "Enable or Disable Remote Assist for a Everpure FlashArray.",
+    "options": {
+      "state": {
+        "description": "Define state of remote assist When set to I(enable) the RA port can be exposed using the I(debug) module.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enable",
+          "disable",
+          "absent",
+          "present",
+          "test"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "duration": {
+        "description": "Number of hours Remote Assist port stays open for. Must be an integer between 4 and 48",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 24,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_realm": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage realms on Everpure FlashArrays",
+    "description": "Create, delete or modify realms on Everpure FlashArrays.",
+    "options": {
+      "name": {
+        "description": "The name of the realm. This has to be unique and not equal to any existing realm or pod.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the realm should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "eradicate": {
+        "description": "Define whether to eradicate the realm on delete or leave in trash.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "quota": {
+        "description": "Logical quota limit of the realm in K, M, G, T or P units, or bytes. This must be a multiple of 512.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "bw_qos": {
+        "description": "Bandwidth limit for realm in M or G units. M will set MB/s G will set GB/s To clear an existing QoS setting use 0 (zero)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iops_qos": {
+        "description": "IOPs limit for realm - use value or K or M K will mean 1000 M will mean 1000000 To clear an existing IOPs setting use 0 (zero)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rename": {
+        "description": "Value to rename the specified realm to This has to be unique and not equal to any existing realm or pods.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ignore_usage": {
+        "description": "Flag used to override checks for quota management operations. If set to true, realm usage is not checked against the quota_limits that are set. If set to false, the actual logical bytes in use are prevented from exceeding the limits set in the realm. Client operations might be impacted. If the limit exceeds the quota, the operation is not allowed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "delete_contents": {
+        "description": "This enables you to eradicate realms with contents.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_saml": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashArray SAML2 service and identity providers",
+    "description": "Enable or disable FlashArray SAML2 providers",
+    "options": {
+      "name": {
+        "description": "Name of the SAML2 identity provider (IdP)",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the API client should exist or not, or test.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "test"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "url": {
+        "description": "The URL of the identity provider",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "array_url": {
+        "description": "The URL of the FlashArray",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "metadata_url": {
+        "description": "The URL of the identity provider metadata",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Defines the enabled state of the identity provider",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "encrypt_asserts": {
+        "description": "If set to true, SAML assertions will be encrypted by the identity provider",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "sign_request": {
+        "description": "If set to true, SAML requests will be signed by the service provider.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "x509_cert": {
+        "description": "The X509 certificate that the service provider uses to verify the SAML response signature from the identity provider",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "decryption_credential": {
+        "description": "The credential used by the service provider to decrypt encrypted SAML assertions from the identity provider",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "signing_credential": {
+        "description": "The credential used by the service provider to sign SAML requests",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_sessions": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "List FlashArray Sessions",
+    "description": "List sessions based on filters provided",
+    "options": {
+      "start": {
+        "description": "Start date and time (based on array local time) If not provided epoch is assumed Expected format \"YYYY-MM-DD hh:mm:ss\"",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "end": {
+        "description": "End date and time (based on array local time) If not provided epoch is assumed Expected format \"YYYY-MM-DD hh:mm:ss\"",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timezone": {
+        "description": "The timezone of the FlashArray If not provided, the module will attempt to get the current local timezone from the server however from Purity//FA 6.5.3 this value will calculated automatically from the FlashArray",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_smis": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Enable or disable FlashArray SMI-S features",
+    "description": "Enable or disable FlashArray SMI-S Provider and/or SLP",
+    "options": {
+      "slp": {
+        "description": "Enable/Disable Service Locator Protocol Ports used are TCP 427 and UDP 427",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "smis": {
+        "description": "Enable/Disable SMI-S Provider Port used is TCP 5989",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_smtp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure FlashArray SMTP settings",
+    "description": "Set or erase configuration for the SMTP settings. If username/password are set this will always force a change as there is no way to see if the password is different from the current SMTP configuration. Everpure Ansible Team (@sdodsley) <pure-ansible-team@purestorage.com>",
+    "options": {
+      "state": {
+        "description": "Set or delete SMTP configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "password": {
+        "description": "The SMTP password.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user": {
+        "description": "The SMTP username.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "relay_host": {
+        "description": "IPv4 or IPv6 address or FQDN. A port number may be appended.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sender_domain": {
+        "description": "Domain name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sender": {
+        "description": "The local-part of the email address used when sending alert email messages.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subject_prefix": {
+        "description": "Optional string added to the beginning of the subject when sending alert email messages. HTML tags are not allowed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "body_prefix": {
+        "description": "Optional string added to the beginning of the email body when sending alert email messages. HTML tags are not allowed.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "encryption_mode": {
+        "description": "Enforces an encryption mode when sending alert email messages. Use empty string to clear.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "starttls",
+          ""
+        ],
+        "default": "starttls",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_snap": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage volume snapshots on Everpure FlashArrays",
+    "description": "Create or delete volumes and volume snapshots on Everpure FlashArray.",
+    "options": {
+      "name": {
+        "description": "The name of the source volume.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "suffix": {
+        "description": "Suffix of snapshot name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target": {
+        "description": "Name of target volume if creating from snapshot. Name of new snapshot suffix if renaming a snapshot",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "overwrite": {
+        "description": "Define whether to overwrite existing volume when creating from snapshot.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "offload": {
+        "description": "Only valid for Purity//FA 6.1 or higher Name of offload target for the snapshot. Target can be either another FlashArray or an Offload Target This is only applicable for creation, deletion and eradication of snapshots I(state) of I(copy) is not supported.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the volume snapshot should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "copy",
+          "present",
+          "rename"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "eradicate": {
+        "description": "Define whether to eradicate the snapshot on delete or leave in trash.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "ignore_repl": {
+        "description": "Only valid for Purity//FA 6.1 or higher If set to true, allow destruction/eradication of snapshots in use by replication. If set to false, allow destruction/eradication of snapshots not in use by replication",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "throttle": {
+        "description": "If set to true, allows snapshot to fail if array health is not optimal.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_snmp": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure FlashArray SNMP Managers",
+    "description": "Manage SNMP managers on a Everpure FlashArray. Changing of a named SNMP managers version is not supported. This module is not idempotent and will always modify an existing SNMP manager due to hidden parameters that cannot be compared to the play parameters.",
+    "options": {
+      "name": {
+        "description": "Name of SNMP Manager",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Create, delete or testSNMP manager",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "test"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "auth_passphrase": {
+        "description": "SNMPv3 only. Passphrase of 8 - 32 characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auth_protocol": {
+        "description": "SNMP v3 only. Hash algorithm to use",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "MD5",
+          "SHA"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "community": {
+        "description": "SNMP v2c only. Manager community ID. Between 1 and 32 characters long.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "IPv4 or IPv6 address or FQDN to send trap messages to.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "user": {
+        "description": "SNMP v3 only. User ID recognized by the specified SNMP manager. Must be between 1 and 32 characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "version": {
+        "description": "Version of SNMP protocol to use for the manager.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "v2c",
+          "v3"
+        ],
+        "default": "v2c",
+        "aliases": null
+      },
+      "notification": {
+        "description": "Action to perform on event.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "inform",
+          "trap"
+        ],
+        "default": "trap",
+        "aliases": null
+      },
+      "privacy_passphrase": {
+        "description": "SNMPv3 only. Passphrase to encrypt SNMP messages. Must be between 8 and 63 non-space ASCII characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privacy_protocol": {
+        "description": "SNMP v3 only. Encryption protocol to use",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "AES",
+          "DES"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_snmp_agent": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure the FlashArray SNMP Agent",
+    "description": "Manage the I(localhost) SNMP Agent on a Everpure FlashArray. This module is not idempotent and will always modify the SNMP Agent due to hidden parameters that cannot be compared to the task parameters.",
+    "options": {
+      "state": {
+        "description": "Used to set or clear the SNMP v2c community string or the SNMP v3 auth and privacy protocols.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "user": {
+        "description": "SNMP v3 only. User ID which must be between 1 and 32 characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "version": {
+        "description": "Version of SNMP protocol to use for the manager.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "v2c",
+          "v3"
+        ],
+        "default": "v2c",
+        "aliases": null
+      },
+      "community": {
+        "description": "SNMP v2c only. Manager community ID under which Purity//FA is to communicate with the specified managers. To remove the string set I(state) to I(absent) with I(version) set to I(v2c)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auth_passphrase": {
+        "description": "SNMP v3 only. Passphrade used by Purity//FA to authenticate the array with the specified managers. Must be between 8 and 63 non-space ASCII characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "auth_protocol": {
+        "description": "SNMP v3 only. Encryption protocol to use To remove the privacy and auth protocols set I(state) to I(absent) with I(version) set to I(v3)",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "MD5",
+          "SHA"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "privacy_passphrase": {
+        "description": "SNMP v3 only. Passphrase to encrypt SNMP messages. Must be between 8 and 63 non-space ASCII characters.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "privacy_protocol": {
+        "description": "SNMP v3 only. Encryption protocol to use To remove the privacy and auth protocols set I(state) to I(absent) with I(version) set to I(v3)",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "AES",
+          "DES"
+        ],
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_sso": {
-    "short_description": "",
-    "description": "",
-    "options": {},
-    "deprecated": null
+    "short_description": "Configure Everpure FlashArray Single Sign-On",
+    "description": "Enable or disable Single Sign-On (SSO) to give LDAP users the ability to navigate seamlessly from Pure1 Manage to the current array through a single login.",
+    "options": {
+      "state": {
+        "description": "Enable or disable the array Single Sign-On from Pure1 Manage",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      }
+    },
+    "deprecated": "Superseded by M(purestorage.flasharray.purefa_admin)"
   },
   "purestorage.flasharray.purefa_subnet": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage network subnets in a Everpure FlashArray",
+    "description": "This module manages the network subnets on a Everpure FlashArray.",
+    "options": {
+      "name": {
+        "description": "Subnet name.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Create or delete subnet.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "enabled": {
+        "description": "whether the subnet should be enabled or not",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "prefix": {
+        "description": "Set the IPv4 or IPv6 address to be associated with the subnet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "gateway": {
+        "description": "IPv4 or IPv6 address of subnet gateway. To clear the gateway enter \"0.0.0.0\" or \"::\" depending on IP type",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "mtu": {
+        "description": "MTU size of the subnet. Range is 568 to 9000.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vlan": {
+        "description": "VLAN ID. Range is 0 to 4094.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_syslog": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Everpure FlashArray syslog settings",
+    "description": "Configure syslog configuration for Everpure FlashArrays. Manage individual syslog servers.",
+    "options": {
+      "state": {
+        "description": "Create, updatee, delete or test syslog servers configuration",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "test"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "protocol": {
+        "description": "Protocol which server uses",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "tcp",
+          "tls",
+          "udp"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "port": {
+        "description": "Port at which the server is listening. If no port is specified the system will use 514",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "address": {
+        "description": "Syslog server address. This field supports IPv4, IPv6 or FQDN. An invalid IP addresses will cause the module to fail. No validation is performed for FQDNs.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "A user-specified name. The name must be locally unique and cannot be changed.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the syslog operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_syslog_settings": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage FlashArray syslog servers settings",
+    "description": "Manage FlashArray syslog servers settings",
+    "options": {
+      "severity": {
+        "description": "Logging severity threshold for which events will be forwarded to the configured syslog servers.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "debug",
+          "info",
+          "notice"
+        ],
+        "default": "info",
+        "aliases": null
+      },
+      "ca_certificate": {
+        "description": "The text of the CA certificate for configured syslog servers. Includes the \"-----BEGIN CERTIFICATE-----\" and \"-----END CERTIFICATE-----\" lines Does not exceed 3000 characters in length To delete the existing CA certificate use the special string `DELETE`",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tls_audit": {
+        "description": "If messages that are necessary in order to audit TLS negotiations performed by the array are forwarded to the syslog servers.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_timeout": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Configure Everpure FlashArray GUI idle timeout",
+    "description": "Configure GUI idle timeout for Everpure FlashArrays. This does not affect existing GUI sessions.",
+    "options": {
+      "state": {
+        "description": "Set or disable the GUI idle timeout",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Minutes for idle timeout.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 30,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_token": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Create or delete an API token for an existing admin user",
+    "description": "Create or delete an API token for an existing admin user. Uses username/password to create/delete the API token.",
+    "options": {
+      "state": {
+        "description": "Create or delete API token",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "recreate": {
+        "description": "Recreates the API token, overwriting the existing API token if present",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "username": {
+        "description": "Username of the admin user to create API token for",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "password": {
+        "description": "Password of the admin user to create API token for.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "fa_url": {
+        "description": "FlashArray management IPv4 address or Hostname.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The duration of API token validity. Valid values are weeks (w), days(d), hours(h), minutes(m) and seconds(s).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disable_warnings": {
+        "description": "Disable insecure certificate warnings in debug logs",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_user": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Create, modify or delete FlashArray local user account",
+    "description": "Create, modify or delete local users on a Everpure FlashArray.",
+    "options": {
+      "state": {
+        "description": "Create, delete or update local user account",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the local user account",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "role": {
+        "description": "Sets the local user's access level to the array",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "readonly",
+          "ops_admin",
+          "storage_admin",
+          "array_admin"
+        ],
+        "default": "readonly",
+        "aliases": null
+      },
+      "password": {
+        "description": "Password for the local user.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "old_password": {
+        "description": "If changing an existing password, you must provide the old password for security",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "api": {
+        "description": "Define whether to create an API token for this user Token can be exposed using the I(debug) module",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The duration of API token validity. Valid values are weeks (w), days(d), hours(h), minutes(m) and seconds(s).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "0",
+        "aliases": null
+      },
+      "public_key": {
+        "description": "Public key for SSH access. To remove existing key use an empty string",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ad_user": {
+        "description": "Whether the user is in the AD system Not required for local users",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_vg": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage volume groups on Everpure FlashArrays",
+    "description": "Create, delete or modify volume groups on Everpure FlashArrays.",
+    "options": {
+      "name": {
+        "description": "The name of the volume group. Multi-volume-group support available from Purity//FA 6.0.0 B(***NOTE***) Manual deletion or eradication of individual volume groups created using multi-volume-group will cause idempotency to fail Multi-volume-group support only exists for volume group creation",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the volume group should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "eradicate": {
+        "description": "Define whether to eradicate the volume group on delete and leave in trash.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "bw_qos": {
+        "description": "Bandwidth limit for vgroup in M or G units. M will set MB/s G will set GB/s To clear an existing QoS setting use 0 (zero)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "iops_qos": {
+        "description": "IOPs limit for vgroup - use value or K or M K will mean 1000 M will mean 1000000 To clear an existing IOPs setting use 0 (zero)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "count": {
+        "description": "Number of volume groups to be created in a multiple volume group creation Only supported from Purity//FA v6.0.0 and higher",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "start": {
+        "description": "Number at which to start the multiple volume group creation index Only supported from Purity//FA v6.0.0 and higher",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "digits": {
+        "description": "Number of digits to use for multiple volume group count. This will pad the index number with zeros where necessary Only supported from Purity//FA v6.0.0 and higher Range is between 1 and 10",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "suffix": {
+        "description": "Suffix string, if required, for multiple volume group create Volume group names will be formed as I(<name>#I<suffix>), where I(#) is a placeholder for the volume index See associated descriptions Only supported from Purity//FA v6.0.0 and higher",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "priority_operator": {
+        "description": "DMM Priority Adjustment operator",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "+",
+          "-"
+        ],
+        "default": "+",
+        "aliases": null
+      },
+      "priority_value": {
+        "description": "DMM Priority Adjustment value",
+        "type": "int",
+        "required": false,
+        "choices": [
+          0,
+          10
+        ],
+        "default": 0,
+        "aliases": null
+      },
+      "rename": {
+        "description": "Value to rename the specified volume group to",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_vlan": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage network VLAN interfaces in a Everpure FlashArray",
+    "description": "This module manages the VLAN network interfaces on a Everpure FlashArray.",
+    "options": {
+      "name": {
+        "description": "Interface name, including controller identifier. VLANs are only supported on iSCSI, NVMe-RoCE and file physical interfaces",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "State of existing interface (on/off).",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Define if VLAN interface is enabled or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "address": {
+        "description": "IPv4 or IPv6 address of interface.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "subnet": {
+        "description": "Name of subnet interface associated with.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_vnc": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Enable or Disable VNC port for installed apps",
+    "description": "Enablke or Disable VNC access for installed apps",
+    "options": {
+      "state": {
+        "description": "Define state of VNC",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of app",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_volume": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage volumes on Everpure FlashArrays",
+    "description": "Create, delete or extend the capacity of a volume on Everpure FlashArray.",
+    "options": {
+      "name": {
+        "description": "The name of the volume. Volume could be created in a POD with this syntax POD_NAME::VOLUME_NAME. Volume could be created in a volume group with this syntax VG_NAME/VOLUME_NAME. Multi-volume support available from Purity//FA 6.0.0 B(***NOTE***) Manual deletion or eradication of individual volumes created using multi-volume will cause idempotency to fail Multi-volume support only exists for volume creation",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "target": {
+        "description": "The name of the target volume, if copying.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the volume should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "eradicate": {
+        "description": "Define whether to eradicate the volume on delete or leave in trash.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "overwrite": {
+        "description": "Define whether to overwrite a target volume if it already exists.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "size": {
+        "description": "Volume size in M, G, T or P units.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "count": {
+        "description": "Number of volumes to be created in a multiple volume creation Only supported from Purity//FA v6.0.0 and higher",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "start": {
+        "description": "Number at which to start the multiple volume creation index Only supported from Purity//FA v6.0.0 and higher",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
+        "aliases": null
+      },
+      "digits": {
+        "description": "Number of digits to use for multiple volume count. This will pad the index number with zeros where necessary Only supported from Purity//FA v6.0.0 and higher Range is between 1 and 10",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "suffix": {
+        "description": "Suffix string, if required, for multiple volume create Volume names will be formed as I(<name>#I<suffix>), where I(#) is a placeholder for the volume index See associated descriptions Only supported from Purity//FA v6.0.0 and higher",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "bw_qos": {
+        "description": "Bandwidth limit for volume in M or G units. M will set MB/s G will set GB/s To clear an existing QoS setting use 0 (zero)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "qos"
+        ]
+      },
+      "iops_qos": {
+        "description": "IOPs limit for volume - use value or K or M K will mean 1000 M will mean 1000000 To clear an existing IOPs setting use 0 (zero)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "move": {
+        "description": "Move a volume in and out of a pod or vgroup Provide the name of pod or vgroup to move the volume to Pod and Vgroup names must be unique in the array To move to the local array, specify C(local) This is not idempotent - use C(ignore_errors) in the play",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rename": {
+        "description": "Value to rename the specified volume to. Rename only applies to the container the current volumes is in. There is no requirement to specify the pod or vgroup name as this is implied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "pgroup": {
+        "description": "Name of existing, not deleted, protection group to add volume to Only application for volume(s) creation Superseded from Purity//FA 6.3.4 by I(add_to_pgs)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "priority_operator": {
+        "description": "DMM Priority Adjustment operator",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "=",
+          "+",
+          "-"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "priority_value": {
+        "description": "DMM Priority Adjustment value",
+        "type": "int",
+        "required": false,
+        "choices": [
+          -10,
+          0,
+          10
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "with_default_protection": {
+        "description": "Whether to add the default container protection groups to those specified in I(add_to_pgs) as the initial protection of a new volume.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "add_to_pgs": {
+        "description": "A new volume will be added to the specified protection groups on creation",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "promotion_state": {
+        "description": "Promote or demote the volume so that the volume starts or stops accepting write requests.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "promoted",
+          "demoted"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_volume_tags": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage volume tags on Everpure FlashArrays",
+    "description": "Manage volume tags for volumes on Everpure FlashArray. Requires a minimum of Purity 6.0.0",
+    "options": {
+      "name": {
+        "description": "The name of the volume.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "namespace": {
+        "description": "The name of tag namespace",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "copyable": {
+        "description": "Define whether the volume tags are inherited on volume copies.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "kvp": {
+        "description": "List of key value pairs to assign to the volume. Separate the key from the value using a colon (:) only. All items in list will use I(namespace) and I(copyable) settings. See examples for exact formatting requirements",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tag": {
+        "description": "List of volume tags to be deleted from a volume",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether the volume tag(s) should exist or not.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "context": {
+        "description": "Name of fleet member on which to perform the operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "purestorage.flasharray.purefa_workload": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manage Fusion Fleet Workloads",
+    "description": "Apply/Rename/Delete Fusion fleet workloads",
+    "options": {
+      "context": {
+        "description": "Name of fleet member on which to perform the workload operation. This requires the array receiving the request is a member of a fleet and the context name to be a member of the same fleet.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "host": {
+        "description": "Host to connect to the workload after provisioning",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the workload.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Define whether to create or delete a fleet workload. Using the expand option will add volume(s) to the workload. If absent is specified together with a host, rather than deleting the workload, the host will be disconnected from the workload",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present",
+          "expand"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "preset": {
+        "description": "name of existing preset to use as the basis of the workload",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "rename": {
+        "description": "new name for a workload",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "eradicate": {
+        "description": "whether to eradicate a workload",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "placement": {
+        "description": "name of target on which the workload will be deployed",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "recommendation": {
+        "description": "whether to use the Fusion placement recommendation based on the workload preset definitions. This will use the first recommended placement if more than one is available",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "volume_count": {
+        "description": "Number of additional volumes to add to an existing workload",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "volume_configuration": {
+        "description": "Name of the volume configuration to use for adding volumes to a workload",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   }
 }

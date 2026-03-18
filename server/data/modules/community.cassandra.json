@@ -45,9 +45,10 @@
       "state": {
         "description": "The required status",
         "type": "str",
-        "required": false,
+        "required": true,
         "choices": [
-          null
+          "enabled",
+          "disabled"
         ],
         "default": null,
         "aliases": null
@@ -64,7 +65,8 @@
         "type": "str",
         "required": true,
         "choices": [
-          null
+          "enabled",
+          "disabled"
         ],
         "default": null,
         "aliases": null
@@ -94,9 +96,10 @@
       "state": {
         "description": "The required status",
         "type": "str",
-        "required": false,
+        "required": true,
         "choices": [
-          null
+          "enabled",
+          "disabled"
         ],
         "default": null,
         "aliases": null
@@ -215,8 +218,39 @@
         "type": "str",
         "required": false,
         "choices": [
-          null
+          "default",
+          "compactors",
+          "viewbuilders"
         ],
+        "default": "default",
+        "aliases": null
+      },
+      "concurrency_stage": {
+        "description": "The processing stage Only relevent when concurrency_type is default",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "AntiEntropyStage",
+          "CounterMutationStage",
+          "GossipStage",
+          "ImmediateStage",
+          "InternalResponseStage",
+          "MigrationStage",
+          "MiscStage",
+          "MutationStage",
+          "ReadStage",
+          "RequestResponseStage",
+          "TracingStage",
+          "ViewMutationStage"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "value": {
+        "description": "Number of threads / maximum concurrency.",
+        "type": "int",
+        "required": true,
+        "choices": null,
         "default": null,
         "aliases": null
       }
@@ -234,8 +268,179 @@
         "choices": null,
         "default": "localhost",
         "aliases": [
-          null
+          "login_host"
         ]
+      },
+      "cqlsh_port": {
+        "description": "Port to connect to.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 9042,
+        "aliases": [
+          "login_port"
+        ]
+      },
+      "username": {
+        "description": "The C* user to authenticate with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "login_user"
+        ]
+      },
+      "password": {
+        "description": "The C* users password.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "login_password"
+        ]
+      },
+      "keyspace": {
+        "description": "Authenticate to the given keyspace.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "file": {
+        "description": "Path to a file containing cql commands.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "execute": {
+        "description": "cqlsh command to execute.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "encoding": {
+        "description": "Specify a non-default encoding for output.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "utf-8",
+        "aliases": null
+      },
+      "cqlshrc": {
+        "description": "Specify an alternative cqlshrc file location.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cqlversion": {
+        "description": "Specify a particular CQL version.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "protocol_version": {
+        "description": "Specify a specific protcol version.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "connect_timeout": {
+        "description": "Specify the connection timeout in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 5,
+        "aliases": null
+      },
+      "request_timeout": {
+        "description": "Specify the default request timeout in seconds.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "tty": {
+        "description": "Force tty mode.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "debug": {
+        "description": "show additional debug info.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "ssl": {
+        "description": "Use SSL.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "no_compact": {
+        "description": "No Compact.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "cqlsh_cmd": {
+        "description": "cqlsh executable.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "cqlsh",
+        "aliases": null
+      },
+      "transform": {
+        "description": "Transform the output returned to the user. auto - Attempt to automatically decide the best tranformation. split - Split output on a character. json - parse as json. raw - Return the raw output.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "auto",
+          "split",
+          "json",
+          "raw"
+        ],
+        "default": "auto",
+        "aliases": null
+      },
+      "split_char": {
+        "description": "Used by the split action in the transform stage.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": " ",
+        "aliases": null
+      },
+      "additional_args": {
+        "description": "Additional arguments to supply to the mongo command. Supply as key-value pairs. If the parameter is a valueless flag supply a bool value.",
+        "type": "raw",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
       }
     },
     "deprecated": null
@@ -285,9 +490,94 @@
     "deprecated": null
   },
   "community.cassandra.cassandra_fullquerylog": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Manages the full query log feature.",
+    "description": "Manages the full query log feature. Enable, disable or reset feature. Manage configuration. Supported from Cassandra 4.0 onwards. When state is disabled the value of the other configuration options are ignored. The module always returns changed when state is reset.",
+    "options": {
+      "state": {
+        "description": "The required status",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "enabled",
+          "disabled",
+          "reset"
+        ],
+        "default": "enabled",
+        "aliases": null
+      },
+      "log_dir": {
+        "description": "The log directory.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "path"
+        ]
+      },
+      "archive_command": {
+        "description": "Command that will handle archiving rolled full query log files. Format is \"/path/to/script.sh %path\" where %path will be replaced with the file to archive.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "roll_cycle": {
+        "description": "How often to roll the log file.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "MINUTELY",
+          "HOURLY",
+          "DAILY"
+        ],
+        "default": "HOURLY",
+        "aliases": null
+      },
+      "blocking": {
+        "description": "If the queue is full whether to block producers or drop samples.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": "yes",
+        "aliases": [
+          "block"
+        ]
+      },
+      "max_log_size": {
+        "description": "How many bytes of log data to store before dropping segments.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 17179869184,
+        "aliases": null
+      },
+      "max_queue_weight": {
+        "description": "Maximum number of bytes of query data to queue to disk before blocking or dropping samples.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 268435456,
+        "aliases": null
+      },
+      "max_archive_retries": {
+        "description": "Max number of archive retries.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 10,
+        "aliases": null
+      },
+      "debug": {
+        "description": "Enable extra debug output.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.cassandra.cassandra_garbagecollect": {
@@ -314,8 +604,19 @@
         "description": "ROW (default) removes deleted partitions and rows. CELL also removes overwritten or deleted cells.",
         "type": "str",
         "required": false,
+        "choices": [
+          "ROW",
+          "CELL"
+        ],
+        "default": "ROW",
+        "aliases": null
+      },
+      "jobs": {
+        "description": "Number of SSTables affected simultaneously. Set to 0 to use all compaction threads.",
+        "type": "int",
+        "required": false,
         "choices": null,
-        "default": null,
+        "default": 2,
         "aliases": null
       }
     },
@@ -328,9 +629,10 @@
       "state": {
         "description": "The required status",
         "type": "str",
-        "required": false,
+        "required": true,
         "choices": [
-          null
+          "enabled",
+          "disabled"
         ],
         "default": null,
         "aliases": null
@@ -345,9 +647,10 @@
       "state": {
         "description": "The required status",
         "type": "str",
-        "required": false,
+        "required": true,
         "choices": [
-          null
+          "enabled",
+          "disabled"
         ],
         "default": null,
         "aliases": null
@@ -379,9 +682,27 @@
         "type": "str",
         "required": false,
         "choices": [
-          null
+          "counter",
+          "key",
+          "row"
         ],
         "default": null,
+        "aliases": null
+      },
+      "debug": {
+        "description": "Add additional debug output.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "fake_counter": {
+        "description": "Fake the counter results so the module wil execute the appropriate invalid cache command. Intended for internal testing use only.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },
@@ -389,8 +710,134 @@
   },
   "community.cassandra.cassandra_keyspace": {
     "short_description": "Manage keyspaces on your Cassandra cluster.",
-    "description": "Manage keyspaces on your Cassandra Cluster. Keyspace can be created to use SimpleStrategy or NetworkTopologyStrategy. ",
-    "options": {},
+    "description": "Manage keyspaces on your Cassandra Cluster. Keyspace can be created to use SimpleStrategy or NetworkTopologyStrategy. Keyspace modifications are supported, for example durable writes, replication factor or data centre changes but it is not supported to migrate between replication strategies i.e. NetworkTopologyStrategy -> SimpleStrategy.",
+    "options": {
+      "login_user": {
+        "description": "The Cassandra user to login with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_password": {
+        "description": "The Cassandra password to login with.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl": {
+        "description": "Uses SSL encryption if basic SSL encryption is enabled on Cassandra cluster (without client/server verification)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "ssl_cert_reqs": {
+        "description": "SSL verification mode.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "CERT_NONE",
+          "CERT_OPTIONAL",
+          "CERT_REQUIRED"
+        ],
+        "default": "CERT_NONE",
+        "aliases": null
+      },
+      "ssl_ca_certs": {
+        "description": "The SSL CA chain or certificate location to confirm supplied certificate validity (required when ssl_cert_reqs is set to CERT_OPTIONAL or CERT_REQUIRED)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "login_host": {
+        "description": "The Cassandra hostname. If unset the instance will check 127.0.0.1 for a C* instance. Otherwise the value returned by socket.getfqdn() is used.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_port": {
+        "description": "The Cassandra poret.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 9042,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the keyspace to create or manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The desired state of the keyspace.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "replication_factor": {
+        "description": "The total number of copies of your keyspace data. The keyspace is created with SimpleStrategy. If data_centres is set this parameter is ignored. If not supplied the default value will be used.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 1,
+        "aliases": null
+      },
+      "durable_writes": {
+        "description": "Enable durable writes for the keyspace. If not supplied the default value will be used.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "data_centres": {
+        "description": "The keyspace will be created with NetworkTopologyStrategy. Specify your data centres, along with replication_factor, as key-value pairs.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "data_centers"
+        ]
+      },
+      "consistency_level": {
+        "description": "Consistency level to perform cassandra queries with. Not all consistency levels are supported by read or write connections.\\ When a level is not supported then LOCAL_ONE, the default is used. Consult the README.md on GitHub for further details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ANY",
+          "ONE",
+          "TWO",
+          "THREE",
+          "QUORUM",
+          "ALL",
+          "LOCAL_QUORUM",
+          "EACH_QUORUM",
+          "SERIAL",
+          "LOCAL_SERIAL",
+          "LOCAL_ONE"
+        ],
+        "default": "LOCAL_ONE",
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.cassandra.cassandra_maxhintwindow": {
@@ -492,9 +939,148 @@
         "type": "str",
         "required": false,
         "choices": [
-          null
+          "CERT_NONE",
+          "CERT_OPTIONAL",
+          "CERT_REQUIRED"
+        ],
+        "default": "CERT_NONE",
+        "aliases": null
+      },
+      "ssl_ca_certs": {
+        "description": "The SSL CA chain or certificate location to confirm supplied certificate validity (required when  ssl_cert_reqs is set to CERT_OPTIONAL or CERT_REQUIRED)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "login_host": {
+        "description": "The Cassandra hostname.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_port": {
+        "description": "The Cassandra port.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 9042,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the role to create or manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The desired state of the role.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
         ],
         "default": null,
+        "aliases": null
+      },
+      "super_user": {
+        "description": "If the user is a super user or not.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "login": {
+        "description": "True allows the role to log in. Use true to create login accounts for internal authentication, PasswordAuthenticator or DSE Unified Authenticator.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "password": {
+        "description": "The password for the role.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_password": {
+        "description": "Passwords are not handled by default. With this set to true, passwords are always overridden. The task will always be considered changed if this is set to true.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "options": {
+        "description": "Reserved for use with authentication plug-ins. Refer to the authenticator documentation for details.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "data_centres": {
+        "description": "Only relevant if a network_authorizer has been configured. Specify data centres as keys of this dict. Can specify a key as 'all' although this implicity assumed by Cassandra if not supplied.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "data_centers"
+        ]
+      },
+      "keyspace_permissions": {
+        "description": "Grant privileges on keyspace objects. Specify keyspaces as keys of this dict. Permissions supplied as a list to the keyspace keys. Valid permissions at keyspace level are as follows; ALL PERMISSIONS, CREATE, ALTER, AUTHORIZE, DROP, MODIFY, SELECT A special key 'all_keyspaces' can be supplied to assign permissions to all keyspaces.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "roles": {
+        "description": "One or more roles to grant to this user or role. When set to None, the default, no action is perform on roles. Set to an empty list to revoke all roles.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "debug": {
+        "description": "Additional debug output.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "consistency_level": {
+        "description": "Consistency level to perform cassandra queries with. Not all consistency levels are supported by read or write connections.\\ When a level is not supported then LOCAL_ONE, the default is used. Consult the README.md on GitHub for further details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ANY",
+          "ONE",
+          "TWO",
+          "THREE",
+          "QUORUM",
+          "ALL",
+          "LOCAL_QUORUM",
+          "EACH_QUORUM",
+          "SERIAL",
+          "LOCAL_SERIAL",
+          "LOCAL_ONE"
+        ],
+        "default": "LOCAL_ONE",
         "aliases": null
       }
     },
@@ -620,9 +1206,138 @@
         "type": "str",
         "required": false,
         "choices": [
-          null
+          "CERT_NONE",
+          "CERT_OPTIONAL",
+          "CERT_REQUIRED"
+        ],
+        "default": "CERT_NONE",
+        "aliases": null
+      },
+      "ssl_ca_certs": {
+        "description": "The SSL CA chain or certificate location to confirm supplied certificate validity (required when ssl_cert_reqs is set to CERT_OPTIONAL or CERT_REQUIRED)",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "login_host": {
+        "description": "The Cassandra hostname.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "login_port": {
+        "description": "The Cassandra poret.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 9042,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the table to create or drop.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "The desired state of the table.",
+        "type": "str",
+        "required": true,
+        "choices": [
+          "present",
+          "absent"
         ],
         "default": null,
+        "aliases": null
+      },
+      "keyspace": {
+        "description": "The keyspace in which to create the table.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "columns": {
+        "description": "The columns for the table. Specifiy pairs as <column name>: <data type>",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "primary_key": {
+        "description": "The Primary key speicfication for the table",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "partition_key": {
+        "description": "The partition key columns.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": [],
+        "aliases": null
+      },
+      "clustering": {
+        "description": "The clustering specification.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "table_options": {
+        "description": "Options for the table",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "is_type": {
+        "description": "Create a type instead of a table",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "debug": {
+        "description": "Debug flag",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "consistency_level": {
+        "description": "Consistency level to perform cassandra queries with. Not all consistency levels are supported by read or write connections.\\ When a level is not supported then LOCAL_ONE, the default is used. Consult the README.md on GitHub for further details.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ANY",
+          "ONE",
+          "TWO",
+          "THREE",
+          "QUORUM",
+          "ALL",
+          "LOCAL_QUORUM",
+          "EACH_QUORUM",
+          "SERIAL",
+          "LOCAL_SERIAL",
+          "LOCAL_ONE"
+        ],
+        "default": "LOCAL_ONE",
         "aliases": null
       }
     },
@@ -635,9 +1350,10 @@
       "state": {
         "description": "The required status",
         "type": "str",
-        "required": false,
+        "required": true,
         "choices": [
-          null
+          "enabled",
+          "disabled"
         ],
         "default": null,
         "aliases": null

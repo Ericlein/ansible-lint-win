@@ -274,6 +274,99 @@
         "choices": null,
         "default": null,
         "aliases": null
+      },
+      "host_isolation_response": {
+        "description": "Specify how VMs should be handled if an ESXi host determines it can no longer reach the rest of the cluster. If set to V(none), no action is taken. If set to V(powerOff), VMs are powered off via the hypervisor. If set to V(shutdown), VMs are shut down via the guest operating system.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "none",
+          "powerOff",
+          "shutdown"
+        ],
+        "default": "none",
+        "aliases": null
+      },
+      "advanced_settings": {
+        "description": "A dictionary of advanced HA settings. Allowed HA settings are more strict than VM allowed settings. If you get an error when managing them, compare your settings against the vSphere HA Advanced Options documentation.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": {},
+        "aliases": null
+      },
+      "admission_control_policy": {
+        "description": "Configures a the policy type used for HA admission control. Admission control is a policy used by vSphere HA to ensure failover capacity within a cluster. Raising the number of potential host failures will increase the availability constraints and capacity reserved.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "vm_slots",
+          "cluster_resource",
+          "dedicated_host",
+          "disabled"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "admission_control_failover_level": {
+        "description": "The number of host failures that should be tolerated by the cluster. The maximum is one less than the total number of hosts. If O(admission_control_policy) is V(dedicated_host), the default value is the number of dedicated failover hosts. For all other O(admission_control_policy) values, the default value is 1.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "admission_control_cpu_reserve_percentage": {
+        "description": "Percentage of CPU resources in the cluster to reserve for failover. Only used if O(admission_control_policy) is V(cluster_resource). By default, the O(admission_control_failover_level) is used by vSphere to automatically calculate this value. Setting this option overrides that behavior.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "admission_control_memory_reserve_percentage": {
+        "description": "Percentage of memory resources in the cluster to reserve for failover. Only used if O(admission_control_policy) is V(cluster_resource). By default, the O(admission_control_failover_level) is used by vSphere to automatically calculate this value. Setting this option overrides that behavior.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "admission_control_dedicated_hosts": {
+        "description": "List of ESXi hosts to use as dedicated failover hosts. The list should be the names of ESXi hosts as seen in vCenter. Required if (and only used if) O(admission_control_policy) is V(dedicated_host).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm_monitoring": {
+        "description": "Configures how VMs are monitored to determine health status, and what actions should be taken if they are unhealthy.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_apd_response": {
+        "description": "Configures what steps are taken when storage All Paths Down (APD) events occur.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "storage_pdl_response_mode": {
+        "description": "Set the response in the event of permanent Device Loss (PDL) for storage. APD differs from PDL, in that APD is assumed to be a transient outage and PDL is permanent. V(disabled) means no action will be taken V(warning) means no action will be taken, but events will be generated for logging purposes. V(restart) means all VMs will be powered off. If hosts still have access to the datastore, affected VMs will be restarted on that host.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disabled",
+          "warning",
+          "restart"
+        ],
+        "default": "warning",
+        "aliases": null
       }
     },
     "deprecated": null
@@ -304,8 +397,27 @@
         ]
       },
       "gather_tags": {
-        "description": "If true, gather any tags attached to the cluster(s) This has no affect if the O(schema) is set to V(vsphere). In that case, add",
+        "description": "If true, gather any tags attached to the cluster(s) This has no affect if the O(schema) is set to V(vsphere). In that case, add 'tag' to O(properties) or leave O(properties) unset.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "schema": {
+        "description": "Specify the output schema desired. The V(summary) output schema is the legacy output from the module. The V(vsphere) output schema is the vSphere API class definition.",
         "type": "str",
+        "required": false,
+        "choices": [
+          "summary",
+          "vsphere"
+        ],
+        "default": "summary",
+        "aliases": null
+      },
+      "properties": {
+        "description": "If the schema is 'vsphere', gather these specific properties only",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
@@ -428,11 +540,118 @@
         "aliases": null
       },
       "vm_uuid": {
-        "description": "UUID of the instance to manage if known, this is VMware",
+        "description": "UUID of the instance to manage if known, this is VMware's unique identifier. This is required if O(vm_moid) or O(vm_name) is not supplied. A VM identifier is required when O(state) is present.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "vm_moid": {
+        "description": "Managed Object ID of the instance to manage if known, this is a unique identifier only within a single vCenter instance. This is required if O(vm_name) or O(vm_uuid) is not supplied. A VM identifier is required when O(state) is present.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_instance_uuid": {
+        "description": "Whether to use the VMware instance UUID rather than the BIOS UUID when searching for the VM.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "vm_folder": {
+        "description": "Destination folder, absolute or relative path to find an existing guest. Should be the full folder path, with or without the 'datacenter/vm/' prefix For example 'datacenter_name/vm/path/to/folder' or 'path/to/folder'",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "template_folder": {
+        "description": "Virtual machine folder into which the virtual machine template should be placed. This attribute was added in vSphere API 6.8. If not specified, the virtual machine template will be placed in the same folder as the source virtual machine.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "template_folder"
+        ]
+      },
+      "folder_paths_are_absolute": {
+        "description": "If true, any folder path parameters are treated as absolute paths. If false, modules will try to intelligently determine if the path is absolute or relative. This option is useful when your environment has a complex folder structure. By default, modules will try to intelligently determine if the path is absolute or relative. They may mistakenly prepend the datacenter name or other folder names, and this option can be used to avoid this.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "template_name": {
+        "description": "The name of template to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "template"
+        ]
+      },
+      "library": {
+        "description": "The name of the content library where the template will be created.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "host": {
+        "description": "Host onto which the virtual machine template should be placed. If O(host) and O(resource_pool) are both specified, O(resource_pool) must belong to O(host). If O(host) and O(cluster) are both specified, O(host) must be a member of O(cluster). This attribute was added in vSphere API 6.8.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resource_pool": {
+        "description": "Resource pool into which the virtual machine template should be placed. This attribute was added in vSphere API 6.8. If not specified, the system will attempt to choose a suitable resource pool for the virtual machine template; if a resource pool cannot be chosen, the library item creation operation will fail. If O(cluster) and O(resource_pool) are both specified, O(resource_pool) must belong to O(cluster). If O(host) and O(resource_pool) are both specified, O(resource_pool) must belong to O(host).",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster": {
+        "description": "Cluster onto which the virtual machine template should be placed. If O(cluster) and O(resource_pool) are both specified, O(resource_pool) must belong to O(cluster). If O(cluster) and O(host) are both specified, O(host) must be a member of O(cluster). This attribute was added in vSphere API 6.8.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "cluster_name"
+        ]
+      },
+      "datacenter": {
+        "description": "The name of the datacenter to use when searching for the source VM. This parameter is optional, and only used if you use a relative O(vm_folder) path.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "datacenter_name"
+        ]
+      },
+      "state": {
+        "description": "State of the template in content library. If C(present), the template will be created in content library. If C(absent), the template will be deleted from content library.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
         "aliases": null
       }
     },
@@ -480,6 +699,26 @@
       },
       "storage_provisioning": {
         "description": "Default storage provisioning type to use for all sections of type vmw:StorageSection in the OVF descriptor.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "thin",
+          "thick",
+          "eagerZeroedThick"
+        ],
+        "default": "thin",
+        "aliases": null
+      },
+      "resource_pool": {
+        "description": "The name of a resource pool into which the virtual machine should be deployed. Changing this option will not result in the VM being redeployed (it does not affect idempotency). One and only one of O(resource_pool) or O(cluster) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cluster": {
+        "description": "The name of the cluster where the VM should be deployed. Changing this option will not result in the VM being redeployed (it does not affect idempotency). One and only one of O(resource_pool) or O(cluster) is required.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -607,6 +846,44 @@
     },
     "deprecated": null
   },
+  "vmware.vmware.esxi_connection": {
+    "short_description": "Manage VMware ESXi host connection status in vCenter",
+    "description": "Manage VMware ESXi host connection status in vCenter. Disconnecting hosts temporarily disables monitoring for the host and its VMs. However they will still show up in vCenter. This module does not manage the addition, removal, or placement of hosts in vCenter. That functionality is in vmware.vmware.esxi_host The community.vmware.vmware_host module allows you to add a host in a disconnected state. The host must have been added in a connected state for you to reconnect it using this module. You can remove the host and add it back using the vmware.vmware.esxi_host to get it in the proper state.",
+    "options": {
+      "datacenter": {
+        "description": "The name of the datacenter.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "datacenter_name"
+        ]
+      },
+      "esxi_host_name": {
+        "description": "ESXi hostname to manage.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "state": {
+        "description": "Sets the connection status of the host in vCenter",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "connected",
+          "disconnected"
+        ],
+        "default": "connected",
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
   "vmware.vmware.esxi_host": {
     "short_description": "Manage VMware ESXi host status in vCenter",
     "description": "Manage VMware ESXi host status in vCenter, including cluster or folder membership. The host must be in maintenance mode to remove it or update its placement. This module does not manage the connection status of hosts in vCenter. That functionality is in vmware.vmware.esxi_connection The host must be in maintenance mode if it is already registered with vCenter but should be moved to a new cluster or folder.",
@@ -672,11 +949,91 @@
         "aliases": null
       },
       "esxi_port": {
-        "description": "The port on which the ESXi host",
+        "description": "The port on which the ESXi host's SSL certificate can be seen. This is used when fetching the SSL thumbprint, and is not used if O(ssl_thumbprint) is provided.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 443,
+        "aliases": null
+      },
+      "state": {
+        "description": "If set to V(present), make sure the host is registered in vCenter in the desired folder or cluster. If set to V(absent), remove the host from vCenter if it exists. If set to V(absent), the host must either be disconnected or be in maintenance mode before it can be removed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "ssl_thumbprint": {
+        "description": "Specify the host system's SSL certificate thumbprint. You can run the following command on the host to get the thumbprint - 'openssl x509 -in /etc/vmware/ssl/rui.crt -fingerprint -sha1 -noout' If this is not set, the module will attempt to fetch the thumbprint from the host itself. This essentially skips the host certificate verification, since whatever host is presented will be trusted. This option is only used when state is present. If O(proxy_host) is set, the proxy is used when fetching the SSL thumbprint.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "force_add": {
+        "description": "Forces the ESXi host to be added to the vCenter server, even if it is already being managed by another server. The host must be in maintenance mode even if this option is enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "vmware.vmware.esxi_maintenance_mode": {
+    "short_description": "Manage an ESXi hosts maintenance mode setting in vCenter",
+    "description": "Manage an ESXi hosts maintenance mode setting in vCenter",
+    "options": {
+      "esxi_host_name": {
+        "description": "Name of the host as defined in vCenter.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "enable_maintenance_mode": {
+        "description": "If true, the ESXi host will be put into maintenance mode.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "vsan_compliance_mode": {
+        "description": "Specify which VSAN compliant mode to enter.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "ensureObjectAccessibility",
+          "evacuateAllData",
+          "noAction"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "evacuate": {
+        "description": "If set to V(true), evacuate all powered off VMs.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "Specify a timeout for the operation.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 0,
         "aliases": null
       }
     },
@@ -697,8 +1054,288 @@
         ]
       },
       "folder_type": {
-        "description": "The type of folder that should be created. The folder type controls what resources can be held in the folder, as well as the path where the folder is created. For example, a folder at path /DC-01/vm/my/folder has folder type",
+        "description": "The type of folder that should be created. The folder type controls what resources can be held in the folder, as well as the path where the folder is created. For example, a folder at path /DC-01/vm/my/folder has folder type 'vm'. Only used if the O(relative_path) option is used.",
         "type": "str",
+        "required": false,
+        "choices": [
+          "vm",
+          "host",
+          "datastore",
+          "network"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "relative_path": {
+        "description": "The relative path of the folder to create. The relative path should include neither the datacenter nor the folder type. For example the relative path for the folder /DC-01/vm/my/folder is my/folder One of O(relative_path) or O(absolute_path) must be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "absolute_path": {
+        "description": "The absolute path of the folder to create. The absolute path should include the datacenter and the folder type. The leading slash is not required. For example the absolute path could be /DC-01/vm/my/folder or DC-01/vm/my/folder One of O(relative_path) or O(absolute_path) must be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Create V(present) or remove V(absent) a vSphere folder. When state is V(present), all folders in the specified path will be created if they are missing. When state is V(absent), all content inside the folder will be deleted. See O(remove_vm_data)",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "absent",
+          "present"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "remove_vm_data": {
+        "description": "Only used if state is V(absent) If true, any VMs in the folder tree will be completely removed. This includes any disks or data associated with the VM. If false, any VMs in the folder tree are deregistered. This means they are removed from the vSphere inventory but their data is not deleted.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "vmware.vmware.folder_template_from_vm": {
+    "short_description": "Create a template in a local VCenter folder from an existing VM",
+    "description": "This module creates a template in a local VCenter folder from an existing VM. The folder must already exist. The VM must be powered off, and is otherwise unchanged. If the template already exists and the desired state is 'present', nothing is done.",
+    "options": {
+      "vm_name": {
+        "description": "The name of the vm to be used to create the template One of vm_name, vm_moid, vm_uuid is required This parameter is ignored when state is 'absent'",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm_uuid": {
+        "description": "The UUID of the vm to be used to create the template One of vm_name, vm_moid, vm_uuid is required This parameter is ignored when state is 'absent'",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm_moid": {
+        "description": "The MOID of the vm to be used to create the template One of vm_name, vm_moid, vm_uuid is required This parameter is ignored when state is 'absent'",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm_use_instance_uuid": {
+        "description": "If true, search by instance UUID instead of BIOS UUID. BIOS UUID may not be unique and may cause errors.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "vm_name_match": {
+        "description": "If using vm_name and multiple VMs have the same name, specify which VM should be selected",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "first",
+          "last"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "template_folder": {
+        "description": "The name of the folder that the new template should be placed in Should be the full folder path, with or without the 'datacenter/vm/' prefix For example 'datacenter name/vm/path/to/folder' or 'path/to/folder'",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "folder_paths_are_absolute": {
+        "description": "If true, any folder path parameters are treated as absolute paths. If false, modules will try to intelligently determine if the path is absolute or relative. This option is useful when your environment has a complex folder structure. By default, modules will try to intelligently determine if the path is absolute or relative. They may mistakenly prepend the datacenter name or other folder names, and this option can be used to avoid this.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "template_name": {
+        "description": "The name to give to the new template.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "If the template should be present or absent",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "datacenter": {
+        "description": "The name of datacenter in which to operate",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "datacenter_name"
+        ]
+      },
+      "datastore": {
+        "description": "The name of datastore to use as storage for the template.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resource_pool": {
+        "description": "The resource pool to place the template in.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "wait_for_template": {
+        "description": "If true, the module will wait until the template is created to exit.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "vmware.vmware.guest_info": {
+    "short_description": "Gather guest information",
+    "description": "This module gathers vm guest information.",
+    "options": {
+      "datacenter": {
+        "description": "The datacenter with the VM you would like to query. This is only used if the O(folder) parameter is supplied as a relative path.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "datacenter_name"
+        ]
+      },
+      "guest_username": {
+        "description": "The username to be used to connect to guest vm and fetch environment info.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "guest_password": {
+        "description": "The password of the user to be used to connect to guest vm and fetch environment info.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name": {
+        "description": "The name of the vm to gather info for Only one of name, moid, uuid is allowed",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "guest_name"
+        ]
+      },
+      "uuid": {
+        "description": "The UUID of the vm to gather info for Only one of name, moid, uuid is allowed",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "moid": {
+        "description": "The MOID of the vm to gather info for Only one of name, moid, uuid is allowed",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_instance_uuid": {
+        "description": "If true, search by instance UUID instead of BIOS UUID. BIOS UUID may not be unique and may cause errors.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "name_match": {
+        "description": "If using name and multiple VMs have the same name, specify which VM should be selected",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "first",
+          "last"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "folder": {
+        "description": "Absolute or relative folder path to search for the virtual machine. This parameter is only used if O(name) is supplied, and can help identify the machine you want to query. For example 'datacenter name/vm/path/to/folder' or 'path/to/folder'",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "folder_paths_are_absolute": {
+        "description": "If true, any folder path parameters are treated as absolute paths. If false, modules will try to intelligently determine if the path is absolute or relative. This option is useful when your environment has a complex folder structure. By default, modules will try to intelligently determine if the path is absolute or relative. They may mistakenly prepend the datacenter name or other folder names, and this option can be used to avoid this.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "gather_tags": {
+        "description": "If true, gather any tags attached to the vm(s)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "schema": {
+        "description": "The type of info to gather from the vms",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "summary",
+          "vsphere"
+        ],
+        "default": "summary",
+        "aliases": null
+      },
+      "properties": {
+        "description": "If the schema is 'vsphere', gather these specific properties only",
+        "type": "list",
         "required": false,
         "choices": null,
         "default": null,
@@ -707,10 +1344,220 @@
     },
     "deprecated": null
   },
-  "vmware.vmware.folder_template_from_vm": {
-    "short_description": "Create a template in a local VCenter folder from an existing VM",
-    "description": "This module creates a template in a local VCenter folder from an existing VM. The folder must already exist. The VM must be powered off, and is otherwise unchanged. If the template already exists and the desired state is ",
-    "options": {},
+  "vmware.vmware.import_content_library_iso": {
+    "short_description": "Import an ISO file to a content library from a remote source.",
+    "description": "Import an ISO library item from a remote source, such as a file on the Ansible host or a URL. This module manages the content library item, not the remote ISO. If state is absent, only the content library item will be affected.",
+    "options": {
+      "src": {
+        "description": "The source ISO file that should be imported to the content library. This can be a local path or a URL. If it is a local path, it should be a valid path on the Ansible host. If it is a URL, its scheme can be HTTPS, HTTP, or datastore (ds://). The file is acquired directly from the vCenter appliance. The module will not encode URLs for you. If this is a URL with special characters (like $ or ~), you should use the urlencode filter. Required when state is present.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "url",
+          "path"
+        ]
+      },
+      "dest": {
+        "description": "The destination name of the ISO item in the content library. If an item with the same name already exists, the module will not update it.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "state": {
+        "description": "Controls if the ISO file should be present or absent in the content library.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "description": {
+        "description": "A description for the ISO item in the content library.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "library_id": {
+        "description": "The ID of the library to search within. One of O(library_id) or O(library_name) must be provided.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "library_name": {
+        "description": "The name of the library to search within. One of O(library_id) or O(library_name) must be provided.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl_thumbprint": {
+        "description": "The SSL thumbprint of the source URL, if it uses HTTPS. This is ignored for other schemes. If this is not provided, whatever certificate is presented will be trusted.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "checksum_algorithm": {
+        "description": "The checksum algorithm to use when validating uploads. This is required if O(checksum) is provided. This is not used if the source is an ISO. In that case he local file size is used to validate the upload.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "SHA1",
+          "MD5",
+          "SHA512",
+          "SHA256"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "checksum": {
+        "description": "The checksum that should be used to validate the upload. O(checksum_algorithm) is required if this is provided. This is not used if the source is an ISO. In that case he local file size is used to validate the upload.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The timeout period in seconds for uploads to complete.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 300,
+        "aliases": null
+      },
+      "fail_on_warnings": {
+        "description": "Cause the module to treat any warnings thrown during the file upload process as errors.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "vmware.vmware.import_content_library_ovf": {
+    "short_description": "Import an OVF or OVA file to a content library from a remote source.",
+    "description": "Import an OVF or OVA library item from a remote source, such as a file on the Ansible host or a URL. Source files should be OVAs or directories matching the OVF standard. OVF directories should contain an .ovf file and at least on .vmdk file. This module manages the content library item, not the remote OVF/OVA. If state is absent, only the content library item will be affected.",
+    "options": {
+      "src": {
+        "description": "The source OVF or OVA file that should be imported to the content library. This can be a local path or a URL. If it is a local path, it should be a valid path on the Ansible host. If it is a URL, its scheme can be HTTPS, HTTP, or datastore (ds://). The file is acquired directly from the vCenter appliance. The module will not encode URLs for you. If this is a URL with special characters (like $ or ~), you should use the urlencode filter. Required when state is present.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "url",
+          "path"
+        ]
+      },
+      "dest": {
+        "description": "The destination name of the OVF item in the content library. If an item with the same name already exists, the module will not update it.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "name"
+        ]
+      },
+      "state": {
+        "description": "Controls if the OVF file should be present or absent in the content library.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "description": {
+        "description": "A description for the OVF item in the content library.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "library_id": {
+        "description": "The ID of the library to search within. One of O(library_id) or O(library_name) must be provided.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "library_name": {
+        "description": "The name of the library to search within. One of O(library_id) or O(library_name) must be provided.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl_thumbprint": {
+        "description": "The SSL thumbprint of the source URL, if it uses HTTPS. This is ignored for other schemes. If this is not provided, whatever certificate is presented will be trusted.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "checksum_algorithm": {
+        "description": "The checksum algorithm to use when validating uploads. This is required if O(checksum) is provided. This is not used if the source is an OVF. In that case he local file size is used to validate the upload.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "SHA1",
+          "MD5",
+          "SHA512",
+          "SHA256"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "checksum": {
+        "description": "The checksum that should be used to validate the upload. O(checksum_algorithm) is required if this is provided. This is not used if the source is an OVF. In that case he local file size is used to validate the upload.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The timeout period in seconds for uploads to complete.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 300,
+        "aliases": null
+      },
+      "fail_on_warnings": {
+        "description": "Cause the module to treat any warnings thrown during the file upload process as errors.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vmware.vmware.license_info": {
@@ -738,10 +1585,74 @@
         "type": "str",
         "required": false,
         "choices": null,
-        "default": null,
+        "default": "",
         "aliases": [
           "library_description"
         ]
+      },
+      "datastore": {
+        "description": "The name of the datastore that should be a storage backing for the library. This parameter is required when O(state) is V(present) This parameter only takes effect when the library is first created. You cannot change the storage backing for an existing library, and the module will not check this value in that case.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "datastore_name"
+        ]
+      },
+      "state": {
+        "description": "Whether the content library should be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "authentication_method": {
+        "description": "The method of authentication to use if this is published local library. The only options are NONE for no authentication or BASIC for username and password authentication. The username for BASIC authentication cannot be changed and is vcsp.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "BASIC",
+          "NONE"
+        ],
+        "default": "NONE",
+        "aliases": null
+      },
+      "authentication_password": {
+        "description": "The password to use when O(authentication_method) is V(BASIC). If authentication is already enabled on the library, you must supply the password to update the library. If O(authentication_current_password) is supplied, O(authentication_password) should be the new password you want to use for this library. If BASIC auth is not enabled, this option is ignored.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "authentication_current_password": {
+        "description": "The current password for the library when the library is using BASIC authentication. If not supplied, the value of O(authentication_password) is used. You must supply a password when the library is already configured with BASIC auth and O(state) is V(present). If you want to update the password, set this to the old password and O(authentication_password) to the new password. If BASIC auth is not enabled, this option is ignored.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "publish": {
+        "description": "If true, this library will be published so other libraries can subscribe to it.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "persist_json_enabled": {
+        "description": "If true, a JSON file describing the library metadata will be kept in the library. This file allows you to sync a remote library by copying the library contents instead of relying on HTTP.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
       }
     },
     "deprecated": null
@@ -765,10 +1676,82 @@
         "type": "str",
         "required": false,
         "choices": null,
-        "default": null,
+        "default": "",
         "aliases": [
           "library_description"
         ]
+      },
+      "datastore": {
+        "description": "The name of the datastore that should be a storage backing for the library. This parameter is required when O(state) is V(present) This parameter only takes effect when the library is first created. You cannot change the storage backing for an existing library, and the module will not check this value in that case.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "datastore_name"
+        ]
+      },
+      "state": {
+        "description": "Whether the content library should be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "authentication_method": {
+        "description": "The method of authentication to use if this is a subscribed or published local library. If the library is a local, non-published library, this option has no effect. The only options are NONE for no authentication or BASIC for username and password authentication. The username for BASIC auth cannot be changed, and is vcsp.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "BASIC",
+          "NONE"
+        ],
+        "default": "NONE",
+        "aliases": null
+      },
+      "authentication_password": {
+        "description": "The password to use when O(authentication_method) is V(BASIC). If BASIC auth is not enabled, this option is ignored.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "always_update_password": {
+        "description": "If true and O(authentication_password) is set, this module will always report a change and set the password value to O(authentication_password) . If false, other properties are still checked for differences. If a difference is found, the value of O(authentication_password) is still used. If O(authentication_password) is unset, this parameter is ignored. This option is needed because there is no way to check the current password value and compare it against the desired password value.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "subscription_url": {
+        "description": "The URL of the remote library to which you want to subscribe. This parameter is required when configuring a subscribed library.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssl_thumbprint": {
+        "description": "If specified, the thumbprint presented by the subscribed URL will be validated against this value.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "update_on_demand": {
+        "description": "Whether to download all content on demand, or download all content ahead of time.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
       }
     },
     "deprecated": null
@@ -907,11 +1890,94 @@
     "description": "Configure the vCenter Server Appliance backup schedule. Only one schedule per vCenter Server Appliance can exist. Before taking a backup, a backup server must be set up and configured such that the vCenter server has access to it. The protocols supported for backup are FTPS, HTTPS, SFTP, FTP, NFS, SMB and HTTP.",
     "options": {
       "name": {
-        "description": "The name of the backup schedule. This must be unique, and is used as an identifier for the schedule. Your VCSA may only allow for one schedule. If you create this schedule via the web UI, its name is",
+        "description": "The name of the backup schedule. This must be unique, and is used as an identifier for the schedule. Your VCSA may only allow for one schedule. If you create this schedule via the web UI, its name is 'default'. You can change the name by deleting the existing schedule and creating a new one with a new name.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "default",
+        "aliases": null
+      },
+      "state": {
+        "description": "Whether the schedule should be present or absent.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "encryption_password": {
+        "description": "A password to use to encrypt the backup. If this is unset, the backup is not encrypted.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "location": {
+        "description": "Options describing the location where the backup should be stored.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "enabled": {
+        "description": "Whether or not the schedule should be enabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "schedule": {
+        "description": "Options describing the timing and recurrence of the backup schedule.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "retain_count": {
+        "description": "The number of backups to retain. If this is set to 0, all backups are kept.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3,
+        "aliases": null
+      },
+      "db_fast_backup": {
+        "description": "If true, the underlying Postgres DB/VCDB will use a fast backup method.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "include_supervisors_control_plane": {
+        "description": "If true, the supervisors control plane will be included in the backups.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "include_stats_events_and_tasks": {
+        "description": "If true, historical data about stats, events, and tasks will be included in the backups.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "always_update_password": {
+        "description": "If true and O(encryption_password) or O(location.password) is set, this module will always report a change and set the appropriate password values. If false, other properties are still checked for differences. If a difference is found, the value of O(encryption_password) and/or O(location.password) is still used. If the password options are unset, this parameter is ignored. This option is needed because there is no way to check the current password value and compare it against the desired password value.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
         "aliases": null
       }
     },
@@ -945,11 +2011,154 @@
         "aliases": null
       },
       "global_fips": {
-        "description": "",
+        "description": "Enable/Disable Global FIPS mode for the appliance. Caution: Changing the value of this setting will reboot the Appliance.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "resize_storage": {
+        "description": "Resize all partitions to 100 percent of disk size.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "dns_mode": {
+        "description": "Set the DNS mode.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "is_static",
+          "dhcp"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "dns_append": {
+        "description": "If V(true) items from O(dns_domains) and O(dns_servers) will be added to already configured DNS domains/servers. If V(false) domains/servers will be overridden.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "dns_hostname": {
+        "description": "DNS hostname.",
         "type": "str",
         "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "dns_servers": {
+        "description": "List of DNS servers.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dns_domains": {
+        "description": "List of DNS domains.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "timesync_mode": {
+        "description": "Set time synchronization mode.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "disabled",
+          "host",
+          "ntp"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "ntp_servers": {
+        "description": "List of NTP servers. This method updates old NTP servers from configuration and sets the input NTP servers in the configuration. If NTP based time synchronization is used internally, the NTP daemon will be restarted to reload given NTP configuration. In case NTP based time synchronization is not used, this method only replaces servers in the NTP configuration.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "noproxy": {
+        "description": "List of hosts that should be ignored by proxy configuration.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "proxy": {
+        "description": "A list of proxy configurations.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dcui_enabled": {
+        "description": "Enable/Disable state of Direct Console User Interface (DCUI TTY2).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "shell_enabled": {
+        "description": "Enable/Disable state of BASH, that is, access to BASH from within the controlled CLI.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "shell_timeout": {
+        "description": "The timeout (in seconds) specifies how long you enable the Shell access. The maximum timeout is 86400 seconds(1 day). This parameter is mandatory in case O(shell_enabled=true).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "ssh_enabled": {
+        "description": "Enable/Disable state of the SSH-based controlled CLI.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "consolecli_enabled": {
+        "description": "Enable/Disable state of the console-based controlled CLI (TTY1).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "firewall_rules": {
+        "description": "Set the ordered list of firewall rules to allow or deny traffic from one or more incoming IP addresses. Within the list of traffic rules, rules are processed in order of appearance, from top to bottom.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "firewall_rules_append": {
+        "description": "If false the rules overwrites the existing firewall rules and creates a new rule list. If true we append the rules to existing rules.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
         "aliases": null
       }
     },
@@ -990,8 +2199,302 @@
         "aliases": null
       },
       "uuid": {
-        "description": "UUID of the instance to manage if known, this is VMware",
+        "description": "UUID of the instance to manage if known, this is VMware's unique identifier. This is required if O(name) or O(moid) is not supplied.",
         "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "moid": {
+        "description": "Managed Object ID of the instance to manage if known, this is a unique identifier only within a single vCenter instance. This is required if O(name) or O(uuid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_instance_uuid": {
+        "description": "Whether to use the VMware instance UUID rather than the BIOS UUID.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "folder": {
+        "description": "Destination folder, absolute or relative path to find an existing guest. Should be the full folder path, with or without the 'datacenter/vm/' prefix For example 'datacenter_name/vm/path/to/folder' or 'path/to/folder'. You cannot use this module to modify the placement of a VM once it has been created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "vm_folder"
+        ]
+      },
+      "datacenter": {
+        "description": "The datacenter in which to place the VM. This is required when creating a new VM. You cannot use this module to modify the placement of a VM once it has been created. This parameter is ignored if the VM already exists.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "datacenter_name"
+        ]
+      },
+      "cluster": {
+        "description": "The cluster in which to place the VM. This is required when creating a new VM. You cannot use this module to modify the placement of a VM once it has been created. This parameter is ignored if the VM already exists.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "cluster_name"
+        ]
+      },
+      "resource_pool": {
+        "description": "The resource pool in which to place the VM. This is required when creating a new VM. You cannot use this module to modify the placement of a VM once it has been created. This parameter is ignored if the VM already exists.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "esxi_host": {
+        "description": "The ESXi host on which to place the VM. This is required when creating a new VM. You cannot use this module to modify the placement of a VM once it has been created. This parameter is ignored if the VM already exists.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "datastore": {
+        "description": "The datastore on which to place the VM. This is required when creating a new VM, or when creating new disks. You cannot use this module to modify the placement of a VM once it has been created. This parameter is ignored if the VM or disk already exists.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "datastore_cluster": {
+        "description": "The datastore cluster on which to place the VM. This is required when creating a new VM. This is required when creating a new VM, or when creating new disks. You cannot use this module to modify the placement of a VM once it has been created. This parameter is ignored if the VM or disk already exists.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "folder_paths_are_absolute": {
+        "description": "If true, any folder path parameters are treated as absolute paths. If false, modules will try to intelligently determine if the path is absolute or relative. This option is useful when your environment has a complex folder structure. By default, modules will try to intelligently determine if the path is absolute or relative. They may mistakenly prepend the datacenter name or other folder names, and this option can be used to avoid this.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "annotation": {
+        "description": "A string annotation to attach to the VM. This is essentially a note or description for the VM.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "guest_id": {
+        "description": "The guest ID of the VM. Guest IDs are pre-defined by VMware. For example see https://developer.broadcom.com/xapis/vsphere-web-services-api/latest/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html This is required when creating a new VM.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "delete_from_inventory": {
+        "description": "Whether to delete the VM from the datastore when removing it, or just remove the VM from the vSphere inventory. If this is set to true, the VM will be deleted from the datastore when it is removed. If this is set to false, the VM will remain on the datastore when it is removed. This parameter is only used when O(state) is set to C(absent).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "hardware_version": {
+        "description": "Specify the hardware version for the new VM. This value should be an integer, where the actual version is 'vmx-<value>'. This parameter is ignored if the VM already exists. Upgrading hardware version is not supported in this module. If this is not specified, the highest available hardware version will be used. Your environment must support the hardware version you specify. Specifying an unsupported hardware version will cause a vSphere error when deploying the VM.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "allow_power_cycling": {
+        "description": "Whether to allow the VM to be powered off and on when required by the changes detected by the module. For example, if the module detects CPU changes and hot add is not enabled, you can enable this parameter to allow the VM to be powered off, updated, and then powered on automatically. If this is set to false, a failure will occur if the VM needs to be powered off before changes can be applied. A \"hard\" power off is performed when the VM is powered off. If you do not want this, you could use this module in check mode, M(vmware.vmware.vm_powerstate) module to power off the VM if needed, and then this module again to apply the changes.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "The timeout in seconds for the module to wait for the VM to be created or updated.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 600,
+        "aliases": null
+      },
+      "cpu": {
+        "description": "Options related to CPU resource allocation. This is required when creating a new VM.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "memory": {
+        "description": "Options related to memory resource allocation. This is required when creating a new VM.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "disks_remove_unmanaged": {
+        "description": "Whether to remove disks that are not specified in the O(disks) parameter. If this is set to true, any disks that are not specified in the O(disks) parameter will be removed. If this is set to false, the module will ignore disks that are not specified in the O(disks) parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "disks_detach_only": {
+        "description": "Whether to detach disks that are to be removed, or delete them entirely. If this is set to true, any disks that are removed will be detached from the VM but remain on the datastore. If this is set to false, any disks that are removed will be deleted from the datastore. This parameter only applies to individual disk removal. If the entire VM is being removed, this parameter is ignored and O(delete_from_inventory) is used instead.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "disks": {
+        "description": "Disks to manage on the VM. Reducing disk size is not supported. At least one disk is required when creating a new VM. Controllers (except IDE) referenced by the O(disks[].device_node) parameter must be configured in the corresponding controller section.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cdroms_remove_unmanaged": {
+        "description": "Whether to remove CD-ROMs that are not specified in the O(cdroms) parameter. If this is set to true, any CD-ROMs that are not specified in the O(cdroms) parameter will be removed. If this is set to false, the module will ignore CD-ROMs that are not specified in the O(cdroms) parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "cdroms": {
+        "description": "CD-ROMs to manage on the VM. The order of this list does matter, since you cannot specify the CDROM index number in vSphere. In other words, the first CDROM in this list will always manage the first CDROM on the VM.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scsi_controllers_remove_unmanaged": {
+        "description": "Whether to remove SCSI controllers that are not specified in the O(scsi_controllers) parameter. If this is set to true, any SCSI controllers that are not specified in the O(scsi_controllers) parameter will be removed. If this is set to false, the module will ignore SCSI controllers that are not specified in the O(scsi_controllers) parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "scsi_controllers": {
+        "description": "SCSI device controllers to manage on the VM. If a controller is not specified, it will be removed from the VM. You may only specify four SCSI controllers per VM. The order of this list does not matter, i.e. you may specify bus numbers out of order and do not need to specify all bus numbers (See O(scsi_controllers_remove_unmanaged)). Valid unit numbers for SCSI controllers are 0-15, except for the reserved unit 7.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nvme_controllers_remove_unmanaged": {
+        "description": "Whether to remove NVMe controllers that are not specified in the O(nvme_controllers) parameter. If this is set to true, any NVMe controllers that are not specified in the O(nvme_controllers) parameter will be removed. If this is set to false, the module will ignore NVMe controllers that are not specified in the O(nvme_controllers) parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "nvme_controllers": {
+        "description": "NVMe device controllers to manage on the VM. If a controller is not specified, it will be removed from the VM. You may only specify four NVMe controllers per VM. The order of this list does not matter, i.e. you may specify bus numbers out of order and do not need to specify all bus numbers (See O(nvme_controllers_remove_unmanaged)). Valid unit numbers for NVMe controllers are 0-63.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "sata_controllers_remove_unmanaged": {
+        "description": "Whether to remove SATA controllers that are not specified in the O(sata_controllers) parameter. If this is set to true, any SATA controllers that are not specified in the O(sata_controllers) parameter will be removed. If this is set to false, the module will ignore SATA controllers that are not specified in the O(sata_controllers) parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "sata_controllers": {
+        "description": "SATA controllers to manage on the VM. You may only specify four SATA controllers per VM. Valid unit numbers for SATA controllers are 0-29. The order of this list does not matter, i.e. you may specify bus numbers out of order and do not need to specify all bus numbers (See O(sata_controllers_remove_unmanaged)).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "usb_controllers_remove_unmanaged": {
+        "description": "Whether to remove USB controllers that are not specified in the O(usb_controllers) parameter. If this is set to true, any USB controllers that are not specified in the O(usb_controllers) parameter will be removed. If this is set to false, the module will ignore USB controllers beyond those listed in the O(usb_controllers) parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "usb_controllers": {
+        "description": "USB device controllers to manage on the VM. You may only specify two USB controllers per VM, and only one of each type. The order of this list does matter, since you cannot specify the controller/bus number in vSphere. In other words, the first controller in this list will always manage the controller assigned to bus 0. The ESXi host that the VM is running on must have the required hardware and firmware to support the USB controller type.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "network_adapters_remove_unmanaged": {
+        "description": "Whether to remove network adapters that are not specified in the O(network_adapters) parameter. If this is set to true, any network adapters that are not specified in the O(network_adapters) parameter will be removed. If this is set to false, the module will ignore network adapters beyond those listed in the O(network_adapters) parameter. If you do not specify O(network_adapters) at all, no devices will be removed regardless of the value of this parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "network_adapters": {
+        "description": "A list of network adapters to manage on the VM. Due to limitations in the VMware API, you cannot change the type of a network adapter once it has been created using this module. The order of this list does matter, since you cannot specify the network adapter index number in vSphere. In other words, the first network adapter in this list will always manage the network adapter assigned to index 0. The network adapter types defined in this parameter must match the types of any existing adapters on the VM, in the same order that they are specified. For example, the first adapter in this list must have the same type as the first adapter attached to the VM (if one exists). Any adapters in this list that do not exist on the VM will be created. Portgroups must already exist; this module does not create them.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "nvdimms_remove_unmanaged": {
+        "description": "Whether to remove NVDIMMs that are not specified in the O(nvdimms) parameter. If this is set to true, any NVDIMMs that are not specified in the O(nvdimms) parameter will be removed. If this is set to false, the module will ignore NVDIMMs beyond those listed in the O(nvdimms) parameter.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "nvdimms": {
+        "description": "A list of non-volatile DIMMs to manage on the VM. Any NVDIMMs in this list that do not exist on the VM will be created. If any NVDIMMs are specified, the module will automatically add and manage a NVDIMM controller on the VM. If you remove all NVDIMMs, the NVDIMM controller will be removed as well. You must have a PMem datastore selected for the host that the VM is running on before adding NVDIMMs to the VM.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "vm_options": {
+        "description": "Advanced and miscellaneous options for the VM, including things like BIOS settings, remote console settings, and encryption settings.",
+        "type": "dict",
         "required": false,
         "choices": null,
         "default": null,
@@ -1045,9 +2548,49 @@
         "aliases": null
       },
       "uuid": {
-        "description": "UUID of the instance to manage if known, this is VMware",
+        "description": "UUID of the instance to manage if known, this is VMware's unique identifier. This is required if O(name) or O(moid) is not supplied.",
         "type": "str",
         "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "moid": {
+        "description": "Managed Object ID of the instance to manage if known, this is a unique identifier only within a single vCenter instance. This is required if O(name) or O(uuid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_instance_uuid": {
+        "description": "Whether to use the VMware instance UUID rather than the BIOS UUID.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "folder": {
+        "description": "Destination folder, absolute or relative path to find an existing guest. Should be the full folder path, with or without the 'datacenter/vm/' prefix For example 'datacenter_name/vm/path/to/folder' or 'path/to/folder'",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "folder_paths_are_absolute": {
+        "description": "If true, any folder path parameters are treated as absolute paths. If false, modules will try to intelligently determine if the path is absolute or relative. This option is useful when your environment has a complex folder structure. By default, modules will try to intelligently determine if the path is absolute or relative. They may mistakenly prepend the datacenter name or other folder names, and this option can be used to avoid this.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "settings": {
+        "description": "A dictionary that describes the advanced settings you want to manage. All settings values are converted to strings. The case of the string is taken into consideration when checking for changes. For example 'True' != 'TRUE'. When O(state) is present, settings must have a value and cannot be an empty string or None (you can use the string 'None').",
+        "type": "dict",
+        "required": true,
         "choices": null,
         "default": null,
         "aliases": null
@@ -1057,20 +2600,172 @@
   },
   "vmware.vmware.vm_apply_customization": {
     "short_description": "Applies a customization specification to a virtual machine.",
-    "description": "This module is used to apply a customization specification to a virtual machine. It always applies the specification defined here, and always reports a change. Customization specifications are run once when a VM is powered on or rebooted. This module just applies the customization specification to the VM, making sure that it will be run during the next power cycle. Since customization is run asynchronously, you should check the VM logs to ensure that the customization was applied successfully. See the examples for ways to ensure the customization was applied successfully in a playbook. Once the VM is started, the pending customization is applied. Even if that fails, the customization is then cleared. Meaning, you need to re-apply the customization spec in order to try again. Simply rebooting the VM will not change anything. Customization leverages VMWare Tools to inject the customization specification into the VM. For a list of supported operating systems, see the Broadcom documentation http://partnerweb.vmware.com/programs/guestOS/guest-os-customization-matrix.pdf Custom script execution is disabled by default. To enable it, you can run as an administrator",
-    "options": {},
+    "description": "This module is used to apply a customization specification to a virtual machine. It always applies the specification defined here, and always reports a change. Customization specifications are run once when a VM is powered on or rebooted. This module just applies the customization specification to the VM, making sure that it will be run during the next power cycle. Since customization is run asynchronously, you should check the VM logs to ensure that the customization was applied successfully. See the examples for ways to ensure the customization was applied successfully in a playbook. Once the VM is started, the pending customization is applied. Even if that fails, the customization is then cleared. Meaning, you need to re-apply the customization spec in order to try again. Simply rebooting the VM will not change anything. Customization leverages VMWare Tools to inject the customization specification into the VM. For a list of supported operating systems, see the Broadcom documentation http://partnerweb.vmware.com/programs/guestOS/guest-os-customization-matrix.pdf Custom script execution is disabled by default. To enable it, you can run as an administrator 'vmware-toolbox-cmd config set deployPkg enable-custom-scripts  true'",
+    "options": {
+      "name": {
+        "description": "Name of the virtual machine to manage. Virtual machine names in vCenter are not necessarily unique, which may be problematic, see O(name_match). This is required when the VM does not exist, or if O(moid) or O(uuid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name_match": {
+        "description": "If multiple virtual machines matching the name, use the first or last found.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "first",
+          "last"
+        ],
+        "default": "first",
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the instance to manage if known, this is VMware's unique identifier. This is required if O(name) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "moid": {
+        "description": "Managed Object ID of the instance to manage if known, this is a unique identifier only within a single vCenter instance. This is required if O(name) or O(uuid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_instance_uuid": {
+        "description": "Whether to use the VMware instance UUID rather than the BIOS UUID.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "folder": {
+        "description": "Destination folder, absolute or relative path to find an existing guest. Should be the full folder path, with or without the 'datacenter/vm/' prefix For example 'datacenter_name/vm/path/to/folder' or 'path/to/folder'. You cannot use this module to modify the placement of a VM once it has been created.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "datacenter": {
+        "description": "The datacenter in which to search for the VM.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": [
+          "datacenter_name"
+        ]
+      },
+      "folder_paths_are_absolute": {
+        "description": "If true, any folder path parameters are treated as absolute paths. If false, modules will try to intelligently determine if the path is absolute or relative. This option is useful when your environment has a complex folder structure. By default, modules will try to intelligently determine if the path is absolute or relative. They may mistakenly prepend the datacenter name or other folder names, and this option can be used to avoid this.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "existing_spec_name": {
+        "description": "The name of the existing customization specification in vSphere to apply to the VM. One and only one of O(existing_spec_name), O(cloud_init), O(windows_sysprep), or O(unix_prep) must be specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "cloud_init": {
+        "description": "The cloud-init configuration to apply to the VM. Only applicable for Linux guests. The OS must already have cloud-init and perl installed. One and only one of O(existing_spec_name), O(cloud_init), O(windows_sysprep), or O(unix_prep) must be specified.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "windows_sysprep": {
+        "description": "The Windows Sysprep configuration to apply to the VM. Only applicable for Windows guests. One and only one of O(existing_spec_name), O(cloud_init), O(windows_sysprep), or O(unix_prep) must be specified.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "unix_prep": {
+        "description": "The Unix Prep configuration to apply to the VM. Only applicable for Linux guests. The OS must already have perl installed. One and only one of O(existing_spec_name), O(cloud_init), O(windows_sysprep), or O(unix_prep) must be specified.",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_dhcpv4_for_all_nics": {
+        "description": "If true, DHCPv4 will be used for all network adapters on the VM. If false, you must specify all adapters in O(nic_specific_settings) due to VMware's API requirements.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "nic_specific_settings": {
+        "description": "Specify settings for specific network adapters. This setting is required if O(use_dhcpv4_for_all_nics) is false or unspecified. If this setting is used, you need to specify an item in this list for all network adapters on your VM due to VMware's API requirements.",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "global_dns": {
+        "description": "The global DNS configuration to apply to the VM. These apply to any network adapter this is not explicitly configured.",
+        "type": "dict",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vmware.vmware.vm_list_group_by_clusters_info": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Returns information about the virtual machines grouping by clusters and folders",
+    "description": "Returns information about the virtual machines grouping by clusters and folders.",
+    "options": {
+      "detailed_vms": {
+        "description": "If I(true) gather detailed information about virtual machines.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "use_absolute_path_for_group_name": {
+        "description": "If I(true) use the absolute folder or cluster path for the group name. If false, only the object name will be used for the group name. If two or more objects have the same name and this option is set to false, only the most recently found object will be used to determine group membership.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vmware.vmware.vm_portgroup_info": {
-    "short_description": "",
-    "description": "",
-    "options": {},
+    "short_description": "Returns information about the portgroups of virtual machines",
+    "description": "Returns information about the standard or distributed portgroups of virtual machines.",
+    "options": {
+      "vm_names": {
+        "description": "VM names for retrieving the information about portgroup",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "vmware.vmware.vm_powerstate": {
@@ -1078,7 +2773,368 @@
     "description": "Manages power states of virtual machines in vCenter, e.g., Power on / Power off / Restart.",
     "options": {
       "datacenter": {
-        "description": "The datacenter where the VM you",
+        "description": "The datacenter where the VM you'd like to operate the power.",
+        "type": "str",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "state": {
+        "description": "Set the state of the virtual machine.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "powered-off",
+          "powered-on",
+          "reboot-guest",
+          "restarted",
+          "shutdown-guest",
+          "suspended"
+        ],
+        "default": "powered-on",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the virtual machine to work with. Virtual machine names in vCenter are not necessarily unique, which may be problematic, see O(name_match). This is required if O(moid) or O(uuid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name_match": {
+        "description": "If multiple virtual machines matching the name, use the first or last found.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "first",
+          "last"
+        ],
+        "default": "first",
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the instance to manage if known, this is VMware's unique identifier. This is required if O(name) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "moid": {
+        "description": "Managed Object ID of the instance to manage if known, this is a unique identifier only within a single vCenter instance. This is required if O(name) or O(uuid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_instance_uuid": {
+        "description": "Whether to use the VMware instance UUID rather than the BIOS UUID.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "folder": {
+        "description": "Destination folder, absolute or relative path to find an existing guest. Should be the full folder path, with or without the 'datacenter/vm/' prefix For example 'datacenter_name/vm/path/to/folder' or 'path/to/folder'",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "folder_paths_are_absolute": {
+        "description": "If true, any folder path parameters are treated as absolute paths. If false, modules will try to intelligently determine if the path is absolute or relative. This option is useful when your environment has a complex folder structure. By default, modules will try to intelligently determine if the path is absolute or relative. They may mistakenly prepend the datacenter name or other folder names, and this option can be used to avoid this.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "scheduled_at": {
+        "description": "Date and time in string format at which specified task needs to be performed. The required format for date and time - 'dd/mm/yyyy hh:mm'. Scheduling task requires vCenter server. A standalone ESXi server does not support this option.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scheduled_task_name": {
+        "description": "Name of scheduled task. Valid only if O(scheduled_at) is specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scheduled_task_description": {
+        "description": "Description of scheduled task. Valid only if O(scheduled_at) is specified.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "scheduled_task_enabled": {
+        "description": "Flag to indicate whether the scheduled task is enabled or disabled.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "force": {
+        "description": "Ignore warnings and complete the actions. This parameter is useful while forcing virtual machine state.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "timeout": {
+        "description": "If this argument is set to a positive integer, the module will wait for the VM to reach the poweredoff state. The value sets a timeout in seconds for the module to wait for the state change. This value is ignored if the desired state is V(reboot-guest).",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": 3600,
+        "aliases": null
+      },
+      "question_answers": {
+        "description": "A list of questions to answer, should one or more arise while waiting for the task to complete. Some common uses are to allow a cdrom to be changed even if locked, or to answer the question as to whether a VM was copied or moved. Can be used if O(state) is V(powered-on).",
+        "type": "list",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "vmware.vmware.vm_resource_info": {
+    "short_description": "Gather information about the resources of one or more VMs.",
+    "description": "This module gathers information about VM resources, like CPU and memory configuration. It also returns identifying information about the ESXi host that the VM is on, as well as the resource pool that contains the VM.",
+    "options": {
+      "name": {
+        "description": "The name of the vm to gather info for Only one of name, moid, uuid is allowed",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "uuid": {
+        "description": "The UUID of the vm to gather info for Only one of name, moid, uuid is allowed",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "moid": {
+        "description": "The MOID of the vm to gather info for Only one of name, moid, uuid is allowed",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_instance_uuid": {
+        "description": "If true, search by instance UUID instead of BIOS UUID. BIOS UUID may not be unique and may cause errors.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "name_match": {
+        "description": "If using name and multiple VMs have the same name, specify which VM should be selected",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "first",
+          "last"
+        ],
+        "default": null,
+        "aliases": null
+      },
+      "gather_cpu_config": {
+        "description": "If true, information is gathered about the VM(s) CPU configuration. Setting to false can speed up module results.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "gather_cpu_stats": {
+        "description": "If true, information is gathered about the VM(s) CPU usage metrics. Setting to false can speed up module results.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "gather_memory_config": {
+        "description": "If true, information is gathered about the VM(s) memory configuration. Setting to false can speed up module results.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      },
+      "gather_memory_stats": {
+        "description": "If true, information is gathered about the VM(s) memory usage metrics. Setting to false can speed up module results.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": true,
+        "aliases": null
+      }
+    },
+    "deprecated": null
+  },
+  "vmware.vmware.vm_snapshot": {
+    "short_description": "Manages virtual machines snapshots in vCenter",
+    "description": "This module can be used to create, delete and update snapshot(s) of the given virtual machine.",
+    "options": {
+      "state": {
+        "description": "Manage snapshot(s) attached to a specific virtual machine. If set to V(present) and the snapshot absent, a new snapshot will be created with the given name. If set to V(present), the snapshot is present, and O(new_snapshot_name) or O(description) are set, the snapshot name or description is updated. If set to V(absent) and snapshot present, then the snapshot with the given name is removed.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "present",
+          "absent"
+        ],
+        "default": "present",
+        "aliases": null
+      },
+      "name": {
+        "description": "Name of the virtual machine to work with. This is required parameter, if O(uuid) or O(moid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "name_match": {
+        "description": "If multiple VMs with the same name exist, use the first or last found.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "first",
+          "last"
+        ],
+        "default": "first",
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the instance to manage. This is VMware's BIOS UUID by default. This is required if O(name) or O(moid) parameter is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "moid": {
+        "description": "Managed Object ID of the virtual machine to manage. This is required if O(name) or O(uuid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_instance_uuid": {
+        "description": "Whether to use the VMware instance UUID rather than the BIOS UUID.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "remove_all": {
+        "description": "Removes all snapshots in VM if set to true. Allowed only when O(state) is C(absent)",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "folder": {
+        "description": "Absolute or relative folder path to search for the virtual machine. This parameter is required if O(name) is supplied. For example 'datacenter name/vm/path/to/folder' or 'path/to/folder'",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "folder_paths_are_absolute": {
+        "description": "If true, any folder path parameters are treated as absolute paths. If false, modules will try to intelligently determine if the path is absolute or relative. This option is useful when your environment has a complex folder structure. By default, modules will try to intelligently determine if the path is absolute or relative. They may mistakenly prepend the datacenter name or other folder names, and this option can be used to avoid this.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "datacenter": {
+        "description": "Datacenter to search for the virtual machine.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_name": {
+        "description": "The name of the snapshot to manage. Either this parameter or O(snapshot_id) is required if O(remove_all) is set to False.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_id": {
+        "description": "The ID of the snapshot to manage. This option cannot be used when creating a new snapshot. Either this parameter or O(snapshot_name) is required if O(remove_all) is set to False.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "description": {
+        "description": "Define an arbitrary description to attach to snapshot.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": "",
+        "aliases": null
+      },
+      "quiesce": {
+        "description": "If set to V(true) and virtual machine is powered on, it will quiesce the file system in virtual machine. Note that VMware Tools are required for this flag. If virtual machine is powered off or VMware Tools are not available, then this flag is set to V(false). If virtual machine does not provide capability to take quiesce snapshot, then this flag is set to V(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "memory_dump": {
+        "description": "If set to V(true), memory dump of virtual machine is also included in snapshot. Note that memory snapshots take time and resources, this will take longer time to create. If virtual machine does not provide capability to take memory snapshot, then this flag is set to V(false).",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "remove_children": {
+        "description": "If set to V(true) and O(state=absent), then the entire snapshot subtree will be removed.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "new_snapshot_name": {
+        "description": "If the snapshot already exists, it will be renamed to this value.",
         "type": "str",
         "required": false,
         "choices": null,
@@ -1104,8 +3160,83 @@
         "description": "If multiple VMs with the same name exist, use the first or last found.",
         "type": "str",
         "required": false,
+        "choices": [
+          "first",
+          "last"
+        ],
+        "default": "first",
+        "aliases": null
+      },
+      "uuid": {
+        "description": "UUID of the instance to manage. This is VMware's BIOS UUID by default. This is required if O(name) or O(moid) parameter is not supplied.",
+        "type": "str",
+        "required": false,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "moid": {
+        "description": "Managed Object ID of the virtual machine to manage. This is required if O(name) or O(uuid) is not supplied.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "use_instance_uuid": {
+        "description": "Whether to use the VMware instance UUID rather than the BIOS UUID.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "folder": {
+        "description": "Absolute or relative folder path to search for the virtual machine. This parameter is required if O(name) is supplied. For example 'datacenter name/vm/path/to/folder' or 'path/to/folder'",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "folder_paths_are_absolute": {
+        "description": "If true, any folder path parameters are treated as absolute paths. If false, modules will try to intelligently determine if the path is absolute or relative. This option is useful when your environment has a complex folder structure. By default, modules will try to intelligently determine if the path is absolute or relative. They may mistakenly prepend the datacenter name or other folder names, and this option can be used to avoid this.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      },
+      "datacenter": {
+        "description": "Datacenter to search for the virtual machine.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_name": {
+        "description": "The name of the snapshot to revert to. Either this parameter or O(snapshot_id) is required.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "snapshot_id": {
+        "description": "The ID of the snapshot to revert to. Either this parameter or O(snapshot_name) is required.",
+        "type": "int",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "suppress_power_on": {
+        "description": "If true, the virtual machine will not be powered on after the snapshot is reverted, even if the snapshot was taken while the virtual machine was powered on.",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
         "aliases": null
       }
     },

@@ -20,8 +20,24 @@
         "aliases": null
       },
       "file": {
-        "description": "The file path of the YANG model that corresponds to the configuration fetch from the remote host. This options accepts wildcard (*) as well for the filename in case the configuration requires to parse multiple yang file. For example",
-        "type": "str",
+        "description": "The file path of the YANG model that corresponds to the configuration fetch from the remote host. This options accepts wildcard (*) as well for the filename in case the configuration requires to parse multiple yang file. For example \"openconfig/public/tree/master/release/models/interfaces/*.yang\"",
+        "type": "list",
+        "required": true,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "search_path": {
+        "description": "is a colon C(:) separated list of directories to search for imported yang modules in the yang file mentioned in C(path) option. If the value is not given it will search in the default directory path.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": "~/.ansible/yang/spec",
+        "aliases": null
+      },
+      "netconf_options": {
+        "description": "Pass arguments to the lower level component, M(ansible.netcommon.netconf_config), that this module uses.",
+        "type": "dict",
         "required": false,
         "choices": null,
         "default": null,
@@ -31,9 +47,34 @@
     "deprecated": null
   },
   "community.yang.fetch": {
-    "short_description": "Fetch given yang model and it",
-    "description": "",
-    "options": {},
+    "short_description": "Fetch given yang model and it's dependencies",
+    "description": "Fetch given yang model and its dependant yang model from device using netconf rpc.",
+    "options": {
+      "name": {
+        "description": "Name of the yang model to fetched from remote host. This will also fetch all the dependent yang models and return as part of result. If the value is set to I(all) in that case all the yang models supported by remote host will be fetched.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "dir": {
+        "description": "This is an optional argument which provide the directory path in which the fetched yang modules will be saved. The name of the file is same as that of the yang module name prefixed with `.yang` extension.",
+        "type": "str",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "continue_on_failure": {
+        "description": "This is an optional arguement that allows schema fetch to continue if one the desired models fails download",
+        "type": "bool",
+        "required": false,
+        "choices": null,
+        "default": false,
+        "aliases": null
+      }
+    },
     "deprecated": null
   },
   "community.yang.generate_spec": {
@@ -59,6 +100,41 @@
       "search_path": {
         "description": "is a colon C(:) separated list of directories to search for imported yang modules in the yang file mentioned in C(path) option. If the value is not given it will search in the default directory path.",
         "type": "path",
+        "required": false,
+        "choices": null,
+        "default": "~/.ansible/yang/spec",
+        "aliases": null
+      },
+      "doctype": {
+        "description": "Identifies the root node of the configuration skeleton. If value is C(config) only configuration data will be present in skeleton, if value is C(data) both config and state data fields will be present in output.",
+        "type": "str",
+        "required": false,
+        "choices": [
+          "config",
+          "data"
+        ],
+        "default": "config",
+        "aliases": null
+      },
+      "json_schema": {
+        "description": "The options to control the way JSON schema is generated",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "xml_schema": {
+        "description": "The options to control the way XML schema is generated",
+        "type": "dict",
+        "required": false,
+        "choices": null,
+        "default": null,
+        "aliases": null
+      },
+      "tree_schema": {
+        "description": "The options to control the way tree schema is generated",
+        "type": "dict",
         "required": false,
         "choices": null,
         "default": null,
@@ -104,11 +180,19 @@
         "aliases": null
       },
       "file": {
-        "description": "The file path of the YANG model that corresponds to the configuration fetch from the remote host. This options accepts wildcard (*) as well for the filename in case the configuration requires to parse multiple yang file. For example",
-        "type": "str",
-        "required": false,
+        "description": "The file path of the YANG model that corresponds to the configuration fetch from the remote host. This options accepts wildcard (*) as well for the filename in case the configuration requires to parse multiple yang file. For example \"openconfig/public/tree/master/release/models/interfaces/*.yang\"",
+        "type": "list",
+        "required": true,
         "choices": null,
         "default": null,
+        "aliases": null
+      },
+      "search_path": {
+        "description": "is a colon C(:) separated list of directories to search for imported yang modules in the yang file mentioned in C(path) option. If the value is not given it will search in the default directory path.",
+        "type": "path",
+        "required": false,
+        "choices": null,
+        "default": "~/.ansible/yang/spec",
         "aliases": null
       }
     },
