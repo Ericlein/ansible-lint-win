@@ -1,4 +1,7 @@
 # ansible-lint-win
+[![NPM](https://nodei.co/npm/ansible-lint-win.svg?style=shields)](https://www.npmjs.com/package/ansible-lint-win)
+[![Socket Badge](https://badge.socket.dev/npm/package/ansible-lint-win/0.1.3)](https://badge.socket.dev/npm/package/ansible-lint-win/0.1.3)
+
 
 A lightweight Ansible language server that runs natively on Windows (and everywhere else Node.js runs) **without requiring Python, ansible-lint, or WSL**.
 
