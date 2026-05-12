@@ -4,13 +4,15 @@
 [![license](https://img.shields.io/npm/l/ansible-lint-win)](LICENSE)
 [![Socket Badge](https://badge.socket.dev/npm/package/ansible-lint-win/0.1.3)](https://socket.dev/npm/package/ansible-lint-win)
 
-A lightweight Ansible language server that runs natively on Windows (and everywhere else Node.js runs) **without requiring Python, ansible-lint, or WSL**.
+A lightweight Ansible language server for **Windows**, built as a Zed extension. **No Python, no ansible-lint, no WSL required.**
 
 ## Why this exists
 
-The official [ansible-language-server](https://github.com/ansible/ansible-language-server) requires a working Python environment with `ansible-lint` installed. On Windows that means setting up WSL, dealing with PATH issues, and accepting a multi-second startup. For developers who just want completions and hover docs while authoring playbooks — especially on Windows — that's a lot of overhead.
+The official [ansible-language-server](https://github.com/ansible/ansible-language-server) requires a working Python environment with `ansible-lint` installed. On Windows that means setting up WSL, dealing with PATH issues, and accepting a multi-second startup. For developers who just want completions and hover docs while authoring playbooks, that's a lot of overhead.
 
-`ansible-lint-win` is a pure Node.js LSP: one `npm install`, no Python, no WSL, no global tooling. It ships pre-generated module metadata for 120+ collections so it works fully offline.
+`ansible-lint-win` is a pure Node.js LSP: one install, no Python, no WSL, no global tooling. It ships pre-generated module metadata for 120+ collections so it works fully offline.
+
+> **Platform support:** Developed and tested on Windows + Zed. The server is plain Node.js, so it should run anywhere Node runs and work with any LSP-compatible editor — but those combinations aren't officially tested. Reports welcome.
 
 ## Features
 
@@ -57,63 +59,16 @@ Then add the file-type associations to your Zed settings (`Ctrl+Shift+P` → "op
 
 ---
 
-## Install for Other LSP-Compatible Editors
+## Using with Other Editors
 
-The language server is on npm. Install it globally:
+The server is published to npm and speaks standard LSP over stdio, so any editor with LSP support can in principle use it:
 
 ```bash
 npm install -g ansible-lint-win
+node "$(npm root -g)/ansible-lint-win/dist/server.js" --stdio
 ```
 
-Find the path to the installed server:
-
-```bash
-npm root -g
-# e.g. C:\Users\you\AppData\Roaming\npm\node_modules   (Windows)
-# e.g. /usr/local/lib/node_modules                     (macOS/Linux)
-```
-
-The server is at `<npm-root>/ansible-lint-win/dist/server.js`. Substitute that path in the examples below.
-
-### Neovim (nvim-lspconfig)
-```lua
-local lspconfig = require('lspconfig')
-local configs = require('lspconfig.configs')
-
-configs.ansible_lint_win = {
-  default_config = {
-    cmd = { 'node', '<npm-root>/ansible-lint-win/dist/server.js', '--stdio' },
-    filetypes = { 'yaml', 'yaml.ansible' },
-    root_dir = lspconfig.util.root_pattern('ansible.cfg', '.ansible-lint', 'inventory', 'playbooks'),
-  },
-}
-
-lspconfig.ansible_lint_win.setup({})
-```
-
-### Helix (`~/.config/helix/languages.toml`)
-```toml
-[language-server.ansible-lint-win]
-command = "node"
-args = ["<npm-root>/ansible-lint-win/dist/server.js", "--stdio"]
-
-[[language]]
-name = "yaml"
-language-servers = ["ansible-lint-win"]
-```
-
-### Sublime Text (LSP package)
-```json
-{
-  "clients": {
-    "ansible-lint-win": {
-      "enabled": true,
-      "command": ["node", "<npm-root>/ansible-lint-win/dist/server.js", "--stdio"],
-      "selector": "source.yaml"
-    }
-  }
-}
-```
+This path hasn't been officially tested. If you wire it up to Neovim, Helix, VS Code, or any other LSP-capable editor and it works (or doesn't), [open an issue](https://github.com/Ericlein/ansible-lint-win/issues) — happy to add documented configurations.
 
 ---
 
