@@ -1,11 +1,16 @@
 # ansible-lint-win
-[![NPM](https://nodei.co/npm/ansible-lint-win.svg?style=shields)](https://www.npmjs.com/package/ansible-lint-win)
-[![Socket Badge](https://badge.socket.dev/npm/package/ansible-lint-win/0.1.3)](https://badge.socket.dev/npm/package/ansible-lint-win/0.1.3)
 
+[![npm](https://img.shields.io/npm/v/ansible-lint-win)](https://www.npmjs.com/package/ansible-lint-win)
+[![license](https://img.shields.io/npm/l/ansible-lint-win)](LICENSE)
+[![Socket Badge](https://badge.socket.dev/npm/package/ansible-lint-win/0.1.3)](https://socket.dev/npm/package/ansible-lint-win)
 
 A lightweight Ansible language server that runs natively on Windows (and everywhere else Node.js runs) **without requiring Python, ansible-lint, or WSL**.
 
-Built as a Node.js LSP server with a Zed extension wrapper.
+## Why this exists
+
+The official [ansible-language-server](https://github.com/ansible/ansible-language-server) requires a working Python environment with `ansible-lint` installed. On Windows that means setting up WSL, dealing with PATH issues, and accepting a multi-second startup. For developers who just want completions and hover docs while authoring playbooks — especially on Windows — that's a lot of overhead.
+
+`ansible-lint-win` is a pure Node.js LSP: one `npm install`, no Python, no WSL, no global tooling. It ships pre-generated module metadata for 120+ collections so it works fully offline.
 
 ## Features
 
@@ -19,13 +24,13 @@ Built as a Node.js LSP server with a Zed extension wrapper.
 
 ## Install in Zed
 
-Once published to the Zed Extension Registry:
+The extension is pending review in the Zed Extension Registry. Until then, install it as a dev extension (see [Developing](#developing) below).
+
+Once accepted, install will be:
 
 1. Open Zed
 2. `Ctrl+Shift+P` / `Cmd+Shift+P` → **`zed: extensions`**
-3. Search for **Ansible Lint Win** and install
-
-The extension auto-installs the language server from npm — no build steps required.
+3. Search for **Ansible Lint Win** and install — the language server auto-installs from npm
 
 Then add the file-type associations to your Zed settings (`Ctrl+Shift+P` → "open settings"). A reference config is in [`settings.example.json`](settings.example.json):
 
@@ -60,7 +65,15 @@ The language server is on npm. Install it globally:
 npm install -g ansible-lint-win
 ```
 
-Then point your editor at `node_modules/ansible-lint-win/dist/server.js`.
+Find the path to the installed server:
+
+```bash
+npm root -g
+# e.g. C:\Users\you\AppData\Roaming\npm\node_modules   (Windows)
+# e.g. /usr/local/lib/node_modules                     (macOS/Linux)
+```
+
+The server is at `<npm-root>/ansible-lint-win/dist/server.js`. Substitute that path in the examples below.
 
 ### Neovim (nvim-lspconfig)
 ```lua
@@ -69,7 +82,7 @@ local configs = require('lspconfig.configs')
 
 configs.ansible_lint_win = {
   default_config = {
-    cmd = { 'node', vim.fn.expand('$HOME/.npm-global/lib/node_modules/ansible-lint-win/dist/server.js'), '--stdio' },
+    cmd = { 'node', '<npm-root>/ansible-lint-win/dist/server.js', '--stdio' },
     filetypes = { 'yaml', 'yaml.ansible' },
     root_dir = lspconfig.util.root_pattern('ansible.cfg', '.ansible-lint', 'inventory', 'playbooks'),
   },
@@ -82,7 +95,7 @@ lspconfig.ansible_lint_win.setup({})
 ```toml
 [language-server.ansible-lint-win]
 command = "node"
-args = ["/path/to/global/node_modules/ansible-lint-win/dist/server.js", "--stdio"]
+args = ["<npm-root>/ansible-lint-win/dist/server.js", "--stdio"]
 
 [[language]]
 name = "yaml"
@@ -95,14 +108,12 @@ language-servers = ["ansible-lint-win"]
   "clients": {
     "ansible-lint-win": {
       "enabled": true,
-      "command": ["node", "/path/to/global/node_modules/ansible-lint-win/dist/server.js", "--stdio"],
+      "command": ["node", "<npm-root>/ansible-lint-win/dist/server.js", "--stdio"],
       "selector": "source.yaml"
     }
   }
 }
 ```
-
-> Tip: find your global `node_modules` path with `npm root -g`.
 
 ---
 
@@ -134,9 +145,7 @@ npm run generate-data -- community.general ansible.windows amazon.aws
 GITHUB_TOKEN=ghp_xxx npm run generate-data
 ```
 
----
-
-## Project Structure
+### Project structure
 
 ```
 ansible-lint-win/
@@ -158,6 +167,8 @@ ansible-lint-win/
     └── generate-module-data.ts # Fetches module docs from GitHub
 ```
 
+---
+
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE).
