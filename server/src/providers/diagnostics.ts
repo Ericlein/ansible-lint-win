@@ -63,7 +63,7 @@ rules.push({
           range: Range.create(i, indent + 2, i, indent + 2 + key.length),
           message: `Task is missing a "name" attribute (name-required)`,
           severity: DiagnosticSeverity.Warning,
-          source: 'ansible-ls-lite',
+          source: 'ansible-lint-win',
         });
       }
     }
@@ -88,7 +88,7 @@ rules.push({
           range: Range.create(i, col, i, col + key.length),
           message: `Use FQCN "${shortNameToFQCN[key]}" instead of "${key}" (fqcn-required)`,
           severity: DiagnosticSeverity.Warning,
-          source: 'ansible-ls-lite',
+          source: 'ansible-lint-win',
         });
       }
     }
@@ -111,7 +111,7 @@ rules.push({
           range: Range.create(i, col, i, col + match[1].length),
           message: `Use "${match[1].toLowerCase() === 'yes' ? 'true' : 'false'}" instead of "${match[1]}" (yaml-truthy)`,
           severity: DiagnosticSeverity.Warning,
-          source: 'ansible-ls-lite',
+          source: 'ansible-lint-win',
         });
       }
     }
@@ -153,7 +153,7 @@ rules.push({
           range: Range.create(i, col, i, col + match[2].length),
           message: `Task uses "${match[2]}" without "changed_when" or "check_mode" (no-changed-when)`,
           severity: DiagnosticSeverity.Warning,
-          source: 'ansible-ls-lite',
+          source: 'ansible-lint-win',
         });
       }
     }
@@ -183,7 +183,7 @@ rules.push({
             range: Range.create(i, indent, i, indent + 4),
             message: `"name" should be the first key in a task (key-order)`,
             severity: DiagnosticSeverity.Hint,
-            source: 'ansible-ls-lite',
+            source: 'ansible-lint-win',
           });
           break;
         }
@@ -211,7 +211,7 @@ rules.push({
           range: Range.create(i, match.index, i, match.index + match[0].length),
           message: `Add spaces inside Jinja2 braces: "{{ var }}" (jinja-spacing)`,
           severity: DiagnosticSeverity.Hint,
-          source: 'ansible-ls-lite',
+          source: 'ansible-lint-win',
         });
       }
     }
@@ -262,7 +262,7 @@ rules.push({
           range: Range.create(i, col, i, col + key.length),
           message: `Duplicate key "${key}" (no-duplicate-keys)`,
           severity: DiagnosticSeverity.Error,
-          source: 'ansible-ls-lite',
+          source: 'ansible-lint-win',
         });
       } else {
         keysAtLevel.set(key, i);
@@ -303,7 +303,7 @@ rules.push({
           range: Range.create(i, 0, i, lines[i].length),
           message: `Play is missing the "hosts" key (play-has-hosts)`,
           severity: DiagnosticSeverity.Error,
-          source: 'ansible-ls-lite',
+          source: 'ansible-lint-win',
         });
       }
     }
@@ -329,7 +329,7 @@ rules.push({
           range: Range.create(i, col, i, col + key.length),
           message: `Module "${key}" is deprecated: ${mod.deprecated} (deprecated-modules)`,
           severity: DiagnosticSeverity.Warning,
-          source: 'ansible-ls-lite',
+          source: 'ansible-lint-win',
         });
       }
     }
@@ -361,7 +361,7 @@ rules.push({
           range: Range.create(i, col, i, lines[i].length),
           message: `Avoid free-form syntax. Use "cmd:" option instead (no-free-form)`,
           severity: DiagnosticSeverity.Warning,
-          source: 'ansible-ls-lite',
+          source: 'ansible-lint-win',
         });
       }
     }

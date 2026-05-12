@@ -1,4 +1,4 @@
-# ansible-ls-lite
+# ansible-lint-win
 
 A lightweight Ansible language server that runs natively on Windows (and everywhere else Node.js runs) **without requiring Python, ansible-lint, or WSL**.
 
@@ -44,7 +44,7 @@ npm run bundle         # esbuild → single dist/server.js
 
 ### 3. Configure Zed settings
 
-Add the following to your Zed settings (`Ctrl+Shift+P` → "open settings"). A reference config is included in [`settings.json`](settings.json).
+Add the following to your Zed settings (`Ctrl+Shift+P` → "open settings"). A reference config is included in [`settings.example.json`](settings.example.json).
 
 ```json
 {
@@ -125,7 +125,7 @@ local configs = require('lspconfig.configs')
 
 configs.ansible_lite = {
   default_config = {
-    cmd = { 'node', '/path/to/ansible-ls-lite/server/dist/server.js', '--stdio' },
+    cmd = { 'node', '/path/to/ansible-lint-win/server/dist/server.js', '--stdio' },
     filetypes = { 'yaml', 'yaml.ansible' },
     root_dir = lspconfig.util.root_pattern('ansible.cfg', '.ansible-lint', 'inventory', 'playbooks'),
   },
@@ -136,22 +136,22 @@ lspconfig.ansible_lite.setup({})
 
 **Helix** (`~/.config/helix/languages.toml`)
 ```toml
-[language-server.ansible-lite]
+[language-server.ansible-lint-win]
 command = "node"
-args = ["/path/to/ansible-ls-lite/server/dist/server.js", "--stdio"]
+args = ["/path/to/ansible-lint-win/server/dist/server.js", "--stdio"]
 
 [[language]]
 name = "yaml"
-language-servers = ["ansible-lite"]
+language-servers = ["ansible-lint-win"]
 ```
 
 **Sublime Text (LSP package)**
 ```json
 {
   "clients": {
-    "ansible-lite": {
+    "ansible-lint-win": {
       "enabled": true,
-      "command": ["node", "/path/to/ansible-ls-lite/server/dist/server.js", "--stdio"],
+      "command": ["node", "/path/to/ansible-lint-win/server/dist/server.js", "--stdio"],
       "selector": "source.yaml"
     }
   }
@@ -194,13 +194,13 @@ Once you're ready to publish:
 3. **Add your extension as a Git submodule** (must use HTTPS URL):
    ```bash
    cd extensions
-   git submodule add https://github.com/yourusername/ansible-ls-lite.git extensions/ansible-lite
+   git submodule add https://github.com/Ericlein/ansible-linting-windows.git extensions/ansible-lint-win
    ```
 
 4. **Add an entry** to the repo's `extensions.toml`:
    ```toml
-   [ansible-lite]
-   submodule = "extensions/ansible-lite"
+   [ansible-lint-win]
+   submodule = "extensions/ansible-lint-win"
    version = "0.1.0"
    ```
 
@@ -216,7 +216,7 @@ Once you're ready to publish:
 ## Project Structure
 
 ```
-ansible-ls-lite/
+ansible-lint-win/
 ├── server/                     # Node.js language server
 │   ├── src/
 │   │   ├── server.ts           # LSP entry point

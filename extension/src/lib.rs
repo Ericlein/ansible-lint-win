@@ -1,8 +1,10 @@
 use zed_extension_api::{self as zed, Result};
 
-struct AnsibleLiteExtension;
+const SERVER_PACKAGE: &str = "ansible-lint-win";
 
-impl zed::Extension for AnsibleLiteExtension {
+struct AnsibleLintWinExtension;
+
+impl zed::Extension for AnsibleLintWinExtension {
     fn new() -> Self {
         Self
     }
@@ -12,14 +14,19 @@ impl zed::Extension for AnsibleLiteExtension {
         _language_server_id: &zed::LanguageServerId,
         _worktree: &zed::Worktree,
     ) -> Result<zed::Command> {
-        let node = zed::node_binary_path()
-            .or_else(|_| Ok::<String, String>("node".to_string()))
-            .unwrap();
+        let installed = zed::npm_package_installed_version(SERVER_PACKAGE)?;
+        let latest = zed::npm_package_latest_version(SERVER_PACKAGE)?;
+
+        if installed.as_ref() != Some(&latest) {
+            zed::npm_install_package(SERVER_PACKAGE, &latest)?;
+        }
+
+        let node = zed::node_binary_path()?;
 
         Ok(zed::Command {
             command: node,
             args: vec![
-                "C:\\Users\\Eric\\Desktop\\ansible-lint\\windows-ansible-lint\\server\\dist\\server.js".to_string(),
+                format!("node_modules/{}/dist/server.js", SERVER_PACKAGE),
                 "--stdio".to_string(),
             ],
             env: Default::default(),
@@ -27,4 +34,4 @@ impl zed::Extension for AnsibleLiteExtension {
     }
 }
 
-zed::register_extension!(AnsibleLiteExtension);
+zed::register_extension!(AnsibleLintWinExtension);

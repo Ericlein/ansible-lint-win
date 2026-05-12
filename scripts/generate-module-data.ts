@@ -37,7 +37,7 @@ interface ModuleData {
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '';
 const headers: Record<string, string> = {
   'Accept': 'application/vnd.github.v3+json',
-  'User-Agent': 'ansible-ls-lite-datagen',
+  'User-Agent': 'ansible-lint-win-datagen',
 };
 if (GITHUB_TOKEN) headers['Authorization'] = `token ${GITHUB_TOKEN}`;
 
@@ -82,7 +82,7 @@ async function ghFetchAll(url: string): Promise<any[]> {
 
 async function ghRaw(repo: string, branch: string, filePath: string): Promise<string> {
   const url = `https://raw.githubusercontent.com/${repo}/${branch}/${filePath}`;
-  const res = await fetch(url, { headers: { 'User-Agent': 'ansible-ls-lite-datagen' } });
+  const res = await fetch(url, { headers: { 'User-Agent': 'ansible-lint-win-datagen' } });
   if (!res.ok) throw new Error(`Raw fetch ${res.status}: ${url}`);
   return res.text();
 }

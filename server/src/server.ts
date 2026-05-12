@@ -51,7 +51,7 @@ connection.onInitialize((params) => {
 });
 
 connection.onInitialized(() => {
-  connection.console.log('ansible-ls-lite initialized');
+  connection.console.log('ansible-lint-win initialized');
 });
 
 // Completions

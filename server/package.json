@@ -1,15 +1,28 @@
 {
-  "name": "ansible-ls-lite",
+  "name": "ansible-lint-win",
   "version": "0.1.0",
   "description": "Windows-native Ansible language server — no Python required",
   "main": "dist/server.js",
+  "files": [
+    "dist",
+    "data"
+  ],
   "scripts": {
     "build": "tsc",
     "bundle": "esbuild src/server.ts --bundle --platform=node --outfile=dist/server.js --format=cjs",
     "dev": "tsc --watch",
     "start": "node dist/server.js --stdio",
     "generate-data": "tsx ../scripts/generate-module-data.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepublishOnly": "npm run build && npm run bundle"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ericlein/ansible-linting-windows.git"
+  },
+  "homepage": "https://github.com/Ericlein/ansible-linting-windows#readme",
+  "bugs": {
+    "url": "https://github.com/Ericlein/ansible-linting-windows/issues"
   },
   "license": "MIT",
   "dependencies": {
