@@ -9,42 +9,22 @@ Built as a Node.js LSP server with a Zed extension wrapper.
 - **Completions** — context-aware: play keywords, task keywords, module FQCNs (filterable by short name), module options (required first), value choices
 - **Hover documentation** — module docs with options table, option details, keyword descriptions
 - **10 lint rules** — name-required, fqcn-required, yaml-truthy, no-changed-when, key-order, jinja-spacing, no-duplicate-keys, play-has-hosts, deprecated-modules, no-free-form
-- **Go-to-definition** — Ctrl+click on include_tasks, import_tasks, vars_files, roles, and template src paths
-- **2600+ modules** from 80+ collections out of the box, with support for auto-discovering all collections from the ansible-collections GitHub org
-
-## Requirements
-
-- **Node.js** v18+ on your PATH
-- **Zed** editor (for the extension) — or any editor that supports LSP servers
+- **Go-to-definition** — Ctrl+click on `include_tasks`, `import_tasks`, `vars_files`, `roles`, and template `src` paths
+- **8900+ modules** from 120+ collections out of the box, with support for auto-discovering all collections from the ansible-collections GitHub org
 
 ---
 
-## Quick Start: Use with Zed (Dev Extension)
+## Install in Zed
 
-This is the fastest way to try it locally.
-
-### 1. Build the server
-
-```bash
-cd server
-npm install
-npm run build          # TypeScript → dist/
-npm run bundle         # esbuild → single dist/server.js
-```
-
-### 2. Install as Zed dev extension
+Once published to the Zed Extension Registry:
 
 1. Open Zed
-2. Open the command palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
-3. Run **"zed: install dev extension"**
-4. Select the `extension/` directory in this repo
-5. Zed will compile the Rust wrapper to WASM and activate it
+2. `Ctrl+Shift+P` / `Cmd+Shift+P` → **`zed: extensions`**
+3. Search for **Ansible Lint Win** and install
 
-> **Note:** You need Rust installed via [rustup](https://rustup.rs/) (not Homebrew) for Zed to compile the extension.
+The extension auto-installs the language server from npm — no build steps required.
 
-### 3. Configure Zed settings
-
-Add the following to your Zed settings (`Ctrl+Shift+P` → "open settings"). A reference config is included in [`settings.example.json`](settings.example.json).
+Then add the file-type associations to your Zed settings (`Ctrl+Shift+P` → "open settings"). A reference config is in [`settings.example.json`](settings.example.json):
 
 ```json
 {
@@ -55,114 +35,91 @@ Add the following to your Zed settings (`Ctrl+Shift+P` → "open settings"). A r
     "Ansible": [
       "**.ansible.yml",
       "**.ansible.yaml",
-      "**/defaults/*.yml",
-      "**/defaults/*.yaml",
-      "**/meta/*.yml",
-      "**/meta/*.yaml",
       "**/tasks/*.yml",
-      "**/tasks/*.yaml",
       "**/handlers/*.yml",
-      "**/handlers/*.yaml",
-      "**/group_vars/*.yml",
-      "**/group_vars/*.yaml",
-      "**/host_vars/*.yml",
-      "**/host_vars/*.yaml",
-      "**/playbooks/*.yaml",
       "**/playbooks/*.yml",
-      "**playbook*.yaml",
-      "**playbook*.yml",
       "**/roles/**/tasks/*.yml",
-      "**/roles/**/tasks/*.yaml",
-      "**/roles/**/handlers/*.yml",
-      "**/roles/**/handlers/*.yaml",
-      "**/roles/**/defaults/*.yml",
-      "**/roles/**/defaults/*.yaml",
-      "**/roles/**/vars/*.yml",
-      "**/roles/**/vars/*.yaml",
-      "**/roles/**/meta/*.yml",
-      "**/roles/**/meta/*.yaml",
-      "**/vars/*.yml",
-      "**/vars/*.yaml",
-      "**/inventory/*.yml",
-      "**/inventory/*.yaml",
-      "**site.yml",
-      "**site.yaml"
+      "**site.yml"
     ]
   }
 }
 ```
 
-### 4. Open an Ansible YAML file
-
-Open any `.yml` or `.yaml` file and you should get completions, hover docs, lint diagnostics, and go-to-definition.
+(See `settings.example.json` for the full set of patterns.)
 
 ---
 
-## Quick Start: Use with Any LSP-Compatible Editor
+## Install for Other LSP-Compatible Editors
 
-The language server is a standalone Node.js process that communicates over stdio.
-
-### Build
+The language server is on npm. Install it globally:
 
 ```bash
-cd server
-npm install
-npm run bundle
+npm install -g ansible-lint-win
 ```
 
-### Run
+Then point your editor at `node_modules/ansible-lint-win/dist/server.js`.
 
-```bash
-node server/dist/server.js --stdio
-```
-
-### Editor Configuration Examples
-
-**Neovim (nvim-lspconfig)**
+### Neovim (nvim-lspconfig)
 ```lua
 local lspconfig = require('lspconfig')
 local configs = require('lspconfig.configs')
 
-configs.ansible_lite = {
+configs.ansible_lint_win = {
   default_config = {
-    cmd = { 'node', '/path/to/ansible-lint-win/server/dist/server.js', '--stdio' },
+    cmd = { 'node', vim.fn.expand('$HOME/.npm-global/lib/node_modules/ansible-lint-win/dist/server.js'), '--stdio' },
     filetypes = { 'yaml', 'yaml.ansible' },
     root_dir = lspconfig.util.root_pattern('ansible.cfg', '.ansible-lint', 'inventory', 'playbooks'),
   },
 }
 
-lspconfig.ansible_lite.setup({})
+lspconfig.ansible_lint_win.setup({})
 ```
 
-**Helix** (`~/.config/helix/languages.toml`)
+### Helix (`~/.config/helix/languages.toml`)
 ```toml
 [language-server.ansible-lint-win]
 command = "node"
-args = ["/path/to/ansible-lint-win/server/dist/server.js", "--stdio"]
+args = ["/path/to/global/node_modules/ansible-lint-win/dist/server.js", "--stdio"]
 
 [[language]]
 name = "yaml"
 language-servers = ["ansible-lint-win"]
 ```
 
-**Sublime Text (LSP package)**
+### Sublime Text (LSP package)
 ```json
 {
   "clients": {
     "ansible-lint-win": {
       "enabled": true,
-      "command": ["node", "/path/to/ansible-lint-win/server/dist/server.js", "--stdio"],
+      "command": ["node", "/path/to/global/node_modules/ansible-lint-win/dist/server.js", "--stdio"],
       "selector": "source.yaml"
     }
   }
 }
 ```
 
+> Tip: find your global `node_modules` path with `npm root -g`.
+
 ---
 
-## Refreshing Module Data
+## Developing
 
-Module data is pre-generated from GitHub. To update or regenerate it:
+If you want to hack on the server or extension locally:
+
+```bash
+# Build the server
+cd server
+npm install
+npm run bundle         # esbuild → single dist/server.js
+
+# Sideload the extension in Zed
+# Command palette → "zed: install dev extension" → select the extension/ directory
+```
+
+### Refreshing module data
+
+Module data is pre-generated from GitHub. To regenerate:
 
 ```bash
 cd server
@@ -170,46 +127,9 @@ cd server
 # Fetch specific collections (no token needed for a few)
 npm run generate-data -- community.general ansible.windows amazon.aws
 
-# Fetch ALL collections (auto-discovers from ansible-collections GitHub org)
-# Requires a GitHub token due to the number of API calls
+# Fetch ALL collections (auto-discovers from the ansible-collections GitHub org)
 GITHUB_TOKEN=ghp_xxx npm run generate-data
 ```
-
-The script auto-discovers every collection in the `ansible-collections` GitHub org. Pass specific collection names as arguments to only fetch those.
-
----
-
-## Publishing to the Zed Extension Registry
-
-Once you're ready to publish:
-
-1. **Publish the server to npm** so Zed can auto-install it:
-   ```bash
-   cd server
-   npm publish
-   ```
-
-2. **Fork** [zed-industries/extensions](https://github.com/zed-industries/extensions)
-
-3. **Add your extension as a Git submodule** (must use HTTPS URL):
-   ```bash
-   cd extensions
-   git submodule add https://github.com/Ericlein/ansible-linting-windows.git extensions/ansible-lint-win
-   ```
-
-4. **Add an entry** to the repo's `extensions.toml`:
-   ```toml
-   [ansible-lint-win]
-   submodule = "extensions/ansible-lint-win"
-   version = "0.1.0"
-   ```
-
-5. Run `pnpm sort-extensions` and submit a PR
-
-### Requirements for Publishing
-- Must have an accepted license (MIT, Apache 2.0, BSD, GPL, etc.)
-- Extension ID must not contain "zed" or "Zed"
-- Submodule URL must be HTTPS (not SSH)
 
 ---
 
@@ -217,16 +137,13 @@ Once you're ready to publish:
 
 ```
 ansible-lint-win/
-├── server/                     # Node.js language server
+├── server/                     # Node.js language server (published to npm)
 │   ├── src/
 │   │   ├── server.ts           # LSP entry point
 │   │   ├── parser/             # YAML parsing + context detection
-│   │   ├── providers/          # completion, hover, diagnostics, definition
-│   │   └── data/               # type definitions + data loader
+│   │   └── providers/          # completion, hover, diagnostics, definition
 │   ├── data/                   # Pre-generated JSON (modules, keywords)
-│   │   ├── modules/            # One file per collection
-│   │   └── keywords/           # play.json, task.json, block.json, role.json
-│   └── dist/                   # Build output
+│   └── dist/                   # Build output (shipped to npm)
 │
 ├── extension/                  # Zed extension (Rust → WASM)
 │   ├── extension.toml
