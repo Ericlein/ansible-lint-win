@@ -19,5 +19,5 @@ Initial public release.
 - Pre-generated module data for 120+ Ansible collections (~8900 modules).
 - Zed extension wrapper that auto-installs the server from npm.
 
-[Unreleased]: https://github.com/Ericlein/ansible-linting-windows/compare/v0.1.3...HEAD
-[0.1.3]: https://github.com/Ericlein/ansible-linting-windows/releases/tag/v0.1.3
+[Unreleased]: https://github.com/Ericlein/ansible-lint-win/compare/v0.1.3...HEAD
+[0.1.3]: https://github.com/Ericlein/ansible-lint-win/releases/tag/v0.1.3
