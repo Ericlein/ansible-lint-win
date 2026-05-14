@@ -8,9 +8,9 @@ A lightweight Ansible language server for **Windows**, built as a Zed extension.
 
 ## Why this exists
 
-The official [ansible-language-server](https://github.com/ansible/ansible-language-server) requires a working Python environment with `ansible-lint` installed. On Windows that means setting up WSL, dealing with PATH issues, and accepting a multi-second startup. For developers who just want completions and hover docs while authoring playbooks, that's a lot of overhead.
+Ansible has no Windows control-node support. The `ansible` Python package — and everything built on top of it, including [`ansible-language-server`](https://github.com/ansible/ansible-language-server) and `ansible-lint` — is Linux-only by design. Ansible can manage Windows hosts, but the controller itself doesn't run on Windows, so the official LSP doesn't either. WSL is the only way to get the official toolchain working on a Windows dev machine, and that comes with all the friction you'd expect: a separate filesystem, PATH gymnastics, slow startup, and an editor integration story that fights you the whole way.
 
-`ansible-lint-win` is a pure Node.js LSP: one install, no Python, no WSL, no global tooling. It ships pre-generated module metadata for 120+ collections so it works fully offline.
+`ansible-lint-win` sidesteps the problem entirely. It's a pure Node.js LSP that doesn't depend on Ansible itself — just module metadata, which it ships pre-generated for 120+ collections. One install, no Python, no WSL, fully offline.
 
 > **Platform support:** Developed and tested on Windows + Zed. The server is plain Node.js, so it should run anywhere Node runs and work with any LSP-compatible editor — but those combinations aren't officially tested. Reports welcome.
 
